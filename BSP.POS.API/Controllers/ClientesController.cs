@@ -2,6 +2,7 @@
 using BSP.POS.NEGOCIOS.Clientes;
 using BSP.POS.UTILITARIOS.Clientes;
 using Newtonsoft.Json;
+using BSP.POS.API.Models;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -25,29 +26,22 @@ namespace BSP.POS.API.Controllers
             return listaClientesJson;
         }
 
-        // GET api/<ClientesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("ObtengaLaListaDeClientesReciente")]
+        public string ObtengaLaListaDeClientesReciente()
         {
-            return "value";
+            string esquema = "BSP";
+            string listaClientesRecientesJson = clientes.ListarClientesRecientes(esquema);
+            return listaClientesRecientesJson;
         }
 
-        // POST api/<ClientesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("ObtengaElClienteAsociado")]
+        public string ObtengaElClienteAsociado(string cliente)
         {
+            string esquema = "BSP";
+            var clienteAsociadoJson = clientes.ObtenerClienteAsociado(esquema, cliente);
+            return clienteAsociadoJson;
         }
 
-        // PUT api/<ClientesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ClientesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }

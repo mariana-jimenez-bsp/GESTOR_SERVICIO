@@ -31,5 +31,41 @@ namespace BSP.POS.NEGOCIOS.Clientes
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string ListarClientesRecientes(String pEsquema)
+        {
+            try
+            {
+                List<U_ListarClientesRecientes> list = new List<U_ListarClientesRecientes>();
+
+                list = objCliente.ListaClientesRecientes(pEsquema);
+
+                string cliente = JsonConvert.SerializeObject(list);
+                return cliente;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ObtenerClienteAsociado(String pEsquema, String pCliente)
+        {
+            try
+            {
+                U_ClienteAsociado clienteAso = new U_ClienteAsociado();
+
+                clienteAso = objCliente.ClienteAsociado(pEsquema, pCliente);
+
+                string cliente = JsonConvert.SerializeObject(clienteAso);
+                return cliente;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }
