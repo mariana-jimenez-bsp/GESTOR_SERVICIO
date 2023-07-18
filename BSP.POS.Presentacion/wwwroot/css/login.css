@@ -1,0 +1,97 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+.columna {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+    .columna:first-child {
+        width: 65%; /* Ajusta el ancho de la primera columna */
+    }
+
+    .columna:last-child {
+        width: 35%; /* Ajusta el ancho de la segunda columna */
+    }
+
+        .columna:last-child .form-group {
+            width: 80%; /* Ajusta el ancho de los inputs */
+            margin: 10px auto; /* Centra los inputs horizontalmente */
+        }
+
+        .columna:last-child button {
+            width: 80%; /* Ajusta el ancho del botón */
+            margin: 10px auto; /* Centra el botón horizontalmente */
+        }
+
+.columna-left-imagen {
+    width: 100%;
+    height: 100%;
+    background-image: url('../imagenbspfondo.jpg');
+    background-repeat: no-repeat;
+    background-blend-mode: overlay;
+    background-size: 100% 100%;
+    background-position: center top;
+}
+
+.columna-right-imagen {
+    background-image: url('../fondo azul.webp');
+    background-size: cover;
+    background-position: center;
+}
+
+.col-md-7 {
+    padding: 0;
+    margin: 0;
+}
+
+.col-md-5 {
+    padding: 0;
+    margin: 0;
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+}
+
+.container-full {
+    max-width: 100%;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+}
+
+.semicircle {
+    width: 200px;
+    height: 30px;
+    border-top: 5px solid white;
+    border-top-left-radius: 100px 50%;
+    border-top-right-radius: 100px 50%;
+    margin: 0 auto;
+}
+
+.form-control::placeholder {
+    color: #198754;
+}
+
+.form-group {
+    background-color: white;
+    border: 2px solid #198754;
+    border-radius: 10px;
+}
+
+.form-control {
+    border: none;
+}
+
+.btn-success {
+    border-radius: 30px;
+}
