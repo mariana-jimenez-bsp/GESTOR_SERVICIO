@@ -18,7 +18,7 @@ namespace BSP.POS.API.Controllers
 
         }
         // GET: api/<InformesController>
-        [HttpGet("ObtengaLaListaDeInformesAsociados")]
+        [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}")]
         public string ObtengaLaListaDeInformesAsociados(string cliente)
         {
             string esquema = "BSP";

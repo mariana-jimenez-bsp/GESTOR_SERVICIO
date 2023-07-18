@@ -1,0 +1,95 @@
+﻿@inject IInformesInterface InformesService
+@inject IClientesInterface ClientesService
+
+<div class="col-md-6">
+    <ClienteAsociado clienteAsociado="ClienteAsociado"></ClienteAsociado>
+    <div class="background-reports">
+        <div class="overflow-auto scrollbar-report scrollbar-max-height">
+            <div class="row d-flex justify-content-between m-2 reports-list">
+                <div class="col-md-4 d-flex row">
+                    <div class="d-flex bg-primary text-center align-items-end justify-content-center div-circle click-report-up">
+                        <i class="fa-solid fa-circle-plus" style="color: white"></i>
+
+                    </div>
+                    <div class="borrador text-end text-light bg-primary click-report-down">
+                    </div>
+                </div>
+                @if (InformesService.ListaInformesAsociados != null)
+                {
+                    // Acceder a la lista de clientes en  formato JSON y hacer lo que necesites con ella
+                    
+                    // Ejemplo: mostrar la lista de clientes en la vista
+                    foreach (var informe in InformesService.ListaInformesAsociados)
+                    {
+                        <div class="col-md-4 d-flex row" @onclick="() => EnviarConsecutivo(informe.consecutivo)">
+                            <div class="item-report click-report-up click-report-action">
+                                <span class="text-primary">Informe de Servicios</span>
+                                <span class="text-primary">#@informe.consecutivo</span>
+                                <hr>
+                                <span class="update-report-text text-primary">Actualizado el @informe.fecha_actualizacion</span>
+
+                                
+                            </div>
+
+                            @if (@informe.estado == "Finalizado")
+                            {
+                                <div class="bg-success borrador text-end text-light click-report-down">
+                                    <span>@informe.estado</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="bg-warning borrador text-end text-light click-report-down">
+                                    <span>@informe.estado</span>
+                                </div>
+                            }
+
+                        </div>
+                    }
+                }
+                else
+                {
+
+                }
+
+            </div>
+
+         
+        </div>
+    </div>
+  <ConsecutivoInforme consecutivo="@Consecutivo"></ConsecutivoInforme>
+
+</div>
+
+@code {
+    [Parameter]
+    public List<mInformes> informesAsociados { get; set; } = new List<mInformes>();
+    [Parameter]
+    public mClienteAsociado clienteAsociado { get; set; } = new mClienteAsociado();
+    public mClienteAsociado ClienteAsociado = new mClienteAsociado();
+
+    public string Consecutivo { get; set; } = string.Empty;
+    protected override void OnParametersSet()
+    {
+        if (informesAsociados != null)
+        {
+            InformesService.ListaInformesAsociados = informesAsociados;
+        }
+
+        if (clienteAsociado != null)
+        {
+            ClienteAsociado = clienteAsociado;
+
+        }
+
+    }
+
+    public void EnviarConsecutivo(string consecutivo)
+    {
+
+        if (consecutivo != null)
+        {
+            Consecutivo = consecutivo;
+        }
+    }
+}

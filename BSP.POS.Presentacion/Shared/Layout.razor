@@ -1,0 +1,65 @@
+﻿<head>
+
+        <link href="css/layout.css" rel="stylesheet" type="text/css" />
+</head>
+    <header class="d-flex justify-content-between align-items-center -3 py-2 bg-primary text-light">
+
+        <div class="fw-bold p-2 ps-5"><h1>Gestor de Servicios</h1></div>
+        <div class="fw-bold p-2 pe-5"><img src="https://images.squarespace-cdn.com/content/v1/52eaead0e4b0fd67cc51a9d3/ddebd217-d40d-4530-b0ea-64bb7b84329c/BSP+Consulting.png" width="50" height="50"></div>
+    </header>
+    <nav class="p-3 shadow-lg">
+        <div class="d-flex align-items-center ps-5">
+            <div class="d-flex justify-content-start align-items-center">
+            <button class="search-icon text-light">
+                <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;" @onclick="() => EnviarTextoABuscar(inputValue)"></i>
+            </button>
+            <input type="text" placeholder="Buscar..." class="text-light search-input" @oninput="ActualizarValor" />
+                
+            </div>
+            <div class="ms-auto text-primary pe-5">
+                <a href="#" class="me-2">Configuracion <i class="fa-solid fa-gear ps-2"></i></a>
+                <a class="vertical-line p-2 border-primary"></a>
+                <a href="#" class="me-2">Mis Informes <i class="fa-solid fa-newspaper ps-2"></i></a>
+                <a class="vertical-line p-2 border-primary"></a>
+                <a href="#">Usuario <img class="ps-2" width="40" src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg" alt=""></a>
+            </div>
+        </div>
+    </nav>
+    <nav class="d-flex justify-content-end sections text-light pe-5">
+        <div class="bg-success sections p-3">
+            <a href="#" class="me-2">Perfil <i class="fa-regular fa-user ps-1"></i></a>
+            <a class="vertical-line p-2 border-light"></a>
+            <a href="#" class="me-2">Tiempos <i class="fa-regular fa-clock ps-1"></i></a>
+            <a class="vertical-line p-2 border-light"></a>
+            <a href="#" class="me-2">Clientes <i class="fa-solid fa-user-group ps-1"></i></a>
+            <a class="vertical-line p-2 border-light"></a>
+            <a href="#" class="me-2">Proyectos <i class="fa-solid fa-briefcase ps-1"></i></a>
+            <a class="vertical-line p-2 border-light"></a>
+            <a href="#">Actividades <i class="fa-solid fa-tv ps-1"></i></a>
+        </div>
+    </nav>
+
+
+@code {
+    private string inputValue { get; set; } = string.Empty;
+    [Parameter]
+    public EventCallback<string> Texto { get; set; }
+
+    private void ActualizarValor(ChangeEventArgs e)
+    {
+        if (e.Value.ToString() != null)
+        {
+            inputValue = e.Value.ToString();
+            EnviarTextoABuscar(inputValue);
+        }
+    }
+
+    public async Task EnviarTextoABuscar(string texto)
+    {
+
+        if (texto != null)
+        {
+            await Texto.InvokeAsync(texto);
+        }
+    }
+}

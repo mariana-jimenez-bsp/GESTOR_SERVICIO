@@ -26,15 +26,15 @@ namespace BSP.POS.API.Controllers
             return listaClientesJson;
         }
 
-        [HttpGet("ObtengaLaListaDeClientesReciente")]
-        public string ObtengaLaListaDeClientesReciente()
+        [HttpGet("ObtengaLaListaDeClientesRecientes")]
+        public string ObtengaLaListaDeClientesRecientes()
         {
             string esquema = "BSP";
             string listaClientesRecientesJson = clientes.ListarClientesRecientes(esquema);
             return listaClientesRecientesJson;
         }
 
-        [HttpGet("ObtengaElClienteAsociado")]
+        [HttpGet("ObtengaElClienteAsociado/{cliente}")]
         public string ObtengaElClienteAsociado(string cliente)
         {
             string esquema = "BSP";

@@ -1,0 +1,201 @@
+﻿html, body {
+    height: 100%;
+    font-size: 12px;
+}
+
+.search-input {
+    border: none;
+    margin: 0;
+    height: 35px;
+    background-color: rgb(53, 53, 156);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+    .search-input::placeholder {
+        color: white;
+    }
+
+.search-icon {
+    border: none;
+    height: 35px;
+    background-color: rgb(19, 19, 95);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.vertical-line {
+    border-left: 1px solid;
+    height: 18px;
+}
+
+a {
+    text-decoration: none; /* Quita la línea subrayada */
+    color: inherit; /* Hereda el color del texto */
+}
+
+.sections {
+    margin-top: 0;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+i {
+    font-size: 20px;
+}
+
+.eyelash {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    cursor: pointer;
+}
+
+.click-client {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+    .click-client:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+.img-client {
+    border-radius: 30px;
+}
+/* Ancho de la barra de desplazamiento */
+.scrollbar-client::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Color del área de seguimiento */
+.scrollbar-client::-webkit-scrollbar-track {
+    background-color: white;
+    border: 5px solid #198754;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-client::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 20px;
+    border: 3px solid #198754;
+}
+
+.scrollbar-report::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Color del área de seguimiento */
+.scrollbar-report::-webkit-scrollbar-track {
+    background-color: #053d9e;
+    border: 5px solid white;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-report::-webkit-scrollbar-thumb {
+    background-color: #053d9e;
+    border-radius: 20px;
+    border: 3px solid white;
+}
+
+.scrollbar-max-height {
+    max-height: 300px;
+}
+
+.scrollbar-max-height-client {
+    max-height: 350px;
+}
+
+.d-all {
+    display: none;
+}
+
+.info-client {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 100%, 10% 50%);
+    background-color: rgb(21, 21, 175);
+    width: 60%;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    margin-left: 5%;
+}
+
+.item-report {
+    border: 1px white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: white;
+    font-size: 1em;
+}
+
+.update-report-text {
+    font-size: 12px;
+}
+
+.borrador {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-bottom: 5%;
+}
+
+.background-reports {
+    max-width: 100%;
+    background-color: rgb(221, 229, 236);
+}
+
+.click-report-up {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+    .click-report-up:hover {
+        border: 4px white;
+        border-bottom: 0;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        border-style: ridge;
+    }
+
+        .click-report-up:hover ~ .click-report-down {
+            border: 4px white;
+            border-top: 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            border-style: ridge;
+        }
+
+.fa-circle-plus {
+    font-size: 50px;
+}
+
+.div-circle {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.footer-right {
+    background-color: #053d9e;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: white;
+    padding: 3%;
+}
+
+.report-header {
+    border-radius: 20px;
+}
+
+.reports-list {
+    min-height: 100px;
+    max-height: 200px;
+}
+
+.font-size-12 {
+    font-size: 12px;
+}
+
+.min-height-header-report {
+    min-height: 120px;
+}
+
+.min-height-report-info {
+    min-height: 90px;
+}

@@ -1,0 +1,143 @@
+﻿@page "/"
+@page "/index"
+@inject IClientesInterface ClientesService
+@inject IInformesInterface InformesService
+<Layout Texto="RecibirTexto"></Layout>
+<head>
+    <link href="css/Informe.css" rel="stylesheet" type="text/css" />
+</head>
+<div class="container-fluid p-2 ps-5 pe-5">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex">
+                <a  class='me-2 bg-info text-light eyelash p-2 pe-3 ps-3 @GetTabLinkClass("recent")' @onclick='() => ChangeTab("recent")'>Clientes recientes</a>
+                <a  class='bg-primary text-light eyelash p-2 pe-3 ps-3 @GetTabLinkClass("all")' @onclick='() => ChangeTab("all")'>Todos los clientes</a>
+            </div>
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col-md-6">
+            <div class="my-3">
+                <div id="recent" class="overflow-auto row scrollbar-client scrollbar-max-height-client" style="display: @(activeTab == "recent" ? "block" : "none")">
+                    @if (ClientesService.ListaClientesRecientes != null)
+                    {
+                        var listaClientesRecientes = ClientesService.ListaClientesRecientes;
+                        if (!string.IsNullOrEmpty(textoRecibido))
+                        {
+                            // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                            listaClientesRecientes = listaClientesRecientes.Where(cliente => cliente.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                        }
+
+                            // Ejemplo: mostrar la lista de clientes en la vista
+                        foreach (var cliente in listaClientesRecientes)
+                            {
+                            <div class="row g-1 text-primary click-client" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
+
+                                    <div class="col-md-2 ">
+                                        <img class="img-client" width="50" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/fake-text-artwork%2C-design-template-cee7068ce7d824341a811cf718953531_screen.jpg?ts=1615781097" alt="">
+                                    </div>
+                                    <div class="col-md-5 pe-2">
+                                        <p>Nombre del cliente: @cliente.NOMBRE</p>
+                                        <p>Responsable: @cliente.CONTACTO</p>
+                                        <p>Departamento: @cliente.CARGO</p>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p><i class="fa-solid fa-clock-rotate-left fa-flip-horizontal"></i> Ultima Actualizacion: @cliente.RecordDate</p>
+                                    </div>
+                                    
+                                </div>
+                            }
+
+                    }
+                    else
+                    {
+                        <p>No hay clientes recientes</p>
+                    }
+                </div>
+                <div id="all" class="overflow-auto scrollbar-client scrollbar-max-height-client" style="display: @(activeTab == "all" ? "block" : "none")">
+                    @if (ClientesService.ListaClientes != null)
+                    {
+                        var listaClientes = ClientesService.ListaClientes;
+                        if (!string.IsNullOrEmpty(textoRecibido))
+                        {
+                            // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                            listaClientes = listaClientes.Where(cliente => cliente.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                        }
+
+                        // Ejemplo: mostrar la lista de clientes en la vista
+                        foreach (var cliente in listaClientes)
+                        {
+                            <div class="row g-1 text-primary click-client" data-cliente="@cliente.CLIENTE" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
+
+                                <div class="col-md-2 ">
+                                    <img class="img-client" width="50" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/fake-text-artwork%2C-design-template-cee7068ce7d824341a811cf718953531_screen.jpg?ts=1615781097" alt="">
+                                </div>
+                                <div class="col-md-5 pe-2">
+                                    <p>Nombre del cliente: @cliente.NOMBRE</p>
+                                    <p>Responsable: @cliente.CONTACTO</p>
+                                    <p>Departamento: @cliente.CARGO</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <p><i class="fa-solid fa-clock-rotate-left fa-flip-horizontal"></i> Ultima Actualizacion: @cliente.RecordDate</p>
+                                </div>
+                                
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No se encontraron clientes.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <ListaInformes informesAsociados="@InformesAsociados" clienteAsociado="@ClienteAsociado"/>
+    </div>
+    
+</div>
+@code {
+    public List<mInformes> InformesAsociados = new List<mInformes>();
+    public mClienteAsociado ClienteAsociado = new mClienteAsociado();
+    protected override async Task OnInitializedAsync()
+    {
+
+        await ClientesService.ObtenerListaClientes();
+        await ClientesService.ObtenerListaClientesRecientes();
+    }
+    private string activeTab = "recent"; // Pestaña activa inicialmente
+
+    private void ChangeTab(string tabId)
+    {
+        activeTab = tabId;
+    }
+
+    private string GetTabLinkClass(string tabId)
+    {
+        return activeTab == tabId ? "active" : "";
+    }
+
+    private async Task EnviarInformesAsociados(string cliente)
+    {
+        await InformesService.ObtenerListaDeInformesAsociados(cliente);
+        if (await ClientesService.ObtenerClienteAsociado(cliente) != null)
+        {
+            ClienteAsociado = await ClientesService.ObtenerClienteAsociado(cliente);
+        }
+
+        if (InformesService.ListaInformesAsociados != null)
+        {
+            InformesAsociados = InformesService.ListaInformesAsociados;
+        }
+    }
+
+    [Parameter]
+    public string textoRecibido { get; set; } = string.Empty;
+
+    private Task RecibirTexto(string texto)
+    {
+        textoRecibido = texto;
+        return Task.CompletedTask;
+    }
+}
