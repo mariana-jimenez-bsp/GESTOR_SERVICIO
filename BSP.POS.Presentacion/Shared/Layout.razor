@@ -27,7 +27,8 @@
     </nav>
     <nav class="d-flex justify-content-end sections text-light pe-5">
         <div class="bg-success sections p-3">
-            <a href="#" class="me-2">Perfil <i class="fa-regular fa-user ps-1"></i></a>
+ 
+            <a href="" class="me-2 mouse-pointer" @onclick="() => ClickHandler(true)">Perfil <i class="mouse-pointer fa-regular fa-user ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
             <a href="#" class="me-2">Tiempos <i class="fa-regular fa-clock ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
@@ -39,7 +40,7 @@
         </div>
     </nav>
 
-
+<ModalPerfil ActivarModal="@activarModal" OnClose="ClickHandler"></ModalPerfil>
 @code {
     private string inputValue { get; set; } = string.Empty;
     [Parameter]
@@ -61,5 +62,13 @@
         {
             await Texto.InvokeAsync(texto);
         }
+    }
+
+    bool activarModal = false;
+
+    void ClickHandler(bool activar)
+    {
+        activarModal = activar;
+        StateHasChanged();
     }
 }

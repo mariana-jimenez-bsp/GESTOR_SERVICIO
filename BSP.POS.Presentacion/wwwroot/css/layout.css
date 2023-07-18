@@ -2,7 +2,10 @@
     height: 100%;
     font-size: 12px;
 }
-
+#mouse-pointer {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 .search-input {
     border: none;
     margin: 0;

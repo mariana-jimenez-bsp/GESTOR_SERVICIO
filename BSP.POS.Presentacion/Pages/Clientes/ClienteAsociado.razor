@@ -3,7 +3,7 @@
 <div class="d-flex justify-content-center align-items-center shadow-lg min-height-header-report">
     <div class="d-flex justify-content-center align-items-center ms-5 report-header">
         <img src="https://images.squarespace-cdn.com/content/v1/52eaead0e4b0fd67cc51a9d3/ddebd217-d40d-4530-b0ea-64bb7b84329c/BSP+Consulting.png" width="50" height="50">
-        @if (ClientesService.ClienteAsociado != null)
+        @if (ClientesService.ClienteAsociado.NOMBRE.Length > 0)
         {
             var clienteAsociado = ClientesService.ClienteAsociado;
             <h3 class="font-size-12">@clienteAsociado.NOMBRE</h3>
@@ -11,10 +11,10 @@
 
     </div>
     <div class="p-2 info-client text-center text-light report-header min-height-report-info">
-        @if (ClientesService.ClienteAsociado != null)
+        @if (ClientesService.ClienteAsociado.NOMBRE.Length > 0)
         {
             var clienteAsociado = ClientesService.ClienteAsociado;
-            <p class="font-size-12">Nombre del cliente: @clienteAsociado.NOMBRE</p>
+            <p class="font-size-12 ps-2">Nombre del cliente: @clienteAsociado.NOMBRE</p>
             <p class="font-size-12">Responsable: @clienteAsociado.CONTACTO</p>
             <p class="font-size-12">Departamento: @clienteAsociado.CARGO</p>
         }
