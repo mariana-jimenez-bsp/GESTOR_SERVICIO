@@ -11,9 +11,9 @@ namespace BSP.POS.NEGOCIOS.Usuarios
     public class N_Login
     {
         D_Login objetoLogin = new D_Login();
-        public U_Login Login(U_Login pLogin)
+        public U_LoginToken Login(U_Login pLogin)
         {
-            U_Login login = new U_Login();
+            U_LoginToken login = new U_LoginToken();
             login = objetoLogin.Login(pLogin);
             return login;
         }

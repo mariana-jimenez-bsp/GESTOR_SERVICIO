@@ -1,6 +1,6 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Informes;
 using BSP.POS.Presentacion.Models;
-using BSP.POS.Presentacion.Pages.Clientes;
+using BSP.POS.Presentacion.Pages.Home;
 using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
 
