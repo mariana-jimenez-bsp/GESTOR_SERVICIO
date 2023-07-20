@@ -32,46 +32,41 @@ namespace BSP.POS.API.Controllers
         [HttpPost("Login")]
         public string Login([FromBody] mLogin datos)
         {
-            U_Login nuevoLogin = new U_Login();
-            nuevoLogin.usuario = datos.usuario;
-            nuevoLogin.contrasena = datos.clave;
-            nuevoLogin.esquema = "BSP";
-            nuevoLogin.key = _secretKey;
+            try
+            {
+                U_Login nuevoLogin = new U_Login();
+                nuevoLogin.usuario = datos.usuario;
+                nuevoLogin.contrasena = datos.clave;
+                nuevoLogin.esquema = "BSP";
+                nuevoLogin.key = _secretKey;
 
-            var usuarioLogeado = login.Login(nuevoLogin);
-            return usuarioLogeado;
+                var usuarioLogeado = login.Login(nuevoLogin);
+                return usuarioLogeado;
+            }
+            catch(Exception ex) 
+            {
+                return ex.Message;
+            }
+           
         }
 
         [HttpPost("ValidarToken")]
         public string ValidarToken([FromBody] mLogin datos)
         {
-            var usuarioLogeado = login.ValidarToken(datos.token);
-            return usuarioLogeado;
-        }
+            try
+            {
+                string token = datos.token.Trim('"');
+                var usuarioLogeado = login.ValidarToken(token);
 
-        // GET api/<UsuariosController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+                return usuarioLogeado;
+            }
 
-        // POST api/<UsuariosController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        } 
 
-        // PUT api/<UsuariosController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<UsuariosController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+       
     }
 }

@@ -1,38 +1,25 @@
 ﻿@inject NavigationManager navigationManager
-@inject ILocalStorageService localStorageService
-@inject IUsuariosInterface UsuariosService
-<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
 
-@code {
-    string mensaje = string.Empty;
-    protected override async Task OnInitializedAsync()
-    {
-        // Obtener el token desde Local Storage
-        string token = await localStorageService.GetItemAsync<string>("token");
-        mensaje = await UsuariosService.ValidarToken(token);
-        Console.WriteLine(mensaje);
-        if (mensaje != "Token válido")
-        {
-            navigationManager.NavigateTo("/login");
-        }
-        else
-        {
-            navigationManager.NavigateTo("/index");
-        }
-        // Lógica para validar el token utilizando tu API o biblioteca de clases
-        // ...
-
-        // Ejemplo simple: Verificar si el token no es nulo o vacío
-    }
-}
+                    <div class="alert alert-warning" role="alert">
+                        Lo siento no tienes permitido entrar a esta página
+                    </div>
+                    @{
+                         navigationManager.NavigateTo("/");
+                    }
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

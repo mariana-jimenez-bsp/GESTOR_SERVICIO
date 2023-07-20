@@ -1,4 +1,6 @@
-﻿@page "/login"
+﻿
+@page "/"
+@page "/login"
 @inject IUsuariosInterface UsuariosService
 @inject ILocalStorageService localStorageService
 @inject NavigationManager navigationManager
@@ -24,8 +26,11 @@
                             <i class="fa-solid fa-lock text-success bg-light p-2"></i>
                     <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" required />
                         </div>
-
-
+                        @if(!string.IsNullOrEmpty(mensaje)){
+                        <div class="alert alert-danger" role="alert">
+                           @mensaje
+                        </div>
+                         }
                         <button class="btn btn-success btn-block" @onclick="Ingresar">Ingresar</button>
                         <p class="mt-5 text-light">¿Olvidó su contraseña?</p>
                         <a class="text-success">Resetear contraseña</a>
@@ -46,19 +51,25 @@
         if (usuarioLogin != null)
         {
             UsuariosService.UsuarioLogin = usuarioLogin;
-            Console.WriteLine(usuarioLogin.usuario);
+           
         }
     }
     private async Task Ingresar()
     {
-        if (inputUsuario != null && inputClave != null)
+        if (!string.IsNullOrEmpty(inputUsuario) && !string.IsNullOrEmpty(inputClave))
         {
 
             usuarioLogin = await UsuariosService.RealizarLogin(inputUsuario, inputClave);
-            if (usuarioLogin != null)
+            if (!string.IsNullOrEmpty(usuarioLogin.token))
             {
+
                 await localStorageService.SetItemAsync<string>("token",usuarioLogin.token);
-                navigationManager.NavigateTo("/index");
+                navigationManager.NavigateTo("/index", forceLoad: true);
+
+            }
+            else
+            {
+                mensajeError();
             }
 
         }
@@ -69,10 +80,15 @@
 
     private void ValorUsuario(ChangeEventArgs e)
     {
-        if (e.Value.ToString() != null)
+        if (!string.IsNullOrEmpty(e.Value.ToString()))
         {
             inputUsuario = e.Value.ToString();
         }
+    }
+
+    private void mensajeError()
+    {
+        mensaje = "usuario o contraseña inválidos";
     }
 
     
@@ -80,7 +96,7 @@
 
     private void ValorClave(ChangeEventArgs e)
     {
-        if (e.Value.ToString() != null)
+        if (!string.IsNullOrEmpty(e.Value.ToString()))
         {
             inputClave = e.Value.ToString();
         }

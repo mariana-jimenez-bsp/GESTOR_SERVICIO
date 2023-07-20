@@ -21,14 +21,14 @@
                 <a class="vertical-line p-2 border-primary"></a>
                 <a href="#" class="me-2">Mis Informes <i class="fa-solid fa-newspaper ps-2"></i></a>
                 <a class="vertical-line p-2 border-primary"></a>
-                <a href="#">Usuario <img class="ps-2" width="40" src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg" alt=""></a>
+            <a href="">@UsuarioActual <img class="ps-2" width="40" src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg" alt=""></a>
             </div>
         </div>
     </nav>
     <nav class="d-flex justify-content-end sections text-light pe-5">
         <div class="bg-success sections p-3">
  
-            <a href="" class="me-2 mouse-pointer" @onclick="() => ClickHandler(true)">Perfil <i class="mouse-pointer fa-regular fa-user ps-1"></i></a>
+            <a class="me-2 mouse-pointer" @onclick="() => ClickHandler(true)">Perfil <i class="mouse-pointer fa-regular fa-user ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
             <a href="#" class="me-2">Tiempos <i class="fa-regular fa-clock ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
@@ -45,7 +45,8 @@
     private string inputValue { get; set; } = string.Empty;
     [Parameter]
     public EventCallback<string> Texto { get; set; }
-
+    [Parameter]
+    public string UsuarioActual { get; set; } = string.Empty;
     private void ActualizarValor(ChangeEventArgs e)
     {
         if (e.Value.ToString() != null)

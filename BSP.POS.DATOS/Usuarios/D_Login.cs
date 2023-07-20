@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using clSeguridad;
 using System.Security.Cryptography;
+using System.ComponentModel.DataAnnotations;
 
 namespace BSP.POS.DATOS.Usuarios
 {
@@ -34,7 +35,7 @@ namespace BSP.POS.DATOS.Usuarios
             if (CompararClaves(pLogin.contrasena, claveActual))
             {
                
-                string token = GenerateToken(pLogin.usuario, "U", pLogin.key);
+               string token = GenerateJWT(pLogin.usuario, pLogin.key);
                var j = _tablaUsuario.GetData(pLogin.usuario, claveActual, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
                 {
@@ -133,18 +134,19 @@ namespace BSP.POS.DATOS.Usuarios
             }
             if(usuario == null)
             {
-                return "El Token no es válido";
+                return null;
             }
             else
             {
                 JwtSecurityToken tokenDecodificado = DecodificarToken(token);
+                DateTime fecha = tokenDecodificado.ValidTo;
                 if (tokenDecodificado.ValidTo < DateTime.UtcNow)
                 {
-                    return "El Token ha expirado";
+                    return null;
                 }
                 else
                 {
-                    return "Token válido";
+                    return token;
                 }
             }
             
@@ -159,5 +161,18 @@ namespace BSP.POS.DATOS.Usuarios
             return tokenDecodificado;
         }
 
+        private string GenerateJWT(string username, string key)
+        {
+            // Also consider using AsymmetricSecurityKey if you want the client to be able to validate the token
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var token = new JwtSecurityToken(
+                "BSP",
+                "Usuarios",
+                new[] { new Claim(ClaimTypes.Name, username) },
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256));
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
+        }
     }
 }

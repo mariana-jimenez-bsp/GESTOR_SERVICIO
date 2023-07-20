@@ -21,25 +21,52 @@ namespace BSP.POS.API.Controllers
         [HttpGet("ObtengaLaListaDeClientes")]
         public string ObtengaLaListaDeClientes()
         {
-            string esquema = "BSP";
-            string listaClientesJson = clientes.ListarClientes(esquema);
-            return listaClientesJson;
+            try
+            {
+                string esquema = "BSP";
+                string listaClientesJson = clientes.ListarClientes(esquema);
+                return listaClientesJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
         }
 
         [HttpGet("ObtengaLaListaDeClientesRecientes")]
         public string ObtengaLaListaDeClientesRecientes()
         {
-            string esquema = "BSP";
-            string listaClientesRecientesJson = clientes.ListarClientesRecientes(esquema);
-            return listaClientesRecientesJson;
+            try
+            {
+                string esquema = "BSP";
+                string listaClientesRecientesJson = clientes.ListarClientesRecientes(esquema);
+                return listaClientesRecientesJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+           
         }
 
         [HttpGet("ObtengaElClienteAsociado/{cliente}")]
         public string ObtengaElClienteAsociado(string cliente)
         {
-            string esquema = "BSP";
-            var clienteAsociadoJson = clientes.ObtenerClienteAsociado(esquema, cliente);
-            return clienteAsociadoJson;
+            try
+            {
+                string esquema = "BSP";
+                var clienteAsociadoJson = clientes.ObtenerClienteAsociado(esquema, cliente);
+                return clienteAsociadoJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
         }
 
         

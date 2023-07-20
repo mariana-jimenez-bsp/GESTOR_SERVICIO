@@ -24,8 +24,7 @@ namespace BSP.POS.NEGOCIOS.Usuarios
         {
             string login;
             login = objetoLogin.ValidarToken(token);
-            string mensaje = JsonConvert.SerializeObject(login);
-            return mensaje;
+            return login;
         }
 
 

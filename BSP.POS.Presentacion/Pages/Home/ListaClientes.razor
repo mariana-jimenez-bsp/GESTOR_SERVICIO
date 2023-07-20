@@ -1,12 +1,15 @@
 ﻿@page "/index"
 @inject IClientesInterface ClientesService
 @inject IInformesInterface InformesService
-<Layout Texto="RecibirTexto"></Layout>
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+<Layout Texto="RecibirTexto" UsuarioActual="@usuarioActual"></Layout>
 <head>
     <link href="css/Informe.css" rel="stylesheet" type="text/css" />
 </head>
 <div class="container-fluid p-2 ps-5 pe-5">
-    
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex">
@@ -51,6 +54,7 @@
                     }
                     else
                     {
+                        
                         <p>No hay clientes recientes</p>
                     }
                 </div>
@@ -96,14 +100,25 @@
     </div>
     
 </div>
-@code {
-    public List<mInformes> InformesAsociados = new List<mInformes>();
+    </Authorized>
+     <NotAuthorized>
+         <span>No estas autorizado</span>
+     </NotAuthorized>
+</AuthorizeView>
+
+    @code {
+        public List<mInformes> InformesAsociados = new List<mInformes>();
     public mClienteAsociado ClienteAsociado = new mClienteAsociado();
+    public string usuarioActual { get; set; } = string.Empty;
     protected override async Task OnInitializedAsync()
     {
 
         await ClientesService.ObtenerListaClientes();
         await ClientesService.ObtenerListaClientesRecientes();
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+        usuarioActual = user.Identity.Name;
+
     }
     private string activeTab = "recent"; // Pestaña activa inicialmente
 

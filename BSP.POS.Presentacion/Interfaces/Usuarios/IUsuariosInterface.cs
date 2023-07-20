@@ -10,6 +10,5 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task<mLogin> RealizarLogin(string USUARIO, string CLAVE);
         string EncriptarClave(string clave);
 
-        Task<string> ValidarToken(string clave);
     }
 }

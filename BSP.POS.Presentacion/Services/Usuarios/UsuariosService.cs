@@ -45,21 +45,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
-        public async Task<string>  ValidarToken(string token)
-        {
-            mLogin enviarUsuario = new mLogin();
-            enviarUsuario.token = token;
-            string url = "https://localhost:7032/api/Usuarios/ValidarToken";
-            string jsonData = JsonSerializer.Serialize(enviarUsuario);
-            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-            var usuario = await _http.PostAsync(url, content);
-            if (usuario.StatusCode == HttpStatusCode.OK)
-            {
-                return await usuario.Content.ReadAsStringAsync();
-            }
-            return null;
-        }
+      
     }
     }
 

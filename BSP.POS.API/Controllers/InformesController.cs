@@ -21,9 +21,18 @@ namespace BSP.POS.API.Controllers
         [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}")]
         public string ObtengaLaListaDeInformesAsociados(string cliente)
         {
-            string esquema = "BSP";
-            string listaInformesAsociadosJson = informes.ListarInformesAsociados(esquema, cliente);
-            return listaInformesAsociadosJson;
+            try
+            {
+                string esquema = "BSP";
+                string listaInformesAsociadosJson = informes.ListarInformesAsociados(esquema, cliente);
+                return listaInformesAsociadosJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+           
         }
 
        
