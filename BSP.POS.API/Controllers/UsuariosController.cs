@@ -2,9 +2,11 @@
 using BSP.POS.DATOS.Usuarios;
 using BSP.POS.NEGOCIOS.Usuarios;
 using BSP.POS.UTILITARIOS.Usuarios;
+using BSP.POS.API.Models;
 using clSeguridad;
 using System;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -27,17 +29,24 @@ namespace BSP.POS.API.Controllers
             _secretKey = configuration["AppSettings:SecretKey"];
         }
         // GET: api/<UsuariosController>
-        [HttpGet("Login/{usuario}/{clave}")]
-        public U_LoginToken Login(string usuario, string clave)
+        [HttpPost("Login")]
+        public string Login([FromBody] mLogin datos)
         {
-
             U_Login nuevoLogin = new U_Login();
-            nuevoLogin.usuario = usuario;
-            nuevoLogin.contrasena = clave;
+            nuevoLogin.usuario = datos.usuario;
+            nuevoLogin.contrasena = datos.clave;
             nuevoLogin.esquema = "BSP";
             nuevoLogin.key = _secretKey;
-            var loginrealizado = login.Login(nuevoLogin);
-            return loginrealizado;
+
+            var usuarioLogeado = login.Login(nuevoLogin);
+            return usuarioLogeado;
+        }
+
+        [HttpPost("ValidarToken")]
+        public string ValidarToken([FromBody] mLogin datos)
+        {
+            var usuarioLogeado = login.ValidarToken(datos.token);
+            return usuarioLogeado;
         }
 
         // GET api/<UsuariosController>/5

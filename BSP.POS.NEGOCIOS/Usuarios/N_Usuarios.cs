@@ -1,5 +1,6 @@
 ﻿using BSP.POS.DATOS.Usuarios;
 using BSP.POS.UTILITARIOS.Usuarios;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,20 @@ namespace BSP.POS.NEGOCIOS.Usuarios
     public class N_Login
     {
         D_Login objetoLogin = new D_Login();
-        public U_LoginToken Login(U_Login pLogin)
+        public string Login(U_Login pLogin)
         {
             U_LoginToken login = new U_LoginToken();
             login = objetoLogin.Login(pLogin);
-            return login;
+            string usuario = JsonConvert.SerializeObject(login);
+            return usuario;
+        }
+
+        public string ValidarToken(string token)
+        {
+            string login;
+            login = objetoLogin.ValidarToken(token);
+            string mensaje = JsonConvert.SerializeObject(login);
+            return mensaje;
         }
 
 

@@ -36,9 +36,11 @@ namespace BSP.POS.DATOS {
         
         private VerificarUsuarioConsultorDataTable tableVerificarUsuarioConsultor;
         
-        private ValidarTokenJWTDataTable tableValidarTokenJWT;
+        private ObtenerClaveUsuarioDataTable tableObtenerClaveUsuario;
         
         private LoginUsuarioDataTable tableLoginUsuario;
+        
+        private ObtenerUsuarioPorTokenDataTable tableObtenerUsuarioPorToken;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -86,11 +88,14 @@ namespace BSP.POS.DATOS {
                 if ((ds.Tables["VerificarUsuarioConsultor"] != null)) {
                     base.Tables.Add(new VerificarUsuarioConsultorDataTable(ds.Tables["VerificarUsuarioConsultor"]));
                 }
-                if ((ds.Tables["ValidarTokenJWT"] != null)) {
-                    base.Tables.Add(new ValidarTokenJWTDataTable(ds.Tables["ValidarTokenJWT"]));
+                if ((ds.Tables["ObtenerClaveUsuario"] != null)) {
+                    base.Tables.Add(new ObtenerClaveUsuarioDataTable(ds.Tables["ObtenerClaveUsuario"]));
                 }
                 if ((ds.Tables["LoginUsuario"] != null)) {
                     base.Tables.Add(new LoginUsuarioDataTable(ds.Tables["LoginUsuario"]));
+                }
+                if ((ds.Tables["ObtenerUsuarioPorToken"] != null)) {
+                    base.Tables.Add(new ObtenerUsuarioPorTokenDataTable(ds.Tables["ObtenerUsuarioPorToken"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -174,9 +179,9 @@ namespace BSP.POS.DATOS {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ValidarTokenJWTDataTable ValidarTokenJWT {
+        public ObtenerClaveUsuarioDataTable ObtenerClaveUsuario {
             get {
-                return this.tableValidarTokenJWT;
+                return this.tableObtenerClaveUsuario;
             }
         }
         
@@ -187,6 +192,16 @@ namespace BSP.POS.DATOS {
         public LoginUsuarioDataTable LoginUsuario {
             get {
                 return this.tableLoginUsuario;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ObtenerUsuarioPorTokenDataTable ObtenerUsuarioPorToken {
+            get {
+                return this.tableObtenerUsuarioPorToken;
             }
         }
         
@@ -275,11 +290,14 @@ namespace BSP.POS.DATOS {
                 if ((ds.Tables["VerificarUsuarioConsultor"] != null)) {
                     base.Tables.Add(new VerificarUsuarioConsultorDataTable(ds.Tables["VerificarUsuarioConsultor"]));
                 }
-                if ((ds.Tables["ValidarTokenJWT"] != null)) {
-                    base.Tables.Add(new ValidarTokenJWTDataTable(ds.Tables["ValidarTokenJWT"]));
+                if ((ds.Tables["ObtenerClaveUsuario"] != null)) {
+                    base.Tables.Add(new ObtenerClaveUsuarioDataTable(ds.Tables["ObtenerClaveUsuario"]));
                 }
                 if ((ds.Tables["LoginUsuario"] != null)) {
                     base.Tables.Add(new LoginUsuarioDataTable(ds.Tables["LoginUsuario"]));
+                }
+                if ((ds.Tables["ObtenerUsuarioPorToken"] != null)) {
+                    base.Tables.Add(new ObtenerUsuarioPorTokenDataTable(ds.Tables["ObtenerUsuarioPorToken"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -350,16 +368,22 @@ namespace BSP.POS.DATOS {
                     this.tableVerificarUsuarioConsultor.InitVars();
                 }
             }
-            this.tableValidarTokenJWT = ((ValidarTokenJWTDataTable)(base.Tables["ValidarTokenJWT"]));
+            this.tableObtenerClaveUsuario = ((ObtenerClaveUsuarioDataTable)(base.Tables["ObtenerClaveUsuario"]));
             if ((initTable == true)) {
-                if ((this.tableValidarTokenJWT != null)) {
-                    this.tableValidarTokenJWT.InitVars();
+                if ((this.tableObtenerClaveUsuario != null)) {
+                    this.tableObtenerClaveUsuario.InitVars();
                 }
             }
             this.tableLoginUsuario = ((LoginUsuarioDataTable)(base.Tables["LoginUsuario"]));
             if ((initTable == true)) {
                 if ((this.tableLoginUsuario != null)) {
                     this.tableLoginUsuario.InitVars();
+                }
+            }
+            this.tableObtenerUsuarioPorToken = ((ObtenerUsuarioPorTokenDataTable)(base.Tables["ObtenerUsuarioPorToken"]));
+            if ((initTable == true)) {
+                if ((this.tableObtenerUsuarioPorToken != null)) {
+                    this.tableObtenerUsuarioPorToken.InitVars();
                 }
             }
         }
@@ -384,10 +408,12 @@ namespace BSP.POS.DATOS {
             base.Tables.Add(this.tableInsertarDatosInforme);
             this.tableVerificarUsuarioConsultor = new VerificarUsuarioConsultorDataTable();
             base.Tables.Add(this.tableVerificarUsuarioConsultor);
-            this.tableValidarTokenJWT = new ValidarTokenJWTDataTable();
-            base.Tables.Add(this.tableValidarTokenJWT);
+            this.tableObtenerClaveUsuario = new ObtenerClaveUsuarioDataTable();
+            base.Tables.Add(this.tableObtenerClaveUsuario);
             this.tableLoginUsuario = new LoginUsuarioDataTable();
             base.Tables.Add(this.tableLoginUsuario);
+            this.tableObtenerUsuarioPorToken = new ObtenerUsuarioPorTokenDataTable();
+            base.Tables.Add(this.tableObtenerUsuarioPorToken);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -428,13 +454,19 @@ namespace BSP.POS.DATOS {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private bool ShouldSerializeValidarTokenJWT() {
+        private bool ShouldSerializeObtenerClaveUsuario() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private bool ShouldSerializeLoginUsuario() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeObtenerUsuarioPorToken() {
             return false;
         }
         
@@ -512,10 +544,13 @@ namespace BSP.POS.DATOS {
         public delegate void VerificarUsuarioConsultorRowChangeEventHandler(object sender, VerificarUsuarioConsultorRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public delegate void ValidarTokenJWTRowChangeEventHandler(object sender, ValidarTokenJWTRowChangeEvent e);
+        public delegate void ObtenerClaveUsuarioRowChangeEventHandler(object sender, ObtenerClaveUsuarioRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void LoginUsuarioRowChangeEventHandler(object sender, LoginUsuarioRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ObtenerUsuarioPorTokenRowChangeEventHandler(object sender, ObtenerUsuarioPorTokenRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -2827,12 +2862,14 @@ namespace BSP.POS.DATOS {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ValidarTokenJWTDataTable : global::System.Data.TypedTableBase<ValidarTokenJWTRow> {
+        public partial class ObtenerClaveUsuarioDataTable : global::System.Data.TypedTableBase<ObtenerClaveUsuarioRow> {
+            
+            private global::System.Data.DataColumn columnCLAVE;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ValidarTokenJWTDataTable() {
-                this.TableName = "ValidarTokenJWT";
+            public ObtenerClaveUsuarioDataTable() {
+                this.TableName = "ObtenerClaveUsuario";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -2840,7 +2877,7 @@ namespace BSP.POS.DATOS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal ValidarTokenJWTDataTable(global::System.Data.DataTable table) {
+            internal ObtenerClaveUsuarioDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -2857,9 +2894,17 @@ namespace BSP.POS.DATOS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected ValidarTokenJWTDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected ObtenerClaveUsuarioDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CLAVEColumn {
+                get {
+                    return this.columnCLAVE;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2873,44 +2918,45 @@ namespace BSP.POS.DATOS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ValidarTokenJWTRow this[int index] {
+            public ObtenerClaveUsuarioRow this[int index] {
                 get {
-                    return ((ValidarTokenJWTRow)(this.Rows[index]));
+                    return ((ObtenerClaveUsuarioRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event ValidarTokenJWTRowChangeEventHandler ValidarTokenJWTRowChanging;
+            public event ObtenerClaveUsuarioRowChangeEventHandler ObtenerClaveUsuarioRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event ValidarTokenJWTRowChangeEventHandler ValidarTokenJWTRowChanged;
+            public event ObtenerClaveUsuarioRowChangeEventHandler ObtenerClaveUsuarioRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event ValidarTokenJWTRowChangeEventHandler ValidarTokenJWTRowDeleting;
+            public event ObtenerClaveUsuarioRowChangeEventHandler ObtenerClaveUsuarioRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event ValidarTokenJWTRowChangeEventHandler ValidarTokenJWTRowDeleted;
+            public event ObtenerClaveUsuarioRowChangeEventHandler ObtenerClaveUsuarioRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void AddValidarTokenJWTRow(ValidarTokenJWTRow row) {
+            public void AddObtenerClaveUsuarioRow(ObtenerClaveUsuarioRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ValidarTokenJWTRow AddValidarTokenJWTRow() {
-                ValidarTokenJWTRow rowValidarTokenJWTRow = ((ValidarTokenJWTRow)(this.NewRow()));
-                object[] columnValuesArray = new object[0];
-                rowValidarTokenJWTRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowValidarTokenJWTRow);
-                return rowValidarTokenJWTRow;
+            public ObtenerClaveUsuarioRow AddObtenerClaveUsuarioRow(string CLAVE) {
+                ObtenerClaveUsuarioRow rowObtenerClaveUsuarioRow = ((ObtenerClaveUsuarioRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        CLAVE};
+                rowObtenerClaveUsuarioRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowObtenerClaveUsuarioRow);
+                return rowObtenerClaveUsuarioRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                ValidarTokenJWTDataTable cln = ((ValidarTokenJWTDataTable)(base.Clone()));
+                ObtenerClaveUsuarioDataTable cln = ((ObtenerClaveUsuarioDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -2918,43 +2964,48 @@ namespace BSP.POS.DATOS {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new ValidarTokenJWTDataTable();
+                return new ObtenerClaveUsuarioDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal void InitVars() {
+                this.columnCLAVE = base.Columns["CLAVE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
+                this.columnCLAVE = new global::System.Data.DataColumn("CLAVE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCLAVE);
+                this.columnCLAVE.ReadOnly = true;
+                this.columnCLAVE.MaxLength = 100;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ValidarTokenJWTRow NewValidarTokenJWTRow() {
-                return ((ValidarTokenJWTRow)(this.NewRow()));
+            public ObtenerClaveUsuarioRow NewObtenerClaveUsuarioRow() {
+                return ((ObtenerClaveUsuarioRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ValidarTokenJWTRow(builder);
+                return new ObtenerClaveUsuarioRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(ValidarTokenJWTRow);
+                return typeof(ObtenerClaveUsuarioRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.ValidarTokenJWTRowChanged != null)) {
-                    this.ValidarTokenJWTRowChanged(this, new ValidarTokenJWTRowChangeEvent(((ValidarTokenJWTRow)(e.Row)), e.Action));
+                if ((this.ObtenerClaveUsuarioRowChanged != null)) {
+                    this.ObtenerClaveUsuarioRowChanged(this, new ObtenerClaveUsuarioRowChangeEvent(((ObtenerClaveUsuarioRow)(e.Row)), e.Action));
                 }
             }
             
@@ -2962,8 +3013,8 @@ namespace BSP.POS.DATOS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.ValidarTokenJWTRowChanging != null)) {
-                    this.ValidarTokenJWTRowChanging(this, new ValidarTokenJWTRowChangeEvent(((ValidarTokenJWTRow)(e.Row)), e.Action));
+                if ((this.ObtenerClaveUsuarioRowChanging != null)) {
+                    this.ObtenerClaveUsuarioRowChanging(this, new ObtenerClaveUsuarioRowChangeEvent(((ObtenerClaveUsuarioRow)(e.Row)), e.Action));
                 }
             }
             
@@ -2971,8 +3022,8 @@ namespace BSP.POS.DATOS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.ValidarTokenJWTRowDeleted != null)) {
-                    this.ValidarTokenJWTRowDeleted(this, new ValidarTokenJWTRowChangeEvent(((ValidarTokenJWTRow)(e.Row)), e.Action));
+                if ((this.ObtenerClaveUsuarioRowDeleted != null)) {
+                    this.ObtenerClaveUsuarioRowDeleted(this, new ObtenerClaveUsuarioRowChangeEvent(((ObtenerClaveUsuarioRow)(e.Row)), e.Action));
                 }
             }
             
@@ -2980,14 +3031,14 @@ namespace BSP.POS.DATOS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.ValidarTokenJWTRowDeleting != null)) {
-                    this.ValidarTokenJWTRowDeleting(this, new ValidarTokenJWTRowChangeEvent(((ValidarTokenJWTRow)(e.Row)), e.Action));
+                if ((this.ObtenerClaveUsuarioRowDeleting != null)) {
+                    this.ObtenerClaveUsuarioRowDeleting(this, new ObtenerClaveUsuarioRowChangeEvent(((ObtenerClaveUsuarioRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void RemoveValidarTokenJWTRow(ValidarTokenJWTRow row) {
+            public void RemoveObtenerClaveUsuarioRow(ObtenerClaveUsuarioRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -3014,7 +3065,7 @@ namespace BSP.POS.DATOS {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ValidarTokenJWTDataTable";
+                attribute2.FixedValue = "ObtenerClaveUsuarioDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -3296,6 +3347,255 @@ namespace BSP.POS.DATOS {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "LoginUsuarioDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ObtenerUsuarioPorTokenDataTable : global::System.Data.TypedTableBase<ObtenerUsuarioPorTokenRow> {
+            
+            private global::System.Data.DataColumn columnUSUARIO;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ObtenerUsuarioPorTokenDataTable() {
+                this.TableName = "ObtenerUsuarioPorToken";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ObtenerUsuarioPorTokenDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected ObtenerUsuarioPorTokenDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn USUARIOColumn {
+                get {
+                    return this.columnUSUARIO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ObtenerUsuarioPorTokenRow this[int index] {
+                get {
+                    return ((ObtenerUsuarioPorTokenRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ObtenerUsuarioPorTokenRowChangeEventHandler ObtenerUsuarioPorTokenRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ObtenerUsuarioPorTokenRowChangeEventHandler ObtenerUsuarioPorTokenRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ObtenerUsuarioPorTokenRowChangeEventHandler ObtenerUsuarioPorTokenRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ObtenerUsuarioPorTokenRowChangeEventHandler ObtenerUsuarioPorTokenRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddObtenerUsuarioPorTokenRow(ObtenerUsuarioPorTokenRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ObtenerUsuarioPorTokenRow AddObtenerUsuarioPorTokenRow(string USUARIO) {
+                ObtenerUsuarioPorTokenRow rowObtenerUsuarioPorTokenRow = ((ObtenerUsuarioPorTokenRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        USUARIO};
+                rowObtenerUsuarioPorTokenRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowObtenerUsuarioPorTokenRow);
+                return rowObtenerUsuarioPorTokenRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ObtenerUsuarioPorTokenDataTable cln = ((ObtenerUsuarioPorTokenDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ObtenerUsuarioPorTokenDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnUSUARIO = base.Columns["USUARIO"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnUSUARIO = new global::System.Data.DataColumn("USUARIO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUSUARIO);
+                this.columnUSUARIO.ReadOnly = true;
+                this.columnUSUARIO.MaxLength = 25;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ObtenerUsuarioPorTokenRow NewObtenerUsuarioPorTokenRow() {
+                return ((ObtenerUsuarioPorTokenRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ObtenerUsuarioPorTokenRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ObtenerUsuarioPorTokenRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ObtenerUsuarioPorTokenRowChanged != null)) {
+                    this.ObtenerUsuarioPorTokenRowChanged(this, new ObtenerUsuarioPorTokenRowChangeEvent(((ObtenerUsuarioPorTokenRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ObtenerUsuarioPorTokenRowChanging != null)) {
+                    this.ObtenerUsuarioPorTokenRowChanging(this, new ObtenerUsuarioPorTokenRowChangeEvent(((ObtenerUsuarioPorTokenRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ObtenerUsuarioPorTokenRowDeleted != null)) {
+                    this.ObtenerUsuarioPorTokenRowDeleted(this, new ObtenerUsuarioPorTokenRowChangeEvent(((ObtenerUsuarioPorTokenRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ObtenerUsuarioPorTokenRowDeleting != null)) {
+                    this.ObtenerUsuarioPorTokenRowDeleting(this, new ObtenerUsuarioPorTokenRowChangeEvent(((ObtenerUsuarioPorTokenRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveObtenerUsuarioPorTokenRow(ObtenerUsuarioPorTokenRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                POSDataSet ds = new POSDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ObtenerUsuarioPorTokenDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -4899,15 +5199,43 @@ namespace BSP.POS.DATOS {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class ValidarTokenJWTRow : global::System.Data.DataRow {
+        public partial class ObtenerClaveUsuarioRow : global::System.Data.DataRow {
             
-            private ValidarTokenJWTDataTable tableValidarTokenJWT;
+            private ObtenerClaveUsuarioDataTable tableObtenerClaveUsuario;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal ValidarTokenJWTRow(global::System.Data.DataRowBuilder rb) : 
+            internal ObtenerClaveUsuarioRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableValidarTokenJWT = ((ValidarTokenJWTDataTable)(this.Table));
+                this.tableObtenerClaveUsuario = ((ObtenerClaveUsuarioDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CLAVE {
+                get {
+                    try {
+                        return ((string)(this[this.tableObtenerClaveUsuario.CLAVEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CLAVE\' in table \'ObtenerClaveUsuario\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableObtenerClaveUsuario.CLAVEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCLAVENull() {
+                return this.IsNull(this.tableObtenerClaveUsuario.CLAVEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCLAVENull() {
+                this[this.tableObtenerClaveUsuario.CLAVEColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -5007,6 +5335,49 @@ namespace BSP.POS.DATOS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetUSUARIONull() {
                 this[this.tableLoginUsuario.USUARIOColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ObtenerUsuarioPorTokenRow : global::System.Data.DataRow {
+            
+            private ObtenerUsuarioPorTokenDataTable tableObtenerUsuarioPorToken;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ObtenerUsuarioPorTokenRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableObtenerUsuarioPorToken = ((ObtenerUsuarioPorTokenDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string USUARIO {
+                get {
+                    try {
+                        return ((string)(this[this.tableObtenerUsuarioPorToken.USUARIOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'USUARIO\' in table \'ObtenerUsuarioPorToken\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableObtenerUsuarioPorToken.USUARIOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUSUARIONull() {
+                return this.IsNull(this.tableObtenerUsuarioPorToken.USUARIOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUSUARIONull() {
+                this[this.tableObtenerUsuarioPorToken.USUARIOColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -5218,22 +5589,22 @@ namespace BSP.POS.DATOS {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public class ValidarTokenJWTRowChangeEvent : global::System.EventArgs {
+        public class ObtenerClaveUsuarioRowChangeEvent : global::System.EventArgs {
             
-            private ValidarTokenJWTRow eventRow;
+            private ObtenerClaveUsuarioRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ValidarTokenJWTRowChangeEvent(ValidarTokenJWTRow row, global::System.Data.DataRowAction action) {
+            public ObtenerClaveUsuarioRowChangeEvent(ObtenerClaveUsuarioRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ValidarTokenJWTRow Row {
+            public ObtenerClaveUsuarioRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -5268,6 +5639,40 @@ namespace BSP.POS.DATOS {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public LoginUsuarioRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ObtenerUsuarioPorTokenRowChangeEvent : global::System.EventArgs {
+            
+            private ObtenerUsuarioPorTokenRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ObtenerUsuarioPorTokenRowChangeEvent(ObtenerUsuarioPorTokenRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ObtenerUsuarioPorTokenRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -6587,7 +6992,7 @@ namespace BSP.POS.DATOS.POSDataSetTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class ValidarTokenJWTTableAdapter : global::System.ComponentModel.Component {
+    public partial class ObtenerClaveUsuarioTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -6601,7 +7006,7 @@ namespace BSP.POS.DATOS.POSDataSetTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public ValidarTokenJWTTableAdapter() {
+        public ObtenerClaveUsuarioTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -6696,6 +7101,11 @@ namespace BSP.POS.DATOS.POSDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitAdapter() {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "ObtenerClaveUsuario";
+            tableMapping.ColumnMappings.Add("CLAVE", "CLAVE");
+            this._adapter.TableMappings.Add(tableMapping);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6712,63 +7122,35 @@ namespace BSP.POS.DATOS.POSDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "BSP.ValidarTokenJWT";
+            this._commandCollection[0].CommandText = "BSP.ObtenerClaveUsuario";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TOKEN", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ESQUEMA", global::System.Data.SqlDbType.VarChar, 10, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@USUARIO", global::System.Data.SqlDbType.VarChar, 25, global::System.Data.ParameterDirection.InputOutput, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ROL", global::System.Data.SqlDbType.VarChar, 1, global::System.Data.ParameterDirection.InputOutput, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@USUARIO", global::System.Data.SqlDbType.VarChar, 25, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(POSDataSet.ValidarTokenJWTDataTable dataTable, string TOKEN, string ESQUEMA, ref string USUARIO, ref string ROL) {
+        public virtual int Fill(POSDataSet.ObtenerClaveUsuarioDataTable dataTable, string ESQUEMA, string USUARIO) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((TOKEN == null)) {
+            if ((ESQUEMA == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(TOKEN));
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(ESQUEMA));
             }
-            if ((ESQUEMA == null)) {
+            if ((USUARIO == null)) {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(ESQUEMA));
-            }
-            if ((USUARIO == null)) {
-                this.Adapter.SelectCommand.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[3].Value = ((string)(USUARIO));
-            }
-            if ((ROL == null)) {
-                this.Adapter.SelectCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[4].Value = ((string)(ROL));
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(USUARIO));
             }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
             int returnValue = this.Adapter.Fill(dataTable);
-            if (((this.Adapter.SelectCommand.Parameters[3].Value == null) 
-                        || (this.Adapter.SelectCommand.Parameters[3].Value.GetType() == typeof(global::System.DBNull)))) {
-                USUARIO = null;
-            }
-            else {
-                USUARIO = ((string)(this.Adapter.SelectCommand.Parameters[3].Value));
-            }
-            if (((this.Adapter.SelectCommand.Parameters[4].Value == null) 
-                        || (this.Adapter.SelectCommand.Parameters[4].Value.GetType() == typeof(global::System.DBNull)))) {
-                ROL = null;
-            }
-            else {
-                ROL = ((string)(this.Adapter.SelectCommand.Parameters[4].Value));
-            }
             return returnValue;
         }
         
@@ -6776,48 +7158,22 @@ namespace BSP.POS.DATOS.POSDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual POSDataSet.ValidarTokenJWTDataTable GetData(string TOKEN, string ESQUEMA, ref string USUARIO, ref string ROL) {
+        public virtual POSDataSet.ObtenerClaveUsuarioDataTable GetData(string ESQUEMA, string USUARIO) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((TOKEN == null)) {
+            if ((ESQUEMA == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(TOKEN));
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(ESQUEMA));
             }
-            if ((ESQUEMA == null)) {
+            if ((USUARIO == null)) {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(ESQUEMA));
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(USUARIO));
             }
-            if ((USUARIO == null)) {
-                this.Adapter.SelectCommand.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[3].Value = ((string)(USUARIO));
-            }
-            if ((ROL == null)) {
-                this.Adapter.SelectCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[4].Value = ((string)(ROL));
-            }
-            POSDataSet.ValidarTokenJWTDataTable dataTable = new POSDataSet.ValidarTokenJWTDataTable();
+            POSDataSet.ObtenerClaveUsuarioDataTable dataTable = new POSDataSet.ObtenerClaveUsuarioDataTable();
             this.Adapter.Fill(dataTable);
-            if (((this.Adapter.SelectCommand.Parameters[3].Value == null) 
-                        || (this.Adapter.SelectCommand.Parameters[3].Value.GetType() == typeof(global::System.DBNull)))) {
-                USUARIO = null;
-            }
-            else {
-                USUARIO = ((string)(this.Adapter.SelectCommand.Parameters[3].Value));
-            }
-            if (((this.Adapter.SelectCommand.Parameters[4].Value == null) 
-                        || (this.Adapter.SelectCommand.Parameters[4].Value.GetType() == typeof(global::System.DBNull)))) {
-                ROL = null;
-            }
-            else {
-                ROL = ((string)(this.Adapter.SelectCommand.Parameters[4].Value));
-            }
             return dataTable;
         }
     }
@@ -7040,6 +7396,201 @@ namespace BSP.POS.DATOS.POSDataSetTableAdapters {
                 this.Adapter.SelectCommand.Parameters[4].Value = ((string)(TOKEN));
             }
             POSDataSet.LoginUsuarioDataTable dataTable = new POSDataSet.LoginUsuarioDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class ObtenerUsuarioPorTokenTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private global::System.Data.SqlClient.SqlConnection _connection;
+        
+        private global::System.Data.SqlClient.SqlTransaction _transaction;
+        
+        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public ObtenerUsuarioPorTokenTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::System.Data.SqlClient.SqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "ObtenerUsuarioPorToken";
+            tableMapping.ColumnMappings.Add("USUARIO", "USUARIO");
+            this._adapter.TableMappings.Add(tableMapping);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = "Data Source=192.168.2.28;Initial Catalog=Prueba_Gestor_Servicios;User ID=sa;Passw" +
+                "ord=Sqld3s@rr0ll02019$$";
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "BSP.ObtenerUsuarioPorToken";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ESQUEMA", global::System.Data.SqlDbType.VarChar, 10, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TOKEN", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(POSDataSet.ObtenerUsuarioPorTokenDataTable dataTable, string ESQUEMA, string TOKEN) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((ESQUEMA == null)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(ESQUEMA));
+            }
+            if ((TOKEN == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(TOKEN));
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual POSDataSet.ObtenerUsuarioPorTokenDataTable GetData(string ESQUEMA, string TOKEN) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((ESQUEMA == null)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(ESQUEMA));
+            }
+            if ((TOKEN == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(TOKEN));
+            }
+            POSDataSet.ObtenerUsuarioPorTokenDataTable dataTable = new POSDataSet.ObtenerUsuarioPorTokenDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }

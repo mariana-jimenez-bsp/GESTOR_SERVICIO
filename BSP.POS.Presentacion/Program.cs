@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using BSP.POS.Presentacion;
 using BSP.POS.Presentacion.Interfaces.Clientes;
 using BSP.POS.Presentacion.Interfaces.Informes;
@@ -16,5 +17,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IClientesInterface, ClientesService>();
 builder.Services.AddScoped<IInformesInterface, InformesService>();
 builder.Services.AddScoped<IUsuariosInterface, UsuariosService>();
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();

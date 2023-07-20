@@ -1,9 +1,15 @@
 ﻿
 
+using BSP.POS.Presentacion.Models;
+
 namespace BSP.POS.Presentacion.Interfaces.Usuarios
 {
     public interface IUsuariosInterface
     {
-        Task<string> RealizarLogin(string USUARIO, string CLAVE);
+        mLogin UsuarioLogin { get; set; }
+        Task<mLogin> RealizarLogin(string USUARIO, string CLAVE);
+        string EncriptarClave(string clave);
+
+        Task<string> ValidarToken(string clave);
     }
 }

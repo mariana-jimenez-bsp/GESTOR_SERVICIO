@@ -1,4 +1,7 @@
 ﻿@page "/login"
+@inject IUsuariosInterface UsuariosService
+@inject ILocalStorageService localStorageService
+@inject NavigationManager navigationManager
 <head>
     <link href="css/login.css" rel="stylesheet" type="text/css" />
 </head>
@@ -15,11 +18,11 @@
                         <h3 class="text-light">Ingrese su información</h3>
                         <div class="form-group d-flex align-items-center">
                             <i class="fa-solid fa-envelope text-success bg-light p-2"></i>
-                            <InputText placeholder="Usuario..." class="form-control text-success" @bind-Value="@usuario" required />
+                    <input placeholder="Usuario..." type="text" class="form-control text-success" @oninput="ValorUsuario" required />
                         </div>
                         <div class="form-group d-flex align-items-center">
                             <i class="fa-solid fa-lock text-success bg-light p-2"></i>
-                            <InputText placeholder="Contraseña..." class="form-control text-success" @bind-Value="@contrasena" required />
+                    <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" required />
                         </div>
 
 
@@ -33,13 +36,53 @@
 @code {
     private string usuario { get; set; } = string.Empty;
     private string contrasena { get; set; } = string.Empty;
-
-    private void Ingresar()
+    private string valorSesion { get; set; } = string.Empty;
+    private string mensaje { get; set; } = string.Empty;
+    public mLogin usuarioLogin { get; set; } = new mLogin();
+    protected override void OnParametersSet()
     {
-        // Aquí puedes hacer lo que desees con los valores de usuario y contraseña
-        // Por ejemplo, podrías realizar una validación, autenticación, etc.
-        // Para este ejemplo, simplemente imprimiré los valores en la consola
-        Console.WriteLine("Usuario: " + usuario);
-        Console.WriteLine("Contraseña: " + contrasena);
+
+
+        if (usuarioLogin != null)
+        {
+            UsuariosService.UsuarioLogin = usuarioLogin;
+            Console.WriteLine(usuarioLogin.usuario);
+        }
+    }
+    private async Task Ingresar()
+    {
+        if (inputUsuario != null && inputClave != null)
+        {
+
+            usuarioLogin = await UsuariosService.RealizarLogin(inputUsuario, inputClave);
+            if (usuarioLogin != null)
+            {
+                await localStorageService.SetItemAsync<string>("token",usuarioLogin.token);
+                navigationManager.NavigateTo("/index");
+            }
+
+        }
+    }
+
+    private string inputUsuario { get; set; } = string.Empty;
+    private string inputClave { get; set; } = string.Empty;
+
+    private void ValorUsuario(ChangeEventArgs e)
+    {
+        if (e.Value.ToString() != null)
+        {
+            inputUsuario = e.Value.ToString();
+        }
+    }
+
+    
+
+
+    private void ValorClave(ChangeEventArgs e)
+    {
+        if (e.Value.ToString() != null)
+        {
+            inputClave = e.Value.ToString();
+        }
     }
 }
