@@ -4,10 +4,12 @@ using Blazored.LocalStorage;
 using BSP.POS.Presentacion;
 using BSP.POS.Presentacion.Interfaces.Clientes;
 using BSP.POS.Presentacion.Interfaces.Informes;
+using BSP.POS.Presentacion.Interfaces.Tiempos;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Services.Autorizacion;
 using BSP.POS.Presentacion.Services.Clientes;
 using BSP.POS.Presentacion.Services.Informes;
+using BSP.POS.Presentacion.Services.Tiempos;
 using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -21,6 +23,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IClientesInterface, ClientesService>();
 builder.Services.AddScoped<IInformesInterface, InformesService>();
 builder.Services.AddScoped<IUsuariosInterface, UsuariosService>();
+builder.Services.AddScoped<ITiemposInterface, TiemposService>();
 
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddAuthorizationCore();

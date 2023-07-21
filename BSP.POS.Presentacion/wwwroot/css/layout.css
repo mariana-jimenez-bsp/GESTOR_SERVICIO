@@ -2,9 +2,9 @@
     height: 100%;
     font-size: 12px;
 }
-#mouse-pointer {
-    cursor: pointer;
+.mouse-pointer {
     transition: background-color 0.3s;
+    cursor: pointer;
 }
 .search-input {
     border: none;

@@ -22,8 +22,8 @@ namespace BSP.POS.NEGOCIOS.Clientes
 
                 list = objCliente.ListaClientes(pEsquema);
 
-                string cliente = JsonConvert.SerializeObject(list);
-                return cliente;
+                string clientes = JsonConvert.SerializeObject(list);
+                return clientes;
             }
             catch (Exception ex)
             {
@@ -40,8 +40,8 @@ namespace BSP.POS.NEGOCIOS.Clientes
 
                 list = objCliente.ListaClientesRecientes(pEsquema);
 
-                string cliente = JsonConvert.SerializeObject(list);
-                return cliente;
+                string clientes = JsonConvert.SerializeObject(list);
+                return clientes;
             }
             catch (Exception ex)
             {

@@ -27,20 +27,21 @@
     </nav>
     <nav class="d-flex justify-content-end sections text-light pe-5">
         <div class="bg-success sections p-3">
- 
-            <a class="me-2 mouse-pointer" @onclick="() => ClickHandler(true)">Perfil <i class="mouse-pointer fa-regular fa-user ps-1"></i></a>
+
+        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <i class="mouse-pointer fa-regular fa-user ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
-            <a href="#" class="me-2">Tiempos <i class="fa-regular fa-clock ps-1"></i></a>
+        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerTiempos(true)">Tiempos <i class="fa-regular fa-clock ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
-            <a href="#" class="me-2">Clientes <i class="fa-solid fa-user-group ps-1"></i></a>
+            <a class="me-2 mouse-pointer">Clientes <i class="fa-solid fa-user-group ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
-            <a href="#" class="me-2">Proyectos <i class="fa-solid fa-briefcase ps-1"></i></a>
+            <a class="me-2 mouse-pointer">Proyectos <i class="fa-solid fa-briefcase ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
-            <a href="#">Actividades <i class="fa-solid fa-tv ps-1"></i></a>
+            <a class="mouse-pointer">Actividades <i class="fa-solid fa-tv ps-1"></i></a>
         </div>
     </nav>
 
-<ModalPerfil ActivarModal="@activarModal" OnClose="ClickHandler"></ModalPerfil>
+<ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
+<ModalTiempos ActivarModal="@activarModalTiempos" OnClose="ClickHandlerTiempos"></ModalTiempos>
 @code {
     private string inputValue { get; set; } = string.Empty;
     [Parameter]
@@ -65,11 +66,18 @@
         }
     }
 
-    bool activarModal = false;
+    bool activarModalPerfil = false;
+    bool activarModalTiempos = false;
 
-    void ClickHandler(bool activar)
+    void ClickHandlerPefil(bool activar)
     {
-        activarModal = activar;
+        activarModalPerfil = activar;
+        StateHasChanged();
+    }
+
+    void ClickHandlerTiempos(bool activar)
+    {
+        activarModalTiempos = activar;
         StateHasChanged();
     }
 }
