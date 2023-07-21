@@ -34,7 +34,7 @@
             <a class="vertical-line p-2 border-light"></a>
         <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerTiempos(true)">Tiempos <i class="fa-regular fa-clock ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
-            <a class="me-2 mouse-pointer">Clientes <i class="fa-solid fa-user-group ps-1"></i></a>
+        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <i class="fa-solid fa-user-group ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
             <a class="me-2 mouse-pointer">Proyectos <i class="fa-solid fa-briefcase ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
@@ -44,6 +44,7 @@
 
 <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
 <ModalTiempos ActivarModal="@activarModalTiempos" OnClose="ClickHandlerTiempos"></ModalTiempos>
+<ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
 @code {
     private string inputValue { get; set; } = string.Empty;
     [Parameter]
@@ -77,6 +78,7 @@
 
     bool activarModalPerfil = false;
     bool activarModalTiempos = false;
+    bool activarModalClientes = false;
 
     void ClickHandlerPefil(bool activar)
     {
@@ -87,6 +89,12 @@
     void ClickHandlerTiempos(bool activar)
     {
         activarModalTiempos = activar;
+        StateHasChanged();
+    }
+
+    void ClickHandlerClientes(bool activar)
+    {
+        activarModalClientes = activar;
         StateHasChanged();
     }
 }
