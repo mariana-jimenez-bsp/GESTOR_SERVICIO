@@ -1,5 +1,4 @@
 ﻿using BSP.POS.DATOS.POSDataSetTableAdapters;
-using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.UTILITARIOS.Usuarios;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using clSeguridad;
+
 using System.Security.Cryptography;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,7 +16,7 @@ namespace BSP.POS.DATOS.Usuarios
 {
     public class D_Login
     {
-        Cryptografia _Cryptografia = new Cryptografia();
+
         public U_LoginToken Login(U_Login pLogin)
         {
             POSDataSet.LoginUsuarioDataTable _tabla = new POSDataSet.LoginUsuarioDataTable();

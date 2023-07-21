@@ -10,5 +10,10 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task<mLogin> RealizarLogin(string USUARIO, string CLAVE);
         string EncriptarClave(string clave);
 
+        mPerfil Perfil { get; set; }
+        Task ObtenerPerfil(string usuario);
+
+        Task ActualizarPefil(mPerfil perfil);
+
     }
 }

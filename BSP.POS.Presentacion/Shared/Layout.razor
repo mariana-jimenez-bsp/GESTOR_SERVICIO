@@ -1,4 +1,6 @@
-﻿<head>
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<head>
 
         <link href="css/layout.css" rel="stylesheet" type="text/css" />
 </head>
@@ -46,8 +48,15 @@
     private string inputValue { get; set; } = string.Empty;
     [Parameter]
     public EventCallback<string> Texto { get; set; }
-    [Parameter]
     public string UsuarioActual { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+        UsuarioActual = user.Identity.Name;
+    }
     private void ActualizarValor(ChangeEventArgs e)
     {
         if (e.Value.ToString() != null)

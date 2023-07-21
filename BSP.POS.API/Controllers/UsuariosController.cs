@@ -7,6 +7,7 @@ using clSeguridad;
 using System;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
+using BSP.POS.UTILITARIOS.Tiempos;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -18,10 +19,10 @@ namespace BSP.POS.API.Controllers
         private readonly string _secretKey;
 
         Cryptografia _Cryptografia = new Cryptografia();
-        private N_Login login;
+        private N_Usuarios user;
         public UsuariosController()
         {
-            login = new N_Login();
+            user = new N_Usuarios();
             var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
@@ -40,7 +41,7 @@ namespace BSP.POS.API.Controllers
                 nuevoLogin.esquema = "BSP";
                 nuevoLogin.key = _secretKey;
 
-                var usuarioLogeado = login.Login(nuevoLogin);
+                var usuarioLogeado = user.Login(nuevoLogin);
                 return usuarioLogeado;
             }
             catch(Exception ex) 
@@ -56,7 +57,7 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string token = datos.token.Trim('"');
-                var usuarioLogeado = login.ValidarToken(token);
+                var usuarioLogeado = user.ValidarToken(token);
 
                 return usuarioLogeado;
             }
@@ -65,8 +66,49 @@ namespace BSP.POS.API.Controllers
             {
                 return ex.Message;
             }
-        } 
+        }
 
-       
+        [HttpGet("ObtenerPerfil/{usuario}")]
+        public string ObtengaElClienteAsociado(string usuario)
+        {
+            try
+            {
+                string esquema = "BSP";
+                var perfil = user.ObtenerPerfil(esquema, usuario);
+                return perfil;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [HttpPost("ActualizarPerfil")]
+        public string ActualizarPerfil([FromBody] mPerfil datos)
+        {
+            try
+            {
+                U_Perfil perfil = new U_Perfil();
+                    perfil.id = datos.id;
+                    perfil.correo = datos.correo;
+                    perfil.clave = datos.clave;
+                    perfil.usuario = datos.usuario;
+                    perfil.nombre = datos.nombre;
+                    perfil.rol = datos.rol;
+                
+
+                string mensaje = user.ActualizarPerfil(perfil);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+
     }
 }

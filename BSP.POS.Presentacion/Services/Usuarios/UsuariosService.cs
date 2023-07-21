@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models;
+using BSP.POS.UTILITARIOS.Tiempos;
 using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
@@ -12,7 +13,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
     {
         private readonly HttpClient _http;
         public mLogin UsuarioLogin { get; set; } = new mLogin();
-
+        public mPerfil Perfil { get; set; } = new mPerfil();
         public UsuariosService(HttpClient htpp)
         {
             _http = htpp;
@@ -44,8 +45,38 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 return Convert.ToBase64String(hash);
             }
         }
+        
+        public async Task ObtenerPerfil(string usuario)
+        {
+            var perfilJson = await _http.GetAsync("https://localhost:7032/api/Usuarios/ObtenerPerfil/" + usuario);
+            if (perfilJson.StatusCode == HttpStatusCode.OK)
+            {
+                Perfil = await perfilJson.Content.ReadFromJsonAsync<mPerfil?>();
 
-      
+            }
+
+        }
+
+        public async Task ActualizarPefil(mPerfil perfil)
+        {
+
+            try
+            {
+                if (perfil.clave != null)
+                {
+                    perfil.clave = EncriptarClave(perfil.clave);
+                }
+                string url = "https://localhost:7032/api/Usuarios/ActualizarPerfil";
+                string jsonData = JsonSerializer.Serialize(perfil);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
     }
 
