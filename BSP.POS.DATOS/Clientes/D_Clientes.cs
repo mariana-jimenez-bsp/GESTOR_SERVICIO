@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.DATOS.POSDataSetTableAdapters;
+using BSP.POS.UTILITARIOS.Tiempos;
 
 namespace BSP.POS.DATOS.Clientes
 {
@@ -86,6 +87,29 @@ namespace BSP.POS.DATOS.Clientes
 
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
+        }
+
+        public string ActualizarListaDeClientes(List<U_ListaClientes> pClientes)
+        {
+            POSDataSet.ActualizarListaDeClientesDataTable bTabla = new POSDataSet.ActualizarListaDeClientesDataTable();
+            ActualizarListaDeClientesTableAdapter sp = new ActualizarListaDeClientesTableAdapter();
+            try
+            {
+                foreach (var cliente in pClientes)
+                {
+                    var response = sp.GetData(cliente.CLIENTE, cliente.NOMBRE, cliente.ALIAS, cliente.CONTRIBUYENTE, cliente.TELEFONO);
+
+                }
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
         }
 
 

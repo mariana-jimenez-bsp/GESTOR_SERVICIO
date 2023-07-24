@@ -10,5 +10,6 @@ namespace BSP.POS.Presentacion.Interfaces.Clientes
         Task ObtenerListaClientesRecientes();
         mClienteAsociado ClienteAsociado { get; set; }
         Task<mClienteAsociado?> ObtenerClienteAsociado(string cliente);
+        Task ActualizarListaDeClientes(List<mClientes> listaClientes);
     }
 }

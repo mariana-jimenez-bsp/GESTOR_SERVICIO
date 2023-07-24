@@ -1,41 +1,82 @@
-﻿
-<head>
-    <link href="css/modalClientes.css" rel="stylesheet" type="text/css" />
-</head>
-
-<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+﻿@inject IClientesInterface ClientesService
+@inject IInformesInterface InformesService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<div id='modal' class='modal' style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content bg-light">
 
         <div class="modal-header d-flex justify-content-center text-primary">
             <h2>Clientes <i class="fa-solid fa-user-group fa-xl"></i></h2>
         </div>
 
-        <div class="modal-body d-flex row g-2 text-center bg-light">
+        <div class=" modal-body d-flex row g-2 text-center bg-light ">
             <div class="container mt-5 border-transparent">
                 <!-- Utilizamos el componente Accordion de Bootstrap -->
-                <div id="accordion" class="border-transparentbg-primary-subtle">
+
+                <div id="accordion" class="border-transparent max-height-client overflow-auto scrollbar-modal-client">
                     <!-- Desplegable 1 -->
-                    <div class="card border-transparent pb-3 bg-primary-subtle">
-                        <div class="card-header row" id="headingOne">
+                    @if (clientes != null)
+                        {
+                        int index = 0;
+                        foreach (var cliente in clientes)
+                        {
+                            int cont = index;
+                         <div class="card border-transparent pb-3">
+                             <div class="card-header row @cambioColores[cont].bg_color" id="headingOne">
                             <div class="mb-0 col-md-2">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
+                                @if (desplegables[cont].IsOpen)
+                                {
+                                    <input class="w-100 text-center blue-good border-success rounded-pill" type="text" value="@cliente.NOMBRE" @oninput="(e) => CambioNombre(e, cliente.CLIENTE)">
+                                }
+                                else
+                                {
+                                  <label class="w-100 text-center blue-good">@cliente.NOMBRE</label>
+                                }
                             </div>
                             <div class="mb-0 col-md-3">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
+                                @if (desplegables[cont].IsOpen)
+                                {
+                                            <input class="w-100 text-center blue-good border-success rounded-pill" type="text" value="@cliente.ALIAS" @oninput="(e) => CambioAlias(e, cliente.CLIENTE)">
+                                }
+                                else
+                                {
+                                            <label class="w-100 text-center blue-good">@cliente.ALIAS</label>
+                                }
                             </div>
                             <div class="mb-0 col-md-2">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
+                                        @if (desplegables[cont].IsOpen)
+                                {
+                                            <input class="w-100 text-center blue-good border-success rounded-pill" type="text" value="@cliente.CONTRIBUYENTE" @oninput="(e) => CambioContribuyente(e, cliente.CLIENTE)">
+                                }
+                                else
+                                {
+                                            <label class="w-100 text-center blue-good">@cliente.CONTRIBUYENTE</label>
+                                }
                             </div>
                             <div class="mb-0  col-md-3">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
+                                @if (desplegables[cont].IsOpen)
+                                {
+                                    <input class="w-100 text-center blue-good border-success rounded-pill" type="text" value="@cliente.TELEFONO" @oninput="(e) => CambioTelefono(e, cliente.CLIENTE)">
+                                }
+                                else
+                                {
+                                            <label class="w-100 text-center blue-good">@cliente.TELEFONO</label>
+                                }
                             </div>
                             <div class="mb-0 col-md-1">
-                                <i class="fa-solid fa-sort-down d-flex justify-content-end" data-toggle="collapse" data-target="#contenidoDesplegable1" aria-expanded="true" aria-controls="contenidoDesplegable1"></i>
-
+                                @if (desplegables[cont].IsOpen)
+                                {
+                                    <i class="fa-solid fa-caret-up d-flex justify-content-end text-success" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cont)"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-sort-down d-flex justify-content-end blue-good" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cont)"></i>
+                                }
+                                
+                                
                             </div>
                         </div>
 
-                        <div id="contenidoDesplegable1" class="collapse border-transparent" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div id="contenidoDesplegable-@cont" class="collapse border-transparent bg-primary-subtle" aria-labelledby="heading-@cont" data-parent="#accordion">
                             <!-- Contenido del desplegable 1 -->
                             <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
                             <div class="card-header row border-transparent">
@@ -57,27 +98,27 @@
 
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
-                                <div class="content w-75">
+                                <div class="content w-75 pb-3">
                                     <div class="row p-2 blue-good-bg text-light border border-primary rounded-top-4">
                                         <div class="col-md-4">
                                             <span>Usuario</span>
                                         </div>
                                         <div class="col-md-4">
-                                            <span>Usuario</span>
+                                            <span>Departamento</span>
                                         </div>
                                         <div class="col-md-4">
-                                            <span>Usuario</span>
+                                            <span>Correo</span>
                                         </div>
                                     </div>
                                     <div class="row p-2 blue-good border-bottom border-start border-end border-success">
                                         <div class="col-md-4">
-                                            <span>Usuario</span>
+                                        <span>@cliente.CONTACTO</span>
                                         </div>
                                         <div class="col-md-4">
-                                            <span>Usuario</span>
+                                           <span>@cliente.CARGO</span>
                                         </div>
                                         <div class="col-md-4">
-                                            <span>Usuario</span>
+                                          <span>@cliente.E_MAIL</span>
                                         </div>
                                     </div>
                                     <div class="row p-2 blue-good border-bottom border-start border-end border-success">
@@ -108,126 +149,18 @@
                             <!-- Agrega más elementos aquí -->
                         </div>
                     </div>
-
-                    <!-- Desplegable 2 -->
-                    <div class="card border-transparent pb-3 bg-primary-subtle">
-                        <div class="card-header row" id="headingTwo">
-                            <div class="mb-0 col-md-2">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
-                            </div>
-                            <div class="mb-0 col-md-3">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
-                            </div>
-                            <div class="mb-0 col-md-2">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
-                            </div>
-                            <div class="mb-0  col-md-3">
-                                <input class="w-100 text-center blue-good border-0" type="text" name="" id="" value="Papers">
-                            </div>
-                            <div class="mb-0 col-md-1">
-                                <i class="fa-solid fa-sort-down d-flex justify-content-end" data-toggle="collapse" data-target="#contenidoDesplegable2" aria-expanded="true" aria-controls="contenidoDesplegable2"></i>
-                            </div>
-                        </div>
-
-
-                        <div id="contenidoDesplegable2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                            <!-- Contenido del desplegable 2 -->
-                            <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
-                            <div class="card-header row border-transparent">
-                                <div class="col-md-2">
-                                    <label class="text-center w-100 green-good" for="">Nombre</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="me-2 text-center w-100 green-good" for="">Razón Social</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="ms-2 text-center w-100 green-good" for="">Cédula Jurídica</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="ms-3 text-center w-100 green-good" for="">Télefono</label>
-                                </div>
-                                <div class="col-md-1">
-                                    <i class="fa-solid fa-sort-down " style="color: transparent"></i>
-                                </div>
-
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="content w-75">
-                                    <div class="row p-2 blue-good-bg text-light border border-primary rounded-top-4">
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                    </div>
-                                    <div class="row p-2 blue-good border-bottom border-start border-end border-success">
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                    </div>
-                                    <div class="row p-2 blue-good border-bottom border-start border-end border-success">
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                    </div>
-                                    <div class="row p-2 blue-good border-bottom border-start border-end border-success rounded-bottom-4">
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>Usuario</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!-- Agrega más elementos aquí -->
-                        </div>
-                    </div>
-
+                    index++;
+                    }
+                    }
                     <!-- Agrega más desplegables aquí si es necesario -->
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar">Descartar cambios</button>
-            <button class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
+            <button @onclick="() => ActualizarListaClientes()" class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
         </div>
     </div>
 </div>
 
-@code {
-    [Parameter] public bool ActivarModal { get; set; } = false;
-    [Parameter] public EventCallback<bool> OnClose { get; set; }
 
-    private void OpenModal()
-    {
-        ActivarModal = true;
-    }
-
-    private async Task CloseModal()
-    {
-        await OnClose.InvokeAsync(false);
-
-    }
-}

@@ -7,6 +7,7 @@ using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.DATOS.Clientes;
 using Newtonsoft.Json;
 using System.Security.Permissions;
+using BSP.POS.UTILITARIOS.Tiempos;
 
 namespace BSP.POS.NEGOCIOS.Clientes
 {
@@ -66,6 +67,13 @@ namespace BSP.POS.NEGOCIOS.Clientes
 
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
+        }
+
+        public string ActualizarListaDeClientes(List<U_ListaClientes> pClientes)
+        {
+            string mensaje = string.Empty;
+            mensaje = objCliente.ActualizarListaDeClientes(pClientes);
+            return mensaje;
         }
     }
 }

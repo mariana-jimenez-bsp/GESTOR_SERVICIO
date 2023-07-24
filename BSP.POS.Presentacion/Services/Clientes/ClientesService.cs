@@ -3,7 +3,8 @@ using BSP.POS.Presentacion.Models;
 using BSP.POS.UTILITARIOS.Clientes;
 using System.Net;
 using System.Net.Http.Json;
-
+using System.Text.Json;
+using System.Text;
 namespace BSP.POS.Presentacion.Services.Clientes
 {
     public class ClientesService : IClientesInterface
@@ -46,6 +47,24 @@ namespace BSP.POS.Presentacion.Services.Clientes
             {
                 ListaClientesRecientes = listaClientesRecientes;
             }
+        }
+
+        public async Task ActualizarListaDeClientes(List<mClientes> listaClientes)
+        {
+            try
+            {
+                string url = "https://localhost:7032/api/Clientes/ActualizaListaDeClientes";
+                string jsonData = JsonSerializer.Serialize(listaClientes);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
         }
     }
 }

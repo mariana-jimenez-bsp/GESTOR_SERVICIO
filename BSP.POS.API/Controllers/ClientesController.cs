@@ -3,6 +3,7 @@ using BSP.POS.NEGOCIOS.Clientes;
 using BSP.POS.UTILITARIOS.Clientes;
 using Newtonsoft.Json;
 using BSP.POS.API.Models;
+using BSP.POS.UTILITARIOS.Tiempos;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -69,6 +70,33 @@ namespace BSP.POS.API.Controllers
             
         }
 
-        
+        [HttpPost("ActualizaListaDeClientes")]
+        public string ActualizaListaDeClientes([FromBody] List<mClientes> datos)
+        {
+            try
+            {
+                List<U_ListaClientes> listaClientes = new List<U_ListaClientes>();
+                foreach (var item in datos)
+                {
+                    U_ListaClientes cliente = new U_ListaClientes();
+                    cliente.CLIENTE = item.CLIENTE;
+                    cliente.NOMBRE = item.NOMBRE;
+                    cliente.ALIAS = item.ALIAS;
+                    cliente.CONTRIBUYENTE = item.CONTRIBUYENTE;
+                    cliente.TELEFONO = item.TELEFONO;
+                    listaClientes.Add(cliente);
+                }
+
+                string mensaje = clientes.ActualizarListaDeClientes(listaClientes);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+
     }
 }
