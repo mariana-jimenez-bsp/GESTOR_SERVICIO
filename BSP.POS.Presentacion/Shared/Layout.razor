@@ -1,5 +1,5 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
-
+@inject NavigationManager navigationManager
 <head>
 
         <link href="css/layout.css" rel="stylesheet" type="text/css" />
@@ -11,13 +11,23 @@
     </header>
     <nav class="p-3 shadow-lg">
         <div class="d-flex align-items-center ps-5">
+        @if (navigationManager.Uri.Contains("/editar"))
+        {
             <div class="d-flex justify-content-start align-items-center">
-            <button class="search-icon text-light">
-                <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;" @onclick="() => EnviarTextoABuscar(inputValue)"></i>
-            </button>
-            <input type="text" placeholder="Buscar..." class="text-light search-input" @oninput="ActualizarValor" />
-                
+            <h3 class="text-primary">Informe de Servicios</h3>
             </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-start align-items-center">
+                <button class="search-icon text-light">
+                    <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;" @onclick="() => EnviarTextoABuscar(inputValue)"></i>
+                </button>
+                <input type="text" width="100" placeholder="Buscar..." class="text-light search-input" @oninput="ActualizarValor" />
+
+            </div>
+        }
+
             <div class="ms-auto text-primary pe-5">
                 <a href="#" class="me-2">Configuracion <i class="fa-solid fa-gear ps-2"></i></a>
                 <a class="vertical-line p-2 border-primary"></a>
