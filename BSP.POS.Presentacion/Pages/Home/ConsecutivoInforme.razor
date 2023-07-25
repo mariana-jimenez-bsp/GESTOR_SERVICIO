@@ -1,4 +1,5 @@
 ﻿@inject IInformesInterface InformesService
+@inject NavigationManager navigationManager
 <div class="d-flex align-items-center ps-5 footer-right">
     @if (Consecutivo != string.Empty)
     {
@@ -7,9 +8,9 @@
             <h4># @Consecutivo</h4>
         </div>
         <div class="ms-auto d-flex">
-            <div class="d-flex row text-center">
+            <div class="d-flex row text-center mouse-pointer " @onclick="IrAEditar">
                 <i class="fa-solid fa-pen-to-square mb-2"></i>
-                <a href="">Editar</a>
+                <a >Editar</a>
             </div>
             <div class="d-flex row text-center">
                 <i class="fa-solid fa-check-to-slot mb-2"></i>
@@ -33,5 +34,11 @@
             Consecutivo = consecutivo;
 
         }
+    }
+
+    private void IrAEditar()
+    {
+
+        navigationManager.NavigateTo($"Editar/{Consecutivo}");
     }
 }

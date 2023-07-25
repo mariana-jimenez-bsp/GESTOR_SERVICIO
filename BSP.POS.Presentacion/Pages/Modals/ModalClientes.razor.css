@@ -107,3 +107,7 @@
 .max-height-client {
     max-height: 300px;
 }
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}

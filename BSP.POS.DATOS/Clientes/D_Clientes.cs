@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.DATOS.POSDataSetTableAdapters;
-using BSP.POS.UTILITARIOS.Tiempos;
+
 
 namespace BSP.POS.DATOS.Clientes
 {

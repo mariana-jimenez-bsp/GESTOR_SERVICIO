@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Informes;
 using BSP.POS.Presentacion.Models;
 using BSP.POS.Presentacion.Pages.Home;
+using System.Net;
 using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
 
@@ -15,7 +16,8 @@ namespace BSP.POS.Presentacion.Services.Informes
             _http = htpp;
         }
         public List<mInformes> ListaInformesAsociados { get; set; } = new List<mInformes>();
-
+        public mInformeAsociado InformeAsociado { get; set; } = new mInformeAsociado();
+        
 
         public async Task ObtenerListaDeInformesAsociados(string cliente)
         {
@@ -24,6 +26,16 @@ namespace BSP.POS.Presentacion.Services.Informes
             {
                 ListaInformesAsociados = listaInformesAsociados;
             }
+        }
+
+        public async Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo)
+        {
+            var informeAsociadoJson = await _http.GetAsync("https://localhost:7032/api/Informes/ObtengaElInformeAsociado/" + consecutivo);
+            if (informeAsociadoJson.StatusCode == HttpStatusCode.OK)
+            {
+                return await informeAsociadoJson.Content.ReadFromJsonAsync<mInformeAsociado?>();
+            }
+            return null;
         }
 
     }

@@ -35,6 +35,23 @@ namespace BSP.POS.API.Controllers
            
         }
 
-       
+        [HttpGet("ObtengaElInformeAsociado/{consecutivo}")]
+        public string ObtengaElInformeAsociado(string consecutivo)
+        {
+            try
+            {
+                string esquema = "BSP";
+                var informeAsociadoJson = informes.ObtenerInformeAsociado(esquema, consecutivo);
+                return informeAsociadoJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+
     }
 }

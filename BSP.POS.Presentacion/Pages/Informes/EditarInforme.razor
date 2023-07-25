@@ -1,53 +1,54 @@
-﻿@page "/Editar"
-
+﻿@page "/Editar/{consecutivo}"
+@inject IInformesInterface InformesService
+@inject IClientesInterface ClientesService
+@inject IActividadesInterface ActividadesService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
 <Layout ></Layout>
 <div class="container-fluid p-2 pe-5 ps-5">
     <div class="row">
         <div class="col-md-6">
             <div class="row p-2">
                 <div class="col-md-6 d-flex row text-center">
-                    <span class="blue-good">Fecha: <span class="text-success">12/07/2023</span></span>
-                    <span class="blue-good">Hora Inicio: <span class="text-success">3:00 pm</span></span>
+                    <span class="blue-good">Fecha: <span class="text-success">@informe.fecha_consultoria</span></span>
+                     <span class="blue-good">Hora Inicio: <span class="text-success">@hora_inicio_reducida hs</span></span>
                 </div>
                 <div class="col-md-6 d-flex row text-center">
-                    <span class="blue-good">Cliente: <span class="text-success">Farmacia</span></span>
-                    <span class="blue-good">Hora de Fin: <span class="text-success">5:00 pm</span></span>
+                    <span class="blue-good">Cliente: <span class="text-success">@ClienteAsociado.NOMBRE</span></span>
+                    <span class="blue-good">Hora de Fin: <span class="text-success">@hora_final_reducida hs</span></span>
                 </div>
             </div>
             <div class="row content bg-body-secondary table-height rounded-start-5">
                 <div class="row text-center p-2 blue-good">
-                    <div class="col-md-4">
+                    <div class="col-md-4 p-2">
                         <span>Nombre</span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 p-2">
                         <span>Dep.</span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" >
                         <span>Aceptación</span>
                     </div>
                 </div>
                 <div class="row p-2 text-center">
                     <div class="col-md-4">
-                        <span>Hernan Hernanez</span>
+                      <span>@ClienteAsociado.CONTACTO</span>
                     </div>
                     <div class="col-md-4">
-                        <span>Informática</span>
+                        <span>@ClienteAsociado.CARGO</span>
                     </div>
-                    <div class="col-md-4">
-                        <input type="checkbox" class="custom-checkbox" id="myCheckbox">
-                        <label for="myCheckbox"></label>
-                    </div>
-                </div>
-                <div class="row p-2 text-center">
-                    <div class="col-md-4">
-                        <span>Hernan Hernanez</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span>Informática</span>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="checkbox" class="custom-checkbox" id="myCheckbox2">
-                        <label for="myCheckbox2"></label>
+                    <div class="col-md-4 pt-0 mt-0">
+
+                        @if(informe.estado == "Finalizado"){
+                            <input type="checkbox" class="custom-checkbox" id="myCheckbox" checked>
+                            <label class="label-transparent" for="myCheckbox">|</label>
+                        }else{
+                            <input type="checkbox" class="custom-checkbox" id="myCheckbox">
+                            <label class="label-transparent" for="myCheckbox">|</label>
+                        }
+                        
                     </div>
                 </div>
                 <div class="row p-2 text-center">
@@ -58,8 +59,20 @@
                         <span>Informática</span>
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" class="custom-checkbox" id="myCheckbox3">
-                        <label for="myCheckbox3"></label>
+                                <input type="checkbox" class="custom-checkbox" id="myCheckbox2">
+                                <label class="label-transparent" for="myCheckbox2">|</label>
+                    </div>
+                </div>
+                <div class="row p-2 text-center">
+                    <div class="col-md-4">
+                        <span>Hernan Hernanez</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span>Informática</span>
+                    </div>
+                    <div class="col-md-4">
+                                <input type="checkbox" class="custom-checkbox" id="myCheckbox3">
+                                <label class="label-transparent" for="myCheckbox3">|</label>
                     </div>
                 </div>
 
@@ -72,13 +85,17 @@
         </div>
         <div class="col-md-6">
             <div class="p-2 d-flex justify-content-between align-items-center">
-                <span class="blue-good">Informe #4535</span>
-                <span class="text-success">Modalidad </span>
+                <span class="blue-good">Informe #@informe.consecutivo</span>
+                <select class=" text-success border-0">
+                        <option selected>Modalidad</option>
+                        <option value="Virtual">Virtual</option>
+                        <option value="Presencial">Presencial</option>
+                </select>
             </div>
 
             <div class="content text-light">
-                <div class="row bg-primary pe-0 ps-0 ms-0 content-behind">
-                    <div class="ps-0 ms-0 blue-good-bg height-footer content-behind content-behind-bottom ">
+                <div class="row bg-primary pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
+                    <div class="ps-0 ms-0 blue-good-bg content-behind content-behind-bottom ">
                         <div class="row text-center p-2 blue-good-bg ms-0 content-behind">
                             <div class="col-md-4">
                                 <h5>Actividad</h5>
@@ -90,53 +107,37 @@
                                 <h5>HS No Cobradas</h5>
                             </div>
                         </div>
-                        <div class="row p-2 text-center ms-0">
-                            <div class="col-md-4">
-                                <span>Instalación</span>
-                            </div>
-                            <div class="col-md-4">
-                                <span>9 horas</span>
-                            </div>
-                            <div class="col-md-4">
-                                <span>9 horas</span>
-                            </div>
-                        </div>
-                        <div class="row p-2 text-center ms-0">
-                            <div class="col-md-4">
-                                <span>Instalación</span>
-                            </div>
-                            <div class="col-md-4">
-                                <span>9 horas</span>
-                            </div>
-                            <div class="col-md-4">
-                                <span>9 horas</span>
-                            </div>
-                        </div>
-                        <div class="row p-2 text-center ms-0">
-                            <div class="col-md-4">
-                                <span>Instalación</span>
-                            </div>
-                            <div class="col-md-4">
-                                <span>9 horas</span>
-                            </div>
-                            <div class="col-md-4">
-                                <span>9 horas</span>
-                            </div>
-                        </div>
+                        <div class="overflow-auto max-height-col scrollbar-report height-footer ">
+                        @if(listaActividades != null){
+                            @foreach (var actividad in listaActividades)
+                            {
+                                  <div class="row p-2 text-center ms-0">
+                                        <div class="col-md-4">
+                                            <span>@actividad.Actividad</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span>@actividad.horas_cobradas</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span>@actividad.horas_no_cobradas</span>
+                                        </div>
+                                    </div>
+                            }
+                        }      
                     </div>
                 </div>
-                <div class="row p-3 ms-0 text-center bg-primary rounded-bottom-5">
+                <div class="row p-4 ms-0 text-center bg-primary rounded-bottom-5">
                     <div class="col-md-4">
                         <span>Total de Horas</span>
                     </div>
                     <div class="col-md-4">
-                        <span>27 horas</span>
+                        <span>@total_horas_cobradas</span>
                     </div>
                     <div class="col-md-4">
-                        <span>27 horas</span>
+                        <span>@total_horas_no_cobradas</span>
                     </div>
                 </div>
-
+                </div>
             </div>
             <div class="p-2 text-success d-flex justify-content-center m-3">
                 <div class="d-flex row text-center">
@@ -155,7 +156,55 @@
         </div>
     </div>
 </div>
+    </Authorized>
+</AuthorizeView>
 
 @code {
+    [Parameter]
+    public string Consecutivo { get; set; } = string.Empty;
+    public mInformeAsociado informe { get; set; } = new mInformeAsociado();
+    public mClienteAsociado ClienteAsociado = new mClienteAsociado();
+    public List<mActividades> listaActividades = new List<mActividades>();
+    public decimal total_horas_cobradas = 0;
+    public decimal total_horas_no_cobradas = 0;
+    public string hora_inicio_reducida { get; set; } = string.Empty;
+    public string hora_final_reducida { get; set; } = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        if (!string.IsNullOrEmpty(Consecutivo))
+        {
+
+            InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo);
+            if (InformesService.InformeAsociado != null){
+                informe = InformesService.InformeAsociado;
+                hora_inicio_reducida = informe.hora_inicio.Substring(0, 5);
+                hora_final_reducida = informe.hora_final.Substring(0, 5);
+                ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente);
+                if (ClientesService.ClienteAsociado != null)
+                {
+                    ClienteAsociado = ClientesService.ClienteAsociado;
+                }
+                await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo);
+                if(ActividadesService.ListaActividadesAsociadas != null)
+                {
+                    listaActividades = ActividadesService.ListaActividadesAsociadas;
+                    try
+                    {
+                        total_horas_cobradas = listaActividades.Sum(act => decimal.Parse(act.horas_cobradas));
+                        total_horas_no_cobradas = listaActividades.Sum(act => decimal.Parse(act.horas_no_cobradas));
+                    }
+                    catch
+                    {
+                        total_horas_cobradas = 0;
+                        total_horas_no_cobradas = 0;
+                    }
+                    
+                }
+
+            }
+        }
+    }
 
 }

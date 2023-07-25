@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.DATOS.Clientes;
 using Newtonsoft.Json;
-using System.Security.Permissions;
-using BSP.POS.UTILITARIOS.Tiempos;
+
 
 namespace BSP.POS.NEGOCIOS.Clientes
 {

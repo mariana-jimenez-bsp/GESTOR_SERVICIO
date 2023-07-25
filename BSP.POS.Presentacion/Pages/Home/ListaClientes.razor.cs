@@ -33,9 +33,10 @@ namespace BSP.POS.Presentacion.Pages.Home
         private async Task EnviarInformesAsociados(string cliente)
         {
             await InformesService.ObtenerListaDeInformesAsociados(cliente);
-            if (await ClientesService.ObtenerClienteAsociado(cliente) != null)
+            ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(cliente);
+            if (ClientesService.ClienteAsociado != null)
             {
-                ClienteAsociado = await ClientesService.ObtenerClienteAsociado(cliente);
+                ClienteAsociado = ClientesService.ClienteAsociado;
             }
 
             if (InformesService.ListaInformesAsociados != null)

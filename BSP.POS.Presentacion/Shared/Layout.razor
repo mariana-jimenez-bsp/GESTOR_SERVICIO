@@ -6,12 +6,12 @@
 </head>
     <header class="d-flex justify-content-between align-items-center -3 py-2 bg-primary text-light">
 
-        <div class="fw-bold p-2 ps-5"><h1>Gestor de Servicios</h1></div>
+        <div class="fw-bold p-2 ps-5 mouse-pointer" @onclick="IrAlInicio"><h1>Gestor de Servicios</h1></div>
         <div class="fw-bold p-2 pe-5"><img src="https://images.squarespace-cdn.com/content/v1/52eaead0e4b0fd67cc51a9d3/ddebd217-d40d-4530-b0ea-64bb7b84329c/BSP+Consulting.png" width="50" height="50"></div>
     </header>
     <nav class="p-3 shadow-lg">
         <div class="d-flex align-items-center ps-5">
-        @if (navigationManager.Uri.Contains("/editar"))
+        @if (navigationManager.Uri.Contains("/editar") || navigationManager.Uri.Contains("/Editar"))
         {
             <div class="d-flex justify-content-start align-items-center">
             <h3 class="text-primary">Informe de Servicios</h3>

@@ -55,5 +55,11 @@ namespace BSP.POS.Presentacion.Shared
             activarModalClientes = activar;
             StateHasChanged();
         }
+
+        private void IrAlInicio()
+        {
+
+            navigationManager.NavigateTo($"Index");
+        }
     }
 }

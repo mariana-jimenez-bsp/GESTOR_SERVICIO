@@ -2,10 +2,12 @@ global using Microsoft.AspNetCore.Components.Authorization;
 
 using Blazored.LocalStorage;
 using BSP.POS.Presentacion;
+using BSP.POS.Presentacion.Interfaces.Actividades;
 using BSP.POS.Presentacion.Interfaces.Clientes;
 using BSP.POS.Presentacion.Interfaces.Informes;
 using BSP.POS.Presentacion.Interfaces.Tiempos;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
+using BSP.POS.Presentacion.Services.Actividades;
 using BSP.POS.Presentacion.Services.Autorizacion;
 using BSP.POS.Presentacion.Services.Clientes;
 using BSP.POS.Presentacion.Services.Informes;
@@ -24,6 +26,7 @@ builder.Services.AddScoped<IClientesInterface, ClientesService>();
 builder.Services.AddScoped<IInformesInterface, InformesService>();
 builder.Services.AddScoped<IUsuariosInterface, UsuariosService>();
 builder.Services.AddScoped<ITiemposInterface, TiemposService>();
+builder.Services.AddScoped<IActividadesInterface, ActividadesService>();
 
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddAuthorizationCore();

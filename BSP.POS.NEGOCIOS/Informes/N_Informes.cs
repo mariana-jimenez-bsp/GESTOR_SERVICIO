@@ -1,4 +1,5 @@
 ﻿using BSP.POS.DATOS.Informes;
+using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.UTILITARIOS.Informes;
 using Newtonsoft.Json;
 using System;
@@ -21,6 +22,24 @@ namespace BSP.POS.NEGOCIOS.Informes
                 list = objInforme.ListaInformesAsociados(pEsquema, pCliente);
 
                 string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ObtenerInformeAsociado(String pEsquema, String pInforme)
+        {
+            try
+            {
+                U_InformeAsociado informeAso = new U_InformeAsociado();
+
+                informeAso = objInforme.ObtenerInformeAsociado(pEsquema, pInforme);
+
+                string informe = JsonConvert.SerializeObject(informeAso);
                 return informe;
             }
             catch (Exception ex)
