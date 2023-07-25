@@ -7,7 +7,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
     public interface IUsuariosInterface
     {
         mLogin UsuarioLogin { get; set; }
-        Task<mLogin> RealizarLogin(string USUARIO, string CLAVE);
+        Task<mLogin> RealizarLogin(string USUARIO, string CLAVE, string ESQUEMA);
         string EncriptarClave(string clave);
 
         mPerfil Perfil { get; set; }

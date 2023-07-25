@@ -38,7 +38,7 @@ namespace BSP.POS.API.Controllers
                 U_Login nuevoLogin = new U_Login();
                 nuevoLogin.usuario = datos.usuario;
                 nuevoLogin.contrasena = datos.clave;
-                nuevoLogin.esquema = "BSP";
+                nuevoLogin.esquema = datos.esquema;
                 nuevoLogin.key = _secretKey;
 
                 var usuarioLogeado = user.Login(nuevoLogin);

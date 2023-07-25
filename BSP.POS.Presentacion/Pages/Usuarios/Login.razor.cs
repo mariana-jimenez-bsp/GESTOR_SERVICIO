@@ -4,9 +4,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 {
     public partial class Login: ComponentBase
     {
-        private string usuario { get; set; } = string.Empty;
-        private string contrasena { get; set; } = string.Empty;
-        private string valorSesion { get; set; } = string.Empty;
+
         private string mensaje { get; set; } = string.Empty;
         public mLogin usuarioLogin { get; set; } = new mLogin();
         protected override void OnParametersSet()
@@ -21,10 +19,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
         private async Task Ingresar()
         {
-            if (!string.IsNullOrEmpty(inputUsuario) && !string.IsNullOrEmpty(inputClave))
+            mensaje = string.Empty;
+            if (!string.IsNullOrEmpty(inputUsuario) && !string.IsNullOrEmpty(inputClave) && !string.IsNullOrEmpty(inputEsquema))
             {
 
-                usuarioLogin = await UsuariosService.RealizarLogin(inputUsuario, inputClave);
+                usuarioLogin = await UsuariosService.RealizarLogin(inputUsuario, inputClave, inputEsquema);
                 if (!string.IsNullOrEmpty(usuarioLogin.token))
                 {
 
@@ -35,13 +34,26 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 else
                 {
                     mensajeError();
+
+                    inputUsuario = string.Empty;
+                    inputClave = string.Empty;
+                    inputEsquema = string.Empty;
                 }
 
+            }
+            else
+            {
+                mensajeError();
+                inputUsuario = string.Empty;
+                inputClave = string.Empty;
+                inputEsquema = string.Empty;
             }
         }
 
         private string inputUsuario { get; set; } = string.Empty;
         private string inputClave { get; set; } = string.Empty;
+        private string inputEsquema { get; set; } = string.Empty;
+
 
         private void ValorUsuario(ChangeEventArgs e)
         {
@@ -51,9 +63,28 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             }
         }
 
-        private void mensajeError()
+
+       
+
+        private void ValorEsquema(ChangeEventArgs e)
         {
-            mensaje = "usuario o contraseña inválidos";
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                inputEsquema = e.Value.ToString();
+            }
+        }
+
+        private void mensajeError()
+        { 
+          if(!string.IsNullOrEmpty(inputUsuario) && !string.IsNullOrEmpty(inputClave) && !string.IsNullOrEmpty(inputEsquema)){
+                mensaje = "Datos inválidos";
+            }
+            else
+            {
+                mensaje = "No dejar ningún campo vacío";
+            }
+
+            
         }
 
 

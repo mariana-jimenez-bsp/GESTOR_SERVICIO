@@ -18,12 +18,13 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         {
             _http = htpp;
         }
-        public async Task<mLogin> RealizarLogin(string USUARIO, string CLAVE)
+        public async Task<mLogin> RealizarLogin(string USUARIO, string CLAVE, string ESQUEMA)
         {
             mLogin enviarUsuario = new mLogin();
             string claveEncriptada = EncriptarClave(CLAVE);
             enviarUsuario.usuario = USUARIO;
             enviarUsuario.clave = claveEncriptada;
+            enviarUsuario.esquema = ESQUEMA;
             string url = "https://localhost:7032/api/Usuarios/Login";
             string jsonData = JsonSerializer.Serialize(enviarUsuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");

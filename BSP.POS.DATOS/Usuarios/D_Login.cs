@@ -22,7 +22,7 @@ namespace BSP.POS.DATOS.Usuarios
             POSDataSet.LoginUsuarioDataTable _tabla = new POSDataSet.LoginUsuarioDataTable();
             LoginUsuarioTableAdapter _tablaUsuario = new LoginUsuarioTableAdapter();
             ObtenerClaveUsuarioTableAdapter _claveUsuario = new ObtenerClaveUsuarioTableAdapter();
-            var consultaClave = _claveUsuario.GetData("BSP", pLogin.usuario);
+            var consultaClave = _claveUsuario.GetData(pLogin.esquema, pLogin.usuario);
             string claveActual = string.Empty;
             foreach (POSDataSet.ObtenerClaveUsuarioRow item in consultaClave)
             {
