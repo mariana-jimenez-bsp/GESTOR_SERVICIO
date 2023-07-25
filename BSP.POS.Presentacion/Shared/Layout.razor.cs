@@ -37,6 +37,8 @@ namespace BSP.POS.Presentacion.Shared
         bool activarModalPerfil = false;
         bool activarModalTiempos = false;
         bool activarModalClientes = false;
+        bool activarModalProyectos = false;
+        bool activarModalActividades = false;
 
         void ClickHandlerPefil(bool activar)
         {
@@ -56,6 +58,16 @@ namespace BSP.POS.Presentacion.Shared
             StateHasChanged();
         }
 
+        void ClickHandlerProyectos(bool activar)
+        {
+            activarModalProyectos = activar;
+            StateHasChanged();
+        }
+        void ClickHandlerActividades(bool activar)
+        {
+            activarModalActividades = activar;
+            StateHasChanged();
+        }
         private void IrAlInicio()
         {
 

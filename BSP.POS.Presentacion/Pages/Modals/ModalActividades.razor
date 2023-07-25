@@ -1,0 +1,55 @@
+﻿<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content bg-light">
+
+        <div class="modal-header d-flex justify-content-center text-primary">
+            <h2>Actividades <i class="fa-solid fa-tv fa-xl"></i></h2>
+        </div>
+
+        <div class="modal-body d-flex row g-2 text-center ">
+            <div class="d-flex align-items-center ms-2">
+                <span class="blue-good">Base de datos de actividades</span>
+                <div class=" d-flex ms-5 justify-content-center align-items-center">
+                    <button class="search-icon-change text-light">
+                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                    </button>
+                    <input type="text" width="100" placeholder="Buscar..." class="text-light search-input-change" />
+
+                </div>
+            </div>
+            <div class="container-fluid mt-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class=" d-flex ms-5 justify-content-center  div-change">
+                            <div class="change-label text-center">
+                                <label type="text" class="mt-2 text-center blue-good">Prueba</label>
+                            </div>
+                            <button class="text-light change-icon">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar">Descartar cambios</button>
+            <button class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public bool ActivarModal { get; set; } = false;
+    [Parameter] public EventCallback<bool> OnClose { get; set; }
+
+    private void OpenModal()
+    {
+        ActivarModal = true;
+    }
+
+    private async Task CloseModal()
+    {
+        await OnClose.InvokeAsync(false);
+
+    }
+}
