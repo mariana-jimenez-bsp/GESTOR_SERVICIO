@@ -15,5 +15,11 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 
         Task ActualizarPefil(mPerfil perfil);
 
+        List<mPermisosAsociados> ListaPermisosAsocidados { get; set; }
+        Task ObtenerListaDePermisosAsociados(string esquema, string id);
+
+        List<mPermisos> ListaPermisos { get; set; }
+        Task ObtenerListaDePermisos(string esquema);
+
     }
 }

@@ -49,12 +49,13 @@ namespace BSP.POS.Presentacion.Services.Clientes
             }
         }
 
-        public async Task ActualizarListaDeClientes(List<mClientes> listaClientes)
+        public async Task ActualizarListaDeClientes(List<mClientes> listaClientes, string esquema)
         {
             try
             {
                 string url = "https://localhost:7032/api/Clientes/ActualizaListaDeClientes";
                 string jsonData = JsonSerializer.Serialize(listaClientes);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var mensaje = await _http.PostAsync(url, content);

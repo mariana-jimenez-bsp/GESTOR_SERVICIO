@@ -1,6 +1,5 @@
 ﻿using BSP.POS.DATOS.Usuarios;
-using BSP.POS.UTILITARIOS.Clientes;
-using BSP.POS.UTILITARIOS.Tiempos;
+
 using BSP.POS.UTILITARIOS.Usuarios;
 using Newtonsoft.Json;
 using System;
@@ -61,6 +60,42 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             string mensaje = string.Empty;
             mensaje = objetoUsuario.ActualizarPerfil(pPerfil);
             return mensaje;
+        }
+
+        public string ListarPermisosAsociados(String pEsquema, String pId_Usuario)
+        {
+            try
+            {
+                List<U_PermisosAsociados> list = new List<U_PermisosAsociados>();
+
+                list = objetoLogin.ListaPermisosAsociados(pEsquema, pId_Usuario);
+
+                string permisos = JsonConvert.SerializeObject(list);
+                return permisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ListarPermisos(String pEsquema)
+        {
+            try
+            {
+                List<U_Permisos> list = new List<U_Permisos>();
+
+                list = objetoLogin.ListaPermisos(pEsquema);
+
+                string permisos = JsonConvert.SerializeObject(list);
+                return permisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
     }
 }

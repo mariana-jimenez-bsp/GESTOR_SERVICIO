@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 
 using System.Security.Cryptography;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using BSP.POS.UTILITARIOS.Informes;
 
 namespace BSP.POS.DATOS.Usuarios
 {
@@ -33,8 +35,10 @@ namespace BSP.POS.DATOS.Usuarios
 
             if (CompararClaves(pLogin.contrasena, claveActual))
             {
-               
-               string token = GenerateJWT(pLogin.usuario, pLogin.key);
+               string rol = ObtenerRol(pLogin.esquema, pLogin.usuario);
+                List<U_PermisosAsociados> permisos = new List<U_PermisosAsociados>();
+                permisos = ListaPermisosAsociados(pLogin.esquema, pLogin.usuario);
+               string token = GenerateJWT(pLogin.usuario, pLogin.key, rol, permisos, pLogin.esquema);
                var j = _tablaUsuario.GetData(pLogin.usuario, claveActual, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
                 {
@@ -160,18 +164,109 @@ namespace BSP.POS.DATOS.Usuarios
             return tokenDecodificado;
         }
 
-        private string GenerateJWT(string username, string key)
+        private string GenerateJWT(string username, string key, string rol, List<U_PermisosAsociados> permisos, string esquema)
         {
             // Also consider using AsymmetricSecurityKey if you want the client to be able to validate the token
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, username),
+            };
+            if (!string.IsNullOrEmpty(rol))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol));
+            }
+            if (!string.IsNullOrEmpty(esquema))
+            {
+                claims.Add(new Claim("esquema", esquema));
+            }
+            if (permisos != null)
+            {
+                foreach (var permiso in permisos)
+                {
+                    claims.Add(new Claim("permission", permiso.id_permiso));
+                }
+            }
+
             var token = new JwtSecurityToken(
                 "BSP",
                 "Usuarios",
-                new[] { new Claim(ClaimTypes.Name, username) },
+                claims,
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256));
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
+        }
+
+        public string ObtenerRol(String pEsquema, String pUsuario)
+        {
+            string rol = string.Empty;
+
+            ObtenerRolDeUsuarioTableAdapter sp = new ObtenerRolDeUsuarioTableAdapter();
+
+            var response = sp.GetData(pEsquema, pUsuario).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    string r = item.ROL;
+                    rol = r;
+                }
+                return rol;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_PermisosAsociados> ListaPermisosAsociados(String pEsquema, String pId_Usuario)
+        {
+            var LstPermisos = new List<U_PermisosAsociados>();
+
+            ListarPermisosAsociadosTableAdapter sp = new ListarPermisosAsociadosTableAdapter();
+
+            var response = sp.GetData(pEsquema, pId_Usuario).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_PermisosAsociados permiso = new U_PermisosAsociados(item.Id, item.id_permiso);
+
+                    LstPermisos.Add(permiso);
+                }
+                return LstPermisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_Permisos> ListaPermisos(String pEsquema)
+        {
+            var LstPermisos = new List<U_Permisos>();
+
+            ListarPermisosTableAdapter sp = new ListarPermisosTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_Permisos permiso = new U_Permisos(item.Id, item.permiso);
+
+                    LstPermisos.Add(permiso);
+                }
+                return LstPermisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
     }
 }

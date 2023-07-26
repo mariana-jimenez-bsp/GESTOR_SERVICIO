@@ -69,7 +69,7 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpGet("ObtenerPerfil/{usuario}")]
-        public string ObtengaElClienteAsociado(string usuario)
+        public string ObtenerPerfil(string usuario)
         {
             try
             {
@@ -97,11 +97,47 @@ namespace BSP.POS.API.Controllers
                     perfil.usuario = datos.usuario;
                     perfil.nombre = datos.nombre;
                     perfil.rol = datos.rol;
-                
+                    perfil.telefono = datos.telefono;
+                    perfil.esquema = datos.esquema;
+
 
                 string mensaje = user.ActualizarPerfil(perfil);
                 return mensaje;
             }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [HttpGet("ObtengaLaListaDePermisosAsociados/{esquema}/{id}")]
+        public string ObtengaLaListaDePermisosAsociados(string esquema, string id)
+        {
+            try
+            {
+
+                string listaPermisosAsociadosJson = user.ListarPermisosAsociados(esquema, id);
+                return listaPermisosAsociadosJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [HttpGet("ObtengaLaListaDePermisos/{esquema}")]
+        public string ObtengaLaListaDePermisos(string esquema)
+        {
+            try
+            {
+
+                string listaPermisosJson = user.ListarPermisos(esquema);
+                return listaPermisosJson;
+            }
+
             catch (Exception ex)
             {
                 return ex.Message;

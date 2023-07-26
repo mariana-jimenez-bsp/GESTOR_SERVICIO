@@ -68,10 +68,10 @@ namespace BSP.POS.NEGOCIOS.Clientes
             }
         }
 
-        public string ActualizarListaDeClientes(List<U_ListaClientes> pClientes)
+        public string ActualizarListaDeClientes(List<U_ListaClientes> pClientes, string esquema)
         {
             string mensaje = string.Empty;
-            mensaje = objCliente.ActualizarListaDeClientes(pClientes);
+            mensaje = objCliente.ActualizarListaDeClientes(pClientes, esquema);
             return mensaje;
         }
     }

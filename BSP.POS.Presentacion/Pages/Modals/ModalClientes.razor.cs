@@ -10,6 +10,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         private bool IsCollapseOpen = false;
         public List<mClientes> clientes = new List<mClientes>();
+        public string esquema = String.Empty;
         protected override async Task OnInitializedAsync()
         {
 
@@ -23,7 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
-
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
         }
         public class DesplegableInfo
         {
@@ -146,7 +147,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         private async Task ActualizarListaClientes()
         {
 
-            await ClientesService.ActualizarListaDeClientes(clientes);
+            await ClientesService.ActualizarListaDeClientes(clientes, esquema);
             await ClientesService.ObtenerListaClientes();
             if (ClientesService.ListaClientes != null)
             {

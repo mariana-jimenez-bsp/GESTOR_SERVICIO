@@ -10,5 +10,7 @@
         public string clave { get; set; } = string.Empty;
         public string nombre { get; set; } = string.Empty;
         public string rol { get; set; } = string.Empty;
+        public string telefono { get; set; } = string.Empty;
+        public string esquema { get; set; } = string.Empty;
     }
 }

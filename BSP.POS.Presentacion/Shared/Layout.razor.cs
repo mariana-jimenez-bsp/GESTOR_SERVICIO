@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Shared
 {
@@ -14,7 +15,10 @@ namespace BSP.POS.Presentacion.Shared
 
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
+            string rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            var permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             UsuarioActual = user.Identity.Name;
+
         }
         private void ActualizarValor(ChangeEventArgs e)
         {

@@ -75,6 +75,8 @@ namespace BSP.POS.API.Controllers
         {
             try
             {
+                string esquema = Request.Headers["X-Esquema"];
+
                 List<U_ListaClientes> listaClientes = new List<U_ListaClientes>();
                 foreach (var item in datos)
                 {
@@ -87,7 +89,7 @@ namespace BSP.POS.API.Controllers
                     listaClientes.Add(cliente);
                 }
 
-                string mensaje = clientes.ActualizarListaDeClientes(listaClientes);
+                string mensaje = clientes.ActualizarListaDeClientes(listaClientes, esquema);
                 return mensaje;
             }
             catch (Exception ex)

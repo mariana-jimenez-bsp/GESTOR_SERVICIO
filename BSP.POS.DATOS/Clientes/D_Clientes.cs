@@ -89,7 +89,7 @@ namespace BSP.POS.DATOS.Clientes
             }
         }
 
-        public string ActualizarListaDeClientes(List<U_ListaClientes> pClientes)
+        public string ActualizarListaDeClientes(List<U_ListaClientes> pClientes, string esquema)
         {
             POSDataSet.ActualizarListaDeClientesDataTable bTabla = new POSDataSet.ActualizarListaDeClientesDataTable();
             ActualizarListaDeClientesTableAdapter sp = new ActualizarListaDeClientesTableAdapter();
@@ -97,7 +97,7 @@ namespace BSP.POS.DATOS.Clientes
             {
                 foreach (var cliente in pClientes)
                 {
-                    var response = sp.GetData(cliente.CLIENTE, cliente.NOMBRE, cliente.ALIAS, cliente.CONTRIBUYENTE, cliente.TELEFONO);
+                    var response = sp.GetData(esquema, cliente.CLIENTE, cliente.NOMBRE, cliente.ALIAS, cliente.CONTRIBUYENTE, cliente.TELEFONO);
 
                 }
                 return "Exito";

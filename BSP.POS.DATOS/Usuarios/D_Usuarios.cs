@@ -22,7 +22,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_Perfil perf = new U_Perfil(item.ID, item.USUARIO, item.CORREO, item.CLAVE, item.NOMBRE, item.ROL);
+                    U_Perfil perf = new U_Perfil(item.ID, item.USUARIO, item.CORREO, item.CLAVE, item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
                     perfil = perf;
                 }
                 return perfil;
@@ -40,12 +40,12 @@ namespace BSP.POS.DATOS.Usuarios
             ActualizarPerfilTableAdapter sp = new ActualizarPerfilTableAdapter();
             try
             {
-                if(pPerfil.clave == null)
+                if(string.IsNullOrEmpty(pPerfil.clave))
                 {
-                    U_Perfil perf= ObtenerPefil("BSP", pPerfil.usuario);
+                    U_Perfil perf= ObtenerUsuarioPorId(pPerfil.esquema, pPerfil.id);
                     pPerfil.clave = perf.clave;
                 }
-                    var response = sp.GetData(pPerfil.id, pPerfil.usuario, pPerfil.correo, pPerfil.clave, pPerfil.nombre, pPerfil.rol);
+                    var response = sp.GetData(pPerfil.id, pPerfil.usuario, pPerfil.correo, pPerfil.clave, pPerfil.nombre, pPerfil.rol, pPerfil.telefono, pPerfil.esquema);
 
                 
                 return "Exito";
@@ -58,6 +58,29 @@ namespace BSP.POS.DATOS.Usuarios
 
 
 
+        }
+
+        public U_Perfil ObtenerUsuarioPorId(String pEsquema, String pId)
+        {
+            var perfil = new U_Perfil();
+
+            ObtenerUsuarioPorIdTableAdapter sp = new ObtenerUsuarioPorIdTableAdapter();
+
+            var response = sp.GetData(pEsquema, pId).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_Perfil perf = new U_Perfil(item.ID, item.USUARIO, item.CORREO, item.CLAVE, item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
+                    perfil = perf;
+                }
+                return perfil;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
     }
 }
