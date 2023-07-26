@@ -18,7 +18,6 @@ namespace BSP.POS.API.Controllers
     {
         private readonly string _secretKey;
 
-        Cryptografia _Cryptografia = new Cryptografia();
         private N_Usuarios user;
         public UsuariosController()
         {
@@ -111,39 +110,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpGet("ObtengaLaListaDePermisosAsociados/{esquema}/{id}")]
-        public string ObtengaLaListaDePermisosAsociados(string esquema, string id)
-        {
-            try
-            {
-
-                string listaPermisosAsociadosJson = user.ListarPermisosAsociados(esquema, id);
-                return listaPermisosAsociadosJson;
-            }
-
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-
-        }
-
-        [HttpGet("ObtengaLaListaDePermisos/{esquema}")]
-        public string ObtengaLaListaDePermisos(string esquema)
-        {
-            try
-            {
-
-                string listaPermisosJson = user.ListarPermisos(esquema);
-                return listaPermisosJson;
-            }
-
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-
-        }
+       
 
 
     }

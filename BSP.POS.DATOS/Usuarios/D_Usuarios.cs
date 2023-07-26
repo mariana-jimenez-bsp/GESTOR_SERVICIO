@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Usuarios;
-using BSP.POS.UTILITARIOS.Tiempos;
+
 
 namespace BSP.POS.DATOS.Usuarios
 {

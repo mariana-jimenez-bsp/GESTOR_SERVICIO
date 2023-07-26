@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using BSP.POS.Presentacion.Models;
+using System.Collections.Generic;
 
 
 namespace BSP.POS.Presentacion.Pages.Modals
@@ -15,8 +16,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
 
-        public List<mPermisosAsociados> AgregarPermisos { get; set; } = new List<mPermisosAsociados>();
-        public List<mPermisosAsociados> EliminarPermisos { get; set; } = new List<mPermisosAsociados>();
+      
         public string tipo { get; set; } = string.Empty;
 
         protected override async Task OnInitializedAsync()
@@ -31,25 +31,25 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 perfil = UsuariosService.Perfil;
                 perfil.clave = string.Empty;
 
-                await UsuariosService.ObtenerListaDePermisos(perfil.esquema);
-                if (UsuariosService.ListaPermisos != null)
+                await PermisosService.ObtenerListaDePermisos(perfil.esquema);
+                if (PermisosService.ListaPermisos != null)
                 {
-                    todosLosPermisos = UsuariosService.ListaPermisos;
+                    todosLosPermisos = PermisosService.ListaPermisos;
                     EstadosDeChecks = todosLosPermisos.Select(permiso => new EstadoCheck()).ToList();
 
-                    await UsuariosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
-                    if (UsuariosService.ListaPermisosAsocidados != null)
+                    await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
+                    if (PermisosService.ListaPermisosAsociadados != null)
                     {
-                        permisosAsociados = UsuariosService.ListaPermisosAsocidados;
+                        permisosAsociados = PermisosService.ListaPermisosAsociadados;
                         for (int i = 0; i < EstadosDeChecks.Count; i++)
                         {
-                            if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == permisosAsociados[i].Id))
+                            if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == todosLosPermisos[i].Id))
                             {
                                 EstadosDeChecks[i].Check = true;
                             }
                          }
 
-                }
+                    }
                 }
                
             }
@@ -78,6 +78,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     mPermisosAsociados permisoParaAñadir = new mPermisosAsociados();
                     permisoParaAñadir.id_permiso = permiso.Id;
                     permisosAsociados.Add(permisoParaAñadir);
+
                 }
             }
             else
@@ -85,6 +86,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 if (permisoEncontrado != null)
                 {
                     permisosAsociados.Remove(permisoEncontrado);
+
                 }
             }
         }
@@ -154,6 +156,30 @@ namespace BSP.POS.Presentacion.Pages.Modals
             {
                 perfil = UsuariosService.Perfil;
             }
+            await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
+            bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
+            foreach (var item in PermisosService.ListaPermisosAsociadados)
+            {
+                Console.WriteLine(item.id_permiso);
+            }
+            if (!sonIguales)
+            {
+                try
+                {
+                    await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
+                    await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
+                    if(PermisosService.ListaPermisosAsociadados != null)
+                    {
+                        permisosAsociados = PermisosService.ListaPermisosAsociadados;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                
+            }
             await CloseModal();
         }
         private void OpenModal()
@@ -165,6 +191,20 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             await UsuariosService.ObtenerPerfil(Usuario);
             perfil = UsuariosService.Perfil;
+            await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
+            permisosAsociados = PermisosService.ListaPermisosAsociadados;
+            if (PermisosService.ListaPermisosAsociadados != null)
+            {
+                permisosAsociados = PermisosService.ListaPermisosAsociadados;
+                for (int i = 0; i < EstadosDeChecks.Count; i++)
+                {
+                    if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == todosLosPermisos[i].Id))
+                    {
+                        EstadosDeChecks[i].Check = true;
+                    }
+                }
+
+            }
             perfil.clave = string.Empty;
             await OnClose.InvokeAsync(false);
 

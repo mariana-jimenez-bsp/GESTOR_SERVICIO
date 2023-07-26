@@ -4,15 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-
+using BSP.POS.DATOS.Permisos;
 using System.Security.Cryptography;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using BSP.POS.UTILITARIOS.Informes;
+using BSP.POS.UTILITARIOS.Permisos;
 
 namespace BSP.POS.DATOS.Usuarios
 {
@@ -35,9 +33,10 @@ namespace BSP.POS.DATOS.Usuarios
 
             if (CompararClaves(pLogin.contrasena, claveActual))
             {
+                D_Permisos datosPermisos = new D_Permisos();
                string rol = ObtenerRol(pLogin.esquema, pLogin.usuario);
                 List<U_PermisosAsociados> permisos = new List<U_PermisosAsociados>();
-                permisos = ListaPermisosAsociados(pLogin.esquema, pLogin.usuario);
+                permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, pLogin.usuario);
                string token = GenerateJWT(pLogin.usuario, pLogin.key, rol, permisos, pLogin.esquema);
                var j = _tablaUsuario.GetData(pLogin.usuario, claveActual, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
@@ -221,52 +220,6 @@ namespace BSP.POS.DATOS.Usuarios
             }
         }
 
-        public List<U_PermisosAsociados> ListaPermisosAsociados(String pEsquema, String pId_Usuario)
-        {
-            var LstPermisos = new List<U_PermisosAsociados>();
-
-            ListarPermisosAsociadosTableAdapter sp = new ListarPermisosAsociadosTableAdapter();
-
-            var response = sp.GetData(pEsquema, pId_Usuario).ToList();
-            try
-            {
-                foreach (var item in response)
-                {
-                    U_PermisosAsociados permiso = new U_PermisosAsociados(item.Id, item.id_permiso);
-
-                    LstPermisos.Add(permiso);
-                }
-                return LstPermisos;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
-        }
-
-        public List<U_Permisos> ListaPermisos(String pEsquema)
-        {
-            var LstPermisos = new List<U_Permisos>();
-
-            ListarPermisosTableAdapter sp = new ListarPermisosTableAdapter();
-
-            var response = sp.GetData(pEsquema).ToList();
-            try
-            {
-                foreach (var item in response)
-                {
-                    U_Permisos permiso = new U_Permisos(item.Id, item.permiso);
-
-                    LstPermisos.Add(permiso);
-                }
-                return LstPermisos;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
-        }
+        
     }
 }

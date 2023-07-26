@@ -15,8 +15,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         private readonly HttpClient _http;
         public mLogin UsuarioLogin { get; set; } = new mLogin();
         public mPerfil Perfil { get; set; } = new mPerfil();
-        public List<mPermisosAsociados> ListaPermisosAsocidados { get; set; } = new List<mPermisosAsociados>();
-        public List<mPermisos> ListaPermisos { get; set; } = new List<mPermisos>();
+       
 
         public UsuariosService(HttpClient htpp)
         {
@@ -82,25 +81,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
             }
         }
-        public async Task ObtenerListaDePermisosAsociados(string esquema, string id)
-        {
-            string url = "https://localhost:7032/api/Usuarios/ObtengaLaListaDePermisosAsociados/" + esquema + "/" + id;
-            var listaPermisosAsociados = await _http.GetFromJsonAsync<List<mPermisosAsociados>>(url);
-            if (listaPermisosAsociados is not null)
-            {
-                ListaPermisosAsocidados = listaPermisosAsociados;
-            }
-        }
-
-        public async Task ObtenerListaDePermisos(string esquema)
-        {
-            string url = "https://localhost:7032/api/Usuarios/ObtengaLaListaDePermisos/" + esquema;
-            var listaPermisos = await _http.GetFromJsonAsync<List<mPermisos>>(url);
-            if (listaPermisos is not null)
-            {
-                ListaPermisos = listaPermisos;
-            }
-        }
+        
     }
     }
 

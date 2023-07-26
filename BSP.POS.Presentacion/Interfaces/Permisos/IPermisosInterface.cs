@@ -1,0 +1,14 @@
+﻿using BSP.POS.Presentacion.Models;
+
+namespace BSP.POS.Presentacion.Interfaces.Permisos
+{
+    public interface IPermisosInterface
+    {
+        List<mPermisosAsociados> ListaPermisosAsociadados { get; set; }
+        Task ObtenerListaDePermisosAsociados(string esquema, string id);
+
+        List<mPermisos> ListaPermisos { get; set; }
+        Task ObtenerListaDePermisos(string esquema);
+        Task ActualizarListaPermisosAsociados(List<mPermisosAsociados> listaPermisos, string idUsuario, string esquema);
+    }
+}

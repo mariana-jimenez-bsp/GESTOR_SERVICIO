@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BSP.POS.UTILITARIOS.Usuarios
+namespace BSP.POS.UTILITARIOS.Permisos
 {
     public class U_Permisos
     {
-        public String Id { get; set; }
+        public string Id { get; set; }
 
-        public String permiso { get; set; }
+        public string permiso { get; set; }
 
-        public U_Permisos(String pId, String pPermiso)
+        public U_Permisos(string pId, string pPermiso)
         {
             Id = pId;
             permiso = pPermiso;
