@@ -28,6 +28,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 {
 
                     await localStorageService.SetItemAsync<string>("token", usuarioLogin.token);
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     navigationManager.NavigateTo("/index", forceLoad: true);
 
                 }

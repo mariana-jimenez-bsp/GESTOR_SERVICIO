@@ -20,18 +20,20 @@ namespace BSP.POS.Presentacion.Pages.Informes
 
             if (!string.IsNullOrEmpty(Consecutivo))
             {
-
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo);
                 if (InformesService.InformeAsociado != null)
                 {
                     informe = InformesService.InformeAsociado;
                     hora_inicio_reducida = informe.hora_inicio.Substring(0, 5);
                     hora_final_reducida = informe.hora_final.Substring(0, 5);
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente);
                     if (ClientesService.ClienteAsociado != null)
                     {
                         ClienteAsociado = ClientesService.ClienteAsociado;
                     }
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo);
                     if (ActividadesService.ListaActividadesAsociadas != null)
                     {

@@ -13,7 +13,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public string esquema = String.Empty;
         protected override async Task OnInitializedAsync()
         {
-
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes();
             if (ClientesService.ListaClientes != null)
             {
@@ -44,6 +44,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task CloseModal()
         {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes();
             clientes = ClientesService.ListaClientes;
             await OnClose.InvokeAsync(false);
@@ -146,8 +147,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task ActualizarListaClientes()
         {
-
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ActualizarListaDeClientes(clientes, esquema);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes();
             if (ClientesService.ListaClientes != null)
             {

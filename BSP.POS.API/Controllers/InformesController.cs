@@ -1,6 +1,7 @@
 ﻿using BSP.POS.API.Models;
 using BSP.POS.DATOS.Informes;
 using BSP.POS.NEGOCIOS.Informes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,6 +10,7 @@ namespace BSP.POS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class InformesController : ControllerBase
     {
         private N_Informes informes;

@@ -20,8 +20,13 @@ builder.Services.AddCors(options =>
     });
 });
 // Configuración de autenticación JWT
-var secretKey = "gestor_de_servicios";
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+string _secretKey;
+var configuration = new ConfigurationBuilder()
+.AddJsonFile("appsettings.json")
+.Build();
+
+_secretKey = configuration["AppSettings:SecretKey"];
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 
 builder.Services.AddAuthentication(options =>
 {
@@ -37,8 +42,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "bsp",
-        ValidAudience = "consultor",
+        ValidIssuer = "BSP",
+        ValidAudience = "Usuarios",
         IssuerSigningKey = key
     };
 });

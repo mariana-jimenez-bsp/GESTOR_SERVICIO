@@ -8,6 +8,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using BSP.POS.UTILITARIOS.Tiempos;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -66,7 +67,7 @@ namespace BSP.POS.API.Controllers
                 return ex.Message;
             }
         }
-
+        [Authorize]
         [HttpGet("ObtenerPerfil/{usuario}")]
         public string ObtenerPerfil(string usuario)
         {
@@ -83,7 +84,7 @@ namespace BSP.POS.API.Controllers
             }
 
         }
-
+        [Authorize]
         [HttpPost("ActualizarPerfil")]
         public string ActualizarPerfil([FromBody] mPerfil datos)
         {

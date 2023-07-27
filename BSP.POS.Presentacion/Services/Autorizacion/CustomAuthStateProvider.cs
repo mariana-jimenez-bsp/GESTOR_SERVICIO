@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Principal;
+using System.Net.Http.Headers;
 
 namespace BSP.POS.Presentacion.Services.Autorizacion
 {
@@ -17,27 +18,28 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
     {
         private readonly HttpClient _http;
         private readonly ILocalStorageService _localStorageService;
-
         public CustomAuthStateProvider(HttpClient htpp , ILocalStorageService localStorageService)
         {
             _http = htpp;
-            _localStorageService = localStorageService;
+            _localStorageService = localStorageService; 
         }
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
+   
             string token = await ObtenerToken();
             string tokenSinComillas = token.Trim('"');
             var identify = new ClaimsIdentity();
-
+            _http.DefaultRequestHeaders.Authorization = null;
             
-            if (token != null)
+            if (!string.IsNullOrEmpty(token))
             {
                 string validarToken = await ValidarToken(token);
 
-                if (validarToken != null)
+                if (!string.IsNullOrEmpty(validarToken))
                 {
                     identify = new ClaimsIdentity(ParseClaimFromJwt(tokenSinComillas), "jwt");
-
+                    _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenSinComillas);
+  
 
                 }
             }

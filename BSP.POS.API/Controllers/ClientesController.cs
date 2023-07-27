@@ -4,12 +4,14 @@ using BSP.POS.UTILITARIOS.Clientes;
 using Newtonsoft.Json;
 using BSP.POS.API.Models;
 using BSP.POS.UTILITARIOS.Tiempos;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientesController : ControllerBase
     {
         private N_Clientes clientes;

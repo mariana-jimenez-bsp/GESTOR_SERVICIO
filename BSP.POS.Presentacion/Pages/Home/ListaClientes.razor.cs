@@ -10,8 +10,9 @@ namespace BSP.POS.Presentacion.Pages.Home
         public string usuarioActual { get; set; } = string.Empty;
         protected override async Task OnInitializedAsync()
         {
-
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes();
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientesRecientes();
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;

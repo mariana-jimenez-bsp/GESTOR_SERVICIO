@@ -30,13 +30,13 @@ namespace BSP.POS.Presentacion.Pages.Modals
             {
                 perfil = UsuariosService.Perfil;
                 perfil.clave = string.Empty;
-
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await PermisosService.ObtenerListaDePermisos(perfil.esquema);
                 if (PermisosService.ListaPermisos != null)
                 {
                     todosLosPermisos = PermisosService.ListaPermisos;
                     EstadosDeChecks = todosLosPermisos.Select(permiso => new EstadoCheck()).ToList();
-
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
                     if (PermisosService.ListaPermisosAsociadados != null)
                     {
@@ -149,13 +149,15 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task ActualizarPerfil()
         {
-
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ActualizarPefil(perfil);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerPerfil(perfil.usuario);
             if (UsuariosService.Perfil != null)
             {
                 perfil = UsuariosService.Perfil;
             }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
             bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
             foreach (var item in PermisosService.ListaPermisosAsociadados)
@@ -166,7 +168,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
             {
                 try
                 {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
                     if(PermisosService.ListaPermisosAsociadados != null)
                     {
@@ -189,8 +193,10 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task CloseModal()
         {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerPerfil(Usuario);
             perfil = UsuariosService.Perfil;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
             permisosAsociados = PermisosService.ListaPermisosAsociadados;
             if (PermisosService.ListaPermisosAsociadados != null)

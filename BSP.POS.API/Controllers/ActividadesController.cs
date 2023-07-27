@@ -1,4 +1,5 @@
 ﻿using BSP.POS.NEGOCIOS.Actividades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,6 +8,7 @@ namespace BSP.POS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ActividadesController : ControllerBase
     {
         private N_Actividades actividades;

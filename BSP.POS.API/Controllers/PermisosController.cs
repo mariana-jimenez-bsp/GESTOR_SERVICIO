@@ -2,6 +2,7 @@
 using BSP.POS.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using BSP.POS.UTILITARIOS.Permisos;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,6 +10,7 @@ namespace BSP.POS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PermisosController : ControllerBase
     {
         private N_Permisos _permisos;
