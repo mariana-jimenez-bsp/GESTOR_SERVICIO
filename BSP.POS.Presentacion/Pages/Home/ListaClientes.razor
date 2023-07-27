@@ -21,7 +21,7 @@
     <div class="row p-2">
         <div class="col-md-6">
             <div class="my-3">
-                <div id="recent" class="overflow-auto row scrollbar-client scrollbar-max-height-client" style="display: @(activeTab == "recent" ? "block" : "none")">
+                <div id='recent' class='overflow-y-auto overflow-x-hidden row scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "recent" ? "block" : "none")'>
                     @if (ClientesService.ListaClientesRecientes != null)
                     {
                         var listaClientesRecientes = ClientesService.ListaClientesRecientes;
@@ -58,7 +58,7 @@
                         <p>No hay clientes recientes</p>
                     }
                 </div>
-                <div id="all" class="overflow-auto scrollbar-client scrollbar-max-height-client" style="display: @(activeTab == "all" ? "block" : "none")">
+                <div id='all' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "all" ? "block" : "none")'>
                     @if (ClientesService.ListaClientes != null)
                     {
                         var listaClientes = ClientesService.ListaClientes;

@@ -40,8 +40,8 @@ namespace BSP.POS.Presentacion.Pages.Informes
                         listaActividades = ActividadesService.ListaActividadesAsociadas;
                         try
                         {
-                            total_horas_cobradas = listaActividades.Sum(act => decimal.Parse(act.horas_cobradas));
-                            total_horas_no_cobradas = listaActividades.Sum(act => decimal.Parse(act.horas_no_cobradas));
+                            //total_horas_cobradas = listaActividades.Sum(act => decimal.Parse(act.horas_cobradas));
+                            //total_horas_no_cobradas = listaActividades.Sum(act => decimal.Parse(act.horas_no_cobradas));
                         }
                         catch
                         {

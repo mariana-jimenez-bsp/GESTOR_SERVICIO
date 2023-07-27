@@ -35,5 +35,21 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpGet("ObtengaLaListaDeActividades/{esquema}")]
+        public string ObtengaLaListaDeActividades(string esquema)
+        {
+            try
+            {
+                string listaActividadesAsociadasJson = actividades.ListarActividades(esquema);
+                return listaActividadesAsociadasJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
     }
 }

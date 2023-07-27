@@ -15,6 +15,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
         }
 
         public List<mActividades> ListaActividadesAsociadas { get; set; } = new List<mActividades>();
+        public List<mActividades> ListaActividades { get; set; } = new List<mActividades>();
 
         public async Task ObtenerListaDeActividadesAsociadas(string consecutivo)
         {
@@ -22,6 +23,15 @@ namespace BSP.POS.Presentacion.Services.Actividades
             if (listaActividadesAsociadas is not null)
             {
                 ListaActividadesAsociadas = listaActividadesAsociadas;
+            }
+        }
+
+        public async Task ObtenerListaDeActividades(string esquema)
+        {
+            var listaActividades = await _http.GetFromJsonAsync<List<mActividades>>("https://localhost:7032/api/Actividades/ObtengaLaListaDeActividades/" + esquema);
+            if (listaActividades is not null)
+            {
+                ListaActividades = listaActividades;
             }
         }
     }

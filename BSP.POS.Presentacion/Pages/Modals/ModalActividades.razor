@@ -1,4 +1,7 @@
-﻿<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IActividadesInterface ActividadesService
+
+<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content bg-light">
 
         <div class="modal-header d-flex justify-content-center text-primary">
@@ -6,42 +9,69 @@
         </div>
 
         <div class="modal-body d-flex row g-2 text-center ">
-            <div class="d-flex align-items-center ms-2">
-                <span class="blue-good">Base de datos de actividades</span>
-                <div class=" d-flex ms-5 justify-content-center align-items-center">
+            <div class="row">
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <span class="blue-good">Base de datos de actividades</span>
+                </div>
+                <div class="col-md-6 d-flex">
                     <button class="search-icon-change text-light">
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
-                    <input type="text" width="100" placeholder="Buscar..." class="text-light search-input-change" />
+                    <input type="text" placeholder="Buscar..." class="text-light search-input-change" />
 
                 </div>
             </div>
             <div class="container-fluid mt-4">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class=" d-flex ms-5 justify-content-center  div-change">
-                            <div class="change-label text-center">
-                                <label type="text" class="mt-2 text-center blue-good">Prueba</label>
-                            </div>
-                            <button class="text-light change-icon">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-                        </div>
+                    <div class="col-md-3">
+                        <label class="ms-4 text-center w-75 green-good" for="">Código de Act.</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="pe-4 text-center w-100 green-good" for="">Nombre</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="pe-4 text-center w-100 green-good" for="">CI-Referencia</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="text-end w-50 green-good" for="">Horas</label>
                     </div>
                 </div>
             </div>
+            <div class="max-height-activity overflow-y-auto overflow-x-hidden scrollbar-modal-activity">
+            @if(actividades != null)
+            {
+                foreach (var actividad in actividades)
+                {
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <input class="w-75 text-center green-good border-success rounded-pill" type="text" value="@actividad.codigo">
+                        </div>
+                        <div class="col-md-3">
+                            <input class="w-100 text-center blue-good border-primary rounded-pill" type="text" value="@actividad.Actividad">
+                        </div>
+                        <div class="col-md-3">
+                            <input class="w-100 text-center green-good border-success rounded-pill" type="text" value="@actividad.CI_referencia">
+                        </div>
+                        <div class="col-md-3">
+                            <input class="w-50 text-center green-good border-success rounded-pill" type="text" value="@actividad.horas">
+                        </div>
+                    </div>
+                }
+            }
+            </div>
         </div>
-        <div class="modal-footer">
-            <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar">Descartar cambios</button>
-            <button class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
-        </div>
+
+    <div class="modal-footer">
+        <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar">Descartar cambios</button>
+        <button class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
+    </div>
     </div>
 </div>
 
 @code {
     [Parameter] public bool ActivarModal { get; set; } = false;
     [Parameter] public EventCallback<bool> OnClose { get; set; }
-
+    public List<mActividades> actividades = new List<mActividades>();
     private void OpenModal()
     {
         ActivarModal = true;
@@ -50,6 +80,18 @@
     private async Task CloseModal()
     {
         await OnClose.InvokeAsync(false);
+
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+        string esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+        await ActividadesService.ObtenerListaDeActividades(esquema);
+        if (ActividadesService.ListaActividades != null)
+        {
+            actividades = ActividadesService.ListaActividades;
+        }
 
     }
 }

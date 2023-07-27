@@ -33,5 +33,29 @@ namespace BSP.POS.DATOS.Actividades
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public List<U_ListaActividades> ListaActividades(String pEsquema)
+        {
+            var LstActividades = new List<U_ListaActividades>();
+
+            ListarActividadesTableAdapter sp = new ListarActividadesTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                { 
+                    U_ListaActividades actividad = new U_ListaActividades(item.codigo, item.Actividad, item.CI_referencia, item.horas);
+
+                    LstActividades.Add(actividad);
+                }
+                return LstActividades;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }
