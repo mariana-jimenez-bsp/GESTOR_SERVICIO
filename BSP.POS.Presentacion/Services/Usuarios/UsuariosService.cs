@@ -1,7 +1,10 @@
-﻿using BSP.POS.Presentacion.Interfaces.Usuarios;
+﻿using Blazored.LocalStorage;
+using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models;
 using BSP.POS.UTILITARIOS.Informes;
 using BSP.POS.UTILITARIOS.Tiempos;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
@@ -15,11 +18,14 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         private readonly HttpClient _http;
         public mLogin UsuarioLogin { get; set; } = new mLogin();
         public mPerfil Perfil { get; set; } = new mPerfil();
-       
+        private readonly ILocalStorageService _localStorageService;
+        private readonly NavigationManager _navigationManager;
 
-        public UsuariosService(HttpClient htpp)
+        public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             _http = htpp;
+            _localStorageService = localStorageService;
+            _navigationManager = navigationManager;
         }
         public async Task<mLogin> RealizarLogin(string USUARIO, string CLAVE, string ESQUEMA)
         {
@@ -61,7 +67,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         }
 
-        public async Task ActualizarPefil(mPerfil perfil)
+        public async Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal)
         {
 
             try
@@ -75,6 +81,12 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var mensaje = await _http.PostAsync(url, content);
+                if(usuarioOriginal != perfil.usuario || (claveOriginal != perfil.clave && !string.IsNullOrEmpty(perfil.clave)))
+                {
+                    
+                    _navigationManager.NavigateTo("/login", forceLoad: true);
+                    await _localStorageService.RemoveItemAsync("token");
+                }
             }
             catch (Exception ex)
             {

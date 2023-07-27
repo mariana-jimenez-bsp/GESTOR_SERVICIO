@@ -27,12 +27,13 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
         {
    
             string token = await ObtenerToken();
-            string tokenSinComillas = token.Trim('"');
+            
             var identify = new ClaimsIdentity();
             _http.DefaultRequestHeaders.Authorization = null;
             
             if (!string.IsNullOrEmpty(token))
             {
+                string tokenSinComillas = token.Trim('"');
                 string validarToken = await ValidarToken(token);
 
                 if (!string.IsNullOrEmpty(validarToken))
@@ -68,8 +69,16 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
 
         private async Task<string> ObtenerToken()
         {
-
-           return await _localStorageService.GetItemAsStringAsync("token");
+            string token = await _localStorageService.GetItemAsStringAsync("token");
+            if(token != null)
+            {
+                return token;
+            }
+            else
+            {
+                return null;
+            }
+           
             
         }
         

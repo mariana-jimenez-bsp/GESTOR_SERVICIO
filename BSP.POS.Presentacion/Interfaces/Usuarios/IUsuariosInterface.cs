@@ -13,7 +13,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         mPerfil Perfil { get; set; }
         Task ObtenerPerfil(string usuario);
 
-        Task ActualizarPefil(mPerfil perfil);
+        Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal);
 
 
 

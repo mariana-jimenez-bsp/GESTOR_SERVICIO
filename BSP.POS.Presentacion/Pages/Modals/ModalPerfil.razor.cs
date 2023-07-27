@@ -15,8 +15,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public mPerfil perfil { get; set; } = new mPerfil();
         public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
+        public string usuarioOriginal = string.Empty;
+        public string claveOriginal = string.Empty;
 
-      
         public string tipo { get; set; } = string.Empty;
 
         protected override async Task OnInitializedAsync()
@@ -29,7 +30,10 @@ namespace BSP.POS.Presentacion.Pages.Modals
             if (UsuariosService.Perfil != null)
             {
                 perfil = UsuariosService.Perfil;
+                claveOriginal = perfil.clave;
                 perfil.clave = string.Empty;
+                usuarioOriginal = perfil.usuario;
+               
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await PermisosService.ObtenerListaDePermisos(perfil.esquema);
                 if (PermisosService.ListaPermisos != null)
@@ -149,14 +153,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task ActualizarPerfil()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ActualizarPefil(perfil);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerPerfil(perfil.usuario);
-            if (UsuariosService.Perfil != null)
-            {
-                perfil = UsuariosService.Perfil;
-            }
+
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
             bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
@@ -183,6 +180,14 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     throw;
                 }
                 
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerPerfil(perfil.usuario);
+            if (UsuariosService.Perfil != null)
+            {
+                perfil = UsuariosService.Perfil;
             }
             await CloseModal();
         }
