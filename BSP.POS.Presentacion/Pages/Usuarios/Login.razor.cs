@@ -7,6 +7,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private string mensaje { get; set; } = string.Empty;
         public mLogin usuarioLogin { get; set; } = new mLogin();
+        public mLogin usuario { get; set; } = new mLogin();
         protected override void OnParametersSet()
         {
 
@@ -20,10 +21,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private async Task Ingresar()
         {
             mensaje = string.Empty;
-            if (!string.IsNullOrEmpty(inputUsuario) && !string.IsNullOrEmpty(inputClave) && !string.IsNullOrEmpty(inputEsquema))
-            {
 
-                usuarioLogin = await UsuariosService.RealizarLogin(inputUsuario, inputClave, inputEsquema);
+
+                usuarioLogin = await UsuariosService.RealizarLogin(usuario);
                 if (!string.IsNullOrEmpty(usuarioLogin.token))
                 {
 
@@ -36,31 +36,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 {
                     mensajeError();
 
-                    inputUsuario = string.Empty;
-                    inputClave = string.Empty;
-                    inputEsquema = string.Empty;
+                    usuario.usuario = string.Empty;
+                    usuario.clave = string.Empty;
+                    usuario.esquema = string.Empty;
                 }
 
-            }
-            else
-            {
-                mensajeError();
-                inputUsuario = string.Empty;
-                inputClave = string.Empty;
-                inputEsquema = string.Empty;
-            }
-        }
+            
 
-        private string inputUsuario { get; set; } = string.Empty;
-        private string inputClave { get; set; } = string.Empty;
-        private string inputEsquema { get; set; } = string.Empty;
+        }
 
 
         private void ValorUsuario(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                inputUsuario = e.Value.ToString();
+                usuario.usuario = e.Value.ToString();
             }
         }
 
@@ -71,18 +61,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                inputEsquema = e.Value.ToString();
+                usuario.esquema = e.Value.ToString();
             }
         }
 
         private void mensajeError()
         { 
-          if(!string.IsNullOrEmpty(inputUsuario) && !string.IsNullOrEmpty(inputClave) && !string.IsNullOrEmpty(inputEsquema)){
+          if(!string.IsNullOrEmpty(usuario.usuario) && !string.IsNullOrEmpty(usuario.clave) && !string.IsNullOrEmpty(usuario.esquema)){
                 mensaje = "Datos inválidos";
-            }
-            else
-            {
-                mensaje = "No dejar ningún campo vacío";
             }
 
             
@@ -95,7 +81,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                inputClave = e.Value.ToString();
+                usuario.clave = e.Value.ToString();
             }
         }
     }

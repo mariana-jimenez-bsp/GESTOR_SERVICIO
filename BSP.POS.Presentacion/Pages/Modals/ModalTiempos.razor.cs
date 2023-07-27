@@ -9,11 +9,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public List<mTiempos> tiempos = new List<mTiempos>();
         protected override async Task OnInitializedAsync()
         {
-            await TiemposService.ObtenerListaTIempos();
-            if (TiemposService.ObtenerListaTIempos() != null)
-            {
-                tiempos = TiemposService.ListaTiempos;
-            }
+            //await TiemposService.ObtenerListaTIempos();
+            //if (TiemposService.ObtenerListaTIempos() != null)
+            //{
+            //    tiempos = TiemposService.ListaTiempos;
+            //}
         }
         private void CambioTiempo(ChangeEventArgs e, string id)
         {

@@ -16,32 +16,38 @@
                 </div>
                 <div class="col-md-5 columna columna-right-imagen">
                     <div class="text-center">
+                         <EditForm Model="usuario" OnValidSubmit="Ingresar">
+                    <DataAnnotationsValidator />
                         <div class="semicircle"></div>
                         <h1 class="text-light"> Gestor de servicio</h1>
                         <h3 class="text-light">Ingrese su información</h3>
                         <div class="form-group d-flex align-items-center">
                             <i class="fa-solid fa-envelope text-success bg-light p-2"></i>
-                    <input placeholder="Usuario..." type="text" class="form-control text-success" value="@inputUsuario" @oninput="ValorUsuario" required />
+                        <input placeholder="Usuario..." type="text" class="form-control text-success" @bind-value="usuario.usuario" @oninput="ValorUsuario" />
                         </div>
+                     <ValidationMessage For="@(() => usuario.usuario)" />
                         <div class="form-group d-flex align-items-center">
                             <i class="fa-solid fa-lock text-success bg-light p-2"></i>
-                    <input placeholder="Contraseña..." type="password" class="form-control text-success" value="@inputClave" @oninput="ValorClave" required />
+                        <input placeholder="Contraseña..." type="password" class="form-control text-success" @bind-value="usuario.clave" @oninput="ValorClave" />
                         </div>
+                    <ValidationMessage For="@(() => usuario.clave)" />
                         <div class="form-group d-flex align-items-center">
                             <i class="fa-solid fa-house text-success bg-light p-2"></i>
-                        <select class="form-control text-success" @oninput="ValorEsquema" value="@inputEsquema" required>
+                        <select class="form-control text-success" @oninput="ValorEsquema" @bind="usuario.esquema">
                                 <option value="">Seleccionar Esquema</option>
                                 <option value="BSP">BSP</option>
                             </select>
                         </div>
+                    <ValidationMessage For="@(() => usuario.esquema)" />
                         @if(!string.IsNullOrEmpty(mensaje)){
                         <div class="alert alert-danger" role="alert">
                            @mensaje
                         </div>
                          }
-                        <button class="btn btn-success btn-block" @onclick="Ingresar">Ingresar</button>
+                        <button type="submit" class="btn btn-success btn-block">Ingresar</button>
                         <p class="mt-5 text-light">¿Olvidó su contraseña?</p>
                         <a class="text-success">Resetear contraseña</a>
+                     </EditForm>
                     </div>
                 </div>
             </div>

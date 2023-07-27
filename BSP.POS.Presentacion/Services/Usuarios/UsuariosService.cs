@@ -27,15 +27,13 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             _localStorageService = localStorageService;
             _navigationManager = navigationManager;
         }
-        public async Task<mLogin> RealizarLogin(string USUARIO, string CLAVE, string ESQUEMA)
+        public async Task<mLogin> RealizarLogin(mLogin usuarioLog)
         {
-            mLogin enviarUsuario = new mLogin();
-            string claveEncriptada = EncriptarClave(CLAVE);
-            enviarUsuario.usuario = USUARIO;
-            enviarUsuario.clave = claveEncriptada;
-            enviarUsuario.esquema = ESQUEMA;
+
+            string claveEncriptada = EncriptarClave(usuarioLog.clave);
+            usuarioLog.clave = claveEncriptada;
             string url = "https://localhost:7032/api/Usuarios/Login";
-            string jsonData = JsonSerializer.Serialize(enviarUsuario);
+            string jsonData = JsonSerializer.Serialize(usuarioLog);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
             var usuario = await _http.PostAsync(url, content);
