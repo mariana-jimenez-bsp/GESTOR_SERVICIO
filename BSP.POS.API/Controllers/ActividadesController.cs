@@ -1,4 +1,6 @@
-﻿using BSP.POS.NEGOCIOS.Actividades;
+﻿using BSP.POS.API.Models;
+using BSP.POS.NEGOCIOS.Actividades;
+using BSP.POS.UTILITARIOS.Actividades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,6 +47,36 @@ namespace BSP.POS.API.Controllers
                 return listaActividadesAsociadasJson;
             }
 
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [HttpPost("ActualizaListaDeActividades")]
+        public string ActualizaListaDeActividades([FromBody] List<mActividades> datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                List<U_ListaActividades> listaActividades = new List<U_ListaActividades>();
+                foreach (var item in datos)
+                {
+                    U_ListaActividades atividad = new U_ListaActividades();
+                    atividad.Id = item.Id;
+                    atividad.codigo = item.codigo;
+                    atividad.Actividad = item.Actividad;
+                    atividad.CI_referencia = item.CI_referencia;
+                    atividad.horas = item.horas;
+
+                    listaActividades.Add(atividad);
+                }
+
+                string mensaje = actividades.ActualizarListaDeActividades(listaActividades, esquema);
+                return mensaje;
+            }
             catch (Exception ex)
             {
                 return ex.Message;

@@ -48,5 +48,11 @@ namespace BSP.POS.NEGOCIOS.Actividades
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public string ActualizarListaDeActividades(List<U_ListaActividades> pActividades, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objActividad.ActualizarListaDeActividades(pActividades, esquema);
+            return mensaje;
+        }
     }
 }

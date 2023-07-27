@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Actividades;
 using BSP.POS.DATOS.POSDataSetTableAdapters;
 
+
 namespace BSP.POS.DATOS.Actividades
 {
     public class D_Actividades
@@ -45,7 +46,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 { 
-                    U_ListaActividades actividad = new U_ListaActividades(item.codigo, item.Actividad, item.CI_referencia, item.horas);
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.Actividad, item.CI_referencia, item.horas);
 
                     LstActividades.Add(actividad);
                 }
@@ -56,6 +57,29 @@ namespace BSP.POS.DATOS.Actividades
 
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
+        }
+
+        public string ActualizarListaDeActividades(List<U_ListaActividades> pActividades, string esquema)
+        {
+            POSDataSet.ActualizarActividadesDataTable bTabla = new POSDataSet.ActualizarActividadesDataTable();
+            ActualizarActividadesTableAdapter sp = new ActualizarActividadesTableAdapter();
+            try
+            {
+                foreach (var actividad in pActividades)
+                {
+                    var response = sp.GetData(actividad.Id, actividad.codigo, actividad.Actividad, actividad.CI_referencia, actividad.horas, esquema);
+
+                }
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
         }
     }
 }

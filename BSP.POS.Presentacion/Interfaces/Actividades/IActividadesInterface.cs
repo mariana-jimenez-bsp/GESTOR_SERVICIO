@@ -9,5 +9,7 @@ namespace BSP.POS.Presentacion.Interfaces.Actividades
 
         List<mActividades> ListaActividades { get; set; }
         Task ObtenerListaDeActividades(string esquema);
+
+        Task ActualizarListaDeActividades(List<mActividades> listaActividades, string esquema);
     }
 }

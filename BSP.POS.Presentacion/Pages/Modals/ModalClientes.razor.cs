@@ -10,7 +10,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         private bool IsCollapseOpen = false;
         public List<mClientes> clientes = new List<mClientes>();
-        public string esquema = String.Empty;
+        public string esquema = string.Empty;
         protected override async Task OnInitializedAsync()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();

@@ -53,6 +53,7 @@ namespace BSP.POS.Presentacion.Services.Clientes
         {
             try
             {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
                 string url = "https://localhost:7032/api/Clientes/ActualizaListaDeClientes";
                 string jsonData = JsonSerializer.Serialize(listaClientes);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
