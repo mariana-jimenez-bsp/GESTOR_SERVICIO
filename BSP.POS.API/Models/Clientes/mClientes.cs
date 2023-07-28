@@ -1,4 +1,4 @@
-﻿namespace BSP.POS.API.Models
+﻿namespace BSP.POS.API.Models.Clientes
 {
     public class mClientes
     {
@@ -6,8 +6,8 @@
         public string CONTACTO { get; set; } = string.Empty;
         public string CARGO { get; set; } = string.Empty;
         public string NOMBRE { get; set; } = string.Empty;
-        public string ALIAS { get; set; } = string.Empty;   
-        public string DIRECCION { get; set; } = string.Empty;       
+        public string ALIAS { get; set; } = string.Empty;
+        public string DIRECCION { get; set; } = string.Empty;
         public string TELEFONO1 { get; set; } = string.Empty;
         public string TELEFONO2 { get; set; } = string.Empty;
         public string CONTRIBUYENTE { get; set; } = string.Empty;

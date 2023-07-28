@@ -1,11 +1,11 @@
-﻿using BSP.POS.Presentacion.Models;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using BSP.POS.Presentacion.Interfaces.Permisos;
 using BSP.POS.Presentacion.Pages.Home;
+using BSP.POS.Presentacion.Models.Permisos;
 
 namespace BSP.POS.Presentacion.Services.Permisos
 {

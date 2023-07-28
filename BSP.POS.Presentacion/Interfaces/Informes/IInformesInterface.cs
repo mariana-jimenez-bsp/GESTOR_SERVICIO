@@ -1,4 +1,4 @@
-﻿using BSP.POS.Presentacion.Models;
+﻿using BSP.POS.Presentacion.Models.Informes;
 
 namespace BSP.POS.Presentacion.Interfaces.Informes
 {

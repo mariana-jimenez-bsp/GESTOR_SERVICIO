@@ -5,78 +5,78 @@
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content">
         <EditForm Model="perfil" OnValidSubmit="ActualizarPerfil">
-        <DataAnnotationsValidator/>
-        <div class="modal-header d-flex justify-content-center text-primary">
-            <h2>Perfil <i class="fa-solid fa-user fa-xl"></i></h2>
-        </div>
+            <DataAnnotationsValidator />
+            <div class="modal-header d-flex justify-content-center text-primary">
+                <h2>Perfil <i class="fa-solid fa-user fa-xl"></i></h2>
+            </div>
 
-        <div class="modal-body d-flex row g-2 text-center">
-            <div class="d-flex justify-content-center">
-                <label class="col-md-2 mt-2 text-primary" for="correo">Correo:</label>
-                <input @bind-value="@perfil.correo" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="correo" @oninput="CambioCorreo" />
-            </div>
-                <ValidationMessage For="@(() => perfil.correo)" />
-            <div class="d-flex justify-content-center">
-                <label class="col-md-2 mt-2 text-primary" for="usuario">Usuario:</label>
-                <input @bind-value="@perfil.usuario" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="usuario" @oninput="CambioUsuario" />
-            </div>
-                <ValidationMessage For="@(() => perfil.usuario)" />
-            <div class="d-flex justify-content-center">
-                <label class="col-md-2 mt-2 text-primary" for="contraseña">Contraseña:</label>
-                <input @bind-value="@perfil.clave" class="col-md-2 border border-success rounded-pill px-2 text-success" type="password" id="contraseña" @oninput="CambioClave" />
-            </div>
-            <div class="d-flex justify-content-center">
-                <label class="col-md-2 mt-2 text-primary" for="empresa">Empresa:</label>
-                <input @bind-value="@perfil.nombre" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="empresa" @oninput="CambioNombreEmpresa" />
-            </div>
-                <ValidationMessage For="@(() => perfil.nombre)" />
-            <div class="d-flex justify-content-center">
-                <label class="col-md-2 mt-2 text-primary" for="telefono">Telefono:</label>
-                <input @bind-value="@perfil.telefono" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="telefono" @oninput="CambioTelefono" />
-            </div>
-                <ValidationMessage For="@(() => perfil.telefono)" />
-            <div class="d-flex justify-content-center">
-                <label class="col-md-2 mt-2 text-primary" for="esquema">Esquema:</label>
-                <select @bind="perfil.esquema" class="col-md-2 border border-success rounded-pill bg-success text-light px-2" id="esquema" @oninput="CambioEsquema">
-                    <option value="BSP">BSP</option>
-                </select>
-            </div>
-            <div class="d-flex justify-content-center">
-                <label class="col-md-2 mt-2 text-primary" for="tipo">Tipo:</label>
-                <select @bind="perfil.rol" class="col-md-2 border border-success rounded-pill bg-success text-light px-2" id="tipo" @oninput="CambioRol">
-                    <option value="C">Consultor</option>
-                    <option value="A">Administrador</option>
-                </select>
-            </div>
-              <ValidationMessage For="@(() => perfil.rol)" />
-            <div class="d-flex justify-content-center mt-3">
-                <label class="col-md-2 mt-2 text-primary" for="permisos">Permisos:</label>
-                <div id="permisos" class="row col-md-6 px-2 text-start d-flex align-items-center justify-content-center">
-                    @if(todosLosPermisos != null)
-                    {
-                        int index = 0;
-                        foreach (var permiso in todosLosPermisos)
-                        {
-                            int cont = index;
-                            <div class="col-md-4 ms-3">
-                                <input type="checkbox" class="custom-checkbox" id="myCheckbox-@permiso.Id" checked="@EstadosDeChecks[cont].Check" @onchange="(e) => HandleCheckCambiado(e, cont)">
-                            <label class="label-transparent" for="myCheckbox-@permiso.Id">@permiso.permiso</label>
-                            </div>
-                            index++;
-                        }
-                    }                
-                 
-
+            <div class="modal-body d-flex row g-2 text-center">
+                <div class="d-flex justify-content-center">
+                    <label class="col-md-2 mt-2 text-primary" for="correo">Correo:</label>
+                    <input @bind-value="@perfil.correo" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="correo" @oninput="CambioCorreo" />
                 </div>
+                <ValidationMessage For="@(() => perfil.correo)" />
+                <div class="d-flex justify-content-center">
+                    <label class="col-md-2 mt-2 text-primary" for="usuario">Usuario:</label>
+                    <input @bind-value="@perfil.usuario" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="usuario" @oninput="CambioUsuario" />
+                </div>
+                <ValidationMessage For="@(() => perfil.usuario)" />
+                <div class="d-flex justify-content-center">
+                    <label class="col-md-2 mt-2 text-primary" for="contraseña">Contraseña:</label>
+                    <input @bind-value="@perfil.clave" class="col-md-2 border border-success rounded-pill px-2 text-success" type="password" id="contraseña" @oninput="CambioClave" />
+                </div>
+                <div class="d-flex justify-content-center">
+                    <label class="col-md-2 mt-2 text-primary" for="empresa">Empresa:</label>
+                    <input @bind-value="@perfil.nombre" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="empresa" @oninput="CambioNombreEmpresa" />
+                </div>
+                <ValidationMessage For="@(() => perfil.nombre)" />
+                <div class="d-flex justify-content-center">
+                    <label class="col-md-2 mt-2 text-primary" for="telefono">Telefono:</label>
+                    <input @bind-value="@perfil.telefono" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="telefono" @oninput="CambioTelefono" />
+                </div>
+                <ValidationMessage For="@(() => perfil.telefono)" />
+                <div class="d-flex justify-content-center">
+                    <label class="col-md-2 mt-2 text-primary" for="esquema">Esquema:</label>
+                    <select @bind="perfil.esquema" class="col-md-2 border border-success rounded-pill bg-success text-light px-2" id="esquema" @oninput="CambioEsquema">
+                        <option value="BSP">BSP</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <label class="col-md-2 mt-2 text-primary" for="tipo">Tipo:</label>
+                    <select @bind="perfil.rol" class="col-md-2 border border-success rounded-pill bg-success text-light px-2" id="tipo" @oninput="CambioRol">
+                        <option value="C">Consultor</option>
+                        <option value="A">Administrador</option>
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => perfil.rol)" />
+                <div class="d-flex justify-content-center mt-3">
+                    <label class="col-md-2 mt-2 text-primary" for="permisos">Permisos:</label>
+                    <div id="permisos" class="row col-md-6 px-2 text-start d-flex align-items-center justify-content-center">
+                        @if (todosLosPermisos != null)
+                        {
+                            int index = 0;
+                            foreach (var permiso in todosLosPermisos)
+                            {
+                                int cont = index;
+                                <div class="col-md-4 ms-3">
+                                    <input type="checkbox" class="custom-checkbox" id="myCheckbox-@permiso.Id" checked="@EstadosDeChecks[cont].Check" @onchange="(e) => HandleCheckCambiado(e, cont)">
+                                    <label class="label-transparent" for="myCheckbox-@permiso.Id">@permiso.permiso</label>
+                                </div>
+                                index++;
+                            }
+                        }
+
+
+                    </div>
+                </div>
+
             </div>
 
-        </div>
-       
-        <div class="modal-footer">
-            <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar-perfil">Descartar cambios</button>
-            <button type="submit" class="rounded-pill border border-success bg-success text-light" id="guardar-perfil">Guardar cambios</button>
-        </div>
-  
+            <div class="modal-footer">
+                <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar-perfil">Descartar cambios</button>
+                <button type="submit" class="rounded-pill border border-success bg-success text-light" id="guardar-perfil">Guardar cambios</button>
+            </div>
+
         </EditForm>
     </div>
 </div>

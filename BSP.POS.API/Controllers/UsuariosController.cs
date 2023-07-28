@@ -2,12 +2,10 @@
 
 using BSP.POS.NEGOCIOS.Usuarios;
 using BSP.POS.UTILITARIOS.Usuarios;
-using BSP.POS.API.Models;
-using clSeguridad;
 using System;
 using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
+using BSP.POS.API.Models.Usuarios;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -109,6 +107,7 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [Authorize]
         [HttpGet("ObtengaLaListaDeUsuariosDeClienteAsociados/{esquema}/{cliente}")]
         public string ObtengaLaListaDeUsuariosDeClienteAsociados(string esquema,string cliente)
         {

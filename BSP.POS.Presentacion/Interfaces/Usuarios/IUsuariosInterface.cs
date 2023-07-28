@@ -1,6 +1,4 @@
-﻿
-
-using BSP.POS.Presentacion.Models;
+﻿using BSP.POS.Presentacion.Models.Usuarios;
 
 namespace BSP.POS.Presentacion.Interfaces.Usuarios
 {

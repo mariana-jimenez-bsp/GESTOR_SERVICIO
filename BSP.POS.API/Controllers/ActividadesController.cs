@@ -1,4 +1,4 @@
-﻿using BSP.POS.API.Models;
+﻿using BSP.POS.API.Models.Actividades;
 using BSP.POS.NEGOCIOS.Actividades;
 using BSP.POS.UTILITARIOS.Actividades;
 using Microsoft.AspNetCore.Authorization;

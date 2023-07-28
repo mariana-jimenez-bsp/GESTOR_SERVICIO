@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using BSP.POS.Presentacion.Models;
+using BSP.POS.Presentacion.Models.Usuarios;
+
 namespace BSP.POS.Presentacion.Pages.Usuarios
 {
     public partial class Login: ComponentBase

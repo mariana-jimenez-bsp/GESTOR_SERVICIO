@@ -1,5 +1,5 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Informes;
-using BSP.POS.Presentacion.Models;
+using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Pages.Home;
 using System.Net;
 using System.Net.Http.Json;

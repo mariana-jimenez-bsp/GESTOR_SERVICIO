@@ -12,7 +12,7 @@
         <div class="modal-body d-flex row g-2 text-center ">
             <div class="row">
                 <div class="col-md-6 d-flex align-items-center justify-content-center">
-                    <span class="blue-good">Base de datos de actividades</span>
+                    <span class="blue-good fw-bold">Base de datos de actividades</span>
                 </div>
                 <div class="col-md-6 d-flex">
                     <button class="search-icon-change text-light">
@@ -22,7 +22,7 @@
 
                 </div>
             </div>
-            <div class="container-fluid mt-4">
+            <div class="container-fluid mt-4 fw-bold">
                 <div class="row">
                     <div class="col-md-3">
                         <label class="ms-4 text-center w-75 green-good" for="">Código de Act.</label>
@@ -47,7 +47,7 @@
                    
                     <div class="row mb-2 mt-2">
                         <div class="col-md-3">
-                            <input class="w-75 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.codigo" @oninput="(e) => CambioCodigo(e, actividad.Id)" readonly>
+                            <input class="w-75 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.codigo" readonly>
                         </div>
                         <div class="col-md-3">
                             <input class="w-100 text-center blue-good border-primary rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">

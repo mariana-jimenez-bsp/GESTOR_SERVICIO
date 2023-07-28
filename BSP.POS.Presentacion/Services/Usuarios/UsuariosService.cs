@@ -1,7 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
-using BSP.POS.Presentacion.Models;
-using BSP.POS.UTILITARIOS.Informes;
+using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net;

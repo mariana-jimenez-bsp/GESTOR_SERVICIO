@@ -2,8 +2,8 @@
 using BSP.POS.NEGOCIOS.Clientes;
 using BSP.POS.UTILITARIOS.Clientes;
 using Newtonsoft.Json;
-using BSP.POS.API.Models;
 using Microsoft.AspNetCore.Authorization;
+using BSP.POS.API.Models.Clientes;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers

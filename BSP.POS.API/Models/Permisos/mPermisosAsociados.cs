@@ -1,4 +1,4 @@
-﻿namespace BSP.POS.API.Models
+﻿namespace BSP.POS.API.Models.Permisos
 {
     public class mPermisosAsociados
     {

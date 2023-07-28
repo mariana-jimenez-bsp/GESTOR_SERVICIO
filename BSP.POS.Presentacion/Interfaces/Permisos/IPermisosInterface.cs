@@ -1,4 +1,4 @@
-﻿using BSP.POS.Presentacion.Models;
+﻿using BSP.POS.Presentacion.Models.Permisos;
 
 namespace BSP.POS.Presentacion.Interfaces.Permisos
 {

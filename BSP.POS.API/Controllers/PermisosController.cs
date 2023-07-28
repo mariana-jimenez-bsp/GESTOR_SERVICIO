@@ -1,8 +1,8 @@
 ﻿using BSP.POS.NEGOCIOS.Permisos;
-using BSP.POS.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using BSP.POS.UTILITARIOS.Permisos;
 using Microsoft.AspNetCore.Authorization;
+using BSP.POS.API.Models.Permisos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

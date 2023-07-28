@@ -3,7 +3,6 @@ using static System.Net.WebRequestMethods;
 using System.Net;
 using System.Text.Json;
 using System.Text;
-using BSP.POS.Presentacion.Models;
 using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
@@ -11,6 +10,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Principal;
 using System.Net.Http.Headers;
+using BSP.POS.Presentacion.Models.Usuarios;
 
 namespace BSP.POS.Presentacion.Services.Autorizacion
 {

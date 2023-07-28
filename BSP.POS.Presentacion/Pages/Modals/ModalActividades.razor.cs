@@ -1,4 +1,4 @@
-﻿using BSP.POS.Presentacion.Models;
+﻿using BSP.POS.Presentacion.Models.Actividades;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Modals
@@ -36,19 +36,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         }
 
-        private void CambioCodigo(ChangeEventArgs e, string actividadId)
-        {
-            if (!string.IsNullOrEmpty(e.Value.ToString()))
-            {
-                foreach (var actividad in actividades)
-                {
-                    if (actividad.Id == actividadId)
-                    {
-                        actividad.codigo = e.Value.ToString();
-                    }
-                }
-            }
-        }
 
         private void CambioActividadNombre(ChangeEventArgs e, string actividadId)
         {

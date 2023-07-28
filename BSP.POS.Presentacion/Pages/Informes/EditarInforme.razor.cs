@@ -1,4 +1,6 @@
-﻿using BSP.POS.Presentacion.Models;
+﻿using BSP.POS.Presentacion.Models.Actividades;
+using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.Informes;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Informes

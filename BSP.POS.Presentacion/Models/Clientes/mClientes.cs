@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BSP.POS.Presentacion.Models.Usuarios;
 
-namespace BSP.POS.Presentacion.Models
+namespace BSP.POS.Presentacion.Models.Clientes
 {
     public class mClientes
     {
@@ -24,7 +25,7 @@ namespace BSP.POS.Presentacion.Models
         [Required(ErrorMessage = "El campo de la Cédula es requerido")]
         [StringLength(20, ErrorMessage = "Tamaño máximo de 20 caracteres")]
         public string CONTRIBUYENTE { get; set; } = string.Empty;
-        public string MONEDA { get; set; } = string.Empty;      
+        public string MONEDA { get; set; } = string.Empty;
         public string PAIS { get; set; } = string.Empty;
         public string ZONA { get; set; } = string.Empty;
         [DataType(DataType.EmailAddress, ErrorMessage = "El campo tiene que ser un correo")]

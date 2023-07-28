@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
-using BSP.POS.Presentacion.Models;
 using System.Runtime.InteropServices;
 using BSP.POS.Presentacion.Pages.Home;
+using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Models.Clientes;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
@@ -24,10 +25,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 // Asegurar que las listas desplegables y cambioColores tengan la misma cantidad de elementos que la lista de clientes
                 desplegables = clientes.Select(cliente => new DesplegableInfo()).ToList();
             }
-            
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             foreach (var cliente in clientes)
             {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
             }
 
@@ -57,6 +57,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }).ToList();
             foreach (var cliente in clientes)
             {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
             }
             await OnClose.InvokeAsync(false);

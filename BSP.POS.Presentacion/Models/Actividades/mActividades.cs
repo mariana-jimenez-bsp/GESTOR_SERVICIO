@@ -1,13 +1,13 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace BSP.POS.Presentacion.Models
+namespace BSP.POS.Presentacion.Models.Actividades
 {
     public class mActividades
     {
         public string Id { get; set; } = string.Empty;
         public string codigo { get; set; } = string.Empty;
-        [Required(ErrorMessage ="El campo del nombre es requerido")]
+        [Required(ErrorMessage = "El campo del nombre es requerido")]
         [StringLength(200, ErrorMessage = "Tamaño máximo de 200 caracteres")]
         public string Actividad { get; set; } = string.Empty;
         [StringLength(200, ErrorMessage = "Tamaño máximo de 200 caracteres")]

@@ -1,4 +1,5 @@
-﻿using BSP.POS.Presentacion.Models;
+﻿using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 
@@ -36,6 +37,7 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         private async Task EnviarInformesAsociados(string cliente)
         {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ObtenerListaDeInformesAsociados(cliente, esquema);
             ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(cliente, esquema);
             if (ClientesService.ClienteAsociado != null)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using BSP.POS.Presentacion.Models;
 using System.Collections.Generic;
-
+using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Models.Permisos;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
