@@ -3,7 +3,8 @@
 
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content bg-light">
-
+        <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades">
+            <ObjectGraphDataAnnotationsValidator/>
         <div class="modal-header d-flex justify-content-center text-primary">
             <h2>Actividades <i class="fa-solid fa-tv fa-xl"></i></h2>
         </div>
@@ -42,20 +43,28 @@
             {
                 foreach (var actividad in actividades)
                 {
-                    <div class="row mb-2">
+                    
+                   
+                    <div class="row mb-4">
                         <div class="col-md-3">
-                            <input class="w-75 text-center green-good border-success rounded-pill" type="text" value="@actividad.codigo" @oninput="(e) => CambioCodigo(e, actividad.Id)" readonly>
+                            <input class="w-75 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.codigo" @oninput="(e) => CambioCodigo(e, actividad.Id)" readonly>
                         </div>
                         <div class="col-md-3">
-                            <input class="w-100 text-center blue-good border-primary rounded-pill" type="text" value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
+                            <input class="w-100 text-center blue-good border-primary rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
                         </div>
+                         
                         <div class="col-md-3">
-                            <input class="w-100 text-center green-good border-success rounded-pill" type="text" value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
+                            <input class="w-100 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
                         </div>
+                       
                         <div class="col-md-3">
-                            <input class="w-50 text-center green-good border-success rounded-pill" type="text" value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
+                            <input class="w-50 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
                         </div>
+                       
                     </div>
+                            <ValidationMessage For="@(() => actividad.Actividad)" />
+                            <ValidationMessage For="@(() => actividad.CI_referencia)" />
+                            <ValidationMessage For="@(() => actividad.horas)" />
                 }
             }
             </div>
@@ -63,8 +72,9 @@
 
     <div class="modal-footer">
         <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar">Descartar cambios</button>
-        <button @onclick="() => ActualizarListaActividades()" class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
+        <button type="submit" class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
     </div>
+    </EditForm>
     </div>
 </div>
 
@@ -73,6 +83,7 @@
     [Parameter] public EventCallback<bool> OnClose { get; set; }
     public List<mActividades> actividades = new List<mActividades>();
     public string esquema = string.Empty;
+  
     private void OpenModal()
     {
         ActivarModal = true;
@@ -167,4 +178,6 @@
         }
         await CloseModal();
     }
+
+
 }

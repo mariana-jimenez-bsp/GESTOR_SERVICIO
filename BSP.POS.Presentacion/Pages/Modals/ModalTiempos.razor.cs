@@ -7,14 +7,14 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public bool ActivarModal { get; set; } = false;
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         public List<mTiempos> tiempos = new List<mTiempos>();
-        protected override async Task OnInitializedAsync()
-        {
-            //await TiemposService.ObtenerListaTIempos();
-            //if (TiemposService.ObtenerListaTIempos() != null)
-            //{
-            //    tiempos = TiemposService.ListaTiempos;
-            //}
-        }
+        //protected override async Task OnInitializedAsync()
+        //{
+        //    await TiemposService.ObtenerListaTIempos();
+        //    if (TiemposService.ObtenerListaTIempos() != null)
+        //    {
+        //        tiempos = TiemposService.ListaTiempos;
+        //    }
+        //}
         private void CambioTiempo(ChangeEventArgs e, string id)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
