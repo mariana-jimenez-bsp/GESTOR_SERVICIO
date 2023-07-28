@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using BSP.POS.Presentacion.Models;
 using System.Runtime.InteropServices;
+using BSP.POS.Presentacion.Pages.Home;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
@@ -47,6 +48,16 @@ namespace BSP.POS.Presentacion.Pages.Modals
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes();
             clientes = ClientesService.ListaClientes;
+            desplegables = desplegables.Select(desplegable =>
+            {
+                desplegable.IsOpen = false;
+                return desplegable;
+            }).ToList();
+            cambioColores = cambioColores.Select(color =>
+            {
+                color.bg_color = "bg-light";
+                return color;
+            }).ToList();
             await OnClose.InvokeAsync(false);
 
 
@@ -131,7 +142,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
         }
 
-        private void CambioTelefono(ChangeEventArgs e, string clienteCod)
+        private void CambioTelefono1(ChangeEventArgs e, string clienteCod)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -139,7 +150,35 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 {
                     if (cliente.CLIENTE == clienteCod)
                     {
-                        cliente.TELEFONO = e.Value.ToString();
+                        cliente.TELEFONO1 = e.Value.ToString();
+                    }
+                }
+            }
+        }
+
+        private void CambioTelefono2(ChangeEventArgs e, string clienteCod)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                foreach (var cliente in clientes)
+                {
+                    if (cliente.CLIENTE == clienteCod)
+                    {
+                        cliente.TELEFONO2 = e.Value.ToString();
+                    }
+                }
+            }
+        }
+
+        private void CambioCorreo(ChangeEventArgs e, string clienteCod)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                foreach (var cliente in clientes)
+                {
+                    if (cliente.CLIENTE == clienteCod)
+                    {
+                        cliente.E_MAIL = e.Value.ToString();
                     }
                 }
             }
@@ -149,13 +188,17 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ActualizarListaDeClientes(clientes, esquema);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientes();
             if (ClientesService.ListaClientes != null)
             {
                 clientes = ClientesService.ListaClientes;
             }
             await CloseModal();
+        }
+
+        private bool esElUltimoCliente(mClientes cliente)
+        {
+            // Compara el elemento actual con el último elemento de la lista
+            return clientes.IndexOf(cliente) == clientes.Count - 1;
         }
     }
 }

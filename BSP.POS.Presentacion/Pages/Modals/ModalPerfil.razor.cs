@@ -183,12 +183,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerPerfil(perfil.usuario);
-            if (UsuariosService.Perfil != null)
-            {
-                perfil = UsuariosService.Perfil;
-            }
             await CloseModal();
         }
         private void OpenModal()

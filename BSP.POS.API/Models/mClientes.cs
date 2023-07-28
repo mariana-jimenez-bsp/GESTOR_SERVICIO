@@ -8,7 +8,8 @@
         public string NOMBRE { get; set; } = string.Empty;
         public string ALIAS { get; set; } = string.Empty;   
         public string DIRECCION { get; set; } = string.Empty;       
-        public string TELEFONO { get; set; } = string.Empty;
+        public string TELEFONO1 { get; set; } = string.Empty;
+        public string TELEFONO2 { get; set; } = string.Empty;
         public string CONTRIBUYENTE { get; set; } = string.Empty;
         public string MONEDA { get; set; } = string.Empty;
         public string PAIS { get; set; } = string.Empty;

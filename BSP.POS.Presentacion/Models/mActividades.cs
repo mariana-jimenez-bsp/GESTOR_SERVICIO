@@ -8,7 +8,9 @@ namespace BSP.POS.Presentacion.Models
         public string Id { get; set; } = string.Empty;
         public string codigo { get; set; } = string.Empty;
         [Required(ErrorMessage ="El campo del nombre es requerido")]
+        [StringLength(200, ErrorMessage = "Tamaño máximo de 200 caracteres")]
         public string Actividad { get; set; } = string.Empty;
+        [StringLength(200, ErrorMessage = "Tamaño máximo de 200 caracteres")]
         [Required(ErrorMessage = "El campo del CI-Referencia es requerido")]
         public string CI_referencia { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo de Horas es requerido")]

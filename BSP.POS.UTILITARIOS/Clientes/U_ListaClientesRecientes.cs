@@ -15,7 +15,8 @@ namespace BSP.POS.UTILITARIOS.Clientes
         public string CONTACTO { get; set; }
         public string CARGO { get; set; }
         public string DIRECCION { get; set; }
-        public string TELEFONO { get; set; }
+        public string TELEFONO1 { get; set; }
+        public string TELEFONO2 { get; set; }
         public string CONTRIBUYENTE { get; set; }
         public string MONEDA { get; set; }
         public string PAIS { get; set; }
@@ -33,7 +34,7 @@ namespace BSP.POS.UTILITARIOS.Clientes
         public string CreateDate { get; set; }
 
 
-        public U_ListarClientesRecientes(string pCLIENTE, string pNOMBRE, string pALIAS, string pCONTACTO, string pCARGO, string pDIRECCION, string pTELEFONO, string pCONTRIBUYENTE,
+        public U_ListarClientesRecientes(string pCLIENTE, string pNOMBRE, string pALIAS, string pCONTACTO, string pCARGO, string pDIRECCION, string pTELEFONO1 , string pTELEFONO2, string pCONTRIBUYENTE,
                 string pMONEDA, string pNIVEL_PRECIO, string pPAIS, string pZONA, string pEXENTO_IMPUESTOS, string pE_MAIL,
                 string pCODIGO_IMPUESTO, string pDIVISION_GEOGRAFICA1, string pDIVISION_GEOGRAFICA2, string pDIVISION_GEOGRAFICA3,
                 string pDIVISION_GEOGRAFICA4, string pOTRAS_SENAS, string pRecordDate, string pCreateDate)
@@ -44,7 +45,8 @@ namespace BSP.POS.UTILITARIOS.Clientes
             CONTACTO = pCONTACTO;
             ALIAS = pALIAS;
             DIRECCION = pDIRECCION;
-            TELEFONO = pTELEFONO;
+            TELEFONO1 = pTELEFONO1;
+            TELEFONO2 = pTELEFONO2;
             CONTRIBUYENTE = pCONTRIBUYENTE;
             MONEDA = pMONEDA;
             NIVEL_PRECIO = pNIVEL_PRECIO;

@@ -87,7 +87,9 @@ namespace BSP.POS.API.Controllers
                     cliente.NOMBRE = item.NOMBRE;
                     cliente.ALIAS = item.ALIAS;
                     cliente.CONTRIBUYENTE = item.CONTRIBUYENTE;
-                    cliente.TELEFONO = item.TELEFONO;
+                    cliente.TELEFONO1 = item.TELEFONO1;
+                    cliente.TELEFONO2 = item.TELEFONO2;
+                    cliente.E_MAIL = item.E_MAIL;
                     listaClientes.Add(cliente);
                 }
 

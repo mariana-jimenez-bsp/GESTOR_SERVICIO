@@ -45,26 +45,26 @@
                 {
                     
                    
-                    <div class="row mb-4">
+                    <div class="row mb-2 mt-2">
                         <div class="col-md-3">
                             <input class="w-75 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.codigo" @oninput="(e) => CambioCodigo(e, actividad.Id)" readonly>
                         </div>
                         <div class="col-md-3">
                             <input class="w-100 text-center blue-good border-primary rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
+                              <ValidationMessage For="@(() => actividad.Actividad)" />
                         </div>
                          
                         <div class="col-md-3">
                             <input class="w-100 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
+                             <ValidationMessage For="@(() => actividad.CI_referencia)"  />
                         </div>
                        
                         <div class="col-md-3">
                             <input class="w-50 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
+                            <ValidationMessage For="@(() => actividad.horas)"  />
                         </div>
                        
                     </div>
-                            <ValidationMessage For="@(() => actividad.Actividad)" />
-                            <ValidationMessage For="@(() => actividad.CI_referencia)" />
-                            <ValidationMessage For="@(() => actividad.horas)" />
                 }
             }
             </div>
@@ -78,106 +78,4 @@
     </div>
 </div>
 
-@code {
-    [Parameter] public bool ActivarModal { get; set; } = false;
-    [Parameter] public EventCallback<bool> OnClose { get; set; }
-    public List<mActividades> actividades = new List<mActividades>();
-    public string esquema = string.Empty;
-  
-    private void OpenModal()
-    {
-        ActivarModal = true;
-    }
 
-    private async Task CloseModal()
-    {
-        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        await ActividadesService.ObtenerListaDeActividades(esquema);
-        actividades = ActividadesService.ListaActividades;
-        await OnClose.InvokeAsync(false);
-
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authenticationState.User;
-        esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-        await ActividadesService.ObtenerListaDeActividades(esquema);
-        if (ActividadesService.ListaActividades != null)
-        {
-            actividades = ActividadesService.ListaActividades;
-        }
-
-    }
-
-    private void CambioCodigo(ChangeEventArgs e, string actividadId)
-    {
-        if (!string.IsNullOrEmpty(e.Value.ToString()))
-        {
-            foreach (var actividad in actividades)
-            {
-                if (actividad.Id == actividadId)
-                {
-                    actividad.codigo = e.Value.ToString();
-                }
-            }
-        }
-    }
-
-    private void CambioActividadNombre(ChangeEventArgs e, string actividadId)
-    {
-        if (!string.IsNullOrEmpty(e.Value.ToString()))
-        {
-            foreach (var actividad in actividades)
-            {
-                if (actividad.Id == actividadId)
-                {
-                    actividad.Actividad = e.Value.ToString();
-                }
-            }
-        }
-    }
-
-    private void CambioCIReferencia(ChangeEventArgs e, string actividadId)
-    {
-        if (!string.IsNullOrEmpty(e.Value.ToString()))
-        {
-            foreach (var actividad in actividades)
-            {
-                if (actividad.Id == actividadId)
-                {
-                    actividad.CI_referencia = e.Value.ToString();
-                }
-            }
-        }
-    }
-
-    private void CambioHoras(ChangeEventArgs e, string actividadId)
-    {
-        if (!string.IsNullOrEmpty(e.Value.ToString()))
-        {
-            foreach (var actividad in actividades)
-            {
-                if (actividad.Id == actividadId)
-                {
-                    actividad.horas = e.Value.ToString();
-                }
-            }
-        }
-    }
-
-    private async Task ActualizarListaActividades()
-    {
-        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        await ActividadesService.ActualizarListaDeActividades(actividades, esquema);
-        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        await ActividadesService.ObtenerListaDeActividades(esquema);
-        if (ActividadesService.ListaActividades != null)
-        {
-            actividades = ActividadesService.ListaActividades;
-        }
-        await CloseModal();
-    }
-
-
-}

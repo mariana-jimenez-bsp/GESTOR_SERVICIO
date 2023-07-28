@@ -23,7 +23,7 @@ namespace BSP.POS.DATOS.Clientes
                 foreach (var item in response)
                 {
                     U_ListaClientes cliente = new U_ListaClientes(item.CLIENTE, item.NOMBRE, item.ALIAS, item.CONTACTO, item.CARGO, item.DIRECCION, item.TELEFONO1,
-                                                     item.CONTRIBUYENTE, item.MONEDA, item.NIVEL_PRECIO, item.PAIS, item.ZONA,
+                                                     item.TELEFONO2, item.CONTRIBUYENTE, item.MONEDA, item.NIVEL_PRECIO, item.PAIS, item.ZONA,
                                                      item.EXENTO_IMPUESTOS, item.E_MAIL, item.CODIGO_IMPUESTO, item.DIVISION_GEOGRAFICA1,
                                                      item.DIVISION_GEOGRAFICA2, item.DIVISION_GEOGRAFICA3, item.DIVISION_GEOGRAFICA4,
                                                      item.OTRAS_SENAS, item.RecordDate);
@@ -50,7 +50,7 @@ namespace BSP.POS.DATOS.Clientes
                 foreach (var item in response)
                 {
                     U_ListarClientesRecientes cliente = new U_ListarClientesRecientes(item.CLIENTE, item.NOMBRE, item.ALIAS, item.CONTACTO, item.CARGO, item.DIRECCION, item.TELEFONO1,
-                                                     item.CONTRIBUYENTE, item.MONEDA, item.NIVEL_PRECIO, item.PAIS, item.ZONA,
+                                                     item.TELEFONO2, item.CONTRIBUYENTE, item.MONEDA, item.NIVEL_PRECIO, item.PAIS, item.ZONA,
                                                      item.EXENTO_IMPUESTOS, item.E_MAIL, item.CODIGO_IMPUESTO, item.DIVISION_GEOGRAFICA1,
                                                      item.DIVISION_GEOGRAFICA2, item.DIVISION_GEOGRAFICA3, item.DIVISION_GEOGRAFICA4,
                                                      item.OTRAS_SENAS, item.RecordDate, item.CreateDate);
@@ -97,7 +97,7 @@ namespace BSP.POS.DATOS.Clientes
             {
                 foreach (var cliente in pClientes)
                 {
-                    var response = sp.GetData(esquema, cliente.CLIENTE, cliente.NOMBRE, cliente.ALIAS, cliente.CONTRIBUYENTE, cliente.TELEFONO);
+                    var response = sp.GetData(esquema, cliente.CLIENTE, cliente.NOMBRE, cliente.ALIAS, cliente.CONTRIBUYENTE, cliente.TELEFONO1, cliente.TELEFONO2, cliente.E_MAIL);
 
                 }
                 return "Exito";
