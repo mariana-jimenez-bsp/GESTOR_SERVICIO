@@ -112,3 +112,21 @@
     transition: background-color 0.3s;
     cursor: pointer;
 }
+
+.collapsing {
+    transition: height 0.5s ease-out;
+}
+
+.collapsed {
+    height: 0;
+    overflow: hidden;
+}
+
+.collapsing:not(.show) {
+    height: 0;
+
+}
+
+.collapse.show {
+    height: auto;
+}

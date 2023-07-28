@@ -9,7 +9,7 @@ namespace BSP.POS.Presentacion.Models
         [Required(ErrorMessage = "El Usuario es requerido")]
         public string usuario { get; set; } = string.Empty;
         [StringLength(249, ErrorMessage = "Tamaño máximo de 249 caracteres")]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage ="El campo tiene que ser un correo")]
         [Required(ErrorMessage = "El Correo es requerido")]
         public string correo { get; set; } = string.Empty;
         [StringLength(100, ErrorMessage = "Tamaño máximo de 100 caracteres")]

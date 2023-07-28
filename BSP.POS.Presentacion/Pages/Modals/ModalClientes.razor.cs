@@ -68,26 +68,26 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private void ToggleCollapse(int index)
         {
-            // Cambiar el estado del desplegable con el índice especificado
-
+            // Primero, actualizamos el estado de los desplegables
             for (int i = 0; i < desplegables.Count; i++)
             {
                 if (i == index)
                 {
                     desplegables[i].IsOpen = !desplegables[i].IsOpen;
-
-                    cambiarColor(i);
-
                 }
                 else
                 {
                     desplegables[i].IsOpen = false;
-                    cambiarColor(i);
                 }
             }
 
-
+            // Luego, cambiamos los colores basados en el estado actualizado
+            for (int i = 0; i < desplegables.Count; i++)
+            {
+                cambiarColor(i);
+            }
         }
+
         private void cambiarColor(int index)
         {
             if (desplegables[index].IsOpen)
