@@ -20,9 +20,10 @@ namespace BSP.POS.Presentacion.Services.Clientes
         public List<mClientes> ListaClientesRecientes { get; set; } = new List<mClientes>();
         public mClienteAsociado ClienteAsociado { get; set; } = new mClienteAsociado();
 
-        public async Task<mClienteAsociado?> ObtenerClienteAsociado(string cliente)
+        public async Task<mClienteAsociado?> ObtenerClienteAsociado(string cliente, string esquema)
         {
-            var clienteAsociadoJson = await _http.GetAsync("https://localhost:7032/api/Clientes/ObtengaElClienteAsociado/" + cliente);
+            string url = "https://localhost:7032/api/Clientes/ObtengaElClienteAsociado/" + cliente + "/" + esquema;
+            var clienteAsociadoJson = await _http.GetAsync(url);
             if (clienteAsociadoJson.StatusCode == HttpStatusCode.OK)
             {
                 return await clienteAsociadoJson.Content.ReadFromJsonAsync<mClienteAsociado?>();
@@ -30,19 +31,19 @@ namespace BSP.POS.Presentacion.Services.Clientes
             return null;
         }
 
-        public async Task ObtenerListaClientes()
+        public async Task ObtenerListaClientes(string esquema)
         {
-            var listaClientes = await _http.GetFromJsonAsync<List<mClientes>>("https://localhost:7032/api/Clientes/ObtengaLaListaDeClientes");
+            var listaClientes = await _http.GetFromJsonAsync<List<mClientes>>("https://localhost:7032/api/Clientes/ObtengaLaListaDeClientes/" + esquema);
             if (listaClientes is not null)
             {
                 ListaClientes = listaClientes;
             }
         }
 
-        public async Task ObtenerListaClientesRecientes()
+        public async Task ObtenerListaClientesRecientes(string esquema)
         {
 
-            var listaClientesRecientes = await _http.GetFromJsonAsync<List<mClientes>>("https://localhost:7032/api/Clientes/ObtengaLaListaDeClientesRecientes");
+            var listaClientesRecientes = await _http.GetFromJsonAsync<List<mClientes>>("https://localhost:7032/api/Clientes/ObtengaLaListaDeClientesRecientes/" + esquema);
             if (listaClientesRecientes is not null)
             {
                 ListaClientesRecientes = listaClientesRecientes;

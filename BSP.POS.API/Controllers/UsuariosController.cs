@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BSP.POS.DATOS.Usuarios;
+
 using BSP.POS.NEGOCIOS.Usuarios;
 using BSP.POS.UTILITARIOS.Usuarios;
 using BSP.POS.API.Models;
@@ -7,7 +7,6 @@ using clSeguridad;
 using System;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
-using BSP.POS.UTILITARIOS.Tiempos;
 using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -110,8 +109,23 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [HttpGet("ObtengaLaListaDeUsuariosDeClienteAsociados/{esquema}/{cliente}")]
+        public string ObtengaLaListaDeUsuariosDeClienteAsociados(string esquema,string cliente)
+        {
+            try
+            {
+                string listaUsuariosDeClienteAsociadosJson = user.ListarUsuariosDeClienteAsociados(esquema, cliente);
+                return listaUsuariosDeClienteAsociadosJson;
+            }
 
-       
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+
 
 
     }

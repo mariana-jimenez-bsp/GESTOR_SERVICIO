@@ -42,8 +42,6 @@
 
         <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <i class="mouse-pointer fa-regular fa-user ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
-        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerTiempos(true)">Tiempos <i class="fa-regular fa-clock ps-1"></i></a>
-            <a class="vertical-line p-2 border-light"></a>
         <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <i class="fa-solid fa-user-group ps-1"></i></a>
             <a class="vertical-line p-2 border-light"></a>
         <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerProyectos(true)">Proyectos <i class="fa-solid fa-briefcase ps-1"></i></a>
@@ -53,7 +51,7 @@
     </nav>
 
 <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
-<ModalTiempos ActivarModal="@activarModalTiempos" OnClose="ClickHandlerTiempos"></ModalTiempos>
+
 <ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
 <ModalProyectos ActivarModal="@activarModalProyectos" OnClose="ClickHandlerProyectos"></ModalProyectos>
 <ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>

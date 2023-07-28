@@ -1,4 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models;
+using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Home
@@ -8,15 +9,17 @@ namespace BSP.POS.Presentacion.Pages.Home
         public List<mInformes> InformesAsociados = new List<mInformes>();
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
         public string usuarioActual { get; set; } = string.Empty;
+        public string esquema = string.Empty;
         protected override async Task OnInitializedAsync()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientes();
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientesRecientes();
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            await ClientesService.ObtenerListaClientes(esquema);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.ObtenerListaClientesRecientes(esquema);
+
 
         }
         private string activeTab = "recent"; // Pestaña activa inicialmente
@@ -33,8 +36,8 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         private async Task EnviarInformesAsociados(string cliente)
         {
-            await InformesService.ObtenerListaDeInformesAsociados(cliente);
-            ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(cliente);
+            await InformesService.ObtenerListaDeInformesAsociados(cliente, esquema);
+            ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(cliente, esquema);
             if (ClientesService.ClienteAsociado != null)
             {
                 ClienteAsociado = ClientesService.ClienteAsociado;

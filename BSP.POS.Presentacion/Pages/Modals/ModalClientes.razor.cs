@@ -14,18 +14,24 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public string esquema = string.Empty;
         protected override async Task OnInitializedAsync()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientes();
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            await ClientesService.ObtenerListaClientes(esquema);
             if (ClientesService.ListaClientes != null)
             {
                 clientes = ClientesService.ListaClientes;
                 // Asegurar que las listas desplegables y cambioColores tengan la misma cantidad de elementos que la lista de clientes
                 desplegables = clientes.Select(cliente => new DesplegableInfo()).ToList();
-                cambioColores = clientes.Select(cliente => new color()).ToList();
             }
-            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authenticationState.User;
-            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            foreach (var cliente in clientes)
+            {
+                cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
+            }
+
+           
         }
         public class DesplegableInfo
         {
@@ -33,11 +39,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             // Agrega aquí las otras propiedades necesarias para tu desplegable
         }
 
-        public class color
-        {
-            public string bg_color { get; set; } = "bg-light";
-            // Agrega aquí las otras propiedades necesarias para tu desplegable
-        }
+
         private void OpenModal()
         {
             ActivarModal = true;
@@ -46,25 +48,24 @@ namespace BSP.POS.Presentacion.Pages.Modals
         private async Task CloseModal()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientes();
+            await ClientesService.ObtenerListaClientes(esquema);
             clientes = ClientesService.ListaClientes;
             desplegables = desplegables.Select(desplegable =>
             {
                 desplegable.IsOpen = false;
                 return desplegable;
             }).ToList();
-            cambioColores = cambioColores.Select(color =>
+            foreach (var cliente in clientes)
             {
-                color.bg_color = "bg-light";
-                return color;
-            }).ToList();
+                cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
+            }
             await OnClose.InvokeAsync(false);
 
 
 
         }
         private List<DesplegableInfo> desplegables = new List<DesplegableInfo>();
-        private List<color> cambioColores = new List<color>();
+  
 
         private void ToggleCollapse(int index)
         {
@@ -81,24 +82,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 }
             }
 
-            // Luego, cambiamos los colores basados en el estado actualizado
-            for (int i = 0; i < desplegables.Count; i++)
-            {
-                cambiarColor(i);
-            }
         }
 
-        private void cambiarColor(int index)
-        {
-            if (desplegables[index].IsOpen)
-            {
-                cambioColores[index].bg_color = "bg-primary-subtle";
-            }
-            else
-            {
-                cambioColores[index].bg_color = "bg-light";
-            }
-        }
+
 
         private void CambioNombre(ChangeEventArgs e, string clienteCod)
         {
@@ -195,10 +181,10 @@ namespace BSP.POS.Presentacion.Pages.Modals
             await CloseModal();
         }
 
-        private bool esElUltimoCliente(mClientes cliente)
+        private bool esElUltimoUsuario(mClientes cliente ,mUsuariosDeCliente usuario)
         {
             // Compara el elemento actual con el último elemento de la lista
-            return clientes.IndexOf(cliente) == clientes.Count - 1;
+            return cliente.listaDeUsuarios.IndexOf(usuario) == cliente.listaDeUsuarios.Count - 1;
         }
     }
 }

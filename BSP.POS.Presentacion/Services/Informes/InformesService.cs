@@ -19,18 +19,20 @@ namespace BSP.POS.Presentacion.Services.Informes
         public mInformeAsociado InformeAsociado { get; set; } = new mInformeAsociado();
         
 
-        public async Task ObtenerListaDeInformesAsociados(string cliente)
+        public async Task ObtenerListaDeInformesAsociados(string cliente, string esquema)
         {
-            var listaInformesAsociados = await _http.GetFromJsonAsync<List<mInformes>>("https://localhost:7032/api/Informes/ObtengaLaListaDeInformesAsociados/" + cliente);
+            string url = "https://localhost:7032/api/Informes/ObtengaLaListaDeInformesAsociados/" + cliente + "/" + esquema;
+            var listaInformesAsociados = await _http.GetFromJsonAsync<List<mInformes>>(url);
             if (listaInformesAsociados is not null)
             {
                 ListaInformesAsociados = listaInformesAsociados;
             }
         }
 
-        public async Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo)
+        public async Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo, string esquema)
         {
-            var informeAsociadoJson = await _http.GetAsync("https://localhost:7032/api/Informes/ObtengaElInformeAsociado/" + consecutivo);
+            string url = "https://localhost:7032/api/Informes/ObtengaElInformeAsociado/" + consecutivo + "/" + esquema;
+            var informeAsociadoJson = await _http.GetAsync(url);
             if (informeAsociadoJson.StatusCode == HttpStatusCode.OK)
             {
                 return await informeAsociadoJson.Content.ReadFromJsonAsync<mInformeAsociado?>();

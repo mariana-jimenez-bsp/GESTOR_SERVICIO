@@ -3,7 +3,6 @@ using BSP.POS.NEGOCIOS.Clientes;
 using BSP.POS.UTILITARIOS.Clientes;
 using Newtonsoft.Json;
 using BSP.POS.API.Models;
-using BSP.POS.UTILITARIOS.Tiempos;
 using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,12 +20,11 @@ namespace BSP.POS.API.Controllers
 
         }
         // GET: api/<ClientesController>
-        [HttpGet("ObtengaLaListaDeClientes")]
-        public string ObtengaLaListaDeClientes()
+        [HttpGet("ObtengaLaListaDeClientes/{esquema}")]
+        public string ObtengaLaListaDeClientes(string esquema)
         {
             try
             {
-                string esquema = "BSP";
                 string listaClientesJson = clientes.ListarClientes(esquema);
                 return listaClientesJson;
             }
@@ -38,12 +36,11 @@ namespace BSP.POS.API.Controllers
             
         }
 
-        [HttpGet("ObtengaLaListaDeClientesRecientes")]
-        public string ObtengaLaListaDeClientesRecientes()
+        [HttpGet("ObtengaLaListaDeClientesRecientes/{esquema}")]
+        public string ObtengaLaListaDeClientesRecientes(string esquema)
         {
             try
             {
-                string esquema = "BSP";
                 string listaClientesRecientesJson = clientes.ListarClientesRecientes(esquema);
                 return listaClientesRecientesJson;
             }
@@ -55,12 +52,11 @@ namespace BSP.POS.API.Controllers
            
         }
 
-        [HttpGet("ObtengaElClienteAsociado/{cliente}")]
-        public string ObtengaElClienteAsociado(string cliente)
+        [HttpGet("ObtengaElClienteAsociado/{cliente}/{esquema}")]
+        public string ObtengaElClienteAsociado(string cliente, string esquema)
         {
             try
             {
-                string esquema = "BSP";
                 var clienteAsociadoJson = clientes.ObtenerClienteAsociado(esquema, cliente);
                 return clienteAsociadoJson;
             }

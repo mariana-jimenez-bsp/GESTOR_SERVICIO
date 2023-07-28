@@ -20,12 +20,11 @@ namespace BSP.POS.API.Controllers
 
         }
         // GET: api/<InformesController>
-        [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}")]
-        public string ObtengaLaListaDeInformesAsociados(string cliente)
+        [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}/{esquema}")]
+        public string ObtengaLaListaDeInformesAsociados(string cliente, string esquema)
         {
             try
             {
-                string esquema = "BSP";
                 string listaInformesAsociadosJson = informes.ListarInformesAsociados(esquema, cliente);
                 return listaInformesAsociadosJson;
             }
@@ -37,12 +36,11 @@ namespace BSP.POS.API.Controllers
            
         }
 
-        [HttpGet("ObtengaElInformeAsociado/{consecutivo}")]
-        public string ObtengaElInformeAsociado(string consecutivo)
+        [HttpGet("ObtengaElInformeAsociado/{consecutivo}/{esquema}")]
+        public string ObtengaElInformeAsociado(string consecutivo, string esquema)
         {
             try
             {
-                string esquema = "BSP";
                 var informeAsociadoJson = informes.ObtenerInformeAsociado(esquema, consecutivo);
                 return informeAsociadoJson;
             }

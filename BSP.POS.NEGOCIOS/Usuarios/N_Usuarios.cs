@@ -1,5 +1,4 @@
 ﻿using BSP.POS.DATOS.Usuarios;
-using BSP.POS.UTILITARIOS.Permisos;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Newtonsoft.Json;
 using System;
@@ -62,6 +61,22 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             return mensaje;
         }
 
-        
+        public string ListarUsuariosDeClienteAsociados(String pEsquema, string pCliente)
+        {
+            try
+            {
+                List<U_ListaDeUsuariosDeCliente> list = new List<U_ListaDeUsuariosDeCliente>();
+
+                list = objetoUsuario.ListaDeUsuariosDeClienteAsociados(pEsquema, pCliente);
+
+                string usuarios = JsonConvert.SerializeObject(list);
+                return usuarios;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

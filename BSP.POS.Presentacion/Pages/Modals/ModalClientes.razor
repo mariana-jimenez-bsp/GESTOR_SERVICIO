@@ -1,5 +1,6 @@
 ﻿@inject IClientesInterface ClientesService
 @inject IInformesInterface InformesService
+@inject IUsuariosInterface UsuariosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 <div id='modal' class='modal' style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content bg-light">
@@ -16,27 +17,27 @@
                 <div id="accordion" class="border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client">
                     <!-- Desplegable 1 -->
                     <div class="card border-transparent pb-3">
-                    <div class="card-header row" id="headings">
+                    <div class="card-header row blue-good fw-bold" id="headings">
                         <div class="col-md-1">
-                            <label class="text-center w-100 blue-good" for="">Código</label>
+                            <label class="text-center w-100 " for="">Código</label>
                         </div>
                         <div class="col-md-1">
-                            <label class=" text-center w-100 blue-good" for="">Nombre</label>
+                            <label class=" text-center w-100 " for="">Nombre</label>
                         </div>
                         <div class="col-md-2">
-                            <label class=" text-center w-100 blue-good" for="">Razón Social</label>
+                            <label class=" text-center w-100 " for="">Razón Social</label>
                         </div>
                         <div class="col-md-2">
-                            <label class="text-center w-100 blue-good" for="">Cédula</label>
+                            <label class="text-center w-100" for="">Cédula</label>
                         </div>
                         <div class="col-md-2">
-                            <label class=" text-center w-100 blue-good" for="">Télefono 1</label>
+                            <label class=" text-center w-100" for="">Télefono 1</label>
                         </div>
                         <div class="col-md-2">
-                            <label class="text-center w-100 blue-good" for="">Télefono 2</label>
+                            <label class="text-center w-100" for="">Télefono 2</label>
                         </div>
                         <div class="col-md-2">
-                            <label class="pe-3 text-center w-100 blue-good" for="">Correo</label>
+                            <label class="pe-3 text-center w-100" for="">Correo</label>
                         </div>
 
 
@@ -48,7 +49,7 @@
                         {
                             int cont = index;
 
-                                    <div class="card-header row @cambioColores[cont].bg_color" id="heading-@cont">
+                             <div class="card-header row" id="heading-@cont">
                             <div class="mb-0 col-md-1">
                                 @if (desplegables[cont].IsOpen)
                                 {
@@ -135,80 +136,51 @@
                             </div>
                         </div>
 
-                        <div id="contenidoDesplegable-@cont" class="collapse collapsed border-transparent bg-primary-subtle collapsing" aria-labelledby="heading-@cont" data-parent="#accordion">
+                        <div id="contenidoDesplegable-@cont" class="collapse collapsed border-transparent bg-light collapsing" aria-labelledby="heading-@cont" data-parent="#accordion">
                             <!-- Contenido del desplegable 1 -->
                             <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
                             <div class="d-flex align-items-center justify-content-center">
                                         <div class="content w-75 pb-3">
                                             <div class="row p-2 blue-good-bg text-light border border-primary rounded-top-4">
                                                 <div class="col-md-2">
-                                                    <span>Usuario</span>
+                                                    <span>Código</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                   <span>Usuario</span>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <span>Departamento</span>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <span>Correo</span>
-                                                </div>
                                                 <div class="col-md-3">
                                                     <span>Correo</span>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <span>Correo</span>
+                                                    <span>Teléfono</span>
                                                 </div>
                                             </div>
-                                            <div class="row p-2 blue-good border-bottom border-start border-end border-success">
-                                                <div class="col-md-2">
-                                                    <span>Usuario</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Departamento</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Correo</span>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span>Correo</span>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span>Correo</span>
-                                                </div>
-                                            </div>
-                                            <div class="row p-2 blue-good border-bottom border-start border-end border-success">
-                                                <div class="col-md-2">
-                                                    <span>Usuario</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Departamento</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Correo</span>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span>Correo</span>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span>Correo</span>
-                                                </div>
-                                            </div>
-                                            <div class="row p-2 blue-good border-bottom border-start border-end border-success rounded-bottom-4">
-                                                <div class="col-md-2">
-                                                    <span>Usuario</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Departamento</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Correo</span>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span>Correo</span>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span>Correo</span>
-                                                </div>
-                                            </div>
-
+                                                @if(cliente.listaDeUsuarios != null)
+                                                {
+                                                    foreach (var usuario in cliente.listaDeUsuarios)
+                                                    {
+                                                        <div class="row p-2 blue-good border-bottom border-start border-end border-success @(esElUltimoUsuario(cliente, usuario) ? "rounded-bottom-4" : "")">
+                                                            <div class="col-md-2">
+                                                                <span>@usuario.codigo</span>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <span>@usuario.usuario</span>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <span>@usuario.departamento</span>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <span>@usuario.correo</span>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <span>@usuario.telefono</span>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
                                         </div>
                             </div>
                             <!-- Agrega más elementos aquí -->

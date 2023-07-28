@@ -2,7 +2,6 @@
 using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models;
 using BSP.POS.UTILITARIOS.Informes;
-using BSP.POS.UTILITARIOS.Tiempos;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net;
@@ -20,7 +19,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public mPerfil Perfil { get; set; } = new mPerfil();
         private readonly ILocalStorageService _localStorageService;
         private readonly NavigationManager _navigationManager;
-
+        public List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; } = new List<mUsuariosDeCliente>();
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             _http = htpp;
@@ -91,7 +90,21 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
             }
         }
-        
+
+        public async Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente)
+        {
+            string url = "https://localhost:7032/api/Usuarios/ObtengaLaListaDeUsuariosDeClienteAsociados/" + esquema + "/" + cliente;
+            var listaDeUsuariosDeClientesAsociados = await _http.GetFromJsonAsync<List<mUsuariosDeCliente>>(url);
+            if (listaDeUsuariosDeClientesAsociados is not null)
+            {
+                return listaDeUsuariosDeClientesAsociados;
+            }
+            else
+            {
+                return new List<mUsuariosDeCliente>();
+            }
+        }
+
     }
     }
 
