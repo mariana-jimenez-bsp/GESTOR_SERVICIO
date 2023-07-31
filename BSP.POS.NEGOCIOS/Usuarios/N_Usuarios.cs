@@ -78,5 +78,40 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public U_TokenRecuperacion EnviarTokenRecuperacion(string pCorreo, string pEsquema)
+        {
+
+                U_TokenRecuperacion tokenRecuperacion = new U_TokenRecuperacion();
+                tokenRecuperacion = objetoUsuario.EnviarTokenRecuperacion(pCorreo, pEsquema);
+                if (tokenRecuperacion != null)
+                {
+                    return tokenRecuperacion;
+                }
+                return new U_TokenRecuperacion();
+
+        }
+
+        public string ValidarTokenRecuperacion(string pEsquema, string pToken)
+        {
+
+                U_TokenRecuperacion tokenRecuperacion = new U_TokenRecuperacion();
+                tokenRecuperacion = objetoUsuario.ValidarTokenRecuperacion(pEsquema, pToken);
+                if (tokenRecuperacion != null)
+                {
+                string tokenRecuperacionJson = JsonConvert.SerializeObject(tokenRecuperacion);
+                return tokenRecuperacionJson;
+                }
+
+                return JsonConvert.SerializeObject(new U_TokenRecuperacion());
+
+        }
+
+        public string ActualizarClaveDeUsuario(U_UsuarioNuevaClave pUsuario)
+        {
+            string mensaje = string.Empty;
+            mensaje = objetoUsuario.ActualizarClaveDeUsuario(pUsuario);
+            return mensaje;
+        }
     }
 }

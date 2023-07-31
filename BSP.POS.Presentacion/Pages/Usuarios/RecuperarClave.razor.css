@@ -1,0 +1,14 @@
+﻿.blue-good-bg {
+    background-color: #053d9e;
+}
+
+.blue-good {
+    color: #053d9e;
+}
+
+.fondo {
+    min-height: 100vh;
+    background-image: url('/fondo azul.webp');
+    background-size: cover;
+    background-position: center;
+}

@@ -1,0 +1,37 @@
+﻿@page "/CorreoRecuperacion"
+@inject IUsuariosInterface UsuariosService
+<div class="h-100 w-100 fondo">
+    <EditForm Model="tokenRecuperacion" OnValidSubmit="EnviarCorreo">
+        <DataAnnotationsValidator />
+    <h1 class="w-100 text-center text-light">Gestor de Servicios BSP</h1>
+    <div class="row w-100 h-25 text-light d-flex justify-content-center align-items-center">
+            
+                   
+        <div class="col-md-7">
+            <h3 class="text-center">Ingrese el Correo: </h3>
+            <div class="form-group d-flex align-items-center m-3">
+                <i class="fa-solid fa-lock text-success p-2"></i>
+                <input placeholder="Correo..." type="email" class="form-control text-success" @oninput="ValorCorreo" @bind-value="tokenRecuperacion.correo" />
+            </div>
+                <ValidationMessage For="@(() => tokenRecuperacion.correo)" />
+            <h3 class="text-center">Seleccione el esquema: </h3>
+            <div class="form-group d-flex align-items-center m-3">
+                <i class="fa-solid fa-house text-success p-2"></i>
+                <select class="form-control text-success" @oninput="ValorEsquema" @bind="tokenRecuperacion.esquema">
+                    <option value="">Seleccionar Esquema</option>
+                    <option value="BSP">BSP</option>
+                </select>
+               
+            </div>
+                <ValidationMessage For="@(() => tokenRecuperacion.esquema)"/>
+        </div>
+        <button type="submit" class="btn btn-success btn-block col-md-6 ms-4">Restablecer</button>
+
+    </div>
+    </EditForm>
+</div>
+
+
+@code {
+
+}

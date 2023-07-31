@@ -95,3 +95,7 @@
 .btn-success {
     border-radius: 30px;
 }
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}

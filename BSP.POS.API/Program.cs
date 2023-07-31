@@ -1,4 +1,5 @@
 using System.Text;
+using BSP.POS.NEGOCIOS.CorreosService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ICorreosInterface, CorreosService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Nueva Política", app =>

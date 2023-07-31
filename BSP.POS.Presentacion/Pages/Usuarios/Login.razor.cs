@@ -85,5 +85,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 usuario.clave = e.Value.ToString();
             }
         }
+
+        private void CorreoRecuperacion()
+        {
+
+            navigationManager.NavigateTo($"CorreoRecuperacion");
+        }
     }
 }

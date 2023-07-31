@@ -18,21 +18,19 @@ namespace BSP.POS.DATOS.Permisos
             ListarPermisosAsociadosTableAdapter sp = new ListarPermisosAsociadosTableAdapter();
 
             var response = sp.GetData(pEsquema, pId_Usuario).ToList();
-            try
-            {
+
                 foreach (var item in response)
                 {
                     U_PermisosAsociados permiso = new U_PermisosAsociados(item.Id, item.id_permiso);
 
                     LstPermisos.Add(permiso);
                 }
-                return LstPermisos;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
+                if(LstPermisos != null)
+                {
+                    return LstPermisos;
+                }
+                return new List<U_PermisosAsociados>();
+            
         }
 
         public List<U_Permisos> ListaPermisos(String pEsquema)
@@ -42,21 +40,19 @@ namespace BSP.POS.DATOS.Permisos
             ListarPermisosTableAdapter sp = new ListarPermisosTableAdapter();
 
             var response = sp.GetData(pEsquema).ToList();
-            try
-            {
+
                 foreach (var item in response)
                 {
                     U_Permisos permiso = new U_Permisos(item.Id, item.permiso);
 
                     LstPermisos.Add(permiso);
                 }
-                return LstPermisos;
-            }
-            catch (Exception ex)
-            {
+                if(LstPermisos != null)
+                {
+                    return LstPermisos;
+                }
+                return new List<U_Permisos>();
 
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
         }
         public string EliminarPermisosAsociadosAntiguos(string pIdUsuario, string esquema)
         {

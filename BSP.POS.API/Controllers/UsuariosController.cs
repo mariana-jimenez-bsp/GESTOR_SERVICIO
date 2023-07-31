@@ -6,6 +6,9 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using BSP.POS.API.Models.Usuarios;
+using BSP.POS.NEGOCIOS.CorreosService;
+using BSP.POS.UTILITARIOS.Correos;
+using Newtonsoft.Json;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -15,9 +18,10 @@ namespace BSP.POS.API.Controllers
     public class UsuariosController : ControllerBase
     {
         private readonly string _secretKey;
+        private readonly ICorreosInterface _correoService;
 
         private N_Usuarios user;
-        public UsuariosController()
+        public UsuariosController(ICorreosInterface correoService)
         {
             user = new N_Usuarios();
             var configuration = new ConfigurationBuilder()
@@ -25,6 +29,7 @@ namespace BSP.POS.API.Controllers
             .Build();
 
             _secretKey = configuration["AppSettings:SecretKey"];
+            _correoService = correoService;
         }
         // GET: api/<UsuariosController>
         [HttpPost("Login")]
@@ -124,6 +129,60 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [HttpPost("EnviarCorreo")]
+        public IActionResult EnviarCorreo(U_TokenRecuperacion tokenRecuperacion)
+        {
+            U_Correo datos = new U_Correo();
+            U_TokenRecuperacion tokenRecuperado = user.EnviarTokenRecuperacion(tokenRecuperacion.correo, tokenRecuperacion.esquema);
+            try
+            {
+                if (tokenRecuperado != null)
+                {
+                    datos.para = tokenRecuperado.correo;
+                    string token = tokenRecuperado.token_recuperacion;
+                   
+                    _correoService.EnviarCorreo(datos, token, tokenRecuperacion.esquema);
+                    return Ok();
+                }
+                return BadRequest();
+            }
+
+            catch (Exception)
+            {
+                return BadRequest();
+            } 
+
+        }
+
+        [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
+        public string ValidaTokenRecuperacion(string esquema, string token)
+        {
+
+                string tokenRecuperadoJson = user.ValidarTokenRecuperacion(esquema, token);
+                
+                return tokenRecuperadoJson;
+        }
+
+        [HttpPost("ActualizaClaveDeUsuario")]
+        public string ActualizaClaveDeUsuario([FromBody] mUsuarioNuevaClave datos)
+        {
+            try
+            {
+                U_UsuarioNuevaClave usuario = new U_UsuarioNuevaClave();
+                usuario.token_recuperacion = datos.token_recuperacion;
+                usuario.clave = datos.clave;
+                usuario.esquema = datos.esquema;
+
+
+                string mensaje = user.ActualizarClaveDeUsuario(usuario);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
 
 
 

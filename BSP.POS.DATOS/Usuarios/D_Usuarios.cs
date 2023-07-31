@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Usuarios;
+using System.Security.Cryptography;
 
 
 namespace BSP.POS.DATOS.Usuarios
@@ -18,20 +19,18 @@ namespace BSP.POS.DATOS.Usuarios
             ObtenerUsuarioPorNombreTableAdapter sp = new ObtenerUsuarioPorNombreTableAdapter();
 
             var response = sp.GetData(pEsquema, pUsuario).ToList();
-            try
-            {
+
                 foreach (var item in response)
                 {
                     U_Perfil perf = new U_Perfil(item.ID, item.USUARIO, item.CORREO, item.CLAVE, item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
                     perfil = perf;
                 }
-                return perfil;
-            }
-            catch (Exception ex)
-            {
+                if (perfil != null)
+                {
+                   return perfil;
+                }
+               return  new U_Perfil();
 
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
         }
 
         public string ActualizarPerfil(U_Perfil pPerfil)
@@ -67,20 +66,22 @@ namespace BSP.POS.DATOS.Usuarios
             ObtenerUsuarioPorIdTableAdapter sp = new ObtenerUsuarioPorIdTableAdapter();
 
             var response = sp.GetData(pEsquema, pId).ToList();
-            try
-            {
+
                 foreach (var item in response)
                 {
                     U_Perfil perf = new U_Perfil(item.ID, item.USUARIO, item.CORREO, item.CLAVE, item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
                     perfil = perf;
                 }
-                return perfil;
-            }
-            catch (Exception ex)
-            {
+                
 
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
+                if(perfil != null)
+                {
+                    return perfil;
+                }
+
+                return new U_Perfil() ;
+                
+            
         }
 
         public List<U_ListaDeUsuariosDeCliente> ListaDeUsuariosDeClienteAsociados(String pEsquema, string pCliente)
@@ -90,21 +91,110 @@ namespace BSP.POS.DATOS.Usuarios
             ListarUsuariosDeClienteAsociadosTableAdapter sp = new ListarUsuariosDeClienteAsociadosTableAdapter();
 
             var response = sp.GetData(pEsquema, pCliente).ToList();
-            try
-            {
+
                 foreach (var item in response)
                 {
                     U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, item.departamento, item.correo, item.telefono);
 
                     LstUsuarios.Add(usuario);
                 }
-                return LstUsuarios;
+                if(LstUsuarios != null)
+                {
+                    return LstUsuarios;
+                }
+                return new List<U_ListaDeUsuariosDeCliente>();
+            
+
+        }
+
+        public U_TokenRecuperacion EnviarTokenRecuperacion(string pCorreo, string pEsquema)
+        {
+            GenerarTokenRecuperacionTableAdapter sp = new GenerarTokenRecuperacionTableAdapter();
+            string token = GenerarTokenRecuperacion();
+            DateTime expira = DateTime.Now.AddDays(1);
+            try
+            {
+                var response = sp.GetData(pCorreo, token, expira, pEsquema).ToList();
+                U_TokenRecuperacion TokenRecuperacion = new U_TokenRecuperacion();
+
+                foreach (var item in response)
+                {
+                    U_TokenRecuperacion tokeRecuperacion = new U_TokenRecuperacion(item.TOKEN_RECUPERACION, pEsquema, item.CORREO, item.FECHA_EXPIRACION_TR.ToString());
+                    TokenRecuperacion = tokeRecuperacion;
+                }
+                if (TokenRecuperacion != null)
+                {
+                    return TokenRecuperacion;
+                }
+                return new U_TokenRecuperacion();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+                return new U_TokenRecuperacion();
             }
+            
+           
+
+
+        }
+
+        public U_TokenRecuperacion ValidarTokenRecuperacion(String pEsquema, String pToken)
+        {
+            var tokenRecuperacion = new U_TokenRecuperacion();
+
+            ObtenerFechaTokenDeRecuperacionTableAdapter sp = new ObtenerFechaTokenDeRecuperacionTableAdapter();
+
+            var response = sp.GetData(pEsquema, pToken).ToList();
+
+                foreach (var item in response)
+                {
+                    U_TokenRecuperacion tok = new U_TokenRecuperacion(item.TOKEN_RECUPERACION, pEsquema, "", item.FECHA_EXPIRACION_TR);
+                    tokenRecuperacion = tok;
+                }
+                if (tokenRecuperacion.token_recuperacion != null)
+                {
+                    DateTime fechaRecuperacion = DateTime.Parse(tokenRecuperacion.fecha_expiracion);
+                    if (fechaRecuperacion < DateTime.UtcNow)
+                    {
+
+                        return new U_TokenRecuperacion();
+                    }
+                    else
+                    {
+                        return tokenRecuperacion;
+                    }
+                  
+                }
+                return new U_TokenRecuperacion();
+
+            
+        }
+        public string ActualizarClaveDeUsuario(U_UsuarioNuevaClave pUsuario)
+        {
+            POSDataSet.ActualizarClaveDeUsuarioDataTable bTabla = new POSDataSet.ActualizarClaveDeUsuarioDataTable();
+            ActualizarClaveDeUsuarioTableAdapter sp = new ActualizarClaveDeUsuarioTableAdapter();
+            try
+            {
+                var response = sp.GetData(pUsuario.token_recuperacion, pUsuario.clave, pUsuario.esquema);
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
+
+        public string GenerarTokenRecuperacion()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
     }
 }
+

@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net;
@@ -19,6 +20,8 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         private readonly ILocalStorageService _localStorageService;
         private readonly NavigationManager _navigationManager;
         public List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; } = new List<mUsuariosDeCliente>();
+
+        public mTokenRecuperacion UsuarioRecuperacion { get; set; } = new mTokenRecuperacion();
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             _http = htpp;
@@ -66,8 +69,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public async Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal)
         {
 
-            try
-            {
+
                 if (!string.IsNullOrEmpty(perfil.clave))
                 {
                     perfil.clave = EncriptarClave(perfil.clave);
@@ -83,11 +85,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                     _navigationManager.NavigateTo("/login", forceLoad: true);
                     await _localStorageService.RemoveItemAsync("token");
                 }
-            }
-            catch (Exception ex)
-            {
-
-            }
+            
         }
 
         public async Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente)
@@ -101,6 +99,59 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             else
             {
                 return new List<mUsuariosDeCliente>();
+            }
+        }
+
+        public async Task EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion)
+        {
+            try
+            {
+                string url = "https://localhost:7032/api/Usuarios/EnviarCorreo";
+                string jsonData = JsonSerializer.Serialize(tokenRecuperacion);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var response = await _http.PostAsync(url, content);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+
+                    _navigationManager.NavigateTo("/", forceLoad: true);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+
+        }
+        public async Task<mTokenRecuperacion> ValidarTokenRecuperacion(string esquema, string token)
+        {
+            string url = "https://localhost:7032/api/Usuarios/ValidaTokenRecuperacion/" + esquema + "/" + token;
+            var tokenRecuperacion = await _http.GetFromJsonAsync<mTokenRecuperacion>(url);
+            if (tokenRecuperacion is not null)
+            {
+                return tokenRecuperacion;
+            }
+            else
+            {
+                return new mTokenRecuperacion();
+            }
+        }
+
+        public async Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario)
+        {
+            usuario.clave = EncriptarClave(usuario.clave);
+            usuario.confirmarClave = usuario.clave;
+            string url = "https://localhost:7032/api/Usuarios/ActualizaClaveDeUsuario";
+            string jsonData = JsonSerializer.Serialize(usuario);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            var response = await _http.PostAsync(url, content);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                _navigationManager.NavigateTo("/", forceLoad: true);
             }
         }
 

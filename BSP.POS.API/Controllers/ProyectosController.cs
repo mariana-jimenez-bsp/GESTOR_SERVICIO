@@ -55,7 +55,7 @@ namespace BSP.POS.API.Controllers
                     proyecto.empresa = item.empresa;
                     proyecto.centro_costo = item.centro_costo;
                     proyecto.horas_totales = item.horas_totales;
-                    proyecto.nombre_proyecto = item.Id;
+                    proyecto.nombre_proyecto = item.nombre_proyecto;
 
 
                     listaProyectos.Add(proyecto);

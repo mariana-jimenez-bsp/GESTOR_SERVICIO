@@ -79,33 +79,6 @@ namespace BSP.POS.DATOS.Usuarios
             return login;
         }
 
-        public string GenerateToken(string usuario, string rol, string claveSecreta)
-        {
-            // Configurar la información del encabezado
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(claveSecreta));
-            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            // Configurar la información del cuerpo (payload)
-            var claims = new[]
-            {
-            new Claim(ClaimTypes.Name, usuario),
-            new Claim(ClaimTypes.Role, rol)
-        };
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(60), // Duración del token en minutos
-                SigningCredentials = signingCredentials
-            };
-
-            // Crear el token JWT
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
-
-            return tokenString;
-        }
-
         // Genera un hash seguro con salting para la contraseña dada
         public string EncriptarClave(string clave)
         {
@@ -204,20 +177,18 @@ namespace BSP.POS.DATOS.Usuarios
             ObtenerRolDeUsuarioTableAdapter sp = new ObtenerRolDeUsuarioTableAdapter();
 
             var response = sp.GetData(pEsquema, pUsuario).ToList();
-            try
-            {
+
                 foreach (var item in response)
                 {
                     string r = item.ROL;
                     rol = r;
                 }
-                return rol;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
+                if(rol != null)
+                {
+                    return rol;
+                }
+                return string.Empty;
+            
         }
 
         

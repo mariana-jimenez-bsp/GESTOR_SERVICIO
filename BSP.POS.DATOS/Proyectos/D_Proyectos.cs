@@ -19,21 +19,19 @@ namespace BSP.POS.DATOS.Proyectos
             ListarProyectosTableAdapter sp = new ListarProyectosTableAdapter();
 
             var response = sp.GetData(pEsquema).ToList();
-            try
-            {
+
                 foreach (var item in response)
                 {
                     U_ListaProyectos proyecto = new U_ListaProyectos(item.Id, item.numero, item.nombre_consultor, item.fecha_inicial, item.fecha_final, item.horas_totales, item.empresa, item.centro_costo, item.nombre_proyecto);
 
                     LstProyectos.Add(proyecto);
                 }
-                return LstProyectos;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
+                if(LstProyectos != null)
+                {
+                    return LstProyectos;
+                }
+                return new List<U_ListaProyectos>();
+                
         }
 
         public string ActualizarListaDeProyectos(List<U_ListaProyectos> pProyectos, string esquema)
