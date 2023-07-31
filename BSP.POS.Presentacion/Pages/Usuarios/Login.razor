@@ -40,8 +40,8 @@
                         </div>
                     <ValidationMessage For="@(() => usuario.esquema)" />
                         @if(!string.IsNullOrEmpty(mensaje)){
-                        <div class="alert alert-danger" role="alert">
-                           @mensaje
+                        <div class="text-danger">
+                            <span>@mensaje</span>
                         </div>
                          }
                         <button type="submit" class="btn btn-success btn-block">Ingresar</button>

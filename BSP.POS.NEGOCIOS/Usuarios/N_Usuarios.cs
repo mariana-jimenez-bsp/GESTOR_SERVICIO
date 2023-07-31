@@ -113,5 +113,11 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             mensaje = objetoUsuario.ActualizarClaveDeUsuario(pUsuario);
             return mensaje;
         }
+
+        public string ValidarCorreoExistenteCambioClave(string pEsquema, string pCorreo)
+        {
+            string correo = objetoUsuario.ValidarCorreoExistenteCambioClave(pEsquema, pCorreo);
+            return correo;
+        }
     }
 }

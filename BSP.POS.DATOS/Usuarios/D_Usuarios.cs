@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Usuarios;
 using System.Security.Cryptography;
+using BSP.POS.UTILITARIOS.Correos;
 
 
 namespace BSP.POS.DATOS.Usuarios
@@ -187,6 +188,28 @@ namespace BSP.POS.DATOS.Usuarios
                 return "Error";
             }
 
+
+
+        }
+        public string ValidarCorreoExistenteCambioClave(String pEsquema, String pCorreo)
+        {
+
+            ValidarCorreoExistenteTableAdapter sp = new ValidarCorreoExistenteTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCorreo).ToList();
+            string correo = null;
+            foreach (var item in response)
+            {
+                correo = item.CORREO;
+            }
+
+
+            if (correo != null)
+            {
+                return correo;
+            }
+
+            return null;
 
 
         }

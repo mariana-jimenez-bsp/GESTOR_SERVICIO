@@ -9,7 +9,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         public List<mActividades> actividades = new List<mActividades>();
         public string esquema = string.Empty;
-
+        public string textoABuscar = string.Empty;
         private void OpenModal()
         {
             ActivarModal = true;
@@ -89,5 +89,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
             await CloseModal();
         }
+
     }
 }

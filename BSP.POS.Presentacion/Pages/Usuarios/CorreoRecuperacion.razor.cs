@@ -6,7 +6,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
     public partial class CorreoRecuperacion: ComponentBase
     {
         public mTokenRecuperacion tokenRecuperacion { get; set; } = new mTokenRecuperacion();
-
+        public string mensaje { get; set; } = string.Empty;
         private void ValorCorreo(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
@@ -25,7 +25,17 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private async Task EnviarCorreo()
         {
-            await UsuariosService.EnviarCorreoRecuperarClave(tokenRecuperacion);
+            string verificar = await UsuariosService.ValidarCorreoCambioClave(tokenRecuperacion.esquema, tokenRecuperacion.correo);
+            if(verificar != null)
+            {
+                await UsuariosService.EnviarCorreoRecuperarClave(tokenRecuperacion);
+                mensaje = string.Empty;
+            }
+            else
+            {
+                mensaje = "El correo no existe";
+            }
+           
         }
         }
 }

@@ -1,0 +1,3 @@
+﻿namespace BSP.POS.DATOS
+{
+}

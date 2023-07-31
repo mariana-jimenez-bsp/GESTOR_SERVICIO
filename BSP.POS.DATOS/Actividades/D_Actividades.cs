@@ -18,19 +18,21 @@ namespace BSP.POS.DATOS.Actividades
             ListarActividadesAsociadasTableAdapter sp = new ListarActividadesAsociadasTableAdapter();
 
             var response = sp.GetData(pEsquema, pConsecutivo).ToList();
-
+            try
+            {
                 foreach (var item in response)
                 {
                     U_ListaActividadesAsociadas actividad = new U_ListaActividadesAsociadas(item.Id, item.consecutivo, item.Actividad, item.horas_cobradas, item.horas_no_cobradas);
 
                     LstActividades.Add(actividad);
                 }
-                if(LstActividades != null)
-                {
-                    return LstActividades;
-                }
-                return new List<U_ListaActividadesAsociadas>();
+                return LstActividades;
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
 
         public List<U_ListaActividades> ListaActividades(String pEsquema)
@@ -40,19 +42,21 @@ namespace BSP.POS.DATOS.Actividades
             ListarActividadesTableAdapter sp = new ListarActividadesTableAdapter();
 
             var response = sp.GetData(pEsquema).ToList();
-
+            try
+            {
                 foreach (var item in response)
                 { 
                     U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.Actividad, item.CI_referencia, item.horas);
 
                     LstActividades.Add(actividad);
                 }
-                if(LstActividades != null)
-                {
-                    return LstActividades;
-                }
-                return new List<U_ListaActividades>();
+                return LstActividades;
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
 
         public string ActualizarListaDeActividades(List<U_ListaActividades> pActividades, string esquema)

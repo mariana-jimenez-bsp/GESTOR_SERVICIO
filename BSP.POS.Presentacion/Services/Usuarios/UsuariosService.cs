@@ -155,6 +155,20 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
+        public async Task<string> ValidarCorreoCambioClave(string esquema, string correo)
+        {
+            string url = "https://localhost:7032/api/Usuarios/ValidaCorreoCambioClave/" + esquema + "/" + correo;
+            string correoDevuelto = await _http.GetStringAsync(url);
+            if (!string.IsNullOrEmpty(correoDevuelto))
+            {
+                return correoDevuelto;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
     }
 

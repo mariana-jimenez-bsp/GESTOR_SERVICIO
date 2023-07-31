@@ -17,14 +17,14 @@ namespace BSP.POS.NEGOCIOS.CorreosService
         {
             var correo = new MimeMessage();
             string cuerpo = GenerarCuerpo(token, esquema);
-            correo.From.Add(MailboxAddress.Parse("jose.sanchez.bsp@gmail.com"));
+            correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
             correo.To.Add(MailboxAddress.Parse(datos.para));
             correo.Subject = "Esto es una prueba";
             correo.Body = new TextPart(TextFormat.Html) { Text = cuerpo };
 
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("jose.sanchez.bsp@gmail.com", "bgstfdotixqgcuba");
+            smtp.Authenticate(datos.correoUsuario, datos.claveUsuario);
             smtp.Send(correo);
             smtp.Disconnect(true);
 

@@ -18,6 +18,8 @@ namespace BSP.POS.API.Controllers
     public class UsuariosController : ControllerBase
     {
         private readonly string _secretKey;
+        private readonly string _correoUsuario;
+        private readonly string _claveUsuario;
         private readonly ICorreosInterface _correoService;
 
         private N_Usuarios user;
@@ -29,6 +31,8 @@ namespace BSP.POS.API.Controllers
             .Build();
 
             _secretKey = configuration["AppSettings:SecretKey"];
+            _correoUsuario = configuration["AppSettings:SmtpFrom"];
+            _claveUsuario = configuration["AppSettings:SmtpPassword"];
             _correoService = correoService;
         }
         // GET: api/<UsuariosController>
@@ -139,6 +143,8 @@ namespace BSP.POS.API.Controllers
                 if (tokenRecuperado != null)
                 {
                     datos.para = tokenRecuperado.correo;
+                    datos.correoUsuario = _correoUsuario;
+                    datos.claveUsuario = _claveUsuario;
                     string token = tokenRecuperado.token_recuperacion;
                    
                     _correoService.EnviarCorreo(datos, token, tokenRecuperacion.esquema);
@@ -182,6 +188,15 @@ namespace BSP.POS.API.Controllers
                 return ex.Message;
             }
 
+        }
+
+        [HttpGet("ValidaCorreoCambioClave/{esquema}/{correo}")]
+        public string ValidaCorreoCambioClave(string esquema, string correo)
+        {
+
+            string correoDevuelto = user.ValidarCorreoExistenteCambioClave(esquema, correo);
+
+            return correoDevuelto;
         }
 
 

@@ -33,6 +33,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
            
         }
+
         public class DesplegableInfo
         {
             public bool IsOpen { get; set; } = false;
@@ -49,6 +50,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
+            await OnClose.InvokeAsync(false);
             clientes = ClientesService.ListaClientes;
             desplegables = desplegables.Select(desplegable =>
             {
@@ -60,7 +62,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
             }
-            await OnClose.InvokeAsync(false);
+           
 
 
 

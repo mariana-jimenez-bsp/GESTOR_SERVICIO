@@ -18,7 +18,8 @@ namespace BSP.POS.DATOS.Clientes
             ListarClientesTableAdapter sp = new ListarClientesTableAdapter();
 
             var response = sp.GetData(pEsquema).ToList();
-
+            try
+            {
                 foreach (var item in response)
                 {
                     U_ListaClientes cliente = new U_ListaClientes(item.CLIENTE, item.NOMBRE, item.ALIAS, item.CONTACTO, item.CARGO, item.DIRECCION, item.TELEFONO1,
@@ -29,12 +30,13 @@ namespace BSP.POS.DATOS.Clientes
 
                     LstClientes.Add(cliente);
                 }
-                if(LstClientes != null)
-                {
-                    return LstClientes;
-                }
-                return new List<U_ListaClientes>();
+                return LstClientes;
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
         public List<U_ListarClientesRecientes> ListaClientesRecientes(String pEsquema)
         {
@@ -43,7 +45,8 @@ namespace BSP.POS.DATOS.Clientes
             ListarClientesRecientesTableAdapter sp = new ListarClientesRecientesTableAdapter();
 
             var response = sp.GetData(pEsquema).ToList();
-
+            try
+            {
                 foreach (var item in response)
                 {
                     U_ListarClientesRecientes cliente = new U_ListarClientesRecientes(item.CLIENTE, item.NOMBRE, item.ALIAS, item.CONTACTO, item.CARGO, item.DIRECCION, item.TELEFONO1,
@@ -54,12 +57,13 @@ namespace BSP.POS.DATOS.Clientes
 
                     LstClientes.Add(cliente);
                 }
-                if(LstClientes != null)
-                {
-                    return LstClientes;
-                }
-                return new List<U_ListarClientesRecientes>();
+                return LstClientes;
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
 
         public U_ClienteAsociado ClienteAsociado(String pEsquema, String pCliente)
@@ -69,18 +73,20 @@ namespace BSP.POS.DATOS.Clientes
             ObtenerCienteAsociadoTableAdapter sp = new ObtenerCienteAsociadoTableAdapter();
 
             var response = sp.GetData(pEsquema, pCliente).ToList();
-
+            try
+            {
                 foreach (var item in response)
                 {
                     U_ClienteAsociado cliente = new U_ClienteAsociado(item.CLIENTE, item.NOMBRE, item.CONTACTO, item.CARGO);
                     clienteAso = cliente;
                 }
-                if(clienteAso != null)
-                {
-                    return clienteAso;
-                }
-                return new U_ClienteAsociado();
+                return clienteAso;
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
 
         public string ActualizarListaDeClientes(List<U_ListaClientes> pClientes, string esquema)
