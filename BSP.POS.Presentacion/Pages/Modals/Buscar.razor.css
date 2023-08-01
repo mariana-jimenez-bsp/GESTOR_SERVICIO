@@ -1,0 +1,13 @@
+﻿.search-input-change {
+    border: none;
+    margin: 0;
+    height: 35px;
+    background-color: #198754;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+    .search-input-change::placeholder {
+        color: white;
+    }
+

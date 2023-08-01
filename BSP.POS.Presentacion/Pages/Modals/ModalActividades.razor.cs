@@ -9,7 +9,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         public List<mActividades> actividades = new List<mActividades>();
         public string esquema = string.Empty;
-        public string textoABuscar = string.Empty;
         private void OpenModal()
         {
             ActivarModal = true;
@@ -88,6 +87,14 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 actividades = ActividadesService.ListaActividades;
             }
             await CloseModal();
+        }
+        [Parameter]
+        public string textoRecibido { get; set; } = string.Empty;
+
+        private Task RecibirTexto(string texto)
+        {
+            textoRecibido = texto;
+            return Task.CompletedTask;
         }
 
     }
