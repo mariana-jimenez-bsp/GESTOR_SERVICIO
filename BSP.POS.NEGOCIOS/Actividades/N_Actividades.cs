@@ -54,5 +54,11 @@ namespace BSP.POS.NEGOCIOS.Actividades
             mensaje = objActividad.ActualizarListaDeActividades(pActividades, esquema);
             return mensaje;
         }
+        public string ActualizarListaDeActividadesAsociadas(List<U_ListaActividadesAsociadas> pActividades, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objActividad.ActualizarListaDeActividadesAsociadas(pActividades, esquema);
+            return mensaje;
+        }
     }
 }

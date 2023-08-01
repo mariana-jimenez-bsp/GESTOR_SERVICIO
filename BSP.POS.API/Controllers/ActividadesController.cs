@@ -82,5 +82,35 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpPost("ActualizaListaDeActividadesAsociadas")]
+        public string ActualizaListaDeActividadesAsociadas([FromBody] List<mActividadesAsociadas> datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                List<U_ListaActividadesAsociadas> listaActividades = new List<U_ListaActividadesAsociadas>();
+                foreach (var item in datos)
+                {
+                    U_ListaActividadesAsociadas atividad = new U_ListaActividadesAsociadas();
+                    atividad.Id = item.Id;
+                    atividad.codigo_actividad = item.codigo_actividad;
+                    atividad.consecutivo_informe = item.consecutivo_informe;
+                    atividad.horas_cobradas = item.horas_cobradas;
+                    atividad.horas_no_cobradas = item.horas_no_cobradas;
+
+                    listaActividades.Add(atividad);
+                }
+
+                string mensaje = actividades.ActualizarListaDeActividadesAsociadas(listaActividades, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
     }
 }

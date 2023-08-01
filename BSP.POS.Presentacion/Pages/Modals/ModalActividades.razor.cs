@@ -82,10 +82,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ActividadesService.ActualizarListaDeActividades(actividades, esquema);
-            if (ActividadesService.ListaActividades != null)
-            {
-                actividades = ActividadesService.ListaActividades;
-            }
             await CloseModal();
         }
         [Parameter]

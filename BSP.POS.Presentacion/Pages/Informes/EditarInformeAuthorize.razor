@@ -1,0 +1,12 @@
+﻿@page "/Editar/{consecutivo}"
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+        <EditarInforme Consecutivo="@Consecutivo"></EditarInforme>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Consecutivo { get; set; } = string.Empty;
+}

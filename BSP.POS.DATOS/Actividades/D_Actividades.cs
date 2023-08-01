@@ -82,5 +82,28 @@ namespace BSP.POS.DATOS.Actividades
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string ActualizarListaDeActividadesAsociadas(List<U_ListaActividadesAsociadas> pActividades, string esquema)
+        {
+            POSDataSet.ActualizarActividades_InformesDataTable bTabla = new POSDataSet.ActualizarActividades_InformesDataTable();
+            ActualizarActividades_InformesTableAdapter sp = new ActualizarActividades_InformesTableAdapter();
+            try
+            {
+                foreach (var actividad in pActividades)
+                {
+                    var response = sp.GetData(actividad.Id, actividad.consecutivo_informe, actividad.codigo_actividad, int.Parse(actividad.horas_cobradas), int.Parse(actividad.horas_no_cobradas), esquema);
+
+                }
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
     }
 }

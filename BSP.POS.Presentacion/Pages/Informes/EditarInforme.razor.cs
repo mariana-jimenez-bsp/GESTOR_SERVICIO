@@ -13,6 +13,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
         public mInformeAsociado informe { get; set; } = new mInformeAsociado();
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
         public List<mActividades> listaActividades = new List<mActividades>();
+        public mEditarInforme editarInformeModel = new mEditarInforme();
         public List<mActividadesAsociadas> listaActividadesAsociadas = new List<mActividadesAsociadas>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
@@ -36,6 +37,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
                 if (InformesService.InformeAsociado != null)
                 {
                     informe = InformesService.InformeAsociado;
+                    editarInformeModel.informeAsociado = informe;
                     hora_inicio_reducida = informe.hora_inicio.Substring(0, 5);
                     hora_final_reducida = informe.hora_final.Substring(0, 5);
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -56,6 +58,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
                     if (ActividadesService.ListaActividadesAsociadas != null)
                     {
                         listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
+                        editarInformeModel.actividadesAsociadas = listaActividadesAsociadas;
                         try
                         {
                             total_horas_cobradas = listaActividadesAsociadas.Sum(act => decimal.Parse(act.horas_cobradas));
@@ -65,10 +68,6 @@ namespace BSP.POS.Presentacion.Pages.Informes
                         {
                             total_horas_cobradas = 0;
                             total_horas_no_cobradas = 0;
-                        }
-                        foreach (var actividad in listaActividadesAsociadas)
-                        {
-                            actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
                         }
                     }
 
@@ -84,6 +83,8 @@ namespace BSP.POS.Presentacion.Pages.Informes
                             usuario.nombre_cliente = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
                             usuario.departamento_cliente = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
                         }
+                        editarInformeModel.usuariosDeClienteDeInformes = listadeUsuariosDeClienteDeInforme;
+
                     }
 
 
@@ -91,6 +92,61 @@ namespace BSP.POS.Presentacion.Pages.Informes
 
                 }
             }
+        }
+
+        private void CambioHorasCobradas(ChangeEventArgs e, string actividadId)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                foreach (var actividad in editarInformeModel.actividadesAsociadas)
+                {
+                    if (actividad.Id == actividadId)
+                    {
+                        actividad.horas_cobradas = e.Value.ToString();
+                    }
+                }
+            }
+        }
+
+        private void CambioHorasNoCobradas(ChangeEventArgs e, string actividadId)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                foreach (var actividad in editarInformeModel.actividadesAsociadas)
+                {
+                    if (actividad.Id == actividadId)
+                    {
+                        actividad.horas_no_cobradas = e.Value.ToString();
+                    }
+                }
+            }
+        }
+
+        private void CambioActividad(ChangeEventArgs e, string actividadId)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                foreach (var actividad in editarInformeModel.actividadesAsociadas)
+                {
+                    if (actividad.Id == actividadId)
+                    {
+                        actividad.codigo_actividad = e.Value.ToString();
+                    }
+                }
+            }
+        }
+
+        private async Task ActualizarInforme()
+        {
+            await ActualizarActividadesAsociadas();
+        }
+
+        private async Task ActualizarActividadesAsociadas()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ActividadesService.ActualizarListaDeActividadesAsociadas(editarInformeModel.actividadesAsociadas, esquema);
+            await ActividadesService.ObtenerListaDeActividadesAsociadas(informe.consecutivo,esquema);
+            editarInformeModel.actividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
         }
     }
 }
