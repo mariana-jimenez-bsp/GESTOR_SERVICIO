@@ -48,5 +48,7 @@ namespace BSP.POS.NEGOCIOS.Informes
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+
     }
 }

@@ -57,5 +57,7 @@ namespace BSP.POS.DATOS.Informes
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        
     }
 }

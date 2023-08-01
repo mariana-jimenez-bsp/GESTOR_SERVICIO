@@ -214,6 +214,29 @@ namespace BSP.POS.DATOS.Usuarios
 
         }
 
+        public List<U_UsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme(String pEsquema, String pConsecutivo)
+        {
+            var LstInformes = new List<U_UsuariosDeClienteDeInforme>();
+
+            ListarUsuariosDeClienteDeInformeTableAdapter sp = new ListarUsuariosDeClienteDeInformeTableAdapter();
+
+            var response = sp.GetData(pEsquema, pConsecutivo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_UsuariosDeClienteDeInforme informe = new U_UsuariosDeClienteDeInforme(item.Id, item.consecutivo_informe, item.codigo_usuario_cliente, item.aceptacion);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public string GenerarTokenRecuperacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));

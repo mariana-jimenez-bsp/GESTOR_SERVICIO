@@ -7,6 +7,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
     {
         public mTokenRecuperacion tokenRecuperacion { get; set; } = new mTokenRecuperacion();
         public string mensaje { get; set; } = string.Empty;
+        public bool CorreoEnviado = false; 
         private void ValorCorreo(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
@@ -28,8 +29,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             string verificar = await UsuariosService.ValidarCorreoCambioClave(tokenRecuperacion.esquema, tokenRecuperacion.correo);
             if(verificar != null)
             {
-                await UsuariosService.EnviarCorreoRecuperarClave(tokenRecuperacion);
-                mensaje = string.Empty;
+                bool validar = await UsuariosService.EnviarCorreoRecuperarClave(tokenRecuperacion);
+                if (validar)
+                {
+                    mensaje = string.Empty;
+                    CorreoEnviado = true;
+                }
+              
             }
             else
             {

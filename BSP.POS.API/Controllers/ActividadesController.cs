@@ -21,12 +21,11 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpGet("ObtengaLaListaDeActividadesAsociadas/{consecutivo}")]
-        public string ObtengaLaListaDeActividadesAsociadas(string consecutivo)
+        [HttpGet("ObtengaLaListaDeActividadesAsociadas/{consecutivo}/{esquema}")]
+        public string ObtengaLaListaDeActividadesAsociadas(string consecutivo, string esquema)
         {
             try
             {
-                string esquema = "BSP";
                 string listaActividadesAsociadasJson = actividades.ListarActividadesAsociadas(esquema, consecutivo);
                 return listaActividadesAsociadasJson;
             }

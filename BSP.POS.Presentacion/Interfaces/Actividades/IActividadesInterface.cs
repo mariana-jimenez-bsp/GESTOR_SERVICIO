@@ -4,8 +4,8 @@ namespace BSP.POS.Presentacion.Interfaces.Actividades
 {
     public interface IActividadesInterface
     {
-        List<mActividades> ListaActividadesAsociadas { get; set; }
-        Task ObtenerListaDeActividadesAsociadas(string consecutivo);
+        List<mActividadesAsociadas> ListaActividadesAsociadas { get; set; }
+        Task ObtenerListaDeActividadesAsociadas(string consecutivo, string esquema);
 
         List<mActividades> ListaActividades { get; set; }
         Task ObtenerListaDeActividades(string esquema);

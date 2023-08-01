@@ -1,6 +1,8 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
+using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.UTILITARIOS.Informes;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
@@ -20,7 +22,8 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         private readonly ILocalStorageService _localStorageService;
         private readonly NavigationManager _navigationManager;
         public List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; } = new List<mUsuariosDeCliente>();
-
+        public List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; } = new List<mUsuariosDeClienteDeInforme>();
+        
         public mTokenRecuperacion UsuarioRecuperacion { get; set; } = new mTokenRecuperacion();
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
@@ -102,7 +105,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
-        public async Task EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion)
+        public async Task<bool> EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion)
         {
             try
             {
@@ -114,13 +117,15 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
 
-                    _navigationManager.NavigateTo("/", forceLoad: true);
+                    
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
 
-                throw;
+                return false;
             }
            
 
@@ -166,6 +171,16 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             else
             {
                 return null;
+            }
+        }
+
+        public async Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
+        {
+            string url = "https://localhost:7032/api/Usuarios/ObtengaLaListaUsuariosDeClienteDeInforme/" + consecutivo + "/" + esquema;
+            var listaInformesAsociados = await _http.GetFromJsonAsync<List<mUsuariosDeClienteDeInforme>>(url);
+            if (listaInformesAsociados is not null)
+            {
+                ListaUsuariosDeClienteDeInforme = listaInformesAsociados;
             }
         }
 

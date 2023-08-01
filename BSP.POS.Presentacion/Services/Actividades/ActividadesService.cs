@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
 using BSP.POS.Presentacion.Models.Actividades;
+using BSP.POS.UTILITARIOS.Usuarios;
 
 namespace BSP.POS.Presentacion.Services.Actividades
 {
@@ -17,12 +18,13 @@ namespace BSP.POS.Presentacion.Services.Actividades
             _http = htpp;
         }
 
-        public List<mActividades> ListaActividadesAsociadas { get; set; } = new List<mActividades>();
+        public List<mActividadesAsociadas> ListaActividadesAsociadas { get; set; } = new List<mActividadesAsociadas>();
         public List<mActividades> ListaActividades { get; set; } = new List<mActividades>();
 
-        public async Task ObtenerListaDeActividadesAsociadas(string consecutivo)
+        public async Task ObtenerListaDeActividadesAsociadas(string consecutivo, string esquema)
         {
-            var listaActividadesAsociadas = await _http.GetFromJsonAsync<List<mActividades>>("https://localhost:7032/api/Actividades/ObtengaLaListaDeActividadesAsociadas/" + consecutivo);
+            string url = "https://localhost:7032/api/Actividades/ObtengaLaListaDeActividadesAsociadas/" + consecutivo + "/" + esquema;
+            var listaActividadesAsociadas = await _http.GetFromJsonAsync<List<mActividadesAsociadas>>(url);
             if (listaActividadesAsociadas is not null)
             {
                 ListaActividadesAsociadas = listaActividadesAsociadas;

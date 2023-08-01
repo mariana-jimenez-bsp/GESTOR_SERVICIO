@@ -16,7 +16,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente);
         List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; }
 
-        Task EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion);
+        Task<bool> EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion);
         mTokenRecuperacion UsuarioRecuperacion { get; set; }
 
         Task<mTokenRecuperacion> ValidarTokenRecuperacion(string esquema, string token);
@@ -24,5 +24,8 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario);
 
         Task<string> ValidarCorreoCambioClave(string esquema, string correo);
+
+        List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; }
+        Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
     }
 }

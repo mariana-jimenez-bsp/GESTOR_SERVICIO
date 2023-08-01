@@ -2,6 +2,7 @@
 @inject IInformesInterface InformesService
 @inject IClientesInterface ClientesService
 @inject IActividadesInterface ActividadesService
+@inject IUsuariosInterface UsuariosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
 <AuthorizeView>
@@ -32,49 +33,34 @@
                         <span>Aceptación</span>
                     </div>
                 </div>
-                <div class="row p-2 text-center">
-                    <div class="col-md-4">
-                      <span>@ClienteAsociado.CONTACTO</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span>@ClienteAsociado.CARGO</span>
-                    </div>
-                    <div class="col-md-4 pt-0 mt-0">
+                @if(listadeUsuariosDeClienteDeInforme != null){
+                            foreach (var usuario in listadeUsuariosDeClienteDeInforme)
+                            {
+                                <div class="row p-2 text-center">
+                                    <div class="col-md-4">
+                                        <span>@usuario.nombre_cliente</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <span>@usuario.departamento_cliente</span>
+                                    </div>
+                                    <div class="col-md-4 pt-0 mt-0">
 
-                        @if(informe.estado == "Finalizado"){
-                            <input type="checkbox" class="custom-checkbox" id="myCheckbox" checked>
-                            <label class="label-transparent" for="myCheckbox">|</label>
-                        }else{
-                            <input type="checkbox" class="custom-checkbox" id="myCheckbox">
-                            <label class="label-transparent" for="myCheckbox">|</label>
-                        }
-                        
-                    </div>
-                </div>
-                <div class="row p-2 text-center">
-                    <div class="col-md-4">
-                        <span>Hernan Hernanez</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span>Informática</span>
-                    </div>
-                    <div class="col-md-4">
-                                <input type="checkbox" class="custom-checkbox" id="myCheckbox2">
-                                <label class="label-transparent" for="myCheckbox2">|</label>
-                    </div>
-                </div>
-                <div class="row p-2 text-center">
-                    <div class="col-md-4">
-                        <span>Hernan Hernanez</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span>Informática</span>
-                    </div>
-                    <div class="col-md-4">
-                                <input type="checkbox" class="custom-checkbox" id="myCheckbox3">
-                                <label class="label-transparent" for="myCheckbox3">|</label>
-                    </div>
-                </div>
+                                        @if (usuario.aceptacion == "1")
+                                        {
+                                            <input type="checkbox" class="custom-checkbox" id="myCheckbox" checked>
+                                            <label class="label-transparent" for="myCheckbox">.</label>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="custom-checkbox" id="myCheckbox">
+                                            <label class="label-transparent" for="myCheckbox">.</label>
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                
+                 }
 
             </div>
             <div class="observation border border-success rounded-5 text-success d-flex align-items-center justify-content-center">
@@ -86,11 +72,10 @@
         <div class="col-md-6">
             <div class="p-2 d-flex justify-content-between align-items-center">
                 <span class="blue-good">Informe #@informe.consecutivo</span>
-                <select class=" text-success border-0">
-                        <option selected>Modalidad</option>
+                    <select @bind="informe.modalidad_consultoria" class="text-success border-0">
                         <option value="Virtual">Virtual</option>
                         <option value="Presencial">Presencial</option>
-                </select>
+                    </select>
             </div>
 
             <div class="content text-light">
@@ -107,20 +92,20 @@
                                 <h5>HS No Cobradas</h5>
                             </div>
                         </div>
-                        <div class="overflow-auto max-height-col scrollbar-report height-footer ">
-                        @if(listaActividades != null){
-                            @foreach (var actividad in listaActividades)
+                        <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report height-footer ">
+                        @if(listaActividadesAsociadas != null){
+                            @foreach (var actividad in listaActividadesAsociadas)
                             {
                                   <div class="row p-2 text-center ms-0">
                                         <div class="col-md-4">
-                                            <span>@actividad.Actividad</span>
+                                            <span>@actividad.nombre_actividad</span>
                                         </div>
-@*                                        <div class="col-md-4">
+                                     <div class="col-md-4">
                                             <span>@actividad.horas_cobradas</span>
                                         </div>
                                         <div class="col-md-4">
                                             <span>@actividad.horas_no_cobradas</span>
-                                        </div>*@
+                                        </div>
                                     </div>
                             }
                         }      
@@ -151,6 +136,10 @@
                 <div class="d-flex row text-center">
                     <i class="fa-solid fa-square-check"></i>
                     <span>Finalizar</span>
+                </div>
+                <div class="d-flex row text-center">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <span>Enviar al cliente</span>
                 </div>
             </div>
         </div>

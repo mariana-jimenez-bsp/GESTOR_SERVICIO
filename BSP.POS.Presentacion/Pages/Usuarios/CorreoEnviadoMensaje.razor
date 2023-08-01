@@ -1,0 +1,39 @@
+﻿@inject NavigationManager navigationManager
+<div class="w-100 d-flex justify-content-center align-items-center success-content">
+<div class="notifications-container">
+    <div class="success">
+        <div class="flex">
+            <div class="flex-shrink-0">
+
+                <svg class="succes-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <div class="success-prompt-wrap">
+                <p class="success-prompt-heading">
+                    Correo Enviado
+                </p><div class="success-prompt-prompt">
+                    <p>El correo se ha enviado, si no la ha recibido puede volver intentar enviar otro correo o volver a la página de inicio de sesión</p>
+                </div>
+                <div class="success-button-container">
+                    <button type="button" class="success-button-main" @onclick="IrAEnviarCorreo">Enviar otro correo</button>
+                    <button type="button" class="success-button-secondary" @onclick="IrAlInicio">Volver al Inicio de sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+@code {
+    private void IrAlInicio()
+    {
+
+        navigationManager.NavigateTo($"/", forceLoad: true);
+    }
+
+    private void IrAEnviarCorreo()
+    {
+
+        navigationManager.NavigateTo($"CorreoRecuperacion", forceLoad: true);
+    }
+}

@@ -73,6 +73,72 @@ namespace BSP.POS.API.Controllers
                 return ex.Message;
             }
         }
+        [HttpPost("EnviarCorreo")]
+        public IActionResult EnviarCorreo(U_TokenRecuperacion tokenRecuperacion)
+        {
+            U_Correo datos = new U_Correo();
+            U_TokenRecuperacion tokenRecuperado = user.EnviarTokenRecuperacion(tokenRecuperacion.correo, tokenRecuperacion.esquema);
+            try
+            {
+                if (tokenRecuperado != null)
+                {
+                    datos.para = tokenRecuperado.correo;
+                    datos.correoUsuario = _correoUsuario;
+                    datos.claveUsuario = _claveUsuario;
+                    string token = tokenRecuperado.token_recuperacion;
+
+                    _correoService.EnviarCorreo(datos, token, tokenRecuperacion.esquema);
+                    return Ok();
+                }
+                return BadRequest();
+            }
+
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
+        public string ValidaTokenRecuperacion(string esquema, string token)
+        {
+
+            string tokenRecuperadoJson = user.ValidarTokenRecuperacion(esquema, token);
+
+            return tokenRecuperadoJson;
+        }
+
+        [HttpPost("ActualizaClaveDeUsuario")]
+        public string ActualizaClaveDeUsuario([FromBody] mUsuarioNuevaClave datos)
+        {
+            try
+            {
+                U_UsuarioNuevaClave usuario = new U_UsuarioNuevaClave();
+                usuario.token_recuperacion = datos.token_recuperacion;
+                usuario.clave = datos.clave;
+                usuario.esquema = datos.esquema;
+
+
+                string mensaje = user.ActualizarClaveDeUsuario(usuario);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [HttpGet("ValidaCorreoCambioClave/{esquema}/{correo}")]
+        public string ValidaCorreoCambioClave(string esquema, string correo)
+        {
+
+            string correoDevuelto = user.ValidarCorreoExistenteCambioClave(esquema, correo);
+
+            return correoDevuelto;
+        }
+
         [Authorize]
         [HttpGet("ObtenerPerfil/{usuario}")]
         public string ObtenerPerfil(string usuario)
@@ -132,57 +198,16 @@ namespace BSP.POS.API.Controllers
             }
 
         }
-
-        [HttpPost("EnviarCorreo")]
-        public IActionResult EnviarCorreo(U_TokenRecuperacion tokenRecuperacion)
-        {
-            U_Correo datos = new U_Correo();
-            U_TokenRecuperacion tokenRecuperado = user.EnviarTokenRecuperacion(tokenRecuperacion.correo, tokenRecuperacion.esquema);
-            try
-            {
-                if (tokenRecuperado != null)
-                {
-                    datos.para = tokenRecuperado.correo;
-                    datos.correoUsuario = _correoUsuario;
-                    datos.claveUsuario = _claveUsuario;
-                    string token = tokenRecuperado.token_recuperacion;
-                   
-                    _correoService.EnviarCorreo(datos, token, tokenRecuperacion.esquema);
-                    return Ok();
-                }
-                return BadRequest();
-            }
-
-            catch (Exception)
-            {
-                return BadRequest();
-            } 
-
-        }
-
-        [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
-        public string ValidaTokenRecuperacion(string esquema, string token)
-        {
-
-                string tokenRecuperadoJson = user.ValidarTokenRecuperacion(esquema, token);
-                
-                return tokenRecuperadoJson;
-        }
-
-        [HttpPost("ActualizaClaveDeUsuario")]
-        public string ActualizaClaveDeUsuario([FromBody] mUsuarioNuevaClave datos)
+        [Authorize]
+        [HttpGet("ObtengaLaListaUsuariosDeClienteDeInforme/{consecutivo}/{esquema}")]
+        public string ObtengaLaListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
         {
             try
             {
-                U_UsuarioNuevaClave usuario = new U_UsuarioNuevaClave();
-                usuario.token_recuperacion = datos.token_recuperacion;
-                usuario.clave = datos.clave;
-                usuario.esquema = datos.esquema;
-
-
-                string mensaje = user.ActualizarClaveDeUsuario(usuario);
-                return mensaje;
+                string listaInformesDeUsuarioDeClienteJson = user.ListarUsuariosDeClienteDeInforme(esquema, consecutivo);
+                return listaInformesDeUsuarioDeClienteJson;
             }
+
             catch (Exception ex)
             {
                 return ex.Message;
@@ -190,15 +215,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpGet("ValidaCorreoCambioClave/{esquema}/{correo}")]
-        public string ValidaCorreoCambioClave(string esquema, string correo)
-        {
-
-            string correoDevuelto = user.ValidarCorreoExistenteCambioClave(esquema, correo);
-
-            return correoDevuelto;
-        }
-
+       
 
 
     }

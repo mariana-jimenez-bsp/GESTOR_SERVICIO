@@ -119,5 +119,22 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             string correo = objetoUsuario.ValidarCorreoExistenteCambioClave(pEsquema, pCorreo);
             return correo;
         }
+        public string ListarUsuariosDeClienteDeInforme(String pEsquema, String pConsecutivo)
+        {
+            try
+            {
+                List<U_UsuariosDeClienteDeInforme> list = new List<U_UsuariosDeClienteDeInforme>();
+
+                list = objetoUsuario.ListaUsuariosDeClienteDeInforme(pEsquema, pConsecutivo);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }
