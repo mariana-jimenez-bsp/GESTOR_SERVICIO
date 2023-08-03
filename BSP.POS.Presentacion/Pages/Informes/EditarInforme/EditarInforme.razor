@@ -7,14 +7,21 @@
 @inject IJSRuntime JS
         <Layout></Layout>
         <div class="container-fluid p-2 pe-5 ps-5 body-edit">
-
+            @if(successMessage != null){
+            <MensajeDeLogrado Message="@successMessage" />
+             }
             <div class="row">
                 <div class="col-md-6">
+            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
+                <ObjectGraphDataAnnotationsValidator />
                     <div class="row p-2">
+                    @if(!string.IsNullOrEmpty(informe.consecutivo)){
                         <div class="col-md-6 d-flex row text-center">
                             <div>
-                                <span class="blue-good">Fecha: </span><input type="date" class="text-success border-0 w-50" value="@informe.fecha_consultoria">
+                                <span class="blue-good">Fecha: </span><input type="date" class="text-success border-0 w-50" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
+                                <ValidationMessage For="@(() => informe.fecha_consultoria)" />
                             </div>
+                       
                             <div>
                                 <span class="blue-good">Cliente: </span>
                                 <select value="@ClienteAsociado.NOMBRE" class="text-success border-0 w-50">
@@ -24,15 +31,23 @@
                         </div>
                         <div class="col-md-6 d-flex row text-center">
                             <div>
-                                <span class="blue-good">Hora de Inicio: </span><input class="text-success width-input border-0" value="@hora_inicio_reducida">
+                                <span class="blue-good">Hora de Inicio: </span><input type="time" class="text-success width-25 border-0" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
                                 <span class="text-success">hs</span>
+                                <ValidationMessage For="@(() => informe.HoraInicioTime)" />
                             </div>
+                      
                             <div>
-                                <span class="blue-good">Hora de Fin: </span><input class="text-success width-input border-0" value="@hora_final_reducida">
+                                <span class="blue-good">Hora de Fin: </span><input type="time" class="text-success width-25 border-0" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                 <span class="text-success">hs</span>
+                                <ValidationMessage For="@(() => informe.HoraFinalTime)" />
                             </div>
                         </div>
+                   
+                    <button @ref="informeButton" style="display: none"></button>
+                    }
+                        
                     </div>
+            </EditForm>
                     <div class="row content bg-body-secondary table-height rounded-start-5">
                         <div class="row text-center p-2 blue-good">
                             <div class="col-md-4 p-2">
@@ -52,10 +67,10 @@
                             {
                                 <div class="row p-2 text-center">
                                     <div class="col-md-4">
-                                        <span>@usuario.nombre_cliente</span>
+                                        <span>@usuario.nombre_usuario</span>
                                     </div>
                                     <div class="col-md-4">
-                                        <span>@usuario.departamento_cliente</span>
+                                        <span>@usuario.departamento_usuario</span>
                                     </div>
                                     <div class="col-md-4 pt-0 mt-0">
 
@@ -75,8 +90,28 @@
                             }
 
                         }
-
+                @if (listaDeUsuariosParaAgregar != null)
+                {
+                    <EditForm Model="@usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme">
+                    <ObjectGraphDataAnnotationsValidator />
+                    <div>
+                        <span class="text-success">Agregar Usuario</span>
+                        <div>
+                            <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
+                                <option value="">Seleccione el usuario</option>
+                                @foreach (var usuario in listaDeUsuariosParaAgregar)
+                                {
+                                    <option value="@usuario.codigo">@usuario.usuario</option>
+                                }
+                               
+                            </select>
+                            <button type="submit" class="border-success rounded-3">Agregar</button>
+                        </div>
+                        <ValidationMessage For="@(() => usuarioAAgregar.codigo_usuario_cliente)" />
                     </div>
+                    </EditForm>
+                }
+            </div>
                     <div class="observation border border-success rounded-5 text-success d-flex align-items-center justify-content-center">
                         <span>+ Observaciones</span>
                     </div>
@@ -162,7 +197,7 @@
                             <i class="fa-solid fa-trash"></i>
                             <span>Descartar</span>
                         </div>
-                        <button @onclick="SubmitActividades" class="d-flex row text-center bg-transparent border-0 width-25 text-success">
+                        <button @onclick="TodosLosBotonesSubmit" class="d-flex row text-center bg-transparent border-0 width-25 text-success">
                             <i class="fa-solid fa-download"></i>
                             <span>Guardar Borrador</span>
                         </button>

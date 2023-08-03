@@ -1,5 +1,4 @@
 ﻿using BSP.POS.DATOS.Informes;
-using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.UTILITARIOS.Informes;
 using Newtonsoft.Json;
 using System;
@@ -47,6 +46,13 @@ namespace BSP.POS.NEGOCIOS.Informes
 
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
+        }
+
+        public string ActualizarInformeAsociado(U_InformeAsociado pInforme, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objInforme.ActualizarInformeAsociado(pInforme, esquema);
+            return mensaje;
         }
 
 

@@ -1,5 +1,4 @@
 ﻿using BSP.POS.DATOS.POSDataSetTableAdapters;
-using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.UTILITARIOS.Informes;
 using System;
 using System.Collections.Generic;
@@ -58,6 +57,27 @@ namespace BSP.POS.DATOS.Informes
             }
         }
 
-        
+        public string ActualizarInformeAsociado(U_InformeAsociado pInforme, string esquema)
+        {
+            POSDataSet.ActualizarInformeAsociadoDataTable bTabla = new POSDataSet.ActualizarInformeAsociadoDataTable();
+            ActualizarInformeAsociadoTableAdapter sp = new ActualizarInformeAsociadoTableAdapter();
+            try
+            {
+                var response = sp.GetData(pInforme.consecutivo, pInforme.fecha_consultoria, pInforme.hora_inicio, pInforme.hora_final, pInforme.modalidad_consultoria, pInforme.cliente, pInforme.estado, esquema);
+
+                
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
+
+
     }
 }

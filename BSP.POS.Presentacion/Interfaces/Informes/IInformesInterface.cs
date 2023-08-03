@@ -9,5 +9,6 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
 
         mInformeAsociado InformeAsociado { get; set; }
         Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo, string esquema);
+        Task ActualizarInformeAsociado(mInformeAsociado informe, string esquema);
     }
 }

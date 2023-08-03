@@ -3,6 +3,7 @@ using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.UTILITARIOS.Informes;
+using BSP.POS.UTILITARIOS.Proyectos;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
@@ -181,6 +182,24 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             if (listaInformesAsociados is not null)
             {
                 ListaUsuariosDeClienteDeInforme = listaInformesAsociados;
+            }
+        }
+
+        public async Task AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "https://localhost:7032/api/Usuarios/AgregaUsuarioDeClienteDeInforme";
+                string jsonData = JsonSerializer.Serialize(usuario);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
             }
         }
 

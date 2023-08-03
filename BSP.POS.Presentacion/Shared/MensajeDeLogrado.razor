@@ -1,0 +1,25 @@
+﻿@if (showSuccessAlert)
+{
+    <div class="alert alert-success w-25" role="alert">
+        @Message
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Message { get; set; }
+
+    private bool showSuccessAlert = false;
+
+    protected override void OnParametersSet()
+    {
+        showSuccessAlert = true;
+
+        // Ocultar el mensaje después de 2 segundos (puedes ajustar el tiempo según tus necesidades)
+        Task.Delay(2000).ContinueWith(_ =>
+        {
+            showSuccessAlert = false;
+            StateHasChanged();
+        });
+    }
+}

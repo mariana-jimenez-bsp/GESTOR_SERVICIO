@@ -1,8 +1,11 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Informes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Pages.Home;
+using BSP.POS.UTILITARIOS.Proyectos;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text;
 using static System.Net.WebRequestMethods;
 
 namespace BSP.POS.Presentacion.Services.Informes
@@ -38,6 +41,24 @@ namespace BSP.POS.Presentacion.Services.Informes
                 return await informeAsociadoJson.Content.ReadFromJsonAsync<mInformeAsociado?>();
             }
             return null;
+        }
+
+        public async Task ActualizarInformeAsociado(mInformeAsociado informe, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "https://localhost:7032/api/Informes/ActualizaElInformeAsociado";
+                string jsonData = JsonSerializer.Serialize(informe);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
     }

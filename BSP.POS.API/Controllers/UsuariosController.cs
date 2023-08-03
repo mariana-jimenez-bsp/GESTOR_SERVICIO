@@ -214,8 +214,27 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [Authorize]
+        [HttpPost("AgregaUsuarioDeClienteDeInforme")]
+        public string AgregaUsuarioDeClienteDeInforme([FromBody] mUsuarioDeClienteDeInforme datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                U_UsuariosDeClienteDeInforme usuario = new U_UsuariosDeClienteDeInforme();
+                usuario.consecutivo_informe = datos.consecutivo_informe;
+                usuario.codigo_usuario_cliente = datos.codigo_usuario_cliente;
 
-       
+
+                string mensaje = user.AgregarUsuarioDeClienteDeInforme(usuario, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
 
 
     }

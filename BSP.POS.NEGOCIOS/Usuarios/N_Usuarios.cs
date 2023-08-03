@@ -136,5 +136,11 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public string AgregarUsuarioDeClienteDeInforme(U_UsuariosDeClienteDeInforme pUsuario, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objetoUsuario.AgregarUsuarioDeClienteDeInforme(pUsuario, esquema);
+            return mensaje;
+        }
     }
 }
