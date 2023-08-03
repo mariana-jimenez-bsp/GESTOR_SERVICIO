@@ -23,7 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             {
                 clientes = ClientesService.ListaClientes;
                 // Asegurar que las listas desplegables y cambioColores tengan la misma cantidad de elementos que la lista de clientes
-                desplegables = clientes.Select(cliente => new DesplegableInfo()).ToList();
+               
             }
             foreach (var cliente in clientes)
             {
@@ -34,11 +34,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
            
         }
 
-        public class DesplegableInfo
-        {
-            public bool IsOpen { get; set; } = false;
-            // Agrega aquí las otras propiedades necesarias para tu desplegable
-        }
+
 
 
         private void OpenModal()
@@ -52,11 +48,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             await ClientesService.ObtenerListaClientes(esquema);
             await OnClose.InvokeAsync(false);
             clientes = ClientesService.ListaClientes;
-            desplegables = desplegables.Select(desplegable =>
-            {
-                desplegable.IsOpen = false;
-                return desplegable;
-            }).ToList();
+          
             foreach (var cliente in clientes)
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -67,21 +59,16 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
 
         }
-        private List<DesplegableInfo> desplegables = new List<DesplegableInfo>();
+    
   
 
-        private void ToggleCollapse(int index)
+        private void ToggleCollapse(string clienteCod)
         {
-            // Primero, actualizamos el estado de los desplegables
-            for (int i = 0; i < desplegables.Count; i++)
+            foreach (var cliente in clientes)
             {
-                if (i == index)
+                if (cliente.CLIENTE == clienteCod)
                 {
-                    desplegables[i].IsOpen = !desplegables[i].IsOpen;
-                }
-                else
-                {
-                    desplegables[i].IsOpen = false;
+                    cliente.IsOpen = !cliente.IsOpen;
                 }
             }
 

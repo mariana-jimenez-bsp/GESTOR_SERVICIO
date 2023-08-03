@@ -16,11 +16,11 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public string DIRECCION { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo del Teléfono 1 es requerido")]
         [StringLength(50, ErrorMessage = "Tamaño máximo de 50 caracteres")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "El campo tiene que ser un teléfono")]
+        [RegularExpression(@"^\d+(-\d+)*$", ErrorMessage = "El campo tiene que ser un teléfono válido")]
         public string TELEFONO1 { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo del Teléfono 2 es requerido")]
         [StringLength(50, ErrorMessage = "Tamaño máximo de 50 caracteres")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "El campo tiene que ser un teléfono")]
+        [RegularExpression(@"^\d+(-\d+)*$", ErrorMessage = "El campo tiene que ser un teléfono válido")]
         public string TELEFONO2 { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo de la Cédula es requerido")]
         [StringLength(20, ErrorMessage = "Tamaño máximo de 20 caracteres")]
@@ -28,9 +28,8 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public string MONEDA { get; set; } = string.Empty;
         public string PAIS { get; set; } = string.Empty;
         public string ZONA { get; set; } = string.Empty;
-        [DataType(DataType.EmailAddress, ErrorMessage = "El campo tiene que ser un correo")]
         [StringLength(249, ErrorMessage = "Tamaño máximo de 249 caracteres")]
-        public string E_MAIL { get; set; } = string.Empty;
+        public string? E_MAIL { get; set; } = string.Empty;
         public string DIVISION_GEOGRAFICA1 { get; set; } = string.Empty;
         public string DIVISION_GEOGRAFICA2 { get; set; } = string.Empty;
         public string DIVISION_GEOGRAFICA3 { get; set; } = string.Empty;
@@ -43,5 +42,6 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public string CreateDate { get; set; } = string.Empty;
 
         public List<mUsuariosDeCliente> listaDeUsuarios { get; set; } = new List<mUsuariosDeCliente>();
+        public bool IsOpen { get; set; } = false;
     }
 }

@@ -3,8 +3,9 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
-namespace BSP.POS.Presentacion.Pages.Informes
+namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 {
     public partial class EditarInforme : ComponentBase
     {
@@ -13,7 +14,6 @@ namespace BSP.POS.Presentacion.Pages.Informes
         public mInformeAsociado informe { get; set; } = new mInformeAsociado();
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
         public List<mActividades> listaActividades = new List<mActividades>();
-        public mEditarInforme editarInformeModel = new mEditarInforme();
         public List<mActividadesAsociadas> listaActividadesAsociadas = new List<mActividadesAsociadas>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
@@ -23,6 +23,12 @@ namespace BSP.POS.Presentacion.Pages.Informes
         public string hora_final_reducida { get; set; } = string.Empty;
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
+        private ElementReference actividadesButton;
+
+        private async Task SubmitActividades()
+        {
+            await JS.InvokeVoidAsync("clickButton", actividadesButton);
+        }
         protected override async Task OnInitializedAsync()
         {
 
@@ -37,7 +43,6 @@ namespace BSP.POS.Presentacion.Pages.Informes
                 if (InformesService.InformeAsociado != null)
                 {
                     informe = InformesService.InformeAsociado;
-                    editarInformeModel.informeAsociado = informe;
                     hora_inicio_reducida = informe.hora_inicio.Substring(0, 5);
                     hora_final_reducida = informe.hora_final.Substring(0, 5);
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -58,7 +63,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
                     if (ActividadesService.ListaActividadesAsociadas != null)
                     {
                         listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
-                        editarInformeModel.actividadesAsociadas = listaActividadesAsociadas;
+                       
                         try
                         {
                             total_horas_cobradas = listaActividadesAsociadas.Sum(act => decimal.Parse(act.horas_cobradas));
@@ -75,7 +80,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
                     listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
-                    if(UsuariosService.ListaUsuariosDeClienteDeInforme != null)
+                    if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
                     {
                         listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
                         foreach (var usuario in listadeUsuariosDeClienteDeInforme)
@@ -83,8 +88,6 @@ namespace BSP.POS.Presentacion.Pages.Informes
                             usuario.nombre_cliente = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
                             usuario.departamento_cliente = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
                         }
-                        editarInformeModel.usuariosDeClienteDeInformes = listadeUsuariosDeClienteDeInforme;
-
                     }
 
 
@@ -98,7 +101,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                foreach (var actividad in editarInformeModel.actividadesAsociadas)
+                foreach (var actividad in listaActividadesAsociadas)
                 {
                     if (actividad.Id == actividadId)
                     {
@@ -112,7 +115,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                foreach (var actividad in editarInformeModel.actividadesAsociadas)
+                foreach (var actividad in listaActividadesAsociadas)
                 {
                     if (actividad.Id == actividadId)
                     {
@@ -126,7 +129,7 @@ namespace BSP.POS.Presentacion.Pages.Informes
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                foreach (var actividad in editarInformeModel.actividadesAsociadas)
+                foreach (var actividad in listaActividadesAsociadas)
                 {
                     if (actividad.Id == actividadId)
                     {
@@ -136,17 +139,12 @@ namespace BSP.POS.Presentacion.Pages.Informes
             }
         }
 
-        private async Task ActualizarInforme()
-        {
-            await ActualizarActividadesAsociadas();
-        }
-
         private async Task ActualizarActividadesAsociadas()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.ActualizarListaDeActividadesAsociadas(editarInformeModel.actividadesAsociadas, esquema);
-            await ActividadesService.ObtenerListaDeActividadesAsociadas(informe.consecutivo,esquema);
-            editarInformeModel.actividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
+            await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
+            await ActividadesService.ObtenerListaDeActividadesAsociadas(informe.consecutivo, esquema);
+            listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
         }
     }
 }

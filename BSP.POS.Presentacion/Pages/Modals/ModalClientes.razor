@@ -51,7 +51,7 @@
 
                                     <div class="card-header row" id="heading-@cont">
                                         <div class="mb-0 col-md-1">
-                                            @if (desplegables[cont].IsOpen)
+                                            @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" value="@cliente.CLIENTE" readonly>
                                             }
@@ -62,7 +62,7 @@
 
                                         </div>
                                         <div class="mb-0 col-md-1">
-                                            @if (desplegables[cont].IsOpen)
+                                            @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.NOMBRE" @oninput="(e) => CambioNombre(e, cliente.CLIENTE)">
                                             }
@@ -73,7 +73,7 @@
                                             <ValidationMessage For="@(() => cliente.NOMBRE)" />
                                         </div>
                                         <div class="mb-0 col-md-2">
-                                            @if (desplegables[cont].IsOpen)
+                                            @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.ALIAS" @oninput="(e) => CambioAlias(e, cliente.CLIENTE)">
                                             }
@@ -84,7 +84,7 @@
                                             <ValidationMessage For="@(() => cliente.ALIAS)" />
                                         </div>
                                         <div class="mb-0 col-md-2">
-                                            @if (desplegables[cont].IsOpen)
+                                            @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.CONTRIBUYENTE" @oninput="(e) => CambioContribuyente(e, cliente.CLIENTE)">
                                             }
@@ -95,7 +95,7 @@
                                             <ValidationMessage For="@(() => cliente.CONTRIBUYENTE)" />
                                         </div>
                                         <div class="mb-0 col-md-2">
-                                            @if (desplegables[cont].IsOpen)
+                                            @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO1" @oninput="(e) => CambioTelefono1(e, cliente.CLIENTE)">
                                             }
@@ -106,7 +106,7 @@
                                             <ValidationMessage For="@(() => cliente.TELEFONO1)" />
                                         </div>
                                         <div class="mb-0 col-md-2">
-                                            @if (desplegables[cont].IsOpen)
+                                            @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO2" @oninput="(e) => CambioTelefono2(e, cliente.CLIENTE)">
                                             }
@@ -117,11 +117,11 @@
                                             <ValidationMessage For="@(() => cliente.TELEFONO2)" />
                                         </div>
                                         <div class="mb-0 col-md-2">
-                                            @if (desplegables[cont].IsOpen)
+                                            @if (cliente.IsOpen)
                                             {
                                                 <div class="d-flex">
                                                     <input class="w-100 text-center text-secondary border-success rounded-pill me-2" type="text" @bind-value="@cliente.E_MAIL" @oninput="(e) => CambioCorreo(e, cliente.CLIENTE)">
-                                                    <i class="fa-solid fa-caret-up d-flex justify-content-end text-success mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cont)"></i>
+                                                    <i class="fa-solid fa-caret-up d-flex justify-content-end text-success mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
                                                 </div>
 
                                             }
@@ -129,7 +129,7 @@
                                             {
                                                 <div class="d-flex">
                                                     <label class="w-75 text-center text-secondary me-3">@cliente.E_MAIL</label>
-                                                    <i class="fa-solid fa-sort-down d-flex justify-content-end blue-good mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cont)"></i>
+                                                    <i class="fa-solid fa-sort-down d-flex justify-content-end blue-good mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
                                                 </div>
                                             }
                                             <ValidationMessage For="@(() => cliente.E_MAIL)" />

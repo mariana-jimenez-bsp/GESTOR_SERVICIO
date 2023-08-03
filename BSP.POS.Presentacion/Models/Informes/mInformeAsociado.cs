@@ -1,4 +1,6 @@
-﻿namespace BSP.POS.Presentacion.Models.Informes
+﻿using BSP.POS.Presentacion.Models.Actividades;
+
+namespace BSP.POS.Presentacion.Models.Informes
 {
     public class mInformeAsociado
     {
