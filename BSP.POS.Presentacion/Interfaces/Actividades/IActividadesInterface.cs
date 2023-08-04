@@ -13,5 +13,6 @@ namespace BSP.POS.Presentacion.Interfaces.Actividades
         Task ActualizarListaDeActividades(List<mActividades> listaActividades, string esquema);
         Task ActualizarListaDeActividadesAsociadas(List<mActividadesAsociadas> listaActividades, string esquema);
         Task AgregarActividadDeInforme(mActividadAsociadaParaAgregar actividad, string esquema);
+        Task EliminarActividadDeInforme(string idActividad, string esquema);
     }
 }

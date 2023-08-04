@@ -4,6 +4,7 @@ using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Collections.Generic;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
@@ -245,6 +246,47 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 actividadAAgregar = new mActividadAsociadaParaAgregar();
                 await RefrescarListaDeActividadesAsociadas();
             }
+        }
+
+        bool activarModalEliminarUsuario = false;
+        bool activarModalEliminarActividad = false;
+        string idUsuarioActual;
+        string nombreUsuarioActual;
+        string idActividadActual;
+        string nombreActividadActual;
+        async Task AbrirEliminarUsuario(bool activar, string idUsuario, string nombreUsuario)
+        {
+            idUsuarioActual = string.Empty;
+            nombreUsuarioActual = string.Empty;
+            idUsuarioActual = idUsuario;
+            nombreUsuarioActual = nombreUsuario;
+            await ClickHandlerEliminarUsuario(activar);
+
+        }
+
+        async Task AbrirEliminarActividad(bool activar, string idActividad, string codigoActividad)
+        {
+            string nombreActividad = listaActividades.Where(actividad => actividad.codigo == codigoActividad).First().Actividad;
+            idActividadActual = string.Empty;
+            nombreActividadActual = string.Empty;
+            idActividadActual = idActividad;
+            nombreActividadActual = nombreActividad;
+            await ClickHandlerEliminarActividad(activar);
+
+        }
+
+        async Task ClickHandlerEliminarUsuario(bool activar)
+        {
+            activarModalEliminarUsuario = activar;
+            await RefrescarListaDeUsuariosDeInforme();
+            StateHasChanged();
+        }
+
+        async Task ClickHandlerEliminarActividad(bool activar)
+        {
+            activarModalEliminarActividad = activar;
+            await RefrescarListaDeActividadesAsociadas();
+            StateHasChanged();
         }
     }
 }

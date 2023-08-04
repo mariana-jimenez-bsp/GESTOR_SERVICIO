@@ -52,7 +52,7 @@ namespace BSP.POS.Presentacion.Services.Permisos
 
                 var mensaje = await _http.PostAsync(url, content);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

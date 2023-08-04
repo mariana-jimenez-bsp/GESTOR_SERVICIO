@@ -203,6 +203,26 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
+        public async Task EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema)
+        {
+            try
+            {
+                string url = "https://localhost:7032/api/Usuarios/EliminaUsuarioDeClienteDeInforme";
+                string jsonData = JsonSerializer.Serialize(idUsuario);
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-IdUsuario");
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-IdUsuario", idUsuario);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
     }
     }
 

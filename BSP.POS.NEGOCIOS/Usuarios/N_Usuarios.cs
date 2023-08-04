@@ -1,4 +1,5 @@
 ﻿using BSP.POS.DATOS.Usuarios;
+using BSP.POS.UTILITARIOS.Permisos;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Newtonsoft.Json;
 using System;
@@ -141,6 +142,24 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             string mensaje = string.Empty;
             mensaje = objetoUsuario.AgregarUsuarioDeClienteDeInforme(pUsuario, esquema);
             return mensaje;
+        }
+
+        public string EliminarUsuarioDeClienteDeInforme(string pIdUsuario, string esquema)
+        {
+            try
+            {
+                string mensaje = string.Empty;
+                mensaje = objetoUsuario.EliminarUsuarioDeClienteDeInforme(pIdUsuario, esquema);
+               
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error " + ex.Message, ex.InnerException.InnerException);
+            }
+
+
         }
     }
 }

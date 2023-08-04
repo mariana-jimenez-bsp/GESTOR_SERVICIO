@@ -257,7 +257,25 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
+        public string EliminarUsuarioDeClienteDeInforme(string pIdUsuario, string esquema)
+        {
+            POSDataSet.EliminarUsuarioDeClienteDeInformeDataTable bTabla = new POSDataSet.EliminarUsuarioDeClienteDeInformeDataTable();
+            EliminarUsuarioDeClienteDeInformeTableAdapter sp = new EliminarUsuarioDeClienteDeInformeTableAdapter();
+            try
+            {
+                var response = sp.GetData(pIdUsuario, esquema);
 
+                return "Exito";
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException);
+            }
+
+
+
+        }
         public string GenerarTokenRecuperacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));

@@ -136,5 +136,24 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpPost("EliminaActividadDeInforme")]
+        public string EliminaActividadDeInforme([FromBody] string IdActividad)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string idActividad = Request.Headers["X-IdActividad"];
+
+
+                string mensaje = actividades.EliminarActividadDeInforme(idActividad, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
     }
 }

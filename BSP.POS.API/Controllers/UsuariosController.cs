@@ -235,6 +235,25 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [Authorize]
+        [HttpPost("EliminaUsuarioDeClienteDeInforme")]
+        public string EliminaUsuarioDeClienteDeInforme([FromBody] string IdUsuario)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string idUsuario = Request.Headers["X-IdUsuario"];
+
+
+                string mensaje = user.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
 
 
     }

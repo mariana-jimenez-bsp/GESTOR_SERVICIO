@@ -126,5 +126,25 @@ namespace BSP.POS.DATOS.Actividades
 
 
         }
+
+        public string EliminarActividadDeInforme(string pIdActividad, string esquema)
+        {
+            POSDataSet.EliminarActividadAsociadaDataTable bTabla = new POSDataSet.EliminarActividadAsociadaDataTable();
+            EliminarActividadAsociadaTableAdapter sp = new EliminarActividadAsociadaTableAdapter();
+            try
+            {
+                var response = sp.GetData(pIdActividad, esquema);
+
+                return "Exito";
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException);
+            }
+
+
+
+        }
     }
 }

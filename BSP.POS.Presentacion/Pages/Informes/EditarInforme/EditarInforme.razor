@@ -88,7 +88,7 @@
                                         }
 
                                     </div>
-                                <div class="col-md-3 mouse-pointer">
+                                <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarUsuario(true, usuario.id, usuario.nombre_usuario)">
                                         <i class="fa-solid fa-x text-danger"></i>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
                                             </div>
-                                            <div class="col-md-3 mouse-pointer">
+                                            <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarActividad(true, actividad.Id, actividad.codigo_actividad)">
                                                 <i class="fa-solid fa-x text-black"></i>
                                             </div>
                                         </div>
@@ -249,6 +249,7 @@
             </div>
           
         </div>
-
+<ModalEliminarUsuario ActivarModal="@activarModalEliminarUsuario" OnClose="ClickHandlerEliminarUsuario" idUsuario="@idUsuarioActual" esquema="@esquema" nombreUsuario="@nombreUsuarioActual"></ModalEliminarUsuario>
+<ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
 
 

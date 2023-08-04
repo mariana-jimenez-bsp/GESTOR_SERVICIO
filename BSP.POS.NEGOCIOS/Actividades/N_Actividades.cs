@@ -67,5 +67,23 @@ namespace BSP.POS.NEGOCIOS.Actividades
             mensaje = objActividad.AgregarActividadDeInforme(pActividad, esquema);
             return mensaje;
         }
+
+        public string EliminarActividadDeInforme(string pIdActividad, string esquema)
+        {
+            try
+            {
+                string mensaje = string.Empty;
+                mensaje = objActividad.EliminarActividadDeInforme(pIdActividad, esquema);
+
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error " + ex.Message, ex.InnerException.InnerException);
+            }
+
+
+        }
     }
 }
