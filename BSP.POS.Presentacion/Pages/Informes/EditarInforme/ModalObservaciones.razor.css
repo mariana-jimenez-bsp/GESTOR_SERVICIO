@@ -1,0 +1,95 @@
+﻿.max-height-modal {
+    max-height: 200px;
+}
+
+.max-height-observation {
+    max-height: 70px;
+}
+
+.blue-good {
+    color: #053d9e;
+}
+
+.green-good {
+    color: #198754;
+}
+
+.blue-good-bg {
+    background-color: #053d9e;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.modal-content {
+    display: inline-block;
+    margin-top: 5%;
+    background-color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    max-width: 40%;
+}
+
+.modal-header {
+    background-color: #fff;
+    position: relative;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+    .modal-header h2 {
+        margin: 0;
+    }
+
+.modal-body {
+    display: flex;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+    .modal-body label {
+        display: block;
+    }
+
+    .modal-body input,
+    .modal-body select {
+        width: 200px;
+    }
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+    .modal-footer button {
+        padding: 10px 20px;
+    }
+.scrollbar-observation::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Color del área de seguimiento */
+.scrollbar-observation::-webkit-scrollbar-track {
+    background-color: white;
+    border: 5px solid #198754;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-observation::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 20px;
+    border: 3px solid #198754;
+}

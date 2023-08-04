@@ -1,0 +1,56 @@
+﻿@inject IObservacionesInterface ObservacionesService
+@inject IUsuariosInterface UsuariosService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div id='modal' class='modal' style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content bg-light">
+
+        <div class="modal-header d-flex justify-content-center text-primary">
+            <h2>Observaciones</h2>
+        </div>
+
+        <div class=" modal-body d-flex g-2 text-center bg-light ">
+            <div class="container">
+                <div class="overflow-y-auto overflow-x-hidden max-height-modal scrollbar-observation">
+                    <div class="row mb-3 fw-bold blue-good">
+                        <div class="col-md-5"><span>Usuario</span></div>
+                        <div class="col-md-6"><span>Observación</span></div>
+                    </div>
+                    @if(listaDeObservaciones != null)
+                    {
+                        foreach (var observacion in listaDeObservaciones)
+                        {
+                            <div class="row mb-4">
+                                <div class="col-md-5"><span>@observacion.usuario</span></div>
+                                <div class="col-md-6 overflow-y-auto overflow-x-hidden max-height-observation scrollbar-observation"><p>@observacion.observacion</p></div>
+                            </div>
+                        }
+                        
+                    }
+                   
+                </div>
+                <div>
+                    <EditForm Model="@observacionAAgregar" OnValidSubmit="AgregarObservacionDeInforme">
+                <ObjectGraphDataAnnotationsValidator />
+                    <span class="text-success">Agregar Observación</span>
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <textarea class="form-control border-success rounded-3 text-success" placeholder="Escribe la observatión acá" id="floatingTextarea2" style="height: 100px" @bind="@observacionAAgregar.observacion" @oninput="CambioObservacion"></textarea>
+                            <label for="floatingTextarea2">Agregar Observación</label>
+                        </div>
+
+                    </div>
+                     <ValidationMessage For="@(() => observacionAAgregar.observacion)" />
+                    <button type="submit" class="border-success rounded-3">Agregar</button>
+
+                    </EditForm>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar-clientes">Cerrar</button>
+        </div>
+    </div>
+</div>
+

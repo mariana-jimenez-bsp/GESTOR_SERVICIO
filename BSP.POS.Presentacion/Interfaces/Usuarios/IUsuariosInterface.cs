@@ -29,5 +29,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
         Task AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema);
         Task EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema);
+        List<mPerfil> ListaDeUsuarios { get; set; }
+        Task ObtenerListaDeUsuarios(string esquema);
     }
 }

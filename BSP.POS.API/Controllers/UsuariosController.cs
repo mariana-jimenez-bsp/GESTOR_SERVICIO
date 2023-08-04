@@ -183,6 +183,22 @@ namespace BSP.POS.API.Controllers
 
         }
         [Authorize]
+        [HttpGet("ObtengaLaListaDeUsuarios/{esquema}")]
+        public string ObtengaLaListaDeUsuarios(string esquema)
+        {
+            try
+            {
+                string listaDeUsuariosJson = user.ListarUsuarios(esquema);
+                return listaDeUsuariosJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+        [Authorize]
         [HttpGet("ObtengaLaListaDeUsuariosDeClienteAsociados/{esquema}/{cliente}")]
         public string ObtengaLaListaDeUsuariosDeClienteAsociados(string esquema,string cliente)
         {

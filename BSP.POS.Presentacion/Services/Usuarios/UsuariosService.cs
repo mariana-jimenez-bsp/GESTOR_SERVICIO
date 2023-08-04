@@ -24,7 +24,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         private readonly NavigationManager _navigationManager;
         public List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; } = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; } = new List<mUsuariosDeClienteDeInforme>();
-        
+        public List<mPerfil> ListaDeUsuarios { get; set; } = new List<mPerfil>();
         public mTokenRecuperacion UsuarioRecuperacion { get; set; } = new mTokenRecuperacion();
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
@@ -91,7 +91,14 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 }
             
         }
-
+        public async Task ObtenerListaDeUsuarios(string esquema)
+        {
+            var listaDeUsuarios = await _http.GetFromJsonAsync<List<mPerfil>>("https://localhost:7032/api/Usuarios/ObtengaLaListaDeUsuarios/" + esquema);
+            if (listaDeUsuarios is not null)
+            {
+                ListaDeUsuarios = listaDeUsuarios;
+            }
+        }
         public async Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente)
         {
             string url = "https://localhost:7032/api/Usuarios/ObtengaLaListaDeUsuariosDeClienteAsociados/" + esquema + "/" + cliente;

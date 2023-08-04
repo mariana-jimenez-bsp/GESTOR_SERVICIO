@@ -84,7 +84,29 @@ namespace BSP.POS.DATOS.Usuarios
                 
             
         }
+        public List<U_Perfil> ListarUsuarios(String pEsquema)
+        {
+            var LstUsuarios = new List<U_Perfil>();
 
+            ListarUsuariosTableAdapter sp = new ListarUsuariosTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_Perfil usuario = new U_Perfil(item.ID, item.USUARIO, item.CORREO, "", item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
+
+                    LstUsuarios.Add(usuario);
+                }
+                return LstUsuarios;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public List<U_ListaDeUsuariosDeCliente> ListaDeUsuariosDeClienteAsociados(String pEsquema, string pCliente)
         {
             var LstUsuarios = new List<U_ListaDeUsuariosDeCliente>();

@@ -1,5 +1,4 @@
 ﻿using BSP.POS.DATOS.Usuarios;
-using BSP.POS.UTILITARIOS.Permisos;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Newtonsoft.Json;
 using System;
@@ -54,7 +53,23 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public string ListarUsuarios(String pEsquema)
+        {
+            try
+            {
+                List<U_Perfil> list = new List<U_Perfil>();
 
+                list = objetoUsuario.ListarUsuarios(pEsquema);
+
+                string usuarios = JsonConvert.SerializeObject(list);
+                return usuarios;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public string ActualizarPerfil(U_Perfil pPerfil)
         {
             string mensaje = string.Empty;
