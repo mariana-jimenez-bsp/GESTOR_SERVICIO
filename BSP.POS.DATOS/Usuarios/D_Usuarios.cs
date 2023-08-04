@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Usuarios;
 using System.Security.Cryptography;
-using BSP.POS.UTILITARIOS.Correos;
+
 
 
 namespace BSP.POS.DATOS.Usuarios

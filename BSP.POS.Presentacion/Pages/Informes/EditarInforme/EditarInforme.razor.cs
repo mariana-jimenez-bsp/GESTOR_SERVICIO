@@ -16,10 +16,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
         public List<mActividades> listaActividades = new List<mActividades>();
         public List<mActividadesAsociadas> listaActividadesAsociadas = new List<mActividadesAsociadas>();
+        public List<mActividades> listaActividadesParaAgregar = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
+        public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
         public int total_horas_cobradas = 0;
         public int total_horas_no_cobradas = 0;
         public string usuarioActual { get; set; } = string.Empty;
@@ -72,38 +74,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         listaActividades = ActividadesService.ListaActividades;
 
                     }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo, esquema);
-                    if (ActividadesService.ListaActividadesAsociadas != null)
-                    {
-                        listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
-                       
-                        try
-                        {
-                            total_horas_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
-                            total_horas_no_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
-                        }
-                        catch
-                        {
-                            total_horas_cobradas = 0;
-                            total_horas_no_cobradas = 0;
-                        }
-                    }
+                    await RefrescarListaDeActividadesAsociadas();
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
-                    if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
-                    {
-                        listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
-                        foreach (var usuario in listadeUsuariosDeClienteDeInforme)
-                        {
-                            usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
-                            usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
-                        }
-                    }
-                    listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
+                    await RefrescarListaDeUsuariosDeInforme();
                 }
             }
         }
@@ -183,18 +158,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             successMessage = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
-            await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo, esquema);
-            listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
-            try
-            {
-                total_horas_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
-                total_horas_no_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
-            }
-            catch
-            {
-                total_horas_cobradas = 0;
-                total_horas_no_cobradas = 0;
-            }
+            await RefrescarListaDeActividadesAsociadas();
             successMessage = "Informe Actualizado";
         }
 
@@ -203,6 +167,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ActualizarInformeAsociado(informe, esquema);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
             informe = InformesService.InformeAsociado;
             
@@ -215,6 +180,47 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
             }
         }
+
+        private void CambioCodigoActividad(ChangeEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                actividadAAgregar.codigo_actividad = e.Value.ToString();
+
+            }
+        }
+        private async Task RefrescarListaDeActividadesAsociadas()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo, esquema);
+            listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
+            try
+            {
+                total_horas_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
+                total_horas_no_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
+            }
+            catch
+            {
+                total_horas_cobradas = 0;
+                total_horas_no_cobradas = 0;
+            }
+            listaActividadesParaAgregar = listaActividades.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+        }
+        private async Task RefrescarListaDeUsuariosDeInforme()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
+            if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
+            {
+                listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
+                foreach (var usuario in listadeUsuariosDeClienteDeInforme)
+                {
+                    usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
+                    usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
+                }
+            }
+            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
+        }
         private async Task AgregarUsuarioDeClienteDeInforme()
         {
             if(usuarioAAgregar.codigo_usuario_cliente != null)
@@ -222,6 +228,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 usuarioAAgregar.consecutivo_informe = Consecutivo;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await UsuariosService.AgregarUsuarioDeClienteDeInforme(usuarioAAgregar, esquema);
+                usuarioAAgregar = new mUsuariosDeClienteDeInforme();
+                await RefrescarListaDeUsuariosDeInforme();
+            }
+        }
+
+        private async Task AgregarActividadDeInforme()
+        {
+            if (actividadAAgregar.codigo_actividad != null)
+            {
+                string horas = listaActividadesParaAgregar.Where(actividad => actividad.codigo == actividadAAgregar.codigo_actividad).First().horas;
+                actividadAAgregar.consecutivo_informe = Consecutivo;
+                actividadAAgregar.horas_cobradas = horas;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.AgregarActividadDeInforme(actividadAAgregar, esquema);
+                actividadAAgregar = new mActividadAsociadaParaAgregar();
+                await RefrescarListaDeActividadesAsociadas();
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using BSP.POS.API.Models.Actividades;
+using BSP.POS.API.Models.Usuarios;
 using BSP.POS.NEGOCIOS.Actividades;
 using BSP.POS.UTILITARIOS.Actividades;
+using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -104,6 +106,28 @@ namespace BSP.POS.API.Controllers
                 }
 
                 string mensaje = actividades.ActualizarListaDeActividadesAsociadas(listaActividades, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [HttpPost("AgregaActividadDeInforme")]
+        public string AgregaActividadDeInforme([FromBody] mActividadesAsociadas datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                U_ListaActividadesAsociadas actividad = new U_ListaActividadesAsociadas();
+                actividad.consecutivo_informe = datos.consecutivo_informe;
+                actividad.codigo_actividad = datos.codigo_actividad;
+                actividad.horas_cobradas = datos.horas_cobradas;
+
+
+                string mensaje = actividades.AgregarActividadDeInforme(actividad, esquema);
                 return mensaje;
             }
             catch (Exception ex)

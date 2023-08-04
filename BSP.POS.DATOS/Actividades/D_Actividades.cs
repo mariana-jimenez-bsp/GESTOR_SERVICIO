@@ -105,5 +105,26 @@ namespace BSP.POS.DATOS.Actividades
 
 
         }
+
+        public string AgregarActividadDeInforme(U_ListaActividadesAsociadas pActividad, string esquema)
+        {
+            POSDataSet.AgregarActividadDeInformeDataTable bTabla = new POSDataSet.AgregarActividadDeInformeDataTable();
+            AgregarActividadDeInformeTableAdapter sp = new AgregarActividadDeInformeTableAdapter();
+            try
+            {
+                var response = sp.GetData(esquema, pActividad.consecutivo_informe, pActividad.codigo_actividad, int.Parse(pActividad.horas_cobradas));
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
     }
 }

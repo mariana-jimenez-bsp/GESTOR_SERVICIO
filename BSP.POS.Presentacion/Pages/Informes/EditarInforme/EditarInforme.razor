@@ -49,30 +49,32 @@
                     </div>
             </EditForm>
                     <div class="row content bg-body-secondary table-height rounded-start-5">
+                
                         <div class="row text-center p-2 blue-good">
-                            <div class="col-md-4 p-2">
+                            <div class="col-md-3 p-2">
                                 <span>Nombre</span>
                             </div>
-                            <div class="col-md-4 p-2">
+                            <div class="col-md-3 p-2">
                                 <span>Dep.</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span>Aceptación</span>
                             </div>
                         </div>
+                <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report">
                     @if (listadeUsuariosDeClienteDeInforme != null)
                         {
 
                         foreach (var usuario in listadeUsuariosDeClienteDeInforme)
                             {
                                 <div class="row p-2 text-center">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <span>@usuario.departamento_usuario</span>
                                     </div>
-                                    <div class="col-md-4 pt-0 mt-0">
+                                    <div class="col-md-3 pt-0 mt-0">
 
                                         @if (usuario.aceptacion == "1")
                                         {
@@ -86,10 +88,14 @@
                                         }
 
                                     </div>
+                                <div class="col-md-3 mouse-pointer">
+                                        <i class="fa-solid fa-x text-danger"></i>
+                                    </div>
                                 </div>
                             }
 
                         }
+                </div>
                 @if (listaDeUsuariosParaAgregar != null)
                 {
                     <EditForm Model="@usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme">
@@ -111,6 +117,7 @@
                     </div>
                     </EditForm>
                 }
+             
             </div>
                     <div class="observation border border-success rounded-5 text-success d-flex align-items-center justify-content-center">
                         <span>+ Observaciones</span>
@@ -128,29 +135,30 @@
                     </div>
 
                 <div class="content text-light">
-                    <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas">
-                    <ObjectGraphDataAnnotationsValidator />
+                    
                     <div class="row bg-primary pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
-                        <div class="ps-0 ms-0 blue-good-bg content-behind content-behind-bottom ">
+                        <div class="ps-0 ms-0 blue-good-bg content-behind content-behind-bottom height-footer">
                             <div class="row text-center p-2 blue-good-bg ms-0 content-behind">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <h5>Actividad</h5>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <h5>HS Cobradas</h5>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <h5>HS No Cobradas</h5>
                                 </div>
                             </div>
-                            <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report height-footer ">
+                            <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report ">
+                            <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas">
+                    <ObjectGraphDataAnnotationsValidator />
                                 @if (listaActividadesAsociadas != null)
                                 {
 
                                     @foreach (var actividad in listaActividadesAsociadas)
                                     {
                                         <div class="row p-2 text-center ms-0">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" class="border-0 bg-transparent text-light">
                                                     @foreach (var laActividad in listaActividades)
                                                     {
@@ -161,35 +169,62 @@
                                                 </select>
                                                 <ValidationMessage For="@(() => actividad.codigo_actividad)" />
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <input type="text" @bind-value="actividad.horas_cobradas" @oninput="(e) => CambioHorasCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_cobradas)" />
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <input type="text" @bind-value="actividad.horas_no_cobradas" @oninput="(e) => CambioHorasNoCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
                                             </div>
+                                            <div class="col-md-3 mouse-pointer">
+                                                <i class="fa-solid fa-x text-black"></i>
+                                            </div>
                                         </div>
                                     }
                                 }
+                                <button @ref="actividadesButton" style="display: none">Segundo Botón</button>
+                            </EditForm>
                             </div>
+                            @if (listaActividadesParaAgregar != null)
+                {
+                    <EditForm Model="@actividadAAgregar" OnValidSubmit="AgregarActividadDeInforme">
+                    <ObjectGraphDataAnnotationsValidator />
+                    <div class="ms-3 mt-2">
+                        <span class="text-light">Agregar Actividad</span>
+                        <div>
+                            <select class="border-light rounded-3 blue-good-bg text-light" @bind="@actividadAAgregar.codigo_actividad" @oninput="CambioCodigoActividad">
+                                <option value="" class="blue-good-bg text-light">Seleccione la actividad</option>
+                                @foreach (var actividad in listaActividadesParaAgregar)
+                                {
+                                    <option class="blue-good-bg text-light" value="@actividad.codigo">@actividad.Actividad</option>
+                                }
+                               
+                            </select>
+                            <button type="submit" class="border-light rounded-3 blue-good-bg text-light">Agregar</button>
+                        </div>
+                        <ValidationMessage For="@(() => actividadAAgregar.codigo_actividad)" />
+                    </div>
+                    </EditForm>
+                }
                         </div>
                         <div class="row p-4 ms-0 text-center bg-primary rounded-bottom-5">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span>@total_horas_cobradas</span>
+                                <span>horas</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span>@total_horas_no_cobradas</span>
+                                <span>horas</span>
                             </div>
                         </div>
                     </div>
-                    <button @ref="actividadesButton" style="display: none">Segundo Botón</button>
-                </EditForm>
+
                 </div>
 
                     <div class="p-2 text-success d-flex justify-content-center m-3">
