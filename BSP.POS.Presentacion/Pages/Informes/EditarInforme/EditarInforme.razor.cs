@@ -251,6 +251,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         bool activarModalEliminarUsuario = false;
         bool activarModalEliminarActividad = false;
         bool activarModalObservaciones = false;
+        bool activarModalFinalizarInforme = false;
         string idUsuarioActual;
         string nombreUsuarioActual;
         string idActividadActual;
@@ -290,9 +291,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             StateHasChanged();
         }
 
-        async Task ClickHandlerObservaciones(bool activar)
+         void ClickHandlerObservaciones(bool activar)
         {
             activarModalObservaciones = activar;
+            StateHasChanged();
+        }
+         void ClickHandlerFinalizarInforme(bool activar)
+        {
+            activarModalFinalizarInforme = activar;
             StateHasChanged();
         }
     }

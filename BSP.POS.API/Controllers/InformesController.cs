@@ -81,6 +81,28 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [HttpPost("CambiaEstadoDeInforme")]
+        public string CambiaEstadoDeInforme([FromBody] mInformeAsociado datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                U_InformeAsociado informeAsociado = new U_InformeAsociado();
+                informeAsociado.consecutivo = datos.consecutivo;
+                informeAsociado.estado = datos.estado;
+
+
+                string mensaje = informes.CambiarEstadoDeInforme(informeAsociado, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
 
 
     }

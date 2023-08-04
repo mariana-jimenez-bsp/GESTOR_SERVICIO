@@ -54,7 +54,12 @@ namespace BSP.POS.NEGOCIOS.Informes
             mensaje = objInforme.ActualizarInformeAsociado(pInforme, esquema);
             return mensaje;
         }
-
+        public string CambiarEstadoDeInforme(U_InformeAsociado pInforme, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objInforme.CambiarEstadoDeInforme(pInforme, esquema);
+            return mensaje;
+        }
 
     }
 }

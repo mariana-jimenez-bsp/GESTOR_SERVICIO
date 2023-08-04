@@ -7,6 +7,7 @@
             <h4>Informe Servicio</h4>
             <h4># @Consecutivo</h4>
         </div>
+        if(Estado == "Borrador"){
         <div class="ms-auto d-flex">
             <div class="d-flex row text-center mouse-pointer " @onclick="IrAEditar">
                 <i class="fa-solid fa-pen-to-square mb-2"></i>
@@ -17,22 +18,26 @@
                 <a href="">Finalizar</a>
             </div>
         </div>
+        }
     }
 </div>
 @code {
     [Parameter]
     public string consecutivo { get; set; } = string.Empty;
+    [Parameter]
+    public string estado { get; set; } = string.Empty;
 
     public string Consecutivo { get; set; } = string.Empty;
+    public string Estado { get; set; } = string.Empty;
 
     protected override void OnParametersSet()
     {
 
 
-        if (consecutivo != null)
+        if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
         {
             Consecutivo = consecutivo;
-
+            Estado = estado;
         }
     }
 

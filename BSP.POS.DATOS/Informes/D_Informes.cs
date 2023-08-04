@@ -78,6 +78,27 @@ namespace BSP.POS.DATOS.Informes
 
         }
 
+        public string CambiarEstadoDeInforme(U_InformeAsociado pInforme, string esquema)
+        {
+            POSDataSet.CambiarEstadoDeInformeDataTable bTabla = new POSDataSet.CambiarEstadoDeInformeDataTable();
+            CambiarEstadoDeInformeTableAdapter sp = new CambiarEstadoDeInformeTableAdapter();
+            try
+            {
+                var response = sp.GetData(pInforme.consecutivo, pInforme.estado, esquema);
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
+
 
     }
 }

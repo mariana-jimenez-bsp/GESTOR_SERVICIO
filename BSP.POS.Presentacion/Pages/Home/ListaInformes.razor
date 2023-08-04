@@ -23,7 +23,7 @@
                     // Ejemplo: mostrar la lista de clientes en la vista
                     foreach (var informe in InformesService.ListaInformesAsociados)
                     {
-                        <div class="col-md-4 d-flex row" @onclick="() => EnviarConsecutivo(informe.consecutivo)">
+                        <div class="col-md-4 d-flex row" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
                             <div class="item-report click-report-up click-report-action">
                                 <span class="text-primary">Informe de Servicios</span>
                                 <span class="text-primary">#@informe.consecutivo</span>
@@ -59,7 +59,7 @@
          
         </div>
     </div>
-  <ConsecutivoInforme consecutivo="@Consecutivo"></ConsecutivoInforme>
+  <ConsecutivoInforme consecutivo="@Consecutivo" estado="@Estado"></ConsecutivoInforme>
 
 </div>
 
@@ -71,6 +71,7 @@
     public mClienteAsociado ClienteAsociado = new mClienteAsociado();
 
     public string Consecutivo { get; set; } = string.Empty;
+    public string Estado { get; set; } = string.Empty;
     protected override void OnParametersSet()
     {
         if (informesAsociados != null)
@@ -86,12 +87,13 @@
 
     }
 
-    public void EnviarConsecutivo(string consecutivo)
+    public void EnviarConsecutivo(string consecutivo, string estado)
     {
-
-        if (consecutivo != null)
+        Console.WriteLine(estado);
+        if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
         {
             Consecutivo = consecutivo;
+            Estado = estado;
         }
     }
 }

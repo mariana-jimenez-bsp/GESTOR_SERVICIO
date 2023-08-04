@@ -60,6 +60,23 @@ namespace BSP.POS.Presentacion.Services.Informes
 
             }
         }
+        public async Task CambiarEstadoDeInforme(mInformeEstado informe, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "https://localhost:7032/api/Informes/CambiaEstadoDeInforme";
+                string jsonData = JsonSerializer.Serialize(informe);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
     }
 }
