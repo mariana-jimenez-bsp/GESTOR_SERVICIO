@@ -27,12 +27,12 @@ namespace BSP.POS.API.Controllers
         {
             user = new N_Usuarios();
             var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build();
+             .AddUserSecrets<Program>()
+             .Build();
 
-            _secretKey = configuration["AppSettings:SecretKey"];
-            _correoUsuario = configuration["AppSettings:SmtpFrom"];
-            _claveUsuario = configuration["AppSettings:SmtpPassword"];
+            _secretKey = configuration["SecretKey"];
+            _correoUsuario = configuration["SmtpFrom"];
+            _claveUsuario = configuration["SmtpPassword"];
             _correoService = correoService;
         }
         // GET: api/<UsuariosController>
