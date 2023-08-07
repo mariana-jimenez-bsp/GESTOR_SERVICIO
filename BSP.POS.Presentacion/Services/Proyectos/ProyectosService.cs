@@ -19,7 +19,7 @@ namespace BSP.POS.Presentacion.Services.Proyectos
         public List<mProyectos> ListaProyectos { get; set; } = new List<mProyectos>();
         public async Task ObtenerListaDeProyectos(string esquema)
         {
-            var listaProyectos = await _http.GetFromJsonAsync<List<mProyectos>>("https://localhost:7032/api/Proyectos/ObtengaLaListaDeProyectos/" + esquema);
+            var listaProyectos = await _http.GetFromJsonAsync<List<mProyectos>>("Proyectos/ObtengaLaListaDeProyectos/" + esquema);
             if (listaProyectos is not null)
             {
                 ListaProyectos = listaProyectos;
@@ -31,7 +31,7 @@ namespace BSP.POS.Presentacion.Services.Proyectos
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Proyectos/ActualizaListaDeProyectos";
+                string url = "Proyectos/ActualizaListaDeProyectos";
                 string jsonData = JsonSerializer.Serialize(listaProyectos);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");

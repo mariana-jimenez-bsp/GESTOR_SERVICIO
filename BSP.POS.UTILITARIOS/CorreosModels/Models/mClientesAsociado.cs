@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BSP.POS.UTILITARIOS.CorreosModels.Models
 {
-    public class mClienteAsociado
+    public class mClientesAsociado
     {
         public string CLIENTE { get; set; } = string.Empty;
         public string NOMBRE { get; set; } = string.Empty;

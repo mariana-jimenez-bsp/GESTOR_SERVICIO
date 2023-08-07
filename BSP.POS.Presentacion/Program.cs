@@ -25,7 +25,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+var apiUrl = "https://localhost:7032/api/";
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 builder.Services.AddScoped<IClientesInterface, ClientesService>();
 builder.Services.AddScoped<IInformesInterface, InformesService>();
 builder.Services.AddScoped<IUsuariosInterface, UsuariosService>();

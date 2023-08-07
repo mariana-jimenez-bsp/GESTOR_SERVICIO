@@ -1,7 +1,6 @@
 ﻿
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
-using BSP.POS.UTILITARIOS.Usuarios;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Routing.Template;
@@ -82,6 +81,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 smtp.Authenticate(datos.correoUsuario, datos.claveUsuario);
                 smtp.Send(correo);
                 smtp.Disconnect(true);
+                break;
             }
            
         }

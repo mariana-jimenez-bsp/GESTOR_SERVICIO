@@ -37,7 +37,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
             string claveEncriptada = EncriptarClave(usuarioLog.clave);
             usuarioLog.clave = claveEncriptada;
-            string url = "https://localhost:7032/api/Usuarios/Login";
+            string url = "Usuarios/Login";
             string jsonData = JsonSerializer.Serialize(usuarioLog);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -61,7 +61,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         
         public async Task ObtenerPerfil(string usuario)
         {
-            var perfilJson = await _http.GetAsync("https://localhost:7032/api/Usuarios/ObtenerPerfil/" + usuario);
+            var perfilJson = await _http.GetAsync("Usuarios/ObtenerPerfil/" + usuario);
             if (perfilJson.StatusCode == HttpStatusCode.OK)
             {
                 Perfil = await perfilJson.Content.ReadFromJsonAsync<mPerfil?>();
@@ -78,7 +78,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 {
                     perfil.clave = EncriptarClave(perfil.clave);
                 }
-                string url = "https://localhost:7032/api/Usuarios/ActualizarPerfil";
+                string url = "Usuarios/ActualizarPerfil";
                 string jsonData = JsonSerializer.Serialize(perfil);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -93,7 +93,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         }
         public async Task ObtenerListaDeUsuarios(string esquema)
         {
-            var listaDeUsuarios = await _http.GetFromJsonAsync<List<mPerfil>>("https://localhost:7032/api/Usuarios/ObtengaLaListaDeUsuarios/" + esquema);
+            var listaDeUsuarios = await _http.GetFromJsonAsync<List<mPerfil>>("Usuarios/ObtengaLaListaDeUsuarios/" + esquema);
             if (listaDeUsuarios is not null)
             {
                 ListaDeUsuarios = listaDeUsuarios;
@@ -101,7 +101,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         }
         public async Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente)
         {
-            string url = "https://localhost:7032/api/Usuarios/ObtengaLaListaDeUsuariosDeClienteAsociados/" + esquema + "/" + cliente;
+            string url = "Usuarios/ObtengaLaListaDeUsuariosDeClienteAsociados/" + esquema + "/" + cliente;
             var listaDeUsuariosDeClientesAsociados = await _http.GetFromJsonAsync<List<mUsuariosDeCliente>>(url);
             if (listaDeUsuariosDeClientesAsociados is not null)
             {
@@ -117,7 +117,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         {
             try
             {
-                string url = "https://localhost:7032/api/Usuarios/EnviarTokenRecuperacion";
+                string url = "Usuarios/EnviarTokenRecuperacion";
                 string jsonData = JsonSerializer.Serialize(tokenRecuperacion);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync(url, content);
@@ -140,7 +140,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         }
         public async Task<mTokenRecuperacion> ValidarTokenRecuperacion(string esquema, string token)
         {
-            string url = "https://localhost:7032/api/Usuarios/ValidaTokenRecuperacion/" + esquema + "/" + token;
+            string url = "Usuarios/ValidaTokenRecuperacion/" + esquema + "/" + token;
             var tokenRecuperacion = await _http.GetFromJsonAsync<mTokenRecuperacion>(url);
             if (tokenRecuperacion is not null)
             {
@@ -156,7 +156,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         {
             usuario.clave = EncriptarClave(usuario.clave);
             usuario.confirmarClave = usuario.clave;
-            string url = "https://localhost:7032/api/Usuarios/ActualizaClaveDeUsuario";
+            string url = "Usuarios/ActualizaClaveDeUsuario";
             string jsonData = JsonSerializer.Serialize(usuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
@@ -170,7 +170,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         public async Task<string> ValidarCorreoCambioClave(string esquema, string correo)
         {
-            string url = "https://localhost:7032/api/Usuarios/ValidaCorreoCambioClave/" + esquema + "/" + correo;
+            string url = "Usuarios/ValidaCorreoCambioClave/" + esquema + "/" + correo;
             string correoDevuelto = await _http.GetStringAsync(url);
             if (!string.IsNullOrEmpty(correoDevuelto))
             {
@@ -184,7 +184,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         public async Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
         {
-            string url = "https://localhost:7032/api/Usuarios/ObtengaLaListaUsuariosDeClienteDeInforme/" + consecutivo + "/" + esquema;
+            string url = "Usuarios/ObtengaLaListaUsuariosDeClienteDeInforme/" + consecutivo + "/" + esquema;
             var listaInformesAsociados = await _http.GetFromJsonAsync<List<mUsuariosDeClienteDeInforme>>(url);
             if (listaInformesAsociados is not null)
             {
@@ -197,7 +197,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Usuarios/AgregaUsuarioDeClienteDeInforme";
+                string url = "Usuarios/AgregaUsuarioDeClienteDeInforme";
                 string jsonData = JsonSerializer.Serialize(usuario);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -214,7 +214,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         {
             try
             {
-                string url = "https://localhost:7032/api/Usuarios/EliminaUsuarioDeClienteDeInforme";
+                string url = "Usuarios/EliminaUsuarioDeClienteDeInforme";
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Remove("X-IdUsuario");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);

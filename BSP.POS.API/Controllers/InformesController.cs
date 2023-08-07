@@ -1,13 +1,11 @@
 ﻿using BSP.POS.API.Models;
 using BSP.POS.API.Models.Informes;
-using BSP.POS.DATOS.Informes;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.NEGOCIOS.Informes;
 using BSP.POS.NEGOCIOS.Usuarios;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using BSP.POS.UTILITARIOS.Informes;
-using BSP.POS.UTILITARIOS.Proyectos;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -143,27 +141,66 @@ namespace BSP.POS.API.Controllers
         [HttpPost("EnviarTokenDeAprobacionDeInforme")]
         public IActionResult EnviarTokenDeAprobacionDeInforme(mObjetosParaCorreoAprobacion objetosDeAprobacion)
         {
-            U_Correo datos = new U_Correo();
-           
-            foreach (var item in objetosDeAprobacion.listadeUsuariosDeClienteDeInforme)
+            try
             {
-               
-                U_TokenAprobacionInforme tokenAprobacionRecuperado = informes.EnviarTokenDeAprobacionDeInforme(item.codigo_usuario_cliente, objetosDeAprobacion.esquema);
-                if (tokenAprobacionRecuperado != null)
-                {
-                    U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente();
-                    usuario = user.ObtenerUsuarioDeClientePorCodigo(objetosDeAprobacion.esquema, tokenAprobacionRecuperado.codigo);
+                U_Correo datos = new U_Correo();
 
-                    item.token = tokenAprobacionRecuperado.token_aprobacion;
-                    item.correo_usuario = usuario.correo;
-                   
+                foreach (var item in objetosDeAprobacion.listadeUsuariosDeClienteDeInforme)
+                {
+
+                    U_TokenAprobacionInforme tokenAprobacionRecuperado = informes.EnviarTokenDeAprobacionDeInforme(item.codigo_usuario_cliente, objetosDeAprobacion.esquema);
+                    if (tokenAprobacionRecuperado != null)
+                    {
+                        U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente();
+                        usuario = user.ObtenerUsuarioDeClientePorCodigo(objetosDeAprobacion.esquema, tokenAprobacionRecuperado.codigo);
+
+                        item.token = tokenAprobacionRecuperado.token_aprobacion;
+                        item.correo_usuario = usuario.correo;
+
+                    }
                 }
+                datos.correoUsuario = _correoUsuario;
+                datos.claveUsuario = _claveUsuario;
+                _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
+                return Ok();
             }
-            datos.correoUsuario = _correoUsuario;
-            datos.claveUsuario = _claveUsuario;
-            _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
-            return Ok();
+
+            catch (Exception)
+            {
+                return BadRequest();
+            }
            
+           
+
+        }
+        [AllowAnonymous]
+        [HttpGet("ValidaTokenAprobacionDeInforme/{esquema}/{token}")]
+        public string ValidaTokenAprobacionDeInforme(string esquema, string token)
+        {
+
+            string tokenAprobacionJson = informes.ValidarTokenAprobacionDeInforme(esquema, token);
+
+            return tokenAprobacionJson;
+        }
+        [AllowAnonymous]
+        [HttpPost("ApruebaInforme")]
+        public string ApruebaInforme([FromBody] mTokenAprobacionInforme datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme();
+                tokenAprobacion.token_aprobacion = datos.token_aprobacion;
+
+
+                string mensaje = informes.AprobarInforme(tokenAprobacion, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
 
         }
 

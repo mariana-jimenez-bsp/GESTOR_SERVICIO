@@ -1,5 +1,6 @@
 ﻿using BSP.POS.DATOS.POSDataSetTableAdapters;
 using BSP.POS.UTILITARIOS.Informes;
+using BSP.POS.UTILITARIOS.Usuarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,6 +147,58 @@ namespace BSP.POS.DATOS.Informes
                 return new U_TokenAprobacionInforme();
             }
 
+
+
+
+        }
+        public U_TokenAprobacionInforme ValidarTokenAprobacionInforme(String pEsquema, String pToken)
+        {
+            var tokenAprobacion = new U_TokenAprobacionInforme();
+
+            ObtenerFechaTokenDeAprobacionInformeTableAdapter sp = new ObtenerFechaTokenDeAprobacionInformeTableAdapter();
+
+            var response = sp.GetData(pEsquema, pToken).ToList();
+
+            foreach (var item in response)
+            {
+                U_TokenAprobacionInforme tok = new U_TokenAprobacionInforme(item.token_aprobacion, pEsquema, "", item.fecha_expiracion_TA);
+                tokenAprobacion = tok;
+            }
+            if (tokenAprobacion.token_aprobacion != null)
+            {
+                DateTime fechaAprobacion = DateTime.Parse(tokenAprobacion.fecha_expiracion);
+                if (fechaAprobacion < DateTime.UtcNow)
+                {
+
+                    return new U_TokenAprobacionInforme();
+                }
+                else
+                {
+                    return tokenAprobacion;
+                }
+
+            }
+            return new U_TokenAprobacionInforme();
+
+
+        }
+
+        public string AprobarInforme(U_TokenAprobacionInforme pInforme, string esquema)
+        {
+            POSDataSet.AprobarInformeDataTable bTabla = new POSDataSet.AprobarInformeDataTable();
+            AprobarInformeTableAdapter sp = new AprobarInformeTableAdapter();
+            try
+            {
+                var response = sp.GetData(pInforme.token_aprobacion, true, esquema);
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
 
 
 

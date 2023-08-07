@@ -23,7 +23,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
 
         public async Task ObtenerListaDeActividadesAsociadas(string consecutivo, string esquema)
         {
-            string url = "https://localhost:7032/api/Actividades/ObtengaLaListaDeActividadesAsociadas/" + consecutivo + "/" + esquema;
+            string url = "Actividades/ObtengaLaListaDeActividadesAsociadas/" + consecutivo + "/" + esquema;
             var listaActividadesAsociadas = await _http.GetFromJsonAsync<List<mActividadesAsociadas>>(url);
             if (listaActividadesAsociadas is not null)
             {
@@ -33,7 +33,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
 
         public async Task ObtenerListaDeActividades(string esquema)
         {
-            var listaActividades = await _http.GetFromJsonAsync<List<mActividades>>("https://localhost:7032/api/Actividades/ObtengaLaListaDeActividades/" + esquema);
+            var listaActividades = await _http.GetFromJsonAsync<List<mActividades>>("Actividades/ObtengaLaListaDeActividades/" + esquema);
             if (listaActividades is not null)
             {
                 ListaActividades = listaActividades;
@@ -45,7 +45,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Actividades/ActualizaListaDeActividades";
+                string url = "Actividades/ActualizaListaDeActividades";
                 string jsonData = JsonSerializer.Serialize(listaActividades);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -63,7 +63,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Actividades/ActualizaListaDeActividadesAsociadas";
+                string url = "Actividades/ActualizaListaDeActividadesAsociadas";
                 string jsonData = JsonSerializer.Serialize(listaActividades);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -81,7 +81,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Actividades/AgregaActividadDeInforme";
+                string url = "Actividades/AgregaActividadDeInforme";
                 string jsonData = JsonSerializer.Serialize(actividad);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -98,7 +98,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
         {
             try
             {
-                string url = "https://localhost:7032/api/Actividades/EliminaActividadDeInforme";
+                string url = "Actividades/EliminaActividadDeInforme";
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Remove("X-IdActividad");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);

@@ -54,7 +54,7 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
         {
             mLogin enviarUsuario = new mLogin();
             enviarUsuario.token = token;
-            string url = "https://localhost:7032/api/Usuarios/ValidarToken";
+            string url = "Usuarios/ValidarToken";
             string jsonData = JsonSerializer.Serialize(enviarUsuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 

@@ -92,5 +92,27 @@ namespace BSP.POS.NEGOCIOS.Informes
 
         }
 
+        public string ValidarTokenAprobacionDeInforme(string pEsquema, string pToken)
+        {
+
+            U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme();
+            tokenAprobacion = objInforme.ValidarTokenAprobacionInforme(pEsquema, pToken);
+            if (tokenAprobacion != null)
+            {
+                string tokenAprobacionJson = JsonConvert.SerializeObject(tokenAprobacion);
+                return tokenAprobacionJson;
+            }
+
+            return JsonConvert.SerializeObject(new U_TokenAprobacionInforme());
+
+        }
+
+        public string AprobarInforme(U_TokenAprobacionInforme pInforme, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objInforme.AprobarInforme(pInforme, esquema);
+            return mensaje;
+        }
+
     }
 }

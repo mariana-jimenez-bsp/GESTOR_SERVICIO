@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
 using static System.Net.WebRequestMethods;
+using BSP.POS.Presentacion.Models.Usuarios;
 
 namespace BSP.POS.Presentacion.Services.Informes
 {
@@ -24,7 +25,7 @@ namespace BSP.POS.Presentacion.Services.Informes
 
         public async Task ObtenerListaDeInformesAsociados(string cliente, string esquema)
         {
-            string url = "https://localhost:7032/api/Informes/ObtengaLaListaDeInformesAsociados/" + cliente + "/" + esquema;
+            string url = "Informes/ObtengaLaListaDeInformesAsociados/" + cliente + "/" + esquema;
             var listaInformesAsociados = await _http.GetFromJsonAsync<List<mInformes>>(url);
             if (listaInformesAsociados is not null)
             {
@@ -34,7 +35,7 @@ namespace BSP.POS.Presentacion.Services.Informes
 
         public async Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo, string esquema)
         {
-            string url = "https://localhost:7032/api/Informes/ObtengaElInformeAsociado/" + consecutivo + "/" + esquema;
+            string url = "Informes/ObtengaElInformeAsociado/" + consecutivo + "/" + esquema;
             var informeAsociadoJson = await _http.GetAsync(url);
             if (informeAsociadoJson.StatusCode == HttpStatusCode.OK)
             {
@@ -48,7 +49,7 @@ namespace BSP.POS.Presentacion.Services.Informes
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Informes/ActualizaElInformeAsociado";
+                string url = "Informes/ActualizaElInformeAsociado";
                 string jsonData = JsonSerializer.Serialize(informe);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -65,7 +66,7 @@ namespace BSP.POS.Presentacion.Services.Informes
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Informes/CambiaEstadoDeInforme";
+                string url = "Informes/CambiaEstadoDeInforme";
                 string jsonData = JsonSerializer.Serialize(informe);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -82,7 +83,7 @@ namespace BSP.POS.Presentacion.Services.Informes
         {
             try
             {
-                string url = "https://localhost:7032/api/Informes/EliminaInforme";
+                string url = "Informes/EliminaInforme";
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Remove("X-consecutivo");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
@@ -100,7 +101,7 @@ namespace BSP.POS.Presentacion.Services.Informes
         {
             try
             {
-                string url = "https://localhost:7032/api/Informes/EnviarTokenDeAprobacionDeInforme";
+                string url = "Informes/EnviarTokenDeAprobacionDeInforme";
                 string jsonData = JsonSerializer.Serialize(objetosParaCorreo);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync(url, content);
@@ -117,6 +118,38 @@ namespace BSP.POS.Presentacion.Services.Informes
             {
 
                 return false;
+            }
+        }
+
+        public async Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token)
+        {
+            string url = "Informes/ValidaTokenAprobacionDeInforme/" + esquema + "/" + token;
+            var tokenAprobacion = await _http.GetFromJsonAsync<mTokenAprobacionInforme>(url);
+            if (tokenAprobacion is not null)
+            {
+                return tokenAprobacion;
+            }
+            else
+            {
+                return new mTokenAprobacionInforme();
+            }
+        }
+
+        public async Task AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "Informes/ApruebaInforme";
+                string jsonData = JsonSerializer.Serialize(tokenAprobacion);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
             }
         }
 

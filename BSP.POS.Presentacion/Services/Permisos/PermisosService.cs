@@ -20,7 +20,7 @@ namespace BSP.POS.Presentacion.Services.Permisos
         public List<mPermisos> ListaPermisos { get; set; } = new List<mPermisos>();
         public async Task ObtenerListaDePermisosAsociados(string esquema, string id)
         {
-            string url = "https://localhost:7032/api/Permisos/ObtengaLaListaDePermisosAsociados/" + esquema + "/" + id;
+            string url = "Permisos/ObtengaLaListaDePermisosAsociados/" + esquema + "/" + id;
             var listaPermisosAsociados = await _http.GetFromJsonAsync<List<mPermisosAsociados>>(url);
             if (listaPermisosAsociados is not null)
             {
@@ -30,7 +30,7 @@ namespace BSP.POS.Presentacion.Services.Permisos
 
         public async Task ObtenerListaDePermisos(string esquema)
         {
-            string url = "https://localhost:7032/api/Permisos/ObtengaLaListaDePermisos/" + esquema;
+            string url = "Permisos/ObtengaLaListaDePermisos/" + esquema;
             var listaPermisos = await _http.GetFromJsonAsync<List<mPermisos>>(url);
             if (listaPermisos is not null)
             {
@@ -42,7 +42,7 @@ namespace BSP.POS.Presentacion.Services.Permisos
         {
             try
             {
-                string url = "https://localhost:7032/api/Permisos/ActualizaListaDePermisosAsociados";
+                string url = "Permisos/ActualizaListaDePermisosAsociados";
                 string jsonData = JsonSerializer.Serialize(listaPermisos);
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Remove("X-IdUsuario");

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BSP.POS.UTILITARIOS.CorreosModels.Models
 {
-    public class mInformeAsociado
+    public class mInformesAsociado
     {
         public string consecutivo { get; set; } = string.Empty;
         public string fecha_consultoria { get; set; } = string.Empty;

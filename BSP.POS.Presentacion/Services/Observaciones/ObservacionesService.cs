@@ -17,7 +17,7 @@ namespace BSP.POS.Presentacion.Services.Observaciones
         public List<mObservaciones> ListaDeObservacionesDeInforme { get; set; } = new List<mObservaciones>();
         public async Task ObtenerListaDeObservacionesDeInforme(string consecutivo, string esquema)
         {
-            string url = "https://localhost:7032/api/Observaciones/ObtengaLaListaDeObservacionesDeInforme/" + consecutivo + "/" + esquema;
+            string url = "Observaciones/ObtengaLaListaDeObservacionesDeInforme/" + consecutivo + "/" + esquema;
             var listaDeObservacionesDeInforme = await _http.GetFromJsonAsync<List<mObservaciones>>(url);
             if (listaDeObservacionesDeInforme is not null)
             {
@@ -30,7 +30,7 @@ namespace BSP.POS.Presentacion.Services.Observaciones
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Observaciones/AgregaObservacionDeInforme";
+                string url = "Observaciones/AgregaObservacionDeInforme";
                 string jsonData = JsonSerializer.Serialize(observacion);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");

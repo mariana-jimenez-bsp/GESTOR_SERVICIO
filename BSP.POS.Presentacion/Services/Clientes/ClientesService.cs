@@ -23,7 +23,7 @@ namespace BSP.POS.Presentacion.Services.Clientes
 
         public async Task<mClienteAsociado?> ObtenerClienteAsociado(string cliente, string esquema)
         {
-            string url = "https://localhost:7032/api/Clientes/ObtengaElClienteAsociado/" + cliente + "/" + esquema;
+            string url = "Clientes/ObtengaElClienteAsociado/" + cliente + "/" + esquema;
             var clienteAsociadoJson = await _http.GetAsync(url);
             if (clienteAsociadoJson.StatusCode == HttpStatusCode.OK)
             {
@@ -34,7 +34,7 @@ namespace BSP.POS.Presentacion.Services.Clientes
 
         public async Task ObtenerListaClientes(string esquema)
         {
-            var listaClientes = await _http.GetFromJsonAsync<List<mClientes>>("https://localhost:7032/api/Clientes/ObtengaLaListaDeClientes/" + esquema);
+            var listaClientes = await _http.GetFromJsonAsync<List<mClientes>>("Clientes/ObtengaLaListaDeClientes/" + esquema);
             if (listaClientes is not null)
             {
                 ListaClientes = listaClientes;
@@ -44,7 +44,7 @@ namespace BSP.POS.Presentacion.Services.Clientes
         public async Task ObtenerListaClientesRecientes(string esquema)
         {
 
-            var listaClientesRecientes = await _http.GetFromJsonAsync<List<mClientes>>("https://localhost:7032/api/Clientes/ObtengaLaListaDeClientesRecientes/" + esquema);
+            var listaClientesRecientes = await _http.GetFromJsonAsync<List<mClientes>>("Clientes/ObtengaLaListaDeClientesRecientes/" + esquema);
             if (listaClientesRecientes is not null)
             {
                 ListaClientesRecientes = listaClientesRecientes;
@@ -56,7 +56,7 @@ namespace BSP.POS.Presentacion.Services.Clientes
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "https://localhost:7032/api/Clientes/ActualizaListaDeClientes";
+                string url = "Clientes/ActualizaListaDeClientes";
                 string jsonData = JsonSerializer.Serialize(listaClientes);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");

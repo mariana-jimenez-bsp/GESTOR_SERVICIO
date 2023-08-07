@@ -1,0 +1,43 @@
+﻿@page "/ValidarAprobacionInforme/{token}/{esquema}"
+@inject IInformesInterface InformesService
+@if (tokenAprobacion.token_aprobacion != null && aprobado && terminaCarga)
+{
+    <div class="h-100 w-100 fondo bg-body-secondary">
+
+        <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
+        <div class="row w-100 heigh-aprobado text-light d-flex justify-content-center text-center align-items-center">
+            <h1 class="text-success"> El informe ha sido aprobado</h1>   
+
+        </div>
+
+    </div>
+}else{
+    if (terminaCarga)
+    {
+        <div class="h-100 w-100 fondo bg-body-secondary">
+
+            <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
+            <div class="row w-100 heigh-aprobado text-light d-flex justify-content-center text-center align-items-center">
+                <h1 class="text-danger">Tiempo limite Expirado o url inválido</h1>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="loader">
+            <p class="heading">Loading</p>
+            <div class="loading">
+                <div class="load"></div>
+                <div class="load"></div>
+                <div class="load"></div>
+                <div class="load"></div>
+            </div>
+        </div>
+    }
+
+}
+
+
+

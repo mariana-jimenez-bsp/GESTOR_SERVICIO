@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BSP.POS.UTILITARIOS.CorreosModels.Models
 {
-    public class mUsuariosDeClienteDeInforme
+    public class mUsuariosDeClientesDeInforme
     {
         public string id { get; set; } = string.Empty;
         public string consecutivo_informe { get; set; } = string.Empty;
