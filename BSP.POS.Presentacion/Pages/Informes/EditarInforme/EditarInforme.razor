@@ -3,6 +3,7 @@
 @inject IClientesInterface ClientesService
 @inject IActividadesInterface ActividadesService
 @inject IUsuariosInterface UsuariosService
+@inject IObservacionesInterface ObservacionesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JS
         <Layout></Layout>
@@ -230,7 +231,7 @@
                 </div>
 
                     <div class="p-2 text-success d-flex justify-content-center m-3">
-                        <div class="d-flex row text-center">
+                    <div class="d-flex row text-center mouse-pointer" @onclick="() => ClickHandlerEliminarInforme(true)">
                             <i class="fa-solid fa-trash"></i>
                             <span>Descartar</span>
                         </div>
@@ -242,7 +243,7 @@
                             <i class="fa-solid fa-square-check"></i>
                             <span>Finalizar</span>
                         </div>
-                        <div class="d-flex row text-center">
+                        <div class="d-flex row text-center mouse-pointer" @onclick="EnviarCorreosAClientes">
                             <i class="fa-regular fa-paper-plane"></i>
                             <span>Enviar al cliente</span>
                         </div>
@@ -255,6 +256,7 @@
 <ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
 <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
     <ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalFinalizarInforme>
+    <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
 }else if(informe.estado == "Finalizado"){
     <div class="text-danger w-100 text-center">
         <h1>El informe ya finalizó</h1>

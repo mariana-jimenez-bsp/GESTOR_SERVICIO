@@ -1,8 +1,13 @@
-﻿using BSP.POS.UTILITARIOS.Correos;
+﻿
+using BSP.POS.UTILITARIOS.Correos;
+using BSP.POS.UTILITARIOS.CorreosModels;
+using BSP.POS.UTILITARIOS.Usuarios;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.AspNetCore.Routing.Template;
 using MimeKit;
 using MimeKit.Text;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +18,17 @@ namespace BSP.POS.NEGOCIOS.CorreosService
 {
     public class CorreosService : ICorreosInterface
     {
-        public void EnviarCorreo(U_Correo datos, string token, string esquema)
+        public void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema)
         {
+            string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/RecuperarClave.html";
+            string CuerpoHtml = File.ReadAllText(PathHtml);
+            CuerpoHtml = CuerpoHtml.Replace("{{token}}", token)
+                           .Replace("{{esquema}}", esquema);
             var correo = new MimeMessage();
-            string cuerpo = GenerarCuerpo(token, esquema);
             correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
             correo.To.Add(MailboxAddress.Parse(datos.para));
-            correo.Subject = "Esto es una prueba";
-            correo.Body = new TextPart(TextFormat.Html) { Text = cuerpo };
+            correo.Subject = "Recuperación de clave Gestor de Servicios";
+            correo.Body = new TextPart(TextFormat.Html) { Text = CuerpoHtml };
 
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
@@ -29,11 +37,54 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             smtp.Disconnect(true);
 
         }
-
-        public string GenerarCuerpo(string token, string esquema)
+        public void EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion)
         {
-            string cuerpo = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Gestor de servicios BSP Recuperación de contraseña</title>\r\n</head>\r\n<body style=\"font-family: Arial, sans-serif; background-color: #f0f0f0;\">\r\n    <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"max-width: 600px; margin: 0 auto; background-color: #ffffff;\">\r\n        <tr>\r\n            <td style=\"padding: 20px;\">\r\n                <h1 style=\"color: #198754; text-align: center;\">Gestor de servicios BSP Recuperación de contraseña</h1>\r\n                <p style=\"font-size: 16px; line-height: 1.6; text-align: center;\">Hemos recibido una solicitud para recuperar tu contraseña. Haz clic en el botón de abajo para cambiar tu contraseña.</p>\r\n                <p style=\"font-size: 16px; line-height: 1.6; text-align: center;\"><strong>Si no solicitaste este cambio, puedes ignorar este correo electrónico.</strong></p>\r\n                <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" align=\"center\" style=\"margin-top: 30px;\">\r\n                    <tr>\r\n                        <td style=\"border-radius: 4px; background-color: #198754; text-align: center;\">\r\n                            <a href=\"https://localhost:7200/RecuperarClave/" + token + "/" + esquema + "\" target=\"_blank\" style=\"display: inline-block; padding: 15px 30px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 4px;\">Recuperar Contraseña</a>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>\r\n</html>\r\n";
-            return cuerpo;
+            foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
+            {
+                var correo = new MimeMessage();
+
+                correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
+                correo.To.Add(MailboxAddress.Parse("juanramirez1881@gmail.com"));
+                correo.Subject = "Esto es una prueba";
+                string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
+                string CuerpoHtml = File.ReadAllText(PathHtml);
+                string usuarios = "";
+                string actividades = "";
+                string observaciones = "";
+                foreach (var itemUsuario in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
+                {
+                    usuarios += "<tr>\r\n <td>" + itemUsuario.nombre_usuario + "</td>\r\n <td>" + itemUsuario.departamento_usuario + "</td>\r\n </tr> \r\n";
+                }
+                foreach (var itemActividad in objetosParaAprobacion.listaActividadesAsociadas)
+                {
+                    actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n </tr> \r\n";
+                }
+                foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
+                {
+                    observaciones += "<tr>\r\n <td>" + itemObservacion.usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
+                }
+                CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
+                           .Replace("{{esquema}}", objetosParaAprobacion.esquema)
+                           .Replace("{{Fecha}}", objetosParaAprobacion.informe.fecha_consultoria)
+                           .Replace("{{Hora_Inicio}}", objetosParaAprobacion.informe.hora_inicio)
+                           .Replace("{{Modalidad}}", objetosParaAprobacion.informe.modalidad_consultoria)
+                           .Replace("{{Hora_Fin}}", objetosParaAprobacion.informe.hora_final)
+                           .Replace("{{Cliente}}", objetosParaAprobacion.ClienteAsociado.NOMBRE)
+                           .Replace("{{Total_Horas_Cobradas}}", objetosParaAprobacion.total_horas_cobradas.ToString())
+                           .Replace("{{Total_Horas_No_Cobradas}}", objetosParaAprobacion.total_horas_no_cobradas.ToString())
+                           .Replace("{{Usuarios_Cliente}}", usuarios)
+                           .Replace("{{Actividades}}", actividades)
+                           .Replace("{{Observaciones}}", observaciones);
+                correo.Body = new TextPart(TextFormat.Html) { Text = CuerpoHtml };
+
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate(datos.correoUsuario, datos.claveUsuario);
+                smtp.Send(correo);
+                smtp.Disconnect(true);
+            }
+           
         }
+
     }
 }

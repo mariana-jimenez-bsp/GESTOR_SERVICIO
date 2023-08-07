@@ -73,8 +73,8 @@ namespace BSP.POS.API.Controllers
                 return ex.Message;
             }
         }
-        [HttpPost("EnviarCorreo")]
-        public IActionResult EnviarCorreo(U_TokenRecuperacion tokenRecuperacion)
+        [HttpPost("EnviarTokenRecuperacion")]
+        public IActionResult EnviarTokenRecuperacion(U_TokenRecuperacion tokenRecuperacion)
         {
             U_Correo datos = new U_Correo();
             U_TokenRecuperacion tokenRecuperado = user.EnviarTokenRecuperacion(tokenRecuperacion.correo, tokenRecuperacion.esquema);
@@ -87,7 +87,7 @@ namespace BSP.POS.API.Controllers
                     datos.claveUsuario = _claveUsuario;
                     string token = tokenRecuperado.token_recuperacion;
 
-                    _correoService.EnviarCorreo(datos, token, tokenRecuperacion.esquema);
+                    _correoService.EnviarCorreoRecuperarClave(datos, token, tokenRecuperacion.esquema);
                     return Ok();
                 }
                 return BadRequest();
@@ -252,8 +252,8 @@ namespace BSP.POS.API.Controllers
 
         }
         [Authorize]
-        [HttpPost("EliminaUsuarioDeClienteDeInforme")]
-        public string EliminaUsuarioDeClienteDeInforme([FromBody] string IdUsuario)
+        [HttpDelete("EliminaUsuarioDeClienteDeInforme")]
+        public string EliminaUsuarioDeClienteDeInforme()
         {
             try
             {

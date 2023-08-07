@@ -70,6 +70,7 @@
     public mClienteAsociado clienteAsociado { get; set; } = new mClienteAsociado();
     public mClienteAsociado ClienteAsociado = new mClienteAsociado();
 
+
     public string Consecutivo { get; set; } = string.Empty;
     public string Estado { get; set; } = string.Empty;
     protected override void OnParametersSet()
@@ -89,7 +90,7 @@
 
     public void EnviarConsecutivo(string consecutivo, string estado)
     {
-        Console.WriteLine(estado);
+       
         if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
         {
             Consecutivo = consecutivo;

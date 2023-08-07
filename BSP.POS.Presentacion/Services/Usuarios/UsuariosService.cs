@@ -117,7 +117,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         {
             try
             {
-                string url = "https://localhost:7032/api/Usuarios/EnviarCorreo";
+                string url = "https://localhost:7032/api/Usuarios/EnviarTokenRecuperacion";
                 string jsonData = JsonSerializer.Serialize(tokenRecuperacion);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync(url, content);
@@ -215,14 +215,13 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             try
             {
                 string url = "https://localhost:7032/api/Usuarios/EliminaUsuarioDeClienteDeInforme";
-                string jsonData = JsonSerializer.Serialize(idUsuario);
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Remove("X-IdUsuario");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 _http.DefaultRequestHeaders.Add("X-IdUsuario", idUsuario);
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+               
 
-                var mensaje = await _http.PostAsync(url, content);
+                var mensaje = await _http.DeleteAsync(url);
             }
             catch (Exception)
             {

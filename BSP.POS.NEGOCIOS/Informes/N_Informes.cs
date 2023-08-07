@@ -61,5 +61,36 @@ namespace BSP.POS.NEGOCIOS.Informes
             return mensaje;
         }
 
+        public string EliminarInforme(string consecutivo, string esquema)
+        {
+            try
+            {
+                string mensaje = string.Empty;
+                mensaje = objInforme.EliminarInforme(consecutivo, esquema);
+
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error " + ex.Message, ex.InnerException.InnerException);
+            }
+
+
+        }
+
+        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pEsquema)
+        {
+
+            U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme();
+            tokenAprobacion = objInforme.EnviarTokenDeAprobacionDeInforme(pCodigo, pEsquema);
+            if (tokenAprobacion != null)
+            {
+                return tokenAprobacion;
+            }
+            return new U_TokenAprobacionInforme();
+
+        }
+
     }
 }

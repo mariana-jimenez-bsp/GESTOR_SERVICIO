@@ -78,5 +78,47 @@ namespace BSP.POS.Presentacion.Services.Informes
             }
         }
 
+        public async Task EliminarInforme(string consecutivo, string esquema)
+        {
+            try
+            {
+                string url = "https://localhost:7032/api/Informes/EliminaInforme";
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-consecutivo");
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-consecutivo", consecutivo);
+
+
+                var mensaje = await _http.DeleteAsync(url);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        public async Task<bool> EnviarCorreoDeAprobacionDeInforme(mObjetosParaCorreoAprobacion objetosParaCorreo)
+        {
+            try
+            {
+                string url = "https://localhost:7032/api/Informes/EnviarTokenDeAprobacionDeInforme";
+                string jsonData = JsonSerializer.Serialize(objetosParaCorreo);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var response = await _http.PostAsync(url, content);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+
+
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
     }
 }

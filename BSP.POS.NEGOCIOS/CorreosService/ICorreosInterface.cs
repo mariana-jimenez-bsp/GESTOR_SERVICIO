@@ -1,4 +1,6 @@
-﻿using BSP.POS.UTILITARIOS.Correos;
+﻿
+using BSP.POS.UTILITARIOS.Correos;
+using BSP.POS.UTILITARIOS.CorreosModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
 {
     public interface ICorreosInterface
     {
-        void EnviarCorreo(U_Correo datos, string token, string esquema);
+        void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema);
+        void EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion);
     }
 }

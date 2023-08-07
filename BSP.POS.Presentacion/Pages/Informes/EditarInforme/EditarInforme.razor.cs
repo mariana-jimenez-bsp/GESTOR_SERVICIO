@@ -1,11 +1,11 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
 using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
+using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 {
@@ -23,6 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
+        public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
         public int total_horas_cobradas = 0;
         public int total_horas_no_cobradas = 0;
         public string usuarioActual { get; set; } = string.Empty;
@@ -30,6 +31,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private ElementReference actividadesButton;
         private ElementReference informeButton;
         private string successMessage;
+        private string mensajeCorreo;
 
         private async Task SubmitActividades()
         {
@@ -43,10 +45,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task TodosLosBotonesSubmit()
         {
-            
+
             await SubmitInforme();
             await SubmitActividades();
-           
+
         }
         protected override async Task OnInitializedAsync()
         {
@@ -80,6 +82,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
                     await RefrescarListaDeUsuariosDeInforme();
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ObservacionesService.ObtenerListaDeObservacionesDeInforme(Consecutivo, esquema);
+                    if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+                    {
+                        listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                    }
                 }
             }
         }
@@ -130,7 +138,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                 informe.fecha_consultoria = e.Value.ToString();
+                informe.fecha_consultoria = e.Value.ToString();
 
             }
         }
@@ -140,7 +148,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
                 informe.hora_inicio = e.Value.ToString();
-              
+
             }
         }
 
@@ -149,7 +157,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
                 informe.hora_final = e.Value.ToString();
-                
+
 
             }
         }
@@ -171,7 +179,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
             informe = InformesService.InformeAsociado;
-            
+
         }
         private void CambioCodigoDeUsuario(ChangeEventArgs e)
         {
@@ -224,7 +232,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         }
         private async Task AgregarUsuarioDeClienteDeInforme()
         {
-            if(usuarioAAgregar.codigo_usuario_cliente != null)
+            if (usuarioAAgregar.codigo_usuario_cliente != null)
             {
                 usuarioAAgregar.consecutivo_informe = Consecutivo;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -252,6 +260,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         bool activarModalEliminarActividad = false;
         bool activarModalObservaciones = false;
         bool activarModalFinalizarInforme = false;
+        bool activarModalEliminarInforme = false;
         string idUsuarioActual;
         string nombreUsuarioActual;
         string idActividadActual;
@@ -276,7 +285,27 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             await ClickHandlerEliminarActividad(activar);
 
         }
+        private async Task EnviarCorreosAClientes()
+        {
+            mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
+            objetoParaCorreo.informe = informe;
+            objetoParaCorreo.total_horas_cobradas = total_horas_cobradas;
+            objetoParaCorreo.total_horas_no_cobradas = total_horas_no_cobradas;
+            objetoParaCorreo.listaActividadesAsociadas = listaActividadesAsociadas;
+            foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
+            {
+                actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
+            }
+            objetoParaCorreo.listadeUsuariosDeClienteDeInforme = listadeUsuariosDeClienteDeInforme;
+            objetoParaCorreo.ClienteAsociado = ClienteAsociado;
+            objetoParaCorreo.esquema = esquema;
+            objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
+            
+        }
 
+        
         async Task ClickHandlerEliminarUsuario(bool activar)
         {
             activarModalEliminarUsuario = activar;
@@ -291,14 +320,20 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             StateHasChanged();
         }
 
-         void ClickHandlerObservaciones(bool activar)
+        void ClickHandlerObservaciones(bool activar)
         {
             activarModalObservaciones = activar;
             StateHasChanged();
         }
-         void ClickHandlerFinalizarInforme(bool activar)
+        void ClickHandlerFinalizarInforme(bool activar)
         {
             activarModalFinalizarInforme = activar;
+            StateHasChanged();
+        }
+
+        void ClickHandlerEliminarInforme(bool activar)
+        {
+            activarModalEliminarInforme = activar;
             StateHasChanged();
         }
     }

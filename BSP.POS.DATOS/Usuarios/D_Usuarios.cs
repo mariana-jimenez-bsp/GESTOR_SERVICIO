@@ -298,6 +298,30 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
+        public U_ListaDeUsuariosDeCliente ObtenerUsuarioDeClientePorCodigo(String pEsquema, String pCodigo)
+        {
+            var usuario = new U_ListaDeUsuariosDeCliente();
+
+            ObtenerUsuarioDeClientePorCodigoTableAdapter sp = new ObtenerUsuarioDeClientePorCodigoTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+
+            foreach (var item in response)
+            {
+                U_ListaDeUsuariosDeCliente user = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, item.departamento, item.correo, item.telefono);
+                usuario = user;
+            }
+
+
+            if (usuario != null)
+            {
+                return usuario;
+            }
+
+            return new U_ListaDeUsuariosDeCliente();
+
+
+        }
         public string GenerarTokenRecuperacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));

@@ -1,4 +1,10 @@
-﻿namespace BSP.POS.API.Models.Actividades
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BSP.POS.UTILITARIOS.CorreosModels.Models
 {
     public class mActividadesAsociadas
     {

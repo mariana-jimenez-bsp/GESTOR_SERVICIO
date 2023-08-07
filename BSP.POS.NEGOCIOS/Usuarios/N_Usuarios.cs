@@ -176,5 +176,20 @@ namespace BSP.POS.NEGOCIOS.Usuarios
 
 
         }
+        public U_ListaDeUsuariosDeCliente ObtenerUsuarioDeClientePorCodigo(String pEsquema, String pCodigo)
+        {
+
+                U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente();
+
+                usuario = objetoUsuario.ObtenerUsuarioDeClientePorCodigo(pEsquema, pCodigo);
+
+                if(usuario != null)
+                {
+                    return usuario;
+                }
+
+            return new U_ListaDeUsuariosDeCliente();
+
+        }
     }
 }

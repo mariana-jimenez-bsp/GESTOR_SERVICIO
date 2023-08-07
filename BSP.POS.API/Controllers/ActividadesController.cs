@@ -137,8 +137,8 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("EliminaActividadDeInforme")]
-        public string EliminaActividadDeInforme([FromBody] string IdActividad)
+        [HttpDelete("EliminaActividadDeInforme")]
+        public string EliminaActividadDeInforme()
         {
             try
             {

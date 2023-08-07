@@ -99,14 +99,13 @@ namespace BSP.POS.Presentacion.Services.Actividades
             try
             {
                 string url = "https://localhost:7032/api/Actividades/EliminaActividadDeInforme";
-                string jsonData = JsonSerializer.Serialize(idActividad);
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Remove("X-IdActividad");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 _http.DefaultRequestHeaders.Add("X-IdActividad", idActividad);
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+
+                var mensaje = await _http.DeleteAsync(url);
             }
             catch (Exception)
             {

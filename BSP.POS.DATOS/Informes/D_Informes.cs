@@ -3,6 +3,7 @@ using BSP.POS.UTILITARIOS.Informes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -97,6 +98,61 @@ namespace BSP.POS.DATOS.Informes
 
 
 
+        }
+        public string EliminarInforme(string consecutivo, string esquema)
+        {
+            POSDataSet.EliminarInformeDataTable bTabla = new POSDataSet.EliminarInformeDataTable();
+            EliminarInformeTableAdapter sp = new EliminarInformeTableAdapter();
+            try
+            {
+                var response = sp.GetData(consecutivo, esquema);
+
+                return "Exito";
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException);
+            }
+
+
+
+        }
+
+        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pEsquema)
+        {
+            GenerarTokenAprobacionDeInformeTableAdapter sp = new GenerarTokenAprobacionDeInformeTableAdapter();
+            string token = GenerarTokenDeAprobacion();
+            DateTime expira = DateTime.Now.AddDays(3);
+            try
+            {
+                var response = sp.GetData(pCodigo, token, expira, pEsquema).ToList();
+                U_TokenAprobacionInforme TokenAprobacion = new U_TokenAprobacionInforme();
+
+                foreach (var item in response)
+                {
+                    U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme(item.token_aprobacion, pEsquema, item.codigo_usuario_cliente, item.fecha_expiracion_TA.ToString());
+                    TokenAprobacion = tokenAprobacion;
+                }
+                if (TokenAprobacion != null)
+                {
+                    return TokenAprobacion;
+                }
+                return new U_TokenAprobacionInforme();
+            }
+            catch (Exception)
+            {
+
+                return new U_TokenAprobacionInforme();
+            }
+
+
+
+
+        }
+        public string GenerarTokenDeAprobacion()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
 
 

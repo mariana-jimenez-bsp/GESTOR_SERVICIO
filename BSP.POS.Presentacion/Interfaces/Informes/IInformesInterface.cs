@@ -12,5 +12,9 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
         Task ActualizarInformeAsociado(mInformeAsociado informe, string esquema);
 
         Task CambiarEstadoDeInforme(mInformeEstado informe, string esquema);
+
+        Task EliminarInforme(string consecutivo, string esquema);
+
+        Task<bool> EnviarCorreoDeAprobacionDeInforme(mObjetosParaCorreoAprobacion objetosParaCorreo);
     }
 }
