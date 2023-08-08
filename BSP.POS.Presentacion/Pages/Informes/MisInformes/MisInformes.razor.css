@@ -1,0 +1,129 @@
+﻿.search-input {
+    border: none;
+    margin: 0;
+    height: 35px;
+    background-color: #1C3259;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+    .search-input::placeholder {
+        color: white;
+    }
+
+.search-icon {
+    border: none;
+    height: 35px;
+    background-color: #1C3259;
+    width: 35px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.div-search {
+    font-size: 19pt;
+}
+
+.vertical-text span {
+    display: block;
+    transform: rotate(-90deg); /* Rota las letras 90 grados en sentido de las agujas del reloj */
+    background-color: #2FAD70;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.vertical-text {
+    height: 52px;
+    width: 232px;
+    font-size: 21pt;
+}
+
+.padding-45 {
+    padding: 42px;
+}
+
+.bg-blue-dark {
+    background-color: #1C3259;
+}
+
+.bg-blue-light {
+    background-color: #2255A1;
+}
+
+.font-19 {
+    font-size: 15pt;
+}
+
+.informe-hover:hover {
+    background-color: #1C3259;
+    color: white;
+}
+
+    .informe-hover:hover > .imagen-hover {
+        background-image: url('images/MisInformes/Pestaña-de-mis-informes-activa.png');
+        background-position: center;
+        background-size: cover;
+        color: white;
+    }
+
+.min-height-miinforme {
+    max-height: 100%;
+    max-width: 100%;
+    margin-bottom: 90%;
+    margin-left: 44%;
+}
+
+.eyelash-background {
+    background-image: url('images/MisInformes/Pestaña-de-mis-informes-inactiva.png');
+    background-position: center;
+    background-size: cover;
+    margin-left: 0;
+}
+
+.col-right-bg {
+    background-image: url('images/MisInformes/Fondo-verde-columna-derecha.png');
+    background-position: center;
+    background-size: cover;
+    font-size: 7pt;
+}
+
+.generar-cotizacion {
+    background-image: url('images/MisInformes/Generar-cotización.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.generar-reporte {
+    background-image: url('images/MisInformes/Generar-reporte.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.reenviar-cliente {
+    background-image: url('images/MisInformes/Reeviar-a-cliente.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.facturar {
+    background-image: url('images/MisInformes/Facturar.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.historial-informes {
+    background-image: url('images/MisInformes/Historial-de-Informes.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.imagen-div {
+    background-position: center;
+    background-size: cover;
+    width: auto;
+    height: auto;
+    margin-bottom: 10px; /* Añade margen inferior para separar las imágenes */
+    text-align: end;
+    padding: 30% 100%;
+    color: white;
+}
