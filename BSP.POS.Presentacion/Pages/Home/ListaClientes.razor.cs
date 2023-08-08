@@ -40,15 +40,16 @@ namespace BSP.POS.Presentacion.Pages.Home
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ObtenerListaDeInformesAsociados(cliente, esquema);
             ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(cliente, esquema);
+            if (InformesService.ListaInformesAsociados != null)
+            {
+                InformesAsociados = InformesService.ListaInformesAsociados;
+            }
             if (ClientesService.ClienteAsociado != null)
             {
                 ClienteAsociado = ClientesService.ClienteAsociado;
             }
 
-            if (InformesService.ListaInformesAsociados != null)
-            {
-                InformesAsociados = InformesService.ListaInformesAsociados;
-            }
+
         }
 
         [Parameter]

@@ -167,7 +167,7 @@ namespace BSP.POS.DATOS.Informes
             if (tokenAprobacion.token_aprobacion != null)
             {
                 DateTime fechaAprobacion = DateTime.Parse(tokenAprobacion.fecha_expiracion);
-                if (fechaAprobacion < DateTime.UtcNow)
+                if (fechaAprobacion < DateTime.Now)
                 {
 
                     return new U_TokenAprobacionInforme();
@@ -208,6 +208,33 @@ namespace BSP.POS.DATOS.Informes
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
 
+        public string AgregarInformeAsociado(string pCliente, string esquema)
+        {
+            POSDataSet.AgregarInformeAsociadoDataTable bTabla = new POSDataSet.AgregarInformeAsociadoDataTable();
+            AgregarInformeAsociadoTableAdapter sp = new AgregarInformeAsociadoTableAdapter();
+            try
+            {
+                var response = sp.GetData(pCliente, esquema).ToList();
+                string consecutivo = string.Empty;
+                foreach (var item in response)
+                {
+                    consecutivo = item.consecutivo;
+                }
+                if (!string.IsNullOrEmpty(consecutivo))
+                {
+                    return consecutivo;
+                }
+                return "";
+            }
+            catch (Exception)
+            {
+
+                return "";
+            }
+
+
+
+        }
 
     }
 }

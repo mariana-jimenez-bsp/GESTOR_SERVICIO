@@ -29,7 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         private void IrAEditar()
         {
 
-            navigationManager.NavigateTo($"Editar/{Consecutivo}");
+            navigationManager.NavigateTo($"Informe/Editar/{Consecutivo}");
         }
 
         bool activarModalFinalizarInforme = false;

@@ -1,12 +1,12 @@
-﻿
-@inject IInformesInterface InformesService
+﻿@inject IInformesInterface InformesService
 @inject IClientesInterface ClientesService
 @inject IActividadesInterface ActividadesService
 @inject IUsuariosInterface UsuariosService
 @inject IObservacionesInterface ObservacionesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JS
-@if (informe.estado == "Borrador")
+
+@if (informe.estado == "Borrador" && !string.IsNullOrEmpty(Consecutivo))
 {
         <Layout></Layout>
 
@@ -275,4 +275,3 @@ else
         </div>
     </div>
 }
-

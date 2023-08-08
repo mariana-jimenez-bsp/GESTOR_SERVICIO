@@ -1,4 +1,5 @@
 ﻿using BSP.POS.API.Models;
+using BSP.POS.API.Models.Clientes;
 using BSP.POS.API.Models.Informes;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.NEGOCIOS.Informes;
@@ -171,6 +172,24 @@ namespace BSP.POS.API.Controllers
             }
            
            
+
+        }
+
+        [HttpPost("AgregaInformeAsociado")]
+        public string AgregaInformeAsociado([FromBody] mClienteAsociado cliente)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+
+                string consecutivo = informes.AgregarInformeAsociado(cliente.CLIENTE, esquema);
+                return consecutivo;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
 
         }
         [AllowAnonymous]

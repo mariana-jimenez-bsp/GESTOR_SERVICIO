@@ -18,5 +18,7 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
         Task<bool> EnviarCorreoDeAprobacionDeInforme(mObjetosParaCorreoAprobacion objetosParaCorreo);
         Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token);
         Task AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
+
+        Task<string> AgregarInformeAsociado(string cliente, string esquema);
     }
 }

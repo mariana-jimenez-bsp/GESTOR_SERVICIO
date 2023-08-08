@@ -114,5 +114,12 @@ namespace BSP.POS.NEGOCIOS.Informes
             return mensaje;
         }
 
+        public string AgregarInformeAsociado(string pCliente, string esquema)
+        {
+            string consecutivo = string.Empty;
+            consecutivo = objInforme.AgregarInformeAsociado(pCliente, esquema);
+            return consecutivo;
+        }
+
     }
 }

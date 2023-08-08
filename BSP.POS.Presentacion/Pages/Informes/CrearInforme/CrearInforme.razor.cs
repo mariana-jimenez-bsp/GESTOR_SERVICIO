@@ -3,15 +3,15 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
-using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
+namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
 {
-    public partial class EditarInforme : ComponentBase
+    public partial class CrearInforme: ComponentBase
     {
         [Parameter]
+        public string Cliente { get; set; } = string.Empty;
         public string Consecutivo { get; set; } = string.Empty;
         public mInformeAsociado informe { get; set; } = new mInformeAsociado();
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
@@ -31,6 +31,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private ElementReference actividadesButton;
         private ElementReference informeButton;
         private string successMessage;
+
 
         private async Task SubmitActividades()
         {
@@ -56,6 +57,9 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            if (!string.IsNullOrEmpty(Cliente)) {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                Consecutivo =  await InformesService.AgregarInformeAsociado(Cliente, esquema);
             if (!string.IsNullOrEmpty(Consecutivo))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -88,6 +92,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
                     }
                 }
+            }
             }
         }
 
@@ -301,10 +306,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
-            
+
         }
 
-        
+
         async Task ClickHandlerEliminarUsuario(bool activar)
         {
             activarModalEliminarUsuario = activar;

@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text;
 using static System.Net.WebRequestMethods;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Models.Clientes;
 
 namespace BSP.POS.Presentacion.Services.Informes
 {
@@ -150,6 +151,32 @@ namespace BSP.POS.Presentacion.Services.Informes
             catch (Exception)
             {
 
+            }
+        }
+
+        public async Task<string> AgregarInformeAsociado(string cliente, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "Informes/AgregaInformeAsociado";
+                mClienteAsociado clienteAso = new mClienteAsociado();
+                clienteAso.CLIENTE = cliente;
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                string jsonData = JsonSerializer.Serialize(clienteAso);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var response = await _http.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    return responseContent;
+                }
+                return "";
+            }
+            catch (Exception)
+            {
+                return "";
             }
         }
 

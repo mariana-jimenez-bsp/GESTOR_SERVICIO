@@ -2,13 +2,14 @@
 @using BSP.POS.Presentacion.Models.Informes;
 @inject IInformesInterface InformesService
 @inject IClientesInterface ClientesService
-
+@inject NavigationManager navigationManager
+@if(!string.IsNullOrEmpty(clienteAsociado.CLIENTE)){
 <div class="col-md-6">
     <ClienteAsociado clienteAsociado="ClienteAsociado"></ClienteAsociado>
     <div class="background-reports">
         <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
             <div class="row d-flex justify-content-between m-2 reports-list">
-                <div class="col-md-4 d-flex row">
+                <div class="col-md-4 d-flex row mouse-pointer" @onclick="IrACrear">
                     <div class="d-flex bg-primary text-center align-items-end justify-content-center div-circle click-report-up">
                         <i class="fa-solid fa-circle-plus" style="color: white"></i>
 
@@ -16,7 +17,7 @@
                     <div class="borrador text-end text-light bg-primary click-report-down">
                     </div>
                 </div>
-                @if (InformesService.ListaInformesAsociados != null)
+                @if (InformesService.ListaInformesAsociados.Count > 0)
                 {
                     // Acceder a la lista de clientes en  formato JSON y hacer lo que necesites con ella
                     
@@ -62,39 +63,4 @@
   <ConsecutivoInforme consecutivo="@Consecutivo" estado="@Estado"></ConsecutivoInforme>
 
 </div>
-
-@code {
-    [Parameter]
-    public List<mInformes> informesAsociados { get; set; } = new List<mInformes>();
-    [Parameter]
-    public mClienteAsociado clienteAsociado { get; set; } = new mClienteAsociado();
-    public mClienteAsociado ClienteAsociado = new mClienteAsociado();
-
-
-    public string Consecutivo { get; set; } = string.Empty;
-    public string Estado { get; set; } = string.Empty;
-    protected override void OnParametersSet()
-    {
-        if (informesAsociados != null)
-        {
-            InformesService.ListaInformesAsociados = informesAsociados;
-        }
-
-        if (clienteAsociado != null)
-        {
-            ClienteAsociado = clienteAsociado;
-
-        }
-
-    }
-
-    public void EnviarConsecutivo(string consecutivo, string estado)
-    {
-       
-        if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
-        {
-            Consecutivo = consecutivo;
-            Estado = estado;
-        }
-    }
 }

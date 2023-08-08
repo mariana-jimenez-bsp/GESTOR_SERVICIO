@@ -178,7 +178,7 @@ namespace BSP.POS.DATOS.Usuarios
                 if (tokenRecuperacion.token_recuperacion != null)
                 {
                     DateTime fechaRecuperacion = DateTime.Parse(tokenRecuperacion.fecha_expiracion);
-                    if (fechaRecuperacion < DateTime.UtcNow)
+                    if (fechaRecuperacion < DateTime.Now)
                     {
 
                         return new U_TokenRecuperacion();
