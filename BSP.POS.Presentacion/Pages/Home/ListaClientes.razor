@@ -34,11 +34,16 @@
                             // Ejemplo: mostrar la lista de clientes en la vista
                         foreach (var cliente in listaClientesRecientes)
                             {
-                            <div class="row g-1 text-primary click-client" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
+                                    <div class="row g-1 text-primary click-client" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
 
-                                    <div class="col-md-2 ">
-                                        <img class="img-client" width="50" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/fake-text-artwork%2C-design-template-cee7068ce7d824341a811cf718953531_screen.jpg?ts=1615781097" alt="">
-                                    </div>
+                                        <div class="col-md-2 ">
+                                            @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
+                                            {
+                                                <img class="img-client" src="data:image/png;base64,@Convert.ToBase64String(cliente.IMAGEN)" width="50" alt="Imagen" />
+                                            }else{
+                                                <img class="img-client" width="50" alt="Sin Imagen" />
+                                            }
+                                        </div>
                                     <div class="col-md-5 pe-2">
                                         <p>Nombre del cliente: @cliente.NOMBRE</p>
                                         <p>Responsable: @cliente.CONTACTO</p>
@@ -74,7 +79,14 @@
                             <div class="row g-1 text-primary click-client" data-cliente="@cliente.CLIENTE" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
 
                                 <div class="col-md-2 ">
-                                    <img class="img-client" width="50" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/fake-text-artwork%2C-design-template-cee7068ce7d824341a811cf718953531_screen.jpg?ts=1615781097" alt="">
+                                            @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
+                                        {
+                                            <img class="img-client" src="data:image/png;base64,@Convert.ToBase64String(cliente.IMAGEN)" width="50" alt="Imagen" />
+                                        }
+                                        else
+                                        {
+                                            <img class="img-client" width="50" alt="Sin Imagen" />
+                                        }
                                 </div>
                                 <div class="col-md-5 pe-2">
                                     <p>Nombre del cliente: @cliente.NOMBRE</p>

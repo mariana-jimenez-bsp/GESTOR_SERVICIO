@@ -271,6 +271,23 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("ObtengaImagenUsuario/{usuario}/{esquema}")]
+        public string ObtengaImagenUsuario(string usuario, string esquema)
+        {
+            try
+            {
+                var imagen = user.ObtenerImagenDeUsuario(esquema, usuario);
+                return imagen;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
 
     }
 }

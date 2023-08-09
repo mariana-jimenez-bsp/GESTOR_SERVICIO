@@ -191,5 +191,23 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             return new U_ListaDeUsuariosDeCliente();
 
         }
+
+        public string ObtenerImagenDeUsuario(String pEsquema, String pUsuario)
+        {
+            try
+            {
+                U_ImagenUsuario imagenUsuario = new U_ImagenUsuario();
+
+                imagenUsuario = objetoUsuario.ObtenerImagenDeUsuario(pEsquema, pUsuario);
+
+                string imagen = JsonConvert.SerializeObject(imagenUsuario);
+                return imagen;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

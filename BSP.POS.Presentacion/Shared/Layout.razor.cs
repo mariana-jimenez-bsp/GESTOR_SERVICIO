@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BSP.POS.Presentacion.Models.Usuarios;
+using Microsoft.AspNetCore.Components;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Shared
@@ -9,6 +10,8 @@ namespace BSP.POS.Presentacion.Shared
         [Parameter]
         public EventCallback<string> Texto { get; set; }
         public string UsuarioActual { get; set; } = string.Empty;
+        public mImagenUsuario imagenDeUsuario = new mImagenUsuario();
+        public string esquema = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
@@ -18,7 +21,15 @@ namespace BSP.POS.Presentacion.Shared
             string rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             var permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             UsuarioActual = user.Identity.Name;
-
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            if (!string.IsNullOrEmpty(UsuarioActual) && !string.IsNullOrEmpty(esquema))
+            {
+                await UsuariosService.ObtenerImagenDeUsuario(UsuarioActual, esquema);
+                if(UsuariosService.ImagenDeUsuario != null)
+                {
+                    imagenDeUsuario = UsuariosService.ImagenDeUsuario;
+                }
+            }
         }
         private void ActualizarValor(ChangeEventArgs e)
         {

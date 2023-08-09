@@ -26,6 +26,8 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; } = new List<mUsuariosDeClienteDeInforme>();
         public List<mPerfil> ListaDeUsuarios { get; set; } = new List<mPerfil>();
         public mTokenRecuperacion UsuarioRecuperacion { get; set; } = new mTokenRecuperacion();
+        public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
+
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             _http = htpp;
@@ -225,6 +227,16 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
             catch (Exception)
             {
+
+            }
+        }
+        public async Task ObtenerImagenDeUsuario(string usuario, string esquema)
+        {
+            string url = "Usuarios/ObtengaImagenUsuario/" + usuario + "/" + esquema;
+            var imagenJson = await _http.GetAsync(url);
+            if (imagenJson.StatusCode == HttpStatusCode.OK)
+            {
+                ImagenDeUsuario = await imagenJson.Content.ReadFromJsonAsync<mImagenUsuario>();
 
             }
         }

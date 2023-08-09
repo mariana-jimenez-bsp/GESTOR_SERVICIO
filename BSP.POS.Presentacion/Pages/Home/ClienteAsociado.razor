@@ -3,7 +3,15 @@
 
 <div class="d-flex justify-content-center align-items-center shadow-lg min-height-header-report">
     <div class="d-flex justify-content-center align-items-center ms-5 report-header">
-        <img src="https://images.squarespace-cdn.com/content/v1/52eaead0e4b0fd67cc51a9d3/ddebd217-d40d-4530-b0ea-64bb7b84329c/BSP+Consulting.png" width="50" height="50">
+        @if (clienteAsociado.IMAGEN != null && !clienteAsociado.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(clienteAsociado.IMAGEN)" width="50" height="50" alt="Imagen" />
+        }
+        else
+        {
+            <img width="50" height="50" alt="Sin Imagen" />
+        }
+
         @if (ClientesService.ClienteAsociado.NOMBRE.Length > 0)
         {
             var clienteAsociado = ClientesService.ClienteAsociado;

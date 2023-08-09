@@ -30,12 +30,13 @@ namespace BSP.POS.UTILITARIOS.Clientes
         public string EXENTO_IMPUESTOS { get; set; }
         public string CODIGO_IMPUESTO { get; set; }
         public string RecordDate { get; set; }
+        public byte[] IMAGEN { get; set; }
 
 
         public U_ListaClientes(string pCLIENTE, string pNOMBRE, string pALIAS, string pCONTACTO, string pCARGO, string pDIRECCION, string pTELEFONO1, string pTELEFONO2, string pCONTRIBUYENTE,
                 string pMONEDA, string pNIVEL_PRECIO, string pPAIS, string pZONA, string pEXENTO_IMPUESTOS, string pE_MAIL,
                 string pCODIGO_IMPUESTO, string pDIVISION_GEOGRAFICA1, string pDIVISION_GEOGRAFICA2, string pDIVISION_GEOGRAFICA3,
-                string pDIVISION_GEOGRAFICA4, string pOTRAS_SENAS, string pRecordDate)
+                string pDIVISION_GEOGRAFICA4, string pOTRAS_SENAS, string pRecordDate, byte[] pIMAGEN)
         {
             CLIENTE = pCLIENTE;
             NOMBRE = pNOMBRE;
@@ -59,6 +60,7 @@ namespace BSP.POS.UTILITARIOS.Clientes
             DIVISION_GEOGRAFICA4 = pDIVISION_GEOGRAFICA4;
             OTRAS_SENAS = pOTRAS_SENAS;
             RecordDate = pRecordDate;
+            IMAGEN = pIMAGEN;
         }
         public U_ListaClientes() { }
     }

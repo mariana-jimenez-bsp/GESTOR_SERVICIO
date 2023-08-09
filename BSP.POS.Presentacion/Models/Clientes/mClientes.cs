@@ -40,8 +40,10 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public string CODIGO_IMPUESTO { get; set; } = string.Empty;
         public string RecordDate { get; set; } = string.Empty;
         public string CreateDate { get; set; } = string.Empty;
-
+        public byte[] IMAGEN { get; set; }
         public List<mUsuariosDeCliente> listaDeUsuarios { get; set; } = new List<mUsuariosDeCliente>();
         public bool IsOpen { get; set; } = false;
+
+    
     }
 }

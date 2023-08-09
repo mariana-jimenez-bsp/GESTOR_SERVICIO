@@ -31,5 +31,8 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema);
         List<mPerfil> ListaDeUsuarios { get; set; }
         Task ObtenerListaDeUsuarios(string esquema);
+
+        mImagenUsuario ImagenDeUsuario { get; set; }
+        Task ObtenerImagenDeUsuario(string usuario, string esquema);
     }
 }

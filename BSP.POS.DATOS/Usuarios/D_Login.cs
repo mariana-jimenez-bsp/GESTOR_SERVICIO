@@ -26,7 +26,7 @@ namespace BSP.POS.DATOS.Usuarios
             string claveActual = string.Empty;
             foreach (POSDataSet.ObtenerClaveUsuarioRow item in consultaClave)
             {
-                claveActual = item.CLAVE;
+                claveActual = item.clave;
             }
             
             U_LoginToken login = null;
@@ -41,7 +41,7 @@ namespace BSP.POS.DATOS.Usuarios
                var j = _tablaUsuario.GetData(pLogin.usuario, claveActual, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
                 {
-                    login = new U_LoginToken(item.TOKEN, item.ESQUEMA, item.USUARIO);
+                    login = new U_LoginToken(item.token, item.esquema, item.usuario);
                 }
                 if (j.Count == 0)
                 {
@@ -105,7 +105,7 @@ namespace BSP.POS.DATOS.Usuarios
             string usuario = null;
             foreach (POSDataSet.ObtenerUsuarioPorTokenRow item in consultaUsuario)
             {
-                usuario = item.USUARIO;
+                usuario = item.usuario;
             }
             if(usuario == null)
             {
@@ -180,7 +180,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    string r = item.ROL;
+                    string r = item.rol;
                     rol = r;
                 }
                 if(rol != null)

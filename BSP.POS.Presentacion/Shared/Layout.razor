@@ -1,5 +1,6 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
+@inject IUsuariosInterface UsuariosService
 <head>
 
         <link href="css/layout.css" rel="stylesheet" type="text/css" />
@@ -37,7 +38,16 @@
                 <a class="vertical-line p-2 border-primary"></a>
                 <a href="#" class="me-2">Mis Informes <i class="fa-solid fa-newspaper ps-2"></i></a>
                 <a class="vertical-line p-2 border-primary"></a>
-            <a href="">@UsuarioActual <img class="ps-2" width="40" src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg" alt=""></a>
+            <a href="">@UsuarioActual
+                @if (imagenDeUsuario.imagen != null && !imagenDeUsuario.imagen.SequenceEqual(new byte[] { 0x00 }))
+                {
+                    <img src="data:image/png;base64,@Convert.ToBase64String(imagenDeUsuario.imagen)" width="40" class="ps-2" alt="Imagen" />
+                }
+                else
+                {
+                    <img width="40" class="ps-2" alt="Sin Imagen" />
+                }
+            </a>
             </div>
         </div>
     </nav>

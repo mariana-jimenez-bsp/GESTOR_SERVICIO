@@ -14,15 +14,15 @@ namespace BSP.POS.UTILITARIOS.Clientes
         public string CONTACTO { get; set; }
         public string CARGO { get; set; }
 
+        public byte[] IMAGEN { get; set; }
 
-
-        public U_ClienteAsociado(string pCLIENTE, string pNOMBRE, string pCONTACTO, string pCARGO)
+        public U_ClienteAsociado(string pCLIENTE, string pNOMBRE, string pCONTACTO, string pCARGO, byte[] pIMAGEN)
         {
             CLIENTE = pCLIENTE;
             NOMBRE = pNOMBRE;
             CARGO = pCARGO;
             CONTACTO = pCONTACTO;
-
+            IMAGEN = pIMAGEN;
         }
         public U_ClienteAsociado() { }
     }

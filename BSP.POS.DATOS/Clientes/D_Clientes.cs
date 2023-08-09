@@ -26,7 +26,7 @@ namespace BSP.POS.DATOS.Clientes
                                                      item.TELEFONO2, item.CONTRIBUYENTE, item.MONEDA, item.NIVEL_PRECIO, item.PAIS, item.ZONA,
                                                      item.EXENTO_IMPUESTOS, item.E_MAIL, item.CODIGO_IMPUESTO, item.DIVISION_GEOGRAFICA1,
                                                      item.DIVISION_GEOGRAFICA2, item.DIVISION_GEOGRAFICA3, item.DIVISION_GEOGRAFICA4,
-                                                     item.OTRAS_SENAS, item.RecordDate);
+                                                     item.OTRAS_SENAS, item.RecordDate, item.IMAGEN);
 
                     LstClientes.Add(cliente);
                 }
@@ -53,7 +53,7 @@ namespace BSP.POS.DATOS.Clientes
                                                      item.TELEFONO2, item.CONTRIBUYENTE, item.MONEDA, item.NIVEL_PRECIO, item.PAIS, item.ZONA,
                                                      item.EXENTO_IMPUESTOS, item.E_MAIL, item.CODIGO_IMPUESTO, item.DIVISION_GEOGRAFICA1,
                                                      item.DIVISION_GEOGRAFICA2, item.DIVISION_GEOGRAFICA3, item.DIVISION_GEOGRAFICA4,
-                                                     item.OTRAS_SENAS, item.RecordDate, item.CreateDate);
+                                                     item.OTRAS_SENAS, item.RecordDate, item.CreateDate, item.IMAGEN);
 
                     LstClientes.Add(cliente);
                 }
@@ -77,7 +77,7 @@ namespace BSP.POS.DATOS.Clientes
             {
                 foreach (var item in response)
                 {
-                    U_ClienteAsociado cliente = new U_ClienteAsociado(item.CLIENTE, item.NOMBRE, item.CONTACTO, item.CARGO);
+                    U_ClienteAsociado cliente = new U_ClienteAsociado(item.CLIENTE, item.NOMBRE, item.CONTACTO, item.CARGO, item.IMAGEN);
                     clienteAso = cliente;
                 }
                 return clienteAso;

@@ -23,7 +23,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_Perfil perf = new U_Perfil(item.ID, item.USUARIO, item.CORREO, item.CLAVE, item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
+                    U_Perfil perf = new U_Perfil(item.Id, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
                     perfil = perf;
                 }
                 if (perfil != null)
@@ -70,7 +70,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_Perfil perf = new U_Perfil(item.ID, item.USUARIO, item.CORREO, item.CLAVE, item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
+                    U_Perfil perf = new U_Perfil(item.Id, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
                     perfil = perf;
                 }
                 
@@ -95,7 +95,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_Perfil usuario = new U_Perfil(item.ID, item.USUARIO, item.CORREO, "", item.NOMBRE, item.ROL, item.TELEFONO, item.ESQUEMA);
+                    U_Perfil usuario = new U_Perfil(item.Id, item.usuario, item.correo, "", item.nombre, item.rol, item.telefono, item.esquema);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -142,7 +142,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_TokenRecuperacion tokeRecuperacion = new U_TokenRecuperacion(item.TOKEN_RECUPERACION, pEsquema, item.CORREO, item.FECHA_EXPIRACION_TR.ToString());
+                    U_TokenRecuperacion tokeRecuperacion = new U_TokenRecuperacion(item.token_recuperacion, pEsquema, item.correo, item.fecha_expiracion_TR.ToString());
                     TokenRecuperacion = tokeRecuperacion;
                 }
                 if (TokenRecuperacion != null)
@@ -172,7 +172,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_TokenRecuperacion tok = new U_TokenRecuperacion(item.TOKEN_RECUPERACION, pEsquema, "", item.FECHA_EXPIRACION_TR);
+                    U_TokenRecuperacion tok = new U_TokenRecuperacion(item.token_recuperacion, pEsquema, "", item.fecha_expiracion_TR);
                     tokenRecuperacion = tok;
                 }
                 if (tokenRecuperacion.token_recuperacion != null)
@@ -222,7 +222,7 @@ namespace BSP.POS.DATOS.Usuarios
             string correo = null;
             foreach (var item in response)
             {
-                correo = item.CORREO;
+                correo = item.correo;
             }
 
 
@@ -320,6 +320,27 @@ namespace BSP.POS.DATOS.Usuarios
 
             return new U_ListaDeUsuariosDeCliente();
 
+
+        }
+
+        public U_ImagenUsuario ObtenerImagenDeUsuario(String pEsquema, String pUsuario)
+        {
+            var imagenUsuario = new U_ImagenUsuario();
+
+            ObtenerImagenDeUsuarioTableAdapter sp = new ObtenerImagenDeUsuarioTableAdapter();
+
+            var response = sp.GetData(pEsquema, pUsuario).ToList();
+
+            foreach (var item in response)
+            {
+                U_ImagenUsuario imagen = new U_ImagenUsuario(item.imagen);
+                imagenUsuario = imagen;
+            }
+            if (imagenUsuario != null)
+            {
+                return imagenUsuario;
+            }
+            return new U_ImagenUsuario();
 
         }
         public string GenerarTokenRecuperacion()
