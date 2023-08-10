@@ -9,13 +9,9 @@
     <div class="background-reports">
         <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
             <div class="row d-flex justify-content-between m-2 reports-list">
-                <div class="col-md-4 d-flex row mouse-pointer" @onclick="IrACrear">
-                    <div class="d-flex bg-primary text-center align-items-end justify-content-center div-circle click-report-up">
-                        <i class="fa-solid fa-circle-plus" style="color: white"></i>
-
-                    </div>
-                    <div class="borrador text-end text-light bg-primary click-report-down">
-                    </div>
+                <div class="col-md-4 mb-2 d-flex justify-content-center align-items-center mouse-pointer add-report" @onclick="IrACrear">
+                    
+                    <img src="images/Home/Agregar.png" class="image-add"/>
                 </div>
                 @if (InformesService.ListaInformesAsociados.Count > 0)
                 {
@@ -26,23 +22,23 @@
                     {
                         <div class="col-md-4 d-flex row" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
                             <div class="item-report click-report-up click-report-action">
-                                <span class="text-primary">Informe de Servicios</span>
-                                <span class="text-primary">#@informe.consecutivo</span>
+                                <span class="t-blue-dark">Informe de Servicios</span>
+                                <span class="t-blue-dark">#@informe.consecutivo</span>
                                 <hr>
-                                <span class="update-report-text text-primary">Actualizado el @informe.fecha_actualizacion</span>
+                                <span class="update-report-text t-gray">Actualizado el @informe.fecha_actualizacion</span>
 
                                 
                             </div>
 
                             @if (@informe.estado == "Finalizado")
                             {
-                                <div class="bg-success borrador text-end text-light click-report-down">
+                                <div class="bg-status-green borrador text-end text-light click-report-down">
                                     <span>@informe.estado</span>
                                 </div>
                             }
                             else
                             {
-                                <div class="bg-warning borrador text-end text-light click-report-down">
+                                <div class="bg-status-yellow borrador text-end text-light click-report-down">
                                     <span>@informe.estado</span>
                                 </div>
                             }

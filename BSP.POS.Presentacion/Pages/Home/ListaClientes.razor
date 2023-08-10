@@ -13,8 +13,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex">
-                <a  class='me-2 bg-info text-light eyelash p-2 pe-3 ps-3 @GetTabLinkClass("recent")' @onclick='() => ChangeTab("recent")'>Clientes recientes</a>
-                <a  class='bg-primary text-light eyelash p-2 pe-3 ps-3 @GetTabLinkClass("all")' @onclick='() => ChangeTab("all")'>Todos los clientes</a>
+                <a  class='me-2 text-light eyelash eyelash-recent p-2 pe-3 ps-3 @GetTabLinkClass("recent")' @onclick='() => ChangeTab("recent")'>Clientes recientes</a>
+                <a  class=' text-light eyelash eyelash-all p-2 pe-3 ps-3 @GetTabLinkClass("all")' @onclick='() => ChangeTab("all")'>Todos los clientes</a>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
                             // Ejemplo: mostrar la lista de clientes en la vista
                         foreach (var cliente in listaClientesRecientes)
                             {
-                                    <div class="row g-1 text-primary click-client" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
+                                    <div class="row g-1 client-item click-client" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
 
                                         <div class="col-md-2 ">
                                             @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
@@ -50,7 +50,7 @@
                                         <p>Departamento: @cliente.CARGO</p>
                                     </div>
                                     <div class="col-md-5">
-                                        <p><i class="fa-solid fa-clock-rotate-left fa-flip-horizontal"></i> Ultima Actualizacion: @cliente.RecordDate</p>
+                                        <p><img src="images/Home/Refrescar.png" class="pb-1"/> Ultima Actualizacion: @cliente.RecordDate</p>
                                     </div>
                                     
                                 </div>
@@ -76,7 +76,7 @@
                         // Ejemplo: mostrar la lista de clientes en la vista
                         foreach (var cliente in listaClientes)
                         {
-                            <div class="row g-1 text-primary click-client" data-cliente="@cliente.CLIENTE" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
+                            <div class="row g-1 client-item click-client" data-cliente="@cliente.CLIENTE" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
 
                                 <div class="col-md-2 ">
                                             @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
@@ -94,7 +94,7 @@
                                     <p>Departamento: @cliente.CARGO</p>
                                 </div>
                                 <div class="col-md-5">
-                                    <p><i class="fa-solid fa-clock-rotate-left fa-flip-horizontal"></i> Ultima Actualizacion: @cliente.RecordDate</p>
+                                    <p><img src="images/Home/Refrescar.png" class="pb-1"/> Ultima Actualizacion: @cliente.RecordDate</p>
                                 </div>
                                 
                             </div>

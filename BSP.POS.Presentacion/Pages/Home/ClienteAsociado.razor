@@ -1,8 +1,8 @@
 ﻿@using BSP.POS.Presentacion.Models.Clientes;
 @inject IClientesInterface ClientesService
 
-<div class="d-flex justify-content-center align-items-center shadow-lg min-height-header-report">
-    <div class="d-flex justify-content-center align-items-center ms-5 report-header">
+<div class="d-flex justify-content-center align-items-center shadow-lg">
+    <div class="d-flex justify-content-center align-items-center ms-5">
         @if (clienteAsociado.IMAGEN != null && !clienteAsociado.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
         {
             <img src="data:image/png;base64,@Convert.ToBase64String(clienteAsociado.IMAGEN)" width="50" height="50" alt="Imagen" />
@@ -15,17 +15,17 @@
         @if (ClientesService.ClienteAsociado.NOMBRE.Length > 0)
         {
             var clienteAsociado = ClientesService.ClienteAsociado;
-            <h3 class="font-size-12">@clienteAsociado.NOMBRE</h3>
+            <h3 class="font-size-15">@clienteAsociado.NOMBRE</h3>
         }
 
     </div>
-    <div class="p-2 info-client text-center text-light report-header min-height-report-info">
+    <div class="p-2 info-client text-center text-light">
         @if (ClientesService.ClienteAsociado.NOMBRE.Length > 0)
         {
             var clienteAsociado = ClientesService.ClienteAsociado;
-            <p class="font-size-12 ps-2">Nombre del cliente: @clienteAsociado.NOMBRE</p>
-            <p class="font-size-12">Responsable: @clienteAsociado.CONTACTO</p>
-            <p class="font-size-12">Departamento: @clienteAsociado.CARGO</p>
+            <p class=" ps-2 m-2">Nombre del cliente: @clienteAsociado.NOMBRE</p>
+            <p class="">Responsable: @clienteAsociado.CONTACTO</p>
+            <p class="">Departamento: @clienteAsociado.CARGO</p>
         }
 
     </div>
