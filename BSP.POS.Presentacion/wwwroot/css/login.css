@@ -20,19 +20,20 @@
     }
 
         .columna:last-child .form-group {
-            width: 80%; /* Ajusta el ancho de los inputs */
+            width: 100%; /* Ajusta el ancho de los inputs */
             margin: 10px auto; /* Centra los inputs horizontalmente */
         }
 
         .columna:last-child button {
-            width: 80%; /* Ajusta el ancho del botón */
+            width: 100%; /* Ajusta el ancho del botón */
             margin: 10px auto; /* Centra el botón horizontalmente */
         }
 
 .columna-left-imagen {
     width: 100%;
+    max-width: 768px;
     height: 100%;
-    background-image: url('../imagenbspfondo.jpg');
+    background-image: url('../images/Login/Pantalla.png');
     background-repeat: no-repeat;
     background-blend-mode: overlay;
     background-size: 100% 100%;
@@ -40,12 +41,13 @@
 }
 
 .columna-right-imagen {
-    background-image: url('../fondo azul.webp');
+    background-image: url('../images/Login/Fondo-Login.png');
     background-size: cover;
     background-position: center;
+
 }
 
-.col-md-7 {
+.col {
     padding: 0;
     margin: 0;
 }
@@ -69,33 +71,59 @@
     padding: 0;
 }
 
-.semicircle {
-    width: 200px;
-    height: 30px;
-    border-top: 5px solid white;
-    border-top-left-radius: 100px 50%;
-    border-top-right-radius: 100px 50%;
-    margin: 0 auto;
-}
 
 .form-control::placeholder {
-    color: #198754;
+    color: #2FAD70;
 }
 
 .form-group {
     background-color: white;
-    border: 2px solid #198754;
+    border: 2px solid #2FAD70;
     border-radius: 10px;
+    max-width: 470px;
+    font-size: 20pt;
+    height: 55px;
 }
 
 .form-control {
+    max-width: 470px;
     border: none;
+    color: #2FAD70;
 }
 
 .btn-success {
     border-radius: 30px;
+    max-width: 470px;
+    font-size: 20pt;
+    height: 65px;
+    background-color: #2FAD70;
 }
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
+}
+.footer-left {
+    height: 92px;
+    align-items: center;
+    justify-content: center;
+    max-width: 768px;
+    font-size: 20pt;
+    background-color: #2FAD70;
+}
+.informatation {
+    font-size: 28pt;
+}
+.forgot-pass {
+    font-size: 24pt;
+}
+.rest-pass {
+    font-size: 20pt;
+    text-decoration-line: none;
+    color: #2FAD70;
+}
+.logo-gestor{
+    width:100%;
+}
+.icon-bsp {
+    width: 60%;
 }
