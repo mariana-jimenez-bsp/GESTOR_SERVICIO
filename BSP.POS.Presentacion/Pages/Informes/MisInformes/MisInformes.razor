@@ -1,4 +1,9 @@
 ﻿@page "/Informes/misInformes"
+@inject IUsuariosInterface UsuariosService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IInformesInterface InformesService
+@inject IClientesInterface ClientesService
+
 <Layout></Layout>
 <div class="div-contenedor">
 
@@ -25,57 +30,39 @@
                             <input type="text" placeholder="Buscar..." class="text-light search-input w-50" />
 
                         </div>
-                        <div class="row font-19 informe-hover font-blue-light">
-                            <div class="col-md-3 text-light height-col d-flex align-items-center eyelash-background imagen-hover">
-                                <span>Imagen</span>
+                        @if(informesDeUsuario != null && clienteAsociado != null)
+                        {
+                            <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
+                            @foreach (var informe in informesDeUsuario)
+                            {
+                                <div class="row font-19 informe-hover font-blue-light">
+                                    <div class="col-md-3 text-light height-col d-flex align-items-center eyelash-background imagen-hover">
+                                            @if (clienteAsociado.IMAGEN != null && !clienteAsociado.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
+                                            {
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(clienteAsociado.IMAGEN)" width="50" height="50" alt="Imagen" />
+                                            }
+                                            else
+                                            {
+                                                <img width="75" height="75" alt="Sin Imagen" />
+                                            }
+                                    </div>
+                                    <div class="col-md-2 height-col d-flex align-items-center">
+                                        <span>#@informe.consecutivo_informe</span>
+                                    </div>
+                                    <div class="col-md-2 height-col d-flex align-items-center">
+                                        <span>@informe.fecha_consultoria</span>
+                                    </div>
+                                    <div class="col-md-3 height-col d-flex align-items-center">
+                                        <span>@clienteAsociado.NOMBRE</span>
+                                    </div>
+                                    <div class="col-md-2 height-col d-flex align-items-center">
+                                        <span>@datosUsuario.nombre</span>
+                                    </div>
+                                </div>
+                            }
                             </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Codigo</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Fecha</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Empresa</span>
-                            </div>
-                            <div class="col-md-3 height-col d-flex align-items-center">
-                                <span>Nombre completo</span>
-                            </div>
-                        </div>
-                        <div class="row font-19 informe-hover font-blue-light">
-                            <div class="col-md-3 text-light height-col d-flex align-items-center eyelash-background imagen-hover">
-                                <span>Imagen</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Codigo</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Fecha</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Empresa</span>
-                            </div>
-                            <div class="col-md-3 height-col d-flex align-items-center">
-                                <span>Nombre completo</span>
-                            </div>
-                        </div>
-                        <div class="row font-19 informe-hover font-blue-light">
-                            <div class="col-md-3 text-light height-col d-flex align-items-center eyelash-background imagen-hover">
-                                <span>Imagen</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Codigo</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Fecha</span>
-                            </div>
-                            <div class="col-md-2 height-col d-flex align-items-center">
-                                <span>Empresa</span>
-                            </div>
-                            <div class="col-md-3 height-col d-flex align-items-center">
-                                <span>Nombre completo</span>
-                            </div>
-                        </div>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -105,7 +92,3 @@
     </div>
 </div>
 
-
-                    @code {
-
-                    }

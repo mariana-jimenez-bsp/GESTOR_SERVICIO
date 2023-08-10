@@ -1,6 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
-using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme

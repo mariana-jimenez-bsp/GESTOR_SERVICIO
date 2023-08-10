@@ -1,11 +1,9 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Actividades;
 using BSP.POS.Presentacion.Pages.Home;
-using BSP.POS.UTILITARIOS.Informes;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
 using BSP.POS.Presentacion.Models.Actividades;
-using BSP.POS.UTILITARIOS.Usuarios;
 
 namespace BSP.POS.Presentacion.Services.Actividades
 {

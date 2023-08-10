@@ -1,8 +1,15 @@
 ﻿@if (showSuccessAlert)
 {
+    @if(Message == "Error")
+    {
+        <div class="alert alert-danger w-25" role="alert">
+            Ocurrió Un error vuelva a intentarlo
+        </div>
+    }else{
     <div class="alert alert-success w-25" role="alert">
         @Message
     </div>
+    }
 }
 
 @code {

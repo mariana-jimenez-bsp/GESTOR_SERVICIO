@@ -12,5 +12,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
 
         public string nombre_usuario { get; set;} = string.Empty;
         public string departamento_usuario { get; set; } = string.Empty;
+
+        public string fecha_consultoria { get; set; } = string.Empty;
     }
 }

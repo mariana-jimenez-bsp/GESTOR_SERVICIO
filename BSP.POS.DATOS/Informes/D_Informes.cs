@@ -23,7 +23,7 @@ namespace BSP.POS.DATOS.Informes
             {
                 foreach (var item in response)
                 {
-                    U_ListaInformesAsociados informe = new U_ListaInformesAsociados(item.consecutivo, item.fecha_actualizacion, item.cliente, item.estado);
+                    U_ListaInformesAsociados informe = new U_ListaInformesAsociados(item.consecutivo, item.fecha_actualizacion, item.fecha_consultoria, item.cliente, item.estado);
 
                     LstInformes.Add(informe);
                 }

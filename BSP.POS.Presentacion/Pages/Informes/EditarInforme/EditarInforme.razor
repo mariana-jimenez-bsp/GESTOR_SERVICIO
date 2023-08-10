@@ -248,6 +248,10 @@
                             <i class="fa-regular fa-paper-plane"></i>
                             <span>Enviar al cliente</span>
                         </div>
+                    @if (successMessage != null)
+                    {
+                        <MensajeDeLogrado Message="@correoEnviado" />
+                    }
                     </div>
                 </div>
             </div>

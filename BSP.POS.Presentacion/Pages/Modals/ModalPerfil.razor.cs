@@ -12,6 +12,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public bool ActivarModal { get; set; } = false;
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         public string Usuario { get; set; } = string.Empty;
+        public string esquema { get; set; } = string.Empty;
         public mPerfil perfil { get; set; } = new mPerfil();
         public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
@@ -26,7 +27,12 @@ namespace BSP.POS.Presentacion.Pages.Modals
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             Usuario = user.Identity.Name;
-            await UsuariosService.ObtenerPerfil(Usuario);
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            if (!string.IsNullOrEmpty(Usuario) && !string.IsNullOrEmpty(esquema))
+            {
+                await UsuariosService.ObtenerPerfil(Usuario, esquema);
+            }
+           
             if (UsuariosService.Perfil != null)
             {
                 perfil = UsuariosService.Perfil;
@@ -193,7 +199,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
         private async Task CloseModal()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerPerfil(Usuario);
+
+            if (!string.IsNullOrEmpty(Usuario) && !string.IsNullOrEmpty(esquema))
+            {
+                await UsuariosService.ObtenerPerfil(Usuario, esquema);
+            }
             perfil = UsuariosService.Perfil;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);

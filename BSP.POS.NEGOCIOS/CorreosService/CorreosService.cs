@@ -26,7 +26,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             var correo = new MimeMessage();
             correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
             correo.To.Add(MailboxAddress.Parse(datos.para));
-            correo.Subject = "Recuperación de clave Gestor de Servicios";
+            correo.Subject = "Solcitud de Recuperación de clave";
             correo.Body = new TextPart(TextFormat.Html) { Text = CuerpoHtml };
 
             using var smtp = new SmtpClient();
@@ -44,7 +44,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
 
                 correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
                 correo.To.Add(MailboxAddress.Parse("juanramirez1881@gmail.com"));
-                correo.Subject = "Esto es una prueba";
+                correo.Subject = "Solicitud de Aprobación de Informe";
                 string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
                 string CuerpoHtml = File.ReadAllText(PathHtml);
                 string usuarios = "";

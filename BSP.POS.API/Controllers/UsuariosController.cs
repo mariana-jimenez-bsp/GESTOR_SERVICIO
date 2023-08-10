@@ -140,12 +140,11 @@ namespace BSP.POS.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("ObtenerPerfil/{usuario}")]
-        public string ObtenerPerfil(string usuario)
+        [HttpGet("ObtenerPerfil/{usuario}/{esquema}")]
+        public string ObtenerPerfil(string usuario, string esquema)
         {
             try
             {
-                string esquema = "BSP";
                 var perfil = user.ObtenerPerfil(esquema, usuario);
                 return perfil;
             }
@@ -287,7 +286,22 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [Authorize]
+        [HttpGet("ObtengaListaDeInformesDeUsuario/{codigo}/{esquema}")]
+        public string ObtengaListaDeInformesDeUsuario(string codigo, string esquema)
+        {
+            try
+            {
+                string listaInformesDeUsuarioDeClienteJson = user.ObtenerListaDeInformesDeUsuarioDeInforme(esquema, codigo);
+                return listaInformesDeUsuarioDeClienteJson;
+            }
 
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
 
     }
 }

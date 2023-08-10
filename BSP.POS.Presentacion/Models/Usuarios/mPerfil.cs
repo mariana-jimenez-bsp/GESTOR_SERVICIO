@@ -5,6 +5,8 @@ namespace BSP.POS.Presentacion.Models.Usuarios
     public class mPerfil
     {
         public string id { get; set; } = string.Empty;
+        public string codigo { get; set; } = string.Empty;
+        public string cod_cliente { get; set; } = string.Empty;
         [StringLength(25, ErrorMessage = "Tamaño máximo de 25 caracteres")]
         [Required(ErrorMessage = "El Usuario es requerido")]
         public string usuario { get; set; } = string.Empty;
@@ -24,5 +26,6 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public string telefono { get; set; } = string.Empty;
         [Required(ErrorMessage = "El esquema es requerido")]
         public string esquema { get; set; } = string.Empty;
+
     }
 }

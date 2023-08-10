@@ -1,10 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
-using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
-using BSP.POS.UTILITARIOS.Informes;
-using BSP.POS.UTILITARIOS.Proyectos;
-using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net;
@@ -27,7 +23,8 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public List<mPerfil> ListaDeUsuarios { get; set; } = new List<mPerfil>();
         public mTokenRecuperacion UsuarioRecuperacion { get; set; } = new mTokenRecuperacion();
         public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
-
+        public List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; } = new List<mUsuariosDeClienteDeInforme>();
+        
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             _http = htpp;
@@ -61,9 +58,10 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
         
-        public async Task ObtenerPerfil(string usuario)
+        public async Task ObtenerPerfil(string usuario, string esquema)
         {
-            var perfilJson = await _http.GetAsync("Usuarios/ObtenerPerfil/" + usuario);
+            string url = "Usuarios/ObtenerPerfil/" + usuario + "/" + esquema;
+            var perfilJson = await _http.GetAsync(url);
             if (perfilJson.StatusCode == HttpStatusCode.OK)
             {
                 Perfil = await perfilJson.Content.ReadFromJsonAsync<mPerfil?>();
@@ -238,6 +236,16 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             {
                 ImagenDeUsuario = await imagenJson.Content.ReadFromJsonAsync<mImagenUsuario>();
 
+            }
+        }
+
+        public async Task ObtenerListaDeInformesDeUsuario(string codigo, string esquema)
+        {
+            string url = "Usuarios/ObtengaListaDeInformesDeUsuario/" + codigo + "/" + esquema;
+            var listaDeInformesDeUsuarioAsociados = await _http.GetFromJsonAsync<List<mUsuariosDeClienteDeInforme>>(url);
+            if (listaDeInformesDeUsuarioAsociados is not null)
+            {
+                ListaDeInformesDeUsuarioAsociados = listaDeInformesDeUsuarioAsociados;
             }
         }
 

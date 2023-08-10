@@ -1,5 +1,4 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
-using BSP.POS.UTILITARIOS.Clientes;
 namespace BSP.POS.Presentacion.Interfaces.Clientes
 {
     public interface IClientesInterface

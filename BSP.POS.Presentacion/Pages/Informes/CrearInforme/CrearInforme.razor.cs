@@ -31,6 +31,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
         private ElementReference actividadesButton;
         private ElementReference informeButton;
         private string successMessage;
+        private string correoEnviado;
 
 
         private async Task SubmitActividades()
@@ -291,6 +292,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
         }
         private async Task EnviarCorreosAClientes()
         {
+            correoEnviado = null;
             mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
             objetoParaCorreo.informe = informe;
             objetoParaCorreo.total_horas_cobradas = total_horas_cobradas;
@@ -306,7 +308,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
             objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
-
+            if (validar)
+            {
+                correoEnviado = "Correo Enviado";
+            }
+            else
+            {
+                correoEnviado = "Error";
+            }
         }
 
 

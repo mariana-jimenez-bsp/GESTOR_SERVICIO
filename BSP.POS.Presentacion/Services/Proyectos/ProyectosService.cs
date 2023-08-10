@@ -1,6 +1,5 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Proyectos;
 using BSP.POS.Presentacion.Models.Proyectos;
-using BSP.POS.UTILITARIOS.Actividades;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;

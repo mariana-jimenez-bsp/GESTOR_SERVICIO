@@ -23,7 +23,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_Perfil perf = new U_Perfil(item.Id, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
+                    U_Perfil perf = new U_Perfil(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
                     perfil = perf;
                 }
                 if (perfil != null)
@@ -70,7 +70,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_Perfil perf = new U_Perfil(item.Id, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
+                    U_Perfil perf = new U_Perfil(item.Id,item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
                     perfil = perf;
                 }
                 
@@ -95,7 +95,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_Perfil usuario = new U_Perfil(item.Id, item.usuario, item.correo, "", item.nombre, item.rol, item.telefono, item.esquema);
+                    U_Perfil usuario = new U_Perfil(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, "", item.nombre, item.rol, item.telefono, item.esquema);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -342,6 +342,30 @@ namespace BSP.POS.DATOS.Usuarios
             }
             return new U_ImagenUsuario();
 
+        }
+
+        public List<U_UsuariosDeClienteDeInforme> ObtenerListaDeInformesDeUsuario(String pEsquema, String pCodigo)
+        {
+            var LstInformes = new List<U_UsuariosDeClienteDeInforme>();
+
+            ObtenerListaDeInformesDeUsuarioDeClienteTableAdapter sp = new ObtenerListaDeInformesDeUsuarioDeClienteTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_UsuariosDeClienteDeInforme informe = new U_UsuariosDeClienteDeInforme(item.Id, item.consecutivo_informe, item.codigo_usuario_cliente, item.aceptacion);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
         public string GenerarTokenRecuperacion()
         {

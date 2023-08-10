@@ -9,7 +9,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         string EncriptarClave(string clave);
 
         mPerfil Perfil { get; set; }
-        Task ObtenerPerfil(string usuario);
+        Task ObtenerPerfil(string usuario, string esquema);
 
         Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal);
 
@@ -34,5 +34,8 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 
         mImagenUsuario ImagenDeUsuario { get; set; }
         Task ObtenerImagenDeUsuario(string usuario, string esquema);
+
+        List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; }
+        Task ObtenerListaDeInformesDeUsuario(string codigo, string esquema);
     }
 }

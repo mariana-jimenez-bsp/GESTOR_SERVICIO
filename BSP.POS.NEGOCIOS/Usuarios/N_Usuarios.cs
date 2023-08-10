@@ -209,5 +209,23 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string ObtenerListaDeInformesDeUsuarioDeInforme(String pEsquema, String pCodigo)
+        {
+            try
+            {
+                List<U_UsuariosDeClienteDeInforme> list = new List<U_UsuariosDeClienteDeInforme>();
+
+                list = objetoUsuario.ObtenerListaDeInformesDeUsuario(pEsquema, pCodigo);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

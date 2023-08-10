@@ -3,7 +3,6 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
-using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -31,6 +30,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private ElementReference actividadesButton;
         private ElementReference informeButton;
         private string successMessage;
+        private string correoEnviado;
 
         private async Task SubmitActividades()
         {
@@ -286,6 +286,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         }
         private async Task EnviarCorreosAClientes()
         {
+            correoEnviado = null;
             mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
             objetoParaCorreo.informe = informe;
             objetoParaCorreo.total_horas_cobradas = total_horas_cobradas;
@@ -301,7 +302,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
-            
+            if (validar){
+                correoEnviado = "Correo Enviado";
+            }
+            else
+            {
+                correoEnviado = "Error";
+            }
         }
 
         

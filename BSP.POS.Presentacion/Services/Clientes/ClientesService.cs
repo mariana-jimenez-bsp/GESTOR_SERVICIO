@@ -1,5 +1,4 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Clientes;
-using BSP.POS.UTILITARIOS.Clientes;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
