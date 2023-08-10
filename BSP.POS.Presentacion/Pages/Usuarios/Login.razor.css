@@ -33,7 +33,7 @@
     width: 100%;
     max-width: 768px;
     height: 100%;
-    background-image: url('../images/Login/Pantalla.png');
+    background-image: url('images/Login/Pantalla.png');
     background-repeat: no-repeat;
     background-blend-mode: overlay;
     background-size: 100% 100%;
@@ -41,10 +41,9 @@
 }
 
 .columna-right-imagen {
-    background-image: url('../images/Login/Fondo-Login.png');
+    background-image: url('images/Login/Fondo-Login.png');
     background-size: cover;
     background-position: center;
-
 }
 
 .col {
@@ -81,7 +80,7 @@
     border: 2px solid #2FAD70;
     border-radius: 10px;
     max-width: 470px;
-    font-size: 20pt;
+
     height: 55px;
 }
 
@@ -89,6 +88,8 @@
     max-width: 470px;
     border: none;
     color: #2FAD70;
+    height: 50px;
+    font-size: 20pt;
 }
 
 .btn-success {
@@ -98,10 +99,12 @@
     height: 65px;
     background-color: #2FAD70;
 }
+
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
 }
+
 .footer-left {
     height: 92px;
     align-items: center;
@@ -110,20 +113,25 @@
     font-size: 20pt;
     background-color: #2FAD70;
 }
+
 .informatation {
     font-size: 28pt;
 }
+
 .forgot-pass {
     font-size: 24pt;
 }
+
 .rest-pass {
     font-size: 20pt;
     text-decoration-line: none;
     color: #2FAD70;
 }
-.logo-gestor{
-    width:100%;
+
+.logo-gestor {
+    width: 100%;
 }
+
 .icon-bsp {
     width: 60%;
 }

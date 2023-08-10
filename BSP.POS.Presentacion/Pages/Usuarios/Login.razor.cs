@@ -37,7 +37,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 {
                     mensajeError();
 
-                    usuario.usuario = string.Empty;
+                    usuario.correo = string.Empty;
                     usuario.clave = string.Empty;
                     usuario.esquema = string.Empty;
                 }
@@ -47,11 +47,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
 
 
-        private void ValorUsuario(ChangeEventArgs e)
+        private void ValorCorreo(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuario.usuario = e.Value.ToString();
+                usuario.correo = e.Value.ToString();
             }
         }
 
@@ -68,7 +68,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private void mensajeError()
         { 
-          if(!string.IsNullOrEmpty(usuario.usuario) && !string.IsNullOrEmpty(usuario.clave) && !string.IsNullOrEmpty(usuario.esquema)){
+          if(!string.IsNullOrEmpty(usuario.correo) && !string.IsNullOrEmpty(usuario.clave) && !string.IsNullOrEmpty(usuario.esquema)){
                 mensaje = "Datos inválidos";
             }
 

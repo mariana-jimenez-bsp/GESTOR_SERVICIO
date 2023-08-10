@@ -22,7 +22,8 @@ namespace BSP.POS.DATOS.Usuarios
             POSDataSet.LoginUsuarioDataTable _tabla = new POSDataSet.LoginUsuarioDataTable();
             LoginUsuarioTableAdapter _tablaUsuario = new LoginUsuarioTableAdapter();
             ObtenerClaveUsuarioTableAdapter _claveUsuario = new ObtenerClaveUsuarioTableAdapter();
-            var consultaClave = _claveUsuario.GetData(pLogin.esquema, pLogin.usuario);
+            string usuario = ObtenerUsuarioPorCorreo(pLogin.esquema, pLogin.correo);
+            var consultaClave = _claveUsuario.GetData(pLogin.esquema, usuario);
             string claveActual = string.Empty;
             foreach (POSDataSet.ObtenerClaveUsuarioRow item in consultaClave)
             {
@@ -34,23 +35,23 @@ namespace BSP.POS.DATOS.Usuarios
             if (CompararClaves(pLogin.contrasena, claveActual))
             {
                 D_Permisos datosPermisos = new D_Permisos();
-               string rol = ObtenerRol(pLogin.esquema, pLogin.usuario);
+               string rol = ObtenerRol(pLogin.esquema, usuario);
                 List<U_PermisosAsociados> permisos = new List<U_PermisosAsociados>();
-                permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, pLogin.usuario);
-               string token = GenerateJWT(pLogin.usuario, pLogin.key, rol, permisos, pLogin.esquema);
-               var j = _tablaUsuario.GetData(pLogin.usuario, claveActual, pLogin.esquema, token).ToList();
+                permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, usuario);
+               string token = GenerateJWT(usuario, pLogin.key, rol, permisos, pLogin.esquema);
+               var j = _tablaUsuario.GetData(pLogin.correo, claveActual, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
                 {
-                    login = new U_LoginToken(item.token, item.esquema, item.usuario);
+                    login = new U_LoginToken(item.token, item.esquema, usuario, item.correo);
                 }
                 if (j.Count == 0)
                 {
-                    login = new U_LoginToken("", "", "");
+                    login = new U_LoginToken("", "", "", "");
                 }
             }
             else
             {
-                login = new U_LoginToken("", "", "");
+                login = new U_LoginToken("", "", "", "");
             }
 
 
@@ -169,7 +170,26 @@ namespace BSP.POS.DATOS.Usuarios
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
         }
+        public string ObtenerUsuarioPorCorreo(String pEsquema, String pCorreo)
+        {
+            string usuario = string.Empty;
 
+            ObtenerUsuarioPorCorreoTableAdapter sp = new ObtenerUsuarioPorCorreoTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCorreo).ToList();
+
+            foreach (var item in response)
+            {
+                string u = item.usuario;
+                usuario = u;
+            }
+            if (usuario != null)
+            {
+                return usuario;
+            }
+            return string.Empty;
+
+        }
         public string ObtenerRol(String pEsquema, String pUsuario)
         {
             string rol = string.Empty;

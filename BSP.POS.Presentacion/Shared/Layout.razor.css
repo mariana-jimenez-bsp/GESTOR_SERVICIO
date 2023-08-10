@@ -1,21 +1,23 @@
-﻿html, body {
-    height: 100%;
-    font-size: 12px;
+﻿.layout-header {
+    background-image: url('images/Home/Figura-cabecera.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    font-size: 38pt;
 }
-.layout-front {
-    z-index: 10000;
-}
+
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
 }
+
 .search-input {
     border: none;
     margin: 0;
     height: 35px;
-    background-color: rgb(53, 53, 156);
+    background-color: #14233d;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    font-size: 19pt;
 }
 
     .search-input::placeholder {
@@ -25,7 +27,7 @@
 .search-icon {
     border: none;
     height: 35px;
-    background-color: rgb(19, 19, 95);
+    background-color: #1C3259;
     width: 35px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -43,10 +45,23 @@ a {
 
 .sections {
     margin-top: 0;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+   
+    
+}
+.div-sections {
+    background-color: #2FAD70;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    font-size: 14pt;
 }
 
 i {
     font-size: 20px;
+}
+.header-menu {
+    color: #2255A1;
+    font-size: 14pt;
+}
+.header-line-menu {
+    border-color: #2255A1;
 }

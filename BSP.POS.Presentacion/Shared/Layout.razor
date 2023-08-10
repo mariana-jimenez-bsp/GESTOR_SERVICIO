@@ -1,14 +1,10 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IUsuariosInterface UsuariosService
-<head>
-
-        <link href="css/layout.css" rel="stylesheet" type="text/css" />
-</head>
-    <header class="d-flex justify-content-between align-items-center -3 py-2 bg-primary text-light">
+    <header class="layout-header d-flex justify-content-between align-items-center py-2 text-light">
 
         <div class="fw-bold p-2 ps-5 mouse-pointer" @onclick="IrAlInicio"><h1>Gestor de Servicios</h1></div>
-        <div class="fw-bold p-2 pe-5"><img src="https://images.squarespace-cdn.com/content/v1/52eaead0e4b0fd67cc51a9d3/ddebd217-d40d-4530-b0ea-64bb7b84329c/BSP+Consulting.png" width="50" height="50"></div>
+        <div class="fw-bold p-2 pe-5"><img src="images/Home/BSP-Gestor-de-Servicio.png" width="75"></div>
     </header>
     <nav class="p-3 shadow-lg">
         <div class="d-flex align-items-center ps-5">
@@ -25,42 +21,42 @@
         else
         {
             <div class="d-flex justify-content-start align-items-center">
-                <button class="search-icon text-light">
-                    <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;" @onclick="() => EnviarTextoABuscar(inputValue)"></i>
+                <button class="search-icon text-light" @onclick="() => EnviarTextoABuscar(inputValue)">
+                    <img src="images/Home/Buscador.png" class="w-100"/>
                 </button>
                 <input type="text" width="100" placeholder="Buscar..." class="text-light search-input" @oninput="ActualizarValor" />
 
             </div>
         }
 
-            <div class="ms-auto text-primary pe-5">
-                <a href="#" class="me-2">Configuracion <i class="fa-solid fa-gear ps-2"></i></a>
+            <div class="ms-auto header-menu pe-5">
+                <a href="#" class="me-2">Configuracion <img src="images/Home/configuraciones.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
-                <a href="#" class="me-2">Mis Informes <i class="fa-solid fa-newspaper ps-2"></i></a>
+                <a href="#" class="me-2">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
             <a href="">@UsuarioActual
                 @if (imagenDeUsuario.imagen != null && !imagenDeUsuario.imagen.SequenceEqual(new byte[] { 0x00 }))
                 {
-                    <img src="data:image/png;base64,@Convert.ToBase64String(imagenDeUsuario.imagen)" width="40" class="ps-2" alt="Imagen" />
+                    <img src="data:image/png;base64,@Convert.ToBase64String(imagenDeUsuario.imagen)" width="50" class="ps-2 pb-1" alt="Imagen" />
                 }
                 else
                 {
-                    <img width="40" class="ps-2" alt="Sin Imagen" />
+                    <img width="40" class="ps-2 pb-1" alt="Sin Imagen" />
                 }
             </a>
             </div>
         </div>
     </nav>
     <nav class="d-flex justify-content-end sections text-light pe-5">
-        <div class="bg-success sections p-3">
+        <div class="sections p-3 div-sections">
 
-        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <i class="mouse-pointer fa-regular fa-user ps-1"></i></a>
+        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
             <a class="vertical-line p-2 border-light"></a>
-        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <i class="fa-solid fa-user-group ps-1"></i></a>
+        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
             <a class="vertical-line p-2 border-light"></a>
-        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerProyectos(true)">Proyectos <i class="fa-solid fa-briefcase ps-1"></i></a>
+        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerProyectos(true)">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
             <a class="vertical-line p-2 border-light"></a>
-        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <i class="fa-solid fa-tv ps-1"></i></a>
+        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
         </div>
     </nav>
 

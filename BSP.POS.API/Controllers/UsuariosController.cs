@@ -42,7 +42,7 @@ namespace BSP.POS.API.Controllers
             try
             {
                 U_Login nuevoLogin = new U_Login();
-                nuevoLogin.usuario = datos.usuario;
+                nuevoLogin.correo = datos.correo;
                 nuevoLogin.contrasena = datos.clave;
                 nuevoLogin.esquema = datos.esquema;
                 nuevoLogin.key = _secretKey;

@@ -6,5 +6,6 @@
         public string esquema { get; set; } = string.Empty;
         public string usuario { get; set; } = string.Empty;
         public string clave { get; set; } = string.Empty;
+        public string correo { get; set; } = string.Empty;
     }
 }

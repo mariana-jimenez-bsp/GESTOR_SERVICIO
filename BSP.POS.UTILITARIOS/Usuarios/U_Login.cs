@@ -15,14 +15,16 @@ namespace BSP.POS.UTILITARIOS.Usuarios
 
         public String accion { get; set; }
         public String key { get; set; }
+        public String correo { get; set; }
 
-        public U_Login(String pUsuario, String pContrasena, String pEsquema, String pAccion, String pKey)
+        public U_Login(String pUsuario, String pContrasena, String pEsquema, String pAccion, String pKey, String pCorreo)
         {
             usuario = pUsuario;
             contrasena = pContrasena;
             esquema = pEsquema;
             accion = pAccion;
             key = pKey;
+            correo = pCorreo;
         }
         public U_Login()
         {
