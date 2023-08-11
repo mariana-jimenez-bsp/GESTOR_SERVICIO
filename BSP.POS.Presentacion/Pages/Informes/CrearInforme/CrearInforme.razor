@@ -5,216 +5,219 @@
 @inject IObservacionesInterface ObservacionesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JS
-
 @if (informe.estado == "Borrador" && !string.IsNullOrEmpty(Consecutivo))
 {
-        <Layout></Layout>
+    <Layout></Layout>
 
-        <div class="container-fluid p-2 pe-5 ps-5 body-edit">
-            @if(successMessage != null){
+    <div class="container-fluid p-2 pe-5 ps-5 body-edit">
+        @if (successMessage != null)
+        {
             <MensajeDeLogrado Message="@successMessage" />
-             }
-            <div class="row">
-                <div class="col-md-6">
-            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
-                <ObjectGraphDataAnnotationsValidator />
-                    <div class="row p-2">
-                    @if(!string.IsNullOrEmpty(informe.consecutivo)){
-                        <div class="col-md-6 d-flex row text-center">
-                            <div>
-                                <span class="blue-good">Fecha: </span><input type="date" class="text-success border-0 w-50" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
-                                <ValidationMessage For="@(() => informe.fecha_consultoria)" />
-                            </div>
-                       
-                            <div>
-                                <span class="blue-good">Cliente: </span>
-                                <select value="@ClienteAsociado.NOMBRE" class="text-success border-0 w-50">
-                                    <option value="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6 d-flex row text-center">
-                            <div>
-                                <span class="blue-good">Hora de Inicio: </span><input type="time" class="text-success width-25 border-0" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
-                                <span class="text-success">hs</span>
-                                <ValidationMessage For="@(() => informe.HoraInicioTime)" />
-                            </div>
-                      
-                            <div>
-                                <span class="blue-good">Hora de Fin: </span><input type="time" class="text-success width-25 border-0" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
-                                <span class="text-success">hs</span>
-                                <ValidationMessage For="@(() => informe.HoraFinalTime)" />
-                            </div>
-                        </div>
-                   
-                    <button @ref="informeButton" style="display: none"></button>
-                    }
-                        
-                    </div>
-            </EditForm>
-                    <div class="row content bg-body-secondary table-height rounded-start-5">
-                
-                        <div class="row text-center p-2 blue-good">
-                            <div class="col-md-3 p-2">
-                                <span>Nombre</span>
-                            </div>
-                            <div class="col-md-3 p-2">
-                                <span>Dep.</span>
-                            </div>
-                            <div class="col-md-3">
-                                <span>Aceptación</span>
-                            </div>
-                        </div>
-                <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report">
-                    @if (listadeUsuariosDeClienteDeInforme != null)
-                        {
-
-                        foreach (var usuario in listadeUsuariosDeClienteDeInforme)
-                            {
-                                <div class="row p-2 text-center">
-                                    <div class="col-md-3">
-                                        <span>@usuario.nombre_usuario</span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <span>@usuario.departamento_usuario</span>
-                                    </div>
-                                    <div class="col-md-3 pt-0 mt-0">
-
-                                        @if (usuario.aceptacion == "1")
-                                        {
-                                            <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" checked disabled>
-                                            <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" disabled>
-                                            <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
-                                        }
-
-                                    </div>
-                                <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarUsuario(true, usuario.id, usuario.nombre_usuario)">
-                                        <i class="fa-solid fa-x text-danger"></i>
-                                    </div>
-                                </div>
-                            }
-
-                        }
-                </div>
-                @if (listaDeUsuariosParaAgregar != null)
-                {
-                    <EditForm Model="@usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme">
+        }
+        <div class="row">
+            <div class="col-md-6">
+                <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
                     <ObjectGraphDataAnnotationsValidator />
-                    <div>
-                        <span class="text-success">Agregar Usuario</span>
-                        <div>
-                            <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
-                                <option value="">Seleccione el usuario</option>
-                                @foreach (var usuario in listaDeUsuariosParaAgregar)
-                                {
-                                    <option value="@usuario.codigo">@usuario.usuario</option>
-                                }
-                               
-                            </select>
-                            <button type="submit" class="border-success rounded-3">Agregar</button>
+                    <div class="row p-2">
+                        @if (!string.IsNullOrEmpty(informe.consecutivo))
+                        {
+                            <div class="col-md-6 d-flex row text-center">
+                                <div>
+                                    <span class="blue-dark-text font-23-medium">Fecha: </span><input type="date" class="green-text font-19-bold border-0 w-50" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
+                                    <ValidationMessage For="@(() => informe.fecha_consultoria)" />
+                                </div>
+
+                                <div>
+                                    <span class="blue-dark-text font-23-medium">Cliente: </span>
+                                    <select value="@ClienteAsociado.NOMBRE" class="green-text border-0 w-50 font-19-bold">
+                                        <option value="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex row text-center">
+                                <div>
+                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text width-25 border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
+                                    <span class="green-text">hs</span>
+                                    <ValidationMessage For="@(() => informe.HoraInicioTime)" />
+                                </div>
+
+                                <div>
+                                    <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text width-25 border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
+                                    <span class="green-text">hs</span>
+                                    <ValidationMessage For="@(() => informe.HoraFinalTime)" />
+                                </div>
+                            </div>
+
+                            <button @ref="informeButton" style="display: none"></button>
+                        }
+
+                    </div>
+                </EditForm>
+                <div class="table-gray-left rounded-start-5">
+                    <div class="row content">
+                        <div class="row text-center p-2 blue-light-text font-20-book">
+                            <div class="col-md-3 ms-1">
+                                <span>NOMBRE</span>
+                            </div>
+                            <div class="col-md-3 ms-1">
+                                <span>DEP.</span>
+                            </div>
+                            <div class="col-md-3 ms-1">
+                                <span>ACEPTACIÓN</span>
+                            </div>
                         </div>
-                        <ValidationMessage For="@(() => usuarioAAgregar.codigo_usuario_cliente)" />
-                    </div>
-                    </EditForm>
-                }
-             
-            </div>
-                    <div class="observation border border-success rounded-5 text-success d-flex align-items-center justify-content-center mouse-pointer" @onclick="() => ClickHandlerObservaciones(true)">
-                        <span>+ Observaciones</span>
-                    </div>
+                        <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report">
+                            @if (listadeUsuariosDeClienteDeInforme != null)
+                            {
 
+                                foreach (var usuario in listadeUsuariosDeClienteDeInforme)
+                                {
+                                    <div class="row p-2 text-center font-14-book">
+                                        <div class="col-md-3">
+                                            <span>@usuario.nombre_usuario</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>@usuario.departamento_usuario</span>
+                                        </div>
+                                        <div class="col-md-3 pt-0 mt-0">
 
+                                            @if (usuario.aceptacion == "1")
+                                            {
+                                                <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" checked disabled>
+                                                <label class="label-transparent ms-5" for="myCheckbox @usuario.id">.</label>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" disabled>
+                                                <label class="label-transparent ms-5" for="myCheckbox @usuario.id">.</label>
+                                            }
+
+                                        </div>
+                                        <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarUsuario(true, usuario.id, usuario.nombre_usuario)">
+                                            <i class="fa-solid fa-x text-danger"></i>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                        @if (listaDeUsuariosParaAgregar != null)
+                        {
+                            <EditForm Model="@usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme">
+                                <ObjectGraphDataAnnotationsValidator />
+                                <div class="font-14-book">
+                                    <span class="green-text">Agregar Usuario</span>
+                                    <div>
+                                        <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
+                                            <option value="">Seleccione el usuario</option>
+                                            @foreach (var usuario in listaDeUsuariosParaAgregar)
+                                            {
+                                                <option value="@usuario.codigo">@usuario.usuario</option>
+                                            }
+
+                                        </select>
+                                        <button type="submit" class="border-success rounded-3">Agregar</button>
+                                    </div>
+                                    <ValidationMessage For="@(() => usuarioAAgregar.codigo_usuario_cliente)" />
+                                </div>
+                            </EditForm>
+                        }
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="p-2 d-flex justify-content-between align-items-center">
-                        <span class="blue-good">Informe #@informe.consecutivo</span>
-                        <select @bind="informe.modalidad_consultoria" class="text-success border-0">
-                            <option value="Virtual">Virtual</option>
-                            <option value="Presencial">Presencial</option>
-                        </select>
-                    </div>
+                <div class="observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer" @onclick="() => ClickHandlerObservaciones(true)">
+                    <span>+ Observaciones</span>
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="p-2 d-flex justify-content-between align-items-center">
+                    <span class="blue-dark-text font-23-medium">Informe #@informe.consecutivo</span>
+                    <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-23-medium">
+                        <option value="Virtual">Virtual</option>
+                        <option value="Presencial">Presencial</option>
+                    </select>
+                </div>
 
                 <div class="content text-light">
-                    
-                    <div class="row bg-primary pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
-                        <div class="ps-0 ms-0 blue-good-bg content-behind content-behind-bottom height-footer">
-                            <div class="row text-center p-2 blue-good-bg ms-0 content-behind">
-                                <div class="col-md-3">
-                                    <h5>Actividad</h5>
-                                </div>
-                                <div class="col-md-3">
-                                    <h5>HS Cobradas</h5>
-                                </div>
-                                <div class="col-md-3">
-                                    <h5>HS No Cobradas</h5>
-                                </div>
-                            </div>
-                            <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report ">
-                            <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas">
-                    <ObjectGraphDataAnnotationsValidator />
-                                @if (listaActividadesAsociadas != null)
-                                {
 
-                                    @foreach (var actividad in listaActividadesAsociadas)
-                                    {
-                                        <div class="row p-2 text-center ms-0">
-                                            <div class="col-md-3">
-                                                <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" class="border-0 bg-transparent text-light">
-                                                    @foreach (var laActividad in listaActividades)
-                                                    {
-                                                        <option value="@laActividad.codigo" class="blue-good-bg">
-                                                            @laActividad.Actividad
-                                                        </option>
-                                                    }
-                                                </select>
-                                                <ValidationMessage For="@(() => actividad.codigo_actividad)" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="text" @bind-value="actividad.horas_cobradas" @oninput="(e) => CambioHorasCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
-                                                <span>horas</span>
-                                                <ValidationMessage For="@(() => actividad.horas_cobradas)" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="text" @bind-value="actividad.horas_no_cobradas" @oninput="(e) => CambioHorasNoCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
-                                                <span>horas</span>
-                                                <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
-                                            </div>
-                                            <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarActividad(true, actividad.Id, actividad.codigo_actividad)">
-                                                <i class="fa-solid fa-x text-black"></i>
-                                            </div>
-                                        </div>
-                                    }
-                                }
-                                <button @ref="actividadesButton" style="display: none">Segundo Botón</button>
-                            </EditForm>
-                            </div>
-                            @if (listaActividadesParaAgregar != null)
-                {
-                    <EditForm Model="@actividadAAgregar" OnValidSubmit="AgregarActividadDeInforme">
-                    <ObjectGraphDataAnnotationsValidator />
-                    <div class="ms-3 mt-2">
-                        <span class="text-light">Agregar Actividad</span>
-                        <div>
-                            <select class="border-light rounded-3 blue-good-bg text-light" @bind="@actividadAAgregar.codigo_actividad" @oninput="CambioCodigoActividad">
-                                <option value="" class="blue-good-bg text-light">Seleccione la actividad</option>
-                                @foreach (var actividad in listaActividadesParaAgregar)
+                    <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
+                        <div class="table-right blue-dark-bg content-behind content-behind-bottom">
+                            <div class="ps-0 ms-0 ">
+                                <div class="row text-center p-2 blue-dark-bg ms-0 content-behind font-20-book">
+                                    <div class="col-md-3">
+                                        <h5>ACTIVIDAD</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h5>HS COBRADAS</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h5>HS NO COBRADAS</h5>
+                                    </div>
+                                </div>
+                                <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report ">
+                                    <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas">
+                                        <ObjectGraphDataAnnotationsValidator />
+                                        @if (listaActividadesAsociadas != null)
+                                        {
+
+                                            @foreach (var actividad in listaActividadesAsociadas)
+                                            {
+                                                <div class="row p-2 text-center ms-0 font-14-book">
+                                                    <div class="col-md-3">
+                                                        <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" class="border-0 bg-transparent text-light">
+                                                            @foreach (var laActividad in listaActividades)
+                                                            {
+                                                                <option value="@laActividad.codigo" class="blue-light-bg">
+                                                                    @laActividad.Actividad
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                        <ValidationMessage For="@(() => actividad.codigo_actividad)" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" @bind-value="actividad.horas_cobradas" @oninput="(e) => CambioHorasCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
+                                                        <span>horas</span>
+                                                        <ValidationMessage For="@(() => actividad.horas_cobradas)" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" @bind-value="actividad.horas_no_cobradas" @oninput="(e) => CambioHorasNoCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
+                                                        <span>horas</span>
+                                                        <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
+                                                    </div>
+                                                    <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarActividad(true, actividad.Id, actividad.codigo_actividad)">
+                                                        <i class="fa-solid fa-x text-black"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        <button @ref="actividadesButton" style="display: none">Segundo Botón</button>
+                                    </EditForm>
+                                </div>
+                                @if (listaActividadesParaAgregar != null)
                                 {
-                                    <option class="blue-good-bg text-light" value="@actividad.codigo">@actividad.Actividad</option>
+                                    <EditForm Model="@actividadAAgregar" OnValidSubmit="AgregarActividadDeInforme">
+                                        <ObjectGraphDataAnnotationsValidator />
+                                        <div class="ms-3 mt-2 font-14-book">
+                                            <span class="text-light">Agregar Actividad</span>
+                                            <div>
+                                                <select class="border-light rounded-3 blue-light-bg text-light" @bind="@actividadAAgregar.codigo_actividad" @oninput="CambioCodigoActividad">
+                                                    <option value="" class="blue-light-bg text-light">Seleccione la actividad</option>
+                                                    @foreach (var actividad in listaActividadesParaAgregar)
+                                                    {
+                                                        <option class="blue-light-bg text-light" value="@actividad.codigo">@actividad.Actividad</option>
+                                                    }
+
+                                                </select>
+                                                <button type="submit" class="border-light rounded-3 blue-light-bg text-light">Agregar</button>
+                                            </div>
+                                            <ValidationMessage For="@(() => actividadAAgregar.codigo_actividad)" />
+                                        </div>
+                                    </EditForm>
                                 }
-                               
-                            </select>
-                            <button type="submit" class="border-light rounded-3 blue-good-bg text-light">Agregar</button>
+                            </div>
                         </div>
-                        <ValidationMessage For="@(() => actividadAAgregar.codigo_actividad)" />
-                    </div>
-                    </EditForm>
-                }
-                        </div>
-                        <div class="row p-4 ms-0 text-center bg-primary rounded-bottom-5">
+                        <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book">
                             <div class="col-md-3">
                                 <span>Total de Horas</span>
                             </div>
@@ -231,38 +234,40 @@
 
                 </div>
 
-                    <div class="p-2 text-success d-flex justify-content-center m-3">
-                    <div class="d-flex row text-center mouse-pointer" @onclick="() => ClickHandlerEliminarInforme(true)">
-                            <i class="fa-solid fa-trash"></i>
-                            <span>Descartar</span>
-                        </div>
-                        <button @onclick="TodosLosBotonesSubmit" class="d-flex row text-center bg-transparent border-0 width-25 text-success">
-                            <i class="fa-solid fa-download"></i>
-                            <span>Guardar Borrador</span>
-                        </button>
-                        <div class="d-flex row text-center mouse-pointer" @onclick="() => ClickHandlerFinalizarInforme(true)">
-                            <i class="fa-solid fa-square-check"></i>
-                            <span>Finalizar</span>
-                        </div>
-                        <div class="d-flex row text-center mouse-pointer" @onclick="EnviarCorreosAClientes">
-                            <i class="fa-regular fa-paper-plane"></i>
-                            <span>Enviar al cliente</span>
-                        </div>
+                <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium">
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerEliminarInforme(true)">
+                        <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
+                        <span>Descartar</span>
+                    </div>
+                    <div @onclick="TodosLosBotonesSubmit" class="d-flex justify-content-center row text-center mouse-pointer">
+                        <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
+                        <span>Guardar Borrador</span>
+                    </div>
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerFinalizarInforme(true)">
+                        <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
+                        <span>Aprobar</span>
+                    </div>
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="EnviarCorreosAClientes">
+                        <img src="images/EditarInforme/Enviar-a-cliente.png" class="circle-max-width" />
+                        <span>Enviar al cliente</span>
+                    </div>
                     @if (successMessage != null)
                     {
                         <MensajeDeLogrado Message="@correoEnviado" />
                     }
-                    </div>
                 </div>
             </div>
-          
         </div>
-<ModalEliminarUsuario ActivarModal="@activarModalEliminarUsuario" OnClose="ClickHandlerEliminarUsuario" idUsuario="@idUsuarioActual" esquema="@esquema" nombreUsuario="@nombreUsuarioActual"></ModalEliminarUsuario>
-<ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
-<ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
+
+    </div>
+    <ModalEliminarUsuario ActivarModal="@activarModalEliminarUsuario" OnClose="ClickHandlerEliminarUsuario" idUsuario="@idUsuarioActual" esquema="@esquema" nombreUsuario="@nombreUsuarioActual"></ModalEliminarUsuario>
+    <ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
+    <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
     <ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalFinalizarInforme>
     <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
-}else if(informe.estado == "Finalizado"){
+}
+else if (informe.estado == "Finalizado")
+{
     <div class="text-danger w-100 text-center">
         <h1>El informe ya finalizó</h1>
     </div>
@@ -279,3 +284,4 @@ else
         </div>
     </div>
 }
+

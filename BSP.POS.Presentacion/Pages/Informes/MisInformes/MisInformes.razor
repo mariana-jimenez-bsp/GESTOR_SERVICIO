@@ -39,7 +39,7 @@
                                     <div class="col-md-3 text-light height-col d-flex align-items-center eyelash-background imagen-hover">
                                             @if (clienteAsociado.IMAGEN != null && !clienteAsociado.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
                                             {
-                                                <img src="data:image/png;base64,@Convert.ToBase64String(clienteAsociado.IMAGEN)" width="50" height="50" alt="Imagen" />
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(clienteAsociado.IMAGEN)" width="70" height="70" alt="Imagen" />
                                             }
                                             else
                                             {
@@ -70,19 +70,19 @@
                 <div class="col-right-bg d-flex justify-content-center align-items-center row">
                     <div class="col-md-4 col-right-bg">
                         <div class="reenviar-cliente imagen-div">
-                            <span class="me-4">Reenviar a Cliente</span>
+                            <span class="me-4 span-report">REENVIAR A CLIENTE</span>
                         </div>
                         <div class="generar-cotizacion imagen-div">
-                            <span class="me-4">Generar Cotización</span>
+                            <span class="me-4 span-report">GERNERAR COTIZACIÓN</span>
                         </div>
                         <div class="generar-reporte imagen-div">
-                            <span class="me-4">Generar Reporte</span>
+                            <span class="me-4 span-report">GENERAR REPORTE</span>
                         </div>
                         <div class="facturar imagen-div">
-                            <span class="me-4">Facturar</span>
+                            <span class="me-4 span-report">FACTURAR</span>
                         </div>
                         <div class="historial-informes imagen-div">
-                            <span class="me-4">Historial de Informes</span>
+                            <span class="me-4 span-report">HISTORIAL DE INFORMES</span>
                         </div>
                     </div>
                 </div>

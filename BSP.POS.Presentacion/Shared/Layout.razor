@@ -11,7 +11,7 @@
         @if (navigationManager.Uri.IndexOf("/informe/editar", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/informe/crear", StringComparison.OrdinalIgnoreCase) >= 0)
         {
             <div class="d-flex justify-content-start align-items-center">
-            <h3 class="text-primary">Informe de Servicios</h3>
+            <h3 class="subtitle-edit">Informe de Servicios</h3>
             </div>
         }
         else if (navigationManager.Uri.IndexOf("/informes/misinformes", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -30,11 +30,11 @@
         }
 
             <div class="ms-auto header-menu pe-5">
-                <a href="#" class="me-2">Configuracion <img src="images/Home/configuraciones.png" class="ps-2 pb-1"></a>
+                <a  class="me-2 mouse-pointer">Configuracion <img src="images/Home/configuraciones.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
-                <a href="#" class="me-2">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1"></a>
+                <a @onclick="IrAMisInformes" class="me-2 mouse-pointer">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
-            <a href="">@UsuarioActual
+            <a class="mouse-pointer">@UsuarioActual
                 @if (imagenDeUsuario.imagen != null && !imagenDeUsuario.imagen.SequenceEqual(new byte[] { 0x00 }))
                 {
                     <img src="data:image/png;base64,@Convert.ToBase64String(imagenDeUsuario.imagen)" width="50" class="ps-2 pb-1" alt="Imagen" />

@@ -5,6 +5,18 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Circular Std Bold';
+    src: url('../fonts/FontsFree-Net-CircularStd-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Circular Std Medium';
+    src: url('../fonts/FontsFree-Net-Circular-Std-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 * {
     margin: 0;
     padding: 0;

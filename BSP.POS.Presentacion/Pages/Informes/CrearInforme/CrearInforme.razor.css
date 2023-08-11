@@ -1,24 +1,39 @@
 ﻿
-.table-height {
-    padding-bottom: 9%;
-    margin-bottom: 3%;
-}
 
-.height-footer {
-    padding-bottom: 10%;
-}
+
+
+
+
 
 .observation {
-    width: 100%;
-    height: 35%;
+    max-width: 539px;
+    height: 162px;
+    margin-left: 5%;
 }
 
-.blue-good-bg {
-    background-color: #053d9e;
+.blue-light-bg {
+    background-color: #2255A1;
 }
 
-.blue-good {
-    color: #053d9e;
+.blue-dark-bg {
+    background-color: #1C3259;
+}
+
+.blue-light-text {
+    color: #2255A1;
+}
+
+.blue-dark-text {
+    color: #1C3259;
+}
+
+.green-text {
+    color: #2FAD70;
+}
+
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
 }
 
 .custom-checkbox {
@@ -42,7 +57,7 @@
             width: 20px;
             height: 20px;
             border-radius: 5px;
-            border: 2px solid #053d9e; /* Color del borde del checkbox */
+            border: 2px solid #2255A1; /* Color del borde del checkbox */
             background-color: transparent /* Color de fondo del checkbox */
         }
 
@@ -54,8 +69,8 @@
         justify-content: center;
         align-items: center;
         font-size: medium;
-        color: green; /* Cambiar el color del fondo cuando está seleccionado */
-        border: 2px solid #007bff; /* Cambiar el color del borde cuando está seleccionado */
+        color: #2FAD70; /* Cambiar el color del fondo cuando está seleccionado */
+        border: 2px solid #2255A1; /* Cambiar el color del borde cuando está seleccionado */
     }
 
 .content-behind {
@@ -67,7 +82,7 @@
 }
 
 .max-height-col {
-    max-height: 100px;
+    max-height: 200px;
 }
 
 .scrollbar-report::-webkit-scrollbar {
@@ -75,13 +90,13 @@
 }
 
 .scrollbar-report::-webkit-scrollbar-track {
-    background-color: #053d9e;
+    background-color: #2255A1;
     border: 5px solid white;
 }
 
 /* Color y forma del botón de desplazamiento */
 .scrollbar-report::-webkit-scrollbar-thumb {
-    background-color: #053d9e;
+    background-color: #2255A1;
     border-radius: 20px;
     border: 3px solid white;
 }
@@ -92,4 +107,46 @@
 
 .width-input {
     width: 15%;
+}
+
+.table-gray-left {
+    max-width: 578px;
+    height: 384px;
+    max-height: 384px;
+    margin-left: 5%;
+    background-color: #D5D5D5;
+    margin-bottom: 3%;
+}
+
+.font-14-book {
+    font-size: 14pt;
+}
+
+.font-20-book {
+    font-size: 20pt;
+}
+
+.font-19-bold {
+    font-family: 'Circular Std Bold', sans-serif;
+    font-size: 19pt;
+}
+
+.font-23-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 23pt;
+}
+
+.table-right {
+    max-width: 645px;
+    height: 384px;
+    max-height: 384px;
+}
+
+.circle-max-width {
+    max-width: 90px;
+}
+
+.font-11-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 11pt;
 }

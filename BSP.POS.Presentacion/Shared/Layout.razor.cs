@@ -80,7 +80,12 @@ namespace BSP.POS.Presentacion.Shared
         private void IrAlInicio()
         {
 
-            navigationManager.NavigateTo($"Index");
+            navigationManager.NavigateTo($"Index", forceLoad: true);
+        }
+        private void IrAMisInformes()
+        {
+
+            navigationManager.NavigateTo($"Informes/MisInformes", forceLoad: true);
         }
     }
 }
