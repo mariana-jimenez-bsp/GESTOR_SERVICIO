@@ -10,7 +10,7 @@
                 <h2>Perfil <i class="fa-solid fa-user fa-xl"></i></h2>
             </div>
 
-            <div class="modal-body d-flex row g-2 text-center">
+            <div class="modal-body d-flex row g-2 text-start">
                 <div class="d-flex justify-content-center">
                     <label class="col-md-2 mt-2 text-primary" for="correo">Correo:</label>
                     <input @bind-value="@perfil.correo" class="col-md-2 border border-success rounded-pill px-2 text-success" type="text" id="correo" @oninput="CambioCorreo" />
@@ -50,7 +50,7 @@
                 </div>
                 <ValidationMessage For="@(() => perfil.rol)" />
                 <div class="d-flex justify-content-center mt-3">
-                    <label class="col-md-2 mt-2 text-primary" for="permisos">Permisos:</label>
+                    <label class="col-md-2 mt-2 text-primary text-end" for="permisos">Permisos:</label>
                     <div id="permisos" class="row col-md-6 px-2 text-start d-flex align-items-center justify-content-center">
                         @if (todosLosPermisos != null)
                         {
@@ -58,7 +58,7 @@
                             foreach (var permiso in todosLosPermisos)
                             {
                                 int cont = index;
-                                <div class="col-md-4 ms-3">
+                                <div class="col-md-4 ms-4">
                                     <input type="checkbox" class="custom-checkbox" id="myCheckbox-@permiso.Id" checked="@EstadosDeChecks[cont].Check" @onchange="(e) => HandleCheckCambiado(e, cont)">
                                     <label class="label-transparent" for="myCheckbox-@permiso.Id">@permiso.permiso</label>
                                 </div>

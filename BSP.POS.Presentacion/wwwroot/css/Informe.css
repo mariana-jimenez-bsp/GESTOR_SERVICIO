@@ -129,8 +129,8 @@ i {
 
 .item-report {
     border: 1px white;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
     background-color: white;
 }
 
@@ -139,8 +139,8 @@ i {
 }
 
 .borrador {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
     margin-bottom: 5%;
     font-size: 11pt;
 }
@@ -158,16 +158,16 @@ i {
     .click-report-up:hover {
         border: 4px white;
         border-bottom: 0;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
         border-style: ridge;
     }
 
         .click-report-up:hover ~ .click-report-down {
             border: 4px white;
             border-top: 0;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
             border-style: ridge;
         }
 
@@ -209,9 +209,19 @@ i {
 .add-report {
     background-image: url("../images/Home/Recuadro-azul.png");
     background-repeat: no-repeat;
+    width: 192px;
+    height: 121px;
     background-size: 100% 100%;
-    max-width: 170px;
-    max-height: 150px;
+}
+    .add-report:hover {
+        border: 4px white;
+        border-bottom: 0;
+        border-radius: 30px;
+        border-style: ridge;
+    }
+.item-report-width {
+    width: 192px;
+    height: 121px;
 }
 .image-add {
     width: 70%;

@@ -17,22 +17,29 @@ namespace BSP.POS.API.Controllers
     [ApiController]
     public class UsuariosController : ControllerBase
     {
-        private readonly string _secretKey;
-        private readonly string _correoUsuario;
-        private readonly string _claveUsuario;
+        private readonly string _secretKey = string.Empty;
+        private readonly string _correoUsuario = string.Empty;
+        private readonly string _claveUsuario = string.Empty;
         private readonly ICorreosInterface _correoService;
 
         private N_Usuarios user;
         public UsuariosController(ICorreosInterface correoService)
         {
             user = new N_Usuarios();
-            var configuration = new ConfigurationBuilder()
-             .AddUserSecrets<Program>()
-             .Build();
+            //var configuration = new ConfigurationBuilder()
+            // .AddUserSecrets<Program>()
+            // .Build();
+            //var configuration = new ConfigurationBuilder()
+            //.AddJsonFile("appsettings.json")
+            //.Build();
 
-            _secretKey = configuration["SecretKey"];
-            _correoUsuario = configuration["SmtpFrom"];
-            _claveUsuario = configuration["SmtpPassword"];
+            _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
+            _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
+            _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
+
+            //_secretKey = configuration["AppSettings:SecretKey"];
+            //_correoUsuario = configuration["AppSettings:SmtpFrom"];
+            //_claveUsuario = configuration["AppSettings:AppSettingsSmtpPassword"];
             _correoService = correoService;
         }
         // GET: api/<UsuariosController>

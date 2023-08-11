@@ -20,7 +20,7 @@
                     // Ejemplo: mostrar la lista de clientes en la vista
                     foreach (var informe in InformesService.ListaInformesAsociados)
                     {
-                        <div class="col-md-4 d-flex row" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
+                        <div class="item-report-width col-md-4 d-flex row" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
                             <div class="item-report click-report-up click-report-action">
                                 <span class="t-blue-dark">Informe de Servicios</span>
                                 <span class="t-blue-dark">#@informe.consecutivo</span>

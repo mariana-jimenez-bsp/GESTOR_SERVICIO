@@ -23,11 +23,16 @@ builder.Services.AddCors(options =>
 });
 // Configuración de autenticación JWT
 string _secretKey;
-var configuration = new ConfigurationBuilder()
-    .AddUserSecrets<Program>()
-    .Build();
+//var configuration = new ConfigurationBuilder()
+//    .AddUserSecrets<Program>()
+//    .Build();
+//var configuration = new ConfigurationBuilder()
+//           .AddJsonFile("appsettings.json")
+//           .Build();
 
-_secretKey = configuration["SecretKey"];
+//_secretKey = configuration["AppSettings:SecretKey"];
+
+_secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 
 builder.Services.AddAuthentication(options =>
