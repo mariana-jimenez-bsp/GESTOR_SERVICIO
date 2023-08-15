@@ -146,3 +146,8 @@
     font-family: 'Circular Std Bold', sans-serif;
     font-size: 9pt;
 }
+
+.button-text {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 12pt;
+}

@@ -2,39 +2,39 @@
 @inject IActividadesInterface ActividadesService
 
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
-    <div class="modal-content bg-light">
+    <div class="modal-content">
         <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades">
             <ObjectGraphDataAnnotationsValidator/>
         <div class="modal-header d-flex justify-content-center text-primary">
-            <h2>Actividades <i class="fa-solid fa-tv fa-xl"></i></h2>
+            <h2 class="blue-dark-text ms-3 text-23-book">Actividades <img src="images/Actividades/Icono-actividades.png" /></h2>
         </div>
 
         <div class="modal-body d-flex row g-2 text-center ">
-            <div class="row">
+            <div class="row text-15-book">
                 <div class="col-md-6 d-flex align-items-center justify-content-center">
-                    <span class="blue-good fw-bold">Base de datos de actividades</span>
+                    <span class="blue-dark-text fw-bold">Base de datos de actividades</span>
                 </div>
                 <div class="col-md-6 d-flex">
-                    <button class="search-icon-change text-light">
-                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                    <button class="search-icon-change text-light d-flex align-items-center">
+                        <img src="images/Home/Buscador.png" class="w-100"/>
                     </button>
                         <Buscar Texto="RecibirTexto"></Buscar>
 
                 </div>
             </div>
-            <div class="container-fluid mt-4 fw-bold">
-                <div class="row">
+            <div class="container-fluid mt-4 text-20-bold">
+                    <div class="row green-text">
                     <div class="col-md-3">
-                        <label class="ms-4 text-center w-75 green-good" for="">Código de Act.</label>
+                        <label class="ms-4 text-center w-75 " for="">Código de Act.</label>
                     </div>
                     <div class="col-md-3">
-                        <label class="pe-4 text-center w-100 green-good" for="">Nombre</label>
+                        <label class="pe-4 text-center w-100" for="">Nombre</label>
                     </div>
                     <div class="col-md-3">
-                        <label class="pe-4 text-center w-100 green-good" for="">CI-Referencia</label>
+                        <label class="pe-4 text-center w-100 " for="">CI-Referencia</label>
                     </div>
                     <div class="col-md-3">
-                        <label class="text-end w-50 green-good" for="">Horas</label>
+                        <label class="text-end w-50" for="">Horas</label>
                     </div>
                 </div>
             </div>
@@ -52,22 +52,22 @@
                 {
 
                    
-                    <div class="row mb-2 mt-2">
+                    <div class="row mb-2 mt-2 text-16-book">
                         <div class="col-md-3">
-                            <input class="w-75 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.codigo" readonly>
+                            <input class="w-75 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.codigo" readonly>
                         </div>
                         <div class="col-md-3">
-                            <input class="w-100 text-center blue-good border-primary rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
+                            <input class="w-100 text-center blue-dark-text border-primary rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
                               <ValidationMessage For="@(() => actividad.Actividad)" />
                         </div>
                          
                         <div class="col-md-3">
-                            <input class="w-100 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
+                            <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
                              <ValidationMessage For="@(() => actividad.CI_referencia)"  />
                         </div>
                        
                         <div class="col-md-3">
-                            <input class="w-50 text-center green-good border-success rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
+                            <input class="w-50 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
                             <ValidationMessage For="@(() => actividad.horas)"  />
                         </div>
                        
@@ -78,9 +78,9 @@
             </div>
         </div>
 
-    <div class="modal-footer">
-        <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar">Descartar cambios</button>
-        <button type="submit" class="rounded-pill border border-success bg-success text-light" id="guardar">Guardar cambios</button>
+    <div class="modal-footer text-12-medium">
+        <button @onclick="() => CloseModal()" class="rounded-pill border border-primary blue-dark-bg text-light mx-4" id="descartar">Descartar cambios</button>
+        <button type="submit" class="rounded-pill border border-success green-bg text-light mx-4" id="guardar">Guardar cambios</button>
     </div>
     </EditForm>
     </div>
