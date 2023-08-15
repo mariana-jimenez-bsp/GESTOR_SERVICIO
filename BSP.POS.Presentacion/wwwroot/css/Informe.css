@@ -138,8 +138,8 @@ i {
     border-bottom-right-radius: 30px;
     margin-bottom: 5%;
     font-size: 11pt;
-    width: 192px;
-    max-width: 192px;
+    width: 194px;
+    max-width: 194px;
     max-height: 121px;
 }
 
@@ -151,8 +151,8 @@ i {
 .click-report-up {
     transition: background-color 0.3s;
     cursor: pointer;
-    width: 192px;
-    max-width: 192px;
+    width: 194px;
+    max-width: 194px;
     max-height: 121px;
 }
 
@@ -210,7 +210,7 @@ i {
 .add-report {
     background-image: url("../images/Home/Recuadro-azul.png");
     background-repeat: no-repeat;
-    width: 192px;
+    width: 194px;
     height: 121px;
     background-size: 100% 100%;
 }
