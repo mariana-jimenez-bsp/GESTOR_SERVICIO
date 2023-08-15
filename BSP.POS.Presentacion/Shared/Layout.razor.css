@@ -42,11 +42,11 @@ a {
     text-decoration: none; /* Quita la línea subrayada */
     color: inherit; /* Hereda el color del texto */
 }
-
+.blue-light-text {
+    color: #2255A1;
+}
 .sections {
     margin-top: 0;
-   
-    
 }
 .div-sections {
     background-color: #2FAD70;
@@ -65,4 +65,7 @@ a {
 .subtitle-edit {
     color: #1C3259;
     font-size: 30pt;
+}
+.dropdown-logout{
+    background-color: transparent;
 }

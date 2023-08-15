@@ -3,6 +3,9 @@
 @inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
+@if(rol == "Admin"){
+@if(cargaInicial){
+
 <Layout Texto="RecibirTexto"></Layout>
     <div class="ms-2">
         <EditForm Model="@proyectos" OnValidSubmit="ActualizarListaProyectos">
@@ -124,3 +127,31 @@
         </EditForm>
     </div>
 <ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto"></ModalAgregarProyecto>
+}else{
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
+    }
+}else if (string.IsNullOrEmpty(rol))
+{
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
+}
+else{
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <h1 class="text-danger">No tienes los permisos suficientes para entrar a esta página</h1>
+    </div>
+}

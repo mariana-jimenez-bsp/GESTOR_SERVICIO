@@ -35,8 +35,8 @@
                             <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
                             @foreach (var informe in informesDeUsuario)
                             {
-                                <div class="row font-19 informe-hover font-blue-light">
-                                    <div class="col-md-3 text-light height-col d-flex align-items-center eyelash-background imagen-hover">
+                                <div class="row font-19 mouse-pointer @informe.informeSeleccionado font-blue-light" @onclick="() => cambioSeleccion(informe.consecutivo_informe)">
+                                    <div class="col-md-3 text-light height-col d-flex align-items-center @informe.informeSeleccionado @informe.imagenSeleccionada">
                                             @if (clienteAsociado.IMAGEN != null && !clienteAsociado.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
                                             {
                                                 <img src="data:image/png;base64,@Convert.ToBase64String(clienteAsociado.IMAGEN)" width="70" height="70" alt="Imagen" />

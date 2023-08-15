@@ -1,6 +1,7 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IUsuariosInterface UsuariosService
+@inject ILocalStorageService localStorageService
     <header class="layout-header d-flex justify-content-between align-items-center py-2 text-light">
 
         <div class="fw-bold p-2 ps-5 mouse-pointer" @onclick="IrAlInicio"><h1>Gestor de Servicios</h1></div>
@@ -34,34 +35,44 @@
                 <a class="vertical-line p-2 border-primary"></a>
                 <a @onclick="IrAMisInformes" class="me-2 mouse-pointer">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
-            <a class="mouse-pointer">@UsuarioActual
-                @if (imagenDeUsuario.imagen != null && !imagenDeUsuario.imagen.SequenceEqual(new byte[] { 0x00 }))
-                {
-                    <img src="data:image/png;base64,@Convert.ToBase64String(imagenDeUsuario.imagen)" width="50" class="ps-2 pb-1" alt="Imagen" />
-                }
-                else
-                {
-                    <img class="ps-2 pb-1" alt="Sin Imagen" />
-                }
-            </a>
+            <div class="btn-group dropend dropdown-logout">
+                <button type="button" class="dropdown-toggle border-0 dropdown-logout blue-light-text" data-bs-toggle="dropdown" aria-expanded="false">
+                    @UsuarioActual
+                    @if (imagenDeUsuario.imagen != null && !imagenDeUsuario.imagen.SequenceEqual(new byte[] { 0x00 }))
+                    {
+                        <img src="data:image/png;base64,@Convert.ToBase64String(imagenDeUsuario.imagen)" width="50" class="ps-2 pb-1" alt="Imagen" />
+                    }
+                    else
+                    {
+                        <img class="ps-2 pb-1" alt="Sin Imagen" />
+                    }
+                </button>
+                <ul class="dropdown-menu blue-light-text mouse-pointer" @onclick="CerrarSesion">
+                   Cerrar Sesión
+                </ul>
+            </div>
             </div>
         </div>
     </nav>
     <nav class="d-flex justify-content-end sections text-light pe-5">
         <div class="sections p-3 div-sections">
 
-        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+        @if (rol == "Admin")
+        {
             <a class="vertical-line p-2 border-light"></a>
-        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
             <a class="vertical-line p-2 border-light"></a>
-        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+            <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
             <a class="vertical-line p-2 border-light"></a>
-        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
-        </div>
+            <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+        }
+    </div>
     </nav>
 
 <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
+@if(rol == "Admin"){
+    <ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
+    <ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>
 
-<ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
-<ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>
-
+}

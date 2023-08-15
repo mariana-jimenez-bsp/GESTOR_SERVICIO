@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Services.Actividades;
 using Microsoft.AspNetCore.Components;
+using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
 {
@@ -8,15 +9,20 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
     {
         public string esquema = string.Empty;
         public List<mProyectos> proyectos = new List<mProyectos>();
+        public bool cargaInicial = false;
+        public string rol = string.Empty;
         protected override async Task OnInitializedAsync()
         {
+            cargaInicial = false;
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
+            rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await ProyectosService.ObtenerListaDeProyectos(esquema);
             if (ProyectosService.ListaProyectos != null)
             {
                 proyectos = ProyectosService.ListaProyectos;
+                cargaInicial = true;
             }
 
         }

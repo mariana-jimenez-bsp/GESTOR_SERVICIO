@@ -11,7 +11,10 @@
     .search-input::placeholder {
         color: white;
     }
-
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
 .search-icon {
     border: none;
     height: 35px;
@@ -58,12 +61,12 @@
     font-size: 19pt;
 }
 
-.informe-hover:hover {
+.informe-hover{
     background-color: #1C3259;
     color: white;
 }
 
-    .informe-hover:hover > .imagen-hover {
+    .imagen-hover {
         background-image: url('images/MisInformes/Pestaña-de-mis-informes-activa.png');
         background-position: center;
         background-size: cover;

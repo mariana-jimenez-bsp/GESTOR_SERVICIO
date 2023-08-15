@@ -1,7 +1,9 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Home;
 using Microsoft.AspNetCore.Components;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 {
@@ -13,6 +15,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public List<mUsuariosDeClienteDeInforme> informesDeUsuario = new List<mUsuariosDeClienteDeInforme>();
         public List<mInformes> informesAsociados = new List<mInformes>();
         public mClienteAsociado clienteAsociado = new mClienteAsociado();
+        public mInformeAsociado informeAsociadoSeleccionado = new mInformeAsociado();
+        public mUsuariosDeClienteDeInforme informeDeUsuarioAsociado = new mUsuariosDeClienteDeInforme();
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -57,6 +61,48 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 }
             }
 
+        }
+
+        public async Task cambioSeleccion(string consecutivo)
+        {
+            foreach (var informe in informesDeUsuario)
+            {
+                if(informe.consecutivo_informe == consecutivo)
+                {
+                    informe.informeSeleccionado = "informe-hover";
+                    informe.imagenSeleccionada = "imagen-hover";
+                    informeAsociadoSeleccionado = await InformesService.ObtenerInformeAsociado(consecutivo, esquema);
+                    if(informeAsociadoSeleccionado != null)
+                    {
+                        informeDeUsuarioAsociado = informe;
+
+                    }
+                }
+                else
+                {
+                    informe.informeSeleccionado = "";
+                    informe.imagenSeleccionada = "eyelash-background";
+                }
+            }
+        }
+        private async Task EnviarCorreosAClientes()
+        {
+            mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
+            
+            objetoParaCorreo.informe = informeAsociadoSeleccionado;
+            //objetoParaCorreo.total_horas_cobradas = total_horas_cobradas;
+            //objetoParaCorreo.total_horas_no_cobradas = total_horas_no_cobradas;
+            //objetoParaCorreo.listaActividadesAsociadas = listaActividadesAsociadas;
+            //foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
+            //{
+            //    actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
+            //}
+            //objetoParaCorreo.listadeUsuariosDeClienteDeInforme = listadeUsuariosDeClienteDeInforme;
+            //objetoParaCorreo.ClienteAsociado = ClienteAsociado;
+            //objetoParaCorreo.esquema = esquema;
+            //objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
+            //await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            //bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
         }
     }
 }

@@ -12,13 +12,14 @@ namespace BSP.POS.Presentacion.Shared
         public string UsuarioActual { get; set; } = string.Empty;
         public mImagenUsuario imagenDeUsuario = new mImagenUsuario();
         public string esquema = string.Empty;
+        public string rol = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
 
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
-            string rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             var permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             UsuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
@@ -86,6 +87,12 @@ namespace BSP.POS.Presentacion.Shared
         {
 
             navigationManager.NavigateTo($"proyectos", forceLoad: true);
+        }
+
+        private async Task CerrarSesion()
+        {
+            await localStorageService.RemoveItemAsync("token");
+            navigationManager.NavigateTo($"login", forceLoad: true);
         }
     }
 }

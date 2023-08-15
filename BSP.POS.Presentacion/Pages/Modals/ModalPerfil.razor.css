@@ -51,10 +51,6 @@
         margin-bottom: 10px;
     }
 
-    .modal-body input,
-    .modal-body select {
-        width: 200px;
-    }
 
 .modal-footer {
     display: flex;
@@ -64,7 +60,7 @@
     border-bottom-right-radius: 20px;
 }
 
-    .modal-footer button {
+    .modal-footer .button-footer {
         padding: 10px 20px;
     }
 
@@ -137,4 +133,8 @@
 }
 .border-success {
     border-color: #2FAD70;
+}
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
 }

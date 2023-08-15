@@ -57,7 +57,7 @@
     border-bottom-right-radius: 20px;
 }
 
-    .modal-footer button {
+    .modal-footer .button-footer {
         padding: 10px 20px;
     }
 
@@ -150,4 +150,8 @@
 .button-text {
     font-family: 'Circular Std Medium', sans-serif;
     font-size: 12pt;
+}
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
 }
