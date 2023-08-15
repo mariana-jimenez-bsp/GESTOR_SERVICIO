@@ -11,10 +11,10 @@ namespace BSP.POS.Presentacion.Models.Proyectos
         [Required(ErrorMessage = "El campo del Nombre de Consultor es requerido")]
         public string nombre_consultor { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo de Fecha Inicial es requerido")]
-        public string fecha_inicial { get; set; } = string.Empty;
+        public string fecha_inicial { get; set; } = DateTime.Now.ToString();
         [Required(ErrorMessage = "El campo de Fecha Final es requerido")]
         [DataType(DataType.Date, ErrorMessage = "El campo tiene que ser una fecha válida")]
-        public string fecha_final { get; set; } = string.Empty;
+        public string fecha_final { get; set; } = DateTime.Now.ToString();
         [Required(ErrorMessage = "El campo de Horas Totales es requerido")]
         [Range(1, int.MaxValue, ErrorMessage = "El valor de horas debe ser un número entero válido.")]
         public string horas_totales { get; set; } = string.Empty;

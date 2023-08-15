@@ -54,7 +54,7 @@
             <a class="vertical-line p-2 border-light"></a>
         <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
             <a class="vertical-line p-2 border-light"></a>
-        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerProyectos(true)">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
             <a class="vertical-line p-2 border-light"></a>
         <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
         </div>
@@ -63,6 +63,5 @@
 <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
 
 <ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
-<ModalProyectos ActivarModal="@activarModalProyectos" OnClose="ClickHandlerProyectos"></ModalProyectos>
 <ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>
 

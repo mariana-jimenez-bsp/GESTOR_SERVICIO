@@ -38,5 +38,12 @@ namespace BSP.POS.NEGOCIOS.Proyectos
             mensaje = objProyectos.ActualizarListaDeProyectos(pProyectos, esquema);
             return mensaje;
         }
+
+        public string AgregarProyecto(U_ListaProyectos pProyecto, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objProyectos.AgregarProyecto(pProyecto, esquema);
+            return mensaje;
+        }
     }
 }

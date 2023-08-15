@@ -70,5 +70,35 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpPost("AgregaProyecto")]
+        public string AgregaProyecto([FromBody] mProyectos datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                U_ListaProyectos proyecto = new U_ListaProyectos();
+
+                    proyecto.nombre_consultor = datos.nombre_consultor;
+                    proyecto.fecha_inicial = datos.fecha_inicial;
+                    proyecto.fecha_final = datos.fecha_final;
+                    proyecto.empresa = datos.empresa;
+                    proyecto.centro_costo = datos.centro_costo;
+                    proyecto.horas_totales = datos.horas_totales;
+                    proyecto.nombre_proyecto = datos.nombre_proyecto;
+
+
+                
+
+                string mensaje = _proyectos.AgregarProyecto(proyecto, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
     }
 }

@@ -2,12 +2,10 @@
 using BSP.POS.Presentacion.Services.Actividades;
 using Microsoft.AspNetCore.Components;
 
-namespace BSP.POS.Presentacion.Pages.Modals
+namespace BSP.POS.Presentacion.Pages.Proyectos
 {
-    public partial class ModalProyectos: ComponentBase
+    public partial class Proyectos: ComponentBase
     {
-        [Parameter] public bool ActivarModal { get; set; } = false;
-        [Parameter] public EventCallback<bool> OnClose { get; set; }
         public string esquema = string.Empty;
         public List<mProyectos> proyectos = new List<mProyectos>();
         protected override async Task OnInitializedAsync()
@@ -23,17 +21,12 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         }
 
-        private void OpenModal()
-        {
-            ActivarModal = true;
-        }
 
-        private async Task CloseModal()
+
+        private void VolverAlHome()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ProyectosService.ObtenerListaDeProyectos(esquema);
-            proyectos = ProyectosService.ListaProyectos;
-            await OnClose.InvokeAsync(false);
+
+            navigationManager.NavigateTo($"Index", forceLoad: true);
 
         }
 
@@ -143,7 +136,33 @@ namespace BSP.POS.Presentacion.Pages.Modals
             {
                 proyectos = ProyectosService.ListaProyectos;
             }
-            await CloseModal();
+            VolverAlHome();
+        }
+
+        [Parameter]
+        public string textoRecibido { get; set; } = string.Empty;
+
+        private Task RecibirTexto(string texto)
+        {
+            textoRecibido = texto;
+            return Task.CompletedTask;
+        }
+
+        bool actividadModalAgregarProyecto = false;
+
+        async Task ClickHandlerAgregarProyecto(bool activar)
+        {
+            actividadModalAgregarProyecto = activar;
+            if (!activar)
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ProyectosService.ObtenerListaDeProyectos(esquema);
+                if (ProyectosService.ListaProyectos != null)
+                {
+                    proyectos = ProyectosService.ListaProyectos;
+                }
+            }
+            StateHasChanged();
         }
     }
 }

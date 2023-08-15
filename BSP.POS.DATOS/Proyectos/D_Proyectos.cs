@@ -58,5 +58,26 @@ namespace BSP.POS.DATOS.Proyectos
 
 
         }
+
+        public string AgregarProyecto(U_ListaProyectos pProyecto, string esquema)
+        {
+            POSDataSet.AgregarProyectoDataTable bTabla = new POSDataSet.AgregarProyectoDataTable();
+            AgregarProyectoTableAdapter sp = new AgregarProyectoTableAdapter();
+            try
+            {
+                    var response = sp.GetData(pProyecto.nombre_consultor, pProyecto.fecha_inicial, pProyecto.fecha_final, int.Parse(pProyecto.horas_totales), pProyecto.empresa, pProyecto.centro_costo, pProyecto.nombre_proyecto, esquema);
+
+                
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
     }
 }

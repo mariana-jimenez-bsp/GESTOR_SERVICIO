@@ -37,7 +37,25 @@ namespace BSP.POS.Presentacion.Services.Proyectos
 
                 var mensaje = await _http.PostAsync(url, content);
             }
-            catch (Exception ex)
+            catch (Exception)
+            {
+
+            }
+        }
+
+        public async Task AgregarProyecto(mProyectos proyecto, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "Proyectos/AgregaProyecto";
+                string jsonData = JsonSerializer.Serialize(proyecto);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
             {
 
             }

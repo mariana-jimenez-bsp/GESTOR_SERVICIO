@@ -51,7 +51,6 @@ namespace BSP.POS.Presentacion.Shared
 
         bool activarModalPerfil = false;
         bool activarModalClientes = false;
-        bool activarModalProyectos = false;
         bool activarModalActividades = false;
 
         void ClickHandlerPefil(bool activar)
@@ -67,11 +66,6 @@ namespace BSP.POS.Presentacion.Shared
             StateHasChanged();
         }
 
-        void ClickHandlerProyectos(bool activar)
-        {
-            activarModalProyectos = activar;
-            StateHasChanged();
-        }
         void ClickHandlerActividades(bool activar)
         {
             activarModalActividades = activar;
@@ -86,6 +80,12 @@ namespace BSP.POS.Presentacion.Shared
         {
 
             navigationManager.NavigateTo($"Informes/MisInformes", forceLoad: true);
+        }
+
+        private void IrAProyectos()
+        {
+
+            navigationManager.NavigateTo($"proyectos", forceLoad: true);
         }
     }
 }

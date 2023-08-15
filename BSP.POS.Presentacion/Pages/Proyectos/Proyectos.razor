@@ -1,0 +1,126 @@
+﻿
+
+@inject IProyectosInterface ProyectosService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigationManager
+<Layout Texto="RecibirTexto"></Layout>
+    <div class="ms-2">
+        <EditForm Model="@proyectos" OnValidSubmit="ActualizarListaProyectos">
+            <ObjectGraphDataAnnotationsValidator />
+            <div class="d-flex justify-content-start align-items-center">
+                <h2 class="blue-dark-text text-41-book">Proyectos <img class="mb-3" src="images/Proyectos/Icono-Proyectos.png" /></h2>
+            </div>
+
+            <div class=" d-flex row g-2 text-center ">
+                <div class="container mt-5 border-transparent">
+
+                    <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
+                        <div class="col-md-1">
+                            <label class="text-center w-100" for=""># de Proyecto</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class=" text-center w-100" for="">Nombre del Consultor</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class=" text-center w-100" for="">Fecha Inicial</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="text-center w-100" for="">Fecha Final</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="pe-2 text-center w-100" for="">Horas Totales</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="pe-3 text-center w-100" for="">Empresa</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="pe-4 text-center w-100" for="">Centro de Costo</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="pe-4 text-center w-100" for="">Nombre de Proyecto</label>
+                        </div>
+                    </div>
+                    <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                        @if (proyectos != null)
+                        {
+                        var listaDeProyectos = proyectos;
+                        if (!string.IsNullOrEmpty(textoRecibido))
+                        {
+                            // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                            listaDeProyectos = listaDeProyectos.Where(proyecto =>
+                            proyecto.nombre_proyecto.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            proyecto.nombre_consultor.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            proyecto.empresa.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                            ).ToList();
+                        }
+                        @foreach (var proyecto in listaDeProyectos)
+                            {
+                            <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
+                                    <div class="mb-0 col-md-1">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.numero" readonly>
+
+
+                                    </div>
+                                    <div class="mb-0 col-md-2">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.nombre_consultor" @oninput="(e) => CambioNombreConsultor(e, proyecto.Id)">
+                                        <ValidationMessage For="@(() => proyecto.nombre_consultor)" />
+
+
+                                    </div>
+                                    <div class="mb-0 col-md-1">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill" type="date" @bind-value="@proyecto.FechaInicialDateTime" @oninput="(e) => CambioFechaInicial(e, proyecto.Id)">
+                                        <ValidationMessage For="@(() => proyecto.FechaInicialDateTime)" />
+                                    </div>
+                                    <div class="mb-0  col-md-1">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill" type="date" @bind-value="@proyecto.FechaFinalDateTime" @oninput="(e) => CambioFechaFinal(e, proyecto.Id)">
+                                        <ValidationMessage For="@(() => proyecto.fecha_final)" />
+                                    </div>
+                                    <div class="mb-0  col-md-1">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.horas_totales" @oninput="(e) => CambioHorasTotales(e, proyecto.Id)">
+                                        <ValidationMessage For="@(() => proyecto.horas_totales)" />
+                                    </div>
+                                    <div class="mb-0  col-md-2">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.empresa" @oninput="(e) => CambioEmpresa(e, proyecto.Id)">
+                                        <ValidationMessage For="@(() => proyecto.empresa)" />
+                                    </div>
+                                    <div class="mb-0  col-md-2">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.centro_costo" @oninput="(e) => CambioCentroCosto(e, proyecto.Id)">
+                                        <ValidationMessage For="@(() => proyecto.centro_costo)" />
+                                    </div>
+                                    <div class="mb-0  col-md-2">
+
+                                        <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.nombre_proyecto" @oninput="(e) => CambioNombreProyecto(e, proyecto.Id)">
+                                        <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
+                                    </div>
+
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer-project text-13-medium">
+            <div @onclick="() => ClickHandlerAgregarProyecto(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                Agregar
+                Proyecto
+            </div>
+            <div @onclick="VolverAlHome" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
+                    Descartar
+                    cambios
+                </div>
+                <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos">
+                    Guardar
+                    cambios
+                </button>
+            </div>
+        </EditForm>
+    </div>
+<ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto"></ModalAgregarProyecto>

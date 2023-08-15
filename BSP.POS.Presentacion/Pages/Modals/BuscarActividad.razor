@@ -1,9 +1,9 @@
 ﻿<input type="text" placeholder="Buscar..." class="text-light search-input-change" @oninput="ActualizarValor" />
 @code {
 
-     private string inputValue { get; set; } = string.Empty;
-        [Parameter]
-        public EventCallback<string> Texto { get; set; }
+    private string inputValue { get; set; } = string.Empty;
+    [Parameter]
+    public EventCallback<string> Texto { get; set; }
     private void ActualizarValor(ChangeEventArgs e)
     {
         if (e.Value.ToString() != null)
