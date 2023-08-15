@@ -11,13 +11,7 @@
     flex-direction: column;
 }
 
-    .columna:first-child {
-        width: 65%; /* Ajusta el ancho de la primera columna */
-    }
 
-    .columna:last-child {
-        width: 35%; /* Ajusta el ancho de la segunda columna */
-    }
 
         .columna:last-child .form-group {
             width: 100%; /* Ajusta el ancho de los inputs */
@@ -31,7 +25,7 @@
 
 .columna-left-imagen {
     width: 100%;
-    max-width: 768px;
+    width: 768px;
     height: 100%;
     background-image: url('images/Login/Pantalla.png');
     background-repeat: no-repeat;
@@ -85,7 +79,7 @@
 }
 
 .form-control {
-    max-width: 470px;
+    width: 470px;
     border: none;
     color: #2FAD70;
     height: 50px;
@@ -135,4 +129,9 @@
 
 .icon-bsp {
     width: 60%;
+}
+@media screen and (max-width: 768px) {
+    .form-group {
+        min-width: 100px;
+    }
 }

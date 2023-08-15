@@ -4,7 +4,7 @@
 @inject IClientesInterface ClientesService
 @inject NavigationManager navigationManager
 @if(!string.IsNullOrEmpty(clienteAsociado.CLIENTE)){
-<div class="col-md-6">
+<div class="col-md-7">
     <ClienteAsociado clienteAsociado="ClienteAsociado"></ClienteAsociado>
     <div class="background-reports">
         <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
@@ -21,7 +21,7 @@
                     foreach (var informe in InformesService.ListaInformesAsociados)
                     {
                         <div class="item-report-width col-md-4 d-flex row" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
-                            <div class="item-report click-report-up click-report-action">
+                            <div class="item-report click-report-up">
                                 <span class="t-blue-dark">Informe de Servicios</span>
                                 <span class="t-blue-dark">#@informe.consecutivo</span>
                                 <hr>

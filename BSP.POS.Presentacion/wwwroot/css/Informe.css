@@ -115,16 +115,11 @@ i {
 .d-all {
     display: none;
 }
-
 .info-client {
-    margin: 0;
     background-image: url("../images/Home/Recuadro-de-información.png");
     background-repeat: no-repeat;
-    max-height: 200px;
-    overflow: auto;
     background-size: 100% 100%;
     font-size: 10pt;
-
 }
 
 .item-report {
@@ -143,6 +138,9 @@ i {
     border-bottom-right-radius: 30px;
     margin-bottom: 5%;
     font-size: 11pt;
+    width: 192px;
+    max-width: 192px;
+    max-height: 121px;
 }
 
 .background-reports {
@@ -153,6 +151,9 @@ i {
 .click-report-up {
     transition: background-color 0.3s;
     cursor: pointer;
+    width: 192px;
+    max-width: 192px;
+    max-height: 121px;
 }
 
     .click-report-up:hover {
@@ -220,8 +221,9 @@ i {
         border-style: ridge;
     }
 .item-report-width {
-    width: 192px;
-    height: 121px;
+    margin-right: 2%;
+    max-width: 192px;
+    max-height: 121px;
 }
 .image-add {
     width: 70%;
@@ -241,7 +243,7 @@ i {
 }
 .t-gray {
     color: #D5D5D5;
-
+    
 }
 
 .footer-right-cod {
