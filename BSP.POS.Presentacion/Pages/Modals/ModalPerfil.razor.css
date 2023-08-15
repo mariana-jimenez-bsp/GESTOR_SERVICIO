@@ -17,7 +17,7 @@
     background-image: url("images/Perfil/Pestaña-de-usuario.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    max-width: 50%;
+    max-width: 60%;
     padding: 20px;
     margin-bottom: 5%;
     border: transparent;
@@ -58,7 +58,8 @@
 
 .modal-footer {
     display: flex;
-    justify-content: space-between;
+
+    justify-content: center;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
@@ -87,7 +88,7 @@
         width: 20px;
         height: 20px;
         border-radius: 20px;
-        border: 2px solid #198754; /* Color del borde del checkbox */
+        border: 2px solid #2FAD70; /* Color del borde del checkbox */
         background-color: white; /* Color de fondo del checkbox */
     }
 
@@ -100,6 +101,40 @@
         align-items: center;
         font-size: medium;
         color: white; /* Cambiar el color del fondo cuando está seleccionado */
-        border: 2px solid #198754; /* Cambiar el color del borde cuando está seleccionado */
-        background-color: #198754; /* Color de fondo del checkbox */
+        border: 2px solid #2FAD70; /* Cambiar el color del borde cuando está seleccionado */
+        background-color: #2FAD70; /* Color de fondo del checkbox */
     }
+.blue-light-bg {
+    background-color: #2255A1;
+}
+
+.blue-dark-bg {
+    background-color: #1C3259;
+}
+
+.blue-light-text {
+    color: #2255A1;
+}
+
+.blue-dark-text {
+    color: #1C3259;
+}
+.green-bg {
+    background-color: #2FAD70;
+}
+.text-profile {
+    font-size: 25pt;
+}
+.label-text{
+    font-size: 20pt;
+}
+.text-input {
+    font-size: 16pt;
+}
+.button-text {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 12pt;
+}
+.border-success {
+    border-color: #2FAD70;
+}

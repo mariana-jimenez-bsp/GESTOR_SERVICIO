@@ -3,21 +3,21 @@
 @inject IUsuariosInterface UsuariosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 <div id='modal' class='modal' style='display: @(ActivarModal ? "block" : "none")'>
-    <div class="modal-content bg-light">
+    <div class="modal-content">
         <EditForm Model="@clientes" OnValidSubmit="ActualizarListaClientes">
             <ObjectGraphDataAnnotationsValidator />
             <div class="modal-header d-flex justify-content-center text-primary">
-                <h2>Clientes <i class="fa-solid fa-user-group fa-xl"></i></h2>
+                <h2 class="blue-dark-text text-client-title">Clientes <img class="mb-3" src="images/Clientes/Icono-clientes.png" /></h2>
             </div>
 
-            <div class=" modal-body d-flex row g-2 text-center bg-light ">
-                <div class="container mt-5 border-transparent">
+            <div class=" modal-body d-flex row g-2 text-center ">
+                <div class="container mt-2">
                     <!-- Utilizamos el componente Accordion de Bootstrap -->
 
                     <div id="accordion" class="border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client">
                         <!-- Desplegable 1 -->
                         <div class="card border-transparent pb-3">
-                            <div class="card-header row blue-good fw-bold" id="headings">
+                            <div class="card-header row blue-light-text fw-bold text-15-book" id="headings">
                                 <div class="col-md-1">
                                     <label class="text-center w-100 " for="">Código</label>
                                 </div>
@@ -49,7 +49,7 @@
                                 {
                                     int cont = index;
 
-                                    <div class="card-header row" id="heading-@cont">
+                                    <div class="card-header row text-15-book" id="heading-@cont">
                                         <div class="mb-0 col-md-1">
                                             @if (cliente.IsOpen)
                                             {
@@ -121,7 +121,7 @@
                                             {
                                                 <div class="d-flex">
                                                     <input class="w-100 text-center text-secondary border-success rounded-pill me-2" type="text" @bind-value="@cliente.E_MAIL" @oninput="(e) => CambioCorreo(e, cliente.CLIENTE)">
-                                                    <i class="fa-solid fa-caret-up d-flex justify-content-end text-success mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
+                                                    <i class="mt-2 fa-solid fa-caret-up fa-xl d-flex justify-content-end green-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
                                                 </div>
 
                                             }
@@ -129,7 +129,7 @@
                                             {
                                                 <div class="d-flex">
                                                     <label class="w-75 text-center text-secondary me-3">@cliente.E_MAIL</label>
-                                                    <i class="fa-solid fa-sort-down d-flex justify-content-end blue-good mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
+                                                    <i class="fa-solid fa-sort-down fa-xl d-flex justify-content-end blue-light-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
                                                 </div>
                                             }
                                             <ValidationMessage For="@(() => cliente.E_MAIL)" />
@@ -141,7 +141,7 @@
                                         <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
                                         <div class="d-flex align-items-center justify-content-center">
                                             <div class="content w-75 pb-3">
-                                                <div class="row p-2 blue-good-bg text-light border border-primary rounded-top-4">
+                                                <div class="row p-2 blue-dark-bg text-light border border-primary rounded-top-4 text-9-bold">
                                                     <div class="col-md-2">
                                                         <span>Código</span>
                                                     </div>
@@ -162,7 +162,7 @@
                                                 {
                                                     foreach (var usuario in cliente.listaDeUsuarios)
                                                     {
-                                                        <div class="row p-2 blue-good border-bottom border-start border-end border-success @(esElUltimoUsuario(cliente, usuario) ? "rounded-bottom-4" : "")">
+                                                        <div class="row text-15-book p-2 blue-dark-text border-bottom border-start border-end border-success @(esElUltimoUsuario(cliente, usuario) ? "rounded-bottom-4" : "")">
                                                             <div class="col-md-2">
                                                                 <span>@usuario.codigo</span>
                                                             </div>
@@ -195,8 +195,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button @onclick="() => CloseModal()" class="rounded-pill border border-primary bg-primary text-light" id="descartar-clientes">Descartar cambios</button>
-                <button type="submit" class="rounded-pill border border-success bg-success text-light" id="guardar-clientes">Guardar cambios</button>
+                <button @onclick="() => CloseModal()" class="rounded-pill border border-primary blue-dark-bg text-light mx-4" id="descartar-clientes">Descartar cambios</button>
+                <button type="submit" class="rounded-pill border border-success green-bg text-light mx-4" id="guardar-clientes">Guardar cambios</button>
             </div>
         </EditForm>
     </div>

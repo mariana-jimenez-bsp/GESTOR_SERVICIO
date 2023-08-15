@@ -13,28 +13,22 @@
 .modal-content {
     display: inline-block;
     margin-top: 10%;
-    background-color: #fff;
+    background-color: transparent;
+    background-image: url("images/Clientes/Pestaña-Clientes.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    max-width: 80%;
     padding: 20px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    max-width: 70%;
-    width: 70%;
+    margin-bottom: 5%;
+    border: transparent;
 }
 
 .modal-header {
-    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    margin-left: 10%;
     text-align: center;
-    margin-bottom: 20px;
-    max-width: 50%;
     position: relative;
-    top: -70px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
 }
 
     .modal-header h2 {
@@ -45,7 +39,6 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    margin-top: -70px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
@@ -55,14 +48,11 @@
         margin-bottom: 10px;
     }
 
-    .modal-body input,
-    .modal-body select {
-        width: 200px;
-    }
+
 
 .modal-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
@@ -75,17 +65,33 @@
     border: transparent;
 }
 
-
-.blue-good {
-    color: #053d9e;
+.blue-light-bg {
+    background-color: #2255A1;
 }
 
-.green-good {
-    color: #198754;
+.blue-dark-bg {
+    background-color: #1C3259;
 }
 
-.blue-good-bg {
-    background-color: #053d9e;
+.blue-light-text {
+    color: #2255A1;
+}
+
+.blue-dark-text {
+    color: #1C3259;
+}
+
+.green-bg {
+    background-color: #2FAD70;
+}
+.green-text {
+    color: #2FAD70;
+}
+.border-success {
+    border-color: #2FAD70;
+}
+.border-primary {
+    border-color: #1C3259;
 }
 /* Ancho de la barra de desplazamiento */
 .scrollbar-modal-client::-webkit-scrollbar {
@@ -94,13 +100,13 @@
 
 /* Color del área de seguimiento */
 .scrollbar-modal-client::-webkit-scrollbar-track {
-    background-color: #198754;
+    background-color: #2FAD70;
     border: 5px solid white;
 }
 
 /* Color y forma del botón de desplazamiento */
 .scrollbar-modal-client::-webkit-scrollbar-thumb {
-    background-color: #198754;
+    background-color: #2FAD70;
     border-radius: 20px;
     border: 3px solid white;
 }
@@ -129,4 +135,14 @@
 
 .collapse.show {
     height: auto;
+}
+.text-client-title{
+    font-size: 25pt;
+}
+.text-15-book {
+    font-size: 15pt;
+}
+.text-9-bold {
+    font-family: 'Circular Std Bold', sans-serif;
+    font-size: 9pt;
 }
