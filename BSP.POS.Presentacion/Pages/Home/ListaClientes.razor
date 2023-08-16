@@ -28,7 +28,12 @@
                         if (!string.IsNullOrEmpty(textoRecibido))
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
-                            listaClientesRecientes = listaClientesRecientes.Where(cliente => cliente.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                            listaClientesRecientes = listaClientesRecientes.Where(cliente =>
+                                cliente.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                cliente.CONTACTO.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                cliente.CreateDate.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                cliente.CARGO.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                ).ToList();
                         }
 
                             // Ejemplo: mostrar la lista de clientes en la vista
@@ -70,7 +75,12 @@
                         if (!string.IsNullOrEmpty(textoRecibido))
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
-                            listaClientes = listaClientes.Where(cliente => cliente.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                             listaClientes = listaClientes.Where(cliente =>
+                                cliente.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                cliente.CONTACTO.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                cliente.RecordDate.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                cliente.CARGO.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                ).ToList();
                         }
 
                         // Ejemplo: mostrar la lista de clientes en la vista

@@ -152,3 +152,50 @@
 .scrollbar-max-height {
     max-height: 300px;
 }
+@media screen and (max-width: 768px) {
+    .div-search {
+        font-size: 9pt;
+    }
+
+    .vertical-text {
+        height: 52px;
+        width: 232px;
+        font-size: 11pt;
+    }
+
+    .font-19 {
+        font-size: 10pt;
+    }
+
+    .col-right-bg {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .scrollbar-max-height {
+        max-height: 300px;
+    }
+    .imagen-div {
+        min-width: 180px;
+        max-width: 25%;
+        min-height: 70px;
+    }
+    .div-search {
+        font-size: 15pt;
+    }
+    .vertical-text {
+        height: 52px;
+        width: 232px;
+        font-size: 16pt;
+    }
+
+    .font-19 {
+        font-size: 15pt;
+    }
+
+    .col-right-bg {
+        font-size: 7pt;
+    }
+
+}

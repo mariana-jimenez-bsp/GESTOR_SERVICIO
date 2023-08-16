@@ -156,5 +156,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             }
             }
         }
+        [Parameter]
+        public string textoRecibido { get; set; } = string.Empty;
+
+        private Task RecibirTexto(string texto)
+        {
+            textoRecibido = texto;
+            return Task.CompletedTask;
+        }
     }
 }

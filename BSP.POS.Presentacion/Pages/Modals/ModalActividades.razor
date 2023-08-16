@@ -45,7 +45,11 @@
                         if (!string.IsNullOrEmpty(textoRecibido))
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
-                            listaActividades = listaActividades.Where(actividad => actividad.Actividad.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                            listaActividades = listaActividades.Where(actividad =>
+                            actividad.Actividad.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            actividad.CI_referencia.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            actividad.codigo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                            ).ToList();
                         }
                    
                 foreach (var actividad in listaActividades)

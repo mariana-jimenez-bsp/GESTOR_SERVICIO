@@ -33,13 +33,22 @@
                             <button class="search-icon text-light">
                                 <i class="fa-solid fa-magnifying-glass text-light"></i>
                             </button>
-                            <input type="text" placeholder="Buscar..." class="text-light search-input w-50" />
+                             <BuscarInforme Texto="RecibirTexto"></BuscarInforme>
 
                         </div>
                         @if(informesDeUsuario != null && clienteAsociado != null)
                         {
+                            var informesUsuario = informesDeUsuario;
+                            if (!string.IsNullOrEmpty(textoRecibido))
+                            {
+                                // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                                informesUsuario = informesUsuario.Where(informe =>
+                                informe.fecha_consultoria.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                informe.consecutivo_informe.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                ).ToList();
+                            }
                             <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
-                            @foreach (var informe in informesDeUsuario)
+                            @foreach (var informe in informesUsuario)
                             {
                                 <div class="row font-19 mouse-pointer @informe.informeSeleccionado font-blue-light" @onclick="() => cambioSeleccion(informe.consecutivo_informe)">
                                     <div class="col-md-3 text-light height-col d-flex align-items-center @informe.informeSeleccionado @informe.imagenSeleccionada">
@@ -74,7 +83,7 @@
             </div>
             <div class="col-md-4">
                 <div class="col-right-bg d-flex justify-content-center align-items-center row">
-                    <div class="col-md-4 col-right-bg">
+                    <div class="col-md-4 col-right-bg ">
                         <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="ReenviarCorreo">
                             <span class="me-4 span-report">REENVIAR A CLIENTE</span>
                         </div>
