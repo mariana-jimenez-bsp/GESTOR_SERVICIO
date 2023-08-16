@@ -1,9 +1,6 @@
-﻿
-
-
-
-
-
+﻿.width-time {
+    width: 10%;
+}
 
 .observation {
     max-width: 539px;
@@ -149,4 +146,110 @@
 .font-11-medium {
     font-family: 'Circular Std Medium', sans-serif;
     font-size: 11pt;
+}
+
+@media screen and (max-width: 768px) {
+    .observation {
+        height: 130px;
+        margin-left: 5%;
+    }
+
+    .circle-max-width {
+        width: 70px;
+    }
+
+    .width-time {
+        width: 20%;
+    }
+
+    .max-height-col {
+        max-height: 80px;
+    }
+
+    .table-gray-left {
+        height: 250px;
+        max-height: 250px;
+    }
+
+    .table-right {
+        height: 250px;
+        max-height: 250px;
+    }
+
+    .circle-max-width {
+        max-width: 90px;
+    }
+
+    .font-11-medium {
+        font-size: 6pt;
+    }
+
+    .font-14-book {
+        font-size: 7pt;
+    }
+
+    .font-20-book {
+        font-size: 10pt;
+    }
+
+    .font-19-bold {
+        font-size: 10pt;
+    }
+
+    .font-23-medium {
+        font-size: 11pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .observation {
+        height: 130px;
+        margin-left: 5%;
+    }
+
+    .circle-max-width {
+        width: 70px;
+    }
+
+    .width-time {
+        width: 20%;
+    }
+
+    .max-height-col {
+        max-height: 80px;
+    }
+
+    .table-gray-left {
+        height: 210px;
+        max-height: 210px;
+    }
+
+    .table-right {
+        height: 210px;
+        max-height: 210px;
+    }
+
+    .circle-max-width {
+        max-width: 90px;
+    }
+
+    .font-11-medium {
+        font-size: 9pt;
+    }
+
+    .font-14-book {
+        font-size: 10pt;
+    }
+
+    .font-20-book {
+        font-size: 15pt;
+    }
+
+    .font-19-bold {
+        font-size: 14pt;
+    }
+
+    .font-23-medium {
+        font-size: 17pt;
+    }
 }

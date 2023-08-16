@@ -3,7 +3,7 @@
     display: flex;
     justify-content: end;
     height: 120px;
-    width: 1366px;
+    width: auto;
     max-width: 1366px;
     background-color: #2FAD70;
     align-items: center;
@@ -66,7 +66,7 @@
 }
 
 .max-height-projects {
-    max-height: 500px;
+    max-height: 450px;
 }
 .text-41-book {
     font-size: 41pt;
@@ -90,4 +90,63 @@
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
+}
+@media screen and (max-width: 768px) {
+    .footer-project {
+        height: 70px;
+        width: auto;
+        max-width: 760px;
+    }
+
+    .max-height-projects {
+        max-height: 150px;
+        width: auto;
+        max-width: 760px;
+    }
+    .max-height-projects {
+        max-height: 450px;
+    }
+
+    .text-41-book {
+        font-size: 20pt;
+    }
+
+    .text-16-book {
+        font-size: 8pt;
+    }
+
+    .text-16-medium {
+        font-size: 8pt;
+    }
+
+    .text-13-medium {
+        font-size: 7pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .footer-project {
+        height: 70px;
+        max-width: 1330px;
+    }
+    .max-height-projects {
+        max-height: 150px;
+        max-width: 1330px;
+    }
+
+    .text-41-book {
+        font-size: 30pt;
+    }
+
+    .text-16-book {
+        font-size: 12pt;
+    }
+
+    .text-16-medium {
+        font-size: 12pt;
+    }
+
+    .text-13-medium {
+        font-size: 11pt;
+    }
 }

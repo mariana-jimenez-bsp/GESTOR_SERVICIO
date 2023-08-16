@@ -36,13 +36,13 @@
                             </div>
                             <div class="col-md-6 d-flex row text-center">
                                 <div>
-                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text width-25 border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
+                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text width-time border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
                                     <span class="green-text">hs</span>
                                     <ValidationMessage For="@(() => informe.HoraInicioTime)" />
                                 </div>
 
                                 <div>
-                                    <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text width-25 border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
+                                    <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text width-time border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                     <span class="green-text">hs</span>
                                     <ValidationMessage For="@(() => informe.HoraFinalTime)" />
                                 </div>
@@ -105,7 +105,7 @@
                         {
                             <EditForm Model="@usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme">
                                 <ObjectGraphDataAnnotationsValidator />
-                                <div class="font-14-book">
+                                <div class="font-14-book ms-3">
                                     <span class="green-text">Agregar Usuario</span>
                                     <div>
                                         <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
