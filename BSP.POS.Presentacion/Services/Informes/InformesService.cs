@@ -124,7 +124,7 @@ namespace BSP.POS.Presentacion.Services.Informes
         {
             try
             {
-                string url = "Informes/ReenvioInforme";
+                string url = "Informes/ReenvioDeInforme";
                 string jsonData = JsonSerializer.Serialize(objetosParaCorreo);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync(url, content);

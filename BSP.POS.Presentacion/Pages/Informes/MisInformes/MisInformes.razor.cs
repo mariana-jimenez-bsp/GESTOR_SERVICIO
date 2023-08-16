@@ -47,7 +47,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                         await InformesService.ObtenerListaDeInformesAsociados(datosUsuario.cod_cliente, esquema);
                         if(InformesService.ListaInformesAsociados != null)
                         {
-                            informesAsociados = InformesService.ListaInformesAsociados?.Where(i => i.estado == "Finalizado").ToList() ?? new List<mInformes>();
+                            informesAsociados = InformesService.ListaInformesAsociados;
+                            informesDeUsuario = UsuariosService.ListaDeInformesDeUsuarioAsociados
+                            .Where(usuario =>
+                                informesAsociados.Any(informe =>
+                                    usuario.consecutivo_informe == informe.consecutivo && informe.estado == "Finalizado"))
+                            .ToList();
                             foreach (var informe in informesDeUsuario)
                             {
                                 informe.fecha_consultoria = informesAsociados.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
@@ -91,7 +96,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         }
         private async Task ReenviarCorreo()
         {
-            correoEnviado = null;
+            if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+            {
+                correoEnviado = null;
+            
             mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
             
             objetoParaCorreo.informe = informeAsociadoSeleccionado;
@@ -137,7 +145,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
+            bool validar = await InformesService.ReenviarInforme(objetoParaCorreo);
             if (validar)
             {
                 correoEnviado = "Correo Enviado";
@@ -145,6 +153,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             else
             {
                 correoEnviado = "Error";
+            }
             }
         }
     }

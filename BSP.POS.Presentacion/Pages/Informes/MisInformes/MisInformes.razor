@@ -5,6 +5,10 @@
 @inject IClientesInterface ClientesService
 @inject IActividadesInterface ActividadesService
 @inject IObservacionesInterface ObservacionesService
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+
 
 <Layout></Layout>
 <div class="div-contenedor">
@@ -98,3 +102,5 @@
     </div>
 </div>
 
+    </Authorized>
+</AuthorizeView>
