@@ -6,7 +6,7 @@
     border: none;
     margin: 0;
     height: 35px;
-    background-color: rgb(53, 53, 156);
+    background-color: #1C3259;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -18,7 +18,7 @@
 .search-icon {
     border: none;
     height: 35px;
-    background-color: rgb(19, 19, 95);
+    background-color: #1C3259;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
@@ -39,9 +39,6 @@ a {
     border-bottom-left-radius: 10px;
 }
 
-i {
-    font-size: 20px;
-}
 
 .eyelash {
     border-top-left-radius: 30px;
@@ -63,7 +60,7 @@ i {
 }
 
     .click-client:hover {
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: #D5D5D5;
     }
 
 .img-client {
@@ -105,11 +102,13 @@ i {
 }
 
 .scrollbar-max-height {
-    max-height: 300px;
+    min-height: 400px;
+    max-height: 400px;
 }
 
 .scrollbar-max-height-client {
-    max-height: 350px;
+    min-height: 660px;
+    max-height: 660px;
 }
 
 .d-all {
@@ -144,8 +143,8 @@ i {
 }
 
 .background-reports {
-    max-width: 100%;
-    background-color: rgb(221, 229, 236);
+    width: 100%;
+    background-color: #D5D5D5;
 }
 
 .click-report-up {
@@ -180,15 +179,21 @@ i {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-
+.col-right {
+    width: 641px;
+}
 .footer-right {
     background-color: #2255A1;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
     color: white;
     padding: 3%;
+    width: 641px;
+    height: 111px;
 }
-
+.circle-click-max-width{
+    max-width: 90px;
+}
 .reports-list {
     min-height: 100px;
     max-height: 200px;
@@ -212,6 +217,7 @@ i {
     background-repeat: no-repeat;
     width: 194px;
     height: 121px;
+
     background-size: 100% 100%;
 }
     .add-report:hover {
@@ -223,11 +229,11 @@ i {
 .item-report-width {
     margin-right: 2%;
     max-width: 192px;
-    max-height: 121px;
+    height: 121px;
 }
 .image-add {
-    width: 70%;
-    height: 70%;
+    width: 60%;
+    height: 60%;
 }
 .t-blue-dark {
     color: #1C3259;
@@ -248,4 +254,150 @@ i {
 
 .footer-right-cod {
     font-size: 24pt;
+}
+.circle-font{
+    font-size: 11pt;
+}
+@media screen and (max-width: 768px) {
+    .eyelash-all {
+        font-size: 7pt;
+    }
+    .eyelash-recent {
+        font-size: 7pt;
+    }
+    .scrollbar-max-height {
+        min-height: 130px;
+        max-height: 130px;
+    }
+
+    .scrollbar-max-height-client {
+        min-height: 320px;
+        max-height: 320px;
+    }
+
+    .info-client {
+        font-size: 5pt;
+    }
+
+
+    .update-report-text {
+        font-size: 6px;
+    }
+
+    .borrador {
+        font-size: 6pt;
+        max-width: 194px;
+        max-height: 121px;
+    }
+
+
+    .click-report-up {
+        width: 194px;
+        max-width: 194px;
+        max-height: 121px;
+    }
+
+
+    .col-right {
+        max-width: 300px;
+    }
+
+    .footer-right {
+        max-width: 300px;
+        height: 111px;
+    }
+
+    .font-size-15 {
+        font-size: 8pt;
+    }
+
+    .client-item {
+        font-size: 6pt;
+    }
+
+    .footer-right-cod {
+        font-size: 12pt;
+    }
+    .circle-click-max-width {
+        max-width: 45px;
+    }
+    .col-left{
+        max-width: 250px;
+    }
+    .circle-font {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+
+    .eyelash-all {
+        font-size: 11pt;
+    }
+    .eyelash-recent {
+        font-size: 11pt;
+    }
+    .scrollbar-max-height {
+        min-height: 130px;
+        max-height: 130px;
+    }
+
+    .scrollbar-max-height-client {
+        min-height: 320px;
+        max-height: 320px;
+    }
+
+    .info-client {
+        font-size: 8pt;
+    }
+
+
+    .update-report-text {
+        font-size: 9px;
+    }
+
+    .borrador {
+        font-size: 9pt;
+        width: 194px;
+        max-width: 194px;
+        max-height: 80px;
+    }
+
+
+    .click-report-up {
+        transition: background-color 0.3s;
+        cursor: pointer;
+        width: 194px;
+        max-width: 194px;
+        max-height: 121px;
+    }
+
+
+    .col-right {
+        width: 641px;
+    }
+
+    .footer-right {
+        width: 641px;
+        height: 90px;
+    }
+
+    .font-size-15 {
+        font-size: 12pt;
+    }
+
+    .client-item {
+        font-size: 9pt;
+    }
+
+    .footer-right-cod {
+        font-size: 18pt;
+    }
+
+    .circle-click-max-width {
+        max-width: 70px;
+    }
+    .circle-font {
+        font-size: 9pt;
+    }
 }

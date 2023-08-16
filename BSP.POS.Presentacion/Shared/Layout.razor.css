@@ -69,3 +69,48 @@ a {
 .dropdown-logout{
     background-color: transparent;
 }
+@media screen and (max-width: 768px) {
+    .layout-header {
+        font-size: 19pt;
+    }
+
+    .search-input {
+
+        font-size: 9pt;
+    }
+    .div-sections {
+
+        font-size: 7pt;
+    }
+
+    .header-menu {
+
+        font-size: 7pt;
+    }
+    .subtitle-edit {
+
+        font-size: 15pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .layout-header {
+        font-size: 28pt;
+    }
+
+    .search-input {
+        font-size: 14pt;
+    }
+
+    .div-sections {
+        font-size: 14pt;
+    }
+
+    .header-menu {
+        font-size: 11pt;
+    }
+
+    .subtitle-edit {
+        font-size: 22pt;
+    }
+}

@@ -4,12 +4,12 @@
 @inject IClientesInterface ClientesService
 @inject NavigationManager navigationManager
 @if(!string.IsNullOrEmpty(clienteAsociado.CLIENTE)){
-<div class="col-md-7">
+<div class="col-md-7 col-right">
     <ClienteAsociado clienteAsociado="ClienteAsociado"></ClienteAsociado>
-    <div class="background-reports pb-2">
-        <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
+    <div class="background-reports pb-2 col-right">
+        <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height col-right">
             <div class="row d-flex justify-content-between m-2 reports-list">
-                <div class="col-md-4 mb-2 d-flex justify-content-center align-items-center mouse-pointer add-report" @onclick="IrACrear">
+                <div class="col-md-4 mb-4 d-flex justify-content-center align-items-center mouse-pointer add-report" @onclick="IrACrear">
                     
                     <img src="images/Home/Agregar.png" class="image-add"/>
                 </div>
@@ -25,7 +25,7 @@
                                 <span class="t-blue-dark">Informe de Servicios</span>
                                 <span class="t-blue-dark">#@informe.consecutivo</span>
                                 <hr>
-                                <span class="update-report-text t-gray">Actualizado el @informe.fecha_actualizacion</span>
+                                <span class="update-report-text text-secondary">Actualizado el @informe.fecha_actualizacion</span>
 
                                 
                             </div>

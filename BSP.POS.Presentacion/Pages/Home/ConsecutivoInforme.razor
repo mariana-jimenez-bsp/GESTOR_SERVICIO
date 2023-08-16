@@ -3,21 +3,21 @@
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<div class="d-flex align-items-center ps-5 footer-right">
+<div class="d-flex align-items-center justify-content-center ps-5 footer-right">
     @if (Consecutivo != string.Empty)
     {
         <div class="ms-auto justify-content-center footer-right-cod">
-            <h4>Informe Servicio</h4>
-            <h4># @Consecutivo</h4>
+            <span class="footer-right-cod">Informe Servicio</span>
+            <span class=""># @Consecutivo</span>
         </div>
         if(Estado == "Borrador"){
-        <div class="ms-auto d-flex">
+        <div class="d-flex ms-auto justify-content-center circle-font">
             <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick="IrAEditar">
-                <img src="images/Home/Editar.png" class="mb-2 w-50"/>
+                <img src="images/Home/Editar.png" class="mb-2 circle-click-max-width"/>
                 <a >Editar</a>
             </div>
             <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick="() => ClickHandlerFinalizarInforme(true)">
-                 <img src="images/Home/Finalizar.png" class="mb-2 w-50"/>
+                 <img src="images/Home/Finalizar.png" class="mb-2 circle-click-max-width"/>
                 <a href="">Finalizar</a>
             </div>
         </div>
