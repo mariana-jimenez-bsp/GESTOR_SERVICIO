@@ -6,7 +6,7 @@
         <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades">
             <ObjectGraphDataAnnotationsValidator/>
         <div class="modal-header d-flex justify-content-center text-primary">
-            <h2 class="blue-dark-text ms-3 text-23-book">Actividades <img src="images/Actividades/Icono-actividades.png" /></h2>
+            <span class="blue-dark-text ms-3 text-23-book title-activity"><span>Actividades</span> <img src="images/Actividades/Icono-actividades.png" /></span>
         </div>
 
         <div class="modal-body d-flex row g-2 text-center ">
@@ -80,7 +80,7 @@
 
     <div class="modal-footer text-12-medium">
         <div @onclick="() => CloseModal()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light mx-4" id="descartar">Descartar cambios</div>
-        <button type="submit" class="rounded-pill border border-success green-bg text-light mx-4" id="guardar">Guardar cambios</button>
+        <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light mx-4" id="guardar">Guardar cambios</button>
     </div>
     </EditForm>
     </div>

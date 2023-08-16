@@ -12,7 +12,7 @@
 
 .modal-content {
     display: inline-block;
-    margin-top: 10%;
+    margin-top: 20%;
     background-color: transparent;
     background-image: url("images/Clientes/Pestaña-Clientes.png");
     background-repeat: no-repeat;
@@ -154,4 +154,48 @@
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
+}
+@media screen and (max-width: 768px) {
+    .modal-content {
+        margin-top: 5%;
+    }
+    .text-client-title {
+        font-size: 12pt;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .text-15-book {
+        font-size: 8pt;
+    }
+
+    .text-9-bold {
+        font-size: 5pt;
+    }
+
+    .button-text {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .modal-content {
+
+        margin-top: 5%;
+    }
+    .text-client-title {
+        font-size: 18pt;
+    }
+
+    .text-15-book {
+        font-size: 12pt;
+    }
+
+    .text-9-bold {
+        font-size: 7pt;
+    }
+
+    .button-text {
+        font-size: 9pt;
+    }
 }

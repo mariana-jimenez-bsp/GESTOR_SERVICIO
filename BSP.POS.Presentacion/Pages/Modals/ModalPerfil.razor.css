@@ -40,7 +40,7 @@
 .modal-body {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 3px;
 
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -139,6 +139,9 @@
     cursor: pointer;
 }
 @media screen and (max-width: 768px) {
+    .modal-content {
+        margin-top: 5%;
+    }
     .text-profile {
         font-size: 12pt;
     }
@@ -158,6 +161,9 @@
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
+    .modal-content {
+        margin-top: 1%;
+    }
     .text-profile {
         font-size: 18pt;
     }

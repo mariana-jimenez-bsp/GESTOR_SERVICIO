@@ -12,7 +12,7 @@
 
 .modal-content {
     display: inline-block;
-    margin-top: 10%;
+    margin-top: 15%;
     background-color: transparent;
     background-image: url("images/Actividades/Pestaña-actividades.png");
     background-repeat: no-repeat;
@@ -174,4 +174,65 @@
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .modal-content {
+        margin-top: 5%;
+    }
+    .text-23-book {
+        font-size: 11pt;
+    }
+
+    .text-15-book {
+        font-size: 8pt;
+    }
+    .title-activity {
+        display: flex;
+        flex-direction: column;
+    }
+    .text-20-bold {
+        font-size: 10pt;
+    }
+
+    .text-16-book {
+        font-size: 8pt;
+    }
+
+    .text-12-medium {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .modal-content {
+        margin-top: 5%;
+    }
+
+    .text-23-book {
+        font-size: 18pt;
+    }
+
+    .text-15-book {
+        font-size: 12pt;
+    }
+
+    .text-20-bold {
+
+        font-size: 15pt;
+    }
+
+    .text-16-book {
+        font-size: 12pt;
+    }
+
+    .text-12-medium {
+
+        font-size: 9pt;
+    }
+}
+@media screen and (max-width: 970px) {
+    .text-23-book {
+        font-size: 12pt;
+    }
 }
