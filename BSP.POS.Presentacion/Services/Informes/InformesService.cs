@@ -120,7 +120,29 @@ namespace BSP.POS.Presentacion.Services.Informes
                 return false;
             }
         }
+        public async Task<bool> ReenviarInforme(mObjetosParaCorreoAprobacion objetosParaCorreo)
+        {
+            try
+            {
+                string url = "Informes/ReenvioInforme";
+                string jsonData = JsonSerializer.Serialize(objetosParaCorreo);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var response = await _http.PostAsync(url, content);
 
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+
+
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
         public async Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token)
         {
             string url = "Informes/ValidaTokenAprobacionDeInforme/" + esquema + "/" + token;

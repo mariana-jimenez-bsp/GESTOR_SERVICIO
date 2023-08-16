@@ -3,6 +3,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IInformesInterface InformesService
 @inject IClientesInterface ClientesService
+@inject IActividadesInterface ActividadesService
+@inject IObservacionesInterface ObservacionesService
 
 <Layout></Layout>
 <div class="div-contenedor">
@@ -69,7 +71,7 @@
             <div class="col-md-4">
                 <div class="col-right-bg d-flex justify-content-center align-items-center row">
                     <div class="col-md-4 col-right-bg">
-                        <div class="reenviar-cliente imagen-div">
+                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="ReenviarCorreo">
                             <span class="me-4 span-report">REENVIAR A CLIENTE</span>
                         </div>
                         <div class="generar-cotizacion imagen-div">
@@ -88,6 +90,10 @@
                 </div>
 
             </div>
+            @if (correoEnviado != null)
+            {
+                <MensajeDeLogrado Message="@correoEnviado" />
+            }
         </div>
     </div>
 </div>

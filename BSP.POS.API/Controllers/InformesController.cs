@@ -10,6 +10,7 @@ using BSP.POS.UTILITARIOS.Informes;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -172,6 +173,41 @@ namespace BSP.POS.API.Controllers
             }
            
            
+
+        }
+
+        [HttpPost("ReenvioDeInforme")]
+        public IActionResult ReenvioDeInforme(mObjetosParaCorreoAprobacion objetosDeAprobacion)
+        {
+            try
+            {
+                U_Correo datos = new U_Correo();
+
+                foreach (var item in objetosDeAprobacion.listadeUsuariosDeClienteDeInforme)
+                {
+
+
+                        U_Perfil usuario = new U_Perfil();
+                    
+                    usuario = JsonConvert.DeserializeObject<U_Perfil>(user.ObtenerPerfil(objetosDeAprobacion.esquema, item.nombre_usuario));
+                    if(usuario != null)
+                    {
+                        item.correo_usuario = usuario.correo;
+                    }
+                    
+                }
+                datos.correoUsuario = _correoUsuario;
+                datos.claveUsuario = _claveUsuario;
+                _correoService.ReenvioDeInforme(datos, objetosDeAprobacion);
+                return Ok();
+            }
+
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+
 
         }
 

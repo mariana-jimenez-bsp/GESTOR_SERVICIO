@@ -16,6 +16,7 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
         Task EliminarInforme(string consecutivo, string esquema);
 
         Task<bool> EnviarCorreoDeAprobacionDeInforme(mObjetosParaCorreoAprobacion objetosParaCorreo);
+        Task<bool> ReenviarInforme(mObjetosParaCorreoAprobacion objetosParaCorreo);
         Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token);
         Task AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
 
