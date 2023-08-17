@@ -1,0 +1,37 @@
+﻿@page "/"
+@page "/login"
+@inject NavigationManager navigationManager
+@inject ILicenciasInterface LicenciasService
+
+@if (!string.IsNullOrEmpty(licencia.estado))
+{
+    if(licencia.estado == "Activo")
+    {
+        <Login />
+    }else if(licencia.estado == "Proximo")
+    {
+        if (!string.IsNullOrEmpty(mensaje))
+        {
+            <MensajeLicencia Message="@mensaje"></MensajeLicencia>
+        }
+        <Login />
+    }
+    else
+    {
+        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
+            <h1>La Licencia ha vencido</h1>
+        </div>
+    }
+}
+else
+{
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
+}

@@ -1,35 +1,104 @@
 ﻿@page "/RecuperarClave/{token}/{esquema}"
 @inject IUsuariosInterface UsuariosService
-    @if (tokenRecuperacion.token_recuperacion != null)
+@inject ILicenciasInterface LicenciasService
+@if (!string.IsNullOrEmpty(licencia.estado))
+{
+    if (licencia.estado == "Activo")
     {
-<div class="h-100 w-100 fondo">
-    <EditForm Model="usuario" OnValidSubmit="ActualizarClaveUsuario">
-            <DataAnnotationsValidator />
-        <h1 class="w-100 text-center text-light">Gestor de Servicios BSP</h1>
-        <div class="row w-100 h-75 text-light d-flex justify-content-center align-items-center">
-            <div class="col-md-7">
-                <h3>Ingrese la nueva Contraseña: </h3>
-                <div class="form-group d-flex align-items-center">
-                    <i class="fa-solid fa-lock text-success p-2"></i>
-                        <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" @bind-value="usuario.clave" />
-                </div>
-                 <ValidationMessage For="@(() => usuario.clave)" />
+        @if (tokenRecuperacion.token_recuperacion != null)
+        {
+            <div class="h-100 w-100 fondo">
+                <EditForm Model="usuario" OnValidSubmit="ActualizarClaveUsuario">
+                    <DataAnnotationsValidator />
+                    <h1 class="w-100 text-center text-light">Gestor de Servicios BSP</h1>
+                    <div class="row w-100 h-75 text-light d-flex justify-content-center align-items-center">
+                        <div class="col-md-7">
+                            <h3>Ingrese la nueva Contraseña: </h3>
+                            <div class="form-group d-flex align-items-center">
+                                <i class="fa-solid fa-lock text-success p-2"></i>
+                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" @bind-value="usuario.clave" />
+                            </div>
+                            <ValidationMessage For="@(() => usuario.clave)" />
+                        </div>
+                        <div class="col-md-7 mt-3">
+                            <h3>Confirme la contraseña: </h3>
+                            <div class="form-group d-flex align-items-center">
+                                <i class="fa-solid fa-lock text-success p-2"></i>
+                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClaveConfirmacion" @bind-value="usuario.confirmarClave" />
+                            </div>
+                            <ValidationMessage For="@(() => usuario.confirmarClave)" />
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block w-50 mt-3">Restablecer</button>
+                    </div>
+                </EditForm>
             </div>
-            <div class="col-md-7 mt-3">
-                <h3>Confirme la contraseña: </h3>
-                <div class="form-group d-flex align-items-center">
-                    <i class="fa-solid fa-lock text-success p-2"></i>
-                    <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClaveConfirmacion" @bind-value="usuario.confirmarClave"/>
-                </div>
-                <ValidationMessage For="@(() => usuario.confirmarClave)" />
-            </div>
-            <button type="submit" class="btn btn-success btn-block w-50 mt-3">Restablecer</button>
-        </div>
-        </EditForm>
-</div>
 
+        }
+        else
+        {
+            <h1 class="w-100 text-center text-danger">Token expirado o inválido</h1>
+        }
+
+    }
+    else if (licencia.estado == "Proximo")
+    {
+        if (!string.IsNullOrEmpty(mensajeLicencia))
+        {
+            <MensajeLicencia Message="@mensajeLicencia"></MensajeLicencia>
+        }
+        @if (tokenRecuperacion.token_recuperacion != null)
+        {
+            <div class="h-100 w-100 fondo">
+                <EditForm Model="usuario" OnValidSubmit="ActualizarClaveUsuario">
+                    <DataAnnotationsValidator />
+                    <h1 class="w-100 text-center text-light">Gestor de Servicios BSP</h1>
+                    <div class="row w-100 h-75 text-light d-flex justify-content-center align-items-center">
+                        <div class="col-md-7">
+                            <h3>Ingrese la nueva Contraseña: </h3>
+                            <div class="form-group d-flex align-items-center">
+                                <i class="fa-solid fa-lock text-success p-2"></i>
+                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" @bind-value="usuario.clave" />
+                            </div>
+                            <ValidationMessage For="@(() => usuario.clave)" />
+                        </div>
+                        <div class="col-md-7 mt-3">
+                            <h3>Confirme la contraseña: </h3>
+                            <div class="form-group d-flex align-items-center">
+                                <i class="fa-solid fa-lock text-success p-2"></i>
+                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClaveConfirmacion" @bind-value="usuario.confirmarClave" />
+                            </div>
+                            <ValidationMessage For="@(() => usuario.confirmarClave)" />
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block w-50 mt-3">Restablecer</button>
+                    </div>
+                </EditForm>
+            </div>
+
+        }
+        else
+        {
+            <h1 class="w-100 text-center text-danger">Token expirado o inválido</h1>
+        }
+
+    }
+    else
+    {
+        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
+            <h1>La Licencia ha vencido</h1>
+        </div>
+    }
 }
 else
 {
-    <h1 class="w-100 text-center text-danger">Token expirado o inválido</h1>
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
 }
+
+  

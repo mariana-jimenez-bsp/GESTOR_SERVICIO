@@ -1,4 +1,5 @@
-﻿using BSP.POS.Presentacion.Models.Usuarios;
+﻿using BSP.POS.Presentacion.Models.Licencias;
+using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios
@@ -13,9 +14,20 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public string esquema { get; set; } = string.Empty;
         public mTokenRecuperacion tokenRecuperacion = new mTokenRecuperacion();
         public mUsuarioNuevaClave usuario = new mUsuarioNuevaClave();
+        public mLicencia licencia = new mLicencia();
+        public string mensajeLicencia;
 
         protected override async Task OnInitializedAsync()
         {
+            await LicenciasService.ObtenerEstadoDeLicencia();
+            if (LicenciasService.licencia != null)
+            {
+                licencia = LicenciasService.licencia;
+                if (licencia.estado == "Proximo")
+                {
+                    mensajeLicencia = "La licencia está proxima a vencer";
+                }
+            }
             if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema))
             {
                 tokenRecuperacion = await UsuariosService.ValidarTokenRecuperacion(esquema, token);
