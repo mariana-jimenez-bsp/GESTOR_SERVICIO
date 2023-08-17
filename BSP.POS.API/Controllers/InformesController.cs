@@ -4,6 +4,7 @@ using BSP.POS.API.Models.Informes;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.NEGOCIOS.Informes;
 using BSP.POS.NEGOCIOS.Usuarios;
+using BSP.POS.NEGOCIOS.WhatsappService;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using BSP.POS.UTILITARIOS.Informes;
@@ -28,7 +29,8 @@ namespace BSP.POS.API.Controllers
         private readonly string _correoUsuario;
         private readonly string _claveUsuario;
         private readonly ICorreosInterface _correoService;
-        public InformesController(ICorreosInterface correoService)
+        private readonly IWhatsappInterface _whatsappService;
+        public InformesController(ICorreosInterface correoService, IWhatsappInterface whatsappService)
         {
             informes = new N_Informes();
             user = new N_Usuarios();
@@ -40,6 +42,7 @@ namespace BSP.POS.API.Controllers
             _correoUsuario = configuration["SmtpFrom"];
             _claveUsuario = configuration["SmtpPassword"];
             _correoService = correoService;
+            _whatsappService = whatsappService;
         }
         // GET: api/<InformesController>
         [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}/{esquema}")]
@@ -258,8 +261,25 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [AllowAnonymous]
+        [HttpGet("EnviarWhatsappDeAprobacion")]
+        public IActionResult EnviarWhatsappDeAprobacion()
+        {
+            try
+            {
+
+                _whatsappService.EnviarWhatsappAprobarInforme();
+                return Ok();
+            }
+
+            catch (Exception)
+            {
+                return BadRequest();
+            }
 
 
+
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 using System.Text;
 using BSP.POS.NEGOCIOS.CorreosService;
+using BSP.POS.NEGOCIOS.WhatsappService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICorreosInterface, CorreosService>();
+builder.Services.AddScoped<IWhatsappInterface, WhatsappService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Nueva Política", app =>
