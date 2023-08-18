@@ -367,6 +367,29 @@ namespace BSP.POS.DATOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public List<U_UsuariosParaEditar> ListarUsuariosParaEditar(String pEsquema)
+        {
+            var LstUsuarios = new List<U_UsuariosParaEditar>();
+
+            ListarUsuariosParaEditarTableAdapter sp = new ListarUsuariosParaEditarTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, "", item.nombre, item.rol, item.telefono, item.departamento, item.imagen, item.esquema);
+
+                    LstUsuarios.Add(usuario);
+                }
+                return LstUsuarios;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public string GenerarTokenRecuperacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));

@@ -310,5 +310,22 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("ObtengaLaListaDeUsuariosParaEditar/{esquema}")]
+        public string ObtengaLaListaDeUsuariosParaEditar(string esquema)
+        {
+            try
+            {
+                string listaDeUsuariosJson = user.ListarUsuariosParaEditar(esquema);
+                return listaDeUsuariosJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
     }
 }

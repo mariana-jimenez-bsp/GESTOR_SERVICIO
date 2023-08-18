@@ -37,5 +37,8 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 
         List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; }
         Task ObtenerListaDeInformesDeUsuario(string codigo, string esquema);
+
+        List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; }
+        Task ObtenerListaDeUsuariosParaEditar(string esquema);
     }
 }

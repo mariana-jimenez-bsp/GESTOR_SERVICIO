@@ -227,5 +227,23 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string ListarUsuariosParaEditar(String pEsquema)
+        {
+            try
+            {
+                List<U_UsuariosParaEditar> list = new List<U_UsuariosParaEditar>();
+
+                list = objetoUsuario.ListarUsuariosParaEditar(pEsquema);
+
+                string usuarios = JsonConvert.SerializeObject(list);
+                return usuarios;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

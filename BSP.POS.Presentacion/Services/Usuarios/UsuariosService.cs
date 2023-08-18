@@ -24,7 +24,8 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public mTokenRecuperacion UsuarioRecuperacion { get; set; } = new mTokenRecuperacion();
         public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
         public List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; } = new List<mUsuariosDeClienteDeInforme>();
-        
+        public List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; } = new List<mUsuariosParaEditar>();
+
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             _http = htpp;
@@ -249,6 +250,15 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
+        public async Task ObtenerListaDeUsuariosParaEditar(string esquema)
+        {
+            var listaDeUsuarios = await _http.GetFromJsonAsync<List<mUsuariosParaEditar>>("Usuarios/ObtengaLaListaDeUsuariosParaEditar/" + esquema);
+            if (listaDeUsuarios is not null)
+            {
+                ListaDeUsuariosParaEditar = listaDeUsuarios;
+            }
+        }
+
     }
-    }
+ }
 
