@@ -1,0 +1,8 @@
+﻿@page "/usuarios"
+
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+       <EditarUsuarios></EditarUsuarios>
+    </Authorized>
+</AuthorizeView>

@@ -25,6 +25,6 @@
         public string CODIGO_IMPUESTO { get; set; } = string.Empty;
         public string RecordDate { get; set; } = string.Empty;
         public string CreateDate { get; set; } = string.Empty;
-        public byte[] IMAGEN { get; set; }
+        public byte[] IMAGEN { get; set; } = new byte[] { 0x00 };
     }
 }

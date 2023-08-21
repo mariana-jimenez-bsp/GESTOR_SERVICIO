@@ -259,6 +259,24 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
+        public async Task ActualizarListaDeUsuarios(List<mUsuariosParaEditar> listaUsuarios, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "Proyectos/ActualizaListaDeProyectos";
+                string jsonData = JsonSerializer.Serialize(listaUsuarios);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
     }
  }
 

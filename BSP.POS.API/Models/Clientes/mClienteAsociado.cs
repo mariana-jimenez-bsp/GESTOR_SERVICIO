@@ -7,6 +7,6 @@
 
         public string CONTACTO { get; set; } = string.Empty;
         public string CARGO { get; set; } = string.Empty;
-        public byte[] IMAGEN { get; set; }
+        public byte[] IMAGEN { get; set; } = new byte[] { 0x00 };
     }
 }

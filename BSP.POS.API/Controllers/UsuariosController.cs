@@ -9,6 +9,7 @@ using BSP.POS.API.Models.Usuarios;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.UTILITARIOS.Correos;
 using Newtonsoft.Json;
+using BSP.POS.UTILITARIOS.Proyectos;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -320,6 +321,43 @@ namespace BSP.POS.API.Controllers
                 return listaDeUsuariosJson;
             }
 
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+        [Authorize]
+        [HttpPost("ActualizaListaDeUsuarios")]
+        public string ActualizaListaDeUsuarios([FromBody] List<mUsuariosParaEditar> datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                List<U_UsuariosParaEditar> listaUsuarios = new List<U_UsuariosParaEditar>();
+                foreach (var item in datos)
+                {
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar();
+                    usuario.id = item.id;
+                    usuario.codigo = item.codigo;
+                    usuario.cod_cliente = item.cod_cliente;
+                    usuario.usuario = item.usuario;
+                    usuario.esquema = item.esquema;
+                    usuario.rol = item.rol;
+                    usuario.clave = item.clave;
+                    usuario.departamento = item.departamento;
+                    usuario.nombre=item.nombre;
+                    usuario.correo = item.correo;
+                    usuario.telefono = usuario.telefono;
+                    usuario.imagen = item.imagen;
+
+                    listaUsuarios.Add(usuario);
+                }
+
+                string mensaje = user.ActualizarListaDeUsuarios(listaUsuarios, esquema);
+                return mensaje;
+            }
             catch (Exception ex)
             {
                 return ex.Message;

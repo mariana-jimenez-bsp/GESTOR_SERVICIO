@@ -245,5 +245,12 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string ActualizarListaDeUsuarios(List<U_UsuariosParaEditar> pUsuarios, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objetoUsuario.ActualizarListaDeUsuarios(pUsuarios, esquema);
+            return mensaje;
+        }
     }
 }

@@ -54,15 +54,16 @@
                     <div id="permisos" class="row col-md-6 px-2 text-input text-start d-flex align-items-center justify-content-center">
                         @if (todosLosPermisos != null)
                         {
-                            int index = 0;
+
                             foreach (var permiso in todosLosPermisos)
                             {
-                                int cont = index;
+    
+                                
                                 <div class="col-md-4 ms-4">
-                                    <input type="checkbox" class="custom-checkbox" id="myCheckbox-@permiso.Id" checked="@EstadosDeChecks[cont].Check" @onchange="(e) => HandleCheckCambiado(e, cont)">
+                                    <input type="checkbox" class="custom-checkbox" id="myCheckbox-@permiso.Id" checked="@permiso.EstadoCheck" @onchange="(e) => HandleCheckCambiado(e, permiso.Id)">
                                     <label class="label-transparent" for="myCheckbox-@permiso.Id">@permiso.permiso</label>
                                 </div>
-                                index++;
+
                             }
                         }
 

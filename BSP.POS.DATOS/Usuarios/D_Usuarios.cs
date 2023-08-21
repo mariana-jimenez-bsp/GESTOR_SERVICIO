@@ -390,6 +390,28 @@ namespace BSP.POS.DATOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public string ActualizarListaDeUsuarios(List<U_UsuariosParaEditar> pUsuarios, string esquema)
+        {
+            POSDataSet.ActualizarListaDeUsuariosDataTable bTabla = new POSDataSet.ActualizarListaDeUsuariosDataTable();
+            ActualizarListaDeUsuariosTableAdapter sp = new ActualizarListaDeUsuariosTableAdapter();
+            try
+            {
+                foreach (var usuario in pUsuarios)
+                {
+                    var response = sp.GetData(esquema, usuario.id, usuario.cod_cliente, usuario.usuario, usuario.correo, usuario.clave, usuario.nombre, usuario.rol, usuario.telefono, usuario.imagen);
+
+                }
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
         public string GenerarTokenRecuperacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));

@@ -5,5 +5,7 @@
         public string Id { get; set; } = string.Empty;
 
         public string permiso { get; set; } = string.Empty;
+
+        public bool EstadoCheck { get; set; } = false;
     }
 }

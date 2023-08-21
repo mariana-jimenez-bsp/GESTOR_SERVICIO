@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Models.Permisos;
+using System;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
@@ -18,6 +19,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
         public string usuarioOriginal = string.Empty;
         public string claveOriginal = string.Empty;
+
 
         public string tipo { get; set; } = string.Empty;
 
@@ -45,17 +47,16 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 if (PermisosService.ListaPermisos != null)
                 {
                     todosLosPermisos = PermisosService.ListaPermisos;
-                    EstadosDeChecks = todosLosPermisos.Select(permiso => new EstadoCheck()).ToList();
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
                     if (PermisosService.ListaPermisosAsociadados != null)
                     {
                         permisosAsociados = PermisosService.ListaPermisosAsociadados;
-                        for (int i = 0; i < EstadosDeChecks.Count; i++)
+                        foreach (var item in todosLosPermisos)
                         {
-                            if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == todosLosPermisos[i].Id))
+                            if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == item.Id))
                             {
-                                EstadosDeChecks[i].Check = true;
+                                item.EstadoCheck = true;
                             }
                          }
 
@@ -66,22 +67,22 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
 
         }
-        public class EstadoCheck
+        private void HandleCheckCambiado(ChangeEventArgs e, string idPermiso)
         {
-            public bool Check { get; set; } = false;
-            // Agrega aquí las otras propiedades necesarias para tu desplegable
-        }
+            var permiso = new mPermisos();
+            foreach (var item in todosLosPermisos)
+            {
+                if(item.Id == idPermiso)
+                {
+                    item.EstadoCheck = (bool)e.Value;
+                    permiso = item;
+                }
+            }
+          
 
-        private List<EstadoCheck> EstadosDeChecks = new List<EstadoCheck>();
-
-        private void HandleCheckCambiado(ChangeEventArgs e, int index)
-        {
-            EstadosDeChecks[index].Check = (bool)e.Value;
-
-            var permiso = todosLosPermisos[index];
             var permisoEncontrado = permisosAsociados.FirstOrDefault(p => p.id_permiso == permiso.Id);
 
-            if (EstadosDeChecks[index].Check)
+            if (permiso.EstadoCheck)
             {
                 if (permisoEncontrado == null)
                 {
@@ -163,22 +164,13 @@ namespace BSP.POS.Presentacion.Pages.Modals
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
             bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
-            foreach (var item in PermisosService.ListaPermisosAsociadados)
-            {
-                Console.WriteLine(item.id_permiso);
-            }
             if (!sonIguales)
             {
                 try
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
-                    if(PermisosService.ListaPermisosAsociadados != null)
-                    {
-                        permisosAsociados = PermisosService.ListaPermisosAsociadados;
-                    }
+                  
                 }
                 catch (Exception)
                 {
@@ -206,16 +198,19 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
             perfil = UsuariosService.Perfil;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await PermisosService.ObtenerListaDePermisos(perfil.esquema);
+            todosLosPermisos = PermisosService.ListaPermisos;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
             permisosAsociados = PermisosService.ListaPermisosAsociadados;
             if (PermisosService.ListaPermisosAsociadados != null)
             {
                 permisosAsociados = PermisosService.ListaPermisosAsociadados;
-                for (int i = 0; i < EstadosDeChecks.Count; i++)
+                foreach (var item in todosLosPermisos)
                 {
-                    if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == todosLosPermisos[i].Id))
+                    if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == item.Id))
                     {
-                        EstadosDeChecks[i].Check = true;
+                        item.EstadoCheck = true;
                     }
                 }
 

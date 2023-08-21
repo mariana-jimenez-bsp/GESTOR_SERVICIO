@@ -40,5 +40,6 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 
         List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; }
         Task ObtenerListaDeUsuariosParaEditar(string esquema);
+        Task ActualizarListaDeUsuarios(List<mUsuariosParaEditar> listaUsuarios, string esquema);
     }
 }

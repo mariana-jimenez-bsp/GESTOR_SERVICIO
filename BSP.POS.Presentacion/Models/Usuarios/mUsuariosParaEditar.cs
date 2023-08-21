@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BSP.POS.Presentacion.Models.Permisos;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace BSP.POS.Presentacion.Models.Usuarios
 {
@@ -30,5 +32,10 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public byte[] imagen { get; set; } = new byte[] { 0x00 };
         [Required(ErrorMessage = "El esquema es requerido")]
         public string esquema { get; set; } = string.Empty;
+
+        [RegularExpression(@"\.(png|jpg|jpeg)$", ErrorMessage = "La imagen debe ser un archivo PNG o JPG.")]
+        public IFormFile? ImagenFile { get; set; }
+        public List<mPermisos> listaTodosLosPermisos = new List<mPermisos>();
+        public List<mPermisosAsociados> listaPermisosAsociados = new List<mPermisosAsociados>();
     }
 }

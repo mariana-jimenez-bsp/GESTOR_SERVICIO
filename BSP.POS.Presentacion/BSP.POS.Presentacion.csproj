@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="6.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.19" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.19" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
   </ItemGroup>
 
