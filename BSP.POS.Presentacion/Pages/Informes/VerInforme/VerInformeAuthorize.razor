@@ -1,0 +1,12 @@
+﻿@page "/Informe/VerInforme/{consecutivo}"
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+        <VerInforme Consecutivo="@Consecutivo"></VerInforme>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Consecutivo { get; set; } = string.Empty;
+}

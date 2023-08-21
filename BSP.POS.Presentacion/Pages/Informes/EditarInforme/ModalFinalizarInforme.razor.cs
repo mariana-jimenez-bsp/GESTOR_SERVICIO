@@ -25,7 +25,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
                 await CloseModal();
-                navigationManager.NavigateTo("/index", forceLoad: true);
+                navigationManager.NavigateTo("/Informe/VerInforme/" + consecutivo, forceLoad: true);
             }
         }
     }

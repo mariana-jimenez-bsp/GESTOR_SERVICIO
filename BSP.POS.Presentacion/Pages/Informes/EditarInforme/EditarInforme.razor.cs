@@ -284,32 +284,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             await ClickHandlerEliminarActividad(activar);
 
         }
-        private async Task EnviarCorreosAClientes()
-        {
-            correoEnviado = null;
-            mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
-            objetoParaCorreo.informe = informe;
-            objetoParaCorreo.total_horas_cobradas = total_horas_cobradas;
-            objetoParaCorreo.total_horas_no_cobradas = total_horas_no_cobradas;
-            objetoParaCorreo.listaActividadesAsociadas = listaActividadesAsociadas;
-            foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
-            {
-                actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
-            }
-            objetoParaCorreo.listadeUsuariosDeClienteDeInforme = listadeUsuariosDeClienteDeInforme;
-            objetoParaCorreo.ClienteAsociado = ClienteAsociado;
-            objetoParaCorreo.esquema = esquema;
-            objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
-            if (validar){
-                correoEnviado = "Correo Enviado";
-            }
-            else
-            {
-                correoEnviado = "Error";
-            }
-        }
 
         
         async Task ClickHandlerEliminarUsuario(bool activar)

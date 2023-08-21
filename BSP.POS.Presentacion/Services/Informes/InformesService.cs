@@ -56,7 +56,7 @@ namespace BSP.POS.Presentacion.Services.Informes
 
                 var mensaje = await _http.PostAsync(url, content);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

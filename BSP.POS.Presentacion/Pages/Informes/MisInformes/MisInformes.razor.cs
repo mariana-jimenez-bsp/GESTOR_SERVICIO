@@ -145,7 +145,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.ReenviarInforme(objetoParaCorreo);
+            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
             if (validar)
             {
                 correoEnviado = "Correo Enviado";

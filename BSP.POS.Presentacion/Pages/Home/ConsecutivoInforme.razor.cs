@@ -32,6 +32,12 @@ namespace BSP.POS.Presentacion.Pages.Home
             navigationManager.NavigateTo($"Informe/Editar/{Consecutivo}");
         }
 
+        private void VerInforme()
+        {
+
+            navigationManager.NavigateTo($"Informe/VerInforme/{Consecutivo}");
+        }
+
         bool activarModalFinalizarInforme = false;
         void ClickHandlerFinalizarInforme(bool activar)
         {

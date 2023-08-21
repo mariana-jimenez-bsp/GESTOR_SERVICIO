@@ -40,7 +40,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
         {
             foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
             {
-                var correo = new MimeMessage();
+                if (item.aceptacion == "0")
+                {
+                    var correo = new MimeMessage();
 
                 correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
                 correo.To.Add(MailboxAddress.Parse("juanramirez1881@gmail.com"));
@@ -56,7 +58,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 }
                 foreach (var itemActividad in objetosParaAprobacion.listaActividadesAsociadas)
                 {
-                    actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n </tr> \r\n";
+                    actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas.Substring(0, 5) + "</td>\r\n <td>" + itemActividad.horas_no_cobradas.Substring(0, 5) + "</td>\r\n </tr> \r\n";
                 }
                 foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
                 {
@@ -80,6 +82,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 smtp.Send(correo);
                 smtp.Disconnect(true);
                 break;
+                }
             }
            
         }
@@ -87,6 +90,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
         {
             foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
             {
+               
                 var correo = new MimeMessage();
 
                 correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
@@ -129,6 +133,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 smtp.Send(correo);
                 smtp.Disconnect(true);
                 break;
+                
             }
         }
 
