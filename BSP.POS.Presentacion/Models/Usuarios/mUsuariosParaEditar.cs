@@ -1,4 +1,6 @@
-﻿using BSP.POS.Presentacion.Models.Permisos;
+﻿using BSP.POS.Presentacion.Interfaces.Usuarios;
+using BSP.POS.Presentacion.Models.Permisos;
+using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,5 +39,17 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public IFormFile? ImagenFile { get; set; }
         public List<mPermisos> listaTodosLosPermisos = new List<mPermisos>();
         public List<mPermisosAsociados> listaPermisosAsociados = new List<mPermisosAsociados>();
+        public string claveOriginal { get; set; } = string.Empty;
+        public string usuarioOrignal { get; set; } = string.Empty;
+        public string correoOriginal { get; set; } = string.Empty;
+        public string usuarioRepite { get; set; } = string.Empty;
+        public string mensajeUsuarioRepite { get; set; } = string.Empty;
+        public string correoRepite { get; set; } = string.Empty;
+        public string mensajeCorreoRepite { get; set; } = string.Empty;
+
+
     }
+
+
+
 }

@@ -11,7 +11,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         mPerfil Perfil { get; set; }
         Task ObtenerPerfil(string usuario, string esquema);
 
-        Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal);
+        Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal);
 
         Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente);
         List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; }
@@ -24,6 +24,8 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario);
 
         Task<string> ValidarCorreoCambioClave(string esquema, string correo);
+        Task<string> ValidarCorreoExistente(string esquema, string correo);
+        Task<string> ValidarUsuarioExistente(string esquema, string usuario);
 
         List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; }
         Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
@@ -40,6 +42,6 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 
         List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; }
         Task ObtenerListaDeUsuariosParaEditar(string esquema);
-        Task ActualizarListaDeUsuarios(List<mUsuariosParaEditar> listaUsuarios, string esquema);
+        Task ActualizarListaDeUsuarios(List<mUsuariosParaEditar> listaUsuarios, string esquema, string usuarioActual);
     }
 }

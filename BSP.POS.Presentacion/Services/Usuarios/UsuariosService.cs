@@ -71,7 +71,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         }
 
-        public async Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal)
+        public async Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal)
         {
 
 
@@ -84,7 +84,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var mensaje = await _http.PostAsync(url, content);
-                if(usuarioOriginal != perfil.usuario || (claveOriginal != perfil.clave && !string.IsNullOrEmpty(perfil.clave)))
+                if(usuarioOriginal != perfil.usuario || correoOriginal != perfil.correo || (claveOriginal != perfil.clave && !string.IsNullOrEmpty(perfil.clave)))
                 {
                     
                     _navigationManager.NavigateTo("/login", forceLoad: true);
@@ -259,21 +259,66 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
-        public async Task ActualizarListaDeUsuarios(List<mUsuariosParaEditar> listaUsuarios, string esquema)
+        public async Task ActualizarListaDeUsuarios(List<mUsuariosParaEditar> listaUsuarios, string esquema, string usuarioActual)
         {
             try
             {
+                foreach (var usuario in listaUsuarios)
+                {
+                    if (!string.IsNullOrEmpty(usuario.clave))
+                    {
+                        usuario.clave = EncriptarClave(usuario.clave);
+                    }
+                }
+               
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "Proyectos/ActualizaListaDeProyectos";
+                string url = "Usuarios/ActualizaListaDeUsuarios";
                 string jsonData = JsonSerializer.Serialize(listaUsuarios);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var mensaje = await _http.PostAsync(url, content);
+                foreach (var usuario in listaUsuarios)
+                {
+                    if(usuarioActual == usuario.usuarioOrignal) { 
+                    if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || (usuario.claveOriginal != usuario.clave && !string.IsNullOrEmpty(usuario.clave)))
+                    {
+
+                        _navigationManager.NavigateTo("/login", forceLoad: true);
+                        await _localStorageService.RemoveItemAsync("token");
+                    }
+                    }
+                }
             }
             catch (Exception)
             {
 
+            }
+        }
+        public async Task<string> ValidarCorreoExistente(string esquema, string correo)
+        {
+            string url = "Usuarios/ValidaCorreoExistente/" + esquema + "/" + correo;
+            string correoDevuelto = await _http.GetStringAsync(url);
+            if (!string.IsNullOrEmpty(correoDevuelto))
+            {
+                return correoDevuelto;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async Task<string> ValidarUsuarioExistente(string esquema, string usuario)
+        {
+            string url = "Usuarios/ValidaUsuarioExistente/" + esquema + "/" + usuario;
+            string correoDevuelto = await _http.GetStringAsync(url);
+            if (!string.IsNullOrEmpty(correoDevuelto))
+            {
+                return correoDevuelto;
+            }
+            else
+            {
+                return null;
             }
         }
 

@@ -1,6 +1,8 @@
-﻿using BSP.POS.Presentacion.Models.Permisos;
+﻿using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Actividades;
 using BSP.POS.Presentacion.Services.Permisos;
 using Microsoft.AspNetCore.Components;
@@ -13,20 +15,40 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
     {
         public string esquema = string.Empty;
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
+        public List<mClientes> listaClientes = new List<mClientes>();
         public bool cargaInicial = false;
         public string rol = string.Empty;
+        public string usuarioActual = string.Empty;
+        public string mensajeAcualizar;
+        bool repetido = false;
         protected override async Task OnInitializedAsync()
         {
             cargaInicial = false;
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
+            usuarioActual = user.Identity.Name;
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
             if (UsuariosService.ListaDeUsuariosParaEditar != null)
             {
+                foreach (var usuario in UsuariosService.ListaDeUsuariosParaEditar)
+                {
+                    if(usuarioActual == usuario.usuario)
+                    {
+                        usuario.claveOriginal = usuario.clave;
+                    }
+                    usuario.usuarioOrignal = usuario.usuario;
+                    usuario.correoOriginal = usuario.correo;
+                    usuario.clave = string.Empty;
+                }
                 usuarios = UsuariosService.ListaDeUsuariosParaEditar;
                 await RefrescarPermisos();
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ObtenerListaClientes(esquema);
+                if(ClientesService.ListaClientes != null) { 
+                listaClientes = ClientesService.ListaClientes;
+                }
                 cargaInicial = true;
             }
 
@@ -58,12 +80,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
             }
         }
 
-        private void VolverAlHome()
-        {
-
-            navigationManager.NavigateTo($"Index", forceLoad: true);
-
-        }
 
         private void CambioCliente(ChangeEventArgs e, string usuarioId)
         {
@@ -240,17 +256,92 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
 
            
         }
+        private void VolverAlHome()
+        {
 
-        //private async Task ActualizarListaProyectos()
-        //{
-        //    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        //    await ProyectosService.ActualizarListaDeProyectos(proyectos, esquema);
-        //    if (ProyectosService.ListaProyectos != null)
-        //    {
-        //        proyectos = ProyectosService.ListaProyectos;
-        //    }
-        //    VolverAlHome();
-        //}
+            navigationManager.NavigateTo($"Index", forceLoad: true);
+
+        }
+        private async Task ValidarUsuarioCorreoYExistente()
+        {
+            foreach (var usuario in usuarios)
+            {
+                usuario.mensajeUsuarioRepite = null;
+                usuario.mensajeCorreoRepite = null;
+                if (usuario.usuarioOrignal != usuario.usuario)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    usuario.usuarioRepite = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
+                    
+                    if (!string.IsNullOrEmpty(usuario.usuarioRepite))
+                    {
+                        usuario.mensajeUsuarioRepite = "El usuario ya existe";
+                        repetido = true;
+                        break;
+                    }
+                    
+                }
+                if (usuario.correoOriginal != usuario.correo)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    usuario.correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
+                    if (!string.IsNullOrEmpty(usuario.correoRepite))
+                    {
+                        usuario.mensajeCorreoRepite = "El correo ya existe";
+                        repetido = true;
+                        break;
+                    }
+                }
+            }
+        }
+        private async Task ActualizarListaUsuarios()
+        {
+            repetido = false;
+            await ValidarUsuarioCorreoYExistente();
+            if (!repetido)
+            {
+           
+            mensajeAcualizar = null;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ActualizarListaDeUsuarios(usuarios, esquema, usuarioActual);
+            await ActualizarListaDePermisos();
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+            if (UsuariosService.ListaDeUsuariosParaEditar != null)
+            {
+                foreach (var usuario in UsuariosService.ListaDeUsuariosParaEditar)
+                {
+                    if (usuarioActual == usuario.usuario)
+                    {
+                       
+                        usuario.claveOriginal = usuario.clave;
+                       
+                    }
+                    usuario.usuarioOrignal = usuario.usuario;
+                    usuario.correoOriginal = usuario.correo;
+                    usuario.clave = string.Empty;
+                }
+                usuarios = UsuariosService.ListaDeUsuariosParaEditar;
+            }
+            await RefrescarPermisos();
+            mensajeAcualizar = "Usuarios Actualizados";
+            }
+        }
+        private async Task ActualizarListaDePermisos()
+        {
+            foreach (var usuario in usuarios)
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await PermisosService.ObtenerListaDePermisosAsociados(usuario.esquema, usuario.id);
+                bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == usuario.listaPermisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(usuario.listaPermisosAsociados.Contains);
+                if (!sonIguales)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await PermisosService.ActualizarListaPermisosAsociados(usuario.listaPermisosAsociados, usuario.id, usuario.esquema);
+
+                }
+            }
+        }
 
         [Parameter]
         public string textoRecibido { get; set; } = string.Empty;

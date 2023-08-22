@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
-using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Models.Proyectos;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos

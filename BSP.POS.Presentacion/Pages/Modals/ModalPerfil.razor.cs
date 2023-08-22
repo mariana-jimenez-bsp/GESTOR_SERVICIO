@@ -19,6 +19,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
         public string usuarioOriginal = string.Empty;
         public string claveOriginal = string.Empty;
+        public string correoOriginal = string.Empty;
 
 
         public string tipo { get; set; } = string.Empty;
@@ -39,6 +40,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             {
                 perfil = UsuariosService.Perfil;
                 claveOriginal = perfil.clave;
+                correoOriginal = perfil.correo;
                 perfil.clave = string.Empty;
                 usuarioOriginal = perfil.usuario;
                
@@ -166,21 +168,12 @@ namespace BSP.POS.Presentacion.Pages.Modals
             bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
             if (!sonIguales)
             {
-                try
-                {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
-                  
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
                 
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal);
+            await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
             await CloseModal();
         }
         private void OpenModal()
@@ -215,7 +208,10 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 }
 
             }
+            claveOriginal = perfil.clave;
+            correoOriginal = perfil.correo;
             perfil.clave = string.Empty;
+            usuarioOriginal = perfil.usuario;
             await OnClose.InvokeAsync(false);
 
         }

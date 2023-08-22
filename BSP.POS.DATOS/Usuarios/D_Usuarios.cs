@@ -213,7 +213,30 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
-        public string ValidarCorreoExistenteCambioClave(String pEsquema, String pCorreo)
+        public string ValidarUsuarioExistente(String pEsquema, String pUsuario)
+        {
+
+            ValidarUsuarioExistenteTableAdapter sp = new ValidarUsuarioExistenteTableAdapter();
+
+            var response = sp.GetData(pEsquema, pUsuario).ToList();
+            string usuario = null;
+            foreach (var item in response)
+            {
+                usuario = item.usuario;
+            }
+
+
+            if (usuario != null)
+            {
+                return usuario;
+            }
+
+            return null;
+
+
+        }
+        
+        public string ValidarCorreoExistente(String pEsquema, String pCorreo)
         {
 
             ValidarCorreoExistenteTableAdapter sp = new ValidarCorreoExistenteTableAdapter();
@@ -378,7 +401,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, "", item.nombre, item.rol, item.telefono, item.departamento, item.imagen, item.esquema);
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.departamento, item.imagen, item.esquema);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -398,7 +421,12 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var usuario in pUsuarios)
                 {
-                    var response = sp.GetData(esquema, usuario.id, usuario.cod_cliente, usuario.usuario, usuario.correo, usuario.clave, usuario.nombre, usuario.rol, usuario.telefono, usuario.imagen);
+                    if (string.IsNullOrEmpty(usuario.clave))
+                    {
+                        U_Perfil perf = ObtenerUsuarioPorId(usuario.esquema, usuario.id);
+                        usuario.clave = perf.clave;
+                    }
+                    var response = sp.GetData(esquema, usuario.id, usuario.cod_cliente, usuario.departamento, usuario.usuario, usuario.correo, usuario.clave, usuario.nombre, usuario.rol, usuario.telefono, usuario.imagen);
 
                 }
                 return "Exito";

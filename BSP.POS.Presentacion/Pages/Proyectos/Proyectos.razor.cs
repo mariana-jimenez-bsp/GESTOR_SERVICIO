@@ -29,12 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
 
 
 
-        private void VolverAlHome()
-        {
 
-            navigationManager.NavigateTo($"Index", forceLoad: true);
-
-        }
 
         private void CambioNombreConsultor(ChangeEventArgs e, string proyectoId)
         {
@@ -133,16 +128,22 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 }
             }
         }
+        private void VolverAlHome()
+        {
 
+            navigationManager.NavigateTo($"Index", forceLoad: true);
+
+        }
         private async Task ActualizarListaProyectos()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ProyectosService.ActualizarListaDeProyectos(proyectos, esquema);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ProyectosService.ObtenerListaDeProyectos(esquema);
             if (ProyectosService.ListaProyectos != null)
             {
                 proyectos = ProyectosService.ListaProyectos;
             }
-            VolverAlHome();
         }
 
         [Parameter]

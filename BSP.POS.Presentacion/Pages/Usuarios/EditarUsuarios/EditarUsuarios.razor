@@ -2,6 +2,7 @@
 
 @inject IUsuariosInterface UsuariosService
 @inject IPermisosInterface PermisosService
+@inject IClientesInterface ClientesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @if(rol == "Admin"){
@@ -9,12 +10,15 @@
 
 <Layout Texto="RecibirTexto"></Layout>
     <div class="ms-2 ">
-        <EditForm Model="@usuarios" >
+            <EditForm Model="@usuarios" OnValidSubmit="ActualizarListaUsuarios">
             <ObjectGraphDataAnnotationsValidator />
             <div class="d-flex justify-content-start align-items-center">
                     <h2 class="blue-dark-text text-41-book">Usuarios <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
             </div>
-
+                @if (mensajeAcualizar != null)
+                {
+                    <MensajeDeLogrado Message="@mensajeAcualizar" />
+                }
             <div class=" d-flex row g-2 text-center ">
                 <div class="container mt-5 border-transparent">
 
@@ -68,24 +72,35 @@
                             <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
                                     <div class="mb-0 col-md-1">
 
-                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                            <select class="w-100 text-center border-input-gray rounded-pill" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                                @foreach (var cliente in listaClientes)
+                                                {
+                                                    <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                                }
+                                            </select>
                                         <ValidationMessage For="@(() => usuario.cod_cliente)" />
-
-
                                     </div>
                                     <div class="mb-0 col-md-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e, usuario.id)">
                                         <ValidationMessage For="@(() => usuario.usuario)" />
+                                            @if (!string.IsNullOrEmpty(usuario.mensajeUsuarioRepite))
+                                            {
+                                                <MensajeRepite Message="@usuario.mensajeUsuarioRepite" />
+                                            }
                                     </div>
                                     <div class="mb-0  col-md-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
                                         <ValidationMessage For="@(() => usuario.correo)" />
+                                            @if (!string.IsNullOrEmpty(usuario.mensajeCorreoRepite))
+                                            {
+                                                <MensajeRepite Message="@usuario.mensajeCorreoRepite" />
+                                            }
                                     </div>
                                     <div class="mb-0  col-md-1">
 
-                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.clave" @oninput="(e) => CambioClave(e, usuario.id)">
+                                        <input class="w-100 text-center border-input-gray rounded-pill" type="password" @bind-value="@usuario.clave" @oninput="(e) => CambioClave(e, usuario.id)">
                                         <ValidationMessage For="@(() => usuario.clave)" />
                                     </div>
                                     <div class="mb-0  col-md-1">

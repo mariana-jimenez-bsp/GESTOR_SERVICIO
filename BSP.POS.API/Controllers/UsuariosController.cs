@@ -142,9 +142,27 @@ namespace BSP.POS.API.Controllers
         public string ValidaCorreoCambioClave(string esquema, string correo)
         {
 
-            string correoDevuelto = user.ValidarCorreoExistenteCambioClave(esquema, correo);
+            string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
 
             return correoDevuelto;
+        }
+        [Authorize]
+        [HttpGet("ValidaCorreoExistente/{esquema}/{correo}")]
+        public string ValidaCorreoExistente(string esquema, string correo)
+        {
+
+            string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
+
+            return correoDevuelto;
+        }
+        [Authorize]
+        [HttpGet("ValidaUsuarioExistente/{esquema}/{usuario}")]
+        public string ValidaUsuarioExistente(string esquema, string usuario)
+        {
+
+            string usuarioDevuelto = user.ValidarUsuarioExistente(esquema, usuario);
+
+            return usuarioDevuelto;
         }
 
         [Authorize]
@@ -349,7 +367,7 @@ namespace BSP.POS.API.Controllers
                     usuario.departamento = item.departamento;
                     usuario.nombre=item.nombre;
                     usuario.correo = item.correo;
-                    usuario.telefono = usuario.telefono;
+                    usuario.telefono = item.telefono;
                     usuario.imagen = item.imagen;
 
                     listaUsuarios.Add(usuario);

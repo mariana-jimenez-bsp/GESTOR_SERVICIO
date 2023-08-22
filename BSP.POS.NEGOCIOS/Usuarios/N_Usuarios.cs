@@ -130,10 +130,15 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             return mensaje;
         }
 
-        public string ValidarCorreoExistenteCambioClave(string pEsquema, string pCorreo)
+        public string ValidarCorreoExistente(string pEsquema, string pCorreo)
         {
-            string correo = objetoUsuario.ValidarCorreoExistenteCambioClave(pEsquema, pCorreo);
+            string correo = objetoUsuario.ValidarCorreoExistente(pEsquema, pCorreo);
             return correo;
+        }
+        public string ValidarUsuarioExistente(string pEsquema, string pUsuario)
+        {
+            string usuario = objetoUsuario.ValidarUsuarioExistente(pEsquema, pUsuario);
+            return usuario;
         }
         public string ListarUsuariosDeClienteDeInforme(String pEsquema, String pConsecutivo)
         {
