@@ -1,0 +1,40 @@
+﻿@page "/Configuraciones"
+@inject NavigationManager navigationManager
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+        <button class="btn btn-outline-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="staticBackdropLabel">Configuraciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="row">
+                    <button class="btn btn-outline-info mb-2" type="button" @onclick="IrAMisUsuarios">
+                        Editar Usuarios
+                    </button>
+                    <button class="btn btn-outline-info" type="button" @onclick="IrAlInicio">
+                        Volver Al Inicio
+                    </button>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code{
+    private void IrAlInicio()
+    {
+
+        navigationManager.NavigateTo($"Index", forceLoad: true);
+    }
+    private void IrAMisUsuarios()
+    {
+
+        navigationManager.NavigateTo($"Usuarios", forceLoad: true);
+    }
+}

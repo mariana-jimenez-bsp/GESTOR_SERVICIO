@@ -94,6 +94,12 @@ namespace BSP.POS.Presentacion.Shared
             navigationManager.NavigateTo($"proyectos", forceLoad: true);
         }
 
+        private void IrAConfiguraciones()
+        {
+
+            navigationManager.NavigateTo($"Configuraciones", forceLoad: true);
+        }
+
         private async Task CerrarSesion()
         {
             await localStorageService.RemoveItemAsync("token");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Models.Permisos;
 using System;
+using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
@@ -14,6 +15,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         public string Usuario { get; set; } = string.Empty;
         public string esquema { get; set; } = string.Empty;
+        public string rol { get; set; } = string.Empty;
         public mPerfil perfil { get; set; } = new mPerfil();
         public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
@@ -34,6 +36,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             Usuario = user.Identity.Name;
+            rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             if (!string.IsNullOrEmpty(Usuario) && !string.IsNullOrEmpty(esquema))
             {

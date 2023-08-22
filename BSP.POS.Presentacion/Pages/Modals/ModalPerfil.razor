@@ -49,6 +49,7 @@
                         <option value="BSP">BSP</option>
                     </select>
                 </div>
+                @if(rol == "Admin"){
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="tipo">Tipo:</label>
                     <select @bind="perfil.rol" class="col-md-4 border border-success rounded-pill green-bg text-light px-2 text-input" id="tipo" @oninput="CambioRol">
@@ -78,7 +79,7 @@
 
                     </div>
                 </div>
-
+                }
             </div>
 
             <div class="modal-footer">
