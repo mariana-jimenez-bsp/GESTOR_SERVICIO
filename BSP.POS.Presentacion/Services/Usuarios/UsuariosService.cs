@@ -321,6 +321,24 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 return null;
             }
         }
+        public async Task AgregarUsuario(mUsuarioParaAgregar usuario, string esquema)
+        {
+            try
+            {
+                usuario.clave = EncriptarClave(usuario.clave);
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "Usuarios/AgregaUsuario";
+                string jsonData = JsonSerializer.Serialize(usuario);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
     }
  }

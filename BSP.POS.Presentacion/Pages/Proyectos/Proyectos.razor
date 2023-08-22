@@ -3,7 +3,8 @@
 @inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
-@if(rol == "Admin"){
+@if (permisos != null && permisos.Any(p => p.Contains("Proyectos"))){
+   
 @if(cargaInicial){
 
 <Layout Texto="RecibirTexto"></Layout>
@@ -138,7 +139,7 @@
         </div>
     </div>
     }
-}else if (string.IsNullOrEmpty(rol))
+}else if (permisos == null)
 {
     <div class="loader">
         <p class="heading">Loading</p>

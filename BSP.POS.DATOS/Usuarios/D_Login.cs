@@ -1,16 +1,12 @@
-﻿using BSP.POS.DATOS.POSDataSetTableAdapters;
+﻿using BSP.POS.DATOS.Permisos;
+using BSP.POS.DATOS.POSDataSetTableAdapters;
+using BSP.POS.UTILITARIOS.Permisos;
 using BSP.POS.UTILITARIOS.Usuarios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using BSP.POS.DATOS.Permisos;
 using System.Security.Cryptography;
-using BSP.POS.UTILITARIOS.Permisos;
+using System.Text;
 
 namespace BSP.POS.DATOS.Usuarios
 {
@@ -29,17 +25,22 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 claveActual = item.clave;
             }
-            
+
             U_LoginToken login = null;
 
             if (CompararClaves(pLogin.contrasena, claveActual))
             {
                 D_Permisos datosPermisos = new D_Permisos();
-               string rol = ObtenerRol(pLogin.esquema, usuario);
+                D_Usuarios datosUsuarios = new D_Usuarios();
+                string rol = ObtenerRol(pLogin.esquema, usuario);
+                U_Perfil perfil = new U_Perfil();
+                perfil = datosUsuarios.ObtenerPefil(pLogin.esquema, usuario);
                 List<U_PermisosAsociados> permisos = new List<U_PermisosAsociados>();
-                permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, usuario);
-               string token = GenerateJWT(usuario, pLogin.key, rol, permisos, pLogin.esquema);
-               var j = _tablaUsuario.GetData(pLogin.correo, claveActual, pLogin.esquema, token).ToList();
+                List<U_Permisos> todosLosPermisos = new List<U_Permisos>();
+                todosLosPermisos = datosPermisos.ListaPermisos(pLogin.esquema);
+                permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, perfil.id);
+                string token = GenerateJWT(usuario, pLogin.key, rol, permisos, todosLosPermisos, pLogin.esquema);
+                var j = _tablaUsuario.GetData(pLogin.correo, claveActual, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
                 {
                     login = new U_LoginToken(item.token, item.esquema, usuario, item.correo);
@@ -55,7 +56,7 @@ namespace BSP.POS.DATOS.Usuarios
             }
 
 
-           
+
 
             return login;
         }
@@ -95,11 +96,11 @@ namespace BSP.POS.DATOS.Usuarios
         public bool CompararClaves(string claveIngresada, string claveGuardada)
         {
 
-                return claveIngresada == claveGuardada;
-            
+            return claveIngresada == claveGuardada;
+
         }
 
-        public string ValidarToken (string token)
+        public string ValidarToken(string token)
         {
             ObtenerUsuarioPorTokenTableAdapter _usuario = new ObtenerUsuarioPorTokenTableAdapter();
             var consultaUsuario = _usuario.GetData("BSP", token);
@@ -108,7 +109,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 usuario = item.usuario;
             }
-            if(usuario == null)
+            if (usuario == null)
             {
                 return null;
             }
@@ -125,7 +126,7 @@ namespace BSP.POS.DATOS.Usuarios
                     return token;
                 }
             }
-            
+
         }
         public JwtSecurityToken DecodificarToken(string token)
         {
@@ -137,7 +138,7 @@ namespace BSP.POS.DATOS.Usuarios
             return tokenDecodificado;
         }
 
-        private string GenerateJWT(string username, string key, string rol, List<U_PermisosAsociados> permisos, string esquema)
+        private string GenerateJWT(string username, string key, string rol, List<U_PermisosAsociados> permisos, List<U_Permisos> todoLosPermisos, string esquema)
         {
             // Also consider using AsymmetricSecurityKey if you want the client to be able to validate the token
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
@@ -153,11 +154,14 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 claims.Add(new Claim("esquema", esquema));
             }
-            if (permisos != null)
+            if (todoLosPermisos != null)
             {
-                foreach (var permiso in permisos)
+                foreach (var permiso in todoLosPermisos)
                 {
-                    claims.Add(new Claim("permission", permiso.id_permiso));
+                    if (permisos.Any(p => p.id_permiso == permiso.Id))
+                    {
+                        claims.Add(new Claim("permission", permiso.permiso));
+                    }
                 }
             }
 
@@ -198,19 +202,19 @@ namespace BSP.POS.DATOS.Usuarios
 
             var response = sp.GetData(pEsquema, pUsuario).ToList();
 
-                foreach (var item in response)
-                {
-                    string r = item.rol;
-                    rol = r;
-                }
-                if(rol != null)
-                {
-                    return rol;
-                }
-                return string.Empty;
-            
+            foreach (var item in response)
+            {
+                string r = item.rol;
+                rol = r;
+            }
+            if (rol != null)
+            {
+                return rol;
+            }
+            return string.Empty;
+
         }
 
-        
+
     }
 }

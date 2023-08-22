@@ -58,15 +58,15 @@
                         @if (usuarios != null)
                         {
                         var listaDeUsuarios = usuarios;
-@*                        if (!string.IsNullOrEmpty(textoRecibido))
+                       if (!string.IsNullOrEmpty(textoRecibido))
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
-                            listaDeProyectos = listaDeProyectos.Where(proyecto =>
-                            proyecto.nombre_proyecto.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                            proyecto.nombre_consultor.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                            proyecto.empresa.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                            listaDeUsuarios = listaDeUsuarios.Where(usuario =>
+                            usuario.nombre.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            usuario.correo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            usuario.usuario.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
                             ).ToList();
-                        }*@
+                        }
                         @foreach (var usuario in listaDeUsuarios)
                             {
                             <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
@@ -166,7 +166,7 @@
                 </div>
             </div>
             <div class="footer-project text-13-medium">
-            <div  class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+            <div @onclick="() => ClickHandlerAgregarUsuario(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
                 Agregar
                 Usuario
             </div>
@@ -181,7 +181,7 @@
             </div>
         </EditForm>
     </div>
-
+    <ModalAgregarUsuario ActivarModal="@actividadModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario"></ModalAgregarUsuario>
 }else{
     <div class="loader">
         <p class="heading">Loading</p>

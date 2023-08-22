@@ -11,11 +11,13 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public List<mProyectos> proyectos = new List<mProyectos>();
         public bool cargaInicial = false;
         public string rol = string.Empty;
+        List<string> permisos;
         protected override async Task OnInitializedAsync()
         {
             cargaInicial = false;
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
+            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await ProyectosService.ObtenerListaDeProyectos(esquema);

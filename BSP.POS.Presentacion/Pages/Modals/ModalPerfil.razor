@@ -16,11 +16,19 @@
                     <input @bind-value="@perfil.correo" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="correo" @oninput="CambioCorreo" />
                 </div>
                 <ValidationMessage For="@(() => perfil.correo)" />
+                @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
+                {
+                    <MensajeRepite Message="@mensajeCorreoRepite" />
+                }
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="usuario">Usuario:</label>
                     <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario" @oninput="CambioUsuario" />
                 </div>
                 <ValidationMessage For="@(() => perfil.usuario)" />
+                @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
+                {
+                    <MensajeRepite Message="@mensajeUsuarioRepite" />
+                }
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="contraseña">Contraseña:</label>
                     <input @bind-value="@perfil.clave" class="col-md-4 border border-success rounded-pill px-2 text-input " type="password" id="contraseña" @oninput="CambioClave" />

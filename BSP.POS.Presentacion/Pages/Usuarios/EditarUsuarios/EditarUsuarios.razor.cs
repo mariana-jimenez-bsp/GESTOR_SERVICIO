@@ -3,8 +3,6 @@ using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
-using BSP.POS.Presentacion.Services.Actividades;
-using BSP.POS.Presentacion.Services.Permisos;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Security.Claims;
@@ -294,6 +292,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
                 }
             }
         }
+
         private async Task ActualizarListaUsuarios()
         {
             repetido = false;
@@ -352,21 +351,33 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
             return Task.CompletedTask;
         }
 
-        bool actividadModalAgregarProyecto = false;
+        bool actividadModalAgregarUsuario = false;
 
-        //async Task ClickHandlerAgregarProyecto(bool activar)
-        //{
-        //    actividadModalAgregarProyecto = activar;
-        //    if (!activar)
-        //    {
-        //        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        //        await ProyectosService.ObtenerListaDeProyectos(esquema);
-        //        if (ProyectosService.ListaProyectos != null)
-        //        {
-        //            proyectos = ProyectosService.ListaProyectos;
-        //        }
-        //    }
-        //    StateHasChanged();
-        //}
+        async Task ClickHandlerAgregarUsuario(bool activar)
+        {
+            actividadModalAgregarUsuario = activar;
+            if (!activar)
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+                if (UsuariosService.ListaDeUsuariosParaEditar != null)
+                {
+                    foreach (var usuario in UsuariosService.ListaDeUsuariosParaEditar)
+                    {
+                        if (usuarioActual == usuario.usuario)
+                        {
+                            usuario.claveOriginal = usuario.clave;
+                        }
+                        usuario.usuarioOrignal = usuario.usuario;
+                        usuario.correoOriginal = usuario.correo;
+                        usuario.clave = string.Empty;
+                    }
+                    
+                    usuarios = UsuariosService.ListaDeUsuariosParaEditar;
+                    await RefrescarPermisos();
+                }
+            }
+            StateHasChanged();
+        }
     }
 }

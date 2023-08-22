@@ -13,6 +13,7 @@ namespace BSP.POS.Presentacion.Shared
         public mImagenUsuario imagenDeUsuario = new mImagenUsuario();
         public string esquema = string.Empty;
         public string rol = string.Empty;
+        List<string> permisos;
 
         protected override async Task OnInitializedAsync()
         {
@@ -20,7 +21,11 @@ namespace BSP.POS.Presentacion.Shared
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
-            var permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+
+            
+
+
             UsuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             if (!string.IsNullOrEmpty(UsuarioActual) && !string.IsNullOrEmpty(esquema))

@@ -20,7 +20,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public string usuarioOriginal = string.Empty;
         public string claveOriginal = string.Empty;
         public string correoOriginal = string.Empty;
-
+        bool repetido = false;
+        public string correoRepite = string.Empty;
+        public string mensajeCorreoRepite = string.Empty;
+        public string usuarioRepite = string.Empty;
+        public string mensajeUsuarioRepite = string.Empty;
 
         public string tipo { get; set; } = string.Empty;
 
@@ -159,10 +163,42 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 perfil.esquema = e.Value.ToString();
             }
         }
-
-        private async Task ActualizarPerfil()
+        private async Task VerificarCorreoYUsuarioExistente()
         {
 
+                mensajeUsuarioRepite = null;
+                mensajeCorreoRepite = null;
+                if (usuarioOriginal != perfil.usuario)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    usuarioRepite = await UsuariosService.ValidarUsuarioExistente(perfil.esquema, perfil.usuario);
+
+                    if (!string.IsNullOrEmpty(usuarioRepite))
+                    {
+                        mensajeUsuarioRepite = "El usuario ya existe";
+                        repetido = true;
+       
+                    }
+
+                }
+                if (correoOriginal != perfil.correo)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    correoRepite = await UsuariosService.ValidarCorreoExistente(perfil.esquema, perfil.correo);
+                    if (!string.IsNullOrEmpty(correoRepite))
+                    {
+                        mensajeCorreoRepite = "El correo ya existe";
+                        repetido = true;
+              
+                    }
+                }
+            
+        }
+        private async Task ActualizarPerfil()
+        {
+            repetido = false;
+            await VerificarCorreoYUsuarioExistente();
+            if (!repetido) { 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
             bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
@@ -175,6 +211,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
             await CloseModal();
+            }
         }
         private void OpenModal()
         {

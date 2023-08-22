@@ -1,12 +1,10 @@
-﻿using BSP.POS.Presentacion.Interfaces.Usuarios;
-using BSP.POS.Presentacion.Models.Permisos;
-using BSP.POS.Presentacion.Services.Usuarios;
+﻿using BSP.POS.Presentacion.Models.Permisos;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace BSP.POS.Presentacion.Models.Usuarios
 {
-    public class mUsuariosParaEditar
+    public class mUsuarioParaAgregar
     {
         public string id { get; set; } = string.Empty;
         public string codigo { get; set; } = string.Empty;
@@ -20,6 +18,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         [EmailAddress(ErrorMessage = "Ingresa una dirección de correo electrónico válida")]
         [Required(ErrorMessage = "El Correo es requerido")]
         public string correo { get; set; } = string.Empty;
+        [Required(ErrorMessage = "La clave es requerida")]
         [StringLength(100, ErrorMessage = "Tamaño máximo de 100 caracteres")]
         public string clave { get; set; } = string.Empty;
         [StringLength(100, ErrorMessage = "Tamaño máximo de 100 caracteres")]
@@ -50,10 +49,5 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public string mensajeUsuarioRepite { get; set; } = string.Empty;
         public string correoRepite { get; set; } = string.Empty;
         public string mensajeCorreoRepite { get; set; } = string.Empty;
-
-
     }
-
-
-
 }

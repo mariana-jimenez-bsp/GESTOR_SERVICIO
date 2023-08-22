@@ -58,21 +58,39 @@
         <div class="sections p-3 div-sections">
 
             <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
-        @if (rol == "Admin")
+        @if(permisos != null){
+        @if (permisos.Any(p => p.Contains("Clientes")))
         {
             <a class="vertical-line p-2 border-light"></a>
             <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+        }
+        @if (permisos.Any(p => p.Contains("Proyectos")))
+        {
             <a class="vertical-line p-2 border-light"></a>
             <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+        }
+        @if (permisos.Any(p => p.Contains("Actividades")))
+        {
             <a class="vertical-line p-2 border-light"></a>
             <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
         }
+        }
+           
+        
     </div>
     </nav>
 
 <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
-@if(rol == "Admin"){
+@if(permisos != null){
+@if (permisos.Any(p => p.Contains("Clientes")))
+{
     <ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
+}
+@if (permisos.Any(p => p.Contains("Actividades")))
+{
     <ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>
+}
+}
+    
 
-    }
+ 

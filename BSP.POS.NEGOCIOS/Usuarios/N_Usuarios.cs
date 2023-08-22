@@ -257,5 +257,11 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             mensaje = objetoUsuario.ActualizarListaDeUsuarios(pUsuarios, esquema);
             return mensaje;
         }
+        public string AgregarUsuario(U_UsuariosParaEditar pUsuario, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objetoUsuario.AgregarUsuario(pUsuario, esquema);
+            return mensaje;
+        }
     }
 }

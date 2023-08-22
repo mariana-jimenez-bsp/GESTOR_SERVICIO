@@ -440,6 +440,28 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
+        public string AgregarUsuario(U_UsuariosParaEditar pUsuario, string esquema)
+        {
+            POSDataSet.AgregarUsuarioDataTable bTabla = new POSDataSet.AgregarUsuarioDataTable();
+            AgregarUsuarioTableAdapter sp = new AgregarUsuarioTableAdapter();
+            try
+            {
+                var response = sp.GetData(pUsuario.cod_cliente, pUsuario.departamento, 
+                    pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, 
+                    pUsuario.rol, pUsuario.telefono, pUsuario.imagen, pUsuario.esquema);
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
         public string GenerarTokenRecuperacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));

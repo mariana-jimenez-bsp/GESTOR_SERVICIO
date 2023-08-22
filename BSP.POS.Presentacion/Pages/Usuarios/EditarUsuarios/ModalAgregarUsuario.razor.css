@@ -122,7 +122,48 @@
     border-radius: 20px;
     border: 3px solid white;
 }
+.custom-checkbox {
+    opacity: 0;
+    cursor: pointer;
+}
+    /* Estilos para crear el diseño del checkbox personalizado */
+    .custom-checkbox + label {
+        position: relative;
+        padding-left: 25px; /* Espacio para el check personalizado */
+        cursor: pointer;
+    }
 
+        .custom-checkbox + label:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            border: 2px solid #2FAD70; /* Color del borde del checkbox */
+            background-color: white; /* Color de fondo del checkbox */
+        }
+
+    /* Estilos para el check personalizado cuando está seleccionado */
+    .custom-checkbox:checked + label:before {
+        content: "\2713";
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        font-size: medium;
+        color: white; /* Cambiar el color del fondo cuando está seleccionado */
+        border: 2px solid #2FAD70; /* Cambiar el color del borde cuando está seleccionado */
+        background-color: #2FAD70; /* Color de fondo del checkbox */
+    }
+.mx-permissions {
+    max-width: 50px;
+}
+
+.image-user {
+    width: 70px;
+}
 .text-41-book {
     font-size: 41pt;
 }

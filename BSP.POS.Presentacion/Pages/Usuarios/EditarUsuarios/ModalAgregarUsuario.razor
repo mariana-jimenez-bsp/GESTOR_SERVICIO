@@ -1,5 +1,170 @@
-﻿<h3>ModalAgregarUsuario</h3>
+﻿@inject IUsuariosInterface UsuariosService
+@inject IPermisosInterface PermisosService
+@inject IClientesInterface ClientesService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-@code {
+<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content bg-light">
+        <EditForm Model="@usuario" OnValidSubmit="AgregarUsuario">
+            <ObjectGraphDataAnnotationsValidator />
+            <div class="modal-header d-flex justify-content-center text-primary">
+                <h2 class="blue-dark-text text-41-book">Agregar Usuario <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
+            </div>
 
-}
+            <div class=" modal-body d-flex row g-2 text-center bg-light ">
+                <div class="container mt-5 border-transparent">
+
+                    <div class="card-header row blue-dark-text blue-dark-text text-16-medium" id="headings-proyects">
+                        <div class="col-md-1">
+                            <label class=" text-center w-100">Cliente</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class=" text-center w-100">Esquema</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class=" text-center w-100">Usuario</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="text-center w-100">Correo</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="pe-2 text-center w-100">Clave</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="pe-3 text-center w-100">Nombre</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="pe-4 text-center w-100">Rol</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="pe-4 text-center w-100">Telefono</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="pe-5 text-center w-100">Dep.</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="pe-4 text-center w-100">Imagen</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="pe-4 text-center w-100">Permisos</label>
+                        </div>
+                    </div>
+                    <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+
+                        <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
+                            <div class="mb-0 col-md-1">
+
+                                <select class="w-100 text-center border-input-gray rounded-pill" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                    <option value="">Escoja un cliente</option>
+                                    @foreach (var cliente in listaClientes)
+                                    {
+                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                    }
+                                </select>
+                                <ValidationMessage For="@(() => usuario.cod_cliente)" />
+                            </div>
+                            <div class="mb-0  col-md-1">
+                                <select @bind="usuario.esquema" class="w-100 text-center border-input-gray rounded-pill me-2" @oninput="(e) => CambioEsquema(e, usuario.id)">
+                                    <option value="">Escoja el Esquema</option>
+                                    <option value="BSP">BSP</option>
+                                </select>
+                                <ValidationMessage For="@(() => usuario.esquema)" />
+                            </div>
+                            <div class="mb-0 col-md-1">
+
+                                <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e, usuario.id)">
+                                <ValidationMessage For="@(() => usuario.usuario)" />
+                                @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
+                                {
+                                    <MensajeRepite Message="@mensajeUsuarioRepite" />
+                                }
+                            </div>
+                            <div class="mb-0  col-md-1">
+
+                                <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
+                                <ValidationMessage For="@(() => usuario.correo)" />
+                                @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
+                                {
+                                    <MensajeRepite Message="@mensajeCorreoRepite" />
+                                }
+                            </div>
+                            <div class="mb-0  col-md-1">
+
+                                <input class="w-100 text-center border-input-gray rounded-pill" type="password" @bind-value="@usuario.clave" @oninput="(e) => CambioClave(e, usuario.id)">
+                                <ValidationMessage For="@(() => usuario.clave)" />
+                            </div>
+                            <div class="mb-0  col-md-1">
+
+                                <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e, usuario.id)">
+                                <ValidationMessage For="@(() => usuario.nombre)" />
+                            </div>
+                            <div class="mb-0  col-md-1">
+                                <select @bind="usuario.rol" class="w-100 text-center border-input-gray rounded-pill me-2" @oninput="(e) => CambioRol(e, usuario.id)">
+                                    <option value="">Escoja el rol</option>
+                                    <option value="Usuario">Usuario</option>
+                                    <option value="Admin">Administrador</option>
+                                </select>
+                                <ValidationMessage For="@(() => usuario.rol)" />
+                            </div>
+                            <div class="mb-0  col-md-1">
+
+                                <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@usuario.telefono" @oninput="(e) => CambioTelefono(e, usuario.id)">
+                                <ValidationMessage For="@(() => usuario.telefono)" />
+                            </div>
+
+                            <div class="mb-0  col-md-1">
+
+                                <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@usuario.departamento" @oninput="(e) => CambioDepartamento(e, usuario.id)">
+                                <ValidationMessage For="@(() => usuario.departamento)" />
+                            </div>
+
+                            <div class="mb-0  col-md-1 d-flex row justify-content-center">
+                                @if (usuario.imagen != null && !usuario.imagen.SequenceEqual(new byte[] { 0x00 }))
+                                {
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(usuario.imagen)" class="ps-2 pb-1 image-user" alt="Imagen" />
+                                }
+                                else
+                                {
+                                    <img class="ps-2 pb-1" alt="Sin Imagen" />
+                                }
+                                <InputFile class="text-center d-flex row me-2" accept="image/x-png,image/jpeg" OnChange="@(e => CambioImagen(e, usuario.id))" />
+                                <ValidationMessage For="@(() => usuario.ImagenFile)" />
+                            </div>
+                            <div class="row col-md-2 text-start d-flex align-items-center justify-content-start">
+                                @if (todosLosPermisos != null)
+                                {
+
+                                    foreach (var permiso in todosLosPermisos)
+                                    {
+
+
+                                        <div class=" ms-4">
+                                            <input type="checkbox" class="custom-checkbox" id="myCheckbox-@usuario.id-@permiso.Id" checked="@permiso.EstadoCheck" @onchange="(e) => HandleCheckCambiado(e, permiso.Id)">
+                                            <label class="label-transparent" for="myCheckbox-@usuario.id-@permiso.Id">@permiso.permiso</label>
+                                        </div>
+
+                                    }
+                                }
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-13-medium">
+                <button @onclick="() => CloseModal()" class="rounded-pill border border-primary blue-dark-bg text-light mx-4" id="descartar-agregar-proyectos">
+                    Descartar
+                    cambios
+                </button>
+                <button type="submit" class="rounded-pill border border-input-gray green-bg text-light mx-4" id="guardar-agregar-proyectos">
+                    Guardar
+                    cambios
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
