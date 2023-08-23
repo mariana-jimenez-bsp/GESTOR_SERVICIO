@@ -11,10 +11,16 @@
             </div>
 
             <div class=" modal-body d-flex row g-2 text-center ">
-                <div class="container mt-2">
+                <div class="d-flex">
+                    <a class='text-light eyelash-client eyelash-client-list p-2 pe-3 ps-3 @GetTabLinkClass("lista")' @onclick='() => ChangeTab("lista")'>Lista Clientes</a>
+                    <a class=' text-light eyelash-client eyelash-client-create p-2 pe-3 ps-3 @GetTabLinkClass("crear")' @onclick='() => ChangeTab("crear")'>Crear Cliente</a>
+                </div>
+                <div class="container mt-2" style='display: @(activeTab == "lista" ? "block" : "none")'>
+                   
                     <!-- Utilizamos el componente Accordion de Bootstrap -->
 
-                    <div id="accordion" class="border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client">
+                    <div id="accordion" class="border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client" >
+                       
                         <!-- Desplegable 1 -->
                         <div class="card border-transparent pb-3">
                             <div class="card-header row blue-light-text fw-bold text-15-book" id="headings">
@@ -192,6 +198,9 @@
                             <!-- Agrega más desplegables aquí si es necesario -->
                         </div>
                     </div>
+                </div>
+                <div class="container mt-2" style='display: @(activeTab == "crear" ? "block" : "none")'>
+                    
                 </div>
             </div>
             <div class="modal-footer button-text">

@@ -176,5 +176,17 @@ namespace BSP.POS.Presentacion.Pages.Modals
             // Compara el elemento actual con el último elemento de la lista
             return cliente.listaDeUsuarios.IndexOf(usuario) == cliente.listaDeUsuarios.Count - 1;
         }
+
+        private string activeTab = "lista"; // Pestaña activa inicialmente
+
+        private void ChangeTab(string tabId)
+        {
+            activeTab = tabId;
+        }
+
+        private string GetTabLinkClass(string tabId)
+        {
+            return activeTab == tabId ? "active" : "";
+        }
     }
 }
