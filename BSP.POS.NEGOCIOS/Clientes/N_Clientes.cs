@@ -74,5 +74,14 @@ namespace BSP.POS.NEGOCIOS.Clientes
             mensaje = objCliente.ActualizarListaDeClientes(pClientes, esquema);
             return mensaje;
         }
+
+        public string ObtenerListaClientesCorporaciones(string pEsquema)
+        {
+            var lista = new List<U_ClienteContado>();
+            lista = objCliente.ObtenerListaClientesCorporaciones(pEsquema);
+            string listaJson = JsonConvert.SerializeObject(lista);
+
+            return listaJson;
+        }
     }
 }

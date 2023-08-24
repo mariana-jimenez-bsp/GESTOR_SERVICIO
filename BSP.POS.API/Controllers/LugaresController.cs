@@ -23,8 +23,8 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-                string listaInformesAsociadosJson = _lugares.ObtenerPaises(esquema);
-                return listaInformesAsociadosJson;
+                string listaJson = _lugares.ObtenerPaises(esquema);
+                return listaJson;
             }
 
             catch (Exception ex)
@@ -41,8 +41,8 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string pais = Request.Headers["X-Pais"];
-                string listaInformesAsociadosJson = _lugares.ObtenerProvinciasPorPais(esquema, pais);
-                return listaInformesAsociadosJson;
+                string listaJson = _lugares.ObtenerProvinciasPorPais(esquema, pais);
+                return listaJson;
             }
 
             catch (Exception ex)
@@ -60,8 +60,8 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
                 string pais = Request.Headers["X-Pais"];
                 string provincia = Request.Headers["X-Provincia"];
-                string listaInformesAsociadosJson = _lugares.ObtenerCantonesPorProvincia(esquema, pais, provincia);
-                return listaInformesAsociadosJson;
+                string listaJson = _lugares.ObtenerCantonesPorProvincia(esquema, pais, provincia);
+                return listaJson;
             }
 
             catch (Exception ex)
@@ -80,8 +80,8 @@ namespace BSP.POS.API.Controllers
                 string pais = Request.Headers["X-Pais"];
                 string provincia = Request.Headers["X-Provincia"];
                 string canton = Request.Headers["X-Canton"];
-                string listaInformesAsociadosJson = _lugares.ObtenerDistritosPorCanton(esquema, pais, provincia, canton);
-                return listaInformesAsociadosJson;
+                string listaJson = _lugares.ObtenerDistritosPorCanton(esquema, pais, provincia, canton);
+                return listaJson;
             }
 
             catch (Exception ex)
@@ -101,8 +101,8 @@ namespace BSP.POS.API.Controllers
                 string provincia = Request.Headers["X-Provincia"];
                 string canton = Request.Headers["X-Canton"];
                 string distrito = Request.Headers["X-Distrito"];
-                string listaInformesAsociadosJson = _lugares.ObtenerBarriosPorDistrito(esquema, pais, provincia, canton, distrito);
-                return listaInformesAsociadosJson;
+                string listaJson = _lugares.ObtenerBarriosPorDistrito(esquema, pais, provincia, canton, distrito);
+                return listaJson;
             }
 
             catch (Exception ex)

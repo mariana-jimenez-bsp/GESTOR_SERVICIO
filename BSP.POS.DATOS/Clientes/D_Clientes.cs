@@ -112,6 +112,24 @@ namespace BSP.POS.DATOS.Clientes
 
         }
 
+        public List<U_ClienteContado> ObtenerListaClientesCorporaciones(string pEsquema)
+        {
+            LISTAR_CORPORACIONESTableAdapter sp = new LISTAR_CORPORACIONESTableAdapter();
+            var response = sp.GetData(pEsquema);
+            List<U_ClienteContado> lista = new List<U_ClienteContado>();
+
+            foreach (var item in response)
+            {
+                U_ClienteContado c = new U_ClienteContado();
+                c.cliente = item.CLIENTE;
+                c.descripcion = item.DESCRIPCION;
+
+                lista.Add(c);
+            }
+
+            return lista;
+        }
+
 
     }
 }

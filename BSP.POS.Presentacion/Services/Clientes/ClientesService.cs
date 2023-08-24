@@ -19,7 +19,8 @@ namespace BSP.POS.Presentacion.Services.Clientes
         public List<mClientes> ListaClientes { get; set; } = new List<mClientes>();
         public List<mClientes> ListaClientesRecientes { get; set; } = new List<mClientes>();
         public mClienteAsociado ClienteAsociado { get; set; } = new mClienteAsociado();
-
+        public List<mClienteContado> ListaClientesCorporaciones { get; set; } = new List<mClienteContado>();
+        
         public async Task<mClienteAsociado?> ObtenerClienteAsociado(string cliente, string esquema)
         {
             string url = "Clientes/ObtengaElClienteAsociado/" + cliente + "/" + esquema;
@@ -68,6 +69,14 @@ namespace BSP.POS.Presentacion.Services.Clientes
             }
 
 
+        }
+        public async Task ObtenerListaClientesCorporaciones(string esquema)
+        {
+            var listaClientes = await _http.GetFromJsonAsync<List<mClienteContado>>("Clientes/ObtengaLaListaDeClientesCorporaciones/" + esquema);
+            if (listaClientes is not null)
+            {
+                ListaClientesCorporaciones = listaClientes;
+            }
         }
     }
 }

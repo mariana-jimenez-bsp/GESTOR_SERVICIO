@@ -40,5 +40,21 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public string RecordDate { get; set; } = string.Empty;
         public string CreateDate { get; set; } = string.Empty;
         public byte[] IMAGEN { get; set; } = new byte[] { 0x00 };
+        public string CONDICION_PAGO { get; set; } = string.Empty;
+        public string DOC_A_GENERAR { get; set; } = string.Empty;
+        public string EXENCION_IMP1 { get; set; } = string.Empty;
+        public string EXENCION_IMP2 { get; set; } = string.Empty;
+        public string DESCUENTO { get; set; } = string.Empty;
+        public string ES_CORPORACION { get; set; } = string.Empty;
+        public string CLI_CORPORAC_ASOC { get; set; } = string.Empty;
+        public string TIPO_IMPUESTO { get; set; } = string.Empty;
+        public string TIPO_TARIFA { get; set; } = string.Empty;
+        public string PORC_TARIFA { get; set; } = string.Empty;
+        public string TIPIFICACION_CLIENTE { get; set; } = string.Empty;
+        public string AFECTACION_IVA { get; set; } = string.Empty;
+        public string TIPO_NIT { get; set; } = string.Empty;
+
+        public bool readonlyExento = true;
+        public bool readonlyCorporacion = true;
     }
 }

@@ -99,6 +99,22 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [HttpGet("ObtengaLaListaDeClientesCorporaciones/{esquema}")]
+        public string ObtengaLaListaDeClientesCorporaciones(string esquema)
+        {
+            try
+            {
+                string listaClientesJson = clientes.ObtenerListaClientesCorporaciones(esquema);
+                return listaClientesJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
 
     }
 }
