@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using BSP.POS.Presentacion.Models.Usuarios;
 
 namespace BSP.POS.Presentacion.Models.Clientes
 {
-    public class mClientes
+    public class mAgregarCliente
     {
         public string CLIENTE { get; set; } = string.Empty;
         public string CONTACTO { get; set; } = string.Empty;
@@ -41,9 +40,5 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public string RecordDate { get; set; } = string.Empty;
         public string CreateDate { get; set; } = string.Empty;
         public byte[] IMAGEN { get; set; } = new byte[] { 0x00 };
-        public List<mUsuariosDeCliente> listaDeUsuarios { get; set; } = new List<mUsuariosDeCliente>();
-        public bool IsOpen { get; set; } = false;
-
-    
     }
 }

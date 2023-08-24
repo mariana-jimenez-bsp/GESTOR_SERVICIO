@@ -1,224 +1,132 @@
-﻿//using Microsoft.AspNetCore.Components;
+﻿using BSP.POS.Presentacion.Models.Lugares;
+using Microsoft.AspNetCore.Components;
 
-//namespace BSP.POS.Presentacion.Pages.Modals.Creates
-//{
-//    public partial class CrearCliente : ComponentBase
-//    {
-//        [Parameter] public bool ActivarModal { get; set; } = false;
-//        [Parameter] public EventCallback<bool> OnClose { get; set; }
-//        public string esquema = string.Empty;
-//        public mUsuarioParaAgregar usuario = new mUsuarioParaAgregar();
-//        public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
-//        public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
-//        public List<mClientes> listaClientes = new List<mClientes>();
-//        bool repetido = false;
-//        public string correoRepite = string.Empty;
-//        public string mensajeCorreoRepite = string.Empty;
-//        public string usuarioRepite = string.Empty;
-//        public string mensajeUsuarioRepite = string.Empty;
-//        protected override async Task OnInitializedAsync()
-//        {
-//            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//            var user = authenticationState.User;
-//            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-//            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//            await PermisosService.ObtenerListaDePermisos(esquema);
-//            if (PermisosService.ListaPermisos != null)
-//            {
-//                todosLosPermisos = PermisosService.ListaPermisos;
+namespace BSP.POS.Presentacion.Pages.Modals.Creates
+{
+    public partial class CrearCliente : ComponentBase
+    {
+        public string esquema = string.Empty;   
+        public List<mLugares> listaPaises = new List<mLugares>();
+        public List<mLugares> listaProvincias = new List<mLugares>();
+        public List<mLugares> listaCantones = new List<mLugares>();
+        public List<mLugares> listaDistritos = new List<mLugares>();
+        public List<mLugares> listaBarrios = new List<mLugares>();
+        public string paisActual;
+        public string provinciaActual;
+        public string cantonActual;
+        public string distritoActual;
+        public string barrioActual;
+        protected override async Task OnInitializedAsync()
+        {
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await LugaresService.ObtenerListaDePaises(esquema);
+            if(LugaresService.listaDePaises != null)
+            {
+                listaPaises = LugaresService.listaDePaises;
+            }
+            
+        }
 
-//            }
-//            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//            await ClientesService.ObtenerListaClientes(esquema);
-//            if (ClientesService.ListaClientes != null)
-//            {
-//                listaClientes = ClientesService.ListaClientes;
-//            }
-//        }
+        private async Task CambioPais(ChangeEventArgs e)
+        {
+            listaProvincias = new List<mLugares>();
+            listaCantones = new List<mLugares>();
+            listaDistritos = new List<mLugares>();
+            listaBarrios = new List<mLugares>();
+            provinciaActual = null;
+            cantonActual = null;
+            distritoActual = null;
+            barrioActual = null;
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                paisActual = e.Value.ToString();
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await LugaresService.ObtenerListaDeProvinciasPorPais(esquema, paisActual);
+                if(LugaresService.listaDeProvincias != null)
+                {
+                    listaProvincias = LugaresService.listaDeProvincias;
+                }
+            }
+        }
 
-//        private void OpenModal()
-//        {
-//            ActivarModal = true;
-//        }
+        private async Task CambioProvincia(ChangeEventArgs e)
+        {
+            listaCantones = new List<mLugares>();
+            listaDistritos = new List<mLugares>();
+            listaBarrios = new List<mLugares>();
+            cantonActual = null;
+            distritoActual = null;
+            barrioActual = null;
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                
+                provinciaActual = e.Value.ToString();
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await LugaresService.ObtenerListaDeCantonesPorProvincia(esquema, paisActual, provinciaActual);
+                if (LugaresService.ListaDeCantones != null)
+                {
+                    listaCantones = LugaresService.ListaDeCantones;
+                }
+            }
+        }
 
-//        private async Task CloseModal()
-//        {
-//            usuario = new mUsuarioParaAgregar();
-//            await OnClose.InvokeAsync(false);
+        private async Task CambioCanton(ChangeEventArgs e)
+        {
+          
+            listaDistritos = new List<mLugares>();
+            listaBarrios = new List<mLugares>();
+            
+            distritoActual = null;
+            barrioActual = null;
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
 
-//        }
+                cantonActual = e.Value.ToString();
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await LugaresService.ObtenerListaDeDistritosPorCanton(esquema, paisActual, provinciaActual, cantonActual);
+                if (LugaresService.listaDeDistritos != null)
+                {
+                    listaDistritos = LugaresService.listaDeDistritos;
+                }
+            }
+        }
 
-//        private void CambioCliente(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//                usuario.cod_cliente = e.Value.ToString();
-//        }
+        private async Task CambioDistrito(ChangeEventArgs e)
+        {
 
-
-//        private void CambioUsuario(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.usuario = e.Value.ToString();
-//            }
-//        }
-
-//        private void CambioCorreo(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.correo = e.Value.ToString();
-//            }
-//        }
-
-//        private void CambioClave(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.clave = e.Value.ToString();
-//            }
-//        }
-
-//        private void CambioRol(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.rol = e.Value.ToString();
-//            }
-//        }
-//        private void CambioEsquema(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.esquema = e.Value.ToString();
-//            }
-//        }
-
-//        private void CambioNombre(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.nombre = e.Value.ToString();
-//            }
-//        }
-
-//        private void CambioTelefono(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.telefono = e.Value.ToString();
-//            }
-//        }
+            
+            listaBarrios = new List<mLugares>();
 
 
-//        private void CambioDepartamento(ChangeEventArgs e, string usuarioId)
-//        {
-//            if (!string.IsNullOrEmpty(e.Value.ToString()))
-//            {
-//                usuario.departamento = e.Value.ToString();
-//            }
-//        }
-//        private async Task CambioImagen(InputFileChangeEventArgs e, string usuarioId)
-//        {
-//            var archivo = e.File;
+            barrioActual = null;
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
 
-//            if (archivo != null)
-//            {
-//                using (var memoryStream = new MemoryStream())
-//                {
-//                    await archivo.OpenReadStream().CopyToAsync(memoryStream);
-//                    byte[] bytes = memoryStream.ToArray();
-//                    usuario.imagen = bytes;
+                distritoActual = e.Value.ToString();
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await LugaresService.ObtenerListaDeBarriosPorDistrito(esquema, paisActual, provinciaActual, cantonActual, distritoActual);
+                if (LugaresService.listaDeBarrios != null)
+                {
+                    listaBarrios = LugaresService.listaDeBarrios;
+                }
+            }
+        }
 
-//                }
-//            }
+        private async Task CambioBarrio(ChangeEventArgs e)
+        {
 
-//        }
-//        private void HandleCheckCambiado(ChangeEventArgs e, string idPermiso)
-//        {
-//            var permiso = new mPermisos();
-//            foreach (var item in todosLosPermisos)
-//            {
-//                if (item.Id == idPermiso)
-//                {
-//                    item.EstadoCheck = (bool)e.Value;
-//                    permiso = item;
-//                }
-//            }
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
 
-
-//            var permisoEncontrado = permisosAsociados.FirstOrDefault(p => p.id_permiso == permiso.Id);
-
-//            if (permiso.EstadoCheck)
-//            {
-//                if (permisoEncontrado == null)
-//                {
-//                    mPermisosAsociados permisoParaAñadir = new mPermisosAsociados();
-//                    permisoParaAñadir.id_permiso = permiso.Id;
-//                    permisosAsociados.Add(permisoParaAñadir);
-
-//                }
-//            }
-//            else
-//            {
-//                if (permisoEncontrado != null)
-//                {
-//                    permisosAsociados.Remove(permisoEncontrado);
-
-//                }
-//            }
-//        }
-//        private async Task VerificarCorreoYUsuarioExistente()
-//        {
-
-//            mensajeUsuarioRepite = null;
-//            mensajeCorreoRepite = null;
-//            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//            usuarioRepite = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
-
-//            if (!string.IsNullOrEmpty(usuarioRepite))
-//            {
-//                mensajeUsuarioRepite = "El usuario ya existe";
-//                repetido = true;
-
-//            }
+                barrioActual = e.Value.ToString();
+               
+            }
+        }
 
 
 
-//            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//            correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
-//            if (!string.IsNullOrEmpty(correoRepite))
-//            {
-//                mensajeCorreoRepite = "El correo ya existe";
-//                repetido = true;
-
-//            }
-
-
-//        }
-//        private async Task AgregarUsuario()
-//        {
-//            repetido = false;
-//            await VerificarCorreoYUsuarioExistente();
-//            if (!repetido)
-//            {
-//                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//                await UsuariosService.AgregarUsuario(usuario, esquema);
-//                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//                await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
-//                mPerfil usuarioCreado = new mPerfil();
-//                if (UsuariosService.Perfil != null)
-//                {
-//                    usuarioCreado = UsuariosService.Perfil;
-//                }
-//                if (permisosAsociados.Any())
-//                {
-//                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-//                    await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
-//                }
-
-//                await CloseModal();
-//            }
-//        }
-//    }
-//}
+    }
+}

@@ -1,4 +1,6 @@
-﻿<div class="row text-start">
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILugaresInterface LugaresService
+<div class="row text-start max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
 
 <div class="d-flex justify-content-center">
     <label class="col-md-4  blue-dark-text label-text" for="c-cliente">Nombre Cliente:</label>
@@ -42,16 +44,104 @@
     </div>
     <div class="d-flex justify-content-center">
         <label class="col-md-4  blue-dark-text label-text" for="c-pais">País:</label>
-        <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-pais">
-            <option value="">Seleccione la condición de pago</option>
+        <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-pais" @oninput="CambioPais">
+            <option value="">Seleccione el páis</option>
+            @if (listaPaises.Any())
+            {
+                foreach (var pais in listaPaises)
+                {
+                    <option value="@pais.lugar">@pais.descripcion</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-provincia">Provincia:</label>
+        <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-provincia" @oninput="CambioProvincia">
+            <option value="">Seleccione la Provincia</option>
+            @if (listaProvincias.Any())
+            {
+                foreach (var provincia in listaProvincias)
+                {
+                    <option value="@provincia.lugar">@provincia.descripcion</option>
+                }
+            }
+        </select>
+    </div>
+        <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-canton">Cantón:</label>
+        <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-canton" @oninput="CambioCanton">
+            <option value="">Seleccione el Cantón</option>
+            @if (listaCantones.Any())
+            {
+                foreach (var canton in listaCantones)
+                {
+                    <option value="@canton.lugar">@canton.descripcion</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-distrito">Distrito:</label>
+        <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-distrito" @oninput="CambioDistrito">
+            <option value="">Seleccione el Distrito</option>
+            @if (listaDistritos.Any())
+            {
+                foreach (var distrito in listaDistritos)
+                {
+                    <option value="@distrito.lugar">@distrito.descripcion</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-barrio">Barrio:</label>
+        <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-barrio" @oninput="CambioBarrio">
+            <option value="">Seleccione el Barrio</option>
+            @if (listaBarrios.Any())
+            {
+                foreach (var barrio in listaBarrios)
+                {
+                    <option value="@barrio.lugar">@barrio.descripcion</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-otrassenas">Otras señas:</label>
+        <textarea class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-otrassenas"></textarea>
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-documento">Documento a generar:</label>
+        <div id="c-documento">
+        <label class="radio-inline"><input type="radio" id="rdFactura" value="F">Factura</label>
+        <label class="radio-inline "><input type="radio" id="rdTiquete" value="T">Tiquete</label>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-exento">Exento de impuesto:</label>
+        <div id="c-exento">
+            <label class="radio-inline"><input type="radio" id="exentoSi" value="S">Sí</label>
+            <label class="radio-inline "><input type="radio" id="exentoNo" value="N">No</label>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-ventas">Ventas %:</label>
+        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-ventas" />
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-consumo">Consumo %:</label>
+        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consumo" />
+    </div>
+    <div class="d-flex justify-content-center">
+        <label class="col-md-4  blue-dark-text label-text" for="c-nivel">Nivel precio:</label>
+        <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-nivel">
+            <option value="">Seleccione el Nivel Precio</option>
             <option value="CRC">Colón</option>
             <option value="USD">Dolar</option>
         </select>
     </div>
-    <div class="d-flex justify-content-center">
-        <label class="col-md-4  blue-dark-text label-text" for="c-correo">Correo:</label>
-        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-correo" />
-    </div>
+
     
 </div>
 @code {
