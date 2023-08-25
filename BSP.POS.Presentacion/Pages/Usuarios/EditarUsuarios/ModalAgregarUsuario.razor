@@ -12,113 +12,80 @@
             </div>
 
             <div class=" modal-body d-flex row g-2 text-center bg-light ">
-                <div class="container mt-5 border-transparent">
-
-                    <div class="card-header row blue-dark-text blue-dark-text text-16-medium" id="headings-proyects">
-                        <div class="col-md-1">
-                            <label class=" text-center w-100">Cliente</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class=" text-center w-100">Esquema</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class=" text-center w-100">Usuario</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class="text-center w-100">Correo</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class="pe-2 text-center w-100">Clave</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class="pe-3 text-center w-100">Nombre</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class="pe-4 text-center w-100">Rol</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class="pe-4 text-center w-100">Telefono</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class="pe-5 text-center w-100">Dep.</label>
-                        </div>
-                        <div class="col-md-1">
-                            <label class="pe-4 text-center w-100">Imagen</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="pe-4 text-center w-100">Permisos</label>
-                        </div>
-                    </div>
-                    <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
-
-                        <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
-                            <div class="mb-0 col-md-1">
-
-                                <select class="w-100 text-center border-input-gray rounded-pill" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
-                                    <option value="">Escoja un cliente</option>
-                                    @foreach (var cliente in listaClientes)
-                                    {
-                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
-                                    }
-                                </select>
-                                <ValidationMessage For="@(() => usuario.cod_cliente)" />
-                            </div>
-                            <div class="mb-0  col-md-1">
-                                <select @bind="usuario.esquema" class="w-100 text-center border-input-gray rounded-pill me-2" @oninput="(e) => CambioEsquema(e, usuario.id)">
-                                    <option value="">Escoja el Esquema</option>
-                                    <option value="BSP">BSP</option>
-                                </select>
-                                <ValidationMessage For="@(() => usuario.esquema)" />
-                            </div>
-                            <div class="mb-0 col-md-1">
-
-                                <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e, usuario.id)">
-                                <ValidationMessage For="@(() => usuario.usuario)" />
-                                @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
+                <div class="container mt-5 border-transparent max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                    <div class="row  border border-success rounded-5 my-3">
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-nombreCliente">Nombre Cliente:</label>
+                            <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                <option value="">Escoja un cliente</option>
+                                @foreach (var cliente in listaClientes)
                                 {
-                                    <MensajeRepite Message="@mensajeUsuarioRepite" />
+                                    <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
                                 }
-                            </div>
-                            <div class="mb-0  col-md-1">
-
-                                <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
-                                <ValidationMessage For="@(() => usuario.correo)" />
-                                @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
-                                {
-                                    <MensajeRepite Message="@mensajeCorreoRepite" />
-                                }
-                            </div>
-                            <div class="mb-0  col-md-1">
-
-                                <input class="w-100 text-center border-input-gray rounded-pill" type="password" @bind-value="@usuario.clave" @oninput="(e) => CambioClave(e, usuario.id)">
-                                <ValidationMessage For="@(() => usuario.clave)" />
-                            </div>
-                            <div class="mb-0  col-md-1">
-
-                                <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e, usuario.id)">
-                                <ValidationMessage For="@(() => usuario.nombre)" />
-                            </div>
-                            <div class="mb-0  col-md-1">
-                                <select @bind="usuario.rol" class="w-100 text-center border-input-gray rounded-pill me-2" @oninput="(e) => CambioRol(e, usuario.id)">
-                                    <option value="">Escoja el rol</option>
-                                    <option value="Usuario">Usuario</option>
-                                    <option value="Admin">Administrador</option>
-                                </select>
-                                <ValidationMessage For="@(() => usuario.rol)" />
-                            </div>
-                            <div class="mb-0  col-md-1">
-
-                                <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@usuario.telefono" @oninput="(e) => CambioTelefono(e, usuario.id)">
-                                <ValidationMessage For="@(() => usuario.telefono)" />
-                            </div>
-
-                            <div class="mb-0  col-md-1">
-
-                                <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@usuario.departamento" @oninput="(e) => CambioDepartamento(e, usuario.id)">
-                                <ValidationMessage For="@(() => usuario.departamento)" />
-                            </div>
-
-                            <div class="mb-0  col-md-1 d-flex row justify-content-center">
+                            </select>
+                        </div>
+                        <ValidationMessage For="@(() => usuario.cod_cliente)" />
+                        
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-esquema">Esquema:</label>
+                            <select @bind="usuario.esquema" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-esquema" @oninput="(e) => CambioEsquema(e, usuario.id)">
+                                <option value="">Escoja el Esquema</option>
+                                <option value="BSP">BSP</option>
+                            </select>
+                        </div>
+                        <ValidationMessage For="@(() => usuario.esquema)" />
+                    
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-usuario">Usuario:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-usuario" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e, usuario.id)">
+                        </div>
+                        <ValidationMessage For="@(() => usuario.usuario)" />
+                        @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
+                        {
+                            <MensajeRepite Message="@mensajeUsuarioRepite" />
+                        }
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-correo">Correo:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-correo" type="text" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
+                        </div>
+                        <ValidationMessage For="@(() => usuario.correo)" />
+                        @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
+                        {
+                            <MensajeRepite Message="@mensajeCorreoRepite" />
+                        }
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-clave">Clave:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-clave" type="password" @oninput="(e) => CambioClave(e, usuario.id)">
+                        </div>
+                        <ValidationMessage For="@(() => usuario.clave)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-nombreUsuario">Nombre:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-nombreUsuario" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e, usuario.id)">
+                        </div>
+                        <ValidationMessage For="@(() => usuario.nombre)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-rol">Rol:</label>
+                            <select @bind="usuario.rol" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-rol" @oninput="(e) => CambioRol(e, usuario.id)">
+                                <option value="">Escoja el rol</option>
+                                <option value="Usuario">Usuario</option>
+                                <option value="Admin">Administrador</option>
+                            </select>
+                        </div>
+                        <ValidationMessage For="@(() => usuario.rol)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-telefono">Teléfono:</label>                            
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-telefono" @bind-value="@usuario.telefono" @oninput="(e) => CambioTelefono(e, usuario.id)">
+                        </div>
+                        <ValidationMessage For="@(() => usuario.telefono)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-departamento">Departamento:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-departamento" type="text" @bind-value="@usuario.departamento" @oninput="(e) => CambioDepartamento(e, usuario.id)">
+                        </div>
+                        <ValidationMessage For="@(() => usuario.departamento)" />
+                       
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text">Imagen:</label>
+                            <div class="col-md-4 px-2">
                                 @if (usuario.imagen != null && !usuario.imagen.SequenceEqual(new byte[] { 0x00 }))
                                 {
                                     <img src="data:image/png;base64,@Convert.ToBase64String(usuario.imagen)" class="ps-2 pb-1 image-user" alt="Imagen" />
@@ -128,9 +95,13 @@
                                     <img class="ps-2 pb-1" alt="Sin Imagen" />
                                 }
                                 <InputFile class="text-center d-flex row me-2" accept="image/x-png,image/jpeg" OnChange="CambioImagen" />
-                                <ValidationMessage For="@(() => usuario.ImagenFile)" />
                             </div>
-                            <div class="row col-md-2 text-start d-flex align-items-center justify-content-start">
+                            
+                        </div>
+                        <ValidationMessage For="@(() => usuario.ImagenFile)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text">Permisos:</label>
+                            <div class="col-md-4 px-2">
                                 @if (todosLosPermisos != null)
                                 {
 
@@ -145,13 +116,9 @@
 
                                     }
                                 }
-
-
                             </div>
 
                         </div>
-
-
                     </div>
                 </div>
             </div>

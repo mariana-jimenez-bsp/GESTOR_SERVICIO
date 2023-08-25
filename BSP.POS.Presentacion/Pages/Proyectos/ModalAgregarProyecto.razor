@@ -10,75 +10,43 @@
             </div>
 
             <div class=" modal-body d-flex row g-2 text-center bg-light ">
-                <div class="container mt-5 border-transparent">
-
-                    <div class="card-header row blue-dark-text blue-dark-text text-16-medium" id="headings-proyects">
-                        <div class="col-md-2">
-                            <label class=" text-center w-100" >Nombre del Consultor</label>
+                <div class="container mt-5 border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                    <div class="row  border border-success rounded-5 my-3">
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-consultor">Nombre Consultor:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consultor" @bind-value="proyecto.nombre_consultor" @oninput="CambioNombreConsultor" />
                         </div>
-                        <div class="col-md-1">
-                            <label class=" text-center w-100" >Fecha Inicial</label>
+                        <ValidationMessage For="@(() => proyecto.nombre_consultor)" />
+                        <div class="d-flex justify-content-center mb-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-fechaInicial">Fecha Inicial:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="date" id="c-fechaInicial" @bind-value="proyecto.FechaInicialDateTime" @oninput="CambioFechaInicial" />
                         </div>
-                        <div class="col-md-1">
-                            <label class="text-center w-100" >Fecha Final</label>
+                        <ValidationMessage For="@(() => proyecto.FechaInicialDateTime)" />
+                        <div class="d-flex justify-content-center mb-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-fechaFinal">Fecha Final:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="date" id="c-fechaFinal" @bind-value="proyecto.FechaFinalDateTime" @oninput="CambioFechaFinal" />
                         </div>
-                        <div class="col-md-2">
-                            <label class="pe-2 text-center w-100" >Horas Totales</label>
+                        <ValidationMessage For="@(() => proyecto.FechaFinalDateTime)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-horasTotales">Horas Totales:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-horasTotales" @bind-value="proyecto.horas_totales" @oninput="CambioHorasTotales" />
                         </div>
-                        <div class="col-md-2">
-                            <label class="pe-3 text-center w-100" >Empresa</label>
+                        <ValidationMessage For="@(() => proyecto.horas_totales)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-empresa">Empresa:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-empresa" @bind-value="proyecto.empresa" @oninput="CambioEmpresa" />
                         </div>
-                        <div class="col-md-2">
-                            <label class="pe-4 text-center w-100" >Centro de Costo</label>
+                        <ValidationMessage For="@(() => proyecto.empresa)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-centroCosto">Centro de Costo:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-centroCosto" @bind-value="proyecto.centro_costo" @oninput="CambioCentroCosto" />
                         </div>
-                        <div class="col-md-2">
-                            <label class="pe-4 text-center w-100" >Nombre de Proyecto</label>
+                        <ValidationMessage For="@(() => proyecto.centro_costo)" />
+                        <div class="d-flex justify-content-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-nombreProyecto">Nombre de Proyecto:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-nombreProyecto" @bind-value="proyecto.nombre_proyecto" @oninput="CambioNombreProyecto" />
                         </div>
-                    </div>
-                    <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
-
-                                <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
-                                    <div class="mb-0 col-md-2">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.nombre_consultor" @oninput="CambioNombreConsultor">
-                                        <ValidationMessage For="@(() => proyecto.nombre_consultor)" />
-
-
-                                    </div>
-                                    <div class="mb-0 col-md-1">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill" type="date" @bind-value="@proyecto.FechaInicialDateTime" @oninput="CambioFechaInicial">
-                                        <ValidationMessage For="@(() => proyecto.FechaInicialDateTime)" />
-                                    </div>
-                                    <div class="mb-0  col-md-1">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill" type="date" @bind-value="@proyecto.FechaFinalDateTime" @oninput="CambioFechaFinal">
-                                        <ValidationMessage For="@(() => proyecto.fecha_final)" />
-                                    </div>
-                                    <div class="mb-0  col-md-2">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.horas_totales" @oninput="CambioHorasTotales">
-                                        <ValidationMessage For="@(() => proyecto.horas_totales)" />
-                                    </div>
-                                    <div class="mb-0  col-md-2">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.empresa" @oninput="CambioEmpresa">
-                                        <ValidationMessage For="@(() => proyecto.empresa)" />
-                                    </div>
-                                    <div class="mb-0  col-md-2">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.centro_costo" @oninput="CambioCentroCosto">
-                                        <ValidationMessage For="@(() => proyecto.centro_costo)" />
-                                    </div>
-                                    <div class="mb-0  col-md-2">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.nombre_proyecto" @oninput="CambioNombreProyecto">
-                                        <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
-                                    </div>
-
-                                </div>
-
-
+                        <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
                     </div>
                 </div>
             </div>

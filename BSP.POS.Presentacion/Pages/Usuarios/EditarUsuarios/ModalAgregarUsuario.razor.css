@@ -12,7 +12,7 @@
 
 .modal-content {
     display: inline-block;
-    margin-top: 10%;
+    margin-top: 20%;
     background-color: #fff;
     padding: 20px;
     border-top-left-radius: 10px;
@@ -25,7 +25,7 @@
 .modal-header {
     background-color: #fff;
     text-align: center;
-    margin-bottom: 20px;
+    
     max-width: 50%;
     position: relative;
     top: -70px;
@@ -44,7 +44,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    margin-top: -70px;
+    margin-top: -90px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
@@ -188,4 +188,45 @@
 
 .max-height-projects {
     max-height: 200px;
+}
+@media screen and (max-width: 768px) {
+    .modal-content {
+        margin-top: 5%;
+    }
+    .text-41-book {
+        font-size: 20pt;
+    }
+
+    .text-16-book {
+        font-size: 8pt;
+    }
+
+    .text-16-medium {
+        font-size: 8pt;
+    }
+
+    .text-13-medium {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .modal-content {
+        margin-top: 5%;
+    }
+    .text-41-book {
+        font-size: 30pt;
+    }
+
+    .text-16-book {
+        font-size: 12pt;
+    }
+
+    .text-16-medium {
+        font-size: 12pt;
+    }
+
+    .text-13-medium {
+        font-size: 10pt;
+    }
 }
