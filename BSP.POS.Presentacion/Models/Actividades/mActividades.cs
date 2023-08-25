@@ -14,7 +14,7 @@ namespace BSP.POS.Presentacion.Models.Actividades
         [Required(ErrorMessage = "El campo del CI-Referencia es requerido")]
         public string CI_referencia { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo de Horas es requerido")]
-        [Range(1, int.MaxValue, ErrorMessage = "El valor de horas debe ser un número entero válido.")]
+        [Range(0, int.MaxValue, ErrorMessage = "El valor de horas debe ser un número entero válido.")]
         public string horas { get; set; } = string.Empty;
     }
 }

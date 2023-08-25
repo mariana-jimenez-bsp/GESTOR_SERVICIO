@@ -84,6 +84,9 @@
 .green-bg {
     background-color: #2FAD70;
 }
+.green-add-bg {
+    background-color: #0A8637;
+}
 .green-text {
     color: #2FAD70;
 }
@@ -118,15 +121,14 @@
 
 .eyelash-client-list {
     font-size: 14pt;
-    background-color: #2255A1;
+
 }
 
 .eyelash-client-create {
     font-size: 14pt;
-    background-color: #1C3259;
 }
 .max-height-client {
-    max-height: 300px;
+    max-height: 220px;
 }
 .mouse-pointer {
     transition: background-color 0.3s;

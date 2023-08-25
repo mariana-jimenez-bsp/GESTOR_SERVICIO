@@ -146,5 +146,26 @@ namespace BSP.POS.DATOS.Actividades
 
 
         }
+
+        public string AgregarActividad(U_ListaActividades pActividad, string esquema)
+        {
+            POSDataSet.AgregarActividadDataTable bTabla = new POSDataSet.AgregarActividadDataTable();
+            AgregarActividadTableAdapter sp = new AgregarActividadTableAdapter();
+            try
+            {
+                var response = sp.GetData(pActividad.Actividad, pActividad.CI_referencia, int.Parse(pActividad.horas), esquema);
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
     }
 }

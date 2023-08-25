@@ -12,11 +12,13 @@
 
             <div class=" modal-body d-flex row g-2 text-center ">
                 <div class="d-flex">
-                    <a class='text-light eyelash-client eyelash-client-list p-2 pe-3 ps-3 @GetTabLinkClass("lista")' @onclick='() => ChangeTab("lista")'>Lista Clientes</a>
-                    <a class=' text-light eyelash-client eyelash-client-create p-2 pe-3 ps-3 @GetTabLinkClass("crear")' @onclick='() => ChangeTab("crear")'>Crear Cliente</a>
+                    <a class='text-light eyelash-client eyelash-client-list green-bg p-2 pe-3 ps-3 @GetTabLinkClass("lista")' @onclick='() => ChangeTab("lista")'>Lista Clientes</a>
+                    <a class=' text-light eyelash-client eyelash-client-create green-add-bg p-2 pe-3 ps-3 @GetTabLinkClass("crear")' @onclick='() => ChangeTab("crear")'>Crear Cliente</a>
                 </div>
                 <div class="container mt-2" style='display: @(activeTab == "lista" ? "block" : "none")'>
-                   
+                    <div class="d-flex justify-content-center w-100 mb-2">
+                        <h4 class="green-text">Lista de Clientes</h4>
+                    </div>
                     <!-- Utilizamos el componente Accordion de Bootstrap -->
 
                     <div id="accordion" class="border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client" >

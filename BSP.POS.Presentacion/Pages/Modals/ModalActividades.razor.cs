@@ -92,6 +92,25 @@ namespace BSP.POS.Presentacion.Pages.Modals
             textoRecibido = texto;
             return Task.CompletedTask;
         }
+        private string activeTab = "lista"; // Pestaña activa inicialmente
 
+        private async Task ChangeTab(string tabId)
+        {
+            activeTab = tabId;
+            if (activeTab == "lista")
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.ObtenerListaDeActividades(esquema);
+                if (ActividadesService.ListaActividades != null)
+                {
+                    actividades = ActividadesService.ListaActividades;
+                }
+            }
+        }
+
+        private string GetTabLinkClass(string tabId)
+        {
+            return activeTab == tabId ? "active" : "";
+        }
     }
 }

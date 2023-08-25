@@ -2,8 +2,13 @@
 @inject ILugaresInterface LugaresService
 @inject IItemsClienteInterface ItemsClienteService
 @inject IClientesInterface ClientesService
+<div>
+    <div class="d-flex justify-content-center w-100 mb-2">
+        <h4 class="green-text">Agregar Cliente</h4>
+    </div>
 <div class="row text-start d-flex justify-content-center max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
-        <EditForm Model="clienteNuevo" OnValidSubmit="AgregarCliente">
+
+    <EditForm Model="clienteNuevo" OnValidSubmit="AgregarCliente">
             <DataAnnotationsValidator />
 <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
@@ -334,6 +339,4 @@
     
 </EditForm>
 </div>
-@code {
-
-}
+</div>

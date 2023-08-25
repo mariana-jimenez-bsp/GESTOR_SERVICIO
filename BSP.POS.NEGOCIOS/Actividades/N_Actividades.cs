@@ -85,5 +85,12 @@ namespace BSP.POS.NEGOCIOS.Actividades
 
 
         }
+
+        public string AgregarActividad(U_ListaActividades pActividad, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objActividad.AgregarActividad(pActividad, esquema);
+            return mensaje;
+        }
     }
 }

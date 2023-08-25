@@ -155,5 +155,27 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpPost("AgregaActividad")]
+        public string AgregaActividad([FromBody] mActividades datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                U_ListaActividades actividad = new U_ListaActividades();
+                actividad.Actividad = datos.Actividad;
+                actividad.CI_referencia = datos.CI_referencia;
+                actividad.horas = datos.horas;
+
+
+                string mensaje = actividades.AgregarActividad(actividad, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
     }
 }
