@@ -14,11 +14,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public string esquema = string.Empty;
         public mPerfil datosUsuario = new mPerfil();
         public List<mUsuariosDeClienteDeInforme> informesDeUsuario = new List<mUsuariosDeClienteDeInforme>();
+        public List<mUsuariosDeClienteDeInforme> informesDeUsuarioFinalizados = new List<mUsuariosDeClienteDeInforme>();
         public List<mInformes> informesAsociados = new List<mInformes>();
         public mClienteAsociado clienteAsociado = new mClienteAsociado();
         public mInformeAsociado informeAsociadoSeleccionado = new mInformeAsociado();
         public mUsuariosDeClienteDeInforme informeDeUsuarioAsociado = new mUsuariosDeClienteDeInforme();
         public List<mActividades> listaDeActividades = new List<mActividades>();
+        public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         private string correoEnviado;
         protected override async Task OnInitializedAsync()
         {
@@ -48,12 +50,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                         if(InformesService.ListaInformesAsociados != null)
                         {
                             informesAsociados = InformesService.ListaInformesAsociados;
-                            informesDeUsuario = UsuariosService.ListaDeInformesDeUsuarioAsociados
+                            informesDeUsuarioFinalizados = UsuariosService.ListaDeInformesDeUsuarioAsociados
                             .Where(usuario =>
                                 informesAsociados.Any(informe =>
                                     usuario.consecutivo_informe == informe.consecutivo && informe.estado == "Finalizado"))
                             .ToList();
-                            foreach (var informe in informesDeUsuario)
+                            foreach (var informe in informesDeUsuarioFinalizados)
                             {
                                 informe.fecha_consultoria = informesAsociados.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
                             }
@@ -65,6 +67,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                     if(ClientesService.ClienteAsociado != null)
                     {
                         clienteAsociado = ClientesService.ClienteAsociado;
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, clienteAsociado.CLIENTE);
                     }
                 }
             }
@@ -73,7 +77,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
         public async Task cambioSeleccion(string consecutivo)
         {
-            foreach (var informe in informesDeUsuario)
+            foreach (var informe in informesDeUsuarioFinalizados)
             {
                 if(informe.consecutivo_informe == consecutivo)
                 {
@@ -135,7 +139,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             if(UsuariosService.ListaUsuariosDeClienteDeInforme != null)
             {
                 objetoParaCorreo.listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
-            }
+                    foreach (var usuario in objetoParaCorreo.listadeUsuariosDeClienteDeInforme)
+                    {
+                        usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
+                        usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
+                    }
+                }
             objetoParaCorreo.ClienteAsociado = clienteAsociado;
             objetoParaCorreo.esquema = esquema;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();

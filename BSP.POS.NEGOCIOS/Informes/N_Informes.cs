@@ -79,11 +79,11 @@ namespace BSP.POS.NEGOCIOS.Informes
 
         }
 
-        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pEsquema)
+        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pConsecutivo, string pEsquema)
         {
 
             U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme();
-            tokenAprobacion = objInforme.EnviarTokenDeAprobacionDeInforme(pCodigo, pEsquema);
+            tokenAprobacion = objInforme.EnviarTokenDeAprobacionDeInforme(pCodigo, pConsecutivo, pEsquema);
             if (tokenAprobacion != null)
             {
                 return tokenAprobacion;

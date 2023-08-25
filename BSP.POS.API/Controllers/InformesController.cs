@@ -153,7 +153,7 @@ namespace BSP.POS.API.Controllers
                 foreach (var item in objetosDeAprobacion.listadeUsuariosDeClienteDeInforme)
                 {
 
-                    U_TokenAprobacionInforme tokenAprobacionRecuperado = informes.EnviarTokenDeAprobacionDeInforme(item.codigo_usuario_cliente, objetosDeAprobacion.esquema);
+                    U_TokenAprobacionInforme tokenAprobacionRecuperado = informes.EnviarTokenDeAprobacionDeInforme(item.codigo_usuario_cliente, item.consecutivo_informe, objetosDeAprobacion.esquema);
                     if (tokenAprobacionRecuperado != null)
                     {
                         U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente();

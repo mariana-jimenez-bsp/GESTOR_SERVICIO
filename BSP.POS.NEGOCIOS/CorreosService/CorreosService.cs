@@ -64,7 +64,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 {
                     observaciones += "<tr>\r\n <td>" + itemObservacion.usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
                 }
-                CuerpoHtml = CuerpoHtml.Replace("{{Fecha}}", objetosParaAprobacion.informe.fecha_consultoria)
+                CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
+                           .Replace("{{esquema}}", objetosParaAprobacion.esquema)
+                           .Replace("{{Fecha}}", objetosParaAprobacion.informe.fecha_consultoria)
                            .Replace("{{Hora_Inicio}}", objetosParaAprobacion.informe.hora_inicio)
                            .Replace("{{Modalidad}}", objetosParaAprobacion.informe.modalidad_consultoria)
                            .Replace("{{Hora_Fin}}", objetosParaAprobacion.informe.hora_final)

@@ -23,7 +23,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         {
             mensaje = string.Empty;
 
-
                 usuarioLogin = await UsuariosService.RealizarLogin(usuario);
                 if (!string.IsNullOrEmpty(usuarioLogin.token))
                 {

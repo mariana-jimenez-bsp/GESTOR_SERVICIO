@@ -36,9 +36,9 @@
                              <BuscarInforme Texto="RecibirTexto"></BuscarInforme>
 
                         </div>
-                        @if(informesDeUsuario != null && clienteAsociado != null)
+                        @if (informesDeUsuarioFinalizados != null && clienteAsociado != null)
                         {
-                            var informesUsuario = informesDeUsuario;
+                            var informesUsuario = informesDeUsuarioFinalizados;
                             if (!string.IsNullOrEmpty(textoRecibido))
                             {
                                 // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda

@@ -120,14 +120,14 @@ namespace BSP.POS.DATOS.Informes
 
         }
 
-        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pEsquema)
+        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pConsecutivo, string pEsquema)
         {
             GenerarTokenAprobacionDeInformeTableAdapter sp = new GenerarTokenAprobacionDeInformeTableAdapter();
             string token = GenerarTokenDeAprobacion();
             DateTime expira = DateTime.Now.AddDays(3);
             try
             {
-                var response = sp.GetData(pCodigo, token, expira, pEsquema).ToList();
+                var response = sp.GetData(pCodigo, pConsecutivo, token, expira, pEsquema).ToList();
                 U_TokenAprobacionInforme TokenAprobacion = new U_TokenAprobacionInforme();
 
                 foreach (var item in response)
