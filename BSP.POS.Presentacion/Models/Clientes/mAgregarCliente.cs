@@ -63,6 +63,7 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public string EXENCION_IMP1 { get; set; } = string.Empty;
         [RegularExpression(@"^(0|[1-9]\d*)(\.\d{1,8})?$", ErrorMessage = "Solo se permiten valores decimales positivos con un máximo de 8 decimales")]
         public string EXENCION_IMP2 { get; set; } = string.Empty;
+        [RegularExpression(@"^(0|[1-9]\d*)(\.\d{1,8})?$", ErrorMessage = "Solo se permiten valores decimales positivos con un máximo de 8 decimales")]
         public string DESCUENTO { get; set; } = string.Empty;
         [Required(ErrorMessage = "Debe escoger una de la opciones")]
         public string ES_CORPORACION { get; set; } = string.Empty;

@@ -5,7 +5,7 @@
 <div class="row text-start d-flex justify-content-center max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
         <EditForm Model="clienteNuevo" OnValidSubmit="AgregarCliente">
             <DataAnnotationsValidator />
-<div class="row w-75 border border-success rounded-5 my-3">
+<div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-cliente">Nombre Cliente:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-cliente" @bind-value="clienteNuevo.NOMBRE" @oninput="CambioNombre" />
@@ -46,7 +46,7 @@
         </div>
         <ValidationMessage For="@(() => clienteNuevo.TIPO_NIT)" />
 </div>
-    <div class="row w-75 border border-success rounded-5 my-3">
+    <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-cedula">Cédula:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-cedula" @bind-value="clienteNuevo.CONTRIBUYENTE" @oninput="CambioContribuyente" />
@@ -130,7 +130,7 @@
     </div>
 
 
-    <div class="row w-75 border border-success rounded-5 my-3">
+    <div class="row  border border-success rounded-5 my-3">
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-responsable">Responsable:</label>
         <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-responsable" @bind-value="clienteNuevo.CONTACTO" @oninput="CambioContacto" />
@@ -153,7 +153,7 @@
     </div>
 
 
-    <div class="row w-75 border border-success rounded-5 my-3">
+    <div class="row  border border-success rounded-5 my-3">
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-moneda">Moneda:</label>
         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-moneda" @bind="clienteNuevo.MONEDA" @oninput="CambioMoneda">
@@ -204,7 +204,7 @@
     </div>
 
 
-    <div class="row w-75 border border-success rounded-5 my-3">
+    <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-condicionpago">Condición de pago:</label>
             <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-condicionpago" @bind="clienteNuevo.CONDICION_PAGO" @oninput="CambioCondicionPago">
@@ -236,7 +236,7 @@
         <ValidationMessage For="@(() => clienteNuevo.EXENCION_IMP2)" />
     </div>
 
-    <div class="row w-75 border border-success rounded-5 my-3">
+    <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text">Es Corporación:</label>
             <div class="col-md-4">
@@ -264,7 +264,7 @@
         </div>
         
     </div>
-      <div class="row w-75 border border-success rounded-5 my-3">
+      <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-tipoImpuesto">Tipo Impuesto:</label>
             <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoImpuesto" @bind="clienteNuevo.TIPO_IMPUESTO" @oninput="CambioTipoImpuesto">
@@ -299,7 +299,7 @@
         </div>
         <ValidationMessage For="@(() => clienteNuevo.PORC_TARIFA)" />
     </div>
-      <div class="row w-75 border border-success rounded-5 my-3">
+      <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-tipoCliente">Tipo de Cliente:</label>
             <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoCliente" @bind="clienteNuevo.TIPIFICACION_CLIENTE" @oninput="CambioTipoCliente">
@@ -324,8 +324,14 @@
         </div>
         <ValidationMessage For="@(() => clienteNuevo.AFECTACION_IVA)" />
     </div>
-   
-    <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light mx-4 w-25" id="guardar-clientes">Agregar Cliente</button>
+   <div class="w-100 d-flex justify-content-center">
+       <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light mx-4 w-25" id="agregar-cliente">Agregar Cliente</button>
+            @if (mensajeAgregado != null)
+            {
+                <MensajeAgregado Message="@mensajeAgregado" />
+            }
+   </div>
+    
 </EditForm>
 </div>
 @code {

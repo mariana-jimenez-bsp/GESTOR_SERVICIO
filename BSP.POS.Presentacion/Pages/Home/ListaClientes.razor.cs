@@ -61,5 +61,17 @@ namespace BSP.POS.Presentacion.Pages.Home
             return Task.CompletedTask;
         }
 
+        async Task ModalClientesCerrado(bool estado)
+        {
+            if(estado == true)
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ObtenerListaClientes(esquema);
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ObtenerListaClientesRecientes(esquema);
+            }
+            StateHasChanged();
+        }
+
     }
 }

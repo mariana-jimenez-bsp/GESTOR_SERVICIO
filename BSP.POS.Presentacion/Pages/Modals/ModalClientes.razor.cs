@@ -13,30 +13,34 @@ namespace BSP.POS.Presentacion.Pages.Modals
         private bool IsCollapseOpen = false;
         public List<mClientes> clientes = new List<mClientes>();
         public string esquema = string.Empty;
+        int cont = 0;
+        
         protected override async Task OnInitializedAsync()
         {
+           
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            await RefrescarListaClientes();
+        }
+
+
+        private async Task RefrescarListaClientes()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
             if (ClientesService.ListaClientes != null)
             {
                 clientes = ClientesService.ListaClientes;
                 // Asegurar que las listas desplegables y cambioColores tengan la misma cantidad de elementos que la lista de clientes
-               
+
             }
             foreach (var cliente in clientes)
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
             }
-
-           
         }
-
-
-
-
         private void OpenModal()
         {
             ActivarModal = true;
@@ -44,19 +48,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task CloseModal()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientes(esquema);
             await OnClose.InvokeAsync(false);
-            clientes = ClientesService.ListaClientes;
-          
-            foreach (var cliente in clientes)
-            {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
-            }
-           
-
-
 
         }
     
@@ -179,9 +171,13 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private string activeTab = "lista"; // Pestaña activa inicialmente
 
-        private void ChangeTab(string tabId)
+        private async Task ChangeTab(string tabId)
         {
             activeTab = tabId;
+            if(activeTab == "lista")
+            {
+                await RefrescarListaClientes();
+            }
         }
 
         private string GetTabLinkClass(string tabId)

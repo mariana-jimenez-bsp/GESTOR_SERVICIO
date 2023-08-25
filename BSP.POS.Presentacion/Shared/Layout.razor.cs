@@ -9,6 +9,8 @@ namespace BSP.POS.Presentacion.Shared
         private string inputValue { get; set; } = string.Empty;
         [Parameter]
         public EventCallback<string> Texto { get; set; }
+        [Parameter]
+        public EventCallback<bool> ModalClientesEstado { get; set; }
         public string UsuarioActual { get; set; } = string.Empty;
         public mImagenUsuario imagenDeUsuario = new mImagenUsuario();
         public string esquema = string.Empty;
@@ -66,9 +68,13 @@ namespace BSP.POS.Presentacion.Shared
         }
 
 
-        void ClickHandlerClientes(bool activar)
+        async Task ClickHandlerClientes(bool activar)
         {
             activarModalClientes = activar;
+            if(activarModalClientes == false)
+            {
+                await ModalClientesEstado.InvokeAsync(true);
+            }
             StateHasChanged();
         }
 

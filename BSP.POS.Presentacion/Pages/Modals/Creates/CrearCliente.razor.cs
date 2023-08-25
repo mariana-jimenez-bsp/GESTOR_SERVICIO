@@ -23,6 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
         public List<mClienteContado> listaClientesCorporaciones = new List<mClienteContado>();
         public mAgregarCliente clienteNuevo = new mAgregarCliente();
         public string monedaActual;
+        public string mensajeAgregado;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -460,13 +461,31 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
 
         public async Task AgregarCliente()
         {
+            mensajeAgregado = null;
             clienteNuevo.CARGO = "ND";
             clienteNuevo.DIRECCION = "ND";
             clienteNuevo.ZONA = "ND";
+            if (string.IsNullOrEmpty(clienteNuevo.DESCUENTO))
+            {
+                clienteNuevo.DESCUENTO = "0";
+            }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             clienteNuevo.CLIENTE = await ItemsClienteService.ObtenerElSiguienteCodigoCliente(esquema, clienteNuevo.NOMBRE.Substring(0, 1));
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.AgregarCliente(clienteNuevo, esquema, usuarioActual);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
+            if(ClientesService.ClienteAsociado != null)
+            {
+                mensajeAgregado = "El cliente ha sido agregado";
+                clienteNuevo = new mAgregarCliente();
+            }
+            else
+            {
+                mensajeAgregado = "Error al agregar el cliente";
+                clienteNuevo = new mAgregarCliente();
+            }
+           
         }
 
     }

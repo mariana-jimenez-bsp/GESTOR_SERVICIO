@@ -137,7 +137,6 @@ namespace BSP.POS.DATOS.Clientes
                 InsertarClienteTableAdapter adapter = new InsertarClienteTableAdapter();
                 POSDataSet.InsertarClienteDataTable tabla = new POSDataSet.InsertarClienteDataTable();
 
-
                 string APLIC_ABIERTAS = "";
                 string USAR_DESC_CORP = "";
                 string USAR_PRECIOS_CORP = "";
