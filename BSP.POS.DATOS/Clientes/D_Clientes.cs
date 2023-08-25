@@ -130,6 +130,49 @@ namespace BSP.POS.DATOS.Clientes
             return lista;
         }
 
+        public void AgregarCliente(U_AgregarCliente cliente, string esquema)
+        {
+            try
+            {
+                InsertarClienteTableAdapter adapter = new InsertarClienteTableAdapter();
+                POSDataSet.InsertarClienteDataTable tabla = new POSDataSet.InsertarClienteDataTable();
+
+
+                string APLIC_ABIERTAS = "";
+                string USAR_DESC_CORP = "";
+                string USAR_PRECIOS_CORP = "";
+
+                if (cliente.ES_CORPORACION == "S")
+                {
+
+                    APLIC_ABIERTAS = "S";
+                    USAR_DESC_CORP = "N";
+                    USAR_PRECIOS_CORP = "N";
+                }
+                else
+                {
+
+                    APLIC_ABIERTAS = "S";
+                    USAR_DESC_CORP = "S";
+                    USAR_PRECIOS_CORP = "S";
+                }
+
+
+                adapter.Fill(tabla, esquema, cliente.CLIENTE, cliente.NOMBRE, cliente.ALIAS, cliente.CONTACTO, cliente.CARGO, cliente.DIRECCION,
+                                cliente.TELEFONO1, cliente.TELEFONO2, cliente.CONTRIBUYENTE, cliente.TIPO_NIT, cliente.MONEDA, cliente.CONDICION_PAGO,
+                                cliente.NIVEL_PRECIO, cliente.MONEDA_NIVEL, cliente.PAIS, cliente.ZONA, cliente.E_MAIL, cliente.DIVISION_GEOGRAFICA1,
+                                cliente.DIVISION_GEOGRAFICA2, cliente.USUARIO_CREACION, cliente.DIVISION_GEOGRAFICA3, cliente.DIVISION_GEOGRAFICA4,
+                                cliente.OTRAS_SENAS, cliente.DOC_A_GENERAR, cliente.EXENTO_IMPUESTOS, cliente.EXENCION_IMP1, cliente.EXENCION_IMP2, cliente.DESCUENTO.ToString(),
+                                cliente.ES_CORPORACION, cliente.CLI_CORPORAC_ASOC, APLIC_ABIERTAS, USAR_DESC_CORP, USAR_PRECIOS_CORP, cliente.TIPO_IMPUESTO, cliente.TIPO_TARIFA,
+                                decimal.Parse(cliente.PORC_TARIFA), cliente.TIPIFICACION_CLIENTE, cliente.AFECTACION_IVA, cliente.IMAGEN);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException.InnerException);
+            }
+        }
+
 
     }
 }

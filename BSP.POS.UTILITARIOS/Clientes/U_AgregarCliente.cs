@@ -44,7 +44,10 @@ namespace BSP.POS.UTILITARIOS.Clientes
         public string TIPIFICACION_CLIENTE { get; set; }
         public string AFECTACION_IVA { get; set; }
         public string TIPO_NIT { get; set; }
+        public string MONEDA_NIVEL { get; set; }
+        public string USUARIO_CREACION { get; set; }
         
+
 
         public U_AgregarCliente(string pCLIENTE, string pNOMBRE, string pALIAS, string pCONTACTO, string pCARGO, string pDIRECCION, string pTELEFONO1, string pTELEFONO2, string pCONTRIBUYENTE,
                 string pMONEDA, string pNIVEL_PRECIO, string pPAIS, string pZONA, string pEXENTO_IMPUESTOS, string pE_MAIL,
@@ -52,7 +55,7 @@ namespace BSP.POS.UTILITARIOS.Clientes
                 string pDIVISION_GEOGRAFICA4, string pOTRAS_SENAS, string pRecordDate, byte[] pIMAGEN, string pCONDICION_PAGO,
                 string pDOC_A_GENERAR, string pEXENCION_IMP1, string pEXENCION_IMP2, string pDESCUENTO, string pES_CORPORACION,
                 string pCLI_CORPORAC_ASOC, string pTIPO_IMPUESTO, string pTIPO_TARIFA, string pPORC_TARIFA, string pTIPIFICACION_CLIENTE,
-                string pAFECTACION_IVA, string pTIPO_NIT)
+                string pAFECTACION_IVA, string pTIPO_NIT, string pMONEDA_NIVEL, string pUSUARIO_CREACION)
         {
             CLIENTE = pCLIENTE;
             NOMBRE = pNOMBRE;
@@ -90,6 +93,8 @@ namespace BSP.POS.UTILITARIOS.Clientes
             TIPIFICACION_CLIENTE = pTIPIFICACION_CLIENTE;
             AFECTACION_IVA = pAFECTACION_IVA;
             TIPO_NIT = pTIPO_NIT;
+            MONEDA_NIVEL = pMONEDA_NIVEL;
+            USUARIO_CREACION = pUSUARIO_CREACION;
     }
         public U_AgregarCliente() { }
     }

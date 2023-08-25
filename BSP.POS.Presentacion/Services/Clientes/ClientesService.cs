@@ -78,5 +78,26 @@ namespace BSP.POS.Presentacion.Services.Clientes
                 ListaClientesCorporaciones = listaClientes;
             }
         }
+
+        public async Task AgregarCliente(mAgregarCliente cliente, string esquema, string usuario)
+        {
+            try
+            {
+                
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-Usuario");
+                string url = "Clientes/AgregaCliente";
+                string jsonData = JsonSerializer.Serialize(cliente);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-Usuario", usuario);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
     }
 }

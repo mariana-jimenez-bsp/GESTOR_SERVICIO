@@ -124,7 +124,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
                 usuario.departamento = e.Value.ToString();
             }
         }
-        private async Task CambioImagen(InputFileChangeEventArgs e, string usuarioId)
+        private async Task CambioImagen(InputFileChangeEventArgs e)
         {
             var archivo = e.File;
 

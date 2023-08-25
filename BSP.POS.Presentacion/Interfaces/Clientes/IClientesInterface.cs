@@ -1,4 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
+
 namespace BSP.POS.Presentacion.Interfaces.Clientes
 {
     public interface IClientesInterface
@@ -13,5 +14,7 @@ namespace BSP.POS.Presentacion.Interfaces.Clientes
 
         List<mClienteContado> ListaClientesCorporaciones { get; set; }
         Task ObtenerListaClientesCorporaciones(string esquema);
+
+        Task AgregarCliente(mAgregarCliente cliente, string esquema, string usuario);
     }
 }

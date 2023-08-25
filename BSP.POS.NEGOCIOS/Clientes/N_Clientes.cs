@@ -83,5 +83,65 @@ namespace BSP.POS.NEGOCIOS.Clientes
 
             return listaJson;
         }
+
+        public void AgregarCliente(U_AgregarCliente cliente, string pEsquema)
+        {
+            try
+            {
+
+                string monedaNivel = calculaMoneda(cliente.MONEDA);
+
+
+
+
+                cliente.MONEDA_NIVEL = monedaNivel;
+               
+                objCliente.AgregarCliente(cliente, pEsquema);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string calculaMoneda(string moneda)
+        {
+            if (moneda == "CRC")
+            {
+                moneda = "L";
+            }
+            else
+            {
+                moneda = "D";
+            }
+            return moneda;
+        }
+
+        public string calculaNivelPrecio(string nivel)
+        {
+            if (nivel == "CRC")
+            {
+                nivel = "ND-LOCAL";
+            }
+            else
+            {
+                nivel = "ND-DOLAR";
+            }
+            return nivel;
+        }
+
+        public string calculaDocGenerar(string dGenerar)
+        {
+            if (dGenerar == "Factura")
+            {
+                dGenerar = "F";
+            }
+            else
+            {
+                dGenerar = "B";
+            }
+            return dGenerar;
+        }
     }
 }

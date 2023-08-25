@@ -2,12 +2,14 @@
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Lugares;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace BSP.POS.Presentacion.Pages.Modals.Creates
 {
     public partial class CrearCliente : ComponentBase
     {
-        public string esquema = string.Empty;   
+        public string esquema = string.Empty;
+        public string usuarioActual = string.Empty;
         public List<mLugares> listaPaises = new List<mLugares>();
         public List<mLugares> listaProvincias = new List<mLugares>();
         public List<mLugares> listaCantones = new List<mLugares>();
@@ -25,6 +27,7 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
+            usuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await RefresacarListas();
         }
@@ -436,6 +439,34 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
 
             }
 
+        }
+
+        private async Task CambioImagen(InputFileChangeEventArgs e)
+        {
+            var archivo = e.File;
+
+            if (archivo != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await archivo.OpenReadStream().CopyToAsync(memoryStream);
+                    byte[] bytes = memoryStream.ToArray();
+                    clienteNuevo.IMAGEN = bytes;
+
+                }
+            }
+
+        }
+
+        public async Task AgregarCliente()
+        {
+            clienteNuevo.CARGO = "ND";
+            clienteNuevo.DIRECCION = "ND";
+            clienteNuevo.ZONA = "ND";
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            clienteNuevo.CLIENTE = await ItemsClienteService.ObtenerElSiguienteCodigoCliente(esquema, clienteNuevo.NOMBRE.Substring(0, 1));
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.AgregarCliente(clienteNuevo, esquema, usuarioActual);
         }
 
     }
