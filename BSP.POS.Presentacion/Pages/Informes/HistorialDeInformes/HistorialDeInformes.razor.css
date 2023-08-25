@@ -1,0 +1,208 @@
+﻿.search-input {
+    border: none;
+    margin: 0;
+    height: 35px;
+    background-color: #1C3259;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+    .search-input::placeholder {
+        color: white;
+    }
+
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.search-icon {
+    border: none;
+    height: 35px;
+    background-color: #1C3259;
+    width: 35px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.div-search {
+    font-size: 19pt;
+}
+
+
+.vertical-text {
+    transform-origin: bottom right;
+    transform: rotate(-90deg); /* Rota las letras 90 grados en sentido de las agujas del reloj */
+    margin-top: 5%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2FAD70;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-right: 0;
+    height: 52px;
+    width: 232px;
+    font-size: 22pt;
+}
+
+.bg-blue-dark {
+    background-color: #1C3259;
+}
+
+.bg-blue-light {
+    background-color: #2255A1;
+}
+
+.font-blue-light {
+    color: #2255A1;
+}
+
+.font-19 {
+    font-size: 19pt;
+}
+
+.informe-hover {
+    background-color: #1C3259;
+    color: white;
+}
+
+.imagen-hover {
+    background-image: url('images/MisInformes/Pestaña-de-mis-informes-activa.png');
+    background-position: center;
+    background-size: cover;
+    color: white;
+}
+
+.eyelash-background {
+    background-image: url('images/MisInformes/Pestaña-de-mis-informes-inactiva.png');
+    background-position: center;
+    background-size: cover;
+    justify-content: center;
+}
+
+.col-right-bg {
+    background: linear-gradient(to bottom, white 10%, transparent 10%, transparent 90%, white 90%), url('images/MisInformes/Fondo-verde-columna-derecha.png');
+    background-size: 100% 100%, cover;
+    background-position: center;
+    font-size: 11pt;
+}
+
+.generar-cotizacion {
+    background-image: url('images/MisInformes/Generar-cotización.png');
+}
+
+.generar-reporte {
+    background-image: url('images/MisInformes/Generar-reporte.png');
+}
+
+.reenviar-cliente {
+    background-image: url('images/MisInformes/Reeviar-a-cliente.png');
+}
+
+.facturar {
+    background-image: url('images/MisInformes/Facturar.png');
+}
+
+.historial-informes {
+    background-image: url('images/MisInformes/Historial-de-Informes.png');
+}
+
+.imagen-div {
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 10px; /* Añade margen inferior para separar las imágenes */
+    min-width: 240px;
+    max-width: 25%;
+    min-height: 110px;
+    color: white;
+}
+
+.span-report {
+    font-family: 'Circular Std Medium', sans-serif;
+    max-width: 100px;
+    text-align: center;
+}
+
+.height-col {
+    min-height: 60px;
+}
+
+.contenedor-cols {
+    margin-left: -7%;
+}
+
+.scrollbar-report::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Color del área de seguimiento */
+.scrollbar-report::-webkit-scrollbar-track {
+    background-color: white;
+    border: 5px solid #2FAD70;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-report::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 20px;
+    border: 3px solid #2FAD70;
+}
+
+.scrollbar-max-height {
+    max-height: 300px;
+}
+
+@media screen and (max-width: 768px) {
+    .div-search {
+        font-size: 9pt;
+    }
+
+    .vertical-text {
+        height: 52px;
+        width: 232px;
+        font-size: 11pt;
+    }
+
+    .font-19 {
+        font-size: 10pt;
+    }
+
+    .col-right-bg {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .scrollbar-max-height {
+        max-height: 300px;
+    }
+
+    .imagen-div {
+        min-width: 180px;
+        max-width: 25%;
+        min-height: 70px;
+    }
+
+    .div-search {
+        font-size: 15pt;
+    }
+
+    .vertical-text {
+        height: 52px;
+        width: 232px;
+        font-size: 16pt;
+    }
+
+    .font-19 {
+        font-size: 15pt;
+    }
+
+    .col-right-bg {
+        font-size: 7pt;
+    }
+}

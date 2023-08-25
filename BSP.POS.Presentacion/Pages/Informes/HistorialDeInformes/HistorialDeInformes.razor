@@ -1,4 +1,4 @@
-﻿@page "/Informes/misInformes"
+﻿@page "/Informes/HistorialDeInformes"
 @inject IUsuariosInterface UsuariosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IInformesInterface InformesService
@@ -26,7 +26,7 @@
                 <div class="d-flex">
 
                     <div class="vertical-text text-light">
-                        <span class="">Mis Informes</span>
+                        <span class="">Historial</span>
                     </div>
 
                     <div class="w-100">
@@ -97,8 +97,8 @@
                         <div class="facturar imagen-div">
                             <span class="me-4 span-report">FACTURAR</span>
                         </div>
-                        <div class="historial-informes imagen-div mouse-pointer" @onclick="IrAHistorial">
-                            <span class="me-4 span-report">HISTORIAL DE INFORMES</span>
+                        <div class="historial-informes imagen-div mouse-pointer" @onclick="IrAMisInformes">
+                            <span class="me-4 span-report">MIS INFORMES</span>
                         </div>
                     </div>
                 </div>

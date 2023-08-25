@@ -6,9 +6,9 @@ using BSP.POS.Presentacion.Pages.Home;
 using Microsoft.AspNetCore.Components;
 using System.Security.Cryptography.X509Certificates;
 
-namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
+namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
 {
-    public partial class MisInformes : ComponentBase
+    public partial class HistorialDeInformes : ComponentBase
     {
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
@@ -35,25 +35,24 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
             }
 
-            if(UsuariosService.Perfil != null)
+            if (UsuariosService.Perfil != null)
             {
                 datosUsuario = UsuariosService.Perfil;
                 if (!string.IsNullOrEmpty(datosUsuario.codigo))
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await UsuariosService.ObtenerListaDeInformesDeUsuario(datosUsuario.codigo, esquema);
-                    if(UsuariosService.ListaDeInformesDeUsuarioAsociados != null)
+                    if (UsuariosService.ListaDeInformesDeUsuarioAsociados != null)
                     {
                         informesDeUsuario = UsuariosService.ListaDeInformesDeUsuarioAsociados;
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
                         await InformesService.ObtenerListaDeInformesAsociados(datosUsuario.cod_cliente, esquema);
-                        if(InformesService.ListaInformesAsociados != null)
+                        if (InformesService.ListaInformesAsociados != null)
                         {
                             informesAsociados = InformesService.ListaInformesAsociados;
                             informesDeUsuarioFinalizados = UsuariosService.ListaDeInformesDeUsuarioAsociados
                             .Where(usuario =>
-                                informesAsociados.Any(informe =>
-                                    usuario.consecutivo_informe == informe.consecutivo && informe.estado == "Finalizado"))
+                                informesAsociados.Any(informe => informe.estado == "Finalizado"))
                             .ToList();
                             foreach (var informe in informesDeUsuarioFinalizados)
                             {
@@ -64,7 +63,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                     }
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(datosUsuario.cod_cliente, esquema);
-                    if(ClientesService.ClienteAsociado != null)
+                    if (ClientesService.ClienteAsociado != null)
                     {
                         clienteAsociado = ClientesService.ClienteAsociado;
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -79,13 +78,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         {
             foreach (var informe in informesDeUsuarioFinalizados)
             {
-                if(informe.consecutivo_informe == consecutivo)
+                if (informe.consecutivo_informe == consecutivo)
                 {
                     informe.informeSeleccionado = "informe-hover";
                     informe.imagenSeleccionada = "imagen-hover";
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     informeAsociadoSeleccionado = await InformesService.ObtenerInformeAsociado(consecutivo, esquema);
-                    if(informeAsociadoSeleccionado != null)
+                    if (informeAsociadoSeleccionado != null)
                     {
                         informeDeUsuarioAsociado = informe;
 
@@ -103,66 +102,66 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
                 correoEnviado = null;
-            
-            mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
-            
-            objetoParaCorreo.informe = informeAsociadoSeleccionado;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.ObtenerListaDeActividadesAsociadas(informeAsociadoSeleccionado.consecutivo, esquema);
-            if(ActividadesService.ListaActividadesAsociadas != null)
-            {
-                objetoParaCorreo.listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
-            }
-            try
-            {
-                objetoParaCorreo.total_horas_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
-                objetoParaCorreo.total_horas_no_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
-            }
-            catch
-            {
-                objetoParaCorreo.total_horas_cobradas = 0;
-                objetoParaCorreo.total_horas_no_cobradas = 0;
-            }
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.ObtenerListaDeActividades(esquema);
-            if (ActividadesService.ListaActividades != null)
-            {
-                listaDeActividades = ActividadesService.ListaActividades;
 
-            }
-            foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
-            {
-                actividad.nombre_actividad = listaDeActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
-            }
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-            if(UsuariosService.ListaUsuariosDeClienteDeInforme != null)
-            {
-                objetoParaCorreo.listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
+                mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
+
+                objetoParaCorreo.informe = informeAsociadoSeleccionado;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.ObtenerListaDeActividadesAsociadas(informeAsociadoSeleccionado.consecutivo, esquema);
+                if (ActividadesService.ListaActividadesAsociadas != null)
+                {
+                    objetoParaCorreo.listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
+                }
+                try
+                {
+                    objetoParaCorreo.total_horas_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
+                    objetoParaCorreo.total_horas_no_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
+                }
+                catch
+                {
+                    objetoParaCorreo.total_horas_cobradas = 0;
+                    objetoParaCorreo.total_horas_no_cobradas = 0;
+                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.ObtenerListaDeActividades(esquema);
+                if (ActividadesService.ListaActividades != null)
+                {
+                    listaDeActividades = ActividadesService.ListaActividades;
+
+                }
+                foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
+                {
+                    actividad.nombre_actividad = listaDeActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
+                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
+                if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
+                {
+                    objetoParaCorreo.listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
                     foreach (var usuario in objetoParaCorreo.listadeUsuariosDeClienteDeInforme)
                     {
                         usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
                         usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
                     }
                 }
-            objetoParaCorreo.ClienteAsociado = clienteAsociado;
-            objetoParaCorreo.esquema = esquema;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ObservacionesService.ObtenerListaDeObservacionesDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-            if(ObservacionesService.ListaDeObservacionesDeInforme != null)
-            {
-                objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-            }
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
-            if (validar)
-            {
-                correoEnviado = "Correo Enviado";
-            }
-            else
-            {
-                correoEnviado = "Error";
-            }
+                objetoParaCorreo.ClienteAsociado = clienteAsociado;
+                objetoParaCorreo.esquema = esquema;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ObservacionesService.ObtenerListaDeObservacionesDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
+                if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+                {
+                    objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
+                if (validar)
+                {
+                    correoEnviado = "Correo Enviado";
+                }
+                else
+                {
+                    correoEnviado = "Error";
+                }
             }
         }
         [Parameter]
@@ -174,10 +173,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             return Task.CompletedTask;
         }
 
-        private void IrAHistorial()
+        private void IrAMisInformes()
         {
 
-            navigationManager.NavigateTo($"Informes/HistorialDeInformes", forceLoad: true);
+            navigationManager.NavigateTo($"Informes/MisInformes", forceLoad: true);
         }
     }
 }
