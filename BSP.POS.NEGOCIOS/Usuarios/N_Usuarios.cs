@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -129,7 +130,9 @@ namespace BSP.POS.NEGOCIOS.Usuarios
         {
 
                 U_TokenRecuperacion tokenRecuperacion = new U_TokenRecuperacion();
-                tokenRecuperacion = objetoUsuario.EnviarTokenRecuperacion(pCorreo, pEsquema);
+                string token = GenerarTokenRecuperacion();
+                DateTime expira = DateTime.Now.AddDays(1);
+                tokenRecuperacion = objetoUsuario.EnviarTokenRecuperacion(pCorreo, pEsquema, token, expira);
                 if (tokenRecuperacion != null)
                 {
                     return tokenRecuperacion;
@@ -346,6 +349,11 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             JwtSecurityToken tokenDecodificado = tokenHandler.ReadJwtToken(token);
 
             return tokenDecodificado;
+        }
+
+        public string GenerarTokenRecuperacion()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
     }
 }

@@ -22,6 +22,7 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
         public List<mItemsCliente> listaTiposDeImpuestos { get; set; } = new List<mItemsCliente>();
         public List<mTarifa> listaDeTarifasDeImpuesto { get; set; } = new List<mTarifa>();
         public List<mItemsCliente> listaTiposDeNit { get; set; } = new List<mItemsCliente>();
+        public List<mItemsCliente> listaCentrosDeCosto { get; set; } = new List<mItemsCliente>();
         public async Task ObtenerLaListaDeCondicionesDePago(string esquema)
         {
             string url = "ItemsCliente/ObtengaLaListaDeCondicionesDePago";
@@ -125,7 +126,17 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
         }
 
 
-
+        public async Task ObtenerListaDeCentrosDeCosto(string esquema)
+        {
+            string url = "ItemsCliente/ObtengaLaListaDeCentrosDeCosto";
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            var listaObtenida = await _http.GetFromJsonAsync<List<mItemsCliente>>(url);
+            if (listaObtenida is not null)
+            {
+                listaCentrosDeCosto = listaObtenida;
+            }
+        }
 
 
     }

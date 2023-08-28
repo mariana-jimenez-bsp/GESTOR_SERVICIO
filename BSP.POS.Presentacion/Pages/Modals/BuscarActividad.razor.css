@@ -5,6 +5,7 @@
     background-color: #2FAD70;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    width: 300px;
 }
 
     .search-input-change::placeholder {

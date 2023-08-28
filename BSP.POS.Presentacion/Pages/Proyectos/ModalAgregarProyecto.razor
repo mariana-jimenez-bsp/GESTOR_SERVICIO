@@ -1,5 +1,6 @@
 ﻿@inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IItemsClienteInterface ItemsClienteService
 
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content bg-light">
@@ -39,7 +40,16 @@
                         <ValidationMessage For="@(() => proyecto.empresa)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-centroCosto">Centro de Costo:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-centroCosto" @bind-value="proyecto.centro_costo" @oninput="CambioCentroCosto" />
+                            <select class="col-md-4 border border-success rounded-pill px-2 text-input" @bind="proyecto.centro_costo" id="c-centroCosto" @oninput="CambioCentroCosto">
+                                <option value="">Seleccione el Centro de Costo</option>
+                                @if (listaCentrosDeCosto.Any())
+                                {
+                                    foreach (var centro in listaCentrosDeCosto)
+                                    {
+                                        <option value="@centro.valor">@centro.descripcion</option>
+                                    }
+                                }
+                            </select>
                         </div>
                         <ValidationMessage For="@(() => proyecto.centro_costo)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">

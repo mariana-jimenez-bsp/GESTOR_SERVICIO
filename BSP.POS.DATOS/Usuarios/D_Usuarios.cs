@@ -130,11 +130,10 @@ namespace BSP.POS.DATOS.Usuarios
 
         }
 
-        public U_TokenRecuperacion EnviarTokenRecuperacion(string pCorreo, string pEsquema)
+        public U_TokenRecuperacion EnviarTokenRecuperacion(string pCorreo, string pEsquema, string token, DateTime expira)
         {
             GenerarTokenRecuperacionTableAdapter sp = new GenerarTokenRecuperacionTableAdapter();
-            string token = GenerarTokenRecuperacion();
-            DateTime expira = DateTime.Now.AddDays(1);
+            
             try
             {
                 var response = sp.GetData(pCorreo, token, expira, pEsquema).ToList();
@@ -461,10 +460,6 @@ namespace BSP.POS.DATOS.Usuarios
 
 
 
-        }
-        public string GenerarTokenRecuperacion()
-        {
-            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
     }
 }

@@ -138,5 +138,22 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpGet("ObtengaLaListaDeCentrosDeCosto")]
+        public string ObtengaLaListaDeCentrosDeCosto()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string listaJson = _items.ObtenerListaDeCentrosDeCosto(esquema);
+                return listaJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
     }
 }

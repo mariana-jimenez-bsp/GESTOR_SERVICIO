@@ -1,6 +1,7 @@
 ﻿
 
 @inject IProyectosInterface ProyectosService
+@inject IItemsClienteInterface ItemsClienteService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @if (permisos != null && permisos.Any(p => p.Contains("Proyectos"))){
@@ -94,8 +95,15 @@
                                         <ValidationMessage For="@(() => proyecto.empresa)" />
                                     </div>
                                     <div class="mb-0  col-md-2">
-
-                                        <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.centro_costo" @oninput="(e) => CambioCentroCosto(e, proyecto.Id)">
+                                            <select class="w-100 text-center border-input-gray rounded-pill me-2" @bind="proyecto.centro_costo" @oninput="(e) => CambioCentroCosto(e, proyecto.Id)">
+                                                @if (listaCentrosDeCosto.Any())
+                                                {
+                                                    foreach (var centro in listaCentrosDeCosto)
+                                                    {
+                                                        <option value="@centro.valor">@centro.descripcion</option>
+                                                    }
+                                                }
+                                            </select>
                                         <ValidationMessage For="@(() => proyecto.centro_costo)" />
                                     </div>
                                     <div class="mb-0  col-md-2">

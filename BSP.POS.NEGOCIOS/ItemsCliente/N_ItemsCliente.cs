@@ -84,5 +84,16 @@ namespace BSP.POS.NEGOCIOS.ItemsCliente
             return tipos;
 
         }
+
+        public string ObtenerListaDeCentrosDeCosto(string pEsquema)
+        {
+            List<U_ItemsCliente> list = new List<U_ItemsCliente>();
+
+            list = objItems.ObtenerListaDeCentrosDeCosto(pEsquema);
+
+            string centros = JsonConvert.SerializeObject(list);
+            return centros;
+
+        }
     }
 }

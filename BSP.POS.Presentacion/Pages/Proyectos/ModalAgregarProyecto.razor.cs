@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using BSP.POS.Presentacion.Models.Proyectos;
+using BSP.POS.Presentacion.Models.ItemsCliente;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
 {
@@ -10,12 +11,18 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         public string esquema = string.Empty;
         public mProyectos proyecto = new mProyectos();
+        public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ItemsClienteService.ObtenerListaDeCentrosDeCosto(esquema);
+            if (ItemsClienteService.listaCentrosDeCosto != null)
+            {
+                listaCentrosDeCosto = ItemsClienteService.listaCentrosDeCosto;
+            }
         }
 
         private void OpenModal()

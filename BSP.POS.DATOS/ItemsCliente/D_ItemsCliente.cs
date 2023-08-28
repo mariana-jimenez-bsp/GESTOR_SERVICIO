@@ -156,5 +156,28 @@ namespace BSP.POS.DATOS.ItemsCliente
                 throw new Exception("Ha ocurrido un error", ex.InnerException.InnerException);
             }
         }
+
+        public List<U_ItemsCliente> ObtenerListaDeCentrosDeCosto(string pEsquema)
+        {
+            try
+            {
+                var Lst = new List<U_ItemsCliente>();
+
+                ListarCentroCostoTableAdapter sp = new ListarCentroCostoTableAdapter();
+
+                var response = sp.GetData(pEsquema).ToList();
+
+                foreach (var item in response)
+                {
+                    U_ItemsCliente dropDownList = new U_ItemsCliente(item.CENTRO_COSTO, item.DESCRIPCION);
+                    Lst.Add(dropDownList);
+                }
+                return Lst;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ha ocurrido un error", ex.InnerException.InnerException);
+            }
+        }
     }
 }

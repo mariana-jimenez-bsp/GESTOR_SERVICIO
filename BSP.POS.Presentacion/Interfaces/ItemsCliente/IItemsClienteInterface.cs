@@ -26,5 +26,9 @@ namespace BSP.POS.Presentacion.Interfaces.ItemsCliente
 
         List<mItemsCliente> listaTiposDeNit { get; set; }
 
+        Task ObtenerListaDeCentrosDeCosto(string esquema);
+
+        List<mItemsCliente> listaCentrosDeCosto { get; set; }
+
     }
 }

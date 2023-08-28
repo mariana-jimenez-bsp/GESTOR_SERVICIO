@@ -1,4 +1,5 @@
-﻿using BSP.POS.Presentacion.Models.Proyectos;
+﻿using BSP.POS.Presentacion.Models.ItemsCliente;
+using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Services.Actividades;
 using Microsoft.AspNetCore.Components;
 using System.Security.Claims;
@@ -9,6 +10,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
     {
         public string esquema = string.Empty;
         public List<mProyectos> proyectos = new List<mProyectos>();
+        public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
         public bool cargaInicial = false;
         public string rol = string.Empty;
         List<string> permisos;
@@ -25,6 +27,13 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             {
                 proyectos = ProyectosService.ListaProyectos;
                 cargaInicial = true;
+            }
+
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ItemsClienteService.ObtenerListaDeCentrosDeCosto(esquema);
+            if(ItemsClienteService.listaCentrosDeCosto != null)
+            {
+                listaCentrosDeCosto = ItemsClienteService.listaCentrosDeCosto;
             }
 
         }
