@@ -58,7 +58,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 }
                 foreach (var itemActividad in objetosParaAprobacion.listaActividadesAsociadas)
                 {
-                    actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas.Substring(0, 5) + "</td>\r\n <td>" + itemActividad.horas_no_cobradas.Substring(0, 5) + "</td>\r\n </tr> \r\n";
+                    actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n </tr> \r\n";
                 }
                 foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
                 {
@@ -67,9 +67,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
                            .Replace("{{esquema}}", objetosParaAprobacion.esquema)
                            .Replace("{{Fecha}}", objetosParaAprobacion.informe.fecha_consultoria)
-                           .Replace("{{Hora_Inicio}}", objetosParaAprobacion.informe.hora_inicio)
+                           .Replace("{{Hora_Inicio}}", objetosParaAprobacion.informe.hora_inicio.Substring(0, 5))
                            .Replace("{{Modalidad}}", objetosParaAprobacion.informe.modalidad_consultoria)
-                           .Replace("{{Hora_Fin}}", objetosParaAprobacion.informe.hora_final)
+                           .Replace("{{Hora_Fin}}", objetosParaAprobacion.informe.hora_final.Substring(0, 5))
                            .Replace("{{Cliente}}", objetosParaAprobacion.ClienteAsociado.NOMBRE)
                            .Replace("{{Total_Horas_Cobradas}}", objetosParaAprobacion.total_horas_cobradas.ToString())
                            .Replace("{{Total_Horas_No_Cobradas}}", objetosParaAprobacion.total_horas_no_cobradas.ToString())

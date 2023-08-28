@@ -27,14 +27,15 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
         {
    
             string token = await ObtenerToken();
-            
+            string esquema = await ObtenerEsquema();
+
             var identify = new ClaimsIdentity();
             _http.DefaultRequestHeaders.Authorization = null;
             
             if (!string.IsNullOrEmpty(token))
             {
                 string tokenSinComillas = token.Trim('"');
-                string validarToken = await ValidarToken(token);
+                string validarToken = await ValidarToken(token, esquema);
 
                 if (!string.IsNullOrEmpty(validarToken))
                 {
@@ -50,10 +51,11 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
 
             return state;
         }
-        public async Task<string> ValidarToken(string token)
+        public async Task<string> ValidarToken(string token, string esquema)
         {
             mLogin enviarUsuario = new mLogin();
             enviarUsuario.token = token;
+            enviarUsuario.esquema = esquema;
             string url = "Usuarios/ValidarToken";
             string jsonData = JsonSerializer.Serialize(enviarUsuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -81,7 +83,22 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
            
             
         }
-        
+
+        private async Task<string> ObtenerEsquema()
+        {
+            string esquema = await _localStorageService.GetItemAsStringAsync("esquema");
+            if (esquema != null)
+            {
+                return esquema;
+            }
+            else
+            {
+                return null;
+            }
+
+
+        }
+
 
         public static IEnumerable<Claim> ParseClaimFromJwt(string jwt)
         {

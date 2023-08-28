@@ -13,34 +13,14 @@ namespace BSP.POS.DATOS.Usuarios
     public class D_Login
     {
 
-        public U_LoginToken Login(U_Login pLogin)
+        public U_LoginToken Login(U_Login pLogin, string usuario, string token)
         {
             POSDataSet.LoginUsuarioDataTable _tabla = new POSDataSet.LoginUsuarioDataTable();
             LoginUsuarioTableAdapter _tablaUsuario = new LoginUsuarioTableAdapter();
-            ObtenerClaveUsuarioTableAdapter _claveUsuario = new ObtenerClaveUsuarioTableAdapter();
-            string usuario = ObtenerUsuarioPorCorreo(pLogin.esquema, pLogin.correo);
-            var consultaClave = _claveUsuario.GetData(pLogin.esquema, usuario);
-            string claveActual = string.Empty;
-            foreach (POSDataSet.ObtenerClaveUsuarioRow item in consultaClave)
-            {
-                claveActual = item.clave;
-            }
 
             U_LoginToken login = null;
 
-            if (CompararClaves(pLogin.contrasena, claveActual))
-            {
-                D_Permisos datosPermisos = new D_Permisos();
-                D_Usuarios datosUsuarios = new D_Usuarios();
-                string rol = ObtenerRol(pLogin.esquema, usuario);
-                U_Perfil perfil = new U_Perfil();
-                perfil = datosUsuarios.ObtenerPefil(pLogin.esquema, usuario);
-                List<U_PermisosAsociados> permisos = new List<U_PermisosAsociados>();
-                List<U_Permisos> todosLosPermisos = new List<U_Permisos>();
-                todosLosPermisos = datosPermisos.ListaPermisos(pLogin.esquema);
-                permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, perfil.id);
-                string token = GenerateJWT(usuario, pLogin.key, rol, permisos, todosLosPermisos, pLogin.esquema);
-                var j = _tablaUsuario.GetData(pLogin.correo, claveActual, pLogin.esquema, token).ToList();
+                var j = _tablaUsuario.GetData(pLogin.correo, pLogin.contrasena, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
                 {
                     login = new U_LoginToken(item.token, item.esquema, usuario, item.correo);
@@ -49,61 +29,28 @@ namespace BSP.POS.DATOS.Usuarios
                 {
                     login = new U_LoginToken("", "", "", "");
                 }
-            }
-            else
-            {
-                login = new U_LoginToken("", "", "", "");
-            }
-
-
 
 
             return login;
         }
 
-
-        public U_LoginUsuario VerificarUsuarioAdministrador(string pEsquema, string pUsuario)
+        public string ConsultarClaveUsuario(U_Login pLogin, string usuario)
         {
-            VerificarUsuarioConsultorTableAdapter _tablaUsuario = new VerificarUsuarioConsultorTableAdapter();
-
-            U_LoginUsuario login = null;
-
-            var result = _tablaUsuario.GetData(pEsquema, pUsuario).ToList();
-
-            foreach (POSDataSet.VerificarUsuarioConsultorRow item in result)
+            ObtenerClaveUsuarioTableAdapter _claveUsuario = new ObtenerClaveUsuarioTableAdapter();
+            var consultaClave = _claveUsuario.GetData(pLogin.esquema, usuario);
+            string claveActual = string.Empty;
+            foreach (POSDataSet.ObtenerClaveUsuarioRow item in consultaClave)
             {
-                login = new U_LoginUsuario(item.USUARIO, item.CLAVE, "");
+                claveActual = item.clave;
             }
-            if (result.Count == 0)
-            {
-                login = new U_LoginUsuario("", "", "");
-            }
-            return login;
+            return claveActual;
         }
+        
 
-        // Genera un hash seguro con salting para la contraseña dada
-        public string EncriptarClave(string clave)
-        {
-            byte[] data = Encoding.UTF8.GetBytes(clave);
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hash = sha256.ComputeHash(data);
-                return Convert.ToBase64String(hash);
-            }
-        }
-
-
-        public bool CompararClaves(string claveIngresada, string claveGuardada)
-        {
-
-            return claveIngresada == claveGuardada;
-
-        }
-
-        public string ValidarToken(string token)
+        public string ValidarToken(string token, string esquema)
         {
             ObtenerUsuarioPorTokenTableAdapter _usuario = new ObtenerUsuarioPorTokenTableAdapter();
-            var consultaUsuario = _usuario.GetData("BSP", token);
+            var consultaUsuario = _usuario.GetData(esquema, token);
             string usuario = null;
             foreach (POSDataSet.ObtenerUsuarioPorTokenRow item in consultaUsuario)
             {
@@ -115,64 +62,9 @@ namespace BSP.POS.DATOS.Usuarios
             }
             else
             {
-                JwtSecurityToken tokenDecodificado = DecodificarToken(token);
-                DateTime fecha = tokenDecodificado.ValidTo;
-                if (tokenDecodificado.ValidTo < DateTime.UtcNow)
-                {
-                    return null;
-                }
-                else
-                {
-                    return token;
-                }
+                return token;
             }
 
-        }
-        public JwtSecurityToken DecodificarToken(string token)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            // Decodificar el token
-            JwtSecurityToken tokenDecodificado = tokenHandler.ReadJwtToken(token);
-
-            return tokenDecodificado;
-        }
-
-        private string GenerateJWT(string username, string key, string rol, List<U_PermisosAsociados> permisos, List<U_Permisos> todoLosPermisos, string esquema)
-        {
-            // Also consider using AsymmetricSecurityKey if you want the client to be able to validate the token
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, username),
-            };
-            if (!string.IsNullOrEmpty(rol))
-            {
-                claims.Add(new Claim(ClaimTypes.Role, rol));
-            }
-            if (!string.IsNullOrEmpty(esquema))
-            {
-                claims.Add(new Claim("esquema", esquema));
-            }
-            if (todoLosPermisos != null)
-            {
-                foreach (var permiso in todoLosPermisos)
-                {
-                    if (permisos.Any(p => p.id_permiso == permiso.Id))
-                    {
-                        claims.Add(new Claim("permission", permiso.permiso));
-                    }
-                }
-            }
-
-            var token = new JwtSecurityToken(
-                "BSP",
-                "Usuarios",
-                claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256));
-            var tokenHandler = new JwtSecurityTokenHandler();
-            return tokenHandler.WriteToken(token);
         }
         public string ObtenerUsuarioPorCorreo(String pEsquema, String pCorreo)
         {

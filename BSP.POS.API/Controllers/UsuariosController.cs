@@ -71,7 +71,8 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string token = datos.token.Trim('"');
-                var usuarioLogeado = user.ValidarToken(token);
+                string esquema = datos.esquema.Trim('"');
+                var usuarioLogeado = user.ValidarToken(token, esquema);
 
                 return usuarioLogeado;
             }
