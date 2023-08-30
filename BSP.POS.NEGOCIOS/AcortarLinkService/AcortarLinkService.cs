@@ -13,7 +13,7 @@ namespace BSP.POS.NEGOCIOS.AcortarLinkService
         {
             string pathToJson = "../BSP.POS.NEGOCIOS/AcortarLinkService/AcortarLinkJson/AcortarLink.json";
             string jsonString = File.ReadAllText(pathToJson);
-            string url = "https://localhost:7200/ValidarAprobacionInforme/89B6092AC1B6ACD68A8CC1FE6F030F3604E643D0AFE467F94AA99499ACE3B0E52128444E0F51A1D0612931C385A75244D58763CB47951CE6C8D571D73409BC3F/BSP";
+            string url = "https://127.0.0.1:7200/ValidarAprobacionInforme/89B6092AC1B6ACD68A8CC1FE6F030F3604E643D0AFE467F94AA99499ACE3B0E52128444E0F51A1D0612931C385A75244D58763CB47951CE6C8D571D73409BC3F/BSP";
             jsonString = jsonString.Replace("{url}", url);
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://api-ssl.bitly.com/v4/shorten");
