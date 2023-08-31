@@ -4,6 +4,7 @@ using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Security.Cryptography.X509Certificates;
 
 namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
@@ -178,6 +179,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         {
 
             navigationManager.NavigateTo($"Informes/HistorialDeInformes", forceLoad: true);
+        }
+
+        private byte[] pdfContent;
+
+        private async Task DescargarReporte()
+        {
+            if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+            {
+                pdfContent = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
+
+                var fileName = "ReporteInforme.pdf";
+                var data = Convert.ToBase64String(pdfContent);
+                var url = $"data:application/pdf;base64,{data}";
+
+                await JSRuntime.InvokeVoidAsync("guardarDocumento", fileName, url);
+            }
         }
     }
 }

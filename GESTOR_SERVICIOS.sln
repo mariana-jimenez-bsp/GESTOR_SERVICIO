@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSP.POS.API", "BSP.POS.API\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSP.POS.NEGOCIOS", "BSP.POS.NEGOCIOS\BSP.POS.NEGOCIOS.csproj", "{EA78DFA9-4981-4F63-8809-C76B6C1F1D2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSP.POS.ServicioDocumentosElectronicos", "BSP.POS.ServicioDocumentosElectronicos\BSP.POS.ServicioDocumentosElectronicos.csproj", "{D2CADBCA-B424-441D-8F93-7F220152BAA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSP.POS.APICrystalReport", "BSP.POS.APICrystalReport\BSP.POS.APICrystalReport.csproj", "{FD37406A-63F6-4ED5-8071-790FDBBB76F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{EA78DFA9-4981-4F63-8809-C76B6C1F1D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA78DFA9-4981-4F63-8809-C76B6C1F1D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA78DFA9-4981-4F63-8809-C76B6C1F1D2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2CADBCA-B424-441D-8F93-7F220152BAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2CADBCA-B424-441D-8F93-7F220152BAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2CADBCA-B424-441D-8F93-7F220152BAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2CADBCA-B424-441D-8F93-7F220152BAA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD37406A-63F6-4ED5-8071-790FDBBB76F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD37406A-63F6-4ED5-8071-790FDBBB76F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD37406A-63F6-4ED5-8071-790FDBBB76F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD37406A-63F6-4ED5-8071-790FDBBB76F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

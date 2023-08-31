@@ -5,7 +5,9 @@
 @inject IClientesInterface ClientesService
 @inject IActividadesInterface ActividadesService
 @inject IObservacionesInterface ObservacionesService
+@inject IReportesInterface ReportesService
 @inject NavigationManager navigationManager
+@inject IJSRuntime JSRuntime
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
@@ -91,7 +93,7 @@
                         <div class="generar-cotizacion imagen-div">
                             <span class="me-4 span-report">GERNERAR COTIZACIÓN</span>
                         </div>
-                        <div class="generar-reporte imagen-div">
+                        <div class="generar-reporte imagen-div mouse-pointer" @onclick="DescargarReporte">
                             <span class="me-4 span-report">GENERAR REPORTE</span>
                         </div>
                         <div class="facturar imagen-div">

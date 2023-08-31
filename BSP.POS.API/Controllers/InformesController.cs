@@ -34,13 +34,13 @@ namespace BSP.POS.API.Controllers
         {
             informes = new N_Informes();
             user = new N_Usuarios();
-            var configuration = new ConfigurationBuilder()
-             .AddUserSecrets<Program>()
-             .Build();
+            //var configuration = new ConfigurationBuilder()
+            // .AddUserSecrets<Program>()
+            // .Build();
 
-            _secretKey = configuration["SecretKey"];
-            _correoUsuario = configuration["SmtpFrom"];
-            _claveUsuario = configuration["SmtpPassword"];
+            _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
+            _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
+            _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
             _correoService = correoService;
             _whatsappService = whatsappService;
         }
