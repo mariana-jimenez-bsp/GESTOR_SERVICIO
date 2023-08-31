@@ -3451,17 +3451,17 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ListarCentroCosto" msprop:Generator_RowClassName="ListarCentroCostoRow" msprop:Generator_RowEvHandlerName="ListarCentroCostoRowChangeEventHandler" msprop:Generator_RowDeletedName="ListarCentroCostoRowDeleted" msprop:Generator_RowDeletingName="ListarCentroCostoRowDeleting" msprop:Generator_RowEvArgName="ListarCentroCostoRowChangeEvent" msprop:Generator_TablePropName="ListarCentroCosto" msprop:Generator_RowChangedName="ListarCentroCostoRowChanged" msprop:Generator_UserTableName="ListarCentroCosto" msprop:Generator_RowChangingName="ListarCentroCostoRowChanging" msprop:Generator_TableClassName="ListarCentroCostoDataTable" msprop:Generator_TableVarName="tableListarCentroCosto">
+        <xs:element name="ListarCentroCosto" msprop:Generator_RowEvHandlerName="ListarCentroCostoRowChangeEventHandler" msprop:Generator_RowDeletedName="ListarCentroCostoRowDeleted" msprop:Generator_RowDeletingName="ListarCentroCostoRowDeleting" msprop:Generator_RowEvArgName="ListarCentroCostoRowChangeEvent" msprop:Generator_TablePropName="ListarCentroCosto" msprop:Generator_RowChangedName="ListarCentroCostoRowChanged" msprop:Generator_UserTableName="ListarCentroCosto" msprop:Generator_RowChangingName="ListarCentroCostoRowChanging" msprop:Generator_RowClassName="ListarCentroCostoRow" msprop:Generator_TableClassName="ListarCentroCostoDataTable" msprop:Generator_TableVarName="tableListarCentroCosto">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="CENTRO_COSTO" msprop:Generator_UserColumnName="CENTRO_COSTO" msprop:Generator_ColumnPropNameInTable="CENTRO_COSTOColumn" msprop:Generator_ColumnPropNameInRow="CENTRO_COSTO" msprop:Generator_ColumnVarNameInTable="columnCENTRO_COSTO" minOccurs="0">
+              <xs:element name="CENTRO_COSTO" msprop:Generator_ColumnPropNameInTable="CENTRO_COSTOColumn" msprop:Generator_ColumnPropNameInRow="CENTRO_COSTO" msprop:Generator_UserColumnName="CENTRO_COSTO" msprop:Generator_ColumnVarNameInTable="columnCENTRO_COSTO" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="25" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="DESCRIPCION" msprop:Generator_UserColumnName="DESCRIPCION" msprop:Generator_ColumnPropNameInTable="DESCRIPCIONColumn" msprop:Generator_ColumnPropNameInRow="DESCRIPCION" msprop:Generator_ColumnVarNameInTable="columnDESCRIPCION" minOccurs="0">
+              <xs:element name="DESCRIPCION" msprop:Generator_ColumnPropNameInTable="DESCRIPCIONColumn" msprop:Generator_ColumnPropNameInRow="DESCRIPCION" msprop:Generator_UserColumnName="DESCRIPCION" msprop:Generator_ColumnVarNameInTable="columnDESCRIPCION" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="200" />
@@ -3471,7 +3471,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="GenerarReporteDeInformePorConsecutivo" msprop:Generator_RowEvHandlerName="GenerarReporteDeInformePorConsecutivoRowChangeEventHandler" msprop:Generator_RowDeletedName="GenerarReporteDeInformePorConsecutivoRowDeleted" msprop:Generator_RowDeletingName="GenerarReporteDeInformePorConsecutivoRowDeleting" msprop:Generator_RowEvArgName="GenerarReporteDeInformePorConsecutivoRowChangeEvent" msprop:Generator_TablePropName="GenerarReporteDeInformePorConsecutivo" msprop:Generator_RowChangedName="GenerarReporteDeInformePorConsecutivoRowChanged" msprop:Generator_RowChangingName="GenerarReporteDeInformePorConsecutivoRowChanging" msprop:Generator_TableClassName="GenerarReporteDeInformePorConsecutivoDataTable" msprop:Generator_RowClassName="GenerarReporteDeInformePorConsecutivoRow" msprop:Generator_TableVarName="tableGenerarReporteDeInformePorConsecutivo" msprop:Generator_UserTableName="GenerarReporteDeInformePorConsecutivo">
+        <xs:element name="GenerarReporteDeInformePorConsecutivo" msprop:Generator_RowClassName="GenerarReporteDeInformePorConsecutivoRow" msprop:Generator_RowEvHandlerName="GenerarReporteDeInformePorConsecutivoRowChangeEventHandler" msprop:Generator_RowDeletedName="GenerarReporteDeInformePorConsecutivoRowDeleted" msprop:Generator_RowDeletingName="GenerarReporteDeInformePorConsecutivoRowDeleting" msprop:Generator_RowEvArgName="GenerarReporteDeInformePorConsecutivoRowChangeEvent" msprop:Generator_TablePropName="GenerarReporteDeInformePorConsecutivo" msprop:Generator_RowChangedName="GenerarReporteDeInformePorConsecutivoRowChanged" msprop:Generator_UserTableName="GenerarReporteDeInformePorConsecutivo" msprop:Generator_RowChangingName="GenerarReporteDeInformePorConsecutivoRowChanging" msprop:Generator_TableClassName="GenerarReporteDeInformePorConsecutivoDataTable" msprop:Generator_TableVarName="tableGenerarReporteDeInformePorConsecutivo">
           <xs:complexType>
           </xs:complexType>
         </xs:element>

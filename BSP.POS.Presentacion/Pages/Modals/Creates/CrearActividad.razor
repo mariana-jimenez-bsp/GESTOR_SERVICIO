@@ -5,6 +5,10 @@
     <div class="d-flex justify-content-center w-100 mb-2">
         <h4 class="green-text">Agregar Actividad</h4>
     </div>
+    @if (mensajeAgregado != null)
+    {
+        <MensajeAgregado Message="@mensajeAgregado" />
+    }
     <div class="row text-start d-flex justify-content-center max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
     <EditForm Model="activadNueva" OnValidSubmit="AgregarActividad">
             <DataAnnotationsValidator />
@@ -29,10 +33,7 @@
     </div>
     <div class="w-100 d-flex justify-content-center">
         <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light mx-4 w-25" id="agregar-actividad">Agregar Actividad</button>
-        @if (mensajeAgregado != null)
-        {
-            <MensajeAgregado Message="@mensajeAgregado" />
-        }
+      
     </div>
     </EditForm>
     </div>

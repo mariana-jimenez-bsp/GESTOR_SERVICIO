@@ -167,7 +167,7 @@ namespace BSP.POS.API.Controllers
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
                 _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
-                _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion);
+                //_whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion);
                 return Ok();
             }
 
