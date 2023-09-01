@@ -116,7 +116,7 @@
     justify-content: end;
     align-items: center;
     margin-bottom: 10px; /* Añade margen inferior para separar las imágenes */
-    min-width: 240px;
+    min-width: 290px;
     max-width: 25%;
     min-height: 110px;
     color: white;
@@ -162,10 +162,14 @@
         font-size: 9pt;
     }
 
+    .imagen-div {
+        min-width: 180px;
+        max-width: 25%;
+        min-height: 70px;
+    }
+
     .vertical-text {
-        height: 52px;
-        width: 232px;
-        font-size: 11pt;
+        display: none;
     }
 
     .font-19 {

@@ -1,0 +1,35 @@
+﻿@inject NavigationManager navigationManager
+<button class="btn btn-outline-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title title-sidebar" id="staticBackdropLabel">Configuraciones</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAMisUsuarios">
+                Editar Usuarios
+            </button>
+            <button class="btn btn-outline-secondary" type="button" @onclick="IrAlInicio">
+                Volver Al Inicio
+            </button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private void IrAlInicio()
+    {
+
+        navigationManager.NavigateTo($"Index", forceLoad: true);
+    }
+    private void IrAMisUsuarios()
+    {
+
+        navigationManager.NavigateTo($"Configuraciones/Usuarios", forceLoad: true);
+    }
+}
