@@ -23,7 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await InformesService.EliminarInforme(consecutivo, esquema);
                 await CloseModal();
-                navigationManager.NavigateTo("/index", forceLoad: true);
+                navigationManager.NavigateTo($"index", forceLoad: true);
             }
         }
     }

@@ -40,7 +40,7 @@ namespace BSP.POS.API.Controllers
 
             //_secretKey = configuration["AppSettings:SecretKey"];
             //_correoUsuario = configuration["AppSettings:SmtpFrom"];
-            //_claveUsuario = configuration["AppSettings:AppSettingsSmtpPassword"];
+            //_claveUsuario = configuration["AppSettings:SmtpPassword"];
             _correoService = correoService;
         }
         // GET: api/<UsuariosController>

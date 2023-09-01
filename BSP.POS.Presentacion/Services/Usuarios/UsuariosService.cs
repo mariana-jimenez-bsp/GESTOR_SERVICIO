@@ -87,7 +87,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 if(usuarioOriginal != perfil.usuario || correoOriginal != perfil.correo || (claveOriginal != perfil.clave && !string.IsNullOrEmpty(perfil.clave)))
                 {
                     
-                    _navigationManager.NavigateTo("/login", forceLoad: true);
+                    _navigationManager.NavigateTo($"login", forceLoad: true);
                     await _localStorageService.RemoveItemAsync("token");
                 }
             
@@ -165,7 +165,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _navigationManager.NavigateTo("/", forceLoad: true);
+                _navigationManager.NavigateTo($"", forceLoad: true);
             }
         }
 
@@ -284,7 +284,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                     if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || (usuario.claveOriginal != usuario.clave && !string.IsNullOrEmpty(usuario.clave)))
                     {
 
-                        _navigationManager.NavigateTo("/login", forceLoad: true);
+                        _navigationManager.NavigateTo($"login", forceLoad: true);
                         await _localStorageService.RemoveItemAsync("token");
                     }
                     }
