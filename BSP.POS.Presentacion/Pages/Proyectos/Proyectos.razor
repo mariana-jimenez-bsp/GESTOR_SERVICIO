@@ -15,7 +15,10 @@
             <div class="d-flex justify-content-start align-items-center">
                 <h2 class="blue-dark-text text-41-book">Proyectos <img class="mb-3" src="images/Proyectos/Icono-Proyectos.png" /></h2>
             </div>
-
+                @if (mensajeActualizar != null)
+                {
+                    <MensajeDeLogrado Message="@mensajeActualizar" />
+                }
             <div class=" d-flex row g-2 text-center ">
                 <div class="container mt-5 border-transparent">
 
@@ -124,7 +127,7 @@
                 Agregar
                 Proyecto
             </div>
-            <div @onclick="VolverAlHome" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
+            <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
                     Descartar
                     cambios
                 </div>

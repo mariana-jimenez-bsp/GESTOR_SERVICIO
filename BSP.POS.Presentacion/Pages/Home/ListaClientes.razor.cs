@@ -15,11 +15,15 @@ namespace BSP.POS.Presentacion.Pages.Home
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
-            usuarioActual = user.Identity.Name;
-            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            await ClientesService.ObtenerListaClientes(esquema);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientesRecientes(esquema);
+            if (user.Identity != null && !string.IsNullOrEmpty(user.Identity.Name))
+            {
+                usuarioActual = user.Identity.Name;
+                esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+                await ClientesService.ObtenerListaClientes(esquema);
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ObtenerListaClientesRecientes(esquema);
+            }
+           
 
 
         }

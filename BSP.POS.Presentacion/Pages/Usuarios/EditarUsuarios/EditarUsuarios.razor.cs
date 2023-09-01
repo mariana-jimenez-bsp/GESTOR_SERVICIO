@@ -3,6 +3,8 @@ using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
+using BSP.POS.Presentacion.Pages.Proyectos;
+using BSP.POS.Presentacion.Services.Proyectos;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Security.Claims;
@@ -17,7 +19,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
         public bool cargaInicial = false;
         public string rol = string.Empty;
         public string usuarioActual = string.Empty;
-        public string mensajeAcualizar;
+        public string mensajeActualizar;
         bool repetido = false;
         protected override async Task OnInitializedAsync()
         {
@@ -27,28 +29,19 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
             usuarioActual = user.Identity.Name;
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
-            if (UsuariosService.ListaDeUsuariosParaEditar != null)
+            await RefrescarListaDeUsuarios();
+            if(usuarios != null)
             {
-                foreach (var usuario in UsuariosService.ListaDeUsuariosParaEditar)
-                {
-                    if(usuarioActual == usuario.usuario)
-                    {
-                        usuario.claveOriginal = usuario.clave;
-                    }
-                    usuario.usuarioOrignal = usuario.usuario;
-                    usuario.correoOriginal = usuario.correo;
-                    usuario.clave = string.Empty;
-                }
-                usuarios = UsuariosService.ListaDeUsuariosParaEditar;
-                await RefrescarPermisos();
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ClientesService.ObtenerListaClientes(esquema);
-                if(ClientesService.ListaClientes != null) { 
-                listaClientes = ClientesService.ListaClientes;
+                if (ClientesService.ListaClientes != null)
+                {
+                    listaClientes = ClientesService.ListaClientes;
                 }
                 cargaInicial = true;
             }
+           
+            
 
         }
 
@@ -254,12 +247,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
 
            
         }
-        private void VolverAlHome()
+        private async Task DescartarCambios()
         {
-
-            navigationManager.NavigateTo($"Index", forceLoad: true);
-
+            mensajeActualizar = null;
+            await RefrescarListaDeUsuarios();
         }
+       
         private async Task ValidarUsuarioCorreoYExistente()
         {
             foreach (var usuario in usuarios)
@@ -300,30 +293,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
             if (!repetido)
             {
            
-            mensajeAcualizar = null;
+            mensajeActualizar = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ActualizarListaDeUsuarios(usuarios, esquema, usuarioActual);
             await ActualizarListaDePermisos();
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
-            if (UsuariosService.ListaDeUsuariosParaEditar != null)
-            {
-                foreach (var usuario in UsuariosService.ListaDeUsuariosParaEditar)
-                {
-                    if (usuarioActual == usuario.usuario)
-                    {
-                       
-                        usuario.claveOriginal = usuario.clave;
-                       
-                    }
-                    usuario.usuarioOrignal = usuario.usuario;
-                    usuario.correoOriginal = usuario.correo;
-                    usuario.clave = string.Empty;
-                }
-                usuarios = UsuariosService.ListaDeUsuariosParaEditar;
-            }
-            await RefrescarPermisos();
-            mensajeAcualizar = "Usuarios Actualizados";
+             await RefrescarListaDeUsuarios();
+            mensajeActualizar = "Usuarios Actualizados";
             }
         }
         private async Task ActualizarListaDePermisos()
@@ -350,32 +325,36 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.EditarUsuarios
             textoRecibido = texto;
             return Task.CompletedTask;
         }
+        private async Task RefrescarListaDeUsuarios()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+            if (UsuariosService.ListaDeUsuariosParaEditar != null)
+            {
+                foreach (var usuario in UsuariosService.ListaDeUsuariosParaEditar)
+                {
+                    if (usuarioActual == usuario.usuario)
+                    {
+                        usuario.claveOriginal = usuario.clave;
+                    }
+                    usuario.usuarioOrignal = usuario.usuario;
+                    usuario.correoOriginal = usuario.correo;
+                    usuario.clave = string.Empty;
+                }
 
-        bool actividadModalAgregarUsuario = false;
+                usuarios = UsuariosService.ListaDeUsuariosParaEditar;
+                await RefrescarPermisos();
+            }
+        }
+        bool actividarModalAgregarUsuario = false;
 
         async Task ClickHandlerAgregarUsuario(bool activar)
         {
-            actividadModalAgregarUsuario = activar;
+            actividarModalAgregarUsuario = activar;
             if (!activar)
             {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
-                if (UsuariosService.ListaDeUsuariosParaEditar != null)
-                {
-                    foreach (var usuario in UsuariosService.ListaDeUsuariosParaEditar)
-                    {
-                        if (usuarioActual == usuario.usuario)
-                        {
-                            usuario.claveOriginal = usuario.clave;
-                        }
-                        usuario.usuarioOrignal = usuario.usuario;
-                        usuario.correoOriginal = usuario.correo;
-                        usuario.clave = string.Empty;
-                    }
-                    
-                    usuarios = UsuariosService.ListaDeUsuariosParaEditar;
-                    await RefrescarPermisos();
-                }
+                mensajeActualizar = null;
+                await RefrescarListaDeUsuarios();
             }
             StateHasChanged();
         }

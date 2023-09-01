@@ -14,6 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public bool cargaInicial = false;
         public string rol = string.Empty;
         List<string> permisos;
+        public string mensajeActualizar;
         protected override async Task OnInitializedAsync()
         {
             cargaInicial = false;
@@ -139,14 +140,20 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 }
             }
         }
-        private void VolverAlHome()
+        
+        private async Task DescartarCambios()
         {
-
-            navigationManager.NavigateTo($"Index", forceLoad: true);
-
+            mensajeActualizar = null;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ProyectosService.ObtenerListaDeProyectos(esquema);
+            if (ProyectosService.ListaProyectos != null)
+            {
+                proyectos = ProyectosService.ListaProyectos;
+            }
         }
         private async Task ActualizarListaProyectos()
         {
+            mensajeActualizar = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ProyectosService.ActualizarListaDeProyectos(proyectos, esquema);
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -154,6 +161,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             if (ProyectosService.ListaProyectos != null)
             {
                 proyectos = ProyectosService.ListaProyectos;
+                mensajeActualizar = "Proyectos Actualizados";
             }
         }
 
@@ -173,6 +181,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             actividadModalAgregarProyecto = activar;
             if (!activar)
             {
+                mensajeActualizar = null;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ProyectosService.ObtenerListaDeProyectos(esquema);
                 if (ProyectosService.ListaProyectos != null)

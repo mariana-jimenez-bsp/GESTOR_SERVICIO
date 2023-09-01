@@ -8,7 +8,7 @@ namespace BSP.POS.Presentacion.Models.Actividades
 
         public string consecutivo_informe { get; set; } = string.Empty;
         [StringLength(6, ErrorMessage = "Tamaño máximo de 6 caracteres")]
-        [Required(ErrorMessage = "Debe escoger una actividad es requerida")]
+        [Required(ErrorMessage = "Debe escoger una actividad")]
         public string codigo_actividad { get; set; } = string.Empty;
        
         public string horas_cobradas { get; set; } = string.Empty;

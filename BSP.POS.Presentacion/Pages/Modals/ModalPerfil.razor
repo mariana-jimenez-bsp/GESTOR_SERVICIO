@@ -10,8 +10,8 @@
                 <h2 class="text-profile blue-dark-text">Perfil <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
             </div>
 
-            <div class="modal-body d-flex row g-2 text-start">
-                <div class="d-flex justify-content-center">
+            <div class="modal-body d-flex row g-2 text-start ">
+                <div class="d-flex justify-content-center ">
                     <label class="col-md-4  blue-dark-text label-text" for="correo">Correo:</label>
                     <input @bind-value="@perfil.correo" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="correo" @oninput="CambioCorreo" />
                 </div>
@@ -83,7 +83,7 @@
             </div>
 
             <div class="modal-footer">
-                <div @onclick="() => CloseModal()" class="button-footer mouse-pointer rounded-pill border border-primary blue-light-bg text-light button-text mx-4" id="descartar-perfil">Descartar cambios</div>
+                <div @onclick="() => CloseModal()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-perfil">Descartar cambios</div>
                 <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4" id="guardar-perfil">Guardar cambios</button>
             </div>
 

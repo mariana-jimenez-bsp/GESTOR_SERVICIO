@@ -4,6 +4,7 @@
 @inject IUsuariosInterface UsuariosService
 @inject IObservacionesInterface ObservacionesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigationManager
 @inject IJSRuntime JS
 @if (informe.estado == "Finalizado")
 {
@@ -210,6 +211,10 @@
   
     <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
     <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
+}
+else if (informe.estado == "Borrador")
+{
+    navigationManager.NavigateTo($"Informe/Editar/" + informe.consecutivo, forceLoad: true);
 }
 else
 {

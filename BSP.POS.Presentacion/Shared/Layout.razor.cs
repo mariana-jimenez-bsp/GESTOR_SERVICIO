@@ -39,12 +39,12 @@ namespace BSP.POS.Presentacion.Shared
                 }
             }
         }
-        private void ActualizarValor(ChangeEventArgs e)
+        private async Task ActualizarValor(ChangeEventArgs e)
         {
             if (e.Value.ToString() != null)
             {
                 inputValue = e.Value.ToString();
-                EnviarTextoABuscar(inputValue);
+                await EnviarTextoABuscar(inputValue);
             }
         }
 
