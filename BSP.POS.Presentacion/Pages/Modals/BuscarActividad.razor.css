@@ -6,6 +6,7 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     width: 300px;
+    font-size: 10pt;
 }
 
     .search-input-change::placeholder {

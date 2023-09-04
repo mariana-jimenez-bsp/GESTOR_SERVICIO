@@ -161,11 +161,11 @@ a {
 }
 
 .eyelash-activity-list {
-    font-size: 14pt;
+    font-size: 12pt;
 }
 
 .eyelash-activity-create {
-    font-size: 14pt;
+    font-size: 12pt;
 }
 .max-height-activity {
     max-height: 200px;
@@ -179,10 +179,10 @@ a {
 }
 .text-20-bold {
     font-family: 'Circular Std Bold', sans-serif;
-    font-size: 20pt;
+    font-size: 14pt;
 }
 .text-16-book {
-    font-size: 16pt;
+    font-size: 12pt;
 }
 .text-12-medium {
     font-family: 'Circular Std Medium', sans-serif;
@@ -236,11 +236,11 @@ a {
 
     .text-20-bold {
 
-        font-size: 15pt;
+        font-size: 12pt;
     }
 
     .text-16-book {
-        font-size: 12pt;
+        font-size: 10pt;
     }
 
     .text-12-medium {

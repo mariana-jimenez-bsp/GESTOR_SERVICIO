@@ -9,7 +9,19 @@
     transition: background-color 0.3s;
     cursor: pointer;
 }
-
+.title-gestor {
+    font-family: 'Circular Std Bold', sans-serif;
+    font-size: 30pt;
+}
+.width-img-gestor{
+    width: 50%;
+}
+.text-20-book {
+    font-size: 20pt;
+}
+.img-proyectos {
+    width: 50px;
+}
 .search-input {
     border: none;
     margin: 0;
@@ -71,13 +83,16 @@ a {
     background-color: transparent;
 }
 @media screen and (max-width: 768px) {
+    .title-gestor {
+        font-size: 19pt;
+    }
     .layout-header {
         font-size: 19pt;
     }
 
     .search-input {
 
-        font-size: 9pt;
+        font-size: 7pt;
     }
     .div-sections {
 
@@ -86,7 +101,7 @@ a {
 
     .header-menu {
 
-        font-size: 7pt;
+        font-size: 6pt;
     }
     .subtitle-edit {
 
@@ -95,23 +110,26 @@ a {
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
+    .title-gestor {
+        font-size: 20pt;
+    }
     .layout-header {
         font-size: 28pt;
     }
 
     .search-input {
-        font-size: 14pt;
-    }
-
-    .div-sections {
-        font-size: 14pt;
-    }
-
-    .header-menu {
         font-size: 11pt;
     }
 
+    .div-sections {
+        font-size: 9pt;
+    }
+
+    .header-menu {
+        font-size: 9pt;
+    }
+
     .subtitle-edit {
-        font-size: 22pt;
+        font-size: 18pt;
     }
 }

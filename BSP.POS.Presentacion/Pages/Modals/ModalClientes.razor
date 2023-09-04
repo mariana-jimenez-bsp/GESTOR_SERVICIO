@@ -14,11 +14,20 @@
                 <div class="d-flex">
                     <a class='text-light eyelash-client eyelash-client-list green-bg p-2 pe-3 ps-3 @GetTabLinkClass("lista")' @onclick='() => ChangeTab("lista")'>Lista Clientes</a>
                     <a class=' text-light eyelash-client eyelash-client-create green-add-bg p-2 pe-3 ps-3 @GetTabLinkClass("crear")' @onclick='() => ChangeTab("crear")'>Crear Cliente</a>
+                    <div class="d-flex justify-content-center w-50 mb-2">
+                        @if (activeTab== "lista")
+                        {
+                            <h4 class="green-text">Lista de Clientes</h4>
+                        }
+                        else if (activeTab == "crear")
+                        {
+                            <h4 class="green-text">Agregar Cliente</h4>
+                        }
+                        
+                    </div>
                 </div>
                 <div class="container mt-2" style='display: @(activeTab == "lista" ? "block" : "none")'>
-                    <div class="d-flex justify-content-center w-100 mb-2">
-                        <h4 class="green-text">Lista de Clientes</h4>
-                    </div>
+                   
                     <!-- Utilizamos el componente Accordion de Bootstrap -->
 
                     <div id="accordion" class="border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client" >
@@ -29,13 +38,13 @@
                                 <div class="col-md-1">
                                     <label class="text-center w-100 " >Código</label>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <label class=" text-center w-100 " >Nombre</label>
                                 </div>
                                 <div class="col-md-2">
                                     <label class=" text-center w-100 " >Razón Social</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <label class="text-center w-100" >Cédula</label>
                                 </div>
                                 <div class="col-md-2">
@@ -69,7 +78,7 @@
                                             }
 
                                         </div>
-                                        <div class="mb-0 col-md-1">
+                                        <div class="mb-0 col-md-2">
                                             @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.NOMBRE" @oninput="(e) => CambioNombre(e, cliente.CLIENTE)">
@@ -91,7 +100,7 @@
                                             }
                                             <ValidationMessage For="@(() => cliente.ALIAS)" />
                                         </div>
-                                        <div class="mb-0 col-md-2">
+                                        <div class="mb-0 col-md-1">
                                             @if (cliente.IsOpen)
                                             {
                                                 <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.CONTRIBUYENTE" @oninput="(e) => CambioContribuyente(e, cliente.CLIENTE)">

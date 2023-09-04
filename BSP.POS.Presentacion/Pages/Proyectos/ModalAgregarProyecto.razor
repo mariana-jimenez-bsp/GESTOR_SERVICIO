@@ -3,15 +3,15 @@
 @inject IItemsClienteInterface ItemsClienteService
 
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
-    <div class="modal-content bg-light">
+    <div class="modal-content ">
         <EditForm Model="@proyecto" OnValidSubmit="AgregarProyecto">
             <ObjectGraphDataAnnotationsValidator />
             <div class="modal-header d-flex justify-content-center text-primary">
-                <h2 class="blue-dark-text text-41-book">Agregar Proyecto <img class="mb-3" src="images/Proyectos/Icono-Proyectos.png" /></h2>
+                <span class="blue-dark-text text-41-book">Agregar <img class="mb-3" src="images/Proyectos/Icono-Proyectos.png" /></span>
             </div>
 
-            <div class=" modal-body d-flex row g-2 text-center bg-light ">
-                <div class="container mt-5 border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+            <div class=" modal-body d-flex row g-2 text-center">
+                <div class="container border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="row  border border-success rounded-5 my-3">
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-consultor">Nombre Consultor:</label>

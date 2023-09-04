@@ -3,9 +3,12 @@
 }
 
 .observation {
-    max-width: 539px;
+    max-width: 578px;
     height: 162px;
-    margin-left: 5%;
+    margin-left: 1%;
+}
+.header-col-left {
+
 }
 
 .blue-light-bg {
@@ -106,7 +109,7 @@
     max-width: 578px;
     height: 384px;
     max-height: 384px;
-    margin-left: 5%;
+    margin-left: 1%;
     background-color: #D5D5D5;
     margin-bottom: 3%;
 }
@@ -142,7 +145,6 @@
 @media screen and (max-width: 768px) {
     .observation {
         height: 130px;
-        margin-left: 5%;
     }
 
     .circle-max-width {
@@ -196,7 +198,6 @@
 @media screen and (max-height: 768px) and (min-width: 768px) {
     .observation {
         height: 130px;
-        margin-left: 5%;
     }
     .circle-max-width {
         width: 70px;
@@ -233,10 +234,10 @@
     }
 
     .font-19-bold {
-        font-size: 14pt;
+        font-size: 10pt;
     }
 
     .font-23-medium {
-        font-size: 17pt;
+        font-size: 12pt;
     }
 }

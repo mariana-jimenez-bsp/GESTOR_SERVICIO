@@ -2,10 +2,10 @@
 @inject NavigationManager navigationManager
 @inject IUsuariosInterface UsuariosService
 @inject ILocalStorageService localStorageService
-    <header class="layout-header d-flex justify-content-between align-items-center py-2 text-light">
+    <header class="layout-header d-flex justify-content-between align-items-center py-1 text-light">
 
-        <div class="fw-bold p-2 ps-5 mouse-pointer" @onclick="IrAlInicio"><h1>Gestor de Servicios</h1></div>
-        <div class="fw-bold p-2 pe-5"><img src="images/Home/BSP-Gestor-de-Servicio.png" width="75"></div>
+        <div class="fw-bold p-2 ps-5 mouse-pointer" @onclick="IrAlInicio"><span class="title-gestor">Gestor de Servicios</span></div>
+        <div class="fw-bold p-2 pe-5"><img class="width-img-gestor" src="images/Home/BSP-Gestor-de-Servicio.png"></div>
     </header>
     <nav class="p-3 ps-4 shadow-lg">
         <div class="d-flex align-items-center ps-5">
@@ -78,31 +78,72 @@
             </div>
         </div>
     </nav>
+@if (navigationManager.Uri.IndexOf("/proyectos", StringComparison.OrdinalIgnoreCase) >= 0)
+{
+    <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+            <span class="blue-dark-text text-20-book">Proyectos <img class="mb-3 img-proyectos" src="images/Proyectos/Icono-Proyectos.png" /></span>
+        </div>
+
+        <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
+            <div class="sections p-3 div-sections">
+
+                <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+                @if (permisos != null)
+                {
+                    @if (permisos.Any(p => p.Contains("Clientes")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                    }
+                    @if (permisos.Any(p => p.Contains("Proyectos")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+                    }
+                    @if (permisos.Any(p => p.Contains("Actividades")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                    }
+                }
+
+
+            </div>
+        </nav>
+    </div>
+}
+else
+{
     <nav class="d-flex justify-content-end sections text-light pe-5">
         <div class="sections p-3 div-sections">
 
             <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
-        @if(permisos != null){
-        @if (permisos.Any(p => p.Contains("Clientes")))
-        {
-            <a class="vertical-line p-2 border-light"></a>
-            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
-        }
-        @if (permisos.Any(p => p.Contains("Proyectos")))
-        {
-            <a class="vertical-line p-2 border-light"></a>
-            <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
-        }
-        @if (permisos.Any(p => p.Contains("Actividades")))
-        {
-            <a class="vertical-line p-2 border-light"></a>
-            <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
-        }
-        }
-           
-        
-    </div>
+            @if (permisos != null)
+            {
+                @if (permisos.Any(p => p.Contains("Clientes")))
+                {
+                    <a class="vertical-line p-2 border-light"></a>
+                    <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                }
+                @if (permisos.Any(p => p.Contains("Proyectos")))
+                {
+                    <a class="vertical-line p-2 border-light"></a>
+                    <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+                }
+                @if (permisos.Any(p => p.Contains("Actividades")))
+                {
+                    <a class="vertical-line p-2 border-light"></a>
+                    <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                }
+            }
+
+
+        </div>
     </nav>
+}
+
+
 @if (activarModalPerfil)
 {
     <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>

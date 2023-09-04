@@ -18,30 +18,30 @@
                 <div class="col-md-6">
             <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
                 <ObjectGraphDataAnnotationsValidator />
-                    <div class="row p-2">
+                    <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
-                        <div class="col-md-6 d-flex row text-center">
+                        <div class="col-md-6 d-flex row text-start">
                             <div>
-                                    <span class="blue-dark-text font-23-medium">Fecha: </span><input type="date" class="green-text font-19-bold border-0 w-50" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
+                                    <span class="blue-dark-text font-23-medium">Fecha: </span><input type="date" class="green-text font-19-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
                                 <ValidationMessage For="@(() => informe.fecha_consultoria)" />
                             </div>
                        
                             <div>
                                 <span class="blue-dark-text font-23-medium">Cliente: </span>
-                                <select value="@ClienteAsociado.NOMBRE" class="green-text border-0 w-50 font-19-bold">
+                                <select value="@ClienteAsociado.NOMBRE" class="green-text w-50 border-0 font-19-bold">
                                     <option value="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 d-flex row text-center">
+                        <div class="col-md-6 d-flex row text-start">
                             <div>
-                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text width-time border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
+                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
                                 <span class="green-text">hs</span>
                                 <ValidationMessage For="@(() => informe.HoraInicioTime)" />
                             </div>
                       
                             <div>
-                                <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text width-time border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
+                                <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                 <span class="green-text">hs</span>
                                 <ValidationMessage For="@(() => informe.HoraFinalTime)" />
                             </div>

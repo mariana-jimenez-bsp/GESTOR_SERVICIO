@@ -2,9 +2,7 @@
 @inject IActividadesInterface ActividadesService
 
 <div >
-    <div class="d-flex justify-content-center w-100 mb-2">
-        <h4 class="green-text">Agregar Actividad</h4>
-    </div>
+    
     @if (mensajeAgregado != null)
     {
         <MensajeAgregado Message="@mensajeAgregado" />
@@ -32,7 +30,7 @@
 
     </div>
     <div class="w-100 d-flex justify-content-center">
-        <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light mx-4 w-25" id="agregar-actividad">Agregar Actividad</button>
+        <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light mx-4" id="agregar-actividad">Agregar Actividad</button>
       
     </div>
     </EditForm>
