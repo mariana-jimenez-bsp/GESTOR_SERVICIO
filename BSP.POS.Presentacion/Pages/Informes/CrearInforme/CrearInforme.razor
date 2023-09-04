@@ -18,31 +18,31 @@
             <div class="col-md-6">
                 <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
                     <ObjectGraphDataAnnotationsValidator />
-                    <div class="row p-2">
+                    <div class="row p-2 header-col-left">
                         @if (!string.IsNullOrEmpty(informe.consecutivo))
                         {
-                            <div class="col-md-6 d-flex row text-center">
+                            <div class="col-md-6 d-flex row text-start">
                                 <div>
-                                    <span class="blue-dark-text font-23-medium">Fecha: </span><input type="date" class="green-text font-19-bold border-0 w-50" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
+                                    <span class="blue-dark-text font-23-medium">Fecha: </span><input type="date" class="green-text font-19-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
                                     <ValidationMessage For="@(() => informe.fecha_consultoria)" />
                                 </div>
 
                                 <div>
                                     <span class="blue-dark-text font-23-medium">Cliente: </span>
-                                    <select value="@ClienteAsociado.NOMBRE" class="green-text border-0 w-50 font-19-bold">
+                                    <select value="@ClienteAsociado.NOMBRE" class="green-text w-50 border-0 font-19-bold">
                                         <option value="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 d-flex row text-center">
+                            <div class="col-md-6 d-flex row text-start">
                                 <div>
-                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text width-time border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
+                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
                                     <span class="green-text">hs</span>
                                     <ValidationMessage For="@(() => informe.HoraInicioTime)" />
                                 </div>
 
                                 <div>
-                                    <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text width-time border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
+                                    <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                     <span class="green-text">hs</span>
                                     <ValidationMessage For="@(() => informe.HoraFinalTime)" />
                                 </div>
@@ -56,10 +56,10 @@
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
                         <div class="row text-center p-2 blue-light-text font-20-book">
-                            <div class="col-md-3 ms-1">
+                            <div class="col-md-4 ms-1">
                                 <span>NOMBRE</span>
                             </div>
-                            <div class="col-md-3 ms-1">
+                            <div class="col-md-4 ms-1">
                                 <span>DEP.</span>
                             </div>
                             <div class="col-md-3 ms-1">
@@ -73,27 +73,29 @@
                                 foreach (var usuario in listadeUsuariosDeClienteDeInforme)
                                 {
                                     <div class="row p-2 text-center font-14-book">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <span>@usuario.nombre_usuario</span>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <span>@usuario.departamento_usuario</span>
                                         </div>
                                         <div class="col-md-3 pt-0 mt-0">
 
                                             @if (usuario.aceptacion == "1")
                                             {
+
                                                 <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" checked disabled>
-                                                <label class="label-transparent ms-5" for="myCheckbox @usuario.id">.</label>
+                                                <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
+
                                             }
                                             else
                                             {
                                                 <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" disabled>
-                                                <label class="label-transparent ms-5" for="myCheckbox @usuario.id">.</label>
+                                                <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
                                             }
 
                                         </div>
-                                        <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarUsuario(true, usuario.id, usuario.nombre_usuario)">
+                                        <div class="col-md-1 mouse-pointer" @onclick="() => AbrirEliminarUsuario(true, usuario.id, usuario.nombre_usuario)">
                                             <i class="fa-solid fa-x text-danger"></i>
                                         </div>
                                     </div>
@@ -144,15 +146,15 @@
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                             <div class="ps-0 ms-0 ">
-                                <div class="row text-center p-2 blue-dark-bg ms-0 content-behind font-20-book">
-                                    <div class="col-md-3">
-                                        <h5>ACTIVIDAD</h5>
+                                <div class="row text-center p-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
+                                    <div class="col-md-4">
+                                        <span>ACTIVIDAD</span>
                                     </div>
                                     <div class="col-md-3">
-                                        <h5>HS COBRADAS</h5>
+                                        <span>HS COBRADAS</span>
                                     </div>
-                                    <div class="col-md-3">
-                                        <h5>HS NO COBRADAS</h5>
+                                    <div class="col-md-4">
+                                        <span>HS NO COBRADAS</span>
                                     </div>
                                 </div>
                                 <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report ">
@@ -164,7 +166,7 @@
                                             @foreach (var actividad in listaActividadesAsociadas)
                                             {
                                                 <div class="row p-2 text-center ms-0 font-14-book">
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-4">
                                                         <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" class="border-0 bg-transparent text-light">
                                                             @foreach (var laActividad in listaActividades)
                                                             {
@@ -180,13 +182,13 @@
                                                         <span>horas</span>
                                                         <ValidationMessage For="@(() => actividad.horas_cobradas)" />
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-4">
                                                         <input type="text" @bind-value="actividad.horas_no_cobradas" @oninput="(e) => CambioHorasNoCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                         <span>horas</span>
                                                         <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
                                                     </div>
-                                                    <div class="col-md-3 mouse-pointer" @onclick="() => AbrirEliminarActividad(true, actividad.Id, actividad.codigo_actividad)">
-                                                        <i class="fa-solid fa-x text-black"></i>
+                                                    <div class="col-md-1 mouse-pointer" @onclick="() => AbrirEliminarActividad(true, actividad.Id, actividad.codigo_actividad)">
+                                                        <i class="fa-solid fa-x text-danger"></i>
                                                     </div>
                                                 </div>
                                             }
@@ -218,14 +220,15 @@
                             </div>
                         </div>
                         <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book">
-                            <div class="col-md-3">
+
+                            <div class="col-md-4">
                                 <span>Total de Horas</span>
                             </div>
                             <div class="col-md-3">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <span>@total_horas_no_cobradas</span>
                                 <span>horas</span>
                             </div>

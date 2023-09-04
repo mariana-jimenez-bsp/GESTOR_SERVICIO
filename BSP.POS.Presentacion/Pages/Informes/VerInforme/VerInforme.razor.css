@@ -3,9 +3,9 @@
 }
 
 .observation {
-    max-width: 539px;
+    max-width: 578px;
     height: 162px;
-    margin-left: 5%;
+    margin-left: 1%;
 }
 
 .blue-light-bg {
@@ -110,27 +110,27 @@
     max-width: 578px;
     height: 384px;
     max-height: 384px;
-    margin-left: 5%;
+    margin-left: 1%;
     background-color: #D5D5D5;
     margin-bottom: 3%;
 }
 
 .font-14-book {
-    font-size: 14pt;
+    font-size: 10pt;
 }
 
 .font-20-book {
-    font-size: 20pt;
+    font-size: 12pt;
 }
 
 .font-19-bold {
     font-family: 'Circular Std Bold', sans-serif;
-    font-size: 19pt;
+    font-size: 10pt;
 }
 
 .font-23-medium {
     font-family: 'Circular Std Medium', sans-serif;
-    font-size: 23pt;
+    font-size: 12pt;
 }
 
 .table-right {
@@ -151,7 +151,6 @@
 @media screen and (max-width: 768px) {
     .observation {
         height: 130px;
-        margin-left: 5%;
     }
 
     .circle-max-width {
@@ -204,7 +203,6 @@
 @media screen and (max-height: 768px) and (min-width: 768px) {
     .observation {
         height: 130px;
-        margin-left: 5%;
     }
 
     .circle-max-width {
@@ -242,14 +240,14 @@
     }
 
     .font-20-book {
-        font-size: 15pt;
+        font-size: 12pt;
     }
 
     .font-19-bold {
-        font-size: 14pt;
+        font-size: 10pt;
     }
 
     .font-23-medium {
-        font-size: 17pt;
+        font-size: 12pt;
     }
 }
