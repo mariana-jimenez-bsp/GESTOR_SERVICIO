@@ -9,7 +9,10 @@
     background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
 }
-
+a {
+    text-decoration: none; /* Quita la línea subrayada */
+    color: inherit; /* Hereda el color del texto */
+}
 .modal-content {
     display: inline-block;
     margin-top: 20%;

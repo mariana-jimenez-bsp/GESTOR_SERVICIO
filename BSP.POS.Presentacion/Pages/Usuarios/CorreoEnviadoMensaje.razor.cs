@@ -23,7 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private void IrAlInicio()
         {
 
-            navigationManager.NavigateTo($"/", forceLoad: true);
+            navigationManager.NavigateTo($"", forceLoad: true);
         }
 
         private void IrAEnviarCorreo()

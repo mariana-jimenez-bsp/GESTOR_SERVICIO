@@ -3,6 +3,7 @@ using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing.Template;
 using MimeKit;
 using MimeKit.Text;
@@ -17,9 +18,16 @@ namespace BSP.POS.NEGOCIOS.CorreosService
 {
     public class CorreosService : ICorreosInterface
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public CorreosService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         public void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema)
         {
-            string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/RecuperarClave.html";
+
+            string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "RecuperarClave.html");
             string CuerpoHtml = File.ReadAllText(PathHtml);
             CuerpoHtml = CuerpoHtml.Replace("{{token}}", token)
                            .Replace("{{esquema}}", esquema);
@@ -38,6 +46,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
         }
         public void EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion)
         {
+
             foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
             {
                 if (item.aceptacion == "0")
@@ -47,8 +56,6 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
                 correo.To.Add(MailboxAddress.Parse("juanramirez1881@gmail.com"));
                 correo.Subject = "Solicitud de Aprobación de Informe #" + objetosParaAprobacion.informe.consecutivo;
-                string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
-                string CuerpoHtml = File.ReadAllText(PathHtml);
                 string usuarios = "";
                 string actividades = "";
                 string observaciones = "";
@@ -64,7 +71,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 {
                     observaciones += "<tr>\r\n <td>" + itemObservacion.usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
                 }
-                CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
+                    string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "AprobarInforme.html");
+                    string CuerpoHtml = File.ReadAllText(PathHtml);
+                    CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
                            .Replace("{{esquema}}", objetosParaAprobacion.esquema)
                            .Replace("{{Fecha}}", objetosParaAprobacion.informe.fecha_consultoria)
                            .Replace("{{Hora_Inicio}}", objetosParaAprobacion.informe.hora_inicio.Substring(0, 5))

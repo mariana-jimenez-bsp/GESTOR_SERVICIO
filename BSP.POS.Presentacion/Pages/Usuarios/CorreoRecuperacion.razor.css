@@ -7,7 +7,7 @@
 }
 
 .fondo {
-    background-image: url('./fondo azul.webp');
+    background-image: url('images/Login/Fondo-Login.png');
     background-size: cover;
     background-position: center;
     min-height: 100vh;

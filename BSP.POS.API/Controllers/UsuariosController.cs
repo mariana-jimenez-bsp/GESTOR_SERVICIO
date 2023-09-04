@@ -10,6 +10,8 @@ using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.UTILITARIOS.Correos;
 using Newtonsoft.Json;
 using BSP.POS.UTILITARIOS.Proyectos;
+using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.Extensions.Hosting;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -42,6 +44,7 @@ namespace BSP.POS.API.Controllers
             //_correoUsuario = configuration["AppSettings:SmtpFrom"];
             //_claveUsuario = configuration["AppSettings:SmtpPassword"];
             _correoService = correoService;
+
         }
         // GET: api/<UsuariosController>
         [HttpPost("Login")]
@@ -95,7 +98,7 @@ namespace BSP.POS.API.Controllers
                     datos.correoUsuario = _correoUsuario;
                     datos.claveUsuario = _claveUsuario;
                     string token = tokenRecuperado.token_recuperacion;
-
+                    
                     _correoService.EnviarCorreoRecuperarClave(datos, token, tokenRecuperacion.esquema);
                     return Ok();
                 }
@@ -109,7 +112,8 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
+
+            [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
         public string ValidaTokenRecuperacion(string esquema, string token)
         {
 

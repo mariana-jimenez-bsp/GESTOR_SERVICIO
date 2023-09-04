@@ -17,6 +17,7 @@ namespace BSP.POS.API.Controllers
                 using (HttpClient client = new HttpClient())
                 {
                     var response = await client.GetAsync("https://localhost:44346/Api/GenerarReporte/" + esquema + "/" + consecutivo);
+                    //var response = await client.GetAsync("http://localhost/POS_Prueba_APICrystal_Gestor_servicios/Api/GenerarReporte/" + esquema + "/" + consecutivo);
 
                     if (response.IsSuccessStatusCode)
                     {

@@ -37,9 +37,9 @@ namespace BSP.POS.API.Controllers
             //var configuration = new ConfigurationBuilder()
             // .AddUserSecrets<Program>()
             // .Build();
-           // var configuration = new ConfigurationBuilder()
-           //.AddJsonFile("appsettings.json")
-           //.Build();
+            // var configuration = new ConfigurationBuilder()
+            //.AddJsonFile("appsettings.json")
+            //.Build();
             _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
             _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
             _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
@@ -48,6 +48,7 @@ namespace BSP.POS.API.Controllers
             //_claveUsuario = configuration["AppSettings:SmtpPassword"];
             _correoService = correoService;
             _whatsappService = whatsappService;
+
         }
         // GET: api/<InformesController>
         [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}/{esquema}")]
@@ -171,6 +172,7 @@ namespace BSP.POS.API.Controllers
                 }
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
+                
                 _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
                 //_whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion);
                 return Ok();

@@ -18,4 +18,16 @@
     <ProjectReference Include="..\BSP.POS.UTILITARIOS\BSP.POS.UTILITARIOS.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="CorreosService\CuerposHtml\AprobarInforme.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CorreosService\CuerposHtml\RecuperarClave.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="WhatsappService\MensajesJson\AprobarInforme.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

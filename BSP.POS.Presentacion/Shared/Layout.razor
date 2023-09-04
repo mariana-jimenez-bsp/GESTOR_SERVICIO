@@ -103,14 +103,16 @@
         
     </div>
     </nav>
-
-<ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
+@if (activarModalPerfil)
+{
+    <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
+}
 @if(permisos != null){
-@if (permisos.Any(p => p.Contains("Clientes")))
+@if (permisos.Any(p => p.Contains("Clientes") && activarModalClientes))
 {
     <ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
 }
-@if (permisos.Any(p => p.Contains("Actividades")))
+@if (permisos.Any(p => p.Contains("Actividades") && activarModalActividades))
 {
     <ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>
 }
