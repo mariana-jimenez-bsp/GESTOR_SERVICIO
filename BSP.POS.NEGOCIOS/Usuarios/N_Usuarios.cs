@@ -297,6 +297,29 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             return mensaje;
         }
 
+        public string ObtenerUsuarioParaEditar(string pEsquema, string pCodigo)
+        {
+            try
+            {
+                U_UsuariosParaEditar usuario = new U_UsuariosParaEditar();
+
+                usuario = objetoUsuario.ObtenerUsuarioParaEditar(pEsquema, pCodigo);
+
+                string usuarioJson = JsonConvert.SerializeObject(usuario);
+                return usuarioJson;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+        public string ActualizarUsuario(U_UsuariosParaEditar pUsuario, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objetoUsuario.ActualizarUsuario(pUsuario, esquema);
+            return mensaje;
+        }
         public bool CompararClaves(string claveIngresada, string claveGuardada)
         {
 

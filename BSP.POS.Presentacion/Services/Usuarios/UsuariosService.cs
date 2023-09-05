@@ -25,7 +25,8 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
         public List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; } = new List<mUsuariosDeClienteDeInforme>();
         public List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; } = new List<mUsuariosParaEditar>();
-
+        public mUsuariosParaEditar UsuarioParaEditar { get; set; } = new mUsuariosParaEditar();
+        
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             _http = htpp;
@@ -333,6 +334,51 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        public async Task ObtenerElUsuarioParaEditar(string esquema, string codigo)
+        {
+            string url = "Usuarios/ObtengaElUsuarioParaEditar/" + esquema + "/" + codigo;
+            var usuarioParaEditar = await _http.GetFromJsonAsync<mUsuariosParaEditar>(url);
+            if (usuarioParaEditar is not null)
+            {
+                UsuarioParaEditar = usuarioParaEditar;
+            }
+        }
+
+        public async Task ActualizarUsuario(mUsuariosParaEditar usuario, string esquema, string usuarioActual)
+        {
+            try
+            {
+                
+                    if (!string.IsNullOrEmpty(usuario.clave))
+                    {
+                        usuario.clave = EncriptarClave(usuario.clave);
+                    }
+                
+
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "Usuarios/ActualizaElUsuario";
+                string jsonData = JsonSerializer.Serialize(usuario);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+
+                    if (usuarioActual == usuario.usuarioOrignal)
+                    {
+                        if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || (usuario.claveOriginal != usuario.clave && !string.IsNullOrEmpty(usuario.clave)))
+                        {
+
+                            _navigationManager.NavigateTo($"login", forceLoad: true);
+                            await _localStorageService.RemoveItemAsync("token");
+                        }
+                    }
+                
             }
             catch (Exception)
             {

@@ -421,5 +421,58 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("ObtengaElUsuarioParaEditar/{esquema}/{codigo}")]
+        public string ObtengaElUsuarioParaEditar(string esquema, string codigo)
+        {
+            try
+            {
+                string usuarioParaEditarJson = user.ObtenerUsuarioParaEditar(esquema, codigo);
+                return usuarioParaEditarJson;
+            }
+
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [Authorize]
+        [HttpPost("ActualizaElUsuario")]
+        public string ActualizaElUsuario([FromBody] mUsuariosParaEditar datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                
+
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar();
+                    usuario.id = datos.id;
+                    usuario.codigo = datos.codigo;
+                    usuario.cod_cliente = datos.cod_cliente;
+                    usuario.usuario = datos.usuario;
+                    usuario.esquema = datos.esquema;
+                    usuario.rol = datos.rol;
+                    usuario.clave = datos.clave;
+                    usuario.departamento = datos.departamento;
+                    usuario.nombre = datos.nombre;
+                    usuario.correo = datos.correo;
+                    usuario.telefono = datos.telefono;
+                    usuario.imagen = datos.imagen;
+
+     
+
+                string mensaje = user.ActualizarUsuario(usuario, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
     }
 }

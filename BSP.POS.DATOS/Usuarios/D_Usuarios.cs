@@ -461,6 +461,57 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
+
+        public U_UsuariosParaEditar ObtenerUsuarioParaEditar(string pEsquema, string pCodigo)
+        {
+            var usuarioParEditar = new U_UsuariosParaEditar();
+
+            ObtenerUsuarioParaEditarTableAdapter sp = new ObtenerUsuarioParaEditarTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.departamento, item.imagen, item.esquema);
+
+                    usuarioParEditar = usuario;
+                }
+                return usuarioParEditar;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ActualizarUsuario(U_UsuariosParaEditar pUsuario, string esquema)
+        {
+           
+            ActualizarUsuarioTableAdapter sp = new ActualizarUsuarioTableAdapter();
+            try
+            {
+
+                    if (string.IsNullOrEmpty(pUsuario.clave))
+                    {
+                        U_Perfil perf = ObtenerUsuarioPorId(pUsuario.esquema, pUsuario.id);
+                        pUsuario.clave = perf.clave;
+                    }
+                    var response = sp.GetData(esquema, pUsuario.id, pUsuario.cod_cliente, pUsuario.departamento, pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, pUsuario.rol, pUsuario.telefono, pUsuario.imagen);
+
+                
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
     }
 }
 

@@ -13,38 +13,27 @@
 .modal-content {
     display: inline-block;
     margin-top: 20%;
-    background-color: #fff;
-    padding: 20px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    max-width: 90%;
+    background-color: transparent;
+    background-image: url("images/Actividades/Pestaña-actividades.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    max-width: 60%;
+    border: transparent;
 }
 
 .modal-header {
-    background-color: #fff;
+    display: flex;
+    justify-content: center;
     text-align: center;
-    
-    max-width: 50%;
     position: relative;
-    top: -70px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
 }
 
-    .modal-header h2 {
-        margin: 0;
-    }
+
 
 .modal-body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    margin-top: -90px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
@@ -122,6 +111,7 @@
     border-radius: 20px;
     border: 3px solid white;
 }
+
 .custom-checkbox {
     opacity: 0;
     cursor: pointer;
@@ -157,6 +147,7 @@
         border: 2px solid #2FAD70; /* Cambiar el color del borde cuando está seleccionado */
         background-color: #2FAD70; /* Color de fondo del checkbox */
     }
+
 .mx-permissions {
     max-width: 50px;
 }
@@ -164,8 +155,9 @@
 .image-user {
     width: 70px;
 }
+
 .text-41-book {
-    font-size: 41pt;
+    font-size: 15pt;
 }
 
 .text-16-book {
@@ -182,6 +174,7 @@
     font-size: 13pt;
 }
 
+
 .border-input-gray {
     border-color: #D5D5D5;
 }
@@ -189,10 +182,12 @@
 .max-height-projects {
     max-height: 200px;
 }
+
 @media screen and (max-width: 768px) {
     .modal-content {
         margin-top: 5%;
     }
+
     .text-41-book {
         font-size: 20pt;
     }
@@ -214,19 +209,28 @@
     .modal-content {
         margin-top: 5%;
     }
+
     .text-41-book {
-        font-size: 30pt;
+        font-size: 15pt;
     }
 
     .text-16-book {
-        font-size: 12pt;
+        font-size: 10pt;
     }
 
     .text-16-medium {
-        font-size: 12pt;
+        font-size: 10pt;
     }
 
     .text-13-medium {
-        font-size: 10pt;
+        font-size: 13pt;
+    }
+
+    .border-input-gray {
+        border-color: #D5D5D5;
+    }
+
+    .max-height-project {
+        max-height: 200px;
     }
 }

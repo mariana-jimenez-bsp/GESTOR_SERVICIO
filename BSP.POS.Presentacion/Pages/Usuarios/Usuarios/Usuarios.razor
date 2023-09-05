@@ -1,0 +1,121 @@
+﻿@inject IUsuariosInterface UsuariosService
+@inject IPermisosInterface PermisosService
+@inject IClientesInterface ClientesService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigationManager
+@if (rol == "Admin")
+{
+    @if (cargaInicial)
+    {
+        <Layout Texto="RecibirTexto"></Layout>
+        <div class="ms-2 ">
+                <div class=" d-flex row g-2 text-center ">
+                    <div class="container mt-1 border-transparent">
+
+                        <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
+                            <div class="col-md-2">
+                                <label class=" text-center w-100">Código</label>
+                            </div>
+                            <div class="col-md-2">
+                                <label class=" text-center w-100">Usuario</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="pe-1 text-center w-100">Correo</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="pe-3 text-center w-100">Nombre</label>
+                            </div>
+                            <div class="col-md-1">
+                                <label class="pe-5 text-center w-100">Rol</label>
+                            </div>
+                            <div class="col-md-1">
+                                <label class="pe-3 text-center w-100">Acción</label>
+                            </div>
+                        </div>
+                        <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                            @if (usuarios != null)
+                            {
+                                var listaDeUsuarios = usuarios;
+                                if (!string.IsNullOrEmpty(textoRecibido))
+                                {
+                                    // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                                    listaDeUsuarios = listaDeUsuarios.Where(usuario =>
+                                    usuario.nombre.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    usuario.correo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    usuario.usuario.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                    ).ToList();
+                                }
+                                @foreach (var usuario in listaDeUsuarios)
+                                {
+                                    <div class="card-header row blue-dark-text mb-3 mt-3 text-16-book">
+                                        <div class="mb-0 col-md-2">
+                                            <label class="w-100 text-center">@usuario.codigo</label>
+                                        </div>
+                                        <div class="mb-0 col-md-2">
+                                            <label class="w-100 text-center">@usuario.usuario</label>
+                                        </div>
+                                         <div class="mb-0 col-md-3">
+                                            <label class="w-100 text-center">@usuario.correo</label>
+                                        </div>
+                                        <div class="mb-0 col-md-3">
+                                            <label class="w-100 text-center">@usuario.nombre</label>
+                                        </div>
+                                        <div class="mb-0 col-md-1">
+                                            <label class="w-100 text-center">@usuario.rol</label>
+                                        </div>
+                                        <div class="mb-0 col-md-1 mouse-pointer">
+                                        <i class="fa-solid fa-pen-to-square" @onclick="() => EnviarCodigo(true, usuario.codigo)"></i>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-project text-13-medium">
+                    <div @onclick="() => ClickHandlerAgregarUsuario(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                        Agregar
+                        Usuario
+                    </div>
+                </div>
+
+        </div>
+        <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario"></ModalAgregarUsuario>
+        @if (actividarModalEditarUsuario)
+        {
+            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoUsuario"></ModalEditarUsuario>
+        }
+        
+    }
+    else
+    {
+        <div class="loader">
+            <p class="heading">Loading</p>
+            <div class="loading">
+                <div class="load"></div>
+                <div class="load"></div>
+                <div class="load"></div>
+                <div class="load"></div>
+            </div>
+        </div>
+    }
+}
+else if (string.IsNullOrEmpty(rol))
+{
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <h1 class="text-danger">No tienes los permisos suficientes para entrar a esta página</h1>
+    </div>
+}

@@ -8,6 +8,7 @@
     background-color: #2FAD70;
     align-items: center;
 }
+
     .footer-project .button-footer {
         padding: 10px 20px;
         height: 50px;
@@ -34,9 +35,11 @@
 .green-bg {
     background-color: #2FAD70;
 }
+
 .green-add-bg {
     background-color: #0A8637;
 }
+
 .green-text {
     color: #2FAD70;
 }
@@ -70,6 +73,7 @@
     max-height: 450px;
     min-height: 450px;
 }
+
 .text-41-book {
     font-size: 41pt;
 }
@@ -82,17 +86,31 @@
     font-family: 'Circular Std Medium', sans-serif;
     font-size: 11pt;
 }
+
 .text-13-medium {
     font-family: 'Circular Std Medium', sans-serif;
     font-size: 11pt;
 }
+
 .border-input-gray {
     border-color: #D5D5D5;
 }
+
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
 }
+
+
+
+.mx-permissions {
+    max-width: 50px;
+}
+
+.image-user {
+    width: 70px;
+}
+
 @media screen and (max-width: 768px) {
     .footer-project {
         height: 70px;
@@ -105,6 +123,7 @@
         width: auto;
         max-width: 760px;
     }
+
     .max-height-projects {
         max-height: 450px;
     }
@@ -131,26 +150,29 @@
         height: 70px;
         max-width: 1330px;
     }
+
     .max-height-projects {
-        max-height: 300px;
-        min-height: 300px;
+        max-height: 290px;
+        min-height: 290px;
         max-width: 1330px;
     }
+
     .text-41-book {
         font-size: 20pt;
     }
 
     .text-16-book {
-        font-size: 10pt;
+        font-size: 12pt;
     }
 
     .text-16-medium {
-        font-size: 10pt;
+        font-size: 13pt;
     }
 
     .text-13-medium {
         font-size: 10pt;
     }
+
     .footer-project .button-footer {
         padding: 10px 10px;
         height: 40px;
