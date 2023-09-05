@@ -12,8 +12,10 @@
 
             <div class=" modal-body d-flex row g-2 text-center ">
                 <div class="d-flex">
+                    <div class="h-75">
                     <a class='text-light eyelash-client eyelash-client-list green-bg p-2 pe-3 ps-3 @GetTabLinkClass("lista")' @onclick='() => ChangeTab("lista")'>Lista Clientes</a>
                     <a class=' text-light eyelash-client eyelash-client-create green-add-bg p-2 pe-3 ps-3 @GetTabLinkClass("crear")' @onclick='() => ChangeTab("crear")'>Crear Cliente</a>
+                    </div>
                     <div class="d-flex justify-content-center w-50 mb-2">
                         @if (activeTab== "lista")
                         {
