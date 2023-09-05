@@ -118,7 +118,7 @@ a {
 }
 
 .info-client {
-    background-image: url("../images/Home/Recuadro-de-información.png");
+    background-image: url("images/Home/Recuadro-de-información.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     font-size: 10pt;
@@ -222,7 +222,7 @@ a {
 }
 
 .add-report {
-    background-image: url("../images/Home/Recuadro-azul.png");
+    background-image: url("images/Home/Recuadro-azul.png");
     background-repeat: no-repeat;
     width: 194px;
     height: 121px;

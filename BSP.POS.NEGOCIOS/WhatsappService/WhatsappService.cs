@@ -22,9 +22,9 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                 // Reemplaza el marcador de posición con el valor real
                
                
-                string token = "EAAC76rdPRMABOwt6p5ry4kMHWTDdWnvwXjsdzm1RcjTWkZBZBzEYeGVTV5La6yRHHk1ZAEZCl94Pdy97Udvq1HtUmPGEI0dlNDLgtFn7HXO94e719p2ZBrcopJTAbyUtOKoYbJA3ZAdCfZB95RNclIk19jlL6MRWTTqOXKfXpZAmeGZAAmrXo3wou3mZBZAo1Sti5KcRKTeZA2Hg6qbCigQ5XP9DPM70iqZAiMAZDZD";
+                string token = "token";
                 //Identificador de número de teléfono
-                string idTelefono = "110251098843177";
+                string idTelefono = "idtelefono";
                 foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
                 {
                     if (item.aceptacion == "0")

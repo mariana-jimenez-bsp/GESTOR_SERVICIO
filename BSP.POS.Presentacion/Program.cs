@@ -34,6 +34,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var apiUrl = "https://localhost:7032/api/";
+//var apiUrl = "http://localhost/POS_Prueba_API_Gestor_Servicios/Api/";
+
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 builder.Services.AddScoped<IClientesInterface, ClientesService>();
 builder.Services.AddScoped<IInformesInterface, InformesService>();

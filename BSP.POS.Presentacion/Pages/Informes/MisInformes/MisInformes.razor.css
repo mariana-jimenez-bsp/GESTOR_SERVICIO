@@ -1,4 +1,7 @@
-﻿.search-input {
+﻿.div-contenedor {
+    max-width: 1350px;
+}
+.search-input {
     border: none;
     margin: 0;
     height: 35px;
@@ -25,7 +28,7 @@
 }
 
 .div-search {
-    font-size: 19pt;
+    font-size: 15pt;
 }
 
 
@@ -43,7 +46,7 @@
     margin-right: 0;
     height: 52px;
     width: 232px;
-    font-size: 22pt;
+    font-size: 18pt;
 }
 
 .bg-blue-dark {
@@ -66,12 +69,13 @@
     color: white;
 }
 
-    .imagen-hover {
-        background-image: url('images/MisInformes/Pestaña-de-mis-informes-activa.png');
-        background-position: center;
-        background-size: cover;
-        color: white;
-    }
+.imagen-hover {
+    background-image: url('images/MisInformes/Pestaña-de-mis-informes-activa.png');
+    background-position: center;
+    background-size: cover;
+    color: white;
+    justify-content: center;
+}
 
 .eyelash-background {
     background-image: url('images/MisInformes/Pestaña-de-mis-informes-inactiva.png');
@@ -178,17 +182,20 @@
     .scrollbar-max-height {
         max-height: 300px;
     }
+    .span-report {
+        max-width: 80px;
+    }
     .imagen-div {
-        min-width: 180px;
+        min-width: 170px;
         max-width: 25%;
-        min-height: 70px;
+        min-height: 65px;
     }
     .div-search {
         font-size: 15pt;
     }
     .vertical-text {
-        height: 52px;
-        width: 232px;
+        height: 42px;
+        width: 200px;
         font-size: 16pt;
     }
 

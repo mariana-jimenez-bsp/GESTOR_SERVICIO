@@ -2,15 +2,13 @@
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Services.Clientes;
-using BSP.POS.Presentacion.Services.Permisos;
 using BSP.POS.Presentacion.Services.Proyectos;
-using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
-    public partial class ModalAgregarUsuario : ComponentBase
+    public partial class ModalAgregarUsuario: ComponentBase
     {
         [Parameter] public bool ActivarModal { get; set; } = false;
         [Parameter] public EventCallback<bool> OnClose { get; set; }
@@ -34,7 +32,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             if (PermisosService.ListaPermisos != null)
             {
                 todosLosPermisos = PermisosService.ListaPermisos;
-
+                
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
@@ -59,9 +57,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private void CambioCliente(ChangeEventArgs e, string usuarioId)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
-                usuario.cod_cliente = e.Value.ToString();
-        }
-
+                 usuario.cod_cliente = e.Value.ToString();
+            }
+        
 
         private void CambioUsuario(ChangeEventArgs e, string usuarioId)
         {
@@ -136,8 +134,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 {
                     await archivo.OpenReadStream().CopyToAsync(memoryStream);
                     byte[] bytes = memoryStream.ToArray();
-                    usuario.imagen = bytes;
-
+                            usuario.imagen = bytes;
+    
                 }
             }
 
@@ -181,51 +179,50 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
             mensajeUsuarioRepite = null;
             mensajeCorreoRepite = null;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            usuarioRepite = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                usuarioRepite = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
 
-            if (!string.IsNullOrEmpty(usuarioRepite))
-            {
-                mensajeUsuarioRepite = "El usuario ya existe";
-                repetido = true;
+                if (!string.IsNullOrEmpty(usuarioRepite))
+                {
+                    mensajeUsuarioRepite = "El usuario ya existe";
+                    repetido = true;
 
-            }
+                }
 
+            
 
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
+                if (!string.IsNullOrEmpty(correoRepite))
+                {
+                    mensajeCorreoRepite = "El correo ya existe";
+                    repetido = true;
 
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
-            if (!string.IsNullOrEmpty(correoRepite))
-            {
-                mensajeCorreoRepite = "El correo ya existe";
-                repetido = true;
-
-            }
-
+                }
+            
 
         }
         private async Task AgregarUsuario()
         {
             repetido = false;
             await VerificarCorreoYUsuarioExistente();
-            if (!repetido)
+            if (!repetido) { 
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.AgregarUsuario(usuario, esquema);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
+            mPerfil usuarioCreado = new mPerfil();
+            if (UsuariosService.Perfil != null)
             {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.AgregarUsuario(usuario, esquema);
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
-                mPerfil usuarioCreado = new mPerfil();
-                if (UsuariosService.Perfil != null)
-                {
-                    usuarioCreado = UsuariosService.Perfil;
-                }
-                if (permisosAsociados.Any())
-                {
+                usuarioCreado = UsuariosService.Perfil;
+            }
+            if (permisosAsociados.Any())
+            {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
-                }
-
-                await CloseModal();
+            }
+            
+            await CloseModal();
             }
         }
     }
