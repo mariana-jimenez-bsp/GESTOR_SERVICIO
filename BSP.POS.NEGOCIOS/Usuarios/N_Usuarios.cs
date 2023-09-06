@@ -320,6 +320,12 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             mensaje = objetoUsuario.ActualizarUsuario(pUsuario, esquema);
             return mensaje;
         }
+
+        public string ValidarExistenciaEsquema(string pEsquema)
+        {
+            string esquema = objetoUsuario.ValidarExistenciaEsquema(pEsquema);
+            return esquema;
+        }
         public bool CompararClaves(string claveIngresada, string claveGuardada)
         {
 

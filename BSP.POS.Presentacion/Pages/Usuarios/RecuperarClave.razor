@@ -1,6 +1,8 @@
 ﻿@page "/RecuperarClave/{token}/{esquema}"
 @inject IUsuariosInterface UsuariosService
 @inject ILicenciasInterface LicenciasService
+@if(cargaInicial){
+ @if(string.IsNullOrEmpty(mensajeEsquema)){
 @if (!string.IsNullOrEmpty(licencia.estado))
 {
     if (licencia.estado == "Activo")
@@ -88,6 +90,12 @@
         </div>
     }
 }
+    }else{
+        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
+            <h1>@mensajeEsquema</h1>
+        </div>
+    }
+}
 else
 {
     <div class="loader">
@@ -100,5 +108,3 @@ else
         </div>
     </div>
 }
-
-  

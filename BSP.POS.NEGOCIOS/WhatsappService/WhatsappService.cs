@@ -7,6 +7,9 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace BSP.POS.NEGOCIOS.WhatsappService
 {
@@ -80,6 +83,24 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                 throw;
             }
           
+        }
+        public string EnviarWhatsappConTwilio()
+        {
+            string path = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/Mensaje.txt";
+            string text = File.ReadAllText(path);
+            text = text.Replace("\\n", "\n");
+            var accountSid = "";
+            var authToken = "";
+            TwilioClient.Init(accountSid, authToken);
+
+            var messageOptions = new CreateMessageOptions(
+              new PhoneNumber("whatsapp:+50671776850"));
+            messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
+            messageOptions.Body = text;
+
+
+            var message = MessageResource.Create(messageOptions);
+            return message.Body;
         }
     }
 }

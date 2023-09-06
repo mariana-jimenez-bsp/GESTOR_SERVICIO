@@ -151,6 +151,15 @@ namespace BSP.POS.API.Controllers
 
             return correoDevuelto;
         }
+
+        [HttpGet("ValidaExistenciaEsquema/{esquema}")]
+        public string ValidaExistenciaEsquema(string esquema)
+        {
+
+            string esquemaDevuelto = user.ValidarExistenciaEsquema(esquema);
+
+            return esquemaDevuelto;
+        }
         [Authorize]
         [HttpGet("ValidaCorreoExistente/{esquema}/{correo}")]
         public string ValidaCorreoExistente(string esquema, string correo)

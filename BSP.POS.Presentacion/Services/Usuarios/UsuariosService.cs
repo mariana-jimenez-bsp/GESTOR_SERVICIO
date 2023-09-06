@@ -386,6 +386,20 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
+        public async Task<string> ValidarExistenciaEsquema(string esquema)
+        {
+            string url = "Usuarios/ValidaExistenciaEsquema/" + esquema;
+            string esquemaDevuelto = await _http.GetStringAsync(url);
+            if (!string.IsNullOrEmpty(esquemaDevuelto))
+            {
+                return esquemaDevuelto;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
  }
 

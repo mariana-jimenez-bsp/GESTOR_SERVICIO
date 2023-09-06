@@ -16,23 +16,34 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public mUsuarioNuevaClave usuario = new mUsuarioNuevaClave();
         public mLicencia licencia = new mLicencia();
         public string mensajeLicencia;
+        public string mensajeEsquema;
+        public bool cargaInicial = false;
 
         protected override async Task OnInitializedAsync()
         {
-            await LicenciasService.ObtenerEstadoDeLicencia();
-            if (LicenciasService.licencia != null)
+            string esquemaVerficado = await UsuariosService.ValidarExistenciaEsquema(esquema);
+            if(!string.IsNullOrEmpty(esquemaVerficado))
             {
-                licencia = LicenciasService.licencia;
-                if (licencia.estado == "Proximo")
+                await LicenciasService.ObtenerEstadoDeLicencia();
+                if (LicenciasService.licencia != null)
                 {
-                    mensajeLicencia = "La licencia está proxima a vencer";
+                    licencia = LicenciasService.licencia;
+                    if (licencia.estado == "Proximo")
+                    {
+                        mensajeLicencia = "La licencia está proxima a vencer";
+                    }
+                }
+                if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema))
+                {
+                    tokenRecuperacion = await UsuariosService.ValidarTokenRecuperacion(esquema, token);
                 }
             }
-            if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema))
+            else
             {
-                tokenRecuperacion = await UsuariosService.ValidarTokenRecuperacion(esquema, token);
+                mensajeEsquema = "El esquema no existe";
             }
 
+            cargaInicial = true;
         }
 
         private async Task ActualizarClaveUsuario()

@@ -512,6 +512,21 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
+
+        public string ValidarExistenciaEsquema(string pEsquema)
+        {
+            ValidarExistenciaEsquemaTableAdapter sp = new ValidarExistenciaEsquemaTableAdapter();
+            string esquema = null;
+
+            var response = sp.GetData(pEsquema).ToList();
+
+            foreach (var item in response)
+            {
+                esquema = item.Esquema;
+            }
+
+            return esquema;
+        }
     }
 }
 

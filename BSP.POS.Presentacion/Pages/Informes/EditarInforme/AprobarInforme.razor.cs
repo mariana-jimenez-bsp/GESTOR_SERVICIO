@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Licencias;
+using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
@@ -16,10 +17,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public mTokenAprobacionInforme tokenAprobacion = new mTokenAprobacionInforme();
         public mLicencia licencia = new mLicencia();
         public string mensajeLicencia;
-
+        public string mensajeEsquema;
+        public bool cargaInicial = false;
         protected override async Task OnInitializedAsync()
         {
-            await LicenciasService.ObtenerEstadoDeLicencia();
+            string esquemaVerficado = await UsuariosService.ValidarExistenciaEsquema(esquema);
+            if (!string.IsNullOrEmpty(esquemaVerficado)) { 
+                await LicenciasService.ObtenerEstadoDeLicencia();
             if (LicenciasService.licencia != null)
             {
                 licencia = LicenciasService.licencia;
@@ -36,6 +40,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     await InformesService.AprobarInforme(tokenAprobacion, esquema);
                     aprobado = true;
                 }
+            }
+            }
+            else
+            {
+                mensajeEsquema = "El esquema no existe";
             }
             terminaCarga = true;
 
