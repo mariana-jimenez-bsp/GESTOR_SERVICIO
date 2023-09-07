@@ -15,7 +15,7 @@
     <div class="container-fluid p-2 pe-5 ps-5 body-edit">
         @if (successMessage != null)
         {
-            <MensajeDeLogrado Message="@successMessage" />
+            <ModalExito mensaje="@successMessage"></ModalExito>
         }
         <div class="row">
             <div class="col-md-6">
@@ -203,7 +203,12 @@
                     </div>
                     @if (correoEnviado != null)
                     {
-                        <MensajeDeLogrado Message="@correoEnviado" />
+                       if(correoEnviado == "Error")
+                        {
+                            <ModalError mensaje="Ocurrió Un error vuelva a intentarlo"></ModalError>           
+                        }else{
+                            <ModalExito mensaje="@correoEnviado"></ModalExito>
+                        }
                     }
                 </div>
             </div>
@@ -222,9 +227,7 @@
     }
     else
     {
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>@mensajeConsecutivo</h1>
-        </div>
+        <ModalError mensaje="@mensajeConsecutivo"></ModalError>
     }
 }
 else

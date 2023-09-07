@@ -14,7 +14,7 @@
     <div class="container-fluid p-2 pe-5 ps-5 body-edit">
         @if (successMessage != null)
         {
-            <MensajeDeLogrado Message="@successMessage" />
+            <ModalExito mensaje="@successMessage"></ModalExito>
         }
         <div class="row">
             <div class="col-md-6">
@@ -256,10 +256,6 @@
                         <img src="images/EditarInforme/Enviar-a-cliente.png" class="circle-max-width" />
                         <span>Enviar al cliente</span>
                     </div>
-                    @if (correoEnviado != null)
-                    {
-                        <MensajeDeLogrado Message="@correoEnviado" />
-                    }
                 </div>
             </div>
         </div>
@@ -273,17 +269,14 @@
 }
 else if (informe.estado == "Finalizado")
 {
-    <div class="text-danger w-100 text-center">
-        <h1>El informe ya finalizó</h1>
-            </div>
+        <ModalAdvertencia mensaje="El informe ya finalizó"></ModalAdvertencia>
+
         }
 
     }
     else
     {
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>@mensajeCliente</h1>
-        </div>
+        <ModalError mensaje="@mensajeCliente"></ModalError>
     }
 }
 else

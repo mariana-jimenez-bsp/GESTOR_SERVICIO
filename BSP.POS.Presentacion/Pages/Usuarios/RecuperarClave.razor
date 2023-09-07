@@ -38,7 +38,7 @@
         }
         else
         {
-            <h1 class="w-100 text-center text-danger">Token expirado o inválido</h1>
+                    <ModalError mensaje="Token expirado o inválido"></ModalError>
         }
 
     }
@@ -46,7 +46,7 @@
     {
         if (!string.IsNullOrEmpty(mensajeLicencia))
         {
-            <MensajeLicencia Message="@mensajeLicencia"></MensajeLicencia>
+            <ModalAdvertencia mensaje="@mensajeLicencia"></ModalAdvertencia>
         }
         @if (tokenRecuperacion.token_recuperacion != null)
         {
@@ -79,21 +79,17 @@
         }
         else
         {
-            <h1 class="w-100 text-center text-danger">Token expirado o inválido</h1>
+            <ModalError mensaje="Token expirado o inválido"></ModalError>
         }
 
     }
     else
     {
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>La Licencia ha vencido</h1>
-        </div>
+            <ModalError mensaje="La Licencia ha vencido"></ModalError>
     }
 }
     }else{
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>@mensajeEsquema</h1>
-        </div>
+            <ModalError mensaje="@mensajeEsquema"></ModalError>
     }
 }
 else

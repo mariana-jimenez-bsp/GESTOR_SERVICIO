@@ -17,7 +17,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string mensajeActualizar;
         protected override async Task OnInitializedAsync()
         {
-            cargaInicial = false;
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
@@ -27,7 +26,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             if (ProyectosService.ListaProyectos != null)
             {
                 proyectos = ProyectosService.ListaProyectos;
-                cargaInicial = true;
+               
             }
 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -36,7 +35,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             {
                 listaCentrosDeCosto = ItemsClienteService.listaCentrosDeCosto;
             }
-
+            cargaInicial = true;
         }
 
 

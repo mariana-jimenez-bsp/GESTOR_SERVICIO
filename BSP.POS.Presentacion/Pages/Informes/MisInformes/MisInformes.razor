@@ -41,7 +41,13 @@
                         </div>
                         @if (correoEnviado != null)
                         {
-                            <MensajeDeLogrado Message="@correoEnviado" />
+                            if(correoEnviado == "Error")
+                            {
+                                <ModalError mensaje="Ocurrió Un error vuelva a intentarlo"></ModalError>           
+                            }else{
+                                <ModalExito mensaje="@correoEnviado"></ModalExito>
+                            }
+                            
                         }
                         @if (informesDeUsuarioFinalizados != null && clienteAsociado != null)
                         {

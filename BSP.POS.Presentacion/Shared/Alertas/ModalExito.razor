@@ -1,0 +1,14 @@
+﻿@inject IJSRuntime JS
+
+@code {
+    [Parameter]
+    public string mensaje { get; set; } = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        await ActivarAlertaExito();
+    }
+    private async Task ActivarAlertaExito()
+    {
+        await JS.InvokeVoidAsync("AlertaDeExito", mensaje);
+    }
+}

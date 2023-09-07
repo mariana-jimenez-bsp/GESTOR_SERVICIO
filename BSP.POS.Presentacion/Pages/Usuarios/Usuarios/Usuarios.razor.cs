@@ -16,19 +16,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string codigoUsuario = string.Empty;
         protected override async Task OnInitializedAsync()
         {
-            cargaInicial = false;
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await RefrescarListaDeUsuarios();
-            if (usuarios != null)
-            {
-               
-                cargaInicial = true;
-            }
-
+            cargaInicial = true;
 
 
         }

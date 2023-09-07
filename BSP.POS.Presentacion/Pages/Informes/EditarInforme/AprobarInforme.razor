@@ -14,11 +14,7 @@
             <div class="h-100 w-100 fondo bg-body-secondary">
 
                 <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                <div class="row w-100 heigh-aprobado text-light d-flex justify-content-center text-center align-items-center">
-                    <h1 class="text-success"> El informe ha sido aprobado</h1>
-
-                </div>
-
+                <ModalExito mensaje="El informe ha sido aprobado"></ModalExito>
             </div>
         }
         else
@@ -27,11 +23,7 @@
                 <div class="h-100 w-100 fondo bg-body-secondary">
 
                     <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                    <div class="row w-100 heigh-aprobado text-light d-flex justify-content-center text-center align-items-center">
-                        <h1 class="text-danger">Tiempo limite Expirado o url inválido</h1>
-
-                    </div>
-
+                    <ModalError mensaje="Tiempo limite Expirado o url inválido"></ModalError>
                 </div>
             
             
@@ -44,18 +36,14 @@
     {
         if (!string.IsNullOrEmpty(mensajeLicencia))
         {
-            <MensajeLicencia Message="@mensajeLicencia"></MensajeLicencia>
+            <ModalAdvertencia mensaje="@mensajeLicencia"></ModalAdvertencia>
         }
         @if (tokenAprobacion.token_aprobacion != null && aprobado && terminaCarga)
         {
             <div class="h-100 w-100 fondo bg-body-secondary">
 
                 <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                <div class="row w-100 heigh-aprobado text-light d-flex justify-content-center text-center align-items-center">
-                    <h1 class="text-success"> El informe ha sido aprobado</h1>
-
-                </div>
-
+                <ModalExito mensaje="El informe ha sido aprobado"></ModalExito>
             </div>
         }
         else
@@ -63,11 +51,7 @@
                 <div class="h-100 w-100 fondo bg-body-secondary">
 
                     <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                    <div class="row w-100 heigh-aprobado text-light d-flex justify-content-center text-center align-items-center">
-                        <h1 class="text-danger">Tiempo limite Expirado o url inválido</h1>
-
-                    </div>
-
+                    <ModalError mensaje="Tiempo limite Expirado o url inválido"></ModalError>
                 </div>
 
         }
@@ -76,18 +60,14 @@
     }
     else
     {
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>La Licencia ha vencido</h1>
-                </div>
+        <ModalError mensaje="La Licencia ha vencido"></ModalError>
             }
         }
 
     }
     else
     {
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>@mensajeEsquema</h1>
-        </div>
+        <ModalError mensaje="@mensajeEsquema"></ModalError>
     }
 }else{
     <div class="loader">
