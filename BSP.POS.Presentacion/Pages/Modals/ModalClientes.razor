@@ -160,6 +160,8 @@
                                         <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
                                         <div class="d-flex align-items-center justify-content-center">
                                             <div class="content w-75 pb-3">
+                                                @if (cliente.listaDeUsuarios.Any())
+                                                {
                                                 <div class="row p-2 blue-dark-bg text-light border border-primary rounded-top-4 text-9-bold">
                                                     <div class="col-md-2">
                                                         <span>Código</span>
@@ -177,8 +179,7 @@
                                                         <span>Teléfono</span>
                                                     </div>
                                                 </div>
-                                                @if (cliente.listaDeUsuarios != null)
-                                                {
+                                                
                                                     foreach (var usuario in cliente.listaDeUsuarios)
                                                     {
                                                         <div class="row text-15-book p-2 blue-dark-text border-bottom border-start border-end border-success @(esElUltimoUsuario(cliente, usuario) ? "rounded-bottom-4" : "")">

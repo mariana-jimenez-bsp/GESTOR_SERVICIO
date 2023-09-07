@@ -5,6 +5,8 @@
 @inject IObservacionesInterface ObservacionesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JS
+@if(cargaInicial){
+@if(string.IsNullOrEmpty(mensajeCliente)){
 @if (informe.estado == "Borrador" && !string.IsNullOrEmpty(Consecutivo))
 {
     <Layout></Layout>
@@ -273,7 +275,16 @@ else if (informe.estado == "Finalizado")
 {
     <div class="text-danger w-100 text-center">
         <h1>El informe ya finalizó</h1>
-    </div>
+            </div>
+        }
+
+    }
+    else
+    {
+        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
+            <h1>@mensajeCliente</h1>
+        </div>
+    }
 }
 else
 {
@@ -287,4 +298,3 @@ else
         </div>
     </div>
 }
-

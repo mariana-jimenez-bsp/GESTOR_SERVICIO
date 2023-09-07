@@ -172,6 +172,21 @@ namespace BSP.POS.DATOS.Clientes
             }
         }
 
+        public string ValidarExistenciaDeCliente(string pEsquema, string pCliente)
+        {
+            ValidarExistenciaDeClienteTableAdapter sp = new ValidarExistenciaDeClienteTableAdapter();
+            string cliente = null;
+
+            var response = sp.GetData(pEsquema, pCliente).ToList();
+
+            foreach (var item in response)
+            {
+                cliente = item.CLIENTE;
+            }
+
+            return cliente;
+        }
+
 
     }
 }

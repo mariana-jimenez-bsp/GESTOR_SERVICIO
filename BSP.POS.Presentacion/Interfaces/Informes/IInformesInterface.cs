@@ -21,5 +21,6 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
         Task AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
 
         Task<string> AgregarInformeAsociado(string cliente, string esquema);
+        Task<string> ValidarExistenciaConsecutivoInforme(string esquema, string consecutivo);
     }
 }

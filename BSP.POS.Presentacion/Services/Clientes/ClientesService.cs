@@ -99,5 +99,18 @@ namespace BSP.POS.Presentacion.Services.Clientes
 
             }
         }
+        public async Task<string> ValidarExistenciaDeCliente(string esquema, string cliente)
+        {
+            string url = "Clientes/ValidaExistenciaDeCliente/" + esquema + "/" + cliente;
+            string clienteDevuelto = await _http.GetStringAsync(url);
+            if (!string.IsNullOrEmpty(clienteDevuelto))
+            {
+                return clienteDevuelto;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

@@ -201,5 +201,18 @@ namespace BSP.POS.Presentacion.Services.Informes
             }
         }
 
+        public async Task<string> ValidarExistenciaConsecutivoInforme(string esquema, string consecutivo)
+        {
+            string url = "Informes/ValidaExistenciaConsecutivoInforme/" + esquema + "/" + consecutivo;
+            string consecutivoDevuelto = await _http.GetStringAsync(url);
+            if (!string.IsNullOrEmpty(consecutivoDevuelto))
+            {
+                return consecutivoDevuelto;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

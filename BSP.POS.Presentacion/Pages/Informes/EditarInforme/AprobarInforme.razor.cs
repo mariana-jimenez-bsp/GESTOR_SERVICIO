@@ -21,8 +21,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public bool cargaInicial = false;
         protected override async Task OnInitializedAsync()
         {
-            string esquemaVerficado = await UsuariosService.ValidarExistenciaEsquema(esquema);
-            if (!string.IsNullOrEmpty(esquemaVerficado)) { 
+            
+            if (await VerificarValidezEsquema()) { 
                 await LicenciasService.ObtenerEstadoDeLicencia();
             if (LicenciasService.licencia != null)
             {
@@ -48,6 +48,23 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
             terminaCarga = true;
 
+        }
+
+        private async Task<bool> VerificarValidezEsquema()
+        {
+            if(esquema.Length > 10)
+            {
+                return false;
+            }
+            string esquemaVerficado = await UsuariosService.ValidarExistenciaEsquema(esquema);
+            if (!string.IsNullOrEmpty(esquemaVerficado))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

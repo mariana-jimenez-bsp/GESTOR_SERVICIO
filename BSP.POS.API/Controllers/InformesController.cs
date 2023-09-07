@@ -269,7 +269,14 @@ namespace BSP.POS.API.Controllers
             }
 
         }
-       
+        [HttpGet("ValidaExistenciaConsecutivoInforme/{esquema}/{consecutivo}")]
+        public string ValidaExistenciaConsecutivoInforme(string esquema, string consecutivo)
+        {
+
+            string consecutivoDevuelto = informes.ValidarExistenciaConsecutivoInforme(esquema, consecutivo);
+
+            return consecutivoDevuelto;
+        }
 
     }
 }

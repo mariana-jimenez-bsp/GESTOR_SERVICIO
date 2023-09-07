@@ -31,6 +31,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private ElementReference informeButton;
         private string successMessage;
         private string correoEnviado;
+        private bool cargaInicial = false;
+        private string mensajeConsecutivo;
 
         private async Task SubmitActividades()
         {
@@ -56,6 +58,9 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            
+            if (await VerificarValidezDeConsecutivo())
+            {
             if (!string.IsNullOrEmpty(Consecutivo))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -89,8 +94,31 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     }
                 }
             }
+            }
+            else
+            {
+                mensajeConsecutivo = "El consecutivo no existe o no es válido";
+            }
+            cargaInicial = true;
         }
+        public async Task<bool> VerificarValidezDeConsecutivo()
+        {
+            if (Consecutivo.Length > 5)
+            {
+                return false;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            string consecutivoValidar = await InformesService.ValidarExistenciaConsecutivoInforme(esquema, Consecutivo);
 
+            if (!string.IsNullOrEmpty(consecutivoValidar))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         private void CambioHorasCobradas(ChangeEventArgs e, string actividadId)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
@@ -104,7 +132,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
             }
         }
-
+       
         private void CambioHorasNoCobradas(ChangeEventArgs e, string actividadId)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))

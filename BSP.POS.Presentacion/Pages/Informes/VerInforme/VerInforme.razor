@@ -6,6 +6,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
+@if(cargaInicial){
+@if(string.IsNullOrEmpty(mensajeConsecutivo)){
 @if (informe.estado == "Finalizado")
 {
     <Layout></Layout>
@@ -210,11 +212,20 @@
     </div>
   
     <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
-    <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
-}
-else if (informe.estado == "Borrador")
-{
-    navigationManager.NavigateTo($"Informe/Editar/" + informe.consecutivo, forceLoad: true);
+            <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
+        }
+        else if (informe.estado == "Borrador")
+        {
+            navigationManager.NavigateTo($"Informe/Editar/" + informe.consecutivo, forceLoad: true);
+        }
+
+    }
+    else
+    {
+        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
+            <h1>@mensajeConsecutivo</h1>
+        </div>
+    }
 }
 else
 {

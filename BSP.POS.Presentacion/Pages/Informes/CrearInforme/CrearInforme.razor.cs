@@ -32,6 +32,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
         private ElementReference informeButton;
         private string successMessage;
         private string correoEnviado;
+        private bool cargaInicial = false;
+        private string mensajeCliente;
 
 
         private async Task SubmitActividades()
@@ -58,6 +60,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            if(await VerificarValidezCliente()) { 
             if (!string.IsNullOrEmpty(Cliente)) {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 Consecutivo =  await InformesService.AgregarInformeAsociado(Cliente, esquema);
@@ -95,8 +98,30 @@ namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
                 }
             }
             }
+            }
+            else
+            {
+                mensajeCliente = "Cliente no existe";
+            }
+            cargaInicial = true;
         }
-
+        private async Task<bool> VerificarValidezCliente()
+        {
+            if (Cliente.Length > 20)
+            {
+                return false;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            string clienteVerficado = await ClientesService.ValidarExistenciaDeCliente(esquema, Cliente);
+            if (!string.IsNullOrEmpty(clienteVerficado))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         private void CambioHorasCobradas(ChangeEventArgs e, string actividadId)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))

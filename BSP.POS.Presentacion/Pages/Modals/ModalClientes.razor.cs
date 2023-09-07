@@ -35,10 +35,16 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 // Asegurar que las listas desplegables y cambioColores tengan la misma cantidad de elementos que la lista de clientes
 
             }
+        }
+        private async Task ObtenerUsuariosDeCliente(string clienteObtenido)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             foreach (var cliente in clientes)
             {
+                if(cliente.CLIENTE == clienteObtenido) { 
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
+                }
             }
         }
         private void OpenModal()
@@ -54,13 +60,21 @@ namespace BSP.POS.Presentacion.Pages.Modals
     
   
 
-        private void ToggleCollapse(string clienteCod)
+        private async Task ToggleCollapse(string clienteCod)
         {
             foreach (var cliente in clientes)
             {
                 if (cliente.CLIENTE == clienteCod)
                 {
                     cliente.IsOpen = !cliente.IsOpen;
+                    if (cliente.IsOpen)
+                    {
+                        await ObtenerUsuariosDeCliente(clienteCod);
+                    }
+                }
+                else
+                {
+                    cliente.listaDeUsuarios = new List<mUsuariosDeCliente>();
                 }
             }
 

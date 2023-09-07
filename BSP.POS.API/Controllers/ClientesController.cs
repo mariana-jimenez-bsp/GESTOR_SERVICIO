@@ -176,6 +176,14 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [HttpGet("ValidaExistenciaDeCliente/{esquema}/{cliente}")]
+        public string ValidaExistenciaDeCliente(string esquema, string cliente)
+        {
+
+            string clienteDevuelto = clientes.ValidarExistenciaDeCliente(esquema, cliente);
+
+            return clienteDevuelto;
+        }
 
 
     }

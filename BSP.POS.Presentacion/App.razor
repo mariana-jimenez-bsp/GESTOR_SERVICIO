@@ -16,9 +16,11 @@
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
-            <PageTitle>Not found</PageTitle>
+            <PageTitle>Página no encontrada</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
+                <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
+                    <h1 role="alert">Este link no existe</h1>
+                </div>
             </LayoutView>
         </NotFound>
     </Router>

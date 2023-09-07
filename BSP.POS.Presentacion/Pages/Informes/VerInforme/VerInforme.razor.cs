@@ -29,7 +29,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public string esquema = string.Empty;
         private string successMessage;
         private string correoEnviado;
-
+        private bool cargaInicial = false;
+        private string mensajeConsecutivo;
 
 
         protected override async Task OnInitializedAsync()
@@ -39,42 +40,67 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            if (!string.IsNullOrEmpty(Consecutivo))
+            if (await VerificarValidezDeConsecutivo())
             {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
-                if (InformesService.InformeAsociado != null)
+                if (!string.IsNullOrEmpty(Consecutivo))
                 {
-                    informe = InformesService.InformeAsociado;
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
-                    if (ClientesService.ClienteAsociado != null)
+                    InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
+                    if (InformesService.InformeAsociado != null)
                     {
-                        ClienteAsociado = ClientesService.ClienteAsociado;
-                    }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ActividadesService.ObtenerListaDeActividades(esquema);
-                    if (ActividadesService.ListaActividades != null)
-                    {
-                        listaActividades = ActividadesService.ListaActividades;
+                        informe = InformesService.InformeAsociado;
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
+                        if (ClientesService.ClienteAsociado != null)
+                        {
+                            ClienteAsociado = ClientesService.ClienteAsociado;
+                        }
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await ActividadesService.ObtenerListaDeActividades(esquema);
+                        if (ActividadesService.ListaActividades != null)
+                        {
+                            listaActividades = ActividadesService.ListaActividades;
 
-                    }
-                    await RefrescarListaDeActividadesAsociadas();
+                        }
+                        await RefrescarListaDeActividadesAsociadas();
 
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
-                    await RefrescarListaDeUsuariosDeInforme();
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ObservacionesService.ObtenerListaDeObservacionesDeInforme(Consecutivo, esquema);
-                    if (ObservacionesService.ListaDeObservacionesDeInforme != null)
-                    {
-                        listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
+                        await RefrescarListaDeUsuariosDeInforme();
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await ObservacionesService.ObtenerListaDeObservacionesDeInforme(Consecutivo, esquema);
+                        if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+                        {
+                            listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                        }
                     }
                 }
             }
+            else
+            {
+                mensajeConsecutivo = "El consecutivo no existe o no es válido";
+            }
+            cargaInicial = true;
+        }
+        public async Task<bool> VerificarValidezDeConsecutivo()
+        {
+            if (Consecutivo.Length > 5)
+            {
+                return false;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            string consecutivoValidar = await InformesService.ValidarExistenciaConsecutivoInforme(esquema, Consecutivo);
+
+            if (!string.IsNullOrEmpty(consecutivoValidar))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        
         private async Task RefrescarListaDeActividadesAsociadas()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();

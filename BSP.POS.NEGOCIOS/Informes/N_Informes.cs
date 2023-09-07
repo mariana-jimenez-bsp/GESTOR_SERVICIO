@@ -121,5 +121,11 @@ namespace BSP.POS.NEGOCIOS.Informes
             return consecutivo;
         }
 
+        public string ValidarExistenciaConsecutivoInforme(string pEsquema, string pConsecutivo)
+        {
+            string consecutivo = objInforme.ValidarExistenciaConsecutivoInforme(pEsquema, pConsecutivo);
+            return consecutivo;
+        }
+
     }
 }

@@ -143,5 +143,11 @@ namespace BSP.POS.NEGOCIOS.Clientes
             }
             return dGenerar;
         }
+
+        public string ValidarExistenciaDeCliente(string pEsquema, string pCliente)
+        {
+            string cliente = objCliente.ValidarExistenciaDeCliente(pEsquema, pCliente);
+            return cliente;
+        }
     }
 }

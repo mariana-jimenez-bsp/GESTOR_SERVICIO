@@ -236,5 +236,20 @@ namespace BSP.POS.DATOS.Informes
 
         }
 
+        public string ValidarExistenciaConsecutivoInforme(string pEsquema, string pConsecutivo)
+        {
+            ValidarExistenciaConsecutivoInformeTableAdapter sp = new ValidarExistenciaConsecutivoInformeTableAdapter();
+            string consecutivo = null;
+
+            var response = sp.GetData(pEsquema, pConsecutivo).ToList();
+
+            foreach (var item in response)
+            {
+                consecutivo = item.consecutivo;
+            }
+
+            return consecutivo;
+        }
+
     }
 }
