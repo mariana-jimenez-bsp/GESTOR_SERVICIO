@@ -3,8 +3,7 @@
     display: flex;
     justify-content: end;
     height: 120px;
-    width: auto;
-    max-width: 1366px;
+    width: 100%;
     background-color: #2FAD70;
     align-items: center;
 }
@@ -70,8 +69,8 @@
 }
 
 .max-height-projects {
-    max-height: 450px;
-    min-height: 450px;
+    max-height: 620px;
+    min-height: 620px;
 }
 
 .text-41-book {
@@ -114,8 +113,7 @@
 @media screen and (max-width: 768px) {
     .footer-project {
         height: 70px;
-        width: auto;
-        max-width: 760px;
+        width: 100%;
     }
 
     .max-height-projects {
@@ -148,7 +146,7 @@
 @media screen and (max-height: 768px) and (min-width: 768px) {
     .footer-project {
         height: 70px;
-        max-width: 1330px;
+        max-width: 100%;
     }
 
     .max-height-projects {

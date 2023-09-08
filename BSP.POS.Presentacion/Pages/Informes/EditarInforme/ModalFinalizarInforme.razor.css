@@ -1,4 +1,8 @@
-﻿.modal {
+﻿.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+.modal {
     display: none;
     position: fixed;
     z-index: 9999;
@@ -47,6 +51,6 @@
     border-bottom-right-radius: 20px;
 }
 
-    .modal-footer button {
+    .modal-footer .button-footer {
         padding: 10px 20px;
     }
