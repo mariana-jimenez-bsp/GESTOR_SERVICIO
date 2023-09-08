@@ -50,9 +50,20 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
         public async Task AgregarActividad()
         {
             mensajeAgregado = null;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.AgregarActividad(activadNueva, esquema);
-            mensajeAgregado = "Actividad Agregada";
+            try
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.AgregarActividad(activadNueva, esquema);
+                mensajeAgregado = "Actividad Agregada";
+                activadNueva = new mActividades();
+            }
+            catch (Exception)
+            {
+                mensajeAgregado = "Error al Agregar la Actividad";
+                activadNueva = new mActividades();
+            }
+           
+            
         }
 
     }

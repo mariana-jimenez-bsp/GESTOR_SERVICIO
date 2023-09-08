@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime JS
+﻿
+@inject SweetAlertService Swal;
 
 @code {
     [Parameter]
@@ -9,6 +10,6 @@
     }
     private async Task ActivarAlertaError()
     {
-        await JS.InvokeVoidAsync("AlertaDeError", mensaje);
+        await Swal.FireAsync("Error!", mensaje, "error");
     }
 }

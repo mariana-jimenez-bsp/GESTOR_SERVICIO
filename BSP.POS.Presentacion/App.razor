@@ -18,9 +18,7 @@
         <NotFound>
             <PageTitle>Página no encontrada</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-                    <h1 role="alert">Este link no existe</h1>
-                </div>
+                <ModalError mensaje="Este link no existe"></ModalError>
             </LayoutView>
         </NotFound>
     </Router>

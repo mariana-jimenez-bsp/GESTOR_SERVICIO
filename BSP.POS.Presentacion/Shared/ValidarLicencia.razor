@@ -12,15 +12,13 @@
     {
         if (!string.IsNullOrEmpty(mensaje))
         {
-            <MensajeLicencia Message="@mensaje"></MensajeLicencia>
+            <ModalAdvertencia mensaje="@mensaje"></ModalAdvertencia>
         }
         <Login />
     }
     else
     {
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>La Licencia ha vencido</h1>
-        </div>
+        <ModalError mensaje="La Licencia ha vencido"></ModalError>
     }
 }
 else

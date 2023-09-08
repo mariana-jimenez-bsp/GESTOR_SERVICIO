@@ -25,6 +25,7 @@ using BSP.POS.Presentacion.Services.Permisos;
 using BSP.POS.Presentacion.Services.Proyectos;
 using BSP.POS.Presentacion.Services.Reportes;
 using BSP.POS.Presentacion.Services.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -48,7 +49,7 @@ builder.Services.AddScoped<ILicenciasInterface, LicenciasService>();
 builder.Services.AddScoped<ILugaresInterface, LugaresService>();
 builder.Services.AddScoped<IItemsClienteInterface, ItemsClienteService>();
 builder.Services.AddScoped<IReportesInterface, ReportesService>();
-
+builder.Services.AddSweetAlert2();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddAuthorizationCore();
 
