@@ -266,7 +266,10 @@
     </div>
     <ModalEliminarUsuario ActivarModal="@activarModalEliminarUsuario" OnClose="ClickHandlerEliminarUsuario" idUsuario="@idUsuarioActual" esquema="@esquema" nombreUsuario="@nombreUsuarioActual"></ModalEliminarUsuario>
     <ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
-    <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
+    @if(activarModalObservaciones){
+        <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
+    }
+    
     <ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalFinalizarInforme>
     <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
 }

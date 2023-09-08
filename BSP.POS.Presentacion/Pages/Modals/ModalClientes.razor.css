@@ -131,6 +131,7 @@ a {
     font-size: 12pt;
 }
 .max-height-client {
+    min-height: 220px;
     max-height: 220px;
 }
 .mouse-pointer {

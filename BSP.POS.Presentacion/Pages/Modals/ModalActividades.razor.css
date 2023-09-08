@@ -168,6 +168,7 @@ a {
     font-size: 12pt;
 }
 .max-height-activity {
+    min-height: 200px;
     max-height: 200px;
 }
 
