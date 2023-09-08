@@ -16,12 +16,17 @@
             <label class="col-md-4  blue-dark-text label-text" for="c-cliente">Nombre Cliente:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-cliente" @bind-value="clienteNuevo.NOMBRE" @oninput="CambioNombre" />
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.NOMBRE)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.NOMBRE)" />
+        </div>
+        
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-razon">Razón Social:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-razon" @bind-value="clienteNuevo.ALIAS" @oninput="CambioAlias" />
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.ALIAS)" />
+            <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.ALIAS)" />
+            </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text">Imagen:</label>
             <div class="col-md-4 px-2">
@@ -36,7 +41,9 @@
             <InputFile class="text-center d-flex row me-2" accept="image/x-png,image/jpeg" OnChange="CambioImagen" />
             </div>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.ImagenFile)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.IMAGEN)" />
+        </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-tipoNit">Tipo de NIT:</label>
             <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoNit" @bind="clienteNuevo.TIPO_NIT" @oninput="CambioTipoNit">
@@ -50,14 +57,18 @@
                 }
             </select>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.TIPO_NIT)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.TIPO_NIT)" />
+        </div>
 </div>
     <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-cedula">Cédula:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-cedula" @bind-value="clienteNuevo.CONTRIBUYENTE" @oninput="CambioContribuyente" />
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.CONTRIBUYENTE)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.CONTRIBUYENTE)" />
+        </div>
         <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-pais">País:</label>
         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-pais" @bind="clienteNuevo.PAIS" @oninput="CambioPais">
@@ -71,7 +82,9 @@
             }
         </select>
         </div>
-    <ValidationMessage For="@(() => clienteNuevo.PAIS)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.PAIS)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-provincia">Provincia:</label>
         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-provincia" @bind="clienteNuevo.DIVISION_GEOGRAFICA1" @oninput="CambioProvincia">
@@ -85,7 +98,9 @@
             }
         </select>
     </div>
-    <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA1)" />
+   <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA1)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-canton">Cantón:</label>
         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-canton" @bind="clienteNuevo.DIVISION_GEOGRAFICA2" @oninput="CambioCanton">
@@ -99,7 +114,9 @@
             }
         </select>
     </div>
-     <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA2)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA2)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-distrito">Distrito:</label>
         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-distrito" @bind="clienteNuevo.DIVISION_GEOGRAFICA3" @oninput="CambioDistrito">
@@ -113,7 +130,9 @@
             }
         </select>
     </div>
-     <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA3)" />
+     <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA3)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-barrio">Barrio:</label>
         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-barrio" @bind="clienteNuevo.DIVISION_GEOGRAFICA4" @oninput="CambioBarrio">
@@ -127,12 +146,16 @@
             }
         </select>
     </div>
-     <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA4)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA4)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-otrassenas">Otras señas:</label>
         <textarea class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-otrassenas" @bind="clienteNuevo.OTRAS_SENAS" @oninput="CambioOtrasSeñas"></textarea>
     </div>
-     <ValidationMessage For="@(() => clienteNuevo.OTRAS_SENAS)" />
+     <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.OTRAS_SENAS)" />
+    </div>
     </div>
 
 
@@ -141,17 +164,23 @@
         <label class="col-md-4  blue-dark-text label-text" for="c-responsable">Responsable:</label>
         <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-responsable" @bind-value="clienteNuevo.CONTACTO" @oninput="CambioContacto" />
     </div>
-     <ValidationMessage For="@(() => clienteNuevo.CONTACTO)" />
+     <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.CONTACTO)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-telefono1">Teléfono 1:</label>
         <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-telefono1" @bind-value="clienteNuevo.TELEFONO1" @oninput="CambioTelefono1" />
     </div>
-     <ValidationMessage For="@(() => clienteNuevo.TELEFONO1)" />
+     <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.TELEFONO1)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-telefono2">Teléfono 2:</label>
         <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-telefono2" @bind-value="clienteNuevo.TELEFONO2" @oninput="CambioTelefono2" />
     </div>
-    <ValidationMessage For="@(() => clienteNuevo.TELEFONO2)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.TELEFONO2)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-correo">Correo:</label>
         <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="email" id="c-correo" @bind-value="clienteNuevo.E_MAIL" @oninput="CambioCorreo" />
@@ -168,7 +197,9 @@
             <option value="USD">Dolar</option>
         </select>
     </div>
-    <ValidationMessage For="@(() => clienteNuevo.MONEDA)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.MONEDA)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text" for="c-nivel">Nivel precio:</label>
         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-nivel" @bind="clienteNuevo.NIVEL_PRECIO" @oninput="CambioNivelPrecio">
@@ -182,7 +213,9 @@
             }
         </select>
     </div>
-    <ValidationMessage For="@(() => clienteNuevo.NIVEL_PRECIO)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.NIVEL_PRECIO)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text">Documento a Generar:</label>
         <div class="col-md-4">
@@ -194,7 +227,9 @@
             </label>
         </div>
     </div>
-    <ValidationMessage For="@(() => clienteNuevo.DOC_A_GENERAR)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.DOC_A_GENERAR)" />
+    </div>
     <div class="d-flex justify-content-center mb-2">
         <label class="col-md-4  blue-dark-text label-text">Exento de Impuesto:</label>
         <div class="col-md-4">
@@ -206,7 +241,9 @@
             </label>
         </div>
     </div>
-    <ValidationMessage For="@(() => clienteNuevo.EXENTO_IMPUESTOS)" />
+    <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.EXENTO_IMPUESTOS)" />
+    </div>
     </div>
 
 
@@ -224,22 +261,30 @@
                 }
             </select>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.CONDICION_PAGO)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.CONDICION_PAGO)" />
+    </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-descuento">Descuento %:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-descuento" @bind-value="clienteNuevo.DESCUENTO" @oninput="CambioDescuento" />
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.DESCUENTO)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.DESCUENTO)" />
+    </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-ventas">Exento Ventas %:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-ventas" @bind-value="clienteNuevo.EXENCION_IMP1" readonly="@clienteNuevo.readonlyExento" />
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.EXENCION_IMP1)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.EXENCION_IMP1)" />
+    </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-consumo">Exento Consumo %:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consumo" @bind-value="clienteNuevo.EXENCION_IMP2" readonly="@clienteNuevo.readonlyExento" />
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.EXENCION_IMP2)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.EXENCION_IMP2)" />
+    </div>
     </div>
 
     <div class="row  border border-success rounded-5 my-3">
@@ -254,7 +299,9 @@
                 </label>
             </div>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.ES_CORPORACION)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.ES_CORPORACION)" />
+    </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-corporacion">Cliente Corporación:</label>
             <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-corporacion" disabled="@clienteNuevo.readonlyCorporacion" @bind="clienteNuevo.CLI_CORPORAC_ASOC" @oninput="CambioCorporacionAsociada">
@@ -284,7 +331,9 @@
                 }
             </select>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.TIPO_IMPUESTO)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.TIPO_IMPUESTO)" />
+    </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-tipoTarifa">Tipo Tarifa:</label>
             <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoTarifa" @bind="clienteNuevo.TIPO_TARIFA" @oninput="CambioTipoTarifa">
@@ -298,12 +347,16 @@
                 }
             </select>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.TIPO_TARIFA)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.TIPO_TARIFA)" />
+    </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-porcetajeTarifa">Porcentaje Tarifa:</label>
             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-porcetajeTarifa" @bind-value="clienteNuevo.PORC_TARIFA" readonly />
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.PORC_TARIFA)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.PORC_TARIFA)" />
+    </div>
     </div>
       <div class="row  border border-success rounded-5 my-3">
         <div class="d-flex justify-content-center mb-2">
@@ -316,7 +369,9 @@
                 <option value="04">Leyes Especiales</option>
             </select>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.TIPIFICACION_CLIENTE)" />
+        <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.TIPIFICACION_CLIENTE)" />
+    </div>
         <div class="d-flex justify-content-center mb-2">
             <label class="col-md-4  blue-dark-text label-text" for="c-afectacionIva">Afectación de IVA:</label>
             <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-afectacionIva" @bind="clienteNuevo.AFECTACION_IVA" @oninput="CambioAfectacionIva">
@@ -328,7 +383,9 @@
                 <option value="05">No Sujeta sin Derecho a Crédito</option>
             </select>
         </div>
-        <ValidationMessage For="@(() => clienteNuevo.AFECTACION_IVA)" />
+       <div class="text-center">
+            <ValidationMessage For="@(() => clienteNuevo.AFECTACION_IVA)" />
+    </div>
     </div>
    <div class="w-100 d-flex justify-content-center">
        <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light mx-4 w-25" id="agregar-cliente">Agregar Cliente</button>

@@ -82,7 +82,11 @@
             </div>
 
         </div>
-        <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario"></ModalAgregarUsuario>
+        @if (actividarModalAgregarUsuario)
+        {
+            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario"></ModalAgregarUsuario>
+        }
+       
         @if (actividarModalEditarUsuario)
         {
             <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoUsuario"></ModalEditarUsuario>
