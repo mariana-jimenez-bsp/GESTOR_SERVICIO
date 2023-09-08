@@ -29,7 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public string mensajeUsuarioRepite = string.Empty;
 
         public string tipo { get; set; } = string.Empty;
-
+        public string mensajeError;
         protected override async Task OnInitializedAsync()
         {
 
@@ -199,22 +199,33 @@ namespace BSP.POS.Presentacion.Pages.Modals
         }
         private async Task ActualizarPerfil()
         {
-            repetido = false;
-            await VerificarCorreoYUsuarioExistente();
-            if (!repetido) { 
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
-            bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
-            if (!sonIguales)
+            mensajeError = null;
+            try
             {
+                repetido = false;
+                await VerificarCorreoYUsuarioExistente();
+                if (!repetido)
+                {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
-                
+                    await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
+                    bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == permisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(permisosAsociados.Contains);
+                    if (!sonIguales)
+                    {
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
+
+                    }
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
+                    await CloseModal();
+                }
             }
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
-            await CloseModal();
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
+            
         }
         private void OpenModal()
         {

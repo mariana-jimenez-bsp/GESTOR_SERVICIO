@@ -23,6 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         private string correoEnviado;
+        public string mensajeError;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -185,16 +186,26 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
         private async Task DescargarReporte()
         {
-            if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+            mensajeError = null;
+            try
             {
-                pdfContent = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
+                if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+                {
+                    pdfContent = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
 
-                var fileName = "ReporteInforme.pdf";
-                var data = Convert.ToBase64String(pdfContent);
-                var url = $"data:application/pdf;base64,{data}";
+                    var fileName = "ReporteInforme.pdf";
+                    var data = Convert.ToBase64String(pdfContent);
+                    var url = $"data:application/pdf;base64,{data}";
 
-                await JSRuntime.InvokeVoidAsync("guardarDocumento", fileName, url);
+                    await JSRuntime.InvokeVoidAsync("guardarDocumento", fileName, url);
+                }
             }
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrió un Error vuelva a intentarlo";
+            }
+            
         }
     }
 }

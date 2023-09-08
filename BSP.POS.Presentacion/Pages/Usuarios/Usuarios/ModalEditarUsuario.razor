@@ -10,7 +10,10 @@
             <div class="modal-header d-flex justify-content-center text-primary">
                 <h2 class="blue-dark-text text-41-book">Editar<img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
             </div>
-
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+            }
             <div class=" modal-body d-flex row g-2 text-center ">
                 <div class="container border-transparent max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="row  border border-success rounded-5 ">

@@ -18,7 +18,11 @@
             @if(successMessage != null){
             <ModalExito mensaje="@successMessage"></ModalExito>
              }
-            <div class="row">
+                @if (!string.IsNullOrEmpty(mensajeError))
+                {
+                    <ModalError mensaje="@mensajeError"></ModalError>
+                }
+                <div class="row">
                 <div class="col-md-6">
             <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
                 <ObjectGraphDataAnnotationsValidator />

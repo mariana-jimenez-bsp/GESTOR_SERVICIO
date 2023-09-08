@@ -10,7 +10,10 @@
             <div class="modal-header d-flex justify-content-center text-primary">
                 <h2 class="blue-dark-text text-41-book">Agregar<img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
             </div>
-
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+            }
             <div class=" modal-body d-flex row g-2 text-center ">
                 <div class="container border-transparent max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="row  border border-success rounded-5 ">
@@ -45,6 +48,7 @@
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-nombreCliente">Nombre Cliente:</label>
                             <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                <option value="">Seleccione el Cliente</option>
                                 @foreach (var cliente in listaClientes)
                                 {
                                     <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
@@ -56,6 +60,7 @@
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-esquema">Esquema:</label>
                             <select @bind="usuario.esquema" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-esquema" @oninput="(e) => CambioEsquema(e, usuario.id)">
+                                <option value="">Seleccione el Esquema</option>
                                 <option value="BSP">BSP</option>
                             </select>
                         </div>
@@ -63,6 +68,7 @@
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-rol">Rol:</label>
                             <select @bind="usuario.rol" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-rol" @oninput="(e) => CambioRol(e, usuario.id)">
+                                <option value="">Seleccione el Rol</option>
                                 <option value="Usuario">Usuario</option>
                                 <option value="Admin">Administrador</option>
                             </select>

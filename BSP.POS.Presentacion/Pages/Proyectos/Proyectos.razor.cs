@@ -15,6 +15,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string rol = string.Empty;
         List<string> permisos;
         public string mensajeActualizar;
+        public string mensajeError;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -153,15 +154,25 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private async Task ActualizarListaProyectos()
         {
             mensajeActualizar = null;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ProyectosService.ActualizarListaDeProyectos(proyectos, esquema);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ProyectosService.ObtenerListaDeProyectos(esquema);
-            if (ProyectosService.ListaProyectos != null)
+            mensajeError = null;
+            try
             {
-                proyectos = ProyectosService.ListaProyectos;
-                mensajeActualizar = "Proyectos Actualizados";
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ProyectosService.ActualizarListaDeProyectos(proyectos, esquema);
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ProyectosService.ObtenerListaDeProyectos(esquema);
+                if (ProyectosService.ListaProyectos != null)
+                {
+                    proyectos = ProyectosService.ListaProyectos;
+                    mensajeActualizar = "Proyectos Actualizados";
+                }
             }
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+            }
+            
         }
 
         [Parameter]

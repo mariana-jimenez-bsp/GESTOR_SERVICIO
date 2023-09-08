@@ -4,7 +4,10 @@
 
 <div id='modal' class='modal' style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content bg-light">
-
+        @if (!string.IsNullOrEmpty(mensajeError))
+        {
+            <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+        }
         <div class=" modal-body d-flex g-2 text-center bg-light ">
             <div class="container mt-5 border-transparent">
                 <i class="fa-solid fa-triangle-exclamation fa-2xl text-warning"></i>

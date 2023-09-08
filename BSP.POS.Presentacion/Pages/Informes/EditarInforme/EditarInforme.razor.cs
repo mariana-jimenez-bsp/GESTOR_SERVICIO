@@ -33,6 +33,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private string correoEnviado;
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
+        public string mensajeError;
 
         private async Task SubmitActividades()
         {
@@ -46,9 +47,18 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task TodosLosBotonesSubmit()
         {
+            mensajeError = null;
+            try
+            {
+                await SubmitInforme();
+                await SubmitActividades();
+            }
+            catch (Exception)
+            {
 
-            await SubmitInforme();
-            await SubmitActividades();
+                mensajeError = "Ocurrió un Error vuelva a intentarlo";
+            }
+            
 
         }
         protected override async Task OnInitializedAsync()

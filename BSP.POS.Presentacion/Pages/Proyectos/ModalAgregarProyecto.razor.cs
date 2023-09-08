@@ -12,6 +12,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string esquema = string.Empty;
         public mProyectos proyecto = new mProyectos();
         public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
+        public string mensajeError;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -100,9 +101,19 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
 
         private async Task AgregarProyecto()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ProyectosService.AgregarProyecto(proyecto, esquema);
-            await CloseModal();
+            mensajeError = null;
+            try
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ProyectosService.AgregarProyecto(proyecto, esquema);
+                await CloseModal();
+            }
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+            }
+            
         }
     }
 }

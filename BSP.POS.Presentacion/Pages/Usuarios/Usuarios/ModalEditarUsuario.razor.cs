@@ -27,6 +27,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeCorreoRepite = string.Empty;
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
+        public string mensajeError;
         protected override async Task OnInitializedAsync()
         {
             if (!string.IsNullOrEmpty(codigo))
@@ -262,17 +263,27 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         }
         private async Task ActualizarUsuario()
         {
-            repetido = false;
-            await VerificarCorreoYUsuarioExistente();
-            if (!repetido)
+            mensajeError = null;
+            try
+            {
+                repetido = false;
+                await VerificarCorreoYUsuarioExistente();
+                if (!repetido)
+                {
+
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
+                    await ActualizarListaDePermisos();
+                    await CloseModal();
+
+                }
+            }
+            catch (Exception)
             {
 
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
-                await ActualizarListaDePermisos();
-                await CloseModal();
-                
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
+            
         }
 
     }

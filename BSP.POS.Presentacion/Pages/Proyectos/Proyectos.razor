@@ -15,9 +15,13 @@
             <EditForm Model="@proyectos" OnValidSubmit="ActualizarListaProyectos">
                 <ObjectGraphDataAnnotationsValidator />
 
-                @if (mensajeActualizar != null)
+                @if (!string.IsNullOrEmpty(mensajeActualizar))
                 {
                     <ModalExito mensaje="@mensajeActualizar"></ModalExito>
+                }
+                @if (!string.IsNullOrEmpty(mensajeError))
+                {
+                    <ModalError mensaje="@mensajeError"></ModalError>
                 }
                 <div class=" d-flex row g-2 text-center ">
                     <div class="container mt-1 border-transparent">

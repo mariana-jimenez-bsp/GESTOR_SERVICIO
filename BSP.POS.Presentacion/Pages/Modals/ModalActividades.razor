@@ -33,7 +33,10 @@
             </div>
         <div class="modal-body d-flex row g-2 text-center ">
             <div class="row g-2 text-center" style='display: @(activeTab == "lista" ? "block" : "none")'>
-
+                    @if (!string.IsNullOrEmpty(mensajeError))
+                    {
+                        <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+                    }
             <div class="container-fluid text-20-bold">
                     <div class="row green-text">
                     <div class="col-md-3">

@@ -14,6 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
         public List<mPerfil> listaDeUsuarios = new List<mPerfil>();
         public mObservaciones observacionAAgregar = new mObservaciones();
+        public string mensajeError;
         protected override async Task OnParametersSetAsync()
         {
             if(!string.IsNullOrEmpty(esquema) && !string.IsNullOrEmpty(consecutivo))
@@ -42,20 +43,31 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         }
         private async Task AgregarObservacionDeInforme()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            if(observacionAAgregar.observacion != null)
+            mensajeError = null;
+            try
             {
-                observacionAAgregar.usuario = usuarioActual;
-                observacionAAgregar.consecutivo_informe = consecutivo;
-                await ObservacionesService.AgregarObservacionDeInforme(observacionAAgregar, esquema);
-                observacionAAgregar = new mObservaciones();
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
-                if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+                if (observacionAAgregar.observacion != null)
                 {
-                    listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                    observacionAAgregar.usuario = usuarioActual;
+                    observacionAAgregar.consecutivo_informe = consecutivo;
+                    await ObservacionesService.AgregarObservacionDeInforme(observacionAAgregar, esquema);
+                    observacionAAgregar = new mObservaciones();
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
+                    if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+                    {
+                        listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                observacionAAgregar = new mObservaciones();
+            }
+
         }
     }
 }

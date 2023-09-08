@@ -9,7 +9,10 @@
             <div class="modal-header d-flex justify-content-center text-primary">
                 <span class="blue-dark-text text-41-book">Agregar <img class="mb-3" src="images/Proyectos/Icono-Proyectos.png" /></span>
             </div>
-
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+            }
             <div class=" modal-body d-flex row g-2 text-center">
                 <div class="container border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="row  border border-success rounded-5 my-3">

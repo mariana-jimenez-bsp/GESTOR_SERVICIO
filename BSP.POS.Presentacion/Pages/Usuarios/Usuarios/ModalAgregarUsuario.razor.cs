@@ -22,6 +22,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeCorreoRepite = string.Empty;
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
+        public string mensajeError;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -204,26 +205,37 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         }
         private async Task AgregarUsuario()
         {
-            repetido = false;
-            await VerificarCorreoYUsuarioExistente();
-            if (!repetido) { 
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.AgregarUsuario(usuario, esquema);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
-            mPerfil usuarioCreado = new mPerfil();
-            if (UsuariosService.Perfil != null)
+            mensajeError = null;
+            try
             {
-                usuarioCreado = UsuariosService.Perfil;
-            }
-            if (permisosAsociados.Any())
-            {
+                repetido = false;
+                await VerificarCorreoYUsuarioExistente();
+                if (!repetido)
+                {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
+                    await UsuariosService.AgregarUsuario(usuario, esquema);
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
+                    mPerfil usuarioCreado = new mPerfil();
+                    if (UsuariosService.Perfil != null)
+                    {
+                        usuarioCreado = UsuariosService.Perfil;
+                    }
+                    if (permisosAsociados.Any())
+                    {
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
+                    }
+
+                    await CloseModal();
+                }
+            }
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
             
-            await CloseModal();
-            }
         }
     }
 }

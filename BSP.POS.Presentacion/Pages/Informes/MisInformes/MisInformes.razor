@@ -49,6 +49,9 @@
                             }
                             
                         }
+                        @if(!string.IsNullOrEmpty(mensajeError)){
+                            <ModalError mensaje="@mensajeError"></ModalError>
+                        }
                         @if (informesDeUsuarioFinalizados != null && clienteAsociado != null)
                         {
                             var informesUsuario = informesDeUsuarioFinalizados;

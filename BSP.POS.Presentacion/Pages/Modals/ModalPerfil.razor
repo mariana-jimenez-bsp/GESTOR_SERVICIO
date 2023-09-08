@@ -9,7 +9,10 @@
             <div class="modal-header d-flex justify-content-center ">
                 <h2 class="text-profile blue-dark-text">Perfil <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
             </div>
-
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+            }
             <div class="modal-body d-flex row g-2 text-start ">
                 <div class="d-flex justify-content-center ">
                     <label class="col-md-4  blue-dark-text label-text" for="correo">Correo:</label>

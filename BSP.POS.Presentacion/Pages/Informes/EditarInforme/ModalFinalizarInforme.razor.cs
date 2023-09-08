@@ -10,6 +10,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         [Parameter] public string esquema { get; set; } = string.Empty;
         [Parameter] public string consecutivo { get; set; } = string.Empty;
         public mInformeEstado informeEstado = new mInformeEstado();
+        public string mensajeError;
         private async Task CloseModal()
         {
             await OnClose.InvokeAsync(false);
@@ -18,15 +19,24 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task FinalizarInforme()
         {
-            if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
+            try
             {
-                informeEstado.consecutivo = consecutivo;
-                informeEstado.estado = "Finalizado";
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
-                await CloseModal();
-                navigationManager.NavigateTo($"Informe/VerInforme/" + consecutivo, forceLoad: true);
+                if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
+                {
+                    informeEstado.consecutivo = consecutivo;
+                    informeEstado.estado = "Finalizado";
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
+                    await CloseModal();
+                    navigationManager.NavigateTo($"Informe/VerInforme/" + consecutivo, forceLoad: true);
+                }
             }
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrió un Error vuelva a intentarlo";
+            }
+            
         }
     }
 }

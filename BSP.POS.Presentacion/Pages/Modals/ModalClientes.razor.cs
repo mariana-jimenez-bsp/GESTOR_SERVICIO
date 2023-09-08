@@ -14,7 +14,8 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public List<mClientes> clientes = new List<mClientes>();
         public string esquema = string.Empty;
         int cont = 0;
-        
+        public string mensajeError;
+
         protected override async Task OnInitializedAsync()
         {
            
@@ -168,13 +169,23 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task ActualizarListaClientes()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ActualizarListaDeClientes(clientes, esquema);
-            if (ClientesService.ListaClientes != null)
+            mensajeError = null;
+            try
             {
-                clientes = ClientesService.ListaClientes;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ActualizarListaDeClientes(clientes, esquema);
+                if (ClientesService.ListaClientes != null)
+                {
+                    clientes = ClientesService.ListaClientes;
+                }
+                await CloseModal();
             }
-            await CloseModal();
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+            }
+           
         }
 
         private bool esElUltimoUsuario(mClientes cliente ,mUsuariosDeCliente usuario)

@@ -9,6 +9,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         public List<mActividades> actividades = new List<mActividades>();
         public string esquema = string.Empty;
+        public string mensajeError;
         private void OpenModal()
         {
             ActivarModal = true;
@@ -80,9 +81,19 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
         private async Task ActualizarListaActividades()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.ActualizarListaDeActividades(actividades, esquema);
-            await CloseModal();
+            mensajeError = null;
+            try
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.ActualizarListaDeActividades(actividades, esquema);
+                await CloseModal();
+            }
+            catch (Exception)
+            {
+
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+            }
+
         }
         [Parameter]
         public string textoRecibido { get; set; } = string.Empty;

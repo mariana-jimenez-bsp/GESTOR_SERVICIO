@@ -29,7 +29,10 @@
                     </div>
                 </div>
                 <div class="container mt-2" style='display: @(activeTab == "lista" ? "block" : "none")'>
-                   
+                    @if (!string.IsNullOrEmpty(mensajeError))
+                    {
+                        <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+                    }
                     <!-- Utilizamos el componente Accordion de Bootstrap -->
 
                     <div id="accordion" class="border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client" >
