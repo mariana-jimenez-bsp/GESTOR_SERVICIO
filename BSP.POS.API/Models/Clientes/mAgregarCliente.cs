@@ -1,28 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BSP.POS.API.Models.Clientes
+﻿namespace BSP.POS.API.Models.Clientes
 {
     public class mAgregarCliente
     {
         public string CLIENTE { get; set; } = string.Empty;
-      
+
         public string CONTACTO { get; set; } = string.Empty;
         public string CARGO { get; set; } = string.Empty;
-       
+
         public string NOMBRE { get; set; } = string.Empty;
-        
+
         public string ALIAS { get; set; } = string.Empty;
         public string DIRECCION { get; set; } = string.Empty;
-       
+
         public string TELEFONO1 { get; set; } = string.Empty;
-        
+
         public string TELEFONO2 { get; set; } = string.Empty;
-       
+
         public string CONTRIBUYENTE { get; set; } = string.Empty;
         public string MONEDA { get; set; } = string.Empty;
         public string PAIS { get; set; } = string.Empty;
         public string ZONA { get; set; } = string.Empty;
-        
+
         public string E_MAIL { get; set; } = string.Empty;
         public string DIVISION_GEOGRAFICA1 { get; set; } = string.Empty;
         public string DIVISION_GEOGRAFICA2 { get; set; } = string.Empty;
@@ -47,7 +45,7 @@ namespace BSP.POS.API.Models.Clientes
         public string PORC_TARIFA { get; set; } = string.Empty;
         public string TIPIFICACION_CLIENTE { get; set; } = string.Empty;
         public string AFECTACION_IVA { get; set; } = string.Empty;
-        
+
         public string TIPO_NIT { get; set; } = string.Empty;
     }
 }

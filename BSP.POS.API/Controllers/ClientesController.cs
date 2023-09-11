@@ -3,9 +3,8 @@ using BSP.POS.NEGOCIOS.Clientes;
 using BSP.POS.UTILITARIOS.Clientes;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
-using BSP.POS.API.Models.Clientes;
-using BSP.POS.UTILITARIOS.Usuarios;
 using System.Reflection.PortableExecutable;
+using BSP.POS.API.Models.Clientes;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -71,27 +70,12 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("ActualizaListaDeClientes")]
-        public string ActualizaListaDeClientes([FromBody] List<mClientes> datos)
+        public string ActualizaListaDeClientes([FromBody] List<U_ListaClientes> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-
-                List<U_ListaClientes> listaClientes = new List<U_ListaClientes>();
-                foreach (var item in datos)
-                {
-                    U_ListaClientes cliente = new U_ListaClientes();
-                    cliente.CLIENTE = item.CLIENTE;
-                    cliente.NOMBRE = item.NOMBRE;
-                    cliente.ALIAS = item.ALIAS;
-                    cliente.CONTRIBUYENTE = item.CONTRIBUYENTE;
-                    cliente.TELEFONO1 = item.TELEFONO1;
-                    cliente.TELEFONO2 = item.TELEFONO2;
-                    cliente.E_MAIL = item.E_MAIL;
-                    listaClientes.Add(cliente);
-                }
-
-                string mensaje = clientes.ActualizarListaDeClientes(listaClientes, esquema);
+                string mensaje = clientes.ActualizarListaDeClientes(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)
@@ -124,10 +108,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string usuario = Request.Headers["X-Usuario"];
-
                 U_AgregarCliente cliente = new U_AgregarCliente();
 
-                
+
                 cliente.CLIENTE = datos.CLIENTE;
                 cliente.NOMBRE = datos.NOMBRE;
                 cliente.ALIAS = datos.ALIAS;
@@ -163,8 +146,6 @@ namespace BSP.POS.API.Controllers
                 cliente.TIPIFICACION_CLIENTE = datos.TIPIFICACION_CLIENTE;
                 cliente.AFECTACION_IVA = datos.AFECTACION_IVA;
                 cliente.IMAGEN = datos.IMAGEN;
-
-
 
 
                 clientes.AgregarCliente(cliente, esquema);

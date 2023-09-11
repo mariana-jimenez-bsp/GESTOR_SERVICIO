@@ -1,5 +1,4 @@
-﻿using BSP.POS.API.Models.Observaciones;
-using BSP.POS.NEGOCIOS.Observaciones;
+﻿using BSP.POS.NEGOCIOS.Observaciones;
 using BSP.POS.UTILITARIOS.Observaciones;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -35,18 +34,12 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("AgregaObservacionDeInforme")]
-        public string AgregaObservacionDeInforme([FromBody] mObservaciones datos)
+        public string AgregaObservacionDeInforme([FromBody] U_Observaciones datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-                U_Observaciones observacion = new U_Observaciones();
-                observacion.usuario = datos.usuario;
-                observacion.consecutivo_informe = datos.consecutivo_informe;
-                observacion.observacion = datos.observacion;
-
-
-                string mensaje = observaciones.AgregarObservacionDeInforme(observacion, esquema);
+                string mensaje = observaciones.AgregarObservacionDeInforme(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)

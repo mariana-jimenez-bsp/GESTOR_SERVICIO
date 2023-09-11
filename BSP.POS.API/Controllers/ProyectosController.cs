@@ -1,6 +1,4 @@
-﻿using BSP.POS.API.Models.Proyectos;
-using BSP.POS.NEGOCIOS.Proyectos;
-using BSP.POS.UTILITARIOS.Actividades;
+﻿using BSP.POS.NEGOCIOS.Proyectos;
 using BSP.POS.UTILITARIOS.Proyectos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,31 +35,12 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("ActualizaListaDeProyectos")]
-        public string ActualizaListaDeActividades([FromBody] List<mProyectos> datos)
+        public string ActualizaListaDeActividades([FromBody] List<U_ListaProyectos> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-
-                List<U_ListaProyectos> listaProyectos = new List<U_ListaProyectos>();
-                foreach (var item in datos)
-                {
-                    U_ListaProyectos proyecto = new U_ListaProyectos();
-                    proyecto.Id = item.Id;
-                    proyecto.numero = item.numero;
-                    proyecto.nombre_consultor = item.nombre_consultor;
-                    proyecto.fecha_inicial = item.fecha_inicial;
-                    proyecto.fecha_final = item.fecha_final;
-                    proyecto.empresa = item.empresa;
-                    proyecto.centro_costo = item.centro_costo;
-                    proyecto.horas_totales = item.horas_totales;
-                    proyecto.nombre_proyecto = item.nombre_proyecto;
-
-
-                    listaProyectos.Add(proyecto);
-                }
-
-                string mensaje = _proyectos.ActualizarListaDeProyectos(listaProyectos, esquema);
+                string mensaje = _proyectos.ActualizarListaDeProyectos(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)
@@ -72,26 +51,12 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("AgregaProyecto")]
-        public string AgregaProyecto([FromBody] mProyectos datos)
+        public string AgregaProyecto([FromBody] U_ListaProyectos datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-
-                U_ListaProyectos proyecto = new U_ListaProyectos();
-
-                    proyecto.nombre_consultor = datos.nombre_consultor;
-                    proyecto.fecha_inicial = datos.fecha_inicial;
-                    proyecto.fecha_final = datos.fecha_final;
-                    proyecto.empresa = datos.empresa;
-                    proyecto.centro_costo = datos.centro_costo;
-                    proyecto.horas_totales = datos.horas_totales;
-                    proyecto.nombre_proyecto = datos.nombre_proyecto;
-
-
-                
-
-                string mensaje = _proyectos.AgregarProyecto(proyecto, esquema);
+                string mensaje = _proyectos.AgregarProyecto(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)

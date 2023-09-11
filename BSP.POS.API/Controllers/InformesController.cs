@@ -1,10 +1,9 @@
 ﻿using BSP.POS.API.Models;
-using BSP.POS.API.Models.Clientes;
-using BSP.POS.API.Models.Informes;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.NEGOCIOS.Informes;
 using BSP.POS.NEGOCIOS.Usuarios;
 using BSP.POS.NEGOCIOS.WhatsappService;
+using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using BSP.POS.UTILITARIOS.Informes;
@@ -84,22 +83,13 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("ActualizaElInformeAsociado")]
-        public string ActualizaElInformeAsociado([FromBody] mInformeAsociado datos)
+        public string ActualizaElInformeAsociado([FromBody] U_InformeAsociado datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
-                U_InformeAsociado informeAsociado = new U_InformeAsociado();
-                informeAsociado.consecutivo = datos.consecutivo;
-                informeAsociado.cliente = datos.cliente;
-                informeAsociado.estado = datos.estado;
-                informeAsociado.modalidad_consultoria = datos.modalidad_consultoria;
-                informeAsociado.hora_final = datos.hora_final;
-                informeAsociado.hora_inicio = datos.hora_inicio;
-                informeAsociado.fecha_consultoria = datos.fecha_consultoria;
-
-                string mensaje = informes.ActualizarInformeAsociado(informeAsociado, esquema);
+                string mensaje = informes.ActualizarInformeAsociado(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)
@@ -110,18 +100,15 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("CambiaEstadoDeInforme")]
-        public string CambiaEstadoDeInforme([FromBody] mInformeAsociado datos)
+        public string CambiaEstadoDeInforme([FromBody] U_InformeAsociado datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
-                U_InformeAsociado informeAsociado = new U_InformeAsociado();
-                informeAsociado.consecutivo = datos.consecutivo;
-                informeAsociado.estado = datos.estado;
 
 
-                string mensaje = informes.CambiarEstadoDeInforme(informeAsociado, esquema);
+                string mensaje = informes.CambiarEstadoDeInforme(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)
@@ -186,44 +173,8 @@ namespace BSP.POS.API.Controllers
            
 
         }
-
-        [HttpPost("ReenvioDeInforme")]
-        public IActionResult ReenvioDeInforme(mObjetosParaCorreoAprobacion objetosDeAprobacion)
-        {
-            try
-            {
-                U_Correo datos = new U_Correo();
-
-                foreach (var item in objetosDeAprobacion.listadeUsuariosDeClienteDeInforme)
-                {
-
-
-                        U_Perfil usuario = new U_Perfil();
-                    
-                    usuario = JsonConvert.DeserializeObject<U_Perfil>(user.ObtenerPerfil(objetosDeAprobacion.esquema, item.nombre_usuario));
-                    if(usuario != null)
-                    {
-                        item.correo_usuario = usuario.correo;
-                    }
-                    
-                }
-                datos.correoUsuario = _correoUsuario;
-                datos.claveUsuario = _claveUsuario;
-                _correoService.ReenvioDeInforme(datos, objetosDeAprobacion);
-                return Ok();
-            }
-
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-
-
-        }
-
         [HttpPost("AgregaInformeAsociado")]
-        public string AgregaInformeAsociado([FromBody] mClienteAsociado cliente)
+        public string AgregaInformeAsociado([FromBody] U_ClienteAsociado cliente)
         {
             try
             {
@@ -250,17 +201,13 @@ namespace BSP.POS.API.Controllers
         }
         [AllowAnonymous]
         [HttpPost("ApruebaInforme")]
-        public string ApruebaInforme([FromBody] mTokenAprobacionInforme datos)
+        public string ApruebaInforme([FromBody] U_TokenAprobacionInforme datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
-                U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme();
-                tokenAprobacion.token_aprobacion = datos.token_aprobacion;
-
-
-                string mensaje = informes.AprobarInforme(tokenAprobacion, esquema);
+                string mensaje = informes.AprobarInforme(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)

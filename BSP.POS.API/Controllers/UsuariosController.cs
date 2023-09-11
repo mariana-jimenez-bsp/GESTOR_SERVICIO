@@ -9,7 +9,6 @@ using BSP.POS.API.Models.Usuarios;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.UTILITARIOS.Correos;
 using Newtonsoft.Json;
-using BSP.POS.UTILITARIOS.Proyectos;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Hosting;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -69,7 +68,7 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("ValidarToken")]
-        public string ValidarToken([FromBody] mLogin datos)
+        public string ValidarToken([FromBody] U_LoginToken datos)
         {
             try
             {
@@ -123,17 +122,14 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPost("ActualizaClaveDeUsuario")]
-        public string ActualizaClaveDeUsuario([FromBody] mUsuarioNuevaClave datos)
+        public string ActualizaClaveDeUsuario([FromBody] U_UsuarioNuevaClave datos)
         {
             try
             {
-                U_UsuarioNuevaClave usuario = new U_UsuarioNuevaClave();
-                usuario.token_recuperacion = datos.token_recuperacion;
-                usuario.clave = datos.clave;
-                usuario.esquema = datos.esquema;
 
 
-                string mensaje = user.ActualizarClaveDeUsuario(usuario);
+
+                string mensaje = user.ActualizarClaveDeUsuario(datos);
                 return mensaje;
             }
             catch (Exception ex)
@@ -197,22 +193,13 @@ namespace BSP.POS.API.Controllers
         }
         [Authorize]
         [HttpPost("ActualizarPerfil")]
-        public string ActualizarPerfil([FromBody] mPerfil datos)
+        public string ActualizarPerfil([FromBody] U_Perfil datos)
         {
             try
             {
-                U_Perfil perfil = new U_Perfil();
-                    perfil.id = datos.id;
-                    perfil.correo = datos.correo;
-                    perfil.clave = datos.clave;
-                    perfil.usuario = datos.usuario;
-                    perfil.nombre = datos.nombre;
-                    perfil.rol = datos.rol;
-                    perfil.telefono = datos.telefono;
-                    perfil.esquema = datos.esquema;
+                
 
-
-                string mensaje = user.ActualizarPerfil(perfil);
+                string mensaje = user.ActualizarPerfil(datos);
                 return mensaje;
             }
             catch (Exception ex)
@@ -271,17 +258,14 @@ namespace BSP.POS.API.Controllers
         }
         [Authorize]
         [HttpPost("AgregaUsuarioDeClienteDeInforme")]
-        public string AgregaUsuarioDeClienteDeInforme([FromBody] mUsuarioDeClienteDeInforme datos)
+        public string AgregaUsuarioDeClienteDeInforme([FromBody] U_UsuariosDeClienteDeInforme datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-                U_UsuariosDeClienteDeInforme usuario = new U_UsuariosDeClienteDeInforme();
-                usuario.consecutivo_informe = datos.consecutivo_informe;
-                usuario.codigo_usuario_cliente = datos.codigo_usuario_cliente;
 
 
-                string mensaje = user.AgregarUsuarioDeClienteDeInforme(usuario, esquema);
+                string mensaje = user.AgregarUsuarioDeClienteDeInforme(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)
@@ -361,33 +345,12 @@ namespace BSP.POS.API.Controllers
         }
         [Authorize]
         [HttpPost("ActualizaListaDeUsuarios")]
-        public string ActualizaListaDeUsuarios([FromBody] List<mUsuariosParaEditar> datos)
+        public string ActualizaListaDeUsuarios([FromBody] List<U_UsuariosParaEditar> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-
-                List<U_UsuariosParaEditar> listaUsuarios = new List<U_UsuariosParaEditar>();
-                foreach (var item in datos)
-                {
-                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar();
-                    usuario.id = item.id;
-                    usuario.codigo = item.codigo;
-                    usuario.cod_cliente = item.cod_cliente;
-                    usuario.usuario = item.usuario;
-                    usuario.esquema = item.esquema;
-                    usuario.rol = item.rol;
-                    usuario.clave = item.clave;
-                    usuario.departamento = item.departamento;
-                    usuario.nombre=item.nombre;
-                    usuario.correo = item.correo;
-                    usuario.telefono = item.telefono;
-                    usuario.imagen = item.imagen;
-
-                    listaUsuarios.Add(usuario);
-                }
-
-                string mensaje = user.ActualizarListaDeUsuarios(listaUsuarios, esquema);
+                string mensaje = user.ActualizarListaDeUsuarios(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)
@@ -398,29 +361,13 @@ namespace BSP.POS.API.Controllers
         }
         [Authorize]
         [HttpPost("AgregaUsuario")]
-        public string AgregaUsuario([FromBody] mUsuariosParaEditar datos)
+        public string AgregaUsuario([FromBody] U_UsuariosParaEditar datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
-                U_UsuariosParaEditar usuario = new U_UsuariosParaEditar();
-
-                usuario.cod_cliente = datos.cod_cliente;
-                usuario.usuario = datos.usuario;
-                usuario.esquema = datos.esquema;
-                usuario.rol = datos.rol;
-                usuario.clave = datos.clave;
-                usuario.departamento = datos.departamento;
-                usuario.nombre = datos.nombre;
-                usuario.correo = datos.correo;
-                usuario.telefono = datos.telefono;
-                usuario.imagen = datos.imagen;
-
-
-
-
-                string mensaje = user.AgregarUsuario(usuario, esquema);
+                string mensaje = user.AgregarUsuario(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)
@@ -449,31 +396,12 @@ namespace BSP.POS.API.Controllers
 
         [Authorize]
         [HttpPost("ActualizaElUsuario")]
-        public string ActualizaElUsuario([FromBody] mUsuariosParaEditar datos)
+        public string ActualizaElUsuario([FromBody] U_UsuariosParaEditar datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-
-                
-
-                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar();
-                    usuario.id = datos.id;
-                    usuario.codigo = datos.codigo;
-                    usuario.cod_cliente = datos.cod_cliente;
-                    usuario.usuario = datos.usuario;
-                    usuario.esquema = datos.esquema;
-                    usuario.rol = datos.rol;
-                    usuario.clave = datos.clave;
-                    usuario.departamento = datos.departamento;
-                    usuario.nombre = datos.nombre;
-                    usuario.correo = datos.correo;
-                    usuario.telefono = datos.telefono;
-                    usuario.imagen = datos.imagen;
-
-     
-
-                string mensaje = user.ActualizarUsuario(usuario, esquema);
+                string mensaje = user.ActualizarUsuario(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)

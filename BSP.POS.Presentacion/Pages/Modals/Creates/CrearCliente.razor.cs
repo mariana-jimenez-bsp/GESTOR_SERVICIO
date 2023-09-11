@@ -462,29 +462,39 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
         public async Task AgregarCliente()
         {
             mensajeAgregado = null;
-            clienteNuevo.CARGO = "ND";
-            clienteNuevo.DIRECCION = "ND";
-            clienteNuevo.ZONA = "ND";
-            if (string.IsNullOrEmpty(clienteNuevo.DESCUENTO))
+            try
             {
-                clienteNuevo.DESCUENTO = "0";
+                clienteNuevo.CARGO = "ND";
+                clienteNuevo.DIRECCION = "ND";
+                clienteNuevo.ZONA = "ND";
+                if (string.IsNullOrEmpty(clienteNuevo.DESCUENTO))
+                {
+                    clienteNuevo.DESCUENTO = "0";
+                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                clienteNuevo.CLIENTE = await ItemsClienteService.ObtenerElSiguienteCodigoCliente(esquema, clienteNuevo.NOMBRE.Substring(0, 1));
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.AgregarCliente(clienteNuevo, esquema, usuarioActual);
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
+                if (ClientesService.ClienteAsociado != null)
+                {
+                    mensajeAgregado = "El cliente ha sido agregado";
+                    clienteNuevo = new mAgregarCliente();
+                }
+                else
+                {
+                    mensajeAgregado = "Error al agregar el cliente";
+                    clienteNuevo = new mAgregarCliente();
+                }
             }
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            clienteNuevo.CLIENTE = await ItemsClienteService.ObtenerElSiguienteCodigoCliente(esquema, clienteNuevo.NOMBRE.Substring(0, 1));
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.AgregarCliente(clienteNuevo, esquema, usuarioActual);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
-            if(ClientesService.ClienteAsociado != null)
+            catch (Exception)
             {
-                mensajeAgregado = "El cliente ha sido agregado";
-                clienteNuevo = new mAgregarCliente();
-            }
-            else
-            {
+
                 mensajeAgregado = "Error al agregar el cliente";
                 clienteNuevo = new mAgregarCliente();
             }
+            
            
         }
 
