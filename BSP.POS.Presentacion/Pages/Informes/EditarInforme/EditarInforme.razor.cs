@@ -354,5 +354,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             activarModalEliminarInforme = activar;
             StateHasChanged();
         }
+
+        public bool advertenciaEnviarAlCliente = false;
+        private void ActivarAdvertenciaEnviar()
+        {
+            advertenciaEnviarAlCliente = true;
+            StateHasChanged();
+        }
     }
 }

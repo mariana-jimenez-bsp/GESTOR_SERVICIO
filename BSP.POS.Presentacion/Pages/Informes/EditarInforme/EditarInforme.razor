@@ -257,15 +257,18 @@
                         <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
                             <span>Aprobar</span>
                         </div>
-                        <div class="d-flex justify-content-center row text-center mouse-pointer">
+                        <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="ActivarAdvertenciaEnviar">
                         <img src="images/EditarInforme/Enviar-a-cliente.png" class="circle-max-width"/>
                             <span>Enviar al cliente</span>
                         </div>
                     </div>
                 </div>
             </div>
-          
-        </div>
+                @if (advertenciaEnviarAlCliente)
+                {
+                    <ModalAdvertencia mensaje="El informe debe estar Finalizado para realizar el envío al cliente"></ModalAdvertencia>
+                }
+            </div>
 <ModalEliminarUsuario ActivarModal="@activarModalEliminarUsuario" OnClose="ClickHandlerEliminarUsuario" idUsuario="@idUsuarioActual" esquema="@esquema" nombreUsuario="@nombreUsuarioActual"></ModalEliminarUsuario>
 <ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
 @if(activarModalObservaciones){
