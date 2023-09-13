@@ -1,8 +1,89 @@
 {
   "messaging_product": "whatsapp",
   "to": "{telefono}",
-  "text": {
-    "preview_url": true,
-    "body": "*Solicitud de Aprobación de Informe #{consecutivo}* \nBuenas \nSe adjunta el informe para su debida aprobación \n_Informe de Servicios_ \n*Fecha*: {Fecha} \n*Hora Inicio*: {Hora_Inicio} \n*Modalidad*: {Modalidad} \n*Hora Fin*: {Hora_Fin} \n*Cliente*: {Cliente} \n*Usuarios de cliente* {Usuarios_Cliente} \n*Actividades* {Actividades} \n*Total de horas* \nHoras Cobradas: {Total_Horas_Cobradas} \nHoras no Cobradas: {Total_Horas_No_Cobradas} \n*Observaciones* {Observaciones} \n*Aprobar Informe*: https://localhost:7200/ValidarAprobacionInforme/{token}/{esquema}"
+  "type": "template",
+  "template": {
+    "name": "aprobacion_de_reporte",
+    "language": {
+      "code": "es"
+    },
+    "components": [
+      {
+        "type": "header",
+        "parameters": [
+          {
+            "type": "text",
+            "text": "{consecutivo}"
+          }
+        ]
+      },
+      {
+        "type": "body",
+        "parameters": [
+          {
+            "type": "text",
+            "text": "{Fecha}"
+          },
+          {
+            "type": "text",
+            "text": "{Modalidad}"
+          },
+          {
+            "type": "text",
+            "text": "{Hora_Inicio}"
+          },
+          {
+            "type": "text",
+            "text": "{Hora_Fin}"
+          },
+          {
+            "type": "text",
+            "text": "{Cliente}"
+          },
+          {
+            "type": "text",
+            "text": "{Usuarios_Cliente}"
+          },
+          {
+            "type": "text",
+            "text": "{Actividades}"
+          },
+          {
+            "type": "text",
+            "text": "{Total_Horas_Cobradas}"
+          },
+          {
+            "type": "text",
+            "text": "{Total_Horas_No_Cobradas}"
+          },
+          {
+            "type": "text",
+            "text": "{Observaciones}"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "sub_type": "url",
+        "index": "0",
+        "parameters": [
+          {
+            "type": "text",
+            "text": "{link}"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "sub_type": "url",
+        "index": "1",
+        "parameters": [
+          {
+            "type": "text",
+            "text": "{link}"
+          }
+        ]
+      }
+    ]
   }
 }

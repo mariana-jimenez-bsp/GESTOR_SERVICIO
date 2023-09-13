@@ -27,6 +27,8 @@ namespace BSP.POS.API.Controllers
         private readonly string _secretKey;
         private readonly string _correoUsuario;
         private readonly string _claveUsuario;
+        private readonly string _tokenWhatsapp;
+        private readonly string _idTelefonoWhatsapp;
         private readonly ICorreosInterface _correoService;
         private readonly IWhatsappInterface _whatsappService;
         public InformesController(ICorreosInterface correoService, IWhatsappInterface whatsappService)
@@ -42,9 +44,13 @@ namespace BSP.POS.API.Controllers
             _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
             _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
             _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
+            _tokenWhatsapp = Environment.GetEnvironmentVariable("tokenWhatsappGS");
+            _idTelefonoWhatsapp = Environment.GetEnvironmentVariable("idTelefonoWhatsappGS");
             //_secretKey = configuration["AppSettings:SecretKey"];
             //_correoUsuario = configuration["AppSettings:SmtpFrom"];
             //_claveUsuario = configuration["AppSettings:SmtpPassword"];
+            //_tokenWhatsapp = configuration["AppSettings:tokenWhatsapp"];
+            //_idTelefonoWhatsapp = configuration["AppSettings:idTelefonoWhatsapp"];
             _correoService = correoService;
             _whatsappService = whatsappService;
 
@@ -160,8 +166,8 @@ namespace BSP.POS.API.Controllers
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
 
-                _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
-                //_whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion);
+                //_correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
+                _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp);
                 return Ok();
             }
 

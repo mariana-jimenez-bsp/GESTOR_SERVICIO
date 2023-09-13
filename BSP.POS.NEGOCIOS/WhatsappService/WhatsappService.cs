@@ -1,7 +1,10 @@
 ﻿using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
+using BSP.POS.UTILITARIOS.CorreosModels.Models;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -15,7 +18,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
 {
     public class WhatsappService : IWhatsappInterface
     {
-        public async Task EnviarWhatsappAprobarInforme(mObjetosParaCorreoAprobacion objetosParaAprobacion)
+        public async Task EnviarWhatsappAprobarInforme(mObjetosParaCorreoAprobacion objetosParaAprobacion, string token, string idTelefono)
         {
             try
             {
@@ -24,30 +27,55 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
 
                 // Reemplaza el marcador de posición con el valor real
                
-               
-                string token = "token";
-                //Identificador de número de teléfono
-                string idTelefono = "idtelefono";
                 foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
                 {
                     if (item.aceptacion == "0")
                     {
                         //Nuestro telefono
-                        string telefono = "50671417642";
+                        string telefono = "50671776850";
                         string usuarios = "";
                         string actividades = "";
                         string observaciones = "";
+                        mUsuariosDeClientesDeInforme ultimoUsuario = new mUsuariosDeClientesDeInforme();
+                        mLasActividadesAsociadas ultimaActividad = new mLasActividadesAsociadas();
+                        mLasObservaciones ultimaObservacion = new mLasObservaciones();
+                        if (objetosParaAprobacion.listadeUsuariosDeClienteDeInforme.Any())
+                        {
+                           ultimoUsuario = objetosParaAprobacion.listadeUsuariosDeClienteDeInforme[objetosParaAprobacion.listadeUsuariosDeClienteDeInforme.Count - 1];
+                        }
+
+                        if (objetosParaAprobacion.listaActividadesAsociadas.Any())
+                        {
+                            ultimaActividad = objetosParaAprobacion.listaActividadesAsociadas[objetosParaAprobacion.listaActividadesAsociadas.Count - 1];
+                        }
+                        if (objetosParaAprobacion.listaDeObservaciones.Any())
+                        {
+                            ultimaObservacion = objetosParaAprobacion.listaDeObservaciones[objetosParaAprobacion.listaDeObservaciones.Count - 1];
+                        }
                         foreach (var itemUsuario in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
                         {
-                            usuarios += "\\nNombre: " + itemUsuario.nombre_usuario + " - Departamento: " + itemUsuario.departamento_usuario;
+                            usuarios += "Nombre: " + itemUsuario.nombre_usuario + " - Departamento: " + itemUsuario.departamento_usuario;
+                            if(itemUsuario.codigo_usuario_cliente != ultimoUsuario.codigo_usuario_cliente)
+                            {
+                                usuarios += ", ";
+                            }
+
                         }
                         foreach (var itemActividad in objetosParaAprobacion.listaActividadesAsociadas)
                         {
-                            actividades += "\\nActividad: " + itemActividad.nombre_actividad + " - Horas Cobradas: " + itemActividad.horas_cobradas + " - Horas no Cobradas: " + itemActividad.horas_no_cobradas;
+                            actividades += "Actividad: " + itemActividad.nombre_actividad + " - Horas Cobradas: " + itemActividad.horas_cobradas + " - Horas no Cobradas: " + itemActividad.horas_no_cobradas;
+                            if (itemActividad.Id != ultimaActividad.Id)
+                            {
+                                actividades += ", ";
+                            }
                         }
                         foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
                         {
-                            observaciones += "\\nUsuario: " + itemObservacion.usuario + " - Observación: " + itemObservacion.observacion;
+                            observaciones += "Usuario: " + itemObservacion.usuario + " - Observación: " + itemObservacion.observacion;
+                            if (itemObservacion.Id != ultimaObservacion.Id)
+                            {
+                                observaciones += ", ";
+                            }
                         }
                         jsonString = jsonString.Replace("{telefono}", telefono);
                         jsonString = jsonString.Replace("{token}", item.token)
@@ -60,9 +88,10 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                                     .Replace("{Cliente}", objetosParaAprobacion.ClienteAsociado.NOMBRE)
                                     .Replace("{Total_Horas_Cobradas}", objetosParaAprobacion.total_horas_cobradas.ToString())
                                     .Replace("{Total_Horas_No_Cobradas}", objetosParaAprobacion.total_horas_no_cobradas.ToString())
-                                    .Replace("{Usuarios_Cliente}", usuarios)
-                                    .Replace("{Actividades}", actividades)
-                                    .Replace("{Observaciones}", observaciones);
+                                    .Replace("{Usuarios_Cliente}", !usuarios.IsNullOrEmpty() ? usuarios : "Sin Usuarios")
+                                    .Replace("{Actividades}", !actividades.IsNullOrEmpty() ? actividades : "Sin Actividades")
+                                    .Replace("{Observaciones}", !observaciones.IsNullOrEmpty() ? observaciones : "Sin Observaciones")
+                                    .Replace("{link}", "https://localhost:7200/ValidarAprobacionInforme/" + item.token + "/" + objetosParaAprobacion.esquema);
 
                         JObject jsonObject = JObject.Parse(jsonString);
                         HttpClient client = new HttpClient();
