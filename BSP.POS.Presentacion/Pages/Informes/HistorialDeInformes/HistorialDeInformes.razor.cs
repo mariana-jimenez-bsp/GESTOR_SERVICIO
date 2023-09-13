@@ -176,7 +176,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         private void IrAMisInformes()
         {
 
-            navigationManager.NavigateTo($"Informes/MisInformes", forceLoad: true);
+            navigationManager.NavigateTo($"Informes/MisInformes");
         }
     }
 }

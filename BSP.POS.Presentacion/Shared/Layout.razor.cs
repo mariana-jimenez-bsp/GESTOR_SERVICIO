@@ -86,24 +86,24 @@ namespace BSP.POS.Presentacion.Shared
         private void IrAlInicio()
         {
 
-            navigationManager.NavigateTo($"Index", forceLoad: true);
+            navigationManager.NavigateTo($"Index");
         }
         private void IrAMisInformes()
         {
 
-            navigationManager.NavigateTo($"Informes/MisInformes", forceLoad: true);
+            navigationManager.NavigateTo($"Informes/MisInformes");
         }
 
         private void IrAProyectos()
         {
 
-            navigationManager.NavigateTo($"proyectos", forceLoad: true);
+            navigationManager.NavigateTo($"proyectos");
         }
 
         private void IrAConfiguraciones()
         {
 
-            navigationManager.NavigateTo($"Configuraciones", forceLoad: true);
+            navigationManager.NavigateTo($"Configuraciones");
         }
 
         private async Task CerrarSesion()

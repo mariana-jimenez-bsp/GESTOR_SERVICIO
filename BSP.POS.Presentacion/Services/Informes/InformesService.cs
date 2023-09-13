@@ -152,6 +152,24 @@ namespace BSP.POS.Presentacion.Services.Informes
             }
         }
 
+        public async Task RechazarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                string url = "Informes/RechazaInforme";
+                string jsonData = JsonSerializer.Serialize(tokenAprobacion);
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var mensaje = await _http.PostAsync(url, content);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         public async Task<string> AgregarInformeAsociado(string cliente, string esquema)
         {
             try

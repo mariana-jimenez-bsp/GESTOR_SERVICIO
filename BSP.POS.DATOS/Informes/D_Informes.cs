@@ -203,6 +203,27 @@ namespace BSP.POS.DATOS.Informes
 
 
         }
+
+        public string RechazarInforme(U_TokenAprobacionInforme pInforme, string esquema)
+        {
+            POSDataSet.RechazarInformeDataTable bTabla = new POSDataSet.RechazarInformeDataTable();
+            RechazarInformeTableAdapter sp = new RechazarInformeTableAdapter();
+            try
+            {
+                var response = sp.GetData(pInforme.token_aprobacion, esquema);
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
         public string GenerarTokenDeAprobacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));

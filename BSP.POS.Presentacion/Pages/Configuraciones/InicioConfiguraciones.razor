@@ -1,12 +1,49 @@
 ﻿@page "/Configuraciones"
 @inject NavigationManager navigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
-        <Layout></Layout>
+        @if (cargaInicial)
+        {
+            @if (rol == "Admin")
+            {
+                <Layout></Layout>
+            }
+            else
+            {
+                <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+            }
+
+        }
+        else
+        {
+            <div class="loader">
+                <p class="heading">Loading</p>
+                <div class="loading">
+                    <div class="load"></div>
+                    <div class="load"></div>
+                    <div class="load"></div>
+                    <div class="load"></div>
+                </div>
+            </div>
+        }
+
     </Authorized>
 </AuthorizeView>
 
 @code{
+    public string esquema = string.Empty;
+    public string rol = string.Empty;
+    public bool cargaInicial = false;
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+
+        rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+        esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+        cargaInicial = true;
+    }
     
 }

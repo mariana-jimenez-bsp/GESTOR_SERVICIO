@@ -91,7 +91,8 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                                     .Replace("{Usuarios_Cliente}", !usuarios.IsNullOrEmpty() ? usuarios : "Sin Usuarios")
                                     .Replace("{Actividades}", !actividades.IsNullOrEmpty() ? actividades : "Sin Actividades")
                                     .Replace("{Observaciones}", !observaciones.IsNullOrEmpty() ? observaciones : "Sin Observaciones")
-                                    .Replace("{link}", "https://localhost:7200/ValidarAprobacionInforme/" + item.token + "/" + objetosParaAprobacion.esquema);
+                                    .Replace("{linkAprobar}", "Aprobar/" + item.token + "/" + objetosParaAprobacion.esquema)
+                                    .Replace("{linkRechazar}", "Rechazar/" + item.token + "/" + objetosParaAprobacion.esquema);
 
                         JObject jsonObject = JObject.Parse(jsonString);
                         HttpClient client = new HttpClient();

@@ -1,4 +1,4 @@
-﻿@page "/ValidarAprobacionInforme/{token}/{esquema}"
+﻿@page "/ValidarAprobacionInforme/Aprobar/{token}/{esquema}"
 @inject IInformesInterface InformesService
 @inject ILicenciasInterface LicenciasService
 @inject IUsuariosInterface UsuariosService
@@ -23,7 +23,7 @@
                 <div class="h-100 w-100 fondo bg-body-secondary">
 
                     <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                    <ModalError mensaje="Tiempo limite Expirado o url inválido"></ModalError>
+                    <ModalError mensaje="Token o url inválido"></ModalError>
                 </div>
             
             
@@ -51,7 +51,7 @@
                 <div class="h-100 w-100 fondo bg-body-secondary">
 
                     <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                    <ModalError mensaje="Tiempo limite Expirado o url inválido"></ModalError>
+                    <ModalError mensaje="Token o url inválido"></ModalError>
                 </div>
 
         }

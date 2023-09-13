@@ -69,7 +69,7 @@
         "parameters": [
           {
             "type": "text",
-            "text": "{link}"
+            "text": "{linkAprobar}"
           }
         ]
       },
@@ -80,7 +80,7 @@
         "parameters": [
           {
             "type": "text",
-            "text": "{link}"
+            "text": "{linkRechazar}"
           }
         ]
       }

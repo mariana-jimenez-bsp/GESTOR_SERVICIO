@@ -179,7 +179,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         private void IrAHistorial()
         {
 
-            navigationManager.NavigateTo($"Informes/HistorialDeInformes", forceLoad: true);
+            navigationManager.NavigateTo($"Informes/HistorialDeInformes");
         }
 
         private byte[] pdfContent;

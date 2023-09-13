@@ -166,7 +166,7 @@ namespace BSP.POS.API.Controllers
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
 
-                //_correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
+                _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion);
                 _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp);
                 return Ok();
             }
@@ -214,6 +214,23 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = informes.AprobarInforme(datos, esquema);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+        [AllowAnonymous]
+        [HttpPost("RechazaInforme")]
+        public string RechazaInforme([FromBody] U_TokenAprobacionInforme datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+
+                string mensaje = informes.RechazarInforme(datos, esquema);
                 return mensaje;
             }
             catch (Exception ex)

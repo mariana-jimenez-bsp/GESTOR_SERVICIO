@@ -114,6 +114,13 @@ namespace BSP.POS.NEGOCIOS.Informes
             return mensaje;
         }
 
+        public string RechazarInforme(U_TokenAprobacionInforme pInforme, string esquema)
+        {
+            string mensaje = string.Empty;
+            mensaje = objInforme.RechazarInforme(pInforme, esquema);
+            return mensaje;
+        }
+
         public string AgregarInformeAsociado(string pCliente, string esquema)
         {
             string consecutivo = string.Empty;
