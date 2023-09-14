@@ -124,6 +124,7 @@ a {
     font-size: 10pt;
     min-width: 50%;
     height: 100%;
+    min-height: 100px;
 }
 
 .item-report {
@@ -187,6 +188,7 @@ a {
 
 .col-right {
     width: 641px;
+    min-height: 120px;
 }
 
 .footer-right {

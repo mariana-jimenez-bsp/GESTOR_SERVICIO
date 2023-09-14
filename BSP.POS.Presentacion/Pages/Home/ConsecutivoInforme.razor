@@ -4,7 +4,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="d-flex align-items-center justify-content-center ps-5 footer-right">
-    @if (Consecutivo != string.Empty)
+    @if (!string.IsNullOrEmpty(Consecutivo) && !string.IsNullOrEmpty(Estado))
     {
         <div class="ms-auto justify-content-center footer-right-cod">
             <span class="footer-right-cod">Informe Servicio</span>

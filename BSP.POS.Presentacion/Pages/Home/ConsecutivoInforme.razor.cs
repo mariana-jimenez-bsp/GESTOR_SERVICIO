@@ -16,14 +16,13 @@ namespace BSP.POS.Presentacion.Pages.Home
         {
 
 
-            if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
-            {
+
                 var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 var user = authenticationState.User;
                 esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
                 Consecutivo = consecutivo;
                 Estado = estado;
-            }
+            
         }
 
         private void IrAEditar()

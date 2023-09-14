@@ -3,7 +3,7 @@
 @inject IInformesInterface InformesService
 @inject IClientesInterface ClientesService
 @inject NavigationManager navigationManager
-@if(!string.IsNullOrEmpty(clienteAsociado.CLIENTE)){
+
 <div class="col-md-7 col-right">
     <ClienteAsociado clienteAsociado="ClienteAsociado"></ClienteAsociado>
     <div class="background-reports pb-2 col-right">
@@ -59,4 +59,4 @@
   <ConsecutivoInforme consecutivo="@Consecutivo" estado="@Estado"></ConsecutivoInforme>
 
 </div>
-}
+

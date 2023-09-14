@@ -29,6 +29,9 @@
     <None Update="WhatsappService\MensajesJson\AprobarInforme.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="WhatsappService\MensajesJson\TextError.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

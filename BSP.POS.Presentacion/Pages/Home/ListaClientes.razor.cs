@@ -41,6 +41,8 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         private async Task EnviarInformesAsociados(string cliente)
         {
+            InformesAsociados = new List<mInformes>();
+            ClienteAsociado = new mClienteAsociado();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ObtenerListaDeInformesAsociados(cliente, esquema);
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -53,8 +55,7 @@ namespace BSP.POS.Presentacion.Pages.Home
             {
                 ClienteAsociado = ClientesService.ClienteAsociado;
             }
-
-
+            RefrescarDatosInformes();
         }
 
         [Parameter]
@@ -76,6 +77,12 @@ namespace BSP.POS.Presentacion.Pages.Home
                 await ClientesService.ObtenerListaClientesRecientes(esquema);
             }
             StateHasChanged();
+        }
+        private ListaInformes listaInformesComponente;
+
+        private void RefrescarDatosInformes()
+        {
+            listaInformesComponente.RefrescarDatos();
         }
 
     }

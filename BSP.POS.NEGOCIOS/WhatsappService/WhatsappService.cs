@@ -1,6 +1,7 @@
 ﻿using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using BSP.POS.UTILITARIOS.CorreosModels.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System;
@@ -18,15 +19,21 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
 {
     public class WhatsappService : IWhatsappInterface
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public WhatsappService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
         public async Task EnviarWhatsappAprobarInforme(mObjetosParaCorreoAprobacion objetosParaAprobacion, string token, string idTelefono)
         {
             try
             {
-                string pathToJson = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/AprobarInforme.json";
+                //string pathToJson = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/AprobarInforme.json";
+                string pathToJson = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "AprobarInforme.json");
                 string jsonString = File.ReadAllText(pathToJson);
-
+                
                 // Reemplaza el marcador de posición con el valor real
-               
+
                 foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
                 {
                     if (item.aceptacion == "0")
@@ -95,6 +102,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                                     .Replace("{linkRechazar}", "Rechazar/" + item.token + "/" + objetosParaAprobacion.esquema);
 
                         JObject jsonObject = JObject.Parse(jsonString);
+
                         HttpClient client = new HttpClient();
                         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://graph.facebook.com/v17.0/" + idTelefono + "/messages");
                         request.Headers.Add("Authorization", "Bearer " + token);
@@ -103,13 +111,20 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         HttpResponseMessage response = await client.SendAsync(request);
                         //response.EnsureSuccessStatusCode();
                         string responseBody = await response.Content.ReadAsStringAsync();
+
                         break;
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string pathError = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "TextError.txt");
+                File.WriteAllText(pathError, ex.ToString());
+                if (ex.InnerException != null)
+                {
+                    File.AppendAllText(pathError, "\nInner Exception: " + ex.InnerException.ToString());
+                }
+                
                 throw;
             }
           

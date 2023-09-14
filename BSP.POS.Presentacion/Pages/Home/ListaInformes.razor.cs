@@ -21,7 +21,11 @@ namespace BSP.POS.Presentacion.Pages.Home
             {
                 InformesService.ListaInformesAsociados = informesAsociados;
             }
-
+            if(!informesAsociados.Where(i => i.consecutivo == Consecutivo).Any())
+            {
+                Consecutivo = string.Empty;
+                Estado = string.Empty;
+            }
             if (clienteAsociado != null)
             {
                 ClienteAsociado = clienteAsociado;
@@ -32,7 +36,7 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         public void EnviarConsecutivo(string consecutivo, string estado)
         {
-
+            
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
             {
                 Consecutivo = consecutivo;
@@ -46,6 +50,12 @@ namespace BSP.POS.Presentacion.Pages.Home
             {
                 navigationManager.NavigateTo($"Informe/Crear/{ClienteAsociado.CLIENTE}");
             }
+        }
+        public void RefrescarDatos()
+        {
+            Consecutivo = string.Empty;
+            Estado = string.Empty;
+            StateHasChanged();
         }
     }
 }

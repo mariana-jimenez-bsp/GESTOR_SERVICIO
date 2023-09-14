@@ -79,16 +79,18 @@
                                         </div>
                                         <div class="col-md-4 pt-0 mt-0">
 
-                                            @if (usuario.aceptacion == "1")
-                                            {
-                                                <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" checked disabled>
-                                                <label class="label-transparent ms-5" for="myCheckbox @usuario.id">.</label>
-                                            }
-                                            else
-                                            {
-                                                <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" disabled>
-                                                <label class="label-transparent ms-5" for="myCheckbox @usuario.id">.</label>
-                                            }
+                                                    @if (usuario.aceptacion == "1")
+                                                    {
+
+                                                        <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" checked disabled>
+                                                        <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" disabled>
+                                                        <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
+                                                    }
 
                                         </div>
                                     </div>
