@@ -31,13 +31,15 @@ namespace BSP.POS.API.Controllers
             //var configuration = new ConfigurationBuilder()
             // .AddUserSecrets<Program>()
             // .Build();
-            //var configuration = new ConfigurationBuilder()
-            //.AddJsonFile("appsettings.json")
-            //.Build();
+            
 
             _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
             _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
             _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
+
+            //var configuration = new ConfigurationBuilder()
+            //.AddJsonFile("appsettings.json")
+            //.Build();
 
             //_secretKey = configuration["AppSettings:SecretKey"];
             //_correoUsuario = configuration["AppSettings:SmtpFrom"];
