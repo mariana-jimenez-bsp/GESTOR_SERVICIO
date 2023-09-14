@@ -25,7 +25,7 @@
                      <ValidationMessage For="@(() => usuario.correo)" />
                         <div class="form-group d-flex align-items-center">
                             <img src="images/Login/Icono-candado.png" class="p-2"/>
-                        <input placeholder="Contraseña..." type="password" class="form-control" @oninput="ValorClave" />
+                        <input @bind-value="claveActual" placeholder="Contraseña..." type="password" class="form-control" @oninput="ValorClave" />
                         </div>
                     <ValidationMessage For="@(() => usuario.clave)" />
                         <div class="form-group d-flex align-items-center">
@@ -41,7 +41,13 @@
                             <span>@mensaje</span>
                         </div>
                          }
-                        <button type="submit" class="btn btn-success btn-block">Ingresar</button>
+                    @if (!string.IsNullOrEmpty(mensajeIntentos))
+                    {
+                        <div class="text-danger">
+                            <span>@mensajeIntentos</span>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-success btn-block">Ingresar</button>
                         <p class="mt-5 text-light forgot-pass">¿Olvidó su contraseña?</p>
                         <a class="mouse-pointer reset-pass" @onclick="CorreoRecuperacion">Resetear contraseña</a>
                      </EditForm>

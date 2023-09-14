@@ -10,26 +10,17 @@ namespace BSP.POS.Presentacion.Pages.Home
         public List<mInformes> informesAsociados { get; set; } = new List<mInformes>();
         [Parameter]
         public mClienteAsociado clienteAsociado { get; set; } = new mClienteAsociado();
-        public mClienteAsociado ClienteAsociado = new mClienteAsociado();
+       
 
 
         public string Consecutivo { get; set; } = string.Empty;
         public string Estado { get; set; } = string.Empty;
         protected override void OnParametersSet()
         {
-            if (informesAsociados.Count > 0)
-            {
-                InformesService.ListaInformesAsociados = informesAsociados;
-            }
             if(!informesAsociados.Where(i => i.consecutivo == Consecutivo).Any())
             {
                 Consecutivo = string.Empty;
                 Estado = string.Empty;
-            }
-            if (clienteAsociado != null)
-            {
-                ClienteAsociado = clienteAsociado;
-
             }
 
         }
@@ -46,9 +37,9 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         private void IrACrear()
         {
-            if (!string.IsNullOrEmpty(ClienteAsociado.CLIENTE))
+            if (!string.IsNullOrEmpty(clienteAsociado.CLIENTE))
             {
-                navigationManager.NavigateTo($"Informe/Crear/{ClienteAsociado.CLIENTE}");
+                navigationManager.NavigateTo($"Informe/Crear/{clienteAsociado.CLIENTE}");
             }
         }
         public void RefrescarDatos()

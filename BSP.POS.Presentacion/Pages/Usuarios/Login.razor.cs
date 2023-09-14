@@ -7,6 +7,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
     {
 
         private string mensaje { get; set; } = string.Empty;
+        private string correoExistente { get; set; } = string.Empty;
+        private string claveActual { get; set; } = string.Empty;
+        private int intentos = 0;
+        private string mensajeIntentos { get; set; } = string.Empty;
         public mLogin usuarioLogin { get; set; } = new mLogin();
         public mLogin usuario { get; set; } = new mLogin();
         protected override void OnParametersSet()
@@ -21,26 +25,51 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
         private async Task Ingresar()
         {
+            mensajeIntentos = string.Empty;
             mensaje = string.Empty;
-
-                usuarioLogin = await UsuariosService.RealizarLogin(usuario);
-                if (!string.IsNullOrEmpty(usuarioLogin.token))
+            correoExistente = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
+            if(correoExistente != null)
+            {
+                intentos = await UsuariosService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
+                if(intentos >= 3)
                 {
-
-                    await localStorageService.SetItemAsync<string>("token", usuarioLogin.token);
-                    await localStorageService.SetItemAsync<string>("esquema", usuario.esquema);
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    navigationManager.NavigateTo($"index", forceLoad: true);
-
+                    mensajeIntentos = "Se excedió el limite de intentos, oprima la opción recuperar contraseña";
                 }
                 else
                 {
-                    mensajeError();
+                    usuarioLogin = await UsuariosService.RealizarLogin(usuario);
 
-                    usuario.correo = string.Empty;
-                    usuario.clave = string.Empty;
-                    usuario.esquema = string.Empty;
+                    if (!string.IsNullOrEmpty(usuarioLogin.token))
+                    {
+
+                        await localStorageService.SetItemAsync<string>("token", usuarioLogin.token);
+                        await localStorageService.SetItemAsync<string>("esquema", usuario.esquema);
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        navigationManager.NavigateTo($"index", forceLoad: true);
+
+                    }
+                    else
+                    {
+                        await UsuariosService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
+                        mensajeError();
+
+                        usuario.correo = string.Empty;
+                        usuario.clave = string.Empty;
+                        usuario.esquema = string.Empty;
+                        claveActual = string.Empty;
+                    }
                 }
+            }
+            else
+            {
+                mensajeError();
+
+                usuario.correo = string.Empty;
+                usuario.clave = string.Empty;
+                usuario.esquema = string.Empty;
+                claveActual = string.Empty;
+            }
+            
 
             
 
@@ -68,8 +97,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private void mensajeError()
         { 
-          if(!string.IsNullOrEmpty(usuario.correo) && !string.IsNullOrEmpty(usuario.clave) && !string.IsNullOrEmpty(usuario.esquema)){
-                mensaje = "Datos inválidos";
+            if(!string.IsNullOrEmpty(correoExistente))
+            {
+                mensaje = "Contraseña Incorrecta";
+            }else
+            {
+                mensaje = "El correo no existe en el esquema";
             }
 
             

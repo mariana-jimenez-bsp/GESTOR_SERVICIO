@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net;
@@ -398,6 +399,31 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             {
                 return null;
             }
+        }
+
+        public async Task AumentarIntentosDeLogin(string esquema, string correo)
+        {
+            string url = "Usuarios/AumentaIntentosDeLogin";
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Remove("X-Correo");
+            _http.DefaultRequestHeaders.Add("X-Correo", correo);
+
+            var content = new StringContent("");
+
+            var mensaje = await _http.PostAsync(url, content);
+            
+        }
+        public async Task<int> ObtenerIntentosDeLogin(string esquema, string correo)
+        {
+            string url = "Usuarios/ObtengaLosIntentosDeLogin";
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Remove("X-Correo");
+            _http.DefaultRequestHeaders.Add("X-Correo", correo);
+            string intentosString = await _http.GetStringAsync(url);
+            int intentos = int.Parse(intentosString);
+            return intentos;
         }
 
     }

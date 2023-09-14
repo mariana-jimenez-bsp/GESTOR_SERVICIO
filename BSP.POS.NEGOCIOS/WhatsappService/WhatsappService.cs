@@ -28,8 +28,8 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
         {
             try
             {
-                //string pathToJson = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/AprobarInforme.json";
-                string pathToJson = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "AprobarInforme.json");
+                string pathToJson = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/AprobarInforme.json";
+                //string pathToJson = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "AprobarInforme.json");
                 string jsonString = File.ReadAllText(pathToJson);
                 
                 // Reemplaza el marcador de posición con el valor real

@@ -18,7 +18,7 @@
                             <h3>Ingrese la nueva Contraseña: </h3>
                             <div class="form-group d-flex align-items-center">
                                 <i class="fa-solid fa-lock text-success p-2"></i>
-                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" @bind-value="usuario.clave" />
+                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" @bind-value="claveActual" />
                             </div>
                             <ValidationMessage For="@(() => usuario.clave)" />
                         </div>
@@ -26,7 +26,7 @@
                             <h3>Confirme la contraseña: </h3>
                             <div class="form-group d-flex align-items-center">
                                 <i class="fa-solid fa-lock text-success p-2"></i>
-                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClaveConfirmacion" @bind-value="usuario.confirmarClave" />
+                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClaveConfirmacion" @bind-value="confirmarClaveActual" />
                             </div>
                             <ValidationMessage For="@(() => usuario.confirmarClave)" />
                         </div>

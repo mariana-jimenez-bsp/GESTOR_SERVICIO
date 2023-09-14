@@ -25,7 +25,7 @@
 
 .columna-left-imagen {
     width: 100%;
-    width: 768px;
+    min-width: 768px;
     height: 100%;
     background-image: url('images/Login/Pantalla.png');
     background-repeat: no-repeat;
@@ -103,7 +103,8 @@
     height: 92px;
     align-items: center;
     justify-content: center;
-    max-width: 768px;
+    min-width: 768px;
+    width: 100%;
     font-size: 20pt;
     background-color: #2FAD70;
 }
@@ -129,25 +130,13 @@
 
 .icon-bsp {
     width: 60%;
+    opacity: 0.4;
 }
 @media screen and (max-width: 768px) {
-    .columna:last-child .form-group {
-        width: 50%; /* Ajusta el ancho de los inputs */
-
-    }
-
-    .columna:last-child button {
-        width: 50%; /* Ajusta el ancho del botón */
-
-    }
     .form-group {
         min-width: 100px;
     }
 
-    .columna-left-imagen {
-        max-width: 432px;
-
-    }
 
     .form-control {
         max-width: 100px;
@@ -159,10 +148,15 @@
     }
 
     .footer-left {
-        max-width: 432px;
         font-size: 10pt;
+        width: 100%;
     }
-
+    .columna-left-imagen {
+        width: 100%;
+    }
+    .columna-right-imagen {
+        width: 1000px;
+    }
     .information {
         font-size: 14pt;
     }
@@ -212,5 +206,11 @@
 
     .logo-gestor {
         width: 70%;
+    }
+    .columna-left-imagen {
+        max-width: 100%;
+    }
+    .footer-left {
+        max-width: 100%;
     }
 }

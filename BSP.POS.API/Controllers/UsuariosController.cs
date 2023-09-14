@@ -156,7 +156,6 @@ namespace BSP.POS.API.Controllers
 
             return esquemaDevuelto;
         }
-        [Authorize]
         [HttpGet("ValidaCorreoExistente/{esquema}/{correo}")]
         public string ValidaCorreoExistente(string esquema, string correo)
         {
@@ -164,6 +163,32 @@ namespace BSP.POS.API.Controllers
             string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
 
             return correoDevuelto;
+        }
+        [HttpPost("AumentaIntentosDeLogin")]
+        public string AumentaIntentosDeLogin()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string correo = Request.Headers["X-Correo"];
+                string mensaje = user.AumentarIntentosDeLogin(esquema, correo);
+                return mensaje;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
+        [HttpGet("ObtengaLosIntentosDeLogin")]
+        public string ObtengaLosIntentosDeLogin()
+        {
+                string esquema = Request.Headers["X-Esquema"];
+                string correo = Request.Headers["X-Correo"];
+                int intentos = user.ObtenerIntentosDeLogin(esquema, correo);
+                return intentos.ToString();
+
         }
         [Authorize]
         [HttpGet("ValidaUsuarioExistente/{esquema}/{usuario}")]

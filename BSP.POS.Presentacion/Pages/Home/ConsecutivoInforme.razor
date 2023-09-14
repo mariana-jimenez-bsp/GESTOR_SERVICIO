@@ -4,13 +4,13 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="d-flex align-items-center justify-content-center ps-5 footer-right">
-    @if (!string.IsNullOrEmpty(Consecutivo) && !string.IsNullOrEmpty(Estado))
+    @if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
     {
         <div class="ms-auto justify-content-center footer-right-cod">
             <span class="footer-right-cod">Informe Servicio</span>
-            <span class=""># @Consecutivo</span>
+            <span class=""># @consecutivo</span>
         </div>
-        if(Estado == "Borrador"){
+        if(estado == "Borrador"){
         <div class="d-flex ms-auto justify-content-center circle-font">
             <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick="IrAEditar">
                 <img src="images/Home/Editar.png" class="mb-2 circle-click-max-width"/>
@@ -33,5 +33,5 @@
         }
     }
 </div>
-<ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalFinalizarInforme>
+<ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@consecutivo"></ModalFinalizarInforme>
 

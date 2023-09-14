@@ -26,8 +26,8 @@ namespace BSP.POS.NEGOCIOS.CorreosService
 
         public void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema)
         {
-            //string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/RecuperarClave.html";
-            string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "RecuperarClave.html");
+            string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/RecuperarClave.html";
+            //string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "RecuperarClave.html");
             string CuerpoHtml = File.ReadAllText(PathHtml);
             CuerpoHtml = CuerpoHtml.Replace("{{token}}", token)
                            .Replace("{{esquema}}", esquema);
@@ -71,8 +71,8 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 {
                     observaciones += "<tr>\r\n <td>" + itemObservacion.usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
                 }
-                    //string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
-                    string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "AprobarInforme.html");
+                    string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
+                    //string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "AprobarInforme.html");
                     string CuerpoHtml = File.ReadAllText(PathHtml);
                     CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
                            .Replace("{{esquema}}", objetosParaAprobacion.esquema)

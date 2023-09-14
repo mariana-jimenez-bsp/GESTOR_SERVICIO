@@ -326,6 +326,18 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             string esquema = objetoUsuario.ValidarExistenciaEsquema(pEsquema);
             return esquema;
         }
+        public string AumentarIntentosDeLogin( string esquema, string correo)
+        {
+            string mensaje = string.Empty;
+            mensaje = objetoLogin.AumentarIntentosDeLogin(esquema, correo);
+            return mensaje;
+        }
+        public int ObtenerIntentosDeLogin( string esquema, string correo)
+        {
+            int intentos = 0;
+            intentos = objetoLogin.ObtenerIntentosDeLogin(esquema, correo);
+            return intentos;
+        }
         public bool CompararClaves(string claveIngresada, string claveGuardada)
         {
 

@@ -8,8 +8,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         [Parameter]
         public string estado { get; set; } = string.Empty;
 
-        public string Consecutivo { get; set; } = string.Empty;
-        public string Estado { get; set; } = string.Empty;
+       
         public string esquema = string.Empty;
 
         protected async override Task OnParametersSetAsync()
@@ -20,21 +19,20 @@ namespace BSP.POS.Presentacion.Pages.Home
                 var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 var user = authenticationState.User;
                 esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-                Consecutivo = consecutivo;
-                Estado = estado;
+
             
         }
 
         private void IrAEditar()
         {
 
-            navigationManager.NavigateTo($"Informe/Editar/{Consecutivo}");
+            navigationManager.NavigateTo($"Informe/Editar/{consecutivo}");
         }
 
         private void VerInforme()
         {
 
-            navigationManager.NavigateTo($"Informe/VerInforme/{Consecutivo}");
+            navigationManager.NavigateTo($"Informe/VerInforme/{consecutivo}");
         }
 
         bool activarModalFinalizarInforme = false;

@@ -5,7 +5,7 @@
 @inject NavigationManager navigationManager
 
 <div class="col-md-7 col-right">
-    <ClienteAsociado clienteAsociado="ClienteAsociado"></ClienteAsociado>
+    <ClienteAsociado clienteAsociado="clienteAsociado"></ClienteAsociado>
     <div class="background-reports pb-2 col-right">
         <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height col-right">
             <div class="row d-flex justify-content-between m-2 reports-list">
@@ -13,12 +13,12 @@
                     
                     <img src="images/Home/Agregar.png" class="image-add"/>
                 </div>
-                @if (InformesService.ListaInformesAsociados.Count > 0)
+                @if (informesAsociados.Any())
                 {
                     // Acceder a la lista de clientes en  formato JSON y hacer lo que necesites con ella
                     
                     // Ejemplo: mostrar la lista de clientes en la vista
-                    foreach (var informe in InformesService.ListaInformesAsociados)
+                    foreach (var informe in informesAsociados)
                     {
                         <div class="item-report-width col-md-4 d-flex row mb-4" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
                             <div class="item-report click-report-up">

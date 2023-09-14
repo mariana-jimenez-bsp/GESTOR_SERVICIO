@@ -17,6 +17,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public mLicencia licencia = new mLicencia();
         public string mensajeLicencia;
         public string mensajeEsquema;
+        public string claveActual = string.Empty;
+        public string confirmarClaveActual = string.Empty;
         public bool cargaInicial = false;
 
         protected override async Task OnInitializedAsync()

@@ -106,7 +106,36 @@ namespace BSP.POS.DATOS.Usuarios
             return string.Empty;
 
         }
+        public string AumentarIntentosDeLogin(string esquema, string correo)
+        {
+            AumentarIntentosLoginTableAdapter sp = new AumentarIntentosLoginTableAdapter();
+            try
+            {
+                var response = sp.GetData(correo, esquema).ToList();
+                return "Éxito";
+            }
+            catch (Exception ex)
+            {
 
+                return "Error: " + ex.Message;
+            }
+            
+
+        }
+
+        public int ObtenerIntentosDeLogin(string esquema, string correo)
+        {
+            ObtenerIntentosDeLoginTableAdapter sp = new ObtenerIntentosDeLoginTableAdapter();
+                int intentos = 0;
+                var response = sp.GetData(esquema, correo).ToList();
+                foreach(var item in response)
+                {
+                    intentos = item.maximo_intentos;
+                }
+                return intentos;
+           
+
+        }
 
     }
 }
