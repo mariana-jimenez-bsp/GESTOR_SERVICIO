@@ -39,7 +39,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                     if (item.aceptacion == "0")
                     {
                         //Nuestro telefono
-                        string telefono = "50671776850";
+                        string telefono = "50671417642";
                         string usuarios = "";
                         string actividades = "";
                         string observaciones = "";
@@ -103,7 +103,9 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
 
                         JObject jsonObject = JObject.Parse(jsonString);
 
-                        HttpClient client = new HttpClient();
+                        HttpClientHandler clientHandler = new HttpClientHandler();
+                        clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+                        HttpClient client = new HttpClient(clientHandler);
                         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://graph.facebook.com/v17.0/" + idTelefono + "/messages");
                         request.Headers.Add("Authorization", "Bearer " + token);
                         request.Content = new StringContent(jsonString, Encoding.UTF8, "application/json");
