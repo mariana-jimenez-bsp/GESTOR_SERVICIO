@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
-using static System.Net.WebRequestMethods;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Models.Clientes;
 
@@ -26,11 +25,20 @@ namespace BSP.POS.Presentacion.Services.Informes
         public async Task ObtenerListaDeInformesAsociados(string cliente, string esquema)
         {
             string url = "Informes/ObtengaLaListaDeInformesAsociados/" + cliente + "/" + esquema;
-            var listaInformesAsociados = await _http.GetFromJsonAsync<List<mInformes>>(url);
-            if (listaInformesAsociados is not null)
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                ListaInformesAsociados = listaInformesAsociados;
+                var listaInformesAsociados = await response.Content.ReadFromJsonAsync<List<mInformes>>();
+                if (listaInformesAsociados is not null)
+                {
+                    ListaInformesAsociados = listaInformesAsociados;
+                }
             }
+            else
+            {
+                
+            }
+            
         }
 
         public async Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo, string esquema)
@@ -54,7 +62,11 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -71,7 +83,11 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -123,10 +139,15 @@ namespace BSP.POS.Presentacion.Services.Informes
         public async Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token)
         {
             string url = "Informes/ValidaTokenAprobacionDeInforme/" + esquema + "/" + token;
-            var tokenAprobacion = await _http.GetFromJsonAsync<mTokenAprobacionInforme>(url);
-            if (tokenAprobacion is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                return tokenAprobacion;
+                var tokenAprobacion = await response.Content.ReadFromJsonAsync<mTokenAprobacionInforme>();
+                if (tokenAprobacion is not null)
+                {
+                    return tokenAprobacion;
+                }
+                return new mTokenAprobacionInforme();
             }
             else
             {
@@ -144,7 +165,11 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if( response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -162,7 +187,11 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -183,7 +212,7 @@ namespace BSP.POS.Presentacion.Services.Informes
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var response = await _http.PostAsync(url, content);
-                if (response.IsSuccessStatusCode)
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
                     return responseContent;
@@ -199,15 +228,20 @@ namespace BSP.POS.Presentacion.Services.Informes
         public async Task<string> ValidarExistenciaConsecutivoInforme(string esquema, string consecutivo)
         {
             string url = "Informes/ValidaExistenciaConsecutivoInforme/" + esquema + "/" + consecutivo;
-            string consecutivoDevuelto = await _http.GetStringAsync(url);
-            if (!string.IsNullOrEmpty(consecutivoDevuelto))
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                return consecutivoDevuelto;
+                string consecutivoDevuelto = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(consecutivoDevuelto))
+                {
+                    return consecutivoDevuelto;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

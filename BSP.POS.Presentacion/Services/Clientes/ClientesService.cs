@@ -34,21 +34,32 @@ namespace BSP.POS.Presentacion.Services.Clientes
 
         public async Task ObtenerListaClientes(string esquema)
         {
-            var listaClientes = await _http.GetFromJsonAsync<List<mClientes>>("Clientes/ObtengaLaListaDeClientes/" + esquema);
-            if (listaClientes is not null)
+            string url = "Clientes/ObtengaLaListaDeClientes/" + esquema;
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                ListaClientes = listaClientes;
+                var listaClientes = await response.Content.ReadFromJsonAsync<List<mClientes>>();
+                if (listaClientes is not null)
+                {
+                    ListaClientes = listaClientes;
+                }
             }
+            
         }
 
         public async Task ObtenerListaClientesRecientes(string esquema)
         {
-
-            var listaClientesRecientes = await _http.GetFromJsonAsync<List<mClientes>>("Clientes/ObtengaLaListaDeClientesRecientes/" + esquema);
-            if (listaClientesRecientes is not null)
+            string url = "Clientes/ObtengaLaListaDeClientesRecientes/" + esquema;
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                ListaClientesRecientes = listaClientesRecientes;
+                var listaClientesRecientes = await response.Content.ReadFromJsonAsync<List<mClientes>>();
+                if (listaClientesRecientes is not null)
+                {
+                    ListaClientesRecientes = listaClientesRecientes;
+                }
             }
+            
         }
 
         public async Task ActualizarListaDeClientes(List<mClientes> listaClientes, string esquema)
@@ -61,9 +72,13 @@ namespace BSP.POS.Presentacion.Services.Clientes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -72,11 +87,17 @@ namespace BSP.POS.Presentacion.Services.Clientes
         }
         public async Task ObtenerListaClientesCorporaciones(string esquema)
         {
-            var listaClientes = await _http.GetFromJsonAsync<List<mClienteContado>>("Clientes/ObtengaLaListaDeClientesCorporaciones/" + esquema);
-            if (listaClientes is not null)
+            string url = "Clientes/ObtengaLaListaDeClientesCorporaciones/" + esquema;
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                ListaClientesCorporaciones = listaClientes;
+                var listaClientes = await response.Content.ReadFromJsonAsync<List<mClienteContado>>();
+                if (listaClientes is not null)
+                {
+                    ListaClientesCorporaciones = listaClientes;
+                }
             }
+            
         }
 
         public async Task AgregarCliente(mAgregarCliente cliente, string esquema, string usuario)
@@ -92,7 +113,11 @@ namespace BSP.POS.Presentacion.Services.Clientes
                 _http.DefaultRequestHeaders.Add("X-Usuario", usuario);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -102,15 +127,20 @@ namespace BSP.POS.Presentacion.Services.Clientes
         public async Task<string> ValidarExistenciaDeCliente(string esquema, string cliente)
         {
             string url = "Clientes/ValidaExistenciaDeCliente/" + esquema + "/" + cliente;
-            string clienteDevuelto = await _http.GetStringAsync(url);
-            if (!string.IsNullOrEmpty(clienteDevuelto))
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                return clienteDevuelto;
+                string clienteDevuelto = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(clienteDevuelto))
+                {
+                    return clienteDevuelto;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

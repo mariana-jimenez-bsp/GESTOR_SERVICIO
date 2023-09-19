@@ -113,6 +113,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         HttpResponseMessage response = await client.SendAsync(request);
                         //response.EnsureSuccessStatusCode();
                         string responseBody = await response.Content.ReadAsStringAsync();
+                        
 
                         break;
                     }
@@ -120,12 +121,12 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
             }
             catch (Exception ex)
             {
-                string pathError = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "TextError.txt");
-                File.WriteAllText(pathError, ex.ToString());
-                if (ex.InnerException != null)
-                {
-                    File.AppendAllText(pathError, "\nInner Exception: " + ex.InnerException.ToString());
-                }
+                //string pathError = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "TextError.txt");
+                //File.WriteAllText(pathError, ex.ToString());
+                //if (ex.InnerException != null)
+                //{
+                //    File.AppendAllText(pathError, "\nInner Exception: " + ex.InnerException.ToString());
+                //}
                 
                 throw;
             }

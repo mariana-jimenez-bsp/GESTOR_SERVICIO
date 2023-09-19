@@ -22,87 +22,106 @@ namespace BSP.POS.API.Controllers
         }
         // GET: api/<ClientesController>
         [HttpGet("ObtengaLaListaDeClientes/{esquema}")]
-        public string ObtengaLaListaDeClientes(string esquema)
+        public IActionResult ObtengaLaListaDeClientes(string esquema)
         {
             try
             {
                 string listaClientesJson = clientes.ListarClientes(esquema);
-                return listaClientesJson;
+                if (string.IsNullOrEmpty(listaClientesJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaClientesJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
             
         }
 
         [HttpGet("ObtengaLaListaDeClientesRecientes/{esquema}")]
-        public string ObtengaLaListaDeClientesRecientes(string esquema)
+        public IActionResult ObtengaLaListaDeClientesRecientes(string esquema)
         {
             try
             {
                 string listaClientesRecientesJson = clientes.ListarClientesRecientes(esquema);
-                return listaClientesRecientesJson;
+                if (string.IsNullOrEmpty(listaClientesRecientesJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaClientesRecientesJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
            
         }
 
         [HttpGet("ObtengaElClienteAsociado/{cliente}/{esquema}")]
-        public string ObtengaElClienteAsociado(string cliente, string esquema)
+        public IActionResult ObtengaElClienteAsociado(string cliente, string esquema)
         {
             try
             {
                 var clienteAsociadoJson = clientes.ObtenerClienteAsociado(esquema, cliente);
-                return clienteAsociadoJson;
+                if (string.IsNullOrEmpty(clienteAsociadoJson))
+                {
+                    return NotFound();
+                }
+                return Ok(clienteAsociadoJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
             
         }
 
         [HttpPost("ActualizaListaDeClientes")]
-        public string ActualizaListaDeClientes([FromBody] List<U_ListaClientes> datos)
+        public IActionResult ActualizaListaDeClientes([FromBody] List<U_ListaClientes> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = clientes.ActualizarListaDeClientes(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje)){
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeClientesCorporaciones/{esquema}")]
-        public string ObtengaLaListaDeClientesCorporaciones(string esquema)
+        public IActionResult ObtengaLaListaDeClientesCorporaciones(string esquema)
         {
             try
             {
                 string listaClientesJson = clientes.ObtenerListaClientesCorporaciones(esquema);
-                return listaClientesJson;
+                if (string.IsNullOrEmpty(listaClientesJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaClientesJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("AgregaCliente")]
-        public Task AgregaCliente([FromBody] mAgregarCliente datos)
+        public IActionResult AgregaCliente([FromBody] mAgregarCliente datos)
         {
             try
             {
@@ -149,21 +168,33 @@ namespace BSP.POS.API.Controllers
 
 
                 clientes.AgregarCliente(cliente, esquema);
-                return Task.CompletedTask;
+                return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Task.CompletedTask;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [HttpGet("ValidaExistenciaDeCliente/{esquema}/{cliente}")]
-        public string ValidaExistenciaDeCliente(string esquema, string cliente)
+        public IActionResult ValidaExistenciaDeCliente(string esquema, string cliente)
         {
+            try
+            {
+                string clienteDevuelto = clientes.ValidarExistenciaDeCliente(esquema, cliente);
 
-            string clienteDevuelto = clientes.ValidarExistenciaDeCliente(esquema, cliente);
+                if (string.IsNullOrEmpty(clienteDevuelto))
+                {
+                    return NotFound();
+                }
+                return Ok(clienteDevuelto);
+            }
+            catch (Exception ex)
+            {
 
-            return clienteDevuelto;
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
 

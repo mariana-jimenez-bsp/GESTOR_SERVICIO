@@ -59,56 +59,74 @@ namespace BSP.POS.API.Controllers
         }
         // GET: api/<InformesController>
         [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}/{esquema}")]
-        public string ObtengaLaListaDeInformesAsociados(string cliente, string esquema)
+        public IActionResult ObtengaLaListaDeInformesAsociados(string cliente, string esquema)
         {
             try
             {
                 string listaInformesAsociadosJson = informes.ListarInformesAsociados(esquema, cliente);
-                return listaInformesAsociadosJson;
+                if (string.IsNullOrEmpty(listaInformesAsociadosJson))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(listaInformesAsociadosJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
            
         }
 
         [HttpGet("ObtengaElInformeAsociado/{consecutivo}/{esquema}")]
-        public string ObtengaElInformeAsociado(string consecutivo, string esquema)
+        public IActionResult ObtengaElInformeAsociado(string consecutivo, string esquema)
         {
             try
             {
                 var informeAsociadoJson = informes.ObtenerInformeAsociado(esquema, consecutivo);
-                return informeAsociadoJson;
+                if (string.IsNullOrEmpty(informeAsociadoJson))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(informeAsociadoJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("ActualizaElInformeAsociado")]
-        public string ActualizaElInformeAsociado([FromBody] U_InformeAsociado datos)
+        public IActionResult ActualizaElInformeAsociado([FromBody] U_InformeAsociado datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = informes.ActualizarInformeAsociado(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("CambiaEstadoDeInforme")]
-        public string CambiaEstadoDeInforme([FromBody] U_InformeAsociado datos)
+        public IActionResult CambiaEstadoDeInforme([FromBody] U_InformeAsociado datos)
         {
             try
             {
@@ -117,17 +135,21 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = informes.CambiarEstadoDeInforme(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpDelete("EliminaInforme")]
-        public string EliminaInforme()
+        public IActionResult EliminaInforme()
         {
             try
             {
@@ -136,11 +158,15 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = informes.EliminarInforme(consecutivo, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
@@ -182,7 +208,7 @@ namespace BSP.POS.API.Controllers
 
         }
         [HttpPost("AgregaInformeAsociado")]
-        public string AgregaInformeAsociado([FromBody] U_ClienteAsociado cliente)
+        public IActionResult AgregaInformeAsociado([FromBody] U_ClienteAsociado cliente)
         {
             try
             {
@@ -190,64 +216,100 @@ namespace BSP.POS.API.Controllers
 
 
                 string consecutivo = informes.AgregarInformeAsociado(cliente.CLIENTE, esquema);
-                return consecutivo;
+                if (string.IsNullOrEmpty(consecutivo))
+                {
+                    return BadRequest();
+                }
+                return Ok(consecutivo);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [AllowAnonymous]
         [HttpGet("ValidaTokenAprobacionDeInforme/{esquema}/{token}")]
-        public string ValidaTokenAprobacionDeInforme(string esquema, string token)
+        public IActionResult ValidaTokenAprobacionDeInforme(string esquema, string token)
         {
+            try
+            {
+                string tokenAprobacionJson = informes.ValidarTokenAprobacionDeInforme(esquema, token);
 
-            string tokenAprobacionJson = informes.ValidarTokenAprobacionDeInforme(esquema, token);
+                if (string.IsNullOrEmpty(tokenAprobacionJson))
+                {
+                    return BadRequest();
+                }
+                return Ok(tokenAprobacionJson);
+            }
+            catch (Exception ex)
+            {
 
-            return tokenAprobacionJson;
+                return StatusCode(500, ex.Message);
+            }
+           
         }
         [AllowAnonymous]
         [HttpPost("ApruebaInforme")]
-        public string ApruebaInforme([FromBody] U_TokenAprobacionInforme datos)
+        public IActionResult ApruebaInforme([FromBody] U_TokenAprobacionInforme datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = informes.AprobarInforme(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return BadRequest();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [AllowAnonymous]
         [HttpPost("RechazaInforme")]
-        public string RechazaInforme([FromBody] U_TokenAprobacionInforme datos)
+        public IActionResult RechazaInforme([FromBody] U_TokenAprobacionInforme datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = informes.RechazarInforme(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [HttpGet("ValidaExistenciaConsecutivoInforme/{esquema}/{consecutivo}")]
-        public string ValidaExistenciaConsecutivoInforme(string esquema, string consecutivo)
+        public IActionResult ValidaExistenciaConsecutivoInforme(string esquema, string consecutivo)
         {
+            try
+            {
+                string consecutivoDevuelto = informes.ValidarExistenciaConsecutivoInforme(esquema, consecutivo);
 
-            string consecutivoDevuelto = informes.ValidarExistenciaConsecutivoInforme(esquema, consecutivo);
+                if (string.IsNullOrEmpty(consecutivoDevuelto))
+                {
+                    return NotFound();
+                }
+                return Ok(consecutivoDevuelto);
+            }
+            catch (Exception ex)
+            {
 
-            return consecutivoDevuelto;
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
     }

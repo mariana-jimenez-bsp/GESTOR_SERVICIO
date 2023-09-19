@@ -1,5 +1,4 @@
 using System.Text;
-using BSP.POS.NEGOCIOS.AcortarLinkService;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.NEGOCIOS.WhatsappService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,7 +14,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICorreosInterface, CorreosService>();
 builder.Services.AddScoped<IWhatsappInterface, WhatsappService>();
-builder.Services.AddScoped<IAcortarLinkInterface, AcortarLinkService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Nueva Política", app =>
