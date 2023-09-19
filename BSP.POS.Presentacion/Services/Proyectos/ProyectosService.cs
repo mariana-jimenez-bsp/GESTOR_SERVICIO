@@ -3,6 +3,7 @@ using BSP.POS.Presentacion.Models.Proyectos;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
+using System.Net;
 
 namespace BSP.POS.Presentacion.Services.Proyectos
 {
@@ -18,11 +19,16 @@ namespace BSP.POS.Presentacion.Services.Proyectos
         public List<mProyectos> ListaProyectos { get; set; } = new List<mProyectos>();
         public async Task ObtenerListaDeProyectos(string esquema)
         {
-            var listaProyectos = await _http.GetFromJsonAsync<List<mProyectos>>("Proyectos/ObtengaLaListaDeProyectos/" + esquema);
-            if (listaProyectos is not null)
-            {
-                ListaProyectos = listaProyectos;
-            }
+                string url = "Proyectos/ObtengaLaListaDeProyectos/" + esquema;
+                var response = await _http.GetAsync(url);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+                    var listaProyectos = await response.Content.ReadFromJsonAsync<List<mProyectos>>();
+                    if (listaProyectos is not null)
+                    {
+                        ListaProyectos = listaProyectos;
+                    }
+                }
         }
 
         public async Task ActualizarListaDeProyectos(List<mProyectos> listaProyectos, string esquema)
@@ -35,7 +41,11 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if( response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -53,7 +63,11 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {

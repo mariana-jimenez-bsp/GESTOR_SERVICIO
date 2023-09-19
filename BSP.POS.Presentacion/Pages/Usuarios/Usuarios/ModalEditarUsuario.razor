@@ -64,11 +64,6 @@
                         </div>
                         <ValidationMessage For="@(() => usuario.esquema)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="a-nombreUsuario">Nombre:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="a-nombreUsuario" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e, usuario.id)">
-                        </div>
-                        <ValidationMessage For="@(() => usuario.nombre)" />
-                        <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="a-rol">Rol:</label>
                             <select @bind="usuario.rol" class="col-md-4 border border-success rounded-pill px-2 text-input" id="a-rol" @oninput="(e) => CambioRol(e, usuario.id)">
                                 <option value="Usuario">Usuario</option>

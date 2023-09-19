@@ -21,21 +21,31 @@ namespace BSP.POS.Presentacion.Services.Permisos
         public async Task ObtenerListaDePermisosAsociados(string esquema, string id)
         {
             string url = "Permisos/ObtengaLaListaDePermisosAsociados/" + esquema + "/" + id;
-            var listaPermisosAsociados = await _http.GetFromJsonAsync<List<mPermisosAsociados>>(url);
-            if (listaPermisosAsociados is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                ListaPermisosAsociadados = listaPermisosAsociados;
+                var listaPermisosAsociados = await response.Content.ReadFromJsonAsync<List<mPermisosAsociados>>();
+                if (listaPermisosAsociados is not null)
+                {
+                    ListaPermisosAsociadados = listaPermisosAsociados;
+                }
             }
+            
         }
 
         public async Task ObtenerListaDePermisos(string esquema)
         {
             string url = "Permisos/ObtengaLaListaDePermisos/" + esquema;
-            var listaPermisos = await _http.GetFromJsonAsync<List<mPermisos>>(url);
-            if (listaPermisos is not null)
+            var response = await _http.GetAsync(url);
+            if( response.StatusCode == HttpStatusCode.OK)
             {
-                ListaPermisos = listaPermisos;
+                var listaPermisos = await response.Content.ReadFromJsonAsync<List<mPermisos>>();
+                if (listaPermisos is not null)
+                {
+                    ListaPermisos = listaPermisos;
+                }
             }
+           
         }
 
         public async Task ActualizarListaPermisosAsociados(List<mPermisosAsociados> listaPermisos, string idUsuario, string esquema)
@@ -50,7 +60,11 @@ namespace BSP.POS.Presentacion.Services.Permisos
                 _http.DefaultRequestHeaders.Add("X-IdUsuario", idUsuario);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {

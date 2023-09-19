@@ -20,52 +20,64 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpGet("ObtengaLaListaDePermisosAsociados/{esquema}/{id}")]
-        public string ObtengaLaListaDePermisosAsociados(string esquema, string id)
+        public IActionResult ObtengaLaListaDePermisosAsociados(string esquema, string id)
         {
             try
             {
 
                 string listaPermisosAsociadosJson = _permisos.ListarPermisosAsociados(esquema, id);
-                return listaPermisosAsociadosJson;
+                if (string.IsNullOrEmpty(listaPermisosAsociadosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaPermisosAsociadosJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDePermisos/{esquema}")]
-        public string ObtengaLaListaDePermisos(string esquema)
+        public IActionResult ObtengaLaListaDePermisos(string esquema)
         {
             try
             {
 
                 string listaPermisosJson = _permisos.ListarPermisos(esquema);
-                return listaPermisosJson;
+                if (string.IsNullOrEmpty(listaPermisosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaPermisosJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("ActualizaListaDePermisosAsociados")]
-        public string ActualizaListaDePermisosAsociados([FromBody] List<U_PermisosAsociados> datos)
+        public IActionResult ActualizaListaDePermisosAsociados([FromBody] List<U_PermisosAsociados> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string idUsuario = Request.Headers["X-IdUsuario"];
                 string mensaje = _permisos.ActualizarPermisosAsociados(datos, idUsuario, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }

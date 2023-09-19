@@ -19,49 +19,60 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpGet("ObtengaLaListaDeProyectos/{esquema}")]
-        public string ObtengaLaListaDeProyectos(string esquema)
+        public IActionResult ObtengaLaListaDeProyectos(string esquema)
         {
             try
             {
                 string listaProyectosAsociadasJson = _proyectos.ListarProyectos(esquema);
-                return listaProyectosAsociadasJson;
+                if (string.IsNullOrEmpty(listaProyectosAsociadasJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaProyectosAsociadasJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("ActualizaListaDeProyectos")]
-        public string ActualizaListaDeActividades([FromBody] List<U_ListaProyectos> datos)
+        public IActionResult ActualizaListaDeActividades([FromBody] List<U_ListaProyectos> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = _proyectos.ActualizarListaDeProyectos(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("AgregaProyecto")]
-        public string AgregaProyecto([FromBody] U_ListaProyectos datos)
+        public IActionResult AgregaProyecto([FromBody] U_ListaProyectos datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = _proyectos.AgregarProyecto(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje)) { 
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
