@@ -18,42 +18,50 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpGet("ObtengaLaListaDePaises")]
-        public string ObtengaLaListaDePaises()
+        public IActionResult ObtengaLaListaDePaises()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string listaJson = _lugares.ObtenerPaises(esquema);
-                return listaJson;
+                if(string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeProvinciasPorPais")]
-        public string ObtengaLaListaDeProvinciasPorPais()
+        public IActionResult ObtengaLaListaDeProvinciasPorPais()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string pais = Request.Headers["X-Pais"];
                 string listaJson = _lugares.ObtenerProvinciasPorPais(esquema, pais);
-                return listaJson;
+                if(string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeCantonesPorProvincia")]
-        public string ObtengaLaListaDeCantonesPorProvincia()
+        public IActionResult ObtengaLaListaDeCantonesPorProvincia()
         {
             try
             {
@@ -61,18 +69,22 @@ namespace BSP.POS.API.Controllers
                 string pais = Request.Headers["X-Pais"];
                 string provincia = Request.Headers["X-Provincia"];
                 string listaJson = _lugares.ObtenerCantonesPorProvincia(esquema, pais, provincia);
-                return listaJson;
+                if( string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeDistritosPorCanton")]
-        public string ObtengaLaListaDeDistritosPorCanton()
+        public IActionResult ObtengaLaListaDeDistritosPorCanton()
         {
             try
             {
@@ -81,18 +93,22 @@ namespace BSP.POS.API.Controllers
                 string provincia = Request.Headers["X-Provincia"];
                 string canton = Request.Headers["X-Canton"];
                 string listaJson = _lugares.ObtenerDistritosPorCanton(esquema, pais, provincia, canton);
-                return listaJson;
+                if(string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeBarriosPorDistrito")]
-        public string ObtengaLaListaDeBarriosPorDistrito()
+        public IActionResult ObtengaLaListaDeBarriosPorDistrito()
         {
             try
             {
@@ -102,12 +118,16 @@ namespace BSP.POS.API.Controllers
                 string canton = Request.Headers["X-Canton"];
                 string distrito = Request.Headers["X-Distrito"];
                 string listaJson = _lugares.ObtenerBarriosPorDistrito(esquema, pais, provincia, canton, distrito);
-                return listaJson;
+                if( string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }

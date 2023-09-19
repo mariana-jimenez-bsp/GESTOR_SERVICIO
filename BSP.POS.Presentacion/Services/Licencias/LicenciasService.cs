@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Licencias;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Licencias;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace BSP.POS.Presentacion.Services.Licencias
@@ -18,11 +19,16 @@ namespace BSP.POS.Presentacion.Services.Licencias
         {
 
             string url = "Licencias/ObtengaElEstadoDeLaLicencia/";
-            var licenciaResponse = await _http.GetFromJsonAsync<mLicencia>(url);
-            if (licenciaResponse is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                licencia = licenciaResponse;
+                var licenciaResponse = await response.Content.ReadFromJsonAsync<mLicencia>();
+                if (licenciaResponse is not null)
+                {
+                    licencia = licenciaResponse;
+                }
             }
+            
         }
     }
 }

@@ -15,10 +15,23 @@ namespace BSP.POS.API.Controllers
             licencias = new N_Licencias();
         }
         [HttpGet("ObtengaElEstadoDeLaLicencia")]
-        public string ObtengaElEstadoDeLaLicencia()
+        public IActionResult ObtengaElEstadoDeLaLicencia()
         {
-            string licencia = licencias.ObtenerEstadoDeLicencia();
-            return licencia;
+            try
+            {
+                string licencia = licencias.ObtenerEstadoDeLicencia();
+                if(string.IsNullOrEmpty(licencia))
+                {
+                    return NotFound();
+                }
+                return Ok(licencia);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+            
         }
     }
 }

@@ -18,33 +18,41 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpGet("ObtengaLaListaDeObservacionesDeInforme/{consecutivo}/{esquema}")]
-        public string ObtengaLaListaDeObservacionesDeInforme(string consecutivo, string esquema)
+        public IActionResult ObtengaLaListaDeObservacionesDeInforme(string consecutivo, string esquema)
         {
             try
             {
                 string listaDeObservacionesJson = observaciones.ListarObservacionesDeInforme(esquema, consecutivo);
-                return listaDeObservacionesJson;
+                if (string.IsNullOrEmpty(listaDeObservacionesJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaDeObservacionesJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("AgregaObservacionDeInforme")]
-        public string AgregaObservacionDeInforme([FromBody] U_Observaciones datos)
+        public IActionResult AgregaObservacionDeInforme([FromBody] U_Observaciones datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = observaciones.AgregarObservacionDeInforme(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }

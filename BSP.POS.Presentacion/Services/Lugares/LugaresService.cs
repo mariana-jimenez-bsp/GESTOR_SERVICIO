@@ -1,9 +1,9 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Lugares;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Lugares;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using static System.Net.WebRequestMethods;
 
 namespace BSP.POS.Presentacion.Services.Lugares
 {
@@ -27,11 +27,16 @@ namespace BSP.POS.Presentacion.Services.Lugares
             string url = "Lugares/ObtengaLaListaDePaises";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mLugares>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                listaDePaises = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mLugares>>();
+                if (listaObtenida is not null)
+                {
+                    listaDePaises = listaObtenida;
+                }
             }
+            
         }
         public async Task ObtenerListaDeProvinciasPorPais(string esquema, string pais)
         {
@@ -40,11 +45,16 @@ namespace BSP.POS.Presentacion.Services.Lugares
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
             _http.DefaultRequestHeaders.Remove("X-Pais");
             _http.DefaultRequestHeaders.Add("X-Pais", pais);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mLugares>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if( response.StatusCode == HttpStatusCode.OK)
             {
-                listaDeProvincias = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mLugares>>();
+                if (listaObtenida is not null)
+                {
+                    listaDeProvincias = listaObtenida;
+                }
             }
+            
         }
         public async Task ObtenerListaDeCantonesPorProvincia(string esquema, string pais, string provincia)
         {
@@ -55,11 +65,16 @@ namespace BSP.POS.Presentacion.Services.Lugares
             _http.DefaultRequestHeaders.Add("X-Pais", pais);
             _http.DefaultRequestHeaders.Remove("X-Provincia");
             _http.DefaultRequestHeaders.Add("X-Provincia", provincia);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mLugares>>(url);
-            if (listaObtenida is not null)
+            var response =  await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                ListaDeCantones = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mLugares>>();
+                if (listaObtenida is not null)
+                {
+                    ListaDeCantones = listaObtenida;
+                }
             }
+            
         }
         public async Task ObtenerListaDeDistritosPorCanton(string esquema, string pais, string provincia, string canton)
         {
@@ -72,11 +87,16 @@ namespace BSP.POS.Presentacion.Services.Lugares
             _http.DefaultRequestHeaders.Add("X-Provincia", provincia);
             _http.DefaultRequestHeaders.Remove("X-Canton");
             _http.DefaultRequestHeaders.Add("X-Canton", canton);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mLugares>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if( response.StatusCode == HttpStatusCode.OK)
             {
-                listaDeDistritos = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mLugares>>();
+                if (listaObtenida is not null)
+                {
+                    listaDeDistritos = listaObtenida;
+                }
             }
+            
         }
         public async Task ObtenerListaDeBarriosPorDistrito(string esquema, string pais, string provincia, string canton, string distrito)
         {
@@ -91,11 +111,16 @@ namespace BSP.POS.Presentacion.Services.Lugares
             _http.DefaultRequestHeaders.Add("X-Canton", canton);
             _http.DefaultRequestHeaders.Remove("X-Distrito");
             _http.DefaultRequestHeaders.Add("X-Distrito", distrito);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mLugares>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                listaDeBarrios = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mLugares>>();
+                if (listaObtenida is not null)
+                {
+                    listaDeBarrios = listaObtenida;
+                }
             }
+            
         }
     }
 }

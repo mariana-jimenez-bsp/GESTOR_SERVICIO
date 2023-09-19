@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
-using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Models.Clientes;
 
 namespace BSP.POS.Presentacion.Services.Informes
