@@ -28,11 +28,16 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
             string url = "ItemsCliente/ObtengaLaListaDeCondicionesDePago";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mItemsCliente>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                listaCondicionesDePago = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mItemsCliente>>();
+                if (listaObtenida is not null)
+                {
+                    listaCondicionesDePago = listaObtenida;
+                }
             }
+            
         }
         public async Task ObtenerLaListaDeNivelesDePrecio(string esquema, string moneda)
         {
@@ -41,11 +46,16 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
             _http.DefaultRequestHeaders.Remove("X-Moneda");
             _http.DefaultRequestHeaders.Add("X-Moneda", moneda);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mItemsCliente>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                listaNivelesDePrecio = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mItemsCliente>>();
+                if (listaObtenida is not null)
+                {
+                    listaNivelesDePrecio = listaObtenida;
+                }
             }
+            
         }
 
         public async Task ObtenerLosTiposDeImpuestos(string esquema)
@@ -53,11 +63,16 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
             string url = "ItemsCliente/ObtengaLosTiposDeImpuestos";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mItemsCliente>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                listaTiposDeImpuestos = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mItemsCliente>>();
+                if (listaObtenida is not null)
+                {
+                    listaTiposDeImpuestos = listaObtenida;
+                }
             }
+            
         }
 
         public async Task ObtenerLosTiposDeTarifasDeImpuesto(string esquema, string impuesto)
@@ -67,11 +82,16 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
             _http.DefaultRequestHeaders.Remove("X-Impuesto");
             _http.DefaultRequestHeaders.Add("X-Impuesto", impuesto);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mTarifa>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if( response.StatusCode == HttpStatusCode.OK)
             {
-                listaDeTarifasDeImpuesto = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mTarifa>>();
+                if (listaObtenida is not null)
+                {
+                    listaDeTarifasDeImpuesto = listaObtenida;
+                }
             }
+            
         }
 
         public async Task<decimal> ObtenerElPorcentajeDeTarifa(string esquema, string impuesto, string tipoTarifa)
@@ -85,9 +105,24 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
                 _http.DefaultRequestHeaders.Add("X-Impuesto", impuesto);
                 _http.DefaultRequestHeaders.Remove("X-TipoTarifa");
                 _http.DefaultRequestHeaders.Add("X-TipoTarifa", tipoTarifa);
-                string porcentajeString = await _http.GetStringAsync(url);
-                decimal porcentaje = decimal.Parse(porcentajeString);
-                return porcentaje;
+                var response = await _http.GetAsync(url);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+                    string porcentajeString = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        decimal porcentaje = decimal.Parse(porcentajeString);
+                        return porcentaje;
+                    }
+                    catch (Exception)
+                    {
+
+                        return 0;
+                    }
+                    
+                    
+                }
+                return 0;
             }
             catch (Exception)
             {
@@ -104,8 +139,17 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 _http.DefaultRequestHeaders.Remove("X-Letra");
                 _http.DefaultRequestHeaders.Add("X-Letra", letra);
-                string codigo = await _http.GetStringAsync(url);
-                return codigo;
+                var response = await _http.GetAsync(url);
+                if( response.StatusCode == HttpStatusCode.OK)
+                {
+                    string codigo = await response.Content.ReadAsStringAsync();
+                    if(string.IsNullOrEmpty(codigo))
+                    {
+                        return codigo;
+                    }
+                    return null;
+                }
+                return null;
             }
             catch (Exception ex)
             {
@@ -118,11 +162,16 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
             string url = "ItemsCliente/ObtengaLosTiposDeNit";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mItemsCliente>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                listaTiposDeNit = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mItemsCliente>>();
+                if (listaObtenida is not null)
+                {
+                    listaTiposDeNit = listaObtenida;
+                }
             }
+            
         }
 
 
@@ -131,11 +180,16 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
             string url = "ItemsCliente/ObtengaLaListaDeCentrosDeCosto";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            var listaObtenida = await _http.GetFromJsonAsync<List<mItemsCliente>>(url);
-            if (listaObtenida is not null)
+            var response = await _http.GetAsync(url);
+            if( response.StatusCode == HttpStatusCode.OK)
             {
-                listaCentrosDeCosto = listaObtenida;
+                var listaObtenida = await response.Content.ReadFromJsonAsync<List<mItemsCliente>>();
+                if (listaObtenida is not null)
+                {
+                    listaCentrosDeCosto = listaObtenida;
+                }
             }
+            
         }
 
 

@@ -17,77 +17,93 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpGet("ObtengaLaListaDeCondicionesDePago")]
-        public string ObtenegaLaListaDeCondicionesDePago()
+        public IActionResult ObtenegaLaListaDeCondicionesDePago()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string listaJson = _items.ObtenerCondicionesDePago(esquema);
-                return listaJson;
+                if(string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeNivelesDePrecio")]
-        public string ObtengaLaListaDeNivelesDePrecio()
+        public IActionResult ObtengaLaListaDeNivelesDePrecio()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string moneda = Request.Headers["X-Moneda"];
                 string listaJson = _items.ObtenerNivelesPrecio(esquema, moneda);
-                return listaJson;
+                if(string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLosTiposDeImpuestos")]
-        public string ObtengaLosTiposDeImpuestos()
+        public IActionResult ObtengaLosTiposDeImpuestos()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string listaJson = _items.ObtenerTiposDeImpuestos(esquema);
-                return listaJson;
+                if(string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLosTiposDeTarifasDeImpuesto")]
-        public string ObtengaLosTiposDeTarifasDeImpuesto()
+        public IActionResult ObtengaLosTiposDeTarifasDeImpuesto()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string impuesto = Request.Headers["X-Impuesto"];
                 string listaJson = _items.ObtenerTiposDeTarifasDeImpuesto(esquema, impuesto);
-                return listaJson;
+                if (string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaElPorcentajeDeTarifa")]
-        public string ObtengaElPorcentajeDeTarifa()
+        public IActionResult ObtengaElPorcentajeDeTarifa()
         {
             try
             {
@@ -95,63 +111,79 @@ namespace BSP.POS.API.Controllers
                 string impuesto = Request.Headers["X-Impuesto"];
                 string tipoTarifa = Request.Headers["X-TipoTarifa"];
                 decimal porcentaje = _items.ObtenerPorcentajeTarifa(esquema, impuesto, tipoTarifa);
-                return porcentaje.ToString();
+                if(string.IsNullOrEmpty(porcentaje.ToString()))
+                {
+                    return NotFound();
+                }
+                return Ok(porcentaje.ToString());
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-                return "0";
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaElSiguienteCodigoDeCliente")]
-        public string ObtengaElSiguienteCodigoDeCliente()
+        public IActionResult ObtengaElSiguienteCodigoDeCliente()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string letra = Request.Headers["X-Letra"];
                 string codigo = _items.ObtenerSiguienteCodigoDeCliente(esquema, letra);
-                return codigo;
+                if (string.IsNullOrEmpty(codigo))
+                {
+                    return NotFound();
+                }
+                return Ok(codigo);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [HttpGet("ObtengaLosTiposDeNit")]
-        public string ObtengaLosTiposDeNit()
+        public IActionResult ObtengaLosTiposDeNit()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string listaJson = _items.ObtenerTiposDeNit(esquema);
-                return listaJson;
+                if (string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeCentrosDeCosto")]
-        public string ObtengaLaListaDeCentrosDeCosto()
+        public IActionResult ObtengaLaListaDeCentrosDeCosto()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string listaJson = _items.ObtenerListaDeCentrosDeCosto(esquema);
-                return listaJson;
+                if (string.IsNullOrEmpty(listaJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }

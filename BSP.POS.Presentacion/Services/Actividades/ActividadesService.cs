@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
 using BSP.POS.Presentacion.Models.Actividades;
+using System.Net;
 
 namespace BSP.POS.Presentacion.Services.Actividades
 {
@@ -22,20 +23,31 @@ namespace BSP.POS.Presentacion.Services.Actividades
         public async Task ObtenerListaDeActividadesAsociadas(string consecutivo, string esquema)
         {
             string url = "Actividades/ObtengaLaListaDeActividadesAsociadas/" + consecutivo + "/" + esquema;
-            var listaActividadesAsociadas = await _http.GetFromJsonAsync<List<mActividadesAsociadas>>(url);
-            if (listaActividadesAsociadas is not null)
+            var response = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                ListaActividadesAsociadas = listaActividadesAsociadas;
+                var listaActividadesAsociadas = await response.Content.ReadFromJsonAsync<List<mActividadesAsociadas>>();
+                if (listaActividadesAsociadas is not null)
+                {
+                    ListaActividadesAsociadas = listaActividadesAsociadas;
+                }
             }
+            
         }
 
         public async Task ObtenerListaDeActividades(string esquema)
         {
-            var listaActividades = await _http.GetFromJsonAsync<List<mActividades>>("Actividades/ObtengaLaListaDeActividades/" + esquema);
-            if (listaActividades is not null)
+            string url = "Actividades/ObtengaLaListaDeActividades/" + esquema;
+            var response  = await _http.GetAsync(url);
+            if(response.StatusCode == HttpStatusCode.OK)
             {
-                ListaActividades = listaActividades;
+                var listaActividades = await response.Content.ReadFromJsonAsync<List<mActividades>>();
+                if (listaActividades is not null)
+                {
+                    ListaActividades = listaActividades;
+                }
             }
+            
         }
 
         public async Task ActualizarListaDeActividades(List<mActividades> listaActividades, string esquema)
@@ -48,9 +60,13 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if( response.StatusCode == HttpStatusCode.OK )
+                {
+
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -66,9 +82,13 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK )
+                {
+
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -84,7 +104,11 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if( response.StatusCode == HttpStatusCode.OK )
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -103,7 +127,11 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 _http.DefaultRequestHeaders.Add("X-IdActividad", idActividad);
 
 
-                var mensaje = await _http.DeleteAsync(url);
+                var response = await _http.DeleteAsync(url);
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
             }
             catch (Exception)
             {
@@ -121,7 +149,11 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var mensaje = await _http.PostAsync(url, content);
+                var response = await _http.PostAsync(url, content);
+                if(response.StatusCode == HttpStatusCode.OK )
+                {
+
+                }
             }
             catch (Exception)
             {

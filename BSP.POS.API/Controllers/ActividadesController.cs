@@ -21,87 +21,106 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpGet("ObtengaLaListaDeActividadesAsociadas/{consecutivo}/{esquema}")]
-        public string ObtengaLaListaDeActividadesAsociadas(string consecutivo, string esquema)
+        public IActionResult ObtengaLaListaDeActividadesAsociadas(string consecutivo, string esquema)
         {
             try
             {
                 string listaActividadesAsociadasJson = actividades.ListarActividadesAsociadas(esquema, consecutivo);
-                return listaActividadesAsociadasJson;
+                if (string.IsNullOrEmpty(listaActividadesAsociadasJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaActividadesAsociadasJson);
             }
-
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLaListaDeActividades/{esquema}")]
-        public string ObtengaLaListaDeActividades(string esquema)
+        public IActionResult ObtengaLaListaDeActividades(string esquema)
         {
             try
             {
                 string listaActividadesAsociadasJson = actividades.ListarActividades(esquema);
-                return listaActividadesAsociadasJson;
+                if (string.IsNullOrEmpty(listaActividadesAsociadasJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaActividadesAsociadasJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("ActualizaListaDeActividades")]
-        public string ActualizaListaDeActividades([FromBody] List<U_ListaActividades> datos)
+        public IActionResult ActualizaListaDeActividades([FromBody] List<U_ListaActividades> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.ActualizarListaDeActividades(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("ActualizaListaDeActividadesAsociadas")]
-        public string ActualizaListaDeActividadesAsociadas([FromBody] List<U_ListaActividadesAsociadas> datos)
+        public IActionResult ActualizaListaDeActividadesAsociadas([FromBody] List<U_ListaActividadesAsociadas> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.ActualizarListaDeActividadesAsociadas(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("AgregaActividadDeInforme")]
-        public string AgregaActividadDeInforme([FromBody] U_ListaActividadesAsociadas datos)
+        public IActionResult AgregaActividadDeInforme([FromBody] U_ListaActividadesAsociadas datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.AgregarActividadDeInforme(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpDelete("EliminaActividadDeInforme")]
-        public string EliminaActividadDeInforme()
+        public IActionResult EliminaActividadDeInforme()
         {
             try
             {
@@ -110,27 +129,35 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = actividades.EliminarActividadDeInforme(idActividad, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpPost("AgregaActividad")]
-        public string AgregaActividad([FromBody] U_ListaActividades datos)
+        public IActionResult AgregaActividad([FromBody] U_ListaActividades datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.AgregarActividad(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
