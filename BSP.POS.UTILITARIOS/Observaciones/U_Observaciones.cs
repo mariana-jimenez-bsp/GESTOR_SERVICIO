@@ -10,13 +10,13 @@ namespace BSP.POS.UTILITARIOS.Observaciones
     {
         public string Id { get; set; }
         public string consecutivo_informe { get; set; }
-        public string usuario { get; set; }
+        public string codigo_usuario { get; set; }
         public string observacion { get; set; }
 
-        public U_Observaciones(string pId, string pConsecutivo, string pUsuario, string pObservacion) {
+        public U_Observaciones(string pId, string pConsecutivo, string pCodigo_usuario, string pObservacion) {
             Id = pId;
             consecutivo_informe = pConsecutivo;
-            usuario = pUsuario;
+            codigo_usuario = pCodigo_usuario;
             observacion = pObservacion;
         }
 

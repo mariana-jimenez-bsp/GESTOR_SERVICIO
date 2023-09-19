@@ -34,7 +34,7 @@ namespace BSP.POS.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, $"Error Interno de servidor: {ex.Message}");
             }
         }
     }

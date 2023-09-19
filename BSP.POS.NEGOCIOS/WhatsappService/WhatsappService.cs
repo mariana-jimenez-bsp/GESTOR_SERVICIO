@@ -78,7 +78,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         }
                         foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
                         {
-                            observaciones += "Usuario: " + itemObservacion.usuario + " - Observación: " + itemObservacion.observacion;
+                            observaciones += "Usuario: " + itemObservacion.nombre_usuario + " - Observación: " + itemObservacion.observacion;
                             if (itemObservacion.Id != ultimaObservacion.Id)
                             {
                                 observaciones += ", ";

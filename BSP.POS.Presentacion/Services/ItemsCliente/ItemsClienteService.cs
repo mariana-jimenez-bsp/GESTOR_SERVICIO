@@ -116,7 +116,7 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
                     catch (Exception)
                     {
 
-                        return 0;
+                        throw new Exception("Error al obtener el porcentaje de Tarifa");
                     }
                     
                     

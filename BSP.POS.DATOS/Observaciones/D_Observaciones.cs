@@ -20,7 +20,7 @@ namespace BSP.POS.DATOS.Observaciones
             {
                 foreach (var item in response)
                 {
-                    U_Observaciones observacion = new U_Observaciones(item.Id, item.consecutivo_informe, item.usuario, item.observacion);
+                    U_Observaciones observacion = new U_Observaciones(item.Id, item.consecutivo_informe, item.codigo_usuario, item.observacion);
 
                     LstObservaciones.Add(observacion);
                 }
@@ -39,7 +39,7 @@ namespace BSP.POS.DATOS.Observaciones
             AgregarObservacionDeInformeTableAdapter sp = new AgregarObservacionDeInformeTableAdapter();
             try
             {
-                var response = sp.GetData(esquema, pObservacion.consecutivo_informe, pObservacion.usuario, pObservacion.observacion);
+                var response = sp.GetData(esquema, pObservacion.consecutivo_informe, pObservacion.codigo_usuario, pObservacion.observacion);
                 return "Exito";
             }
             catch (Exception)

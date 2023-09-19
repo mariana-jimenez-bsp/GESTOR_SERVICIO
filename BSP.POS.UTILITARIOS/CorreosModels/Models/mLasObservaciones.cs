@@ -10,7 +10,8 @@ namespace BSP.POS.UTILITARIOS.CorreosModels.Models
     {
         public string Id { get; set; } = string.Empty;
         public string consecutivo_informe { get; set; } = string.Empty;
-        public string usuario { get; set; } = string.Empty;
+        public string codigo_usuario { get; set; } = string.Empty;
         public string observacion { get; set; } = string.Empty;
+        public string nombre_usuario { get; set; } = string.Empty;
     }
 }

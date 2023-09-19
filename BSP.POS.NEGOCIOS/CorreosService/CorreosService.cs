@@ -69,7 +69,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 }
                 foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
                 {
-                    observaciones += "<tr>\r\n <td>" + itemObservacion.usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
+                    observaciones += "<tr>\r\n <td>" + itemObservacion.nombre_usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
                 }
                     string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
                     //string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "AprobarInforme.html");

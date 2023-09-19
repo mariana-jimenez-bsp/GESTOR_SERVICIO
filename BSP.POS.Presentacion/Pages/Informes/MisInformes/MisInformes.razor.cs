@@ -154,7 +154,17 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             if(ObservacionesService.ListaDeObservacionesDeInforme != null)
             {
                 objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-            }
+                    foreach (var observacion in objetoParaCorreo.listaDeObservaciones)
+                    {
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
+                        if (UsuariosService.UsuarioParaEditar != null)
+                        {
+                            observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
+                        }
+
+                    }
+                }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
             if (validar)

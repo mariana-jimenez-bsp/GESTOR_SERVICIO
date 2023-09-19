@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
@@ -12,18 +13,33 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         [Parameter] public string consecutivo { get; set; } = string.Empty;
         [Parameter] public string usuarioActual { get; set; } = string.Empty;
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
-        public List<mPerfil> listaDeUsuarios = new List<mPerfil>();
+        
         public mObservaciones observacionAAgregar = new mObservaciones();
         public string mensajeError;
         protected override async Task OnParametersSetAsync()
         {
             if(!string.IsNullOrEmpty(esquema) && !string.IsNullOrEmpty(consecutivo))
             {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
-                if(ObservacionesService.ListaDeObservacionesDeInforme != null)
+                await RefrescarListaDeObservaciones();
+            }
+        }
+
+        public async Task RefrescarListaDeObservaciones()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
+            if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+            {
+                listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                foreach (var observacion in listaDeObservaciones)
                 {
-                    listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
+                    if (UsuariosService.UsuarioParaEditar != null)
+                    {
+                        observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
+                    }
+                       
                 }
             }
         }
@@ -49,16 +65,16 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 if (observacionAAgregar.observacion != null)
                 {
-                    observacionAAgregar.usuario = usuarioActual;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
+                    if(UsuariosService.Perfil != null)
+                    {
+                        observacionAAgregar.codigo_usuario = UsuariosService.Perfil.codigo;
+                    }
                     observacionAAgregar.consecutivo_informe = consecutivo;
                     await ObservacionesService.AgregarObservacionDeInforme(observacionAAgregar, esquema);
                     observacionAAgregar = new mObservaciones();
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
-                    if (ObservacionesService.ListaDeObservacionesDeInforme != null)
-                    {
-                        listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-                    }
+                    await RefrescarListaDeObservaciones();
                 }
             }
             catch (Exception)

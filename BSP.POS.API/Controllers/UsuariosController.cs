@@ -11,6 +11,7 @@ using BSP.POS.UTILITARIOS.Correos;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Hosting;
+using System.Reflection.Metadata.Ecma335;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -49,7 +50,7 @@ namespace BSP.POS.API.Controllers
         }
         // GET: api/<UsuariosController>
         [HttpPost("Login")]
-        public string Login([FromBody] mLogin datos)
+        public IActionResult Login([FromBody] mLogin datos)
         {
             try
             {
@@ -60,30 +61,38 @@ namespace BSP.POS.API.Controllers
                 nuevoLogin.key = _secretKey;
 
                 var usuarioLogeado = user.Login(nuevoLogin);
-                return usuarioLogeado;
+                if (string.IsNullOrEmpty(usuarioLogeado))
+                {
+                    return NotFound();
+                }
+                return Ok(usuarioLogeado);
             }
             catch(Exception ex) 
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
            
         }
 
         [HttpPost("ValidarToken")]
-        public string ValidarToken([FromBody] U_LoginToken datos)
+        public IActionResult ValidarToken([FromBody] U_LoginToken datos)
         {
             try
             {
                 string token = datos.token.Trim('"');
                 string esquema = datos.esquema.Trim('"');
-                var usuarioLogeado = user.ValidarToken(token, esquema);
+                var tokenValidacion = user.ValidarToken(token, esquema);
 
-                return usuarioLogeado;
+                if (string.IsNullOrEmpty(tokenValidacion))
+                {
+                    return NotFound();
+                }
+                return Ok(tokenValidacion);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
         }
         [HttpPost("EnviarTokenRecuperacion")]
@@ -114,17 +123,28 @@ namespace BSP.POS.API.Controllers
         }
 
 
-            [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
-        public string ValidaTokenRecuperacion(string esquema, string token)
+        [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
+        public IActionResult ValidaTokenRecuperacion(string esquema, string token)
         {
+            try
+            {
+                string tokenRecuperadoJson = user.ValidarTokenRecuperacion(esquema, token);
+                if (string.IsNullOrEmpty(tokenRecuperadoJson))
+                {
+                    return NotFound();
+                }
+                return Ok(tokenRecuperadoJson);
+            }
+            catch (Exception ex)
+            {
 
-            string tokenRecuperadoJson = user.ValidarTokenRecuperacion(esquema, token);
+                return StatusCode(500, ex.Message);
+            }
 
-            return tokenRecuperadoJson;
         }
 
         [HttpPost("ActualizaClaveDeUsuario")]
-        public string ActualizaClaveDeUsuario([FromBody] U_UsuarioNuevaClave datos)
+        public IActionResult ActualizaClaveDeUsuario([FromBody] U_UsuarioNuevaClave datos)
         {
             try
             {
@@ -132,160 +152,242 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = user.ActualizarClaveDeUsuario(datos);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ValidaCorreoCambioClave/{esquema}/{correo}")]
-        public string ValidaCorreoCambioClave(string esquema, string correo)
+        public IActionResult ValidaCorreoCambioClave(string esquema, string correo)
         {
+            try
+            {
+                string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
+                if (string.IsNullOrEmpty(correoDevuelto))
+                {
+                    return NotFound();
+                }
+                return Ok(correoDevuelto);
+            }
+            catch (Exception ex)
+            {
 
-            string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
-
-            return correoDevuelto;
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpGet("ValidaExistenciaEsquema/{esquema}")]
-        public string ValidaExistenciaEsquema(string esquema)
+        public IActionResult ValidaExistenciaEsquema(string esquema)
         {
+            try
+            {
+                string esquemaDevuelto = user.ValidarExistenciaEsquema(esquema);
+                if (string.IsNullOrEmpty(esquemaDevuelto))
+                {
+                    return NotFound();
+                }
+                return Ok(esquemaDevuelto);
+            }
+            catch (Exception ex)
+            {
 
-            string esquemaDevuelto = user.ValidarExistenciaEsquema(esquema);
-
-            return esquemaDevuelto;
+                return StatusCode(500, ex.Message);
+            }
+            
         }
         [HttpGet("ValidaCorreoExistente/{esquema}/{correo}")]
-        public string ValidaCorreoExistente(string esquema, string correo)
+        public IActionResult ValidaCorreoExistente(string esquema, string correo)
         {
+            try
+            {
+                string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
+                if (string.IsNullOrEmpty(correoDevuelto))
+                {
+                    return NotFound();
+                }
+                return Ok(correoDevuelto);
+            }
+            catch (Exception ex)
+            {
 
-            string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
-
-            return correoDevuelto;
+                return StatusCode(500, ex.Message);
+            }
+            
         }
         [HttpPost("AumentaIntentosDeLogin")]
-        public string AumentaIntentosDeLogin()
+        public IActionResult AumentaIntentosDeLogin()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string correo = Request.Headers["X-Correo"];
                 string mensaje = user.AumentarIntentosDeLogin(esquema, correo);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [HttpGet("ObtengaLosIntentosDeLogin")]
-        public string ObtengaLosIntentosDeLogin()
+        public IActionResult ObtengaLosIntentosDeLogin()
         {
+            try
+            {
                 string esquema = Request.Headers["X-Esquema"];
                 string correo = Request.Headers["X-Correo"];
                 int intentos = user.ObtenerIntentosDeLogin(esquema, correo);
-                return intentos.ToString();
+                if (string.IsNullOrEmpty(intentos.ToString()))
+                {
+                    return NotFound();
+                }
+                return Ok(intentos.ToString());
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
 
         }
         [Authorize]
         [HttpGet("ValidaUsuarioExistente/{esquema}/{usuario}")]
-        public string ValidaUsuarioExistente(string esquema, string usuario)
+        public IActionResult ValidaUsuarioExistente(string esquema, string usuario)
         {
+            try
+            {
+                string usuarioDevuelto = user.ValidarUsuarioExistente(esquema, usuario);
+                if (string.IsNullOrEmpty(usuarioDevuelto))
+                {
+                    return NotFound();
+                }
+                return Ok(usuarioDevuelto);
+            }
+            catch (Exception ex)
+            {
 
-            string usuarioDevuelto = user.ValidarUsuarioExistente(esquema, usuario);
+                return StatusCode(500, ex.Message);
+            }
 
-            return usuarioDevuelto;
         }
 
         [Authorize]
         [HttpGet("ObtenerPerfil/{usuario}/{esquema}")]
-        public string ObtenerPerfil(string usuario, string esquema)
+        public IActionResult ObtenerPerfil(string usuario, string esquema)
         {
             try
             {
                 var perfil = user.ObtenerPerfil(esquema, usuario);
-                return perfil;
+                if (string.IsNullOrEmpty(perfil))
+                {
+                    return NotFound();
+                }
+                return Ok(perfil);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpPost("ActualizarPerfil")]
-        public string ActualizarPerfil([FromBody] U_Perfil datos)
+        public IActionResult ActualizarPerfil([FromBody] U_Perfil datos)
         {
             try
             {
-                
-
                 string mensaje = user.ActualizarPerfil(datos);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpGet("ObtengaLaListaDeUsuarios/{esquema}")]
-        public string ObtengaLaListaDeUsuarios(string esquema)
+        public IActionResult ObtengaLaListaDeUsuarios(string esquema)
         {
             try
             {
                 string listaDeUsuariosJson = user.ListarUsuarios(esquema);
-                return listaDeUsuariosJson;
+                if (string.IsNullOrEmpty(listaDeUsuariosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaDeUsuariosJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpGet("ObtengaLaListaDeUsuariosDeClienteAsociados/{esquema}/{cliente}")]
-        public string ObtengaLaListaDeUsuariosDeClienteAsociados(string esquema,string cliente)
+        public IActionResult ObtengaLaListaDeUsuariosDeClienteAsociados(string esquema,string cliente)
         {
             try
             {
                 string listaUsuariosDeClienteAsociadosJson = user.ListarUsuariosDeClienteAsociados(esquema, cliente);
-                return listaUsuariosDeClienteAsociadosJson;
+                if (string.IsNullOrEmpty(listaUsuariosDeClienteAsociadosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaUsuariosDeClienteAsociadosJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpGet("ObtengaLaListaUsuariosDeClienteDeInforme/{consecutivo}/{esquema}")]
-        public string ObtengaLaListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
+        public IActionResult ObtengaLaListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
         {
             try
             {
                 string listaInformesDeUsuarioDeClienteJson = user.ListarUsuariosDeClienteDeInforme(esquema, consecutivo);
-                return listaInformesDeUsuarioDeClienteJson;
+                if (string.IsNullOrEmpty(listaInformesDeUsuarioDeClienteJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaInformesDeUsuarioDeClienteJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpPost("AgregaUsuarioDeClienteDeInforme")]
-        public string AgregaUsuarioDeClienteDeInforme([FromBody] U_UsuariosDeClienteDeInforme datos)
+        public IActionResult AgregaUsuarioDeClienteDeInforme([FromBody] U_UsuariosDeClienteDeInforme datos)
         {
             try
             {
@@ -293,17 +395,21 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = user.AgregarUsuarioDeClienteDeInforme(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpDelete("EliminaUsuarioDeClienteDeInforme")]
-        public string EliminaUsuarioDeClienteDeInforme()
+        public IActionResult EliminaUsuarioDeClienteDeInforme()
         {
             try
             {
@@ -312,128 +418,160 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = user.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [Authorize]
         [HttpGet("ObtengaImagenUsuario/{usuario}/{esquema}")]
-        public string ObtengaImagenUsuario(string usuario, string esquema)
+        public IActionResult ObtengaImagenUsuario(string usuario, string esquema)
         {
             try
             {
                 var imagen = user.ObtenerImagenDeUsuario(esquema, usuario);
-                return imagen;
+                if (string.IsNullOrEmpty(imagen))
+                {
+                    return NotFound();
+                }
+                return Ok(imagen);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpGet("ObtengaListaDeInformesDeUsuario/{codigo}/{esquema}")]
-        public string ObtengaListaDeInformesDeUsuario(string codigo, string esquema)
+        public IActionResult ObtengaListaDeInformesDeUsuario(string codigo, string esquema)
         {
             try
             {
                 string listaInformesDeUsuarioDeClienteJson = user.ObtenerListaDeInformesDeUsuarioDeInforme(esquema, codigo);
-                return listaInformesDeUsuarioDeClienteJson;
+                if (string.IsNullOrEmpty(listaInformesDeUsuarioDeClienteJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaInformesDeUsuarioDeClienteJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [Authorize]
         [HttpGet("ObtengaLaListaDeUsuariosParaEditar/{esquema}")]
-        public string ObtengaLaListaDeUsuariosParaEditar(string esquema)
+        public IActionResult ObtengaLaListaDeUsuariosParaEditar(string esquema)
         {
             try
             {
                 string listaDeUsuariosJson = user.ListarUsuariosParaEditar(esquema);
-                return listaDeUsuariosJson;
+                if (string.IsNullOrEmpty(listaDeUsuariosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaDeUsuariosJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpPost("ActualizaListaDeUsuarios")]
-        public string ActualizaListaDeUsuarios([FromBody] List<U_UsuariosParaEditar> datos)
+        public IActionResult ActualizaListaDeUsuarios([FromBody] List<U_UsuariosParaEditar> datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = user.ActualizarListaDeUsuarios(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
         [Authorize]
         [HttpPost("AgregaUsuario")]
-        public string AgregaUsuario([FromBody] U_UsuariosParaEditar datos)
+        public IActionResult AgregaUsuario([FromBody] U_UsuariosParaEditar datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = user.AgregarUsuario(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [Authorize]
         [HttpGet("ObtengaElUsuarioParaEditar/{esquema}/{codigo}")]
-        public string ObtengaElUsuarioParaEditar(string esquema, string codigo)
+        public IActionResult ObtengaElUsuarioParaEditar(string esquema, string codigo)
         {
             try
             {
                 string usuarioParaEditarJson = user.ObtenerUsuarioParaEditar(esquema, codigo);
-                return usuarioParaEditarJson;
+                if (string.IsNullOrEmpty(usuarioParaEditarJson))
+                {
+                    return NotFound();
+                }
+                return Ok(usuarioParaEditarJson);
             }
 
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
 
         [Authorize]
         [HttpPost("ActualizaElUsuario")]
-        public string ActualizaElUsuario([FromBody] U_UsuariosParaEditar datos)
+        public IActionResult ActualizaElUsuario([FromBody] U_UsuariosParaEditar datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = user.ActualizarUsuario(datos, esquema);
-                return mensaje;
+                if (string.IsNullOrEmpty(mensaje))
+                {
+                    return NotFound();
+                }
+                return Ok(mensaje);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return StatusCode(500, ex.Message);
             }
 
         }
