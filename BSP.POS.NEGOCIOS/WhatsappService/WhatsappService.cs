@@ -98,8 +98,8 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                                     .Replace("{Usuarios_Cliente}", !usuarios.IsNullOrEmpty() ? usuarios : "Sin Usuarios")
                                     .Replace("{Actividades}", !actividades.IsNullOrEmpty() ? actividades : "Sin Actividades")
                                     .Replace("{Observaciones}", !observaciones.IsNullOrEmpty() ? observaciones : "Sin Observaciones")
-                                    .Replace("{linkAprobar}", "Aprobar/" + item.token + "/" + objetosParaAprobacion.esquema)
-                                    .Replace("{linkRechazar}", "Rechazar/" + item.token + "/" + objetosParaAprobacion.esquema);
+                                    .Replace("{linkAprobar}", item.token + "/" + objetosParaAprobacion.esquema)
+                                    .Replace("{linkRechazar}", item.token + "/" + objetosParaAprobacion.esquema);
 
                         JObject jsonObject = JObject.Parse(jsonString);
 
@@ -132,23 +132,6 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
             }
           
         }
-        public string EnviarWhatsappConTwilio()
-        {
-            string path = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/Mensaje.txt";
-            string text = File.ReadAllText(path);
-            text = text.Replace("\\n", "\n");
-            var accountSid = "";
-            var authToken = "";
-            TwilioClient.Init(accountSid, authToken);
-
-            var messageOptions = new CreateMessageOptions(
-              new PhoneNumber("whatsapp:+50671776850"));
-            messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
-            messageOptions.Body = text;
-
-
-            var message = MessageResource.Create(messageOptions);
-            return message.Body;
-        }
+        
     }
 }

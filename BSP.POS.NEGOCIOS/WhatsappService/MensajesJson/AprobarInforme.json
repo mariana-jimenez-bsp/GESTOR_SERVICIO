@@ -3,7 +3,7 @@
   "to": "{telefono}",
   "type": "template",
   "template": {
-    "name": "aprobacion_de_reporte",
+    "name": "aprobacion_de_reporte_v2",
     "language": {
       "code": "es"
     },
