@@ -146,7 +146,15 @@
         {
             <ModalExito mensaje="Proyecto Agregado"></ModalExito>
         }
-        <ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto" proyectoAgregado="CambiarEstadoProyectoNuevo"></ModalAgregarProyecto>
+        @if (estadoProyectoCancelado)
+        {
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
+        @if (!string.IsNullOrEmpty(mensajeDescartar))
+        {
+            <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
+        }
+        <ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto" proyectoAgregado="CambiarEstadoProyectoNuevo" proyectoCancelado="CambiarEstadoProyectoCancelado"></ModalAgregarProyecto>
     }
     else
 

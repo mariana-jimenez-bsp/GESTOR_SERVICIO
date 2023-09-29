@@ -90,15 +90,22 @@
         {
             <ModalExito mensaje="Usuario Actualizado"></ModalExito>
         }
-        @if (actividarModalAgregarUsuario)
+        @if (estadoUsuarioNuevoCancelado)
         {
-            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" usuarioAgregado="CambiarEstadoUsuarioNuevo"></ModalAgregarUsuario>
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
         }
-       
+        @if (estadoUsuarioActualizadoCancelado)
+        {
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
+
+            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" usuarioAgregado="CambiarEstadoUsuarioNuevo" usuarioCancelado="CambiarEstadoUsuarioNuevoCancelado"></ModalAgregarUsuario>
         @if (actividarModalEditarUsuario)
         {
-            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoUsuario" usuarioActualizado="CambiarEstadoUsuarioActualizado"></ModalEditarUsuario>
+            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoUsuario" usuarioActualizado="CambiarEstadoUsuarioActualizado" usuarioCancelado="CambiarEstadoUsuarioActualizadoCancelado"></ModalEditarUsuario>
         }
+        
+        
 
     }
     else

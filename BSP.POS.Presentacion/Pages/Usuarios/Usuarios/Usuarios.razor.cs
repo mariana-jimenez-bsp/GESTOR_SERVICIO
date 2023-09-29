@@ -16,6 +16,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string codigoUsuario = string.Empty;
         private bool estadoUsuarioNuevo = false;
         private bool estadoUsuarioActualizado = false;
+        private bool estadoUsuarioNuevoCancelado = false;
+        private bool estadoUsuarioActualizadoCancelado = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -61,6 +63,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             if (activar)
             {
                 estadoUsuarioNuevo = false;
+                estadoUsuarioNuevoCancelado = false;
             }
             StateHasChanged();
         }
@@ -86,6 +89,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             if (activar)
             {
                 estadoUsuarioActualizado = false;
+                estadoUsuarioActualizadoCancelado = false;
             }
             actividarModalEditarUsuario = activar;
             StateHasChanged();
@@ -98,6 +102,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public void CambiarEstadoUsuarioActualizado(bool estado)
         {
             estadoUsuarioActualizado = estado;
+        }
+        public void CambiarEstadoUsuarioNuevoCancelado(bool estado)
+        {
+            estadoUsuarioNuevoCancelado = estado;
+        }
+        public void CambiarEstadoUsuarioActualizadoCancelado(bool estado)
+        {
+            estadoUsuarioActualizadoCancelado = estado;
         }
     }
 }

@@ -243,7 +243,15 @@
         {
             <ModalExito mensaje="Cliente Agregado"></ModalExito>
         }
-        <ModalAgregarCliente ActivarModal="@actividarModalAgregarCliente" OnClose="ClickHandlerAgregarCliente" clienteAgregado="CambiarEstadoClienteNuevo"></ModalAgregarCliente>
+        @if (!string.IsNullOrEmpty(mensajeDescartar))
+        {
+            <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
+        }
+        @if (estadoClienteCancelado)
+        {
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
+        <ModalAgregarCliente ActivarModal="@actividarModalAgregarCliente" OnClose="ClickHandlerAgregarCliente" clienteAgregado="CambiarEstadoClienteNuevo" clienteCancelado="CambiarEstadoClienteCancelado"></ModalAgregarCliente>
     }
     else
 

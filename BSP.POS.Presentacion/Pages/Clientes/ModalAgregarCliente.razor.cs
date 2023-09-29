@@ -29,6 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public string mensajeError;
         public string monedaActual;
         [Parameter] public EventCallback<bool> clienteAgregado { get; set; }
+        [Parameter] public EventCallback<bool> clienteCancelado { get; set; }
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -70,7 +71,11 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         {
             ActivarModal = true;
         }
-
+        private async Task CancelarCambios()
+        {
+            await clienteCancelado.InvokeAsync(true);
+            await CloseModal();
+        }
         private async Task CloseModal()
         {
             clienteNuevo = new mAgregarCliente();
@@ -496,7 +501,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
                 if (ClientesService.ClienteAsociado != null)
                 {
-                    clienteNuevo = new mAgregarCliente();
+                    
                     await clienteAgregado.InvokeAsync(true);
                     await CloseModal();
                     
@@ -514,6 +519,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
 
+        }
+        private async Task SalirConLaX()
+        {
+            await OnClose.InvokeAsync(false);
         }
     }
 }

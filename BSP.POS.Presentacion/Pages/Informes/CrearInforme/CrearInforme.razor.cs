@@ -207,7 +207,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.CrearInforme
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
             await RefrescarListaDeActividadesAsociadas();
-            successMessage = "Informe Actualizado";
+            successMessage = "Se han guardado los cambios";
         }
 
         private async Task ActualizarInformeAsociado()

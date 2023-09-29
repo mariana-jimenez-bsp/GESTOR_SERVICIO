@@ -10,6 +10,9 @@
             <div class="modal-header d-flex justify-content-center text-primary">
                 <h2 class="blue-dark-text text-41-book">Agregar<img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
             </div>
+            <div class="text-end pe-2">
+                <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+            </div>
             @if (!string.IsNullOrEmpty(mensajeError))
             {
                 <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
@@ -17,7 +20,7 @@
             <div class=" modal-body d-flex row g-2 text-center ">
                 <div class="container border-transparent max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="row  border border-success rounded-5 ">
-                        <div class="d-flex justify-content-center mb-2 mt-2">
+                        <div class="d-flex justify-content-center my-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-nombreUsuario">Nombre:</label>
                             <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-nombreUsuario" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e, usuario.id)">
                         </div>
@@ -125,7 +128,7 @@
                 </div>
             </div>
             <div class="modal-footer text-13-medium">
-                <div @onclick="() => CloseModal()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-usuario">
+                <div @onclick="() => CancelarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-usuario">
                     Cancelar
                 </div>
                 <button type="submit" class="button-footer rounded-pill border border-input-gray green-bg text-light mx-4" id="guardar-agregar-usuario">

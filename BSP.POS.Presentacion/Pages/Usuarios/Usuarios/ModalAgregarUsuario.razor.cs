@@ -24,7 +24,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
         [Parameter] public EventCallback<bool> usuarioAgregado { get; set; }
-        
+        [Parameter] public EventCallback<bool> usuarioCancelado { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -49,7 +50,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             ActivarModal = true;
         }
-
+        private async Task CancelarCambios()
+        {
+            await usuarioCancelado.InvokeAsync(true);
+            await CloseModal();
+        }
         private async Task CloseModal()
         {
             usuario = new mUsuarioParaAgregar();
@@ -238,6 +243,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
             
+        }
+
+        private async Task SalirConLaX()
+        {
+            await OnClose.InvokeAsync(false);
         }
     }
 }

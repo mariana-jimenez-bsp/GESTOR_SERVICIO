@@ -14,11 +14,15 @@
 .green-good {
     color: #198754;
 }
-
+.green-bg {
+    background-color: #198754;
+}
 .blue-good-bg {
     background-color: #053d9e;
 }
-
+.button-add {
+    padding: 10px 20px;
+}
 .modal {
     display: none;
     position: fixed;

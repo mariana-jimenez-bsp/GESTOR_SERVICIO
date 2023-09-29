@@ -16,8 +16,10 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string rol = string.Empty;
         List<string> permisos;
         public string mensajeActualizar;
+        public string mensajeDescartar;
         public string mensajeError;
         private bool estadoProyectoNuevo = false;
+        private bool estadoProyectoCancelado = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -146,18 +148,21 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private async Task DescartarCambios()
         {
             mensajeActualizar = null;
+            mensajeDescartar = null;
             actividadModalAgregarProyecto = false;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ProyectosService.ObtenerListaDeProyectos(esquema);
             if (ProyectosService.ListaProyectos != null)
             {
                 proyectos = ProyectosService.ListaProyectos;
+                mensajeDescartar = "Se han Descartado los cambios";
             }
         }
         private async Task ActualizarListaProyectos()
         {
             mensajeActualizar = null;
             mensajeError = null;
+            mensajeDescartar = null;
             estadoProyectoNuevo = false;
             try
             {
@@ -206,12 +211,17 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             if (activar)
             {
                 estadoProyectoNuevo = false;
+                estadoProyectoCancelado = false;
             }
             StateHasChanged();
         }
         public void CambiarEstadoProyectoNuevo(bool estado)
         {
             estadoProyectoNuevo = estado;
+        }
+        public void CambiarEstadoProyectoCancelado(bool estado)
+        {
+            estadoProyectoCancelado = estado;
         }
     }
 }

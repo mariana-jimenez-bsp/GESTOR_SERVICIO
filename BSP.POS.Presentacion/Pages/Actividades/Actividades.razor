@@ -100,7 +100,15 @@
         {
             <ModalExito mensaje="Actividad Agregada"></ModalExito>
         }
-        <ModalAgregarActividad ActivarModal="@activarModalAgregarActividad" OnClose="ClickHandlerAgregarActividad" actividadAgregada="CambiarEstadoActividadNueva"></ModalAgregarActividad>
+        @if (estadoActividadCancelada)
+        {
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
+        @if (!string.IsNullOrEmpty(mensajeDescartar))
+        {
+            <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
+        }
+        <ModalAgregarActividad ActivarModal="@activarModalAgregarActividad" OnClose="ClickHandlerAgregarActividad" actividadAgregada="CambiarEstadoActividadNueva" actividadCancelada="CambiarEstadoActividadCancelada"></ModalAgregarActividad>
     }
     else
 

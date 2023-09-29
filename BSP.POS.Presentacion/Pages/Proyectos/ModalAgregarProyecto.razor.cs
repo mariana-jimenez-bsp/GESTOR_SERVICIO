@@ -14,6 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
         public string mensajeError;
         [Parameter] public EventCallback<bool> proyectoAgregado { get; set; }
+        [Parameter] public EventCallback<bool> proyectoCancelado { get; set; }
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -31,7 +32,11 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         {
             ActivarModal = true;
         }
-
+        private async Task CancelarCambios()
+        {
+            await proyectoCancelado.InvokeAsync(true);
+            await CloseModal();
+        }
         private async Task CloseModal()
         {
             proyecto = new mProyectos();
@@ -116,6 +121,11 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
             
+        }
+
+        private async Task SalirConLaX()
+        {
+            await OnClose.InvokeAsync(false);
         }
     }
 }

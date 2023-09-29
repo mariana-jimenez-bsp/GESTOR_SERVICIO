@@ -16,6 +16,8 @@ namespace BSP.POS.Presentacion.Shared
         public string esquema = string.Empty;
         public string rol = string.Empty;
         List<string> permisos;
+        private bool estadoPerfilActualizado = false;
+        private bool estadoPerfilDescartado = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -61,6 +63,11 @@ namespace BSP.POS.Presentacion.Shared
 
         void ClickHandlerPefil(bool activar)
         {
+            if (activar)
+            {
+                estadoPerfilActualizado = false;
+                estadoPerfilDescartado = false;
+            }
             activarModalPerfil = activar;
             StateHasChanged();
         }
@@ -104,6 +111,16 @@ namespace BSP.POS.Presentacion.Shared
         {
             await localStorageService.RemoveItemAsync("token");
             navigationManager.NavigateTo($"login", forceLoad: true);
+        }
+
+        private void CambiarEstadoPerfilActualizado(bool estado)
+        {
+            estadoPerfilActualizado = estado;
+        }
+
+        private void CambiarEstadoPerfilDescartado(bool estado)
+        {
+            estadoPerfilDescartado = estado;
         }
     }
 }

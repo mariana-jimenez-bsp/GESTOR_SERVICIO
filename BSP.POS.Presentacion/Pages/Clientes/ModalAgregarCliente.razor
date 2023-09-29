@@ -8,17 +8,22 @@
     <div class="modal-content ">
         <EditForm Model="@clienteNuevo" OnValidSubmit="AgregarCliente">
             <ObjectGraphDataAnnotationsValidator />
-            <div class="modal-header d-flex justify-content-center text-primary">
-                <span class="blue-dark-text text-41-book">Agregar <img class="mb-3" src="images/Clientes/Icono-clientes.png" /></span>
+            <div class="modal-header d-flex justify-content-center text-primary align-items-center">
+                <span class="blue-dark-text text-41-book">Agregar <img class="" src="images/Clientes/Icono-clientes.png" /></span>
+               
+            </div>
+            <div class="text-end pe-2">
+                <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
             </div>
             @if (!string.IsNullOrEmpty(mensajeError))
             {
                 <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
             }
             <div class="modal-body">
+               
                 <div class="container border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client">
                     
-                        <div class="row  border border-success rounded-5 my-3">
+                        <div class="row  border border-success rounded-5 mb-3">
                             <div class="d-flex justify-content-center my-2">
                                 <label class="col-md-4  blue-dark-text label-text" for="c-cliente">Nombre Cliente:</label>
                                 <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-cliente" @bind-value="clienteNuevo.NOMBRE" @oninput="CambioNombre" />
@@ -398,7 +403,7 @@
                 </div>
             </div>
             <div class="modal-footer text-13-medium">
-                <div @onclick="() => CloseModal()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-clientes">
+                <div @onclick="() => CancelarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-clientes">
                     Cancelar
                 </div>
                 <button type="submit" class="button-footer rounded-pill border border-input-gray green-bg text-light mx-4" id="guardar-agregar-clientes">

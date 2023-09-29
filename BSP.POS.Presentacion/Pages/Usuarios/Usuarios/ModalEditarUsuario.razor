@@ -10,6 +10,9 @@
             <div class="modal-header d-flex justify-content-center text-primary">
                 <h2 class="blue-dark-text text-41-book">Editar<img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
             </div>
+            <div class="text-end pe-2">
+                <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+            </div>
             @if (!string.IsNullOrEmpty(mensajeError))
             {
                 <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
@@ -122,7 +125,7 @@
                 </div>
             </div>
             <div class="modal-footer text-13-medium">
-                <div @onclick="() => CloseModal()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-actualizar-usuario">
+                <div @onclick="() => CancelarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-actualizar-usuario">
                     Cancelar
                 </div>
                 <button type="submit" class="button-footer rounded-pill border border-input-gray green-bg text-light mx-4" id="actualizar-usuario">

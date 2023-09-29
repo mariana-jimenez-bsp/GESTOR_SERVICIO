@@ -246,12 +246,14 @@ else
         </div>
     </nav>
 }
-
-
-@if (activarModalPerfil)
+@if (estadoPerfilActualizado)
 {
-    <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
+   <ModalExito mensaje="El Perfil ha sido Actualizado"></ModalExito>
 }
-
+@if (estadoPerfilDescartado)
+{
+    <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+}
+<ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil" perfilActualizado="CambiarEstadoPerfilActualizado" perfilDescartado="CambiarEstadoPerfilDescartado"></ModalPerfil>
 
  

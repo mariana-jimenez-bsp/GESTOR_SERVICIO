@@ -4,6 +4,7 @@ using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Models.Permisos;
 using System;
 using System.Security.Claims;
+using BSP.POS.Presentacion.Models.Clientes;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
@@ -27,9 +28,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public string mensajeCorreoRepite = string.Empty;
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
-
+        public mClienteAsociado clienteAsociado = new mClienteAsociado();
         public string tipo { get; set; } = string.Empty;
         public string mensajeError;
+        [Parameter] public EventCallback<bool> perfilActualizado { get; set; }
+        [Parameter] public EventCallback<bool> perfilDescartado { get; set; }
         protected override async Task OnInitializedAsync()
         {
 
@@ -50,7 +53,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 correoOriginal = perfil.correo;
                 perfil.clave = string.Empty;
                 usuarioOriginal = perfil.usuario;
-               
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                clienteAsociado = await ClientesService.ObtenerClienteAsociado(perfil.cod_cliente, perfil.esquema);
+
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await PermisosService.ObtenerListaDePermisos(perfil.esquema);
                 if (PermisosService.ListaPermisos != null)
@@ -217,6 +222,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     }
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
+                    await perfilActualizado.InvokeAsync(true);
                     await CloseModal();
                 }
             }
@@ -231,7 +237,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             ActivarModal = true;
         }
-
+        private async Task DescartarCambios()
+        {
+            await CloseModal();
+            await perfilDescartado.InvokeAsync(true);
+        }
         private async Task CloseModal()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -265,6 +275,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
             usuarioOriginal = perfil.usuario;
             await OnClose.InvokeAsync(false);
 
+        }
+
+        private async Task SalirConLaX()
+        {
+            await OnClose.InvokeAsync(false);
         }
 
     }

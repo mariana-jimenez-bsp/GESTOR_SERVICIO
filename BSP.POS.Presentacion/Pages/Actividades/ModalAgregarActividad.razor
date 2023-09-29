@@ -9,6 +9,9 @@
             <div class="modal-header d-flex justify-content-center text-primary">
                 <span class="blue-dark-text text-41-book">Agregar <img class="mb-3" src="images/Actividades/Icono-actividades.png" /></span>
             </div>
+            <div class="text-end pe-2">
+                <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+            </div>
             @if (!string.IsNullOrEmpty(mensajeError))
             {
                 <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
@@ -42,7 +45,7 @@
                 </div>
             </div>
             <div class="modal-footer text-13-medium">
-                <div @onclick="() => CloseModal()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-actividades">
+                <div @onclick="() => CancelarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-actividades">
                     Cancelar
                 </div>
                 <button type="submit" class="button-footer rounded-pill border border-input-gray green-bg text-light mx-4" id="guardar-agregar-actividades">

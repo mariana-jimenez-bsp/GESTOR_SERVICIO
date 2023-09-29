@@ -17,8 +17,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public string rol = string.Empty;
         List<string> permisos;
         public string mensajeActualizar;
+        public string mensajeDescartar;
         public string mensajeError;
         private bool estadoClienteNuevo = false;
+        private bool estadoClienteCancelado = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -178,6 +180,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private async Task ActualizarListaClientes()
         {
             mensajeError = null;
+            mensajeDescartar = null;
             mensajeActualizar = null;
             estadoClienteNuevo = false;
             try
@@ -208,11 +211,13 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         {
             mensajeActualizar = null;
             estadoClienteNuevo = false;
+            mensajeDescartar = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
             if (ClientesService.ListaClientes != null)
             {
                 clientes = ClientesService.ListaClientes;
+                mensajeDescartar = "Se han descartado los cambios";
             }
         }
         
@@ -244,6 +249,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             if (activar)
             {
                 estadoClienteNuevo = false;
+                estadoClienteCancelado = false;
             }
             StateHasChanged();
         }
@@ -252,6 +258,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public void CambiarEstadoClienteNuevo(bool estado)
         {
             estadoClienteNuevo = estado;
+        }
+        public void CambiarEstadoClienteCancelado(bool estado)
+        {
+            estadoClienteCancelado = estado;
         }
     }
 }

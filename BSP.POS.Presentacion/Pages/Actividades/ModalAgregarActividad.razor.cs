@@ -14,6 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         
         public string mensajeError;
         [Parameter] public EventCallback<bool> actividadAgregada { get; set; }
+        [Parameter] public EventCallback<bool> actividadCancelada { get; set; }
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -25,7 +26,11 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         {
             ActivarModal = true;
         }
-
+        private async Task CancelarCambios()
+        {
+            await actividadCancelada.InvokeAsync(true);
+            await CloseModal();
+        }
         private async Task CloseModal()
         {
             activadNueva = new mActividades();
@@ -80,6 +85,10 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                 mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
 
+        }
+        private async Task SalirConLaX()
+        {
+            await OnClose.InvokeAsync(false);
         }
     }
 }

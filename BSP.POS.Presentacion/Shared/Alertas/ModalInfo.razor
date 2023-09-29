@@ -1,0 +1,15 @@
+﻿@inject SweetAlertService Swal;
+
+@code {
+    [Parameter]
+    public string mensaje { get; set; } = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        await ActivarAlertaInfo();
+    }
+    private async Task ActivarAlertaInfo()
+    {
+        await Swal.FireAsync("Aviso!", mensaje, "info");
+    }
+}
+

@@ -12,8 +12,10 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public string rol = string.Empty;
         List<string> permisos;
         public string mensajeActualizar;
+        public string mensajeDescartar;
         public string mensajeError;
         private bool estadoActividadNueva = false;
+        private bool estadoActividadCancelada = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -82,6 +84,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         {
             mensajeActualizar = null;
             estadoActividadNueva = false;
+            mensajeDescartar = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ActividadesService.ObtenerListaDeActividades(esquema);
             if (ActividadesService.ListaActividades != null)
@@ -94,6 +97,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             mensajeActualizar = null;
             mensajeError = null;
             estadoActividadNueva = false;
+            mensajeDescartar = null;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -131,6 +135,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             if (!activar)
             {
                 mensajeActualizar = null;
+                mensajeDescartar = null;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ActividadesService.ObtenerListaDeActividades(esquema);
                 if (ActividadesService.ListaActividades != null)
@@ -141,12 +146,17 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             if (activar)
             {
                 estadoActividadNueva = false;
+                estadoActividadCancelada = false;
             }
             StateHasChanged();
         }
         public void CambiarEstadoActividadNueva(bool estado)
         {
             estadoActividadNueva = estado;
+        }
+        public void CambiarEstadoActividadCancelada(bool estado)
+        {
+            estadoActividadCancelada = estado;
         }
     }
 }

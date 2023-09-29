@@ -37,14 +37,10 @@
                 <ObjectGraphDataAnnotationsValidator />
                     <span class="text-success">Agregar Observación</span>
                     <div class="mb-3">
-                        <div class="form-floating">
-                            <textarea class="form-control border-success rounded-3 text-success" placeholder="Escribe la observatión acá" id="floatingTextarea2" style="height: 100px" @bind="@observacionAAgregar.observacion" @oninput="CambioObservacion"></textarea>
-                            <label for="floatingTextarea2">Agregar Observación</label>
-                        </div>
-
+                                <textarea class="form-control border-success rounded-3 text-success" type="text" @bind="@observacionAAgregar.observacion" @oninput="CambioObservacion"></textarea>
                     </div>
                      <ValidationMessage For="@(() => observacionAAgregar.observacion)" />
-                    <button type="submit" class="border-success rounded-3">Agregar</button>
+                        <button type="submit" class="border-success rounded-pill button-add green-bg text-light">Agregar</button>
 
                     </EditForm>
                 </div>

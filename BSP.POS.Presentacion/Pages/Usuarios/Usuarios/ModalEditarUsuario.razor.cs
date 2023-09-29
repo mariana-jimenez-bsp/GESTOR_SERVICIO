@@ -29,6 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
         [Parameter] public EventCallback<bool> usuarioActualizado { get; set; }
+        [Parameter] public EventCallback<bool> usuarioCancelado { get; set; }
         protected override async Task OnInitializedAsync()
         {
             if (!string.IsNullOrEmpty(codigo))
@@ -68,10 +69,15 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             ActivarModal = true;
         }
-
+        private async Task CancelarCambios()
+        {
+            await usuarioCancelado.InvokeAsync(true);
+            usuario = new mUsuariosParaEditar();
+            await CloseModal();
+        }
         private async Task CloseModal()
         {
-            usuario = new mUsuariosParaEditar();
+            
             await OnClose.InvokeAsync(false);
 
         }
@@ -276,6 +282,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
                     await ActualizarListaDePermisos();
                     await usuarioActualizado.InvokeAsync(true);
+                    usuario = new mUsuariosParaEditar();
                     await CloseModal();
 
                 }
@@ -286,6 +293,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
             
+        }
+
+        private async Task SalirConLaX()
+        {
+            await OnClose.InvokeAsync(false);
         }
 
     }
