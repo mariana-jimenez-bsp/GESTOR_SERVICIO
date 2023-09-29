@@ -142,7 +142,11 @@
                 </div>
             </EditForm>
         </div>
-        <ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto"></ModalAgregarProyecto>
+        @if (estadoProyectoNuevo)
+        {
+            <ModalExito mensaje="Proyecto Agregado"></ModalExito>
+        }
+        <ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto" proyectoAgregado="CambiarEstadoProyectoNuevo"></ModalAgregarProyecto>
     }
     else
 

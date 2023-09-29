@@ -104,7 +104,7 @@
                     @if (permisos.Any(p => p.Contains("Actividades")))
                     {
                         <a class="vertical-line p-2 border-light"></a>
-                        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
                     }
                 }
 
@@ -139,7 +139,42 @@ else if (navigationManager.Uri.IndexOf("/clientes", StringComparison.OrdinalIgno
                     @if (permisos.Any(p => p.Contains("Actividades")))
                     {
                         <a class="vertical-line p-2 border-light"></a>
-                        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                    }
+                }
+
+
+            </div>
+        </nav>
+    </div>
+}
+else if (navigationManager.Uri.IndexOf("/actividades", StringComparison.OrdinalIgnoreCase) >= 0)
+{
+    <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+            <span class="blue-dark-text text-20-book">Actividades <img class="mb-3 img-proyectos" src="images/Actividades/Icono-actividades.png" /></span>
+        </div>
+
+        <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
+            <div class="sections p-3 div-sections">
+
+                <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+                @if (permisos != null)
+                {
+                    @if (permisos.Any(p => p.Contains("Clientes")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                    }
+                    @if (permisos.Any(p => p.Contains("Proyectos")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+                    }
+                    @if (permisos.Any(p => p.Contains("Actividades")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
                     }
                 }
 
@@ -173,7 +208,7 @@ else if (navigationManager.Uri.IndexOf("/configuraciones/usuarios", StringCompar
                     @if (permisos.Any(p => p.Contains("Actividades")))
                     {
                         <a class="vertical-line p-2 border-light"></a>
-                        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
                     }
                 }
 
@@ -203,7 +238,7 @@ else
                 @if (permisos.Any(p => p.Contains("Actividades")))
                 {
                     <a class="vertical-line p-2 border-light"></a>
-                    <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                    <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
                 }
             }
 
@@ -217,13 +252,6 @@ else
 {
     <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
 }
-@if(permisos != null){
 
-@if (permisos.Any(p => p.Contains("Actividades") && activarModalActividades))
-{
-    <ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>
-}
-}
-    
 
  

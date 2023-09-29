@@ -1,0 +1,124 @@
+﻿
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigationManager
+@inject IActividadesInterface ActividadesService
+@if (cargaInicial)
+{
+    @if (permisos != null && permisos.Any(p => p.Contains("Actividades")))
+    {
+
+
+        <Layout Texto="RecibirTexto"></Layout>
+        <div class="">
+            <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades">
+                <ObjectGraphDataAnnotationsValidator />
+
+                @if (!string.IsNullOrEmpty(mensajeActualizar))
+                {
+                    <ModalExito mensaje="@mensajeActualizar"></ModalExito>
+                }
+                @if (!string.IsNullOrEmpty(mensajeError))
+                {
+                    <ModalError mensaje="@mensajeError"></ModalError>
+                }
+                <div class=" d-flex row g-2 text-center ">
+                    <div class="container mt-1 border-transparent">
+
+                        <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
+                            <div class="col-md-3">
+                                <label class=" text-center w-75 ">Código de Act.</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="pe-2 text-center w-100">Nombre</label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="pe-4 text-center w-100 ">CI-Referencia</label>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="pe-5 text-center w-50">Horas</label>
+                            </div>
+                        </div>
+                        <div class="max-height-activities overflow-y-auto overflow-x-hidden scrollbar-modal-activities">
+                            @if (actividades != null)
+                            {
+                                var listaDeActividades = actividades;
+                                if (!string.IsNullOrEmpty(textoRecibido))
+                                {
+                                    // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                                    listaDeActividades = listaDeActividades.Where(actividad =>
+                                    actividad.Actividad.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    actividad.CI_referencia.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    actividad.codigo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                    ).ToList();
+                                }
+                                @foreach (var actividad in listaDeActividades)
+                                {
+                                    <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
+                                        <div class="col-md-3">
+                                            <input class="w-75 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.codigo" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input class="w-100 text-center blue-dark-text border-primary rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
+                                            <ValidationMessage For="@(() => actividad.Actividad)" />
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
+                                            <ValidationMessage For="@(() => actividad.CI_referencia)" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <input class="w-50 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
+                                            <ValidationMessage For="@(() => actividad.horas)" />
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-activity text-13-medium">
+                    <div @onclick="() => ClickHandlerAgregarActividad(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                        Agregar
+                        Actividad
+                    </div>
+                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
+                        Descartar
+                        cambios
+                    </div>
+                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos">
+                        Guardar
+                        cambios
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+        @if (estadoActividadNueva)
+        {
+            <ModalExito mensaje="Actividad Agregada"></ModalExito>
+        }
+        <ModalAgregarActividad ActivarModal="@activarModalAgregarActividad" OnClose="ClickHandlerAgregarActividad" actividadAgregada="CambiarEstadoActividadNueva"></ModalAgregarActividad>
+    }
+    else
+
+
+    {
+        <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+    }
+
+}
+else
+{
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
+}

@@ -23,6 +23,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
+        [Parameter] public EventCallback<bool> usuarioAgregado { get; set; }
+        
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -226,7 +228,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
                         await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
                     }
-
+                    await usuarioAgregado.InvokeAsync(true);
                     await CloseModal();
                 }
             }

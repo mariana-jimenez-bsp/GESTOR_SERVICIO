@@ -14,6 +14,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public bool cargaInicial = false;
         public string rol = string.Empty;
         public string codigoUsuario = string.Empty;
+        private bool estadoUsuarioNuevo = false;
+        private bool estadoUsuarioActualizado = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -56,6 +58,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             {
                 await RefrescarListaDeUsuarios();
             }
+            if (activar)
+            {
+                estadoUsuarioNuevo = false;
+            }
             StateHasChanged();
         }
         private async Task EnviarCodigo(bool activar, string codigo)
@@ -77,8 +83,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 await RefrescarListaDeUsuarios();
                 codigoUsuario = string.Empty;
             }
+            if (activar)
+            {
+                estadoUsuarioActualizado = false;
+            }
             actividarModalEditarUsuario = activar;
             StateHasChanged();
+        }
+        public void CambiarEstadoUsuarioNuevo(bool estado)
+        {
+            estadoUsuarioNuevo = estado;
+        }
+
+        public void CambiarEstadoUsuarioActualizado(bool estado)
+        {
+            estadoUsuarioActualizado = estado;
         }
     }
 }

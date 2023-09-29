@@ -58,7 +58,6 @@ namespace BSP.POS.Presentacion.Shared
         }
 
         bool activarModalPerfil = false;
-        bool activarModalActividades = false;
 
         void ClickHandlerPefil(bool activar)
         {
@@ -66,14 +65,6 @@ namespace BSP.POS.Presentacion.Shared
             StateHasChanged();
         }
 
-
-        
-
-        void ClickHandlerActividades(bool activar)
-        {
-            activarModalActividades = activar;
-            StateHasChanged();
-        }
         private void IrAlInicio()
         {
 
@@ -95,6 +86,12 @@ namespace BSP.POS.Presentacion.Shared
         {
 
             navigationManager.NavigateTo($"clientes");
+        }
+
+        private void IrAActividades()
+        {
+
+            navigationManager.NavigateTo($"actividades");
         }
 
         private void IrAConfiguraciones()

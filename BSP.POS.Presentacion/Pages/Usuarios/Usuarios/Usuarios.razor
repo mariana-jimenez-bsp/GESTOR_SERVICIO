@@ -82,14 +82,22 @@
             </div>
 
         </div>
+        @if (estadoUsuarioNuevo)
+        {
+            <ModalExito mensaje="Usuario Agregado"></ModalExito>
+        }
+        @if (estadoUsuarioActualizado)
+        {
+            <ModalExito mensaje="Usuario Actualizado"></ModalExito>
+        }
         @if (actividarModalAgregarUsuario)
         {
-            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario"></ModalAgregarUsuario>
+            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" usuarioAgregado="CambiarEstadoUsuarioNuevo"></ModalAgregarUsuario>
         }
        
         @if (actividarModalEditarUsuario)
         {
-            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoUsuario"></ModalEditarUsuario>
+            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoUsuario" usuarioActualizado="CambiarEstadoUsuarioActualizado"></ModalEditarUsuario>
         }
 
     }

@@ -187,7 +187,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 if (ClientesService.ListaClientes != null)
                 {
                     clientes = ClientesService.ListaClientes;
-                    mensajeActualizar = "Proyectos Actualizados";
+                    mensajeActualizar = "Clientes Actualizados";
                 }
                
             }
@@ -251,7 +251,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         
         public void CambiarEstadoClienteNuevo(bool estado)
         {
-            estadoClienteNuevo = true;
+            estadoClienteNuevo = estado;
         }
     }
 }

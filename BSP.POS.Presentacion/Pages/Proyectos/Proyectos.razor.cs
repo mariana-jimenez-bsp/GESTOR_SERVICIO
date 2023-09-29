@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Services.Actividades;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
@@ -16,6 +17,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         List<string> permisos;
         public string mensajeActualizar;
         public string mensajeError;
+        private bool estadoProyectoNuevo = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -144,6 +146,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private async Task DescartarCambios()
         {
             mensajeActualizar = null;
+            actividadModalAgregarProyecto = false;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ProyectosService.ObtenerListaDeProyectos(esquema);
             if (ProyectosService.ListaProyectos != null)
@@ -155,6 +158,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         {
             mensajeActualizar = null;
             mensajeError = null;
+            estadoProyectoNuevo = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -199,7 +203,15 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                     proyectos = ProyectosService.ListaProyectos;
                 }
             }
+            if (activar)
+            {
+                estadoProyectoNuevo = false;
+            }
             StateHasChanged();
+        }
+        public void CambiarEstadoProyectoNuevo(bool estado)
+        {
+            estadoProyectoNuevo = estado;
         }
     }
 }

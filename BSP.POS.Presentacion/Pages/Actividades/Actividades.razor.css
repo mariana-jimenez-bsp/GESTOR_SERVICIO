@@ -1,0 +1,168 @@
+﻿
+.footer-activity {
+    display: flex;
+    justify-content: end;
+    height: 120px;
+    width: 100%;
+    background-color: #2FAD70;
+    align-items: center;
+}
+
+    .footer-activity .button-footer {
+        padding: 10px 20px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+.blue-light-bg {
+    background-color: #2255A1;
+}
+
+.blue-dark-bg {
+    background-color: #1C3259;
+}
+
+.blue-light-text {
+    color: #2255A1;
+}
+
+.blue-dark-text {
+    color: #1C3259;
+}
+
+.green-bg {
+    background-color: #2FAD70;
+}
+
+.green-add-bg {
+    background-color: #0A8637;
+}
+
+.green-text {
+    color: #2FAD70;
+}
+
+.border-success {
+    border-color: #2FAD70;
+}
+
+.border-primary {
+    border-color: #1C3259;
+}
+
+.scrollbar-modal-activities::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Color del área de seguimiento */
+.scrollbar-modal-activities::-webkit-scrollbar-track {
+    background-color: #2FAD70;
+    border: 5px solid white;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-modal-activities::-webkit-scrollbar-thumb {
+    background-color: #2FAD70;
+    border-radius: 20px;
+    border: 3px solid white;
+}
+
+.max-height-activities {
+    max-height: 620px;
+    min-height: 620px;
+}
+
+.text-41-book {
+    font-size: 41pt;
+}
+
+.text-16-book {
+    font-size: 12pt;
+}
+
+.text-16-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 11pt;
+}
+
+.text-13-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 11pt;
+}
+
+.border-input-gray {
+    border-color: #D5D5D5;
+}
+
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .footer-activity {
+        height: 70px;
+        width: 100%;
+    }
+
+    .max-height-activities {
+        max-height: 150px;
+        width: auto;
+        max-width: 760px;
+    }
+
+    .max-height-activities {
+        max-height: 450px;
+    }
+
+    .text-41-book {
+        font-size: 20pt;
+    }
+
+    .text-16-book {
+        font-size: 8pt;
+    }
+
+    .text-16-medium {
+        font-size: 8pt;
+    }
+
+    .text-13-medium {
+        font-size: 7pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .footer-activity {
+        height: 70px;
+        width: 100%;
+    }
+
+    .max-height-activities {
+        max-height: 300px;
+        min-height: 300px;
+        max-width: 1330px;
+    }
+
+    .text-41-book {
+        font-size: 20pt;
+    }
+
+    .text-16-book {
+        font-size: 10pt;
+    }
+
+    .text-16-medium {
+        font-size: 10pt;
+    }
+
+    .text-13-medium {
+        font-size: 10pt;
+    }
+
+    .footer-activity .button-footer {
+        padding: 10px 10px;
+        height: 40px;
+    }
+}
