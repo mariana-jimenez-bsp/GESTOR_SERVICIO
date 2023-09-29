@@ -1,0 +1,410 @@
+﻿@inject IProyectosInterface ProyectosService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IItemsClienteInterface ItemsClienteService
+@inject ILugaresInterface LugaresService
+@inject IClientesInterface ClientesService
+
+<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content ">
+        <EditForm Model="@clienteNuevo" OnValidSubmit="AgregarCliente">
+            <ObjectGraphDataAnnotationsValidator />
+            <div class="modal-header d-flex justify-content-center text-primary">
+                <span class="blue-dark-text text-41-book">Agregar <img class="mb-3" src="images/Clientes/Icono-clientes.png" /></span>
+            </div>
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+            }
+            <div class="modal-body">
+                <div class="container border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client">
+                    
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center my-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-cliente">Nombre Cliente:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-cliente" @bind-value="clienteNuevo.NOMBRE" @oninput="CambioNombre" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.NOMBRE)" />
+                            </div>
+
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-razon">Razón Social:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-razon" @bind-value="clienteNuevo.ALIAS" @oninput="CambioAlias" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.ALIAS)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text">Imagen:</label>
+                                <div class="col-md-4 px-2">
+                                    @if (clienteNuevo.IMAGEN != null && !clienteNuevo.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
+                                    {
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(clienteNuevo.IMAGEN)" class="ps-2 pb-1 w-25" alt="Imagen" />
+                                    }
+                                    else
+                                    {
+                                        <img class="ps-2 pb-1" alt="Sin Imagen" />
+                                    }
+                                    <InputFile class="text-center d-flex row me-2" accept="image/x-png,image/jpeg" OnChange="CambioImagen" />
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.IMAGEN)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-tipoNit">Tipo de NIT:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoNit" @bind="clienteNuevo.TIPO_NIT" @oninput="CambioTipoNit">
+                                    <option value="">Seleccione el Tipo de Nit </option>
+                                    @if (listaTiposNit.Any())
+                                    {
+                                        foreach (var tipoNit in listaTiposNit)
+                                        {
+                                            <option value="@tipoNit.valor">@tipoNit.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.TIPO_NIT)" />
+                            </div>
+                        </div>
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center my-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-cedula">Cédula:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-cedula" @bind-value="clienteNuevo.CONTRIBUYENTE" @oninput="CambioContribuyente" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.CONTRIBUYENTE)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-pais">País:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-pais" @bind="clienteNuevo.PAIS" @oninput="CambioPais">
+                                    <option value="">Seleccione el páis</option>
+                                    @if (listaPaises.Any())
+                                    {
+                                        foreach (var pais in listaPaises)
+                                        {
+                                            <option value="@pais.lugar">@pais.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.PAIS)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-provincia">Provincia:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-provincia" @bind="clienteNuevo.DIVISION_GEOGRAFICA1" @oninput="CambioProvincia">
+                                    <option value="">Seleccione la Provincia</option>
+                                    @if (listaProvincias.Any())
+                                    {
+                                        foreach (var provincia in listaProvincias)
+                                        {
+                                            <option value="@provincia.lugar">@provincia.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA1)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-canton">Cantón:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-canton" @bind="clienteNuevo.DIVISION_GEOGRAFICA2" @oninput="CambioCanton">
+                                    <option value="">Seleccione el Cantón</option>
+                                    @if (listaCantones.Any())
+                                    {
+                                        foreach (var canton in listaCantones)
+                                        {
+                                            <option value="@canton.lugar">@canton.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA2)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-distrito">Distrito:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-distrito" @bind="clienteNuevo.DIVISION_GEOGRAFICA3" @oninput="CambioDistrito">
+                                    <option value="">Seleccione el Distrito</option>
+                                    @if (listaDistritos.Any())
+                                    {
+                                        foreach (var distrito in listaDistritos)
+                                        {
+                                            <option value="@distrito.lugar">@distrito.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA3)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-barrio">Barrio:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-barrio" @bind="clienteNuevo.DIVISION_GEOGRAFICA4" @oninput="CambioBarrio">
+                                    <option value="">Seleccione el Barrio</option>
+                                    @if (listaBarrios.Any())
+                                    {
+                                        foreach (var barrio in listaBarrios)
+                                        {
+                                            <option value="@barrio.lugar">@barrio.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA4)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-otrassenas">Otras señas:</label>
+                                <textarea class="col-md-4 border border-success rounded-pill px-3 text-input " type="text" id="c-otrassenas" @bind="clienteNuevo.OTRAS_SENAS" @oninput="CambioOtrasSeñas"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.OTRAS_SENAS)" />
+                            </div>
+                        </div>
+
+
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center my-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-responsable">Responsable:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-responsable" @bind-value="clienteNuevo.CONTACTO" @oninput="CambioContacto" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.CONTACTO)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-telefono1">Teléfono 1:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-telefono1" @bind-value="clienteNuevo.TELEFONO1" @oninput="CambioTelefono1" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.TELEFONO1)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-telefono2">Teléfono 2:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-telefono2" @bind-value="clienteNuevo.TELEFONO2" @oninput="CambioTelefono2" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.TELEFONO2)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-correo">Correo:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="email" id="c-correo" @bind-value="clienteNuevo.E_MAIL" @oninput="CambioCorreo" />
+                            </div>
+                        </div>
+
+
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center my-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-moneda">Moneda:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-moneda" @bind="clienteNuevo.MONEDA" @oninput="CambioMoneda">
+                                    <option value="">Seleccione la moneda</option>
+                                    <option value="CRC">Colón</option>
+                                    <option value="USD">Dolar</option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.MONEDA)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-nivel">Nivel precio:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-nivel" @bind="clienteNuevo.NIVEL_PRECIO" @oninput="CambioNivelPrecio">
+                                    <option value="">Seleccione el Nivel Precio</option>
+                                    @if (listaNivelesPrecio.Any())
+                                    {
+                                        foreach (var nivel in listaNivelesPrecio)
+                                        {
+                                            <option value="@nivel.valor">@nivel.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.NIVEL_PRECIO)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text">Documento a Generar:</label>
+                                <div class="col-md-4 d-flex">
+                                    <label class="d-flex w-label">
+                                        <input class="border-success" type="radio" name="opcionesDoc" value="F" @oninput="CambioDocAGenerar" /> Factura
+                                    </label>
+                                    <label class="d-flex w-label">
+                                        <input class="border-success" type="radio" name="opcionesDoc" value="T" @oninput="CambioDocAGenerar" /> Tiquete
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.DOC_A_GENERAR)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text">Exento de Impuesto:</label>
+                                <div class="col-md-4 d-flex">
+                                <label class="d-flex w-label">
+                                        <input class="border-success" type="radio" name="opcionesExento" value="S" @oninput="CambioExentoImpuesto" /> Sí
+                                    </label>
+                                <label class="d-flex w-label">
+                                        <input class="border-success" type="radio" name="opcionesExento" value="N" @oninput="CambioExentoImpuesto" /> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.EXENTO_IMPUESTOS)" />
+                            </div>
+                        </div>
+
+
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center my-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-condicionpago">Condición de pago:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-condicionpago" @bind="clienteNuevo.CONDICION_PAGO" @oninput="CambioCondicionPago">
+                                    <option value="">Seleccione la condición de pago</option>
+                                    @if (listaCondicionesPago.Any())
+                                    {
+                                        foreach (var condicion in listaCondicionesPago)
+                                        {
+                                            <option value="@condicion.valor">@condicion.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.CONDICION_PAGO)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-descuento">Descuento %:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-descuento" @bind-value="clienteNuevo.DESCUENTO" @oninput="CambioDescuento" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.DESCUENTO)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-ventas">Exento Ventas %:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-ventas" @bind-value="clienteNuevo.EXENCION_IMP1" readonly="@clienteNuevo.readonlyExento" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.EXENCION_IMP1)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-consumo">Exento Consumo %:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consumo" @bind-value="clienteNuevo.EXENCION_IMP2" readonly="@clienteNuevo.readonlyExento" />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.EXENCION_IMP2)" />
+                            </div>
+                        </div>
+
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center mb-2 mt-2">
+                                <label class="col-md-4  blue-dark-text label-text">Es Corporación:</label>
+                                <div class="col-md-4 d-flex">
+                                    <label class="d-flex w-label">
+                                        <input class="border-success" type="radio" name="opcionesCorporacion" value="S" @oninput="CambioEsCorporacion" /> Sí
+                                    </label>
+                                <label class="d-flex w-label">
+                                        <input class="border-success" type="radio" name="opcionesCorporacion" value="N" @oninput="CambioEsCorporacion" /> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.ES_CORPORACION)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-corporacion">Cliente Corporación:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-corporacion" disabled="@clienteNuevo.readonlyCorporacion" @bind="clienteNuevo.CLI_CORPORAC_ASOC" @oninput="CambioCorporacionAsociada">
+                                    <option value="">Seleccione Cliente Corporación asociado</option>
+                                    @if (listaClientesCorporaciones.Any())
+                                    {
+                                        foreach (var cliente in listaClientesCorporaciones)
+                                        {
+                                            <option value="@cliente.cliente">@cliente.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center my-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-tipoImpuesto">Tipo Impuesto:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoImpuesto" @bind="clienteNuevo.TIPO_IMPUESTO" @oninput="CambioTipoImpuesto">
+                                    <option value="">Seleccione el Tipo de Impuesto</option>
+                                    @if (listaTiposImpuestos.Any())
+                                    {
+                                        foreach (var tipoImpuesto in listaTiposImpuestos)
+                                        {
+                                            <option value="@tipoImpuesto.valor">@tipoImpuesto.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.TIPO_IMPUESTO)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-tipoTarifa">Tipo Tarifa:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoTarifa" @bind="clienteNuevo.TIPO_TARIFA" @oninput="CambioTipoTarifa">
+                                    <option value="">Seleccione el Tipo de Tarifa</option>
+                                    @if (listaTiposTarifasImpuesto.Any())
+                                    {
+                                        foreach (var tipoTarifa in listaTiposTarifasImpuesto)
+                                        {
+                                            <option value="@tipoTarifa.tipoTarifa">@tipoTarifa.descripcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.TIPO_TARIFA)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-porcetajeTarifa">Porcentaje Tarifa:</label>
+                                <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-porcetajeTarifa" @bind-value="clienteNuevo.PORC_TARIFA" readonly />
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.PORC_TARIFA)" />
+                            </div>
+                        </div>
+                        <div class="row  border border-success rounded-5 my-3">
+                            <div class="d-flex justify-content-center my-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-tipoCliente">Tipo de Cliente:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-tipoCliente" @bind="clienteNuevo.TIPIFICACION_CLIENTE" @oninput="CambioTipoCliente">
+                                    <option value="">Seleccione el Tipo de Cliente</option>
+                                    <option value="01">Gobierno Central</option>
+                                    <option value="02">Gobierno Autónomo</option>
+                                    <option value="03">Exterior</option>
+                                    <option value="04">Leyes Especiales</option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.TIPIFICACION_CLIENTE)" />
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-afectacionIva">Afectación de IVA:</label>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-afectacionIva" @bind="clienteNuevo.AFECTACION_IVA" @oninput="CambioAfectacionIva">
+                                    <option value="">Seleccione la Afectación de IVA</option>
+                                    <option value="01">Gravada con Derecho a Crédito</option>
+                                    <option value="02">Exenta con Derecho a Crédito</option>
+                                    <option value="03">Exenta sin Derecho a Crédito</option>
+                                    <option value="04">No Sujeta con Derecho a Crédito</option>
+                                    <option value="05">No Sujeta sin Derecho a Crédito</option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <ValidationMessage For="@(() => clienteNuevo.AFECTACION_IVA)" />
+                            </div>
+                        </div>
+          
+                </div>
+            </div>
+            <div class="modal-footer text-13-medium">
+                <div @onclick="() => CloseModal()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-clientes">
+                    Cancelar
+                </div>
+                <button type="submit" class="button-footer rounded-pill border border-input-gray green-bg text-light mx-4" id="guardar-agregar-clientes">
+                    Agregar
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>

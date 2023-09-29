@@ -1,13 +1,17 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Lugares;
+using BSP.POS.Presentacion.Models.Proyectos;
+using BSP.POS.Presentacion.Services.Lugares;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace BSP.POS.Presentacion.Pages.Modals.Creates
+namespace BSP.POS.Presentacion.Pages.Clientes
 {
-    public partial class CrearCliente : ComponentBase
+    public partial class ModalAgregarCliente: ComponentBase
     {
+        [Parameter] public bool ActivarModal { get; set; } = false;
+        [Parameter] public EventCallback<bool> OnClose { get; set; }
         public string esquema = string.Empty;
         public string usuarioActual = string.Empty;
         public List<mLugares> listaPaises = new List<mLugares>();
@@ -22,8 +26,9 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
         public List<mTarifa> listaTiposTarifasImpuesto = new List<mTarifa>();
         public List<mClienteContado> listaClientesCorporaciones = new List<mClienteContado>();
         public mAgregarCliente clienteNuevo = new mAgregarCliente();
+        public string mensajeError;
         public string monedaActual;
-        public string mensajeAgregado;
+        [Parameter] public EventCallback<bool> clienteAgregado { get; set; }
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -61,6 +66,18 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
                 listaTiposNit = ItemsClienteService.listaTiposDeNit;
             }
         }
+        private void OpenModal()
+        {
+            ActivarModal = true;
+        }
+
+        private async Task CloseModal()
+        {
+            clienteNuevo = new mAgregarCliente();
+            await OnClose.InvokeAsync(false);
+
+        }
+
         private async Task CambioPais(ChangeEventArgs e)
         {
             listaProvincias = new List<mLugares>();
@@ -459,9 +476,9 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
 
         }
 
-        public async Task AgregarCliente()
+        private async Task AgregarCliente()
         {
-            mensajeAgregado = null;
+            mensajeError = null;
             try
             {
                 clienteNuevo.CARGO = "ND";
@@ -479,24 +496,24 @@ namespace BSP.POS.Presentacion.Pages.Modals.Creates
                 await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
                 if (ClientesService.ClienteAsociado != null)
                 {
-                    mensajeAgregado = "El cliente ha sido agregado";
                     clienteNuevo = new mAgregarCliente();
+                    await clienteAgregado.InvokeAsync(true);
+                    await CloseModal();
+                    
                 }
                 else
                 {
-                    mensajeAgregado = "Error al agregar el cliente";
+                    mensajeError = "Error al agregar el cliente";
                     clienteNuevo = new mAgregarCliente();
                 }
+                
             }
             catch (Exception)
             {
-
-                mensajeAgregado = "Error al agregar el cliente";
                 clienteNuevo = new mAgregarCliente();
+                mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
-            
-           
-        }
 
+        }
     }
 }

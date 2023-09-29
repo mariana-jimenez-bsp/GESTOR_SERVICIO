@@ -203,16 +203,17 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 {
                     pdfContent = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
 
-                    var fileName = "ReporteInforme.pdf";
+                    var fileName = "ReporteInforme_"+ informeAsociadoSeleccionado.consecutivo + ".pdf";
                     var data = Convert.ToBase64String(pdfContent);
                     var url = $"data:application/pdf;base64,{data}";
 
                     await JSRuntime.InvokeVoidAsync("guardarDocumento", fileName, url);
+                    //await JSRuntime.InvokeVoidAsync("imprimirDocumento", url, fileName);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string error = ex.ToString();
                 mensajeError = "Ocurrió un Error vuelva a intentarlo";
             }
             

@@ -94,7 +94,7 @@
                     @if (permisos.Any(p => p.Contains("Clientes")))
                     {
                         <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                     }
                     @if (permisos.Any(p => p.Contains("Proyectos")))
                     {
@@ -113,7 +113,42 @@
         </nav>
     </div>
 }
-else @if (navigationManager.Uri.IndexOf("/configuraciones/usuarios", StringComparison.OrdinalIgnoreCase) >= 0)
+else if (navigationManager.Uri.IndexOf("/clientes", StringComparison.OrdinalIgnoreCase) >= 0)
+{
+    <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+            <span class="blue-dark-text text-20-book">Clientes <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
+        </div>
+
+        <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
+            <div class="sections p-3 div-sections">
+
+                <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+                @if (permisos != null)
+                {
+                    @if (permisos.Any(p => p.Contains("Clientes")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                    }
+                    @if (permisos.Any(p => p.Contains("Proyectos")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+                    }
+                    @if (permisos.Any(p => p.Contains("Actividades")))
+                    {
+                        <a class="vertical-line p-2 border-light"></a>
+                        <a class="mouse-pointer" @onclick="() => ClickHandlerActividades(true)">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                    }
+                }
+
+
+            </div>
+        </nav>
+    </div>
+}
+else if (navigationManager.Uri.IndexOf("/configuraciones/usuarios", StringComparison.OrdinalIgnoreCase) >= 0)
 {
     <div class="d-flex justify-content-between mb-3">
         <div class="d-flex justify-content-start align-items-center w-20 ps-2">
@@ -128,7 +163,7 @@ else @if (navigationManager.Uri.IndexOf("/configuraciones/usuarios", StringCompa
                     @if (permisos.Any(p => p.Contains("Clientes")))
                     {
                         <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                     }
                     @if (permisos.Any(p => p.Contains("Proyectos")))
                     {
@@ -158,7 +193,7 @@ else
                 @if (permisos.Any(p => p.Contains("Clientes")))
                 {
                     <a class="vertical-line p-2 border-light"></a>
-                    <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerClientes(true)">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                    <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                 }
                 @if (permisos.Any(p => p.Contains("Proyectos")))
                 {
@@ -183,10 +218,7 @@ else
     <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil"></ModalPerfil>
 }
 @if(permisos != null){
-@if (permisos.Any(p => p.Contains("Clientes") && activarModalClientes))
-{
-    <ModalClientes ActivarModal="@activarModalClientes" OnClose="ClickHandlerClientes"></ModalClientes>
-}
+
 @if (permisos.Any(p => p.Contains("Actividades") && activarModalActividades))
 {
     <ModalActividades ActivarModal="@activarModalActividades" OnClose="ClickHandlerActividades"></ModalActividades>

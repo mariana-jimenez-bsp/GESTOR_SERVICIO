@@ -142,7 +142,7 @@ namespace BSP.POS.Presentacion.Services.ItemsCliente
                 if( response.StatusCode == HttpStatusCode.OK)
                 {
                     string codigo = await response.Content.ReadAsStringAsync();
-                    if(string.IsNullOrEmpty(codigo))
+                    if(!string.IsNullOrEmpty(codigo))
                     {
                         return codigo;
                     }

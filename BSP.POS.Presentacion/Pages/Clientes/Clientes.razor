@@ -1,0 +1,267 @@
+﻿
+
+@inject IProyectosInterface ProyectosService
+@inject IItemsClienteInterface ItemsClienteService
+@inject IClientesInterface ClientesService
+@inject IUsuariosInterface UsuariosService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigationManager
+@inject IJSRuntime JS
+@if (cargaInicial)
+{
+    @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
+    {
+
+
+        <Layout Texto="RecibirTexto"></Layout>
+        <div class="">
+            <EditForm Model="@clientes" OnValidSubmit="ActualizarListaClientes">
+                <ObjectGraphDataAnnotationsValidator />
+
+                @if (!string.IsNullOrEmpty(mensajeActualizar))
+                {
+                    <ModalExito mensaje="@mensajeActualizar"></ModalExito>
+                }
+                @if (!string.IsNullOrEmpty(mensajeError))
+                {
+                    <ModalError mensaje="@mensajeError"></ModalError>
+                }
+                <div class="">
+                    <div id="accordion" class="border-transparent">
+                    <div class="mt-1 border-transparent">
+
+                        <div class="card-header row blue-light-text fw-bold text-15-book" id="headings-clients">
+                                <div class="col-md-1">
+                                    <label class="text-center w-100 ">Código</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class=" text-center w-100 ">Nombre</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="pe-3 text-center w-100 ">Razón Social</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="pe-5 text-center w-100">Cédula</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="pe-5 text-center w-100">Télefono 1</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="ps-4 text-start w-100">Télefono 2</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="ps-2 text-start w-100">Correo</label>
+                                </div>
+                        </div>
+                        <div class="max-height-clients overflow-y-auto overflow-x-hidden scrollbar-modal-clients">
+                            @if (clientes != null)
+                            {
+                                 int index = 0;
+                                var listaDeClientes = clientes;
+                                if (!string.IsNullOrEmpty(textoRecibido))
+                                {
+                                    // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                                        listaDeClientes = listaDeClientes.Where(cliente =>
+                                    cliente.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    cliente.ALIAS.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    cliente.CLIENTE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                    ).ToList();
+                                }
+                                    @foreach (var cliente in listaDeClientes)
+                                    {
+                                    int cont = index;
+                                    <div class="mb-3 mt-3">
+                                            <div class="card-header row text-15-book" id="heading-@cont">
+                                                <div class="mb-0 col-md-1">
+                                                    @if (cliente.IsOpen)
+                                                    {
+                                                        <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" value="@cliente.CLIENTE" readonly>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="w-100 text-center text-secondary">@cliente.CLIENTE</label>
+                                                    }
+
+                                                </div>
+                                                <div class="mb-0 col-md-2">
+                                                    @if (cliente.IsOpen)
+                                                    {
+                                                        <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.NOMBRE" @oninput="(e) => CambioNombre(e, cliente.CLIENTE)">
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="w-100 text-center text-secondary">@cliente.NOMBRE</label>
+                                                    }
+                                                    <ValidationMessage For="@(() => cliente.NOMBRE)" />
+                                                </div>
+                                                <div class="mb-0 col-md-2">
+                                                    @if (cliente.IsOpen)
+                                                    {
+                                                        <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.ALIAS" @oninput="(e) => CambioAlias(e, cliente.CLIENTE)">
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="w-100 text-center text-secondary">@cliente.ALIAS</label>
+                                                    }
+                                                    <ValidationMessage For="@(() => cliente.ALIAS)" />
+                                                </div>
+                                                <div class="mb-0 col-md-1">
+                                                    @if (cliente.IsOpen)
+                                                    {
+                                                        <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.CONTRIBUYENTE" @oninput="(e) => CambioContribuyente(e, cliente.CLIENTE)">
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="w-100 text-center text-secondary">@cliente.CONTRIBUYENTE</label>
+                                                    }
+                                                    <ValidationMessage For="@(() => cliente.CONTRIBUYENTE)" />
+                                                </div>
+                                                <div class="mb-0 col-md-2">
+                                                    @if (cliente.IsOpen)
+                                                    {
+                                                        <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO1" @oninput="(e) => CambioTelefono1(e, cliente.CLIENTE)">
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="w-100 text-center text-secondary">@cliente.TELEFONO1</label>
+                                                    }
+                                                    <ValidationMessage For="@(() => cliente.TELEFONO1)" />
+                                                </div>
+                                                <div class="mb-0 col-md-2">
+                                                    @if (cliente.IsOpen)
+                                                    {
+                                                        <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO2" @oninput="(e) => CambioTelefono2(e, cliente.CLIENTE)">
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="w-100 text-center text-secondary">@cliente.TELEFONO2</label>
+                                                    }
+                                                    <ValidationMessage For="@(() => cliente.TELEFONO2)" />
+                                                </div>
+                                                <div class="mb-0 col-md-2">
+                                                    @if (cliente.IsOpen)
+                                                    {
+                                                        <div class="d-flex">
+                                                            <input class="w-100 text-center text-secondary border-success rounded-pill me-2" type="text" @bind-value="@cliente.E_MAIL" @oninput="(e) => CambioCorreo(e, cliente.CLIENTE)">
+                                                            <i class="mt-2 fa-solid fa-caret-up fa-xl d-flex justify-content-end green-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
+                                                        </div>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="d-flex">
+                                                            @if (!string.IsNullOrEmpty(cliente.E_MAIL) && cliente.E_MAIL.Length > 12)
+                                                            {
+                                                                string correoCortado = cliente.E_MAIL.Substring(0, 12) + "...";
+                                                                <label class="w-75 text-center text-secondary me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@cliente.E_MAIL">@correoCortado</label>
+                                                            }else{
+                                                                <label class="w-75 text-center text-secondary me-3">@cliente.E_MAIL</label>
+                                                            }
+                                                            <i class="fa-solid fa-sort-down fa-xl d-flex justify-content-end blue-light-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
+                                                        </div>
+                                                    }
+                                                    <ValidationMessage For="@(() => cliente.E_MAIL)" />
+                                                </div>
+                                            </div>
+                                            <div id="contenidoDesplegable-@cont" class="collapse collapsed border-transparent bg-light collapsing" aria-labelledby="heading-@cont" data-parent="#accordion">
+                                                <!-- Contenido del desplegable 1 -->
+                                                <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="content w-75 pb-3">
+                                                        @if (cliente.listaDeUsuarios.Any())
+                                                        {
+                                                            <div class="row p-2 blue-dark-bg text-light border border-primary rounded-top-4 text-9-bold">
+                                                                <div class="col-md-2">
+                                                                    <span>Código</span>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <span>Usuario</span>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <span>Departamento</span>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <span>Correo</span>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <span>Teléfono</span>
+                                                                </div>
+                                                            </div>
+
+                                                            foreach (var usuario in cliente.listaDeUsuarios)
+                                                            {
+                                                                <div class="row text-15-book p-2 blue-dark-text border-bottom border-start border-end border-success @(esElUltimoUsuario(cliente, usuario) ? "rounded-bottom-4" : "")">
+                                                                    <div class="col-md-2">
+                                                                        <span>@usuario.codigo</span>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <span>@usuario.usuario</span>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <span>@usuario.departamento</span>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <span>@usuario.correo</span>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <span>@usuario.telefono</span>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <!-- Agrega más elementos aquí -->
+                                            </div>
+
+                                        </div>
+                                        index++;
+                                    }
+                            }
+
+                        </div>
+                    </div>
+                     </div>
+                </div>
+                <div class="footer-client text-13-medium">
+                    <div @onclick="() => ClickHandlerAgregarCliente(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                        Agregar
+                        Cliente
+                    </div>
+                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
+                        Descartar
+                        cambios
+                    </div>
+                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos">
+                        Guardar
+                        cambios
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+        @if (estadoClienteNuevo)
+        {
+            <ModalExito mensaje="Cliente Agregado"></ModalExito>
+        }
+        <ModalAgregarCliente ActivarModal="@actividarModalAgregarCliente" OnClose="ClickHandlerAgregarCliente" clienteAgregado="CambiarEstadoClienteNuevo"></ModalAgregarCliente>
+    }
+    else
+
+
+    {
+        <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+    }
+
+}
+else
+{
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
+}

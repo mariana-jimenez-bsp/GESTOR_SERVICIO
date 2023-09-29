@@ -1,31 +1,51 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Runtime.InteropServices;
-using BSP.POS.Presentacion.Pages.Home;
+﻿using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.ItemsCliente;
+using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
-using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Services.Usuarios;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System.Security.Claims;
 
-namespace BSP.POS.Presentacion.Pages.Modals
+namespace BSP.POS.Presentacion.Pages.Clientes
 {
-    public partial class ModalClientes : ComponentBase
+    public partial class Clientes: ComponentBase
     {
-        [Parameter] public bool ActivarModal { get; set; } = false;
-        [Parameter] public EventCallback<bool> OnClose { get; set; }
-        private bool IsCollapseOpen = false;
         public List<mClientes> clientes = new List<mClientes>();
         public string esquema = string.Empty;
-        int cont = 0;
+        public bool cargaInicial = false;
+        public string rol = string.Empty;
+        List<string> permisos;
+        public string mensajeActualizar;
         public string mensajeError;
-
+        private bool estadoClienteNuevo = false;
         protected override async Task OnInitializedAsync()
         {
-           
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
+            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await RefrescarListaClientes();
+            cargaInicial = true;
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
 
+                // Inicializa los tooltips de Bootstrap
+                try
+                {
+                    await JS.InvokeVoidAsync("initTooltips");
+                }
+                catch (Exception ex)
+                {
 
+                    string error = ex.ToString();
+                    Console.WriteLine(error);
+                }
+                
+            
+        }
         private async Task RefrescarListaClientes()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -37,29 +57,19 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
             }
         }
+
         private async Task ObtenerUsuariosDeCliente(string clienteObtenido)
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             foreach (var cliente in clientes)
             {
-                if(cliente.CLIENTE == clienteObtenido) { 
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
+                if (cliente.CLIENTE == clienteObtenido)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
                 }
             }
         }
-        private void OpenModal()
-        {
-            ActivarModal = true;
-        }
-
-        private async Task CloseModal()
-        {
-            await OnClose.InvokeAsync(false);
-
-        }
-    
-  
 
         private async Task ToggleCollapse(string clienteCod)
         {
@@ -80,8 +90,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
 
         }
-
-
 
         private void CambioNombre(ChangeEventArgs e, string clienteCod)
         {
@@ -170,6 +178,8 @@ namespace BSP.POS.Presentacion.Pages.Modals
         private async Task ActualizarListaClientes()
         {
             mensajeError = null;
+            mensajeActualizar = null;
+            estadoClienteNuevo = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -177,37 +187,71 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 if (ClientesService.ListaClientes != null)
                 {
                     clientes = ClientesService.ListaClientes;
+                    mensajeActualizar = "Proyectos Actualizados";
                 }
-                await CloseModal();
+               
             }
             catch (Exception)
             {
 
                 mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
-           
-        }
 
-        private bool esElUltimoUsuario(mClientes cliente ,mUsuariosDeCliente usuario)
+        }
+        private bool esElUltimoUsuario(mClientes cliente, mUsuariosDeCliente usuario)
         {
             // Compara el elemento actual con el último elemento de la lista
             return cliente.listaDeUsuarios.IndexOf(usuario) == cliente.listaDeUsuarios.Count - 1;
         }
 
-        private string activeTab = "lista"; // Pestaña activa inicialmente
-
-        private async Task ChangeTab(string tabId)
+        private async Task DescartarCambios()
         {
-            activeTab = tabId;
-            if(activeTab == "lista")
+            mensajeActualizar = null;
+            estadoClienteNuevo = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.ObtenerListaClientes(esquema);
+            if (ClientesService.ListaClientes != null)
             {
-                await RefrescarListaClientes();
+                clientes = ClientesService.ListaClientes;
             }
         }
+        
 
-        private string GetTabLinkClass(string tabId)
+        [Parameter]
+        public string textoRecibido { get; set; } = string.Empty;
+
+        private Task RecibirTexto(string texto)
         {
-            return activeTab == tabId ? "active" : "";
+            textoRecibido = texto;
+            return Task.CompletedTask;
+        }
+
+        bool actividarModalAgregarCliente = false;
+
+        async Task ClickHandlerAgregarCliente(bool activar)
+        {
+            actividarModalAgregarCliente = activar;
+            if (!activar)
+            {
+                mensajeActualizar = null;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ObtenerListaClientes(esquema);
+                if (ClientesService.ListaClientes != null)
+                {
+                    clientes = ClientesService.ListaClientes;
+                }
+            }
+            if (activar)
+            {
+                estadoClienteNuevo = false;
+            }
+            StateHasChanged();
+        }
+
+        
+        public void CambiarEstadoClienteNuevo(bool estado)
+        {
+            estadoClienteNuevo = true;
         }
     }
 }

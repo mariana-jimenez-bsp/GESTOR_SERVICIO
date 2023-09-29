@@ -58,7 +58,6 @@ namespace BSP.POS.Presentacion.Shared
         }
 
         bool activarModalPerfil = false;
-        bool activarModalClientes = false;
         bool activarModalActividades = false;
 
         void ClickHandlerPefil(bool activar)
@@ -68,15 +67,7 @@ namespace BSP.POS.Presentacion.Shared
         }
 
 
-        async Task ClickHandlerClientes(bool activar)
-        {
-            activarModalClientes = activar;
-            if(activarModalClientes == false)
-            {
-                await ModalClientesEstado.InvokeAsync(true);
-            }
-            StateHasChanged();
-        }
+        
 
         void ClickHandlerActividades(bool activar)
         {
@@ -98,6 +89,12 @@ namespace BSP.POS.Presentacion.Shared
         {
 
             navigationManager.NavigateTo($"proyectos");
+        }
+
+        private void IrAClientes()
+        {
+
+            navigationManager.NavigateTo($"clientes");
         }
 
         private void IrAConfiguraciones()
