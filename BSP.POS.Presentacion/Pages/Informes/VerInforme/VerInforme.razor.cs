@@ -255,5 +255,23 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         {
             estadoObservacionCancelada = estado;
         }
+
+        public bool advertenciaFinalizarInforme = false;
+        private async Task ActivarAdvertenciaFinalizar()
+        {
+            advertenciaFinalizarInforme = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            advertenciaFinalizarInforme = true;
+            StateHasChanged();
+        }
+
+        public bool advertenciaGuardarInforme = false;
+        private async Task ActivarAdvertenciaGuardar()
+        {
+            advertenciaGuardarInforme = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            advertenciaGuardarInforme = true;
+            StateHasChanged();
+        }
     }
 }

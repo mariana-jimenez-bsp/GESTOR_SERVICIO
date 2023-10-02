@@ -35,9 +35,10 @@ namespace BSP.POS.Presentacion.Pages.Home
             }
         }
 
-        private void IrACrear()
+        private async Task IrACrear()
         {
             EsClienteNull = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             if (!string.IsNullOrEmpty(clienteAsociado.CLIENTE))
             {
                 navigationManager.NavigateTo($"Informe/Crear/{clienteAsociado.CLIENTE}");

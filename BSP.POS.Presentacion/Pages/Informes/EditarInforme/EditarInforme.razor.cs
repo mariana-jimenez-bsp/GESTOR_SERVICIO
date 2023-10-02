@@ -385,8 +385,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         }
 
         public bool advertenciaEnviarAlCliente = false;
-        private void ActivarAdvertenciaEnviar()
+        private async Task ActivarAdvertenciaEnviar()
         {
+            advertenciaEnviarAlCliente = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             advertenciaEnviarAlCliente = true;
             StateHasChanged();
         }

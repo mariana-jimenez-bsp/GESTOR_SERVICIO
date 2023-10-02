@@ -8,7 +8,10 @@
 }
 
 .blue-good {
-    color: #053d9e;
+    color: #1C3259;
+}
+.blue-dark-bg {
+    background-color: #1C3259;
 }
 .mouse-pointer {
     transition: background-color 0.3s;

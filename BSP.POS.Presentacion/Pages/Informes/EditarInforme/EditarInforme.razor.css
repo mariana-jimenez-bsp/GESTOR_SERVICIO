@@ -3,7 +3,8 @@
 }
 
 .observation {  
-    margin-left: 1%;
+    margin-right: 3%;
+    max-width: 578px;
 }
 .max-height-observation{
     max-height: 100px;

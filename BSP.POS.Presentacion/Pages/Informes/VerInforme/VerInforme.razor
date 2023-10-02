@@ -102,7 +102,7 @@
                 </div>
                         <div class="d-flex row justify-content-center align-items-center text-center">
                             <span class="green-text font-19-bold">Observaciones</span>
-                            <div class="row max-height-observation overflow-y-auto overflow-x-hidden scrollbar-report mb-1">
+                            <div class="observation row max-height-observation overflow-y-auto overflow-x-hidden scrollbar-report mb-1">
                                 @if (listaDeObservaciones.Any())
                                 {
                                     @foreach (var observacion in listaDeObservaciones)
@@ -116,7 +116,7 @@
                                     }
                                 }
                             </div>
-                            <div class="observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer p-2" @onclick="() => ClickHandlerObservaciones(true)">
+                            <div class=" observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer p-2" @onclick="() => ClickHandlerObservaciones(true)">
                                 <span>+ Observaciones</span>
                             </div>
                         </div>
@@ -208,11 +208,11 @@
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                         <span>Descartar</span>
                     </div>
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya no se puede editar">
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya no se puede editar" @onclick="ActivarAdvertenciaGuardar">
                         <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
                         <span>Guardar Borrador</span>
                     </div>
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya fue Finalizado">
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya fue Finalizado" @onclick="ActivarAdvertenciaFinalizar">
                         <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
                         <span>Aprobar</span>
                     </div>
@@ -241,7 +241,12 @@
     @if(estadoObservacionCancelada){
         <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
     }
-    
+    @if(advertenciaFinalizarInforme){
+        <ModalAdvertencia mensaje="El informe ya fue finalizado antes"></ModalAdvertencia>
+    }
+    @if(advertenciaGuardarInforme){
+        <ModalAdvertencia mensaje="El informe fue finalizado y no se puede editar"></ModalAdvertencia>
+    }
             <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
         }
         else if (informe.estado == "Borrador")

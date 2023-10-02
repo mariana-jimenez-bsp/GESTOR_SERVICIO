@@ -104,6 +104,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         private async Task ReenviarCorreo()
         {
             EsConsecutivoNull = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
                 correoEnviado = null;
@@ -204,6 +205,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         {
             mensajeError = null;
             EsConsecutivoNull = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             try
             {
                 if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
