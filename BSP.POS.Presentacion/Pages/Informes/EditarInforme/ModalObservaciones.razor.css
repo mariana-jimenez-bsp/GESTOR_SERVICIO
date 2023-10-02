@@ -10,7 +10,10 @@
 .blue-good {
     color: #053d9e;
 }
-
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
 .green-good {
     color: #198754;
 }
@@ -37,7 +40,7 @@
 
 .modal-content {
     display: inline-block;
-    margin-top: 5%;
+    margin-top: 25%;
     background-color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -97,4 +100,10 @@
     background-color: white;
     border-radius: 20px;
     border: 3px solid #198754;
+}
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .modal-content {
+        margin-top: 10%;
+
+    }
 }

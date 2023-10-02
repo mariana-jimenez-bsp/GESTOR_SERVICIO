@@ -3,6 +3,8 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Clientes;
+using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -34,6 +36,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
         public string mensajeError;
+        private bool estadoObseracionNueva = false;
+        private bool estadoObservacionCancelada = false;
 
         private async Task SubmitActividades()
         {
@@ -96,12 +100,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
                     await RefrescarListaDeUsuariosDeInforme();
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ObservacionesService.ObtenerListaDeObservacionesDeInforme(Consecutivo, esquema);
-                    if (ObservacionesService.ListaDeObservacionesDeInforme != null)
-                    {
-                        listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-                    }
+                    await RefrescarLaListaDeObservaciones(Consecutivo);
                 }
             }
             }
@@ -127,6 +126,27 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             else
             {
                 return false;
+            }
+        }
+        private async Task RefrescarLaListaDeObservaciones(string consecutivo)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
+            if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+            {
+                listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                foreach (var observacion in listaDeObservaciones)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
+                    if (UsuariosService.UsuarioParaEditar != null)
+                    {
+                        observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
+                        
+                    }
+                    
+                    
+                }
             }
         }
         private void CambioHorasCobradas(ChangeEventArgs e, string actividadId)
@@ -338,10 +358,19 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             StateHasChanged();
         }
 
-        void ClickHandlerObservaciones(bool activar)
+        async Task ClickHandlerObservaciones(bool activar)
         {
             activarModalObservaciones = activar;
             StateHasChanged();
+            if (!activar)
+            {
+                await RefrescarLaListaDeObservaciones(Consecutivo);
+            }
+            if (activar)
+            {
+                estadoObservacionCancelada = false;
+                estadoObseracionNueva = false;
+            }
         }
         void ClickHandlerFinalizarInforme(bool activar)
         {
@@ -360,6 +389,42 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             advertenciaEnviarAlCliente = true;
             StateHasChanged();
+        }
+
+        private bool EsLaPrimeraObservacion(mObservaciones observacion)
+        {
+
+            if(listaDeObservaciones.IndexOf(observacion) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool EsLaUltmaObservacion(mObservaciones observacion)
+        {
+
+            if (listaDeObservaciones.IndexOf(observacion) == listaDeObservaciones.Count - 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void CambiarEstadoObservacionNueva(bool estado)
+        {
+            estadoObseracionNueva = estado;
+            
+        }
+        public void CambiarEstadoObservacionCancelada(bool estado)
+        {
+            estadoObservacionCancelada = estado;
         }
     }
 }

@@ -12,40 +12,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         [Parameter] public string esquema { get; set; } = string.Empty;
         [Parameter] public string consecutivo { get; set; } = string.Empty;
         [Parameter] public string usuarioActual { get; set; } = string.Empty;
-        public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
-        
+        [Parameter] public EventCallback<bool> observacionAgregada { get; set; }
+        [Parameter] public EventCallback<bool> observacionCancelada { get; set; }
+
         public mObservaciones observacionAAgregar = new mObservaciones();
         public string mensajeError;
-        protected override async Task OnParametersSetAsync()
-        {
-            if(!string.IsNullOrEmpty(esquema) && !string.IsNullOrEmpty(consecutivo))
-            {
-                await RefrescarListaDeObservaciones();
-            }
-        }
+        
 
-        public async Task RefrescarListaDeObservaciones()
+        private async Task CancelarCambios()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
-            if (ObservacionesService.ListaDeObservacionesDeInforme != null)
-            {
-                listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-                foreach (var observacion in listaDeObservaciones)
-                {
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
-                    if (UsuariosService.UsuarioParaEditar != null)
-                    {
-                        observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
-                    }
-                       
-                }
-            }
+            await observacionCancelada.InvokeAsync(true);
+            await CloseModal();
         }
 
         private async Task CloseModal()
         {
+            observacionAAgregar = new mObservaciones();
             await OnClose.InvokeAsync(false);
 
         }
@@ -73,8 +55,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     }
                     observacionAAgregar.consecutivo_informe = consecutivo;
                     await ObservacionesService.AgregarObservacionDeInforme(observacionAAgregar, esquema);
-                    observacionAAgregar = new mObservaciones();
-                    await RefrescarListaDeObservaciones();
+                    await observacionAgregada.InvokeAsync(true);
+                    await CloseModal();
+ 
+                   
                 }
             }
             catch (Exception)
@@ -84,6 +68,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 observacionAAgregar = new mObservaciones();
             }
 
+        }
+        private async Task SalirConLaX()
+        {
+            await OnClose.InvokeAsync(false);
         }
     }
 }

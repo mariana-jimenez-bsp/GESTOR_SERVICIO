@@ -133,9 +133,27 @@
                 }
              </div>
             </div>
-                    <div class="observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer" @onclick="() => ClickHandlerObservaciones(true)">
-                        <span>+ Observaciones</span>
+                    <div class="d-flex row justify-content-center align-items-center text-center">
+                        <span class="green-text font-19-bold">Observaciones</span>
+                        <div class="row max-height-observation overflow-y-auto overflow-x-hidden scrollbar-report mb-1">
+                                @if (listaDeObservaciones.Any())
+                                {
+                                    @foreach (var observacion in listaDeObservaciones)
+                                    {
+                                        <div class="col-md-2 border-green @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")">
+                                            <span>@observacion.nombre_usuario</span>
+                                        </div>
+                                        <div class="col-md-10 border-green text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")">
+                                            <span>@observacion.observacion</span>
+                                        </div>
+                                    }
+                                }
+                        </div>
+                        <div class="observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer p-2" @onclick="() => ClickHandlerObservaciones(true)">
+                              <span>+ Observaciones</span>
+                        </div>
                     </div>
+                    
 
 
                 </div>
@@ -271,10 +289,13 @@
             </div>
 <ModalEliminarUsuario ActivarModal="@activarModalEliminarUsuario" OnClose="ClickHandlerEliminarUsuario" idUsuario="@idUsuarioActual" esquema="@esquema" nombreUsuario="@nombreUsuarioActual"></ModalEliminarUsuario>
 <ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
-@if(activarModalObservaciones){
-    <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual"></ModalObservaciones>
-}
-
+    <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="CambiarEstadoObservacionNueva" observacionCancelada="CambiarEstadoObservacionCancelada"></ModalObservaciones>
+    @if(estadoObseracionNueva){
+        <ModalExito mensaje="Se ha agregado la observación"></ModalExito>
+    }
+    @if(estadoObservacionCancelada){
+        <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+    }
     <ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalFinalizarInforme>
     <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
 }else if(informe.estado == "Finalizado"){
