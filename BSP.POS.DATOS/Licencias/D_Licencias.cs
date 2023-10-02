@@ -17,7 +17,7 @@ namespace BSP.POS.DATOS.Licencias
             U_Licencia licencia = new U_Licencia();
             foreach (var item in response)
             {
-                licencia = new U_Licencia(item.Id, item.esquema, item.estado, item.fecha_vencimiento);
+                licencia = new U_Licencia(item.Id, item.codigo, item.esquema, item.estado, item.fecha_inicio, item.fecha_vencimiento);
                 
             }
             return licencia;

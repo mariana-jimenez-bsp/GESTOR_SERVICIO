@@ -3,7 +3,9 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
+using BSP.POS.Presentacion.Services.Reportes;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Security.Cryptography.X509Certificates;
 
 namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
@@ -22,6 +24,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         private string correoEnviado;
+        public string mensajeError;
+        private bool EsConsecutivoNull = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -99,6 +103,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         }
         private async Task ReenviarCorreo()
         {
+            EsConsecutivoNull = false;
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
                 correoEnviado = null;
@@ -163,6 +168,41 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
                     correoEnviado = "Error";
                 }
             }
+            else
+            {
+                EsConsecutivoNull = true;
+            }
+        }
+        private byte[] pdfContent;
+
+        private async Task DescargarReporte()
+        {
+            mensajeError = null;
+            EsConsecutivoNull = false;
+            try
+            {
+                if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+                {
+                    pdfContent = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
+
+                    var fileName = "ReporteInforme_" + informeAsociadoSeleccionado.consecutivo + ".pdf";
+                    var data = Convert.ToBase64String(pdfContent);
+                    var url = $"data:application/pdf;base64,{data}";
+
+                    await JSRuntime.InvokeVoidAsync("guardarDocumento", fileName, url);
+                    //await JSRuntime.InvokeVoidAsync("imprimirDocumento", url, fileName);
+                }
+                else
+                {
+                    EsConsecutivoNull = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                mensajeError = "Ocurrió un Error vuelva a intentarlo";
+            }
+
         }
         [Parameter]
         public string textoRecibido { get; set; } = string.Empty;

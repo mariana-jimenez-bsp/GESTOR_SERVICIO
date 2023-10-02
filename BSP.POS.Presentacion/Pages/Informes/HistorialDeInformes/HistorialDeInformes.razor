@@ -6,6 +6,8 @@
 @inject IActividadesInterface ActividadesService
 @inject IObservacionesInterface ObservacionesService
 @inject NavigationManager navigationManager
+@inject IReportesInterface ReportesService
+@inject IJSRuntime JSRuntime
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
@@ -37,6 +39,19 @@
                              <BuscarInforme Texto="RecibirTexto"></BuscarInforme>
 
                         </div>
+                        @if (correoEnviado != null)
+                        {
+                            if(correoEnviado == "Error")
+                            {
+                                <ModalError mensaje="Ocurrió Un error vuelva a intentarlo"></ModalError>           
+                            }else{
+                                <ModalExito mensaje="@correoEnviado"></ModalExito>
+                            }
+                            
+                        }
+                        @if(!string.IsNullOrEmpty(mensajeError)){
+                            <ModalError mensaje="@mensajeError"></ModalError>
+                        }
                         @if (informesDeUsuarioFinalizados != null && clienteAsociado != null)
                         {
                             var informesUsuario = informesDeUsuarioFinalizados;
@@ -92,7 +107,7 @@
                             <span class="me-4 span-report">GERNERAR COTIZACIÓN</span>
                         </div>
                         <div class="generar-reporte imagen-div">
-                            <span class="me-4 span-report">GENERAR REPORTE</span>
+                            <span class="me-4 span-report mouse-pointer" @onclick="DescargarReporte">GENERAR REPORTE</span>
                         </div>
                         <div class="facturar imagen-div">
                             <span class="me-4 span-report">FACTURAR</span>
@@ -104,13 +119,13 @@
                 </div>
 
             </div>
-            @if (correoEnviado != null)
-            {
-                <MensajeDeLogrado Message="@correoEnviado" />
-            }
+            
         </div>
     </div>
 </div>
-
+        @if (EsConsecutivoNull)
+        {
+            <ModalAdvertencia mensaje="Debe seleccionar un Informe"></ModalAdvertencia>
+        }
     </Authorized>
 </AuthorizeView>

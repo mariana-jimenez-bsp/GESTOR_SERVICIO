@@ -47,6 +47,9 @@
     transition: background-color 0.3s;
     cursor: pointer;
 }
+.btn-agregar-usuario {
+    background-color: #2FAD70;
+}
 .custom-checkbox {
     position: absolute;
     opacity: 0;

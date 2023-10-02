@@ -57,6 +57,9 @@
         </div>
     </div>
   <ConsecutivoInforme consecutivo="@Consecutivo" estado="@Estado"></ConsecutivoInforme>
-
+    @if (EsClienteNull)
+    {
+        <ModalAdvertencia mensaje="Debe seleccionar un cliente"></ModalAdvertencia>
+    }
 </div>
 

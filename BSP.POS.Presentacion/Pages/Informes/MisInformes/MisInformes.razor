@@ -123,6 +123,9 @@
         </div>
     </div>
 </div>
-
+        @if (EsConsecutivoNull)
+        {
+            <ModalAdvertencia mensaje="Debe seleccionar un Informe"></ModalAdvertencia>
+        }
     </Authorized>
 </AuthorizeView>

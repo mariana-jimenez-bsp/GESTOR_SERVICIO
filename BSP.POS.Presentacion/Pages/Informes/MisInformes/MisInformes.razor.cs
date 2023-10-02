@@ -24,6 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         private string correoEnviado;
         public string mensajeError;
+        private bool EsConsecutivoNull = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -102,6 +103,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         }
         private async Task ReenviarCorreo()
         {
+            EsConsecutivoNull = false;
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
                 correoEnviado = null;
@@ -176,6 +178,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 correoEnviado = "Error";
             }
             }
+            else
+            {
+                EsConsecutivoNull = true;
+            }
         }
         [Parameter]
         public string textoRecibido { get; set; } = string.Empty;
@@ -197,6 +203,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         private async Task DescargarReporte()
         {
             mensajeError = null;
+            EsConsecutivoNull = false;
             try
             {
                 if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
@@ -209,6 +216,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
                     await JSRuntime.InvokeVoidAsync("guardarDocumento", fileName, url);
                     //await JSRuntime.InvokeVoidAsync("imprimirDocumento", url, fileName);
+                }
+                else
+                {
+                    EsConsecutivoNull = true;
                 }
             }
             catch (Exception ex)

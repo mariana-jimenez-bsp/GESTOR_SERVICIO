@@ -10,7 +10,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         public List<mInformes> informesAsociados { get; set; } = new List<mInformes>();
         [Parameter]
         public mClienteAsociado clienteAsociado { get; set; } = new mClienteAsociado();
-       
+        private bool EsClienteNull = false;
 
 
         public string Consecutivo { get; set; } = string.Empty;
@@ -27,7 +27,7 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         public void EnviarConsecutivo(string consecutivo, string estado)
         {
-            
+
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
             {
                 Consecutivo = consecutivo;
@@ -37,9 +37,14 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         private void IrACrear()
         {
+            EsClienteNull = false;
             if (!string.IsNullOrEmpty(clienteAsociado.CLIENTE))
             {
                 navigationManager.NavigateTo($"Informe/Crear/{clienteAsociado.CLIENTE}");
+            }
+            else
+            {
+                EsClienteNull = true;
             }
         }
         public void RefrescarDatos()
