@@ -26,6 +26,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         private string correoEnviado;
         public string mensajeError;
         private bool EsConsecutivoNull = false;
+        private bool todosLosUsuariosAprobados = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -77,6 +78,32 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
             }
 
         }
+        private async Task<bool> VerificarAprobacionesUsuarios()
+        {
+            bool aprobado = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
+            if (UsuariosService.ListaUsuariosDeClienteDeInforme.Any())
+            {
+                foreach (var usuario in UsuariosService.ListaUsuariosDeClienteDeInforme)
+                {
+                    if (usuario.aceptacion == "1")
+                    {
+                        aprobado = true;
+                    }
+                    else
+                    {
+                        aprobado = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                aprobado = true;
+            }
+            return aprobado;
+        }
 
         public async Task cambioSeleccion(string consecutivo)
         {
@@ -104,70 +131,90 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         private async Task ReenviarCorreo()
         {
             EsConsecutivoNull = false;
+            bool verificarAprobacion = false;
+            todosLosUsuariosAprobados = false;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
-                correoEnviado = null;
+                verificarAprobacion = await VerificarAprobacionesUsuarios();
+                if (!verificarAprobacion)
+                {
+                    correoEnviado = null;
 
-                mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
+                    mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
 
-                objetoParaCorreo.informe = informeAsociadoSeleccionado;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.ObtenerListaDeActividadesAsociadas(informeAsociadoSeleccionado.consecutivo, esquema);
-                if (ActividadesService.ListaActividadesAsociadas != null)
-                {
-                    objetoParaCorreo.listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
-                }
-                try
-                {
-                    objetoParaCorreo.total_horas_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
-                    objetoParaCorreo.total_horas_no_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
-                }
-                catch
-                {
-                    objetoParaCorreo.total_horas_cobradas = 0;
-                    objetoParaCorreo.total_horas_no_cobradas = 0;
-                }
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.ObtenerListaDeActividades(esquema);
-                if (ActividadesService.ListaActividades != null)
-                {
-                    listaDeActividades = ActividadesService.ListaActividades;
-
-                }
-                foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
-                {
-                    actividad.nombre_actividad = listaDeActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
-                }
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-                if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
-                {
-                    objetoParaCorreo.listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
-                    foreach (var usuario in objetoParaCorreo.listadeUsuariosDeClienteDeInforme)
+                    objetoParaCorreo.informe = informeAsociadoSeleccionado;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ActividadesService.ObtenerListaDeActividadesAsociadas(informeAsociadoSeleccionado.consecutivo, esquema);
+                    if (ActividadesService.ListaActividadesAsociadas != null)
                     {
-                        usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
-                        usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
+                        objetoParaCorreo.listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
                     }
-                }
-                objetoParaCorreo.ClienteAsociado = clienteAsociado;
-                objetoParaCorreo.esquema = esquema;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ObservacionesService.ObtenerListaDeObservacionesDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-                if (ObservacionesService.ListaDeObservacionesDeInforme != null)
-                {
-                    objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-                }
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
-                if (validar)
-                {
-                    correoEnviado = "Correo Enviado";
+                    try
+                    {
+                        objetoParaCorreo.total_horas_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
+                        objetoParaCorreo.total_horas_no_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
+                    }
+                    catch
+                    {
+                        objetoParaCorreo.total_horas_cobradas = 0;
+                        objetoParaCorreo.total_horas_no_cobradas = 0;
+                    }
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ActividadesService.ObtenerListaDeActividades(esquema);
+                    if (ActividadesService.ListaActividades != null)
+                    {
+                        listaDeActividades = ActividadesService.ListaActividades;
+
+                    }
+                    foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
+                    {
+                        actividad.nombre_actividad = listaDeActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
+                    }
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
+                    if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
+                    {
+                        objetoParaCorreo.listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
+                        foreach (var usuario in objetoParaCorreo.listadeUsuariosDeClienteDeInforme)
+                        {
+                            usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
+                            usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
+                        }
+                    }
+                    objetoParaCorreo.ClienteAsociado = clienteAsociado;
+                    objetoParaCorreo.esquema = esquema;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ObservacionesService.ObtenerListaDeObservacionesDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
+                    if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+                    {
+                        objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
+                        foreach (var observacion in objetoParaCorreo.listaDeObservaciones)
+                        {
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
+                            if (UsuariosService.UsuarioParaEditar != null)
+                            {
+                                observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
+                            }
+                        }
+                    }
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
+                    if (validar)
+                    {
+                        correoEnviado = "Correo Enviado";
+                    }
+                    else
+                    {
+                        correoEnviado = "Error";
+                    }
                 }
                 else
                 {
-                    correoEnviado = "Error";
+                    todosLosUsuariosAprobados = true;
                 }
+               
             }
             else
             {

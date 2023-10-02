@@ -127,5 +127,9 @@
         {
             <ModalAdvertencia mensaje="Debe seleccionar un Informe"></ModalAdvertencia>
         }
+        @if (todosLosUsuariosAprobados)
+        {
+            <ModalInfo mensaje="Todos los usuarios ya aprobaron el informe seleccionado"></ModalInfo>
+        }
     </Authorized>
 </AuthorizeView>
