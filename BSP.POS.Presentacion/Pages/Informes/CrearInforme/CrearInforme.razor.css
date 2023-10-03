@@ -9,7 +9,9 @@
 .max-height-observation {
     max-height: 100px;
 }
-
+.user-observation {
+    word-wrap: break-word;
+}
 .border-green {
     border: 1px solid #2FAD70;
 }

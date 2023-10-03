@@ -6,6 +6,7 @@
 @inject IObservacionesInterface ObservacionesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JS
+@inject NavigationManager navigationManager
 @if (cargaInicial)
 {
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
@@ -140,11 +141,11 @@
                                 {
                                     @foreach (var observacion in listaDeObservaciones)
                                     {
-                                        <div class="col-md-2 border-green @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")">
-                                            <span>@observacion.nombre_usuario</span>
+                                        <div class="col-md-2 border-green @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")" >
+                                            <span class="user-observation">@observacion.nombre_usuario</span>
                                         </div>
-                                        <div class="col-md-10 border-green text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")">
-                                            <span>@observacion.observacion</span>
+                                        <div class="col-md-10 border-green text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")" >
+                                            <span class="user-observation">@observacion.observacion</span>
                                         </div>
                                     }
                                 }

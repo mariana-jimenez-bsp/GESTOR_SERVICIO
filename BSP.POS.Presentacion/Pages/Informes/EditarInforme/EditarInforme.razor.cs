@@ -7,6 +7,7 @@ using BSP.POS.Presentacion.Pages.Clientes;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 {
@@ -38,6 +39,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public string mensajeError;
         private bool estadoObseracionNueva = false;
         private bool estadoObservacionCancelada = false;
+        private bool informeGuardado = false;
+        private bool activarBotonFinalizar = false;
 
         private async Task SubmitActividades()
         {
@@ -56,6 +59,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             {
                 await SubmitInforme();
                 await SubmitActividades();
+               
             }
             catch (Exception)
             {
@@ -158,6 +162,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     if (actividad.Id == actividadId)
                     {
                         actividad.horas_cobradas = e.Value.ToString();
+                        RefrescarTotalHoras();
                     }
                 }
             }
@@ -172,6 +177,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     if (actividad.Id == actividadId)
                     {
                         actividad.horas_no_cobradas = e.Value.ToString();
+                        RefrescarTotalHoras();
                     }
                 }
             }
@@ -225,7 +231,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
             await RefrescarListaDeActividadesAsociadas();
-            successMessage = "Se han guardado los cambios";
+            
+            if (!activarBotonFinalizar)
+            {
+                successMessage = "Se han guardado los cambios";
+            }
+            CambiarEstadoInformeGuardado(true);
         }
 
         private async Task ActualizarInformeAsociado()
@@ -255,11 +266,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
             }
         }
-        private async Task RefrescarListaDeActividadesAsociadas()
+        private void RefrescarTotalHoras()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo, esquema);
-            listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
             try
             {
                 total_horas_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
@@ -270,6 +278,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 total_horas_cobradas = 0;
                 total_horas_no_cobradas = 0;
             }
+        }
+        private async Task RefrescarListaDeActividadesAsociadas()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo, esquema);
+            listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
+            RefrescarTotalHoras();
             listaActividadesParaAgregar = listaActividades.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
         }
         private async Task RefrescarListaDeUsuariosDeInforme()
@@ -372,10 +387,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 estadoObseracionNueva = false;
             }
         }
-        void ClickHandlerFinalizarInforme(bool activar)
+        async Task ClickHandlerFinalizarInforme(bool activar)
         {
-            activarModalFinalizarInforme = activar;
-            StateHasChanged();
+            if (!activar)
+            {
+                activarBotonFinalizar = false;
+                activarModalFinalizarInforme = activar;
+                StateHasChanged();
+            }
+            else
+            {
+                activarBotonFinalizar = true;
+                await TodosLosBotonesSubmit();
+                
+            }
+            
+            
         }
 
         void ClickHandlerEliminarInforme(bool activar)
@@ -405,7 +432,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 return false;
             }
         }
-
+        
         private bool EsLaUltmaObservacion(mObservaciones observacion)
         {
 
@@ -427,6 +454,16 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public void CambiarEstadoObservacionCancelada(bool estado)
         {
             estadoObservacionCancelada = estado;
+        }
+
+        public void CambiarEstadoInformeGuardado(bool estado)
+        {
+            informeGuardado = estado;
+            if (informeGuardado && activarBotonFinalizar)
+            {
+                activarModalFinalizarInforme = true;
+                StateHasChanged();
+            }
         }
     }
 }
