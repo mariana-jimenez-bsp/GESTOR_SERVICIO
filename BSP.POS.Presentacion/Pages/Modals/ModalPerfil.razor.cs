@@ -29,6 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
         public mClienteAsociado clienteAsociado = new mClienteAsociado();
+        public List<mClientes> listaDeClientes = new List<mClientes>();
         public string tipo { get; set; } = string.Empty;
         public string mensajeError;
         [Parameter] public EventCallback<bool> perfilActualizado { get; set; }
@@ -51,8 +52,14 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 perfil = UsuariosService.Perfil;
                 claveOriginal = perfil.clave;
                 correoOriginal = perfil.correo;
-                perfil.clave = string.Empty;
+                perfil.clave = null;
                 usuarioOriginal = perfil.usuario;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ClientesService.ObtenerListaClientes(esquema);
+                if(ClientesService.ListaClientes != null)
+                {
+                    listaDeClientes = ClientesService.ListaClientes;
+                }
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 clienteAsociado = await ClientesService.ObtenerClienteAsociado(perfil.cod_cliente, perfil.esquema);
 
@@ -132,7 +139,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
             else
             {
-                perfil.clave = string.Empty;
+                perfil.clave = null;
             }
         }
         private void CambioCorreo(ChangeEventArgs e)
@@ -149,11 +156,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 perfil.rol = e.Value.ToString();
             }
         }
-        private void CambioNombreEmpresa(ChangeEventArgs e)
+        private void CambioCodigoCliente(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                perfil.nombre = e.Value.ToString();
+                perfil.cod_cliente = e.Value.ToString();
             }
         }
 
@@ -271,7 +278,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
             }
             claveOriginal = perfil.clave;
             correoOriginal = perfil.correo;
-            perfil.clave = string.Empty;
+            perfil.clave = null;
             usuarioOriginal = perfil.usuario;
             await OnClose.InvokeAsync(false);
 
@@ -287,5 +294,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             mostrarClave = estado;
         }
+
+        
     }
 }

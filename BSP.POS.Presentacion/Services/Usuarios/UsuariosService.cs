@@ -80,6 +80,9 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 {
                     perfil.clave = EncriptarClave(perfil.clave);
                 }
+                else {
+                    perfil.clave = string.Empty;
+                }
                 string url = "Usuarios/ActualizarPerfil";
                 string jsonData = JsonSerializer.Serialize(perfil);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -430,6 +433,10 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                     if (!string.IsNullOrEmpty(usuario.clave))
                     {
                         usuario.clave = EncriptarClave(usuario.clave);
+                    }
+                    else
+                    {
+                        usuario.clave = string.Empty;
                     }
                 
 

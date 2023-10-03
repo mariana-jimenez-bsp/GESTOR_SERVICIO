@@ -60,7 +60,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 }
                 usuario.usuarioOrignal = usuario.usuario;
                 usuario.correoOriginal = usuario.correo;
-                usuario.clave = string.Empty;
+                usuario.clave = null;
             }
             
         }

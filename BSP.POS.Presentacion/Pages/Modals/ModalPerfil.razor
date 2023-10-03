@@ -24,19 +24,35 @@
                     <label class="col-md-4  blue-dark-text label-text" for="correo">Correo:</label>
                     <input @bind-value="@perfil.correo" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="correo" @oninput="CambioCorreo" />
                 </div>
-                <ValidationMessage For="@(() => perfil.correo)" />
+                <div class="text-center">
+                    <ValidationMessage For="@(() => perfil.correo)" />
+                </div>
                 @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
                 {
-                    <MensajeRepite Message="@mensajeCorreoRepite" />
+                    <div class="text-center">
+                        <MensajeRepite Message="@mensajeCorreoRepite" />
+                    </div>
+                    
                 }
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="usuario">Usuario:</label>
-                    <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario" @oninput="CambioUsuario" />
+                    @if (rol == "Admin")
+                    {
+                        <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario" @oninput="CambioUsuario" />
+                    }
+                    else{
+                         <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario"  readonly/>
+                    }
+
                 </div>
-                <ValidationMessage For="@(() => perfil.usuario)" />
+                <div class="text-center">
+                    <ValidationMessage For="@(() => perfil.usuario)" />
+                </div>
                 @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
                 {
-                    <MensajeRepite Message="@mensajeUsuarioRepite" />
+                    <div class="text-center">
+                        <MensajeRepite Message="@mensajeUsuarioRepite" />
+                    </div>
                 }
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="contraseña">Contraseña:</label>
@@ -52,23 +68,49 @@
                         }
                     </div>
                 </div>
+                <div class="text-center">
+                    <ValidationMessage For="@(() => perfil.clave)" />
+                </div>
+                
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="empresa">Empresa:</label>
-                    <input @bind-value="@clienteAsociado.NOMBRE" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="empresa" @oninput="CambioNombreEmpresa" />
+                    @if(rol == "Admin")
+                    {
+                        <select @bind="@clienteAsociado.CLIENTE" class="col-md-4 border border-success rounded-pill px-2 text-input " id="empresa" @oninput="CambioCodigoCliente">
+                            @if (listaDeClientes.Any())
+                            {
+                                foreach (var cliente in listaDeClientes)
+                                {
+                                    <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <input @bind="@clienteAsociado.NOMBRE" class="col-md-4 border border-success rounded-pill px-2 text-input " id="empresa" type="text" readonly/>
+                    }
+                    
                 </div>
-                <ValidationMessage For="@(() => perfil.nombre)" />
+                <div class="text-center">
+                    <ValidationMessage For="@(() => perfil.nombre)" />
+                </div>
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="telefono">Telefono:</label>
                     <input @bind-value="@perfil.telefono" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="telefono" @oninput="CambioTelefono" />
                 </div>
-                <ValidationMessage For="@(() => perfil.telefono)" />
+                <div class="text-center">
+                    <ValidationMessage For="@(() => perfil.telefono)" />
+                </div>
+                @if (rol == "Admin")
+                {
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="esquema">Esquema:</label>
                     <select @bind="perfil.esquema" class="col-md-4 border border-success rounded-pill green-bg text-light px-2 text-input" id="esquema" @oninput="CambioEsquema">
                         <option value="BSP">BSP</option>
                     </select>
                 </div>
-                @if(rol == "Admin"){
+                
                 <div class="d-flex justify-content-center">
                     <label class="col-md-4  blue-dark-text label-text" for="tipo">Tipo:</label>
                     <select @bind="perfil.rol" class="col-md-4 border border-success rounded-pill green-bg text-light px-2 text-input" id="tipo" @oninput="CambioRol">
@@ -76,7 +118,9 @@
                         <option value="Admin">Administrador</option>
                     </select>
                 </div>
-                <ValidationMessage For="@(() => perfil.rol)" />
+                <div class="text-center">
+                    <ValidationMessage For="@(() => perfil.rol)" />
+                </div>
                 <div class="d-flex justify-content-center mt-3">
                     <label class="col-md-4  blue-dark-text label-text text-start ps-5" >Permisos:</label>
                     <div id="permisos" class="row col-md-6 px-2 text-input text-start d-flex align-items-center justify-content-center">
