@@ -45,7 +45,17 @@
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-clave">Clave:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-clave" type="password" @oninput="(e) => CambioClave(e, usuario.id)">
+                            <div class="width-pass d-flex align-items-center col-md-4 border border-success rounded-pill text-input">
+                                <input class="border-0 w-100 h-100 rounded-pill px-2 " id="a-clave" type="@(mostrarClave ? "text" : "password")" @oninput="(e) => CambioClave(e, usuario.id)">
+                                @if (mostrarClave)
+                                {
+                                    <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-eye p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                                }
+                            </div>
                         </div>
                         <ValidationMessage For="@(() => usuario.clave)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">

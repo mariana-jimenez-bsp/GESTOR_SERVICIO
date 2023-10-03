@@ -104,7 +104,9 @@ a, .btn-link {
     align-items: center;
     justify-content: center;
 }
-
+input[readonly] {
+    cursor: not-allowed;
+}
 .load {
     width: 23px;
     height: 3px;
@@ -113,7 +115,10 @@ a, .btn-link {
     border-radius: 5px;
     margin: 0.1em;
 }
-
+.mouse-pointer {
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
     .load:nth-child(1) {
         animation-delay: 0.2s;
     }

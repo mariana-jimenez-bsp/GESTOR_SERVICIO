@@ -299,6 +299,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             await OnClose.InvokeAsync(false);
         }
+        private bool mostrarClave = false;
 
+        private void CambiarEstadoMostrarClave(bool estado)
+        {
+            mostrarClave = estado;
+        }
     }
 }

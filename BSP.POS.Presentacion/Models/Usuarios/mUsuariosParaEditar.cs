@@ -51,7 +51,6 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public string correoRepite { get; set; } = string.Empty;
         public string mensajeCorreoRepite { get; set; } = string.Empty;
 
-
     }
 
 

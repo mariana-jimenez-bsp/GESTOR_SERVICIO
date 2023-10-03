@@ -281,6 +281,11 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             await OnClose.InvokeAsync(false);
         }
+        private bool mostrarClave = false;
 
+        private void CambiarEstadoMostrarClave(bool estado)
+        {
+            mostrarClave = estado;
+        }
     }
 }

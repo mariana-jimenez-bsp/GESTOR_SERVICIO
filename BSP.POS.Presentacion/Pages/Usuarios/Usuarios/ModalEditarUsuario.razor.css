@@ -51,7 +51,9 @@
     .modal-body select {
         width: 200px;
     }
-
+.width-pass {
+    width: 200px;
+}
 .modal-footer {
     display: flex;
     justify-content: center;

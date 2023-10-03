@@ -124,5 +124,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
             navigationManager.NavigateTo($"CorreoRecuperacion");
         }
+
+        private bool mostrarClave = false;
+
+        private void CambiarEstadoMostrarClave(bool estado)
+        {
+            mostrarClave = estado;
+        }
     }
 }

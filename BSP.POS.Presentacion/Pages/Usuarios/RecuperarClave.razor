@@ -17,16 +17,41 @@
                         <div class="col-md-7">
                             <h3>Ingrese la nueva Contraseña: </h3>
                             <div class="form-group d-flex align-items-center">
-                                <i class="fa-solid fa-lock text-success p-2"></i>
-                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" @bind-value="claveActual" />
+                                
+                                <div class="d-flex align-items-center form-control text-success">
+                                    <i class="fa-solid fa-lock text-success p-2"></i>
+                                    <input placeholder="Contraseña..." type="@(mostrarClave ? "text" : "password")" class="form-control border-0 w-100 h-100 text-success" @oninput="ValorClave" @bind-value="claveActual" />
+                                    @if (mostrarClave)
+                                    {
+                                        <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-eye p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                                    }
+                                </div>
+                                
+                                
                             </div>
                             <ValidationMessage For="@(() => usuario.clave)" />
                         </div>
                         <div class="col-md-7 mt-3">
                             <h3>Confirme la contraseña: </h3>
                             <div class="form-group d-flex align-items-center">
-                                <i class="fa-solid fa-lock text-success p-2"></i>
-                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClaveConfirmacion" @bind-value="confirmarClaveActual" />
+                                
+                               
+                                <div class="d-flex align-items-center form-control text-success">
+                                    <i class="fa-solid fa-lock text-success p-2"></i>
+                                    <input placeholder="Contraseña..." type="@(mostrarConfirmarClave ? "text" : "password")" class="form-control border-0 w-100 h-100 text-success" @oninput="ValorClaveConfirmacion" @bind-value="confirmarClaveActual" />
+                                    @if (mostrarConfirmarClave)
+                                    {
+                                        <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarConfirmarClave(false)"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-eye p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarConfirmarClave(true)"></i>
+                                    }
+                                </div>
                             </div>
                             <ValidationMessage For="@(() => usuario.confirmarClave)" />
                         </div>

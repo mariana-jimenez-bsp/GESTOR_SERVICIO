@@ -85,5 +85,19 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 usuario.confirmarClave = e.Value.ToString();
             }
         }
+
+        private bool mostrarClave = false;
+
+        private void CambiarEstadoMostrarClave(bool estado)
+        {
+            mostrarClave = estado;
+        }
+
+        private bool mostrarConfirmarClave = false;
+
+        private void CambiarEstadoMostrarConfirmarClave(bool estado)
+        {
+            mostrarConfirmarClave = estado;
+        }
     }
 }
