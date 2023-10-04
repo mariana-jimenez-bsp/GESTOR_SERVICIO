@@ -1,5 +1,7 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Actividades
@@ -157,6 +159,11 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public void CambiarEstadoActividadCancelada(bool estado)
         {
             estadoActividadCancelada = estado;
+        }
+
+        private async Task ActivarScrollBarDeErrores()
+        {
+            await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion");
         }
     }
 }

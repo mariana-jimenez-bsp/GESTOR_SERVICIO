@@ -15,7 +15,7 @@
 
         <Layout Texto="RecibirTexto"></Layout>
         <div class="">
-            <EditForm Model="@clientes" OnValidSubmit="ActualizarListaClientes">
+            <EditForm Model="@clientes" OnValidSubmit="ActualizarListaClientes" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
                 @if (!string.IsNullOrEmpty(mensajeActualizar))

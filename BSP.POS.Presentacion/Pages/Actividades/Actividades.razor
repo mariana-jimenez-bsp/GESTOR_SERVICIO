@@ -3,6 +3,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IActividadesInterface ActividadesService
+@inject IJSRuntime JSRuntime
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Actividades")))
@@ -11,7 +12,7 @@
 
         <Layout Texto="RecibirTexto"></Layout>
         <div class="">
-            <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades">
+            <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
                 @if (!string.IsNullOrEmpty(mensajeActualizar))

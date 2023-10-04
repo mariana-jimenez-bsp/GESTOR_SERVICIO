@@ -347,5 +347,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         {
             estadoUsuarioActualizadoCancelado = estado;
         }
+
+        private async Task ActivarScrollBarDeErrores()
+        {
+            await JS.InvokeVoidAsync("ActivarScrollViewValidacion");
+        }
     }
 }
