@@ -14,6 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
     {
         public string usuarioActual = string.Empty;
         [Parameter] public bool ActivarModal { get; set; } = false;
+        [Parameter] public string codigoCliente { get; set; } = string.Empty;
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         [Parameter]
         public string codigo { get; set; } = string.Empty;

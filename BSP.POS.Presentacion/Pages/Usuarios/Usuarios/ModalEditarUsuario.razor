@@ -61,12 +61,25 @@
                         <ValidationMessage For="@(() => usuario.clave)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="a-nombreCliente">Nombre Cliente:</label>
-                            <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="a-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
-                                @foreach (var cliente in listaClientes)
-                                {
-                                    <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
-                                }
-                            </select>
+                            @if (string.IsNullOrEmpty(codigoCliente))
+                            {
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="a-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                    @foreach (var cliente in listaClientes)
+                                    {
+                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="a-nombreCliente" @bind="@usuario.cod_cliente" disabled>
+                                    @foreach (var cliente in listaClientes)
+                                    {
+                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                    }
+                                </select>
+                            }
+
                         </div>
                         <ValidationMessage For="@(() => usuario.cod_cliente)" />
 

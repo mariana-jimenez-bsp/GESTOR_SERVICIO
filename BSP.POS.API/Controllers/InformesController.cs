@@ -297,11 +297,6 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string consecutivoDevuelto = informes.ValidarExistenciaConsecutivoInforme(esquema, consecutivo);
-
-                if (string.IsNullOrEmpty(consecutivoDevuelto))
-                {
-                    return NotFound();
-                }
                 return Ok(consecutivoDevuelto);
             }
             catch (Exception ex)

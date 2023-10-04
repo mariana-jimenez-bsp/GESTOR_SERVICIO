@@ -19,8 +19,14 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public string mensajeActualizar;
         public string mensajeDescartar;
         public string mensajeError;
+        private string codigoClienteActual;
+        private string codigoEditarUsuario;
         private bool estadoClienteNuevo = false;
         private bool estadoClienteCancelado = false;
+        private bool estadoUsuarioNuevo = false;
+        private bool estadoUsuarioActualizado = false;
+        private bool estadoUsuarioNuevoCancelado = false;
+        private bool estadoUsuarioActualizadoCancelado = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -82,6 +88,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                     cliente.IsOpen = !cliente.IsOpen;
                     if (cliente.IsOpen)
                     {
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
                         await ObtenerUsuariosDeCliente(clienteCod);
                     }
                 }
@@ -262,6 +269,83 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public void CambiarEstadoClienteCancelado(bool estado)
         {
             estadoClienteCancelado = estado;
+        }
+        bool actividarModalAgregarUsuario = false;
+        public async Task EnviarCodigoClienteNuevoUsuario(bool activar, string codigo)
+        {
+            codigoClienteActual = codigo;
+            await ClickHandlerAgregarUsuario(activar);
+        }
+
+        public async Task EnviarCodigoEditarUsuario(bool activar, string codigoUsuario, string codigoCliente)
+        {
+            codigoEditarUsuario = codigoUsuario;
+            codigoClienteActual = codigoCliente;
+            await ClickHandlerEditarUsuario(activar);
+        }
+
+
+        async Task ClickHandlerAgregarUsuario(bool activar)
+        {
+            actividarModalAgregarUsuario = activar;
+            if (!activar)
+            {
+                if (!string.IsNullOrEmpty(codigoClienteActual))
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ObtenerUsuariosDeCliente(codigoClienteActual);
+                    codigoClienteActual = string.Empty;
+                    
+                }
+            }
+            if (activar)
+            {
+                estadoUsuarioNuevo = false;
+                estadoUsuarioNuevoCancelado = false;
+            }
+            StateHasChanged();
+        }
+        bool actividarModalEditarUsuario = false;
+
+        async Task ClickHandlerEditarUsuario(bool activar)
+        {
+
+
+            if (!activar)
+            {
+                if (!string.IsNullOrEmpty(codigoClienteActual))
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ObtenerUsuariosDeCliente(codigoClienteActual);
+                    codigoClienteActual = string.Empty;
+                    codigoEditarUsuario = string.Empty;
+                }
+            }
+            if (activar)
+            {
+                estadoUsuarioActualizado = false;
+                estadoUsuarioActualizadoCancelado = false;
+            }
+            actividarModalEditarUsuario = activar;
+            StateHasChanged();
+        }
+
+        public void CambiarEstadoUsuarioNuevo(bool estado)
+        {
+            estadoUsuarioNuevo = estado;
+        }
+
+        public void CambiarEstadoUsuarioActualizado(bool estado)
+        {
+            estadoUsuarioActualizado = estado;
+        }
+        public void CambiarEstadoUsuarioNuevoCancelado(bool estado)
+        {
+            estadoUsuarioNuevoCancelado = estado;
+        }
+        public void CambiarEstadoUsuarioActualizadoCancelado(bool estado)
+        {
+            estadoUsuarioActualizadoCancelado = estado;
         }
     }
 }

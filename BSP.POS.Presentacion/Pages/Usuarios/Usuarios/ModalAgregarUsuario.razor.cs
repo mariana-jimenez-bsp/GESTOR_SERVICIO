@@ -12,6 +12,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
     {
         [Parameter] public bool ActivarModal { get; set; } = false;
         [Parameter] public EventCallback<bool> OnClose { get; set; }
+        [Parameter] public EventCallback<bool> usuarioAgregado { get; set; }
+        [Parameter] public EventCallback<bool> usuarioCancelado { get; set; }
+        [Parameter] public string codigoCliente { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public mUsuarioParaAgregar usuario = new mUsuarioParaAgregar();
         public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
@@ -23,9 +26,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
-        [Parameter] public EventCallback<bool> usuarioAgregado { get; set; }
-        [Parameter] public EventCallback<bool> usuarioCancelado { get; set; }
-
+        
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -33,6 +34,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisos(esquema);
+            if (!string.IsNullOrEmpty(codigoCliente))
+            {
+                usuario.cod_cliente = codigoCliente;
+            }
             if (PermisosService.ListaPermisos != null)
             {
                 todosLosPermisos = PermisosService.ListaPermisos;

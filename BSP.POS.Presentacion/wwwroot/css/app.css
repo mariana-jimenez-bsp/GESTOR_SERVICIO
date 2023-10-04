@@ -107,6 +107,9 @@ a, .btn-link {
 input[readonly] {
     cursor: not-allowed;
 }
+select[disabled] {
+    cursor: not-allowed;
+}
 .load {
     width: 23px;
     height: 3px;

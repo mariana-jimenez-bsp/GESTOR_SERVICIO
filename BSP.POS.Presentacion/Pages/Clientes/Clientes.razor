@@ -38,13 +38,13 @@
                                     <label class=" text-center w-100 ">Nombre</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="pe-3 text-center w-100 ">Razón Social</label>
+                                    <label class="pe-4 text-center w-100 ">Razón Social</label>
                                 </div>
                                 <div class="col-md-1">
                                     <label class="pe-5 text-center w-100">Cédula</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="pe-5 text-center w-100">Télefono 1</label>
+                                    <label class="ps-5 text-start w-100">Télefono 1</label>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="ps-4 text-start w-100">Télefono 2</label>
@@ -168,6 +168,8 @@
                                                 <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <div class="content w-75 pb-3">
+                                                        <span class="mouse-pointer" @onclick="() => EnviarCodigoClienteNuevoUsuario(true, cliente.CLIENTE)"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</span>
+                                                        
                                                         @if (cliente.listaDeUsuarios.Any())
                                                         {
                                                             <div class="row p-2 blue-dark-bg text-light border border-primary rounded-top-4 text-9-bold">
@@ -183,8 +185,11 @@
                                                                 <div class="col-md-3">
                                                                     <span>Correo</span>
                                                                 </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <span>Teléfono</span>
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <span>Acción</span>
                                                                 </div>
                                                             </div>
 
@@ -203,8 +208,11 @@
                                                                     <div class="col-md-3">
                                                                         <span>@usuario.correo</span>
                                                                     </div>
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-2">
                                                                         <span>@usuario.telefono</span>
+                                                                    </div>
+                                                                    <div class="col-md-1">
+                                                                        <i class="fa-solid fa-pen-to-square ms-2 mouse-pointer" @onclick="() => EnviarCodigoEditarUsuario(true, usuario.codigo, cliente.CLIENTE)"></i>
                                                                     </div>
                                                                 </div>
                                                             }
@@ -251,11 +259,34 @@
         {
             <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
         }
+        @if (estadoUsuarioNuevo)
+        {
+            <ModalExito mensaje="Usuario Agregado"></ModalExito>
+        }
+        @if (estadoUsuarioActualizado)
+        {
+            <ModalExito mensaje="Usuario Actualizado"></ModalExito>
+        }
+        @if (estadoUsuarioNuevoCancelado)
+        {
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
+        @if (estadoUsuarioActualizadoCancelado)
+        {
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
         <ModalAgregarCliente ActivarModal="@actividarModalAgregarCliente" OnClose="ClickHandlerAgregarCliente" clienteAgregado="CambiarEstadoClienteNuevo" clienteCancelado="CambiarEstadoClienteCancelado"></ModalAgregarCliente>
+        @if (actividarModalAgregarUsuario)
+        {
+            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" usuarioAgregado="CambiarEstadoUsuarioNuevo" usuarioCancelado="CambiarEstadoUsuarioNuevoCancelado" codigoCliente="@codigoClienteActual"></ModalAgregarUsuario>
+        }
+        @if (actividarModalEditarUsuario)
+        {
+            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoEditarUsuario" usuarioActualizado="CambiarEstadoUsuarioActualizado" usuarioCancelado="CambiarEstadoUsuarioActualizadoCancelado" codigoCliente="@codigoClienteActual"></ModalEditarUsuario>
+        }
+        
     }
     else
-
-
     {
         <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
     }

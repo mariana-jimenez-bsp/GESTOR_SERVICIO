@@ -30,18 +30,18 @@
                             <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-usuario" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e, usuario.id)">
                         </div>
                         <ValidationMessage For="@(() => usuario.usuario)" />
-                        @if (!string.IsNullOrEmpty(usuario.mensajeUsuarioRepite))
+                        @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
                         {
-                            <MensajeRepite Message="@usuario.mensajeUsuarioRepite" />
+                            <MensajeRepite Message="@mensajeUsuarioRepite" />
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-correo">Correo:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-correo" type="text" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-correo" type="email" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
                         </div>
                         <ValidationMessage For="@(() => usuario.correo)" />
-                        @if (!string.IsNullOrEmpty(usuario.mensajeCorreoRepite))
+                        @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
                         {
-                            <MensajeRepite Message="@usuario.mensajeCorreoRepite" />
+                            <MensajeRepite Message="@mensajeCorreoRepite" />
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-clave">Clave:</label>
@@ -60,13 +60,26 @@
                         <ValidationMessage For="@(() => usuario.clave)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-nombreCliente">Nombre Cliente:</label>
-                            <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
-                                <option value="">Seleccione el Cliente</option>
-                                @foreach (var cliente in listaClientes)
-                                {
-                                    <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
-                                }
-                            </select>
+                            @if (string.IsNullOrEmpty(codigoCliente))
+                            {
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                    <option value="">Seleccione el Cliente</option>
+                                    @foreach (var cliente in listaClientes)
+                                    {
+                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)" disabled>
+                                    @foreach (var cliente in listaClientes)
+                                    {
+                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                    }
+                                </select>
+                            }
+
                         </div>
                         <ValidationMessage For="@(() => usuario.cod_cliente)" />
 

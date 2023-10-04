@@ -1,6 +1,6 @@
-﻿@if (showAlert)
+﻿@if (!string.IsNullOrEmpty(Message))
 {
-    <div class="alert alert-danger w-100" role="alert">
+    <div class="text-danger w-100">
         @Message
     </div>
 
@@ -10,17 +10,4 @@
     [Parameter]
     public string Message { get; set; }
 
-    private bool showAlert = false;
-
-    protected override void OnParametersSet()
-    {
-        showAlert = true;
-
-        // Ocultar el mensaje después de 2 segundos (puedes ajustar el tiempo según tus necesidades)
-        Task.Delay(2000).ContinueWith(_ =>
-        {
-            showAlert = false;
-            StateHasChanged();
-        });
-    }
 }

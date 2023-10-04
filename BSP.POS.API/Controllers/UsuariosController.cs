@@ -171,10 +171,6 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
-                if (string.IsNullOrEmpty(correoDevuelto))
-                {
-                    return NotFound();
-                }
                 return Ok(correoDevuelto);
             }
             catch (Exception ex)
@@ -210,10 +206,6 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
-                if (string.IsNullOrEmpty(correoDevuelto))
-                {
-                    return NotFound();
-                }
                 return Ok(correoDevuelto);
             }
             catch (Exception ex)
@@ -272,10 +264,6 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string usuarioDevuelto = user.ValidarUsuarioExistente(esquema, usuario);
-                if (string.IsNullOrEmpty(usuarioDevuelto))
-                {
-                    return NotFound();
-                }
                 return Ok(usuarioDevuelto);
             }
             catch (Exception ex)

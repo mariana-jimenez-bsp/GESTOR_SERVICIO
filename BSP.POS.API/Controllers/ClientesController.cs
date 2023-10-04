@@ -182,11 +182,6 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string clienteDevuelto = clientes.ValidarExistenciaDeCliente(esquema, cliente);
-
-                if (string.IsNullOrEmpty(clienteDevuelto))
-                {
-                    return NotFound();
-                }
                 return Ok(clienteDevuelto);
             }
             catch (Exception ex)
