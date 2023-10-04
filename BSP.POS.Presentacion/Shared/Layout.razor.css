@@ -9,6 +9,9 @@
     transition: background-color 0.3s;
     cursor: pointer;
 }
+.green-bg {
+    background-color: #2FAD70;
+}
 .title-gestor {
     font-family: 'Circular Std Bold', sans-serif;
     font-size: 30pt;
@@ -72,6 +75,9 @@ a {
     color: #2255A1;
     font-size: 14pt;
 }
+.text-back {
+    font-size: 14pt;
+}
 .header-line-menu {
     border-color: #2255A1;
 }
@@ -103,6 +109,9 @@ a {
 
         font-size: 6pt;
     }
+    .text-back {
+        font-size: 6pt;
+    }
     .subtitle-edit {
 
         font-size: 15pt;
@@ -128,7 +137,9 @@ a {
     .header-menu {
         font-size: 9pt;
     }
-
+    .text-back {
+        font-size: 9pt;
+    }
     .subtitle-edit {
         font-size: 18pt;
     }

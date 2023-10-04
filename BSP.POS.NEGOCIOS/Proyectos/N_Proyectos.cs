@@ -14,16 +14,50 @@ namespace BSP.POS.NEGOCIOS.Proyectos
     {
         D_Proyectos objProyectos = new D_Proyectos();
 
-        public string ListarProyectos(String pEsquema)
+        public string ListarProyectosIniciados(String pEsquema)
         {
             try
             {
                 List<U_ListaProyectos> list = new List<U_ListaProyectos>();
 
-                list = objProyectos.ListarProyectos(pEsquema);
+                list = objProyectos.ListarProyectosIniciados(pEsquema);
 
-                string actividades = JsonConvert.SerializeObject(list);
-                return actividades;
+                string proyectos = JsonConvert.SerializeObject(list);
+                return proyectos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+        public string ListarProyectosTerminados(String pEsquema)
+        {
+            try
+            {
+                List<U_ListaProyectos> list = new List<U_ListaProyectos>();
+
+                list = objProyectos.ListarProyectosTerminados(pEsquema);
+
+                string proyectos = JsonConvert.SerializeObject(list);
+                return proyectos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string TerminarProyecto(string pNumero, string pEsquema)
+        {
+            try
+            {
+                string mensaje;
+
+                mensaje = objProyectos.TerminarProyecto(pNumero, pEsquema);
+
+                return mensaje;
             }
             catch (Exception ex)
             {

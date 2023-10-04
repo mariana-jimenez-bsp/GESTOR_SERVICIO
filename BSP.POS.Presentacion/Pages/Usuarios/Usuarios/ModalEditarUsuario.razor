@@ -30,18 +30,18 @@
                             <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="a-usuario" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e, usuario.id)">
                         </div>
                         <ValidationMessage For="@(() => usuario.usuario)" />
-                        @if (!string.IsNullOrEmpty(usuario.mensajeUsuarioRepite))
+                        @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
                         {
-                            <MensajeRepite Message="@usuario.mensajeUsuarioRepite" />
+                            <MensajeRepite Message="@mensajeUsuarioRepite" />
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="a-correo">Correo:</label>
                             <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="a-correo" type="text" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
                         </div>
                         <ValidationMessage For="@(() => usuario.correo)" />
-                        @if (!string.IsNullOrEmpty(usuario.mensajeCorreoRepite))
+                        @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
                         {
-                            <MensajeRepite Message="@usuario.mensajeCorreoRepite" />
+                            <MensajeRepite Message="@mensajeCorreoRepite" />
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="a-clave">Clave:</label>

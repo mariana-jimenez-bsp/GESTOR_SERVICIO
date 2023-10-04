@@ -1,6 +1,7 @@
 ﻿@inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IItemsClienteInterface ItemsClienteService
+@inject IClientesInterface ClientesService
 
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content ">
@@ -20,10 +21,24 @@
                 <div class="container border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="row  border border-success rounded-5">
                         <div class="d-flex justify-content-center my-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-consultor">Nombre Consultor:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consultor" @bind-value="proyecto.nombre_consultor" @oninput="CambioNombreConsultor" />
+                            <label class="col-md-4  blue-dark-text label-text" for="c-cod-cliente">Nombre de la empresa:</label>
+                            <select class="col-md-4 border border-success rounded-pill px-2 text-input" @bind="proyecto.codigo_cliente" id="c-cod-cliente" @oninput="CambioCodigoCliente">
+                                <option value="">Seleccione el Cliente</option>
+                                @if (listaDeClientes.Any())
+                                {
+                                    foreach (var cliente in listaDeClientes)
+                                    {
+                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                    }
+                                }
+                            </select>
                         </div>
-                        <ValidationMessage For="@(() => proyecto.nombre_consultor)" />
+
+                        <ValidationMessage For="@(() => proyecto.codigo_cliente)" />
+                        <div class="d-flex justify-content-center my-2">
+                            <label class="col-md-4  blue-dark-text label-text" for="c-consultor">Nombre Consultor:</label>
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consultor" @bind-value="proyecto.nombre_consultor" readonly />
+                        </div>
                         <div class="d-flex justify-content-center mb-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-fechaInicial">Fecha Inicial:</label>
                             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="date" id="c-fechaInicial" @bind-value="proyecto.FechaInicialDateTime" @oninput="CambioFechaInicial" />
@@ -39,11 +54,6 @@
                             <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-horasTotales" @bind-value="proyecto.horas_totales" @oninput="CambioHorasTotales" />
                         </div>
                         <ValidationMessage For="@(() => proyecto.horas_totales)" />
-                        <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-empresa">Empresa:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-empresa" @bind-value="proyecto.empresa" @oninput="CambioEmpresa" />
-                        </div>
-                        <ValidationMessage For="@(() => proyecto.empresa)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-centroCosto">Centro de Costo:</label>
                             <select class="col-md-4 border border-success rounded-pill px-2 text-input" @bind="proyecto.centro_costo" id="c-centroCosto" @oninput="CambioCentroCosto">

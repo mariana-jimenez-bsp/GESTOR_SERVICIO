@@ -2,9 +2,16 @@
 @inject NavigationManager navigationManager
 @inject IUsuariosInterface UsuariosService
 @inject ILocalStorageService localStorageService
+@inject IJSRuntime JSRuntime
     <header class="layout-header d-flex justify-content-between align-items-center py-1 text-light">
-
-        <div class="fw-bold p-2 ps-5 mouse-pointer" @onclick="IrAlInicio"><span class="title-gestor">Gestor de Servicios</span></div>
+        <div>
+        @if (!(navigationManager.Uri.IndexOf("/index", StringComparison.OrdinalIgnoreCase) >= 0))
+        {
+            <span class="ms-1 px-2 green-bg rounded-pill text-back mouse-pointer" @onclick="IrAtras"><i class="fa-solid fa-arrow-left-long"></i> Atras</span>
+        }
+           
+            <span class="p-2 ps-5 fw-bold title-gestor mouse-pointer" @onclick="IrAlInicio">Gestor de Servicios</span>
+         </div>
         <div class="fw-bold p-2 pe-5"><img class="width-img-gestor" src="images/Home/BSP-Gestor-de-Servicio.png"></div>
     </header>
     <nav class="p-3 ps-4 shadow-lg">
@@ -45,7 +52,9 @@
         }
         else
         {
+            
             <div class="d-flex justify-content-start align-items-center">
+                
                 <button class="search-icon text-light" @onclick="() => EnviarTextoABuscar(inputValue)">
                     <img src="images/Home/Buscador.png" class="w-100"/>
                 </button>

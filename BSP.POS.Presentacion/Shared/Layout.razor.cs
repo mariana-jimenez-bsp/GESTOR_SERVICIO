@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Shared
@@ -107,6 +108,12 @@ namespace BSP.POS.Presentacion.Shared
             navigationManager.NavigateTo($"Configuraciones");
         }
 
+        private async Task IrAtras()
+        {
+
+            await JSRuntime.InvokeVoidAsync("history.back");
+        }
+
         private async Task CerrarSesion()
         {
             await localStorageService.RemoveItemAsync("token");
@@ -122,5 +129,7 @@ namespace BSP.POS.Presentacion.Shared
         {
             estadoPerfilDescartado = estado;
         }
+
+
     }
 }

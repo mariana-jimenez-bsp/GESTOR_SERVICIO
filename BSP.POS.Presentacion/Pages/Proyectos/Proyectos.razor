@@ -4,6 +4,7 @@
 @inject IItemsClienteInterface ItemsClienteService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
+@inject IClientesInterface ClientesService
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
@@ -31,7 +32,10 @@
                                 <label class="text-center w-100" ># de Proyecto</label>
                             </div>
                             <div class="col-md-2">
-                                <label class=" text-center w-100" >Nombre del Consultor</label>
+                                <label class=" text-center w-100" >Nombre de la empresa</label>
+                            </div>
+                            <div class="col-md-1">
+                                <label class=" text-center w-100">Nombre del Consultor</label>
                             </div>
                             <div class="col-md-1">
                                 <label class="pe-1 text-center w-100" >Fecha Inicial</label>
@@ -39,11 +43,8 @@
                             <div class="col-md-1">
                                 <label class="pe-3 text-center w-100" >Fecha Final</label>
                             </div>
-                            <div class="col-md-2">
-                                <label class="pe-2 text-center w-100" >Horas Totales</label>
-                            </div>
                             <div class="col-md-1">
-                                <label class="pe-5 text-center w-100" >Empresa</label>
+                                <label class="pe-2 text-center w-100" >Horas Totales</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="pe-4 text-center w-100" >Centro de Costo</label>
@@ -51,18 +52,22 @@
                             <div class="col-md-2">
                                 <label class="pe-4 text-center w-100" >Nombre de Proyecto</label>
                             </div>
+                            <div class="col-md-1">
+                                <label class="pe-4 text-center w-100">Acción</label>
+                            </div>
                         </div>
                         <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                             @if (proyectos != null)
                             {
                                 var listaDeProyectos = proyectos;
+                                listaDeProyectos = listaDeProyectos.OrderByDescending(p => p.numero).ToList();
                                 if (!string.IsNullOrEmpty(textoRecibido))
                                 {
                                     // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
                                     listaDeProyectos = listaDeProyectos.Where(proyecto =>
                                     proyecto.nombre_proyecto.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                    proyecto.nombre_consultor.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                    proyecto.empresa.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                    listaCentrosDeCosto.Any(cc => cc.descripcion.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 && proyecto.centro_costo == cc.valor) ||
+                                    listaDeClientes.Any(c => c.NOMBRE.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 && proyecto.codigo_cliente == c.CLIENTE)
                                     ).ToList();
                                 }
                                 @foreach (var proyecto in listaDeProyectos)
@@ -75,11 +80,23 @@
 
                                         </div>
                                         <div class="mb-0 col-md-2">
+                                            <select class="w-100 text-center border-input-gray rounded-pill" @bind="proyecto.codigo_cliente" @oninput="(e) => CambioCodigoCliente(e, proyecto.Id)">
+                                                @if (listaDeClientes.Any())
+                                                {
+                                                    foreach (var cliente in listaDeClientes)
+                                                    {
+                                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <ValidationMessage For="@(() => proyecto.codigo_cliente)" />
 
-                                            <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.nombre_consultor" @oninput="(e) => CambioNombreConsultor(e, proyecto.Id)">
-                                            <ValidationMessage For="@(() => proyecto.nombre_consultor)" />
 
+                                        </div>
+                                        <div class="mb-0 col-md-1">
 
+                                            <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.nombre_consultor" readonly>
+  
                                         </div>
                                         <div class="mb-0 col-md-1">
 
@@ -89,17 +106,12 @@
                                         <div class="mb-0  col-md-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="date" @bind-value="@proyecto.FechaFinalDateTime" @oninput="(e) => CambioFechaFinal(e, proyecto.Id)">
-                                            <ValidationMessage For="@(() => proyecto.fecha_final)" />
-                                        </div>
-                                        <div class="mb-0  col-md-2">
-
-                                            <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.horas_totales" @oninput="(e) => CambioHorasTotales(e, proyecto.Id)">
-                                            <ValidationMessage For="@(() => proyecto.horas_totales)" />
+                                            <ValidationMessage For="@(() => proyecto.FechaFinalDateTime)" />
                                         </div>
                                         <div class="mb-0  col-md-1">
 
-                                            <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.empresa" @oninput="(e) => CambioEmpresa(e, proyecto.Id)">
-                                            <ValidationMessage For="@(() => proyecto.empresa)" />
+                                            <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.horas_totales" @oninput="(e) => CambioHorasTotales(e, proyecto.Id)">
+                                            <ValidationMessage For="@(() => proyecto.horas_totales)" />
                                         </div>
                                         <div class="mb-0  col-md-2">
                                             <select class="w-100 text-center border-input-gray rounded-pill me-2" @bind="proyecto.centro_costo" @oninput="(e) => CambioCentroCosto(e, proyecto.Id)">
@@ -118,7 +130,11 @@
                                             <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.nombre_proyecto" @oninput="(e) => CambioNombreProyecto(e, proyecto.Id)">
                                             <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
                                         </div>
+                                        <div class="mb-0 col-md-1">
 
+                                            <button type="button" class="green-bg rounded-pill px-2 text-light" @onclick="() => EnviarNumeroTerminarProyecto(true, proyecto.numero)">Terminar</button>
+
+                                        </div>
                                     </div>
                                 }
                             }
@@ -150,11 +166,20 @@
         {
             <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
         }
+        @if (estadoProyectoTerminado)
+        {
+            <ModalInfo mensaje="Se ha cambiado el estado del proyecto a Terminado"></ModalInfo>
+        }
         @if (!string.IsNullOrEmpty(mensajeDescartar))
         {
             <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
         }
         <ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto" proyectoAgregado="CambiarEstadoProyectoNuevo" proyectoCancelado="CambiarEstadoProyectoCancelado"></ModalAgregarProyecto>
+        @if (actividarModalTerminarProyecto)
+        {
+            <ModalTerminarProyecto esquema="@esquema" ActivarModal="@actividarModalTerminarProyecto" numero="@numeroActual" OnClose="ClickHandlerTerminarProyecto" proyectoTerminado="CambiarEstadoProyectoTerminado"></ModalTerminarProyecto>
+        }
+        
     }
     else
 

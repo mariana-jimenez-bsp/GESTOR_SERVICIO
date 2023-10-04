@@ -16,20 +16,35 @@ namespace BSP.POS.Presentacion.Services.Proyectos
             _http = http;
         }
 
-        public List<mProyectos> ListaProyectos { get; set; } = new List<mProyectos>();
-        public async Task ObtenerListaDeProyectos(string esquema)
+        public List<mProyectos> ListaProyectosIniciados { get; set; } = new List<mProyectos>();
+        public List<mProyectos> ListaProyectosTerminados { get; set; } = new List<mProyectos>();
+        public async Task ObtenerListaDeProyectosIniciados(string esquema)
         {
-                string url = "Proyectos/ObtengaLaListaDeProyectos/" + esquema;
+                string url = "Proyectos/ObtengaLaListaDeProyectosIniciados/" + esquema;
                 var response = await _http.GetAsync(url);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
                     var listaProyectos = await response.Content.ReadFromJsonAsync<List<mProyectos>>();
                     if (listaProyectos is not null)
                     {
-                        ListaProyectos = listaProyectos;
+                        ListaProyectosIniciados = listaProyectos;
                     }
                 }
         }
+        public async Task ObtenerListaDeProyectosTerminados(string esquema)
+        {
+            string url = "Proyectos/ObtengaLaListaDeProyectosTerminados/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaProyectos = await response.Content.ReadFromJsonAsync<List<mProyectos>>();
+                if (listaProyectos is not null)
+                {
+                    ListaProyectosTerminados = listaProyectos;
+                }
+            }
+        }
+
 
         public async Task ActualizarListaDeProyectos(List<mProyectos> listaProyectos, string esquema)
         {
@@ -65,6 +80,28 @@ namespace BSP.POS.Presentacion.Services.Proyectos
 
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        public async Task TerminarProyecto(string numero, string esquema)
+        {
+            try
+            {
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-Numero");
+                string url = "Proyectos/TerminaProyecto";
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-Numero", numero);
+                var content = new StringContent(esquema, Encoding.UTF8, "application/json");
+
+                var response = await _http.PostAsync(url, content);
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
 
                 }

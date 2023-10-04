@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.ItemsCliente;
+using BSP.POS.Presentacion.Models.Clientes;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
 {
@@ -12,6 +13,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string esquema = string.Empty;
         public mProyectos proyecto = new mProyectos();
         public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
+        public List<mClientes> listaDeClientes = new List<mClientes>();
         public string mensajeError;
         [Parameter] public EventCallback<bool> proyectoAgregado { get; set; }
         [Parameter] public EventCallback<bool> proyectoCancelado { get; set; }
@@ -20,6 +22,12 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.ObtenerListaClientes(esquema);
+            if(ClientesService.ListaClientes != null)
+            {
+                listaDeClientes = ClientesService.ListaClientes;
+            }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ItemsClienteService.ObtenerListaDeCentrosDeCosto(esquema);
             if (ItemsClienteService.listaCentrosDeCosto != null)
@@ -43,15 +51,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             await OnClose.InvokeAsync(false);
 
         }
-
-        private void CambioNombreConsultor(ChangeEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(e.Value.ToString()))
-            {
-                        proyecto.nombre_consultor = e.Value.ToString();
-            }
-        }
-
         private void CambioFechaInicial(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
@@ -78,12 +77,18 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             
         }
 
-        private void CambioEmpresa(ChangeEventArgs e)
+        private void CambioCodigoCliente(ChangeEventArgs e)
         {
+            proyecto.nombre_consultor = string.Empty;
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
 
-                        proyecto.empresa = e.Value.ToString();
+                 proyecto.codigo_cliente = e.Value.ToString();
+                 string nombreConsultor = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
+                 if(nombreConsultor != null)
+                {
+                    proyecto.nombre_consultor = nombreConsultor;
+                }
             }
         }
 
