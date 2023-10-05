@@ -1,7 +1,9 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
+using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Services.Clientes;
 using Microsoft.AspNetCore.Components;
+using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Home
 {
@@ -9,23 +11,63 @@ namespace BSP.POS.Presentacion.Pages.Home
     {
         public List<mInformes> InformesAsociados = new List<mInformes>();
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
+        public List<mClientes> Clientes = new List<mClientes>();
+        public List<mClientes> ClientesRecientes = new List<mClientes>();
+        public mPerfil PerfilActual = new mPerfil();
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
+        public string rol = string.Empty;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             if (user.Identity != null && !string.IsNullOrEmpty(user.Identity.Name))
             {
+                rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
                 usuarioActual = user.Identity.Name;
                 esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-                await ClientesService.ObtenerListaClientes(esquema);
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.ObtenerListaClientesRecientes(esquema);
+                await UsuariosService.ObtenerPerfil(user.Identity.Name, esquema);
+                if(UsuariosService.Perfil != null)
+                {
+                    PerfilActual = UsuariosService.Perfil;
+                }
+                await RefrescarListaClientes();
             }
            
 
 
+        }
+        private async Task RefrescarListaClientes()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.ObtenerListaClientes(esquema);
+            if (ClientesService.ListaClientes != null)
+            {
+                if (rol == "Admin")
+                {
+                    Clientes = ClientesService.ListaClientes;
+                }
+                else
+                {
+                    Clientes = ClientesService.ListaClientes.Where(c => c.CLIENTE == PerfilActual.cod_cliente).ToList();
+                }
+
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.ObtenerListaClientesRecientes(esquema);
+            if (ClientesService.ListaClientesRecientes != null)
+            {
+
+                if (rol == "Admin")
+                {
+                    ClientesRecientes = ClientesService.ListaClientesRecientes;
+                }
+                else
+                {
+                    ClientesRecientes = Clientes;
+                }
+            }
         }
         private string activeTab = "recent"; // Pestaña activa inicialmente
 
@@ -60,24 +102,20 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         [Parameter]
         public string textoRecibido { get; set; } = string.Empty;
+        [Parameter]
+        public string filtroRecibido { get; set; } = string.Empty;
 
         private Task RecibirTexto(string texto)
         {
             textoRecibido = texto;
             return Task.CompletedTask;
         }
-
-        async Task ModalClientesCerrado(bool estado)
+        private Task RecibirFiltro(string texto)
         {
-            if(estado == true)
-            {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.ObtenerListaClientes(esquema);
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.ObtenerListaClientesRecientes(esquema);
-            }
-            StateHasChanged();
+            filtroRecibido = texto;
+            return Task.CompletedTask;
         }
+
         private ListaInformes listaInformesComponente;
 
         private void RefrescarDatosInformes()

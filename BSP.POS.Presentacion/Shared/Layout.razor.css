@@ -35,6 +35,13 @@
     font-size: 15pt;
     width: 400px;
 }
+.select-filtro {
+    border: none;
+    margin: 0;
+    height: 35px;
+    background-color: #14233d;
+    border-radius: 10px;
+}
 
     .search-input::placeholder {
         color: white;

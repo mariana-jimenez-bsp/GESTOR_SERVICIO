@@ -16,10 +16,17 @@
                 </div>
                 @if (informesAsociados.Any())
                 {
-                    // Acceder a la lista de clientes en  formato JSON y hacer lo que necesites con ella
-                    
-                    // Ejemplo: mostrar la lista de clientes en la vista
-                    foreach (var informe in informesAsociados)
+                    var listaDeInformes = informesAsociados.OrderByDescending(i => i.consecutivo).ToList();
+                    if(!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "informes")
+                    {
+                        listaDeInformes = listaDeInformes.Where(informe =>
+                        informe.consecutivo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        informe.fecha_actualizacion.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        informe.estado.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                        
+                        ).ToList();
+                    }
+                    foreach (var informe in listaDeInformes)
                     {
                         <div class="item-report-width col-md-4 d-flex row mb-4" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
                             <div class="item-report click-report-up">

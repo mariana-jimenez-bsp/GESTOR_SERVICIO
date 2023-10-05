@@ -54,12 +54,23 @@
         {
             
             <div class="d-flex justify-content-start align-items-center">
-                
+                <div class="d-flex justify-content-start align-items-center">
                 <button class="search-icon text-light" @onclick="() => EnviarTextoABuscar(inputValue)">
                     <img src="images/Home/Buscador.png" class="w-100"/>
                 </button>
                 <input type="text" width="100" placeholder="Buscar..." class="text-light search-input" @oninput="ActualizarValor" />
-
+                </div>
+                @if (navigationManager.Uri.IndexOf("/index", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    <div class="d-flex justify-content-start align-items-center header-menu">
+                        <label for="select-filtro" class="mx-2">Filtro:</label>
+                        <select id="select-filtro" class="select-filtro text-light" @bind="@filtroValue" @oninput="ActualizarFiltro">
+                            <option value="clientes">Clientes</option>
+                            <option value="informes">Informes</option>
+                        </select>
+                    </div>
+                }
+                
             </div>
         }
 

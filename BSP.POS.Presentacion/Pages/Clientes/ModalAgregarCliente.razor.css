@@ -17,7 +17,7 @@
 
 .modal-content {
     display: inline-block;
-    margin-top: 20%;
+    margin-top: 15%;
     background-color: transparent;
     background-image: url("images/Actividades/Pestaña-actividades.png");
     background-repeat: no-repeat;
@@ -143,7 +143,7 @@
 }
 
 .max-height-client {
-    max-height: 200px;
+    max-height: 300px;
 }
 
 @media screen and (max-width: 768px) {
@@ -151,7 +151,7 @@
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
     .modal-content {
-        margin-top: 5%;
+        margin-top: 2%;
     }
 
     .text-41-book {
@@ -175,6 +175,6 @@
     }
 
     .max-height-client {
-        max-height: 200px;
+        max-height: 300px;
     }
 }

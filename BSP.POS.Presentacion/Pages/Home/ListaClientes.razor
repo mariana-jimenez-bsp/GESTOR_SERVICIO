@@ -1,11 +1,12 @@
 ﻿@page "/index"
 @inject IClientesInterface ClientesService
 @inject IInformesInterface InformesService
+@inject IUsuariosInterface UsuariosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
-<Layout Texto="RecibirTexto" ModalClientesEstado="ModalClientesCerrado"></Layout>
+<Layout Texto="RecibirTexto" Filtro="RecibirFiltro"></Layout>
 <div class="container-fluid ps-5 pe-5">
     <div class="row">
         <div class="col-md-12">
@@ -18,11 +19,11 @@
     <div class="row ps-5">
         <div class="col-md-5 col-left">
             <div class="my-3">
-                <div id='recent' class='overflow-y-auto overflow-x-hidden row scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "recent" ? "block" : "none")'>
-                    @if (ClientesService.ListaClientesRecientes != null)
+                <div id='recent' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "recent" ? "block" : "none")'>
+                            @if (ClientesRecientes != null)
                     {
-                        var listaClientesRecientes = ClientesService.ListaClientesRecientes;
-                        if (!string.IsNullOrEmpty(textoRecibido))
+                        var listaClientesRecientes = ClientesRecientes;
+                        if (!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "clientes")
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
                             listaClientesRecientes = listaClientesRecientes.Where(cliente =>
@@ -66,10 +67,10 @@
                     }
                 </div>
                 <div id='all' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "all" ? "block" : "none")'>
-                    @if (ClientesService.ListaClientes != null)
+                    @if (Clientes != null)
                     {
-                        var listaClientes = ClientesService.ListaClientes;
-                        if (!string.IsNullOrEmpty(textoRecibido))
+                        var listaClientes = Clientes;
+                        if (!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "clientes")
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
                              listaClientes = listaClientes.Where(cliente =>
@@ -92,7 +93,7 @@
                                         }
                                         else
                                         {
-                                            <img alt="Sin Imagen" />
+                                            <img alt="" />
                                         }
                                 </div>
                                 <div class="col-md-5 pe-2">
@@ -115,7 +116,7 @@
             </div>
         </div>
 
-        <ListaInformes informesAsociados="@InformesAsociados" clienteAsociado="@ClienteAsociado" @ref="listaInformesComponente"/>
+        <ListaInformes informesAsociados="@InformesAsociados" clienteAsociado="@ClienteAsociado" textoRecibido="@textoRecibido" filtroRecibido="@filtroRecibido" @ref="listaInformesComponente"/>
     </div>
     
 </div>

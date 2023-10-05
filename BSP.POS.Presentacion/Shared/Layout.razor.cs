@@ -8,14 +8,16 @@ namespace BSP.POS.Presentacion.Shared
     public partial class Layout: ComponentBase
     {
         private string inputValue { get; set; } = string.Empty;
+        private string filtroValue { get; set; } = "clientes";
         [Parameter]
         public EventCallback<string> Texto { get; set; }
         [Parameter]
-        public EventCallback<bool> ModalClientesEstado { get; set; }
+        public EventCallback<string> Filtro { get; set; }
         public string UsuarioActual { get; set; } = string.Empty;
         public mImagenUsuario imagenDeUsuario = new mImagenUsuario();
         public string esquema = string.Empty;
         public string rol = string.Empty;
+        
         List<string> permisos;
         private bool estadoPerfilActualizado = false;
         private bool estadoPerfilDescartado = false;
@@ -51,11 +53,20 @@ namespace BSP.POS.Presentacion.Shared
             }
         }
 
+        private async Task ActualizarFiltro(ChangeEventArgs e)
+        {
+            if (e.Value.ToString() != null)
+            {
+                filtroValue = e.Value.ToString();
+            }
+        }
+
         public async Task EnviarTextoABuscar(string texto)
         {
 
             if (texto != null)
             {
+                await Filtro.InvokeAsync(filtroValue);
                 await Texto.InvokeAsync(texto);
             }
         }

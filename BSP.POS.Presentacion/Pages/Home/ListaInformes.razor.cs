@@ -10,6 +10,10 @@ namespace BSP.POS.Presentacion.Pages.Home
         public List<mInformes> informesAsociados { get; set; } = new List<mInformes>();
         [Parameter]
         public mClienteAsociado clienteAsociado { get; set; } = new mClienteAsociado();
+        [Parameter]
+        public string textoRecibido { get; set; } = string.Empty;
+        [Parameter]
+        public string filtroRecibido { get; set; } = string.Empty;
         private bool EsClienteNull = false;
 
 
