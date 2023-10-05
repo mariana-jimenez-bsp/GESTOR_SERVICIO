@@ -6,6 +6,7 @@ using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Reportes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 
 namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
@@ -27,6 +28,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         public string mensajeError;
         private bool EsConsecutivoNull = false;
         private bool todosLosUsuariosAprobados = false;
+        private DateTime fechaInicioDateTime = DateTime.MinValue;
+        private DateTime fechaFinalDateTime = DateTime.MinValue;
+        private string fechaInicio = string.Empty;
+        private string fechaFinal = string.Empty;
+        private string fechaMax = DateTime.MinValue.ToString("yyyy-MM-dd");
+        private string fechaMin = DateTime.MinValue.ToString("yyyy-MM-dd");
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -62,6 +69,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
                             foreach (var informe in informesDeUsuarioFinalizados)
                             {
                                 informe.fecha_consultoria = informesAsociados.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
+                            }
+                            if (informesDeUsuarioFinalizados.Any())
+                            {
+                                ObtenerFechaMasAltaInformes();
+                                ObtenerFechaMasBajaInformes();
                             }
                         }
 
@@ -266,6 +278,50 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         {
 
             navigationManager.NavigateTo($"Informes/MisInformes");
+        }
+
+        private void CambioFechaInicio(ChangeEventArgs e)
+        {
+            fechaInicio = e.Value.ToString();
+            if (!string.IsNullOrEmpty(fechaInicio))
+            {
+                fechaInicioDateTime = DateTime.ParseExact(fechaInicio, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                if (fechaInicioDateTime > fechaFinalDateTime)
+                {
+                    fechaFinal = fechaInicio;
+                    fechaFinalDateTime = fechaInicioDateTime;
+                }
+            }
+        }
+
+        private void CambioFechaFinal(ChangeEventArgs e)
+        {
+            fechaFinal = e.Value.ToString();
+            if (!string.IsNullOrEmpty(fechaFinal))
+            {
+                fechaFinalDateTime = DateTime.ParseExact(fechaFinal, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                if (fechaFinalDateTime < fechaInicioDateTime)
+                {
+                    fechaInicio = fechaFinal;
+                    fechaInicioDateTime = fechaFinalDateTime;
+                }
+            }
+        }
+
+        private void ObtenerFechaMasBajaInformes()
+        {
+            DateTime fechaTemporal = informesDeUsuarioFinalizados.OrderBy(i => i.FechaConsultoriaDateTime).Select(i => i.FechaConsultoriaDateTime).First();
+            fechaMin = fechaTemporal.ToString("yyyy-MM-dd");
+            fechaInicioDateTime = fechaTemporal;
+        }
+
+        private void ObtenerFechaMasAltaInformes()
+        {
+            DateTime fechaTemporal = informesDeUsuarioFinalizados.OrderByDescending(i => i.FechaConsultoriaDateTime).Select(i => i.FechaConsultoriaDateTime).First();
+            fechaMax = fechaTemporal.ToString("yyyy-MM-dd");
+            fechaFinalDateTime = fechaTemporal;
         }
     }
 }

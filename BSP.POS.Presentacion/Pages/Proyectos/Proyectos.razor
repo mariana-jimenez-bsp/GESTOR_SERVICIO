@@ -6,6 +6,7 @@
 @inject NavigationManager navigationManager
 @inject IClientesInterface ClientesService
 @inject IJSRuntime JSRuntime
+@inject NavigationManager navigationManager
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
@@ -144,6 +145,10 @@
                     </div>
                 </div>
                 <div class="footer-project text-13-medium">
+                    <div @onclick="IrAProyectosTerminados" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="proyectos-terminados">
+                        Proyectos
+                        Terminados
+                    </div>
                     <div @onclick="() => ClickHandlerAgregarProyecto(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
                         Agregar
                         Proyecto

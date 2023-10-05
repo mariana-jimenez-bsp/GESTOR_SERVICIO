@@ -41,6 +41,8 @@ namespace BSP.POS.Presentacion.Models.Proyectos
         }
         
         public string nombre_consultor { get; set; } = string.Empty;
+        public string descripcion_centro_costo { get; set; } = string.Empty;
+        public string nombre_cliente { get; set; } = string.Empty;
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (FechaInicialDateTime > FechaFinalDateTime)

@@ -272,5 +272,11 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
             }
         }
+
+        private void IrAProyectosTerminados()
+        {
+
+            navigationManager.NavigateTo($"proyectos/terminados");
+        }
     }
 }

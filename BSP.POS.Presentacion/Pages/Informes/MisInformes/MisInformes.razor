@@ -8,6 +8,7 @@
 @inject IReportesInterface ReportesService
 @inject NavigationManager navigationManager
 @inject IJSRuntime JSRuntime
+
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
@@ -32,12 +33,20 @@
                     </div>
 
                     <div class="w-100">
-                        <div class="row d-flex justify-content-start align-items-center div-search m-2">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <div class="d-flex justify-content-start align-items-center div-search m-2">
                             <button class="search-icon text-light d-flex align-items-center justify-content-center">
                                 <img src="images/Home/Buscador.png" width="25"/>
                             </button>
                              <BuscarInforme Texto="RecibirTexto"></BuscarInforme>
-
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center font-blue-light">
+                                <span class="mx-2">Filtro:</span>
+                                <span>Desde</span>
+                                <input class="mx-2 input-date text-light text-center" type="date" min="@fechaMin" max="@fechaMax" @bind="@fechaInicioDateTime" @oninput="CambioFechaInicio"/>
+                                <span>Hasta</span>
+                                <input class="ms-2 input-date text-light text-center" type="date" min="@fechaMin" max="@fechaMax" @bind="@fechaFinalDateTime" @oninput="CambioFechaFinal"/>
+                            </div>
                         </div>
                         @if (correoEnviado != null)
                         {
@@ -52,9 +61,12 @@
                         @if(!string.IsNullOrEmpty(mensajeError)){
                             <ModalError mensaje="@mensajeError"></ModalError>
                         }
-                        @if (informesDeUsuarioFinalizados != null && clienteAsociado != null)
+                        @if (informesDeUsuarioFinalizados.Any() && clienteAsociado != null)
                         {
-                            var informesUsuario = informesDeUsuarioFinalizados;
+                            var informesUsuario = informesDeUsuarioFinalizados.Where(informe =>
+                                informe.FechaConsultoriaDateTime >= fechaInicioDateTime &&
+                                informe.FechaConsultoriaDateTime <= fechaFinalDateTime
+                            ).OrderBy(i => i.FechaConsultoriaDateTime).ToList();
                             if (!string.IsNullOrEmpty(textoRecibido))
                             {
                                 // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace BSP.POS.Presentacion.Models.Usuarios
 {
@@ -17,5 +18,9 @@ namespace BSP.POS.Presentacion.Models.Usuarios
 
         public string imagenSeleccionada { get; set; } = "eyelash-background";
         public string informeSeleccionado { get; set; } = string.Empty;
+        public DateTime FechaConsultoriaDateTime
+        {
+            get => DateTime.ParseExact(fecha_consultoria, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
     }
 }
