@@ -198,11 +198,9 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ClientesService.ActualizarListaDeClientes(clientes, esquema);
-                if (ClientesService.ListaClientes != null)
-                {
-                    clientes = ClientesService.ListaClientes;
-                    mensajeActualizar = "Clientes Actualizados";
-                }
+                await RefrescarListaClientes();
+                mensajeActualizar = "Clientes Actualizados";
+                
                
             }
             catch (Exception)
@@ -223,13 +221,9 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             mensajeActualizar = null;
             estadoClienteNuevo = false;
             mensajeDescartar = null;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ClientesService.ObtenerListaClientes(esquema);
-            if (ClientesService.ListaClientes != null)
-            {
-                clientes = ClientesService.ListaClientes;
-                mensajeDescartar = "Se han descartado los cambios";
-            }
+            await RefrescarListaClientes();
+            mensajeDescartar = "Se han descartado los cambios";
+            
         }
         
 
@@ -250,12 +244,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             if (!activar)
             {
                 mensajeActualizar = null;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.ObtenerListaClientes(esquema);
-                if (ClientesService.ListaClientes != null)
-                {
-                    clientes = ClientesService.ListaClientes;
-                }
+                await RefrescarListaClientes();
             }
             if (activar)
             {

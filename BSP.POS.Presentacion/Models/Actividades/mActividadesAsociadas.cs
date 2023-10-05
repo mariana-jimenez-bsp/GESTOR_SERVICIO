@@ -11,7 +11,9 @@ namespace BSP.POS.Presentacion.Models.Actividades
         [Required(ErrorMessage = "El nombre de la actividad es requerida")]
         public string codigo_actividad { get; set; } = string.Empty;
         [Range(0, int.MaxValue, ErrorMessage = "El valor de horas debe ser un número entero válido.")]
+        [Required(ErrorMessage = "Las horas cobradas son requeridas")]
         public string horas_cobradas { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Las horas no cobradas son requeridas")]
         [Range(0, int.MaxValue, ErrorMessage = "El valor de horas debe ser un número entero válido.")]
         public string horas_no_cobradas { get; set; } = string.Empty;
         public string nombre_actividad { get; set; } = string.Empty;

@@ -18,10 +18,10 @@ namespace BSP.POS.Presentacion.Models.Clientes
         [StringLength(50, ErrorMessage = "Tamaño máximo de 50 caracteres")]
         [RegularExpression(@"^\d+(-\d+)*$", ErrorMessage = "El campo tiene que ser un teléfono válido")]
         public string TELEFONO1 { get; set; } = string.Empty;
-        [Required(ErrorMessage = "El campo del Teléfono 2 es requerido")]
+        
         [StringLength(50, ErrorMessage = "Tamaño máximo de 50 caracteres")]
         [RegularExpression(@"^\d+(-\d+)*$", ErrorMessage = "El campo tiene que ser un teléfono válido")]
-        public string TELEFONO2 { get; set; } = string.Empty;
+        public string? TELEFONO2 { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo de la Cédula es requerido")]
         [StringLength(20, ErrorMessage = "Tamaño máximo de 20 caracteres")]
         public string CONTRIBUYENTE { get; set; } = string.Empty;
