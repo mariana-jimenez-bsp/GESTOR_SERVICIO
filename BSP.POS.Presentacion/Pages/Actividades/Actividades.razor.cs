@@ -93,6 +93,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             {
                 actividades = ActividadesService.ListaActividades;
             }
+            mensajeDescartar = "Se han Descartado los cambios";
         }
         private async Task ActualizarListaActividades()
         {
@@ -163,7 +164,15 @@ namespace BSP.POS.Presentacion.Pages.Actividades
 
         private async Task ActivarScrollBarDeErrores()
         {
-            await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion");
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
+
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
         }
     }
 }

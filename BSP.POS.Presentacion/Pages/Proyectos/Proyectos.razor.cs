@@ -4,6 +4,7 @@ using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Actividades;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Security.Claims;
 
@@ -257,6 +258,19 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         void CambiarEstadoProyectoTerminado(bool estado)
         {
             estadoProyectoTerminado = estado;
+        }
+
+        private async Task ActivarScrollBarDeErrores()
+        {
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
+
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
         }
     }
 }

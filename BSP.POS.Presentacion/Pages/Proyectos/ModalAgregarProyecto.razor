@@ -2,10 +2,10 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IItemsClienteInterface ItemsClienteService
 @inject IClientesInterface ClientesService
-
+@inject IJSRuntime JSRuntime
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content ">
-        <EditForm Model="@proyecto" OnValidSubmit="AgregarProyecto">
+        <EditForm Model="@proyecto" OnValidSubmit="AgregarProyecto" OnInvalidSubmit="ActivarScrollBarDeErrores">
             <ObjectGraphDataAnnotationsValidator />
             <div class="modal-header d-flex justify-content-center text-primary">
                 <span class="blue-dark-text text-41-book">Agregar <img class="mb-3" src="images/Proyectos/Icono-Proyectos.png" /></span>

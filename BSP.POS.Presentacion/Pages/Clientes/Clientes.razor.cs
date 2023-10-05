@@ -4,7 +4,9 @@ using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Clientes
@@ -27,6 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private bool estadoUsuarioActualizado = false;
         private bool estadoUsuarioNuevoCancelado = false;
         private bool estadoUsuarioActualizadoCancelado = false;
+         
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -94,6 +97,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 }
                 else
                 {
+                    cliente.IsOpen = false;
                     cliente.listaDeUsuarios = new List<mUsuariosDeCliente>();
                 }
             }
@@ -350,7 +354,15 @@ namespace BSP.POS.Presentacion.Pages.Clientes
 
         private async Task ActivarScrollBarDeErrores()
         {
-            await JS.InvokeVoidAsync("ActivarScrollViewValidacion");
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JS.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
+
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JS.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
         }
     }
 }

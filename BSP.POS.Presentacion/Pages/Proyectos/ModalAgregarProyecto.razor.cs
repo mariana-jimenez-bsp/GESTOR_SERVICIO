@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Clientes;
+using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
 {
@@ -131,6 +132,19 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private async Task SalirConLaX()
         {
             await OnClose.InvokeAsync(false);
+        }
+
+        private async Task ActivarScrollBarDeErrores()
+        {
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
+
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
         }
     }
 }

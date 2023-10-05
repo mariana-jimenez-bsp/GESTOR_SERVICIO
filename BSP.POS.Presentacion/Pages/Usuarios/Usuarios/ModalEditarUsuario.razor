@@ -2,10 +2,10 @@
 @inject IPermisosInterface PermisosService
 @inject IClientesInterface ClientesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
-
+@inject IJSRuntime JSRuntime
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content">
-        <EditForm Model="@usuario" OnValidSubmit="ActualizarUsuario">
+        <EditForm Model="@usuario" OnValidSubmit="ActualizarUsuario" OnInvalidSubmit="ActivarScrollBarDeErrores">
             <ObjectGraphDataAnnotationsValidator />
             <div class="modal-header d-flex justify-content-center text-primary">
                 <h2 class="blue-dark-text text-41-book">Editar<img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
@@ -32,7 +32,11 @@
                         <ValidationMessage For="@(() => usuario.usuario)" />
                         @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
                         {
-                            <MensajeRepite Message="@mensajeUsuarioRepite" />
+                            <div class="mensaje-repite">
+                                <MensajeRepite Message="@mensajeUsuarioRepite" />
+                               
+                            </div>
+                            
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="a-correo">Correo:</label>
@@ -41,7 +45,11 @@
                         <ValidationMessage For="@(() => usuario.correo)" />
                         @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
                         {
-                            <MensajeRepite Message="@mensajeCorreoRepite" />
+                            
+                            <div class="mensaje-repite">
+                                <MensajeRepite Message="@mensajeCorreoRepite" />
+                               
+                            </div>
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="a-clave">Clave:</label>

@@ -5,6 +5,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IClientesInterface ClientesService
+@inject IJSRuntime JSRuntime
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
@@ -13,7 +14,7 @@
 
         <Layout Texto="RecibirTexto"></Layout>
         <div class="">
-            <EditForm Model="@proyectos" OnValidSubmit="ActualizarListaProyectos">
+            <EditForm Model="@proyectos" OnValidSubmit="ActualizarListaProyectos" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
                 @if (!string.IsNullOrEmpty(mensajeActualizar))

@@ -7,6 +7,7 @@ using BSP.POS.Presentacion.Services.Proyectos;
 using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -227,8 +228,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private async Task VerificarCorreoYUsuarioExistente()
         {
 
-            usuario.mensajeUsuarioRepite = null;
-            usuario.mensajeCorreoRepite = null;
+            
+           
 
             if (usuario.usuarioOrignal != usuario.usuario)
             {
@@ -237,20 +238,38 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
                 if (!string.IsNullOrEmpty(usuario.usuarioRepite))
                 {
-                    usuario.mensajeUsuarioRepite = "El usuario ya existe";
+                    mensajeUsuarioRepite = "El usuario ya existe";
+                    
                     repetido = true;
+                }
+                else
+                {
+                    mensajeUsuarioRepite = null;
                 }
 
             }
-            else if (usuario.correoOriginal != usuario.correo)
+            else
+            {
+                mensajeUsuarioRepite = null;
+            }
+            if (usuario.correoOriginal != usuario.correo)
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 usuario.correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
                 if (!string.IsNullOrEmpty(usuario.correoRepite))
                 {
-                    usuario.mensajeCorreoRepite = "El correo ya existe";
+                    mensajeCorreoRepite = "El correo ya existe";
+                    
                     repetido = true;
                 }
+                else
+                {
+                    mensajeCorreoRepite = null;
+                }
+            }
+            else
+            {
+                mensajeCorreoRepite = null;
             }
 
         }
@@ -287,6 +306,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     await CloseModal();
 
                 }
+                else
+                {
+                    await ActivarScrollBarErroresRepite();
+                }
             }
             catch (Exception)
             {
@@ -305,6 +328,38 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private void CambiarEstadoMostrarClave(bool estado)
         {
             mostrarClave = estado;
+        }
+
+        private async Task ActivarScrollBarDeErrores()
+        {
+            mensajeUsuarioRepite = null;
+            mensajeCorreoRepite = null;
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
+
+                if (!isValid)
+                {
+                    // Si hay errores de validación, activa el scrollbar
+                    await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+                }
+        }
+
+        private async Task ActivarScrollBarErroresRepite()
+        {
+            if (!string.IsNullOrEmpty(mensajeCorreoRepite) || !string.IsNullOrEmpty(mensajeUsuarioRepite))
+            {
+                StateHasChanged();
+                await Task.Delay(100);
+
+
+                var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".mensaje-repite");
+
+
+                    // Si hay errores de validación, activa el scrollbar
+              await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".mensaje-repite");
+                
+            }
         }
     }
 }

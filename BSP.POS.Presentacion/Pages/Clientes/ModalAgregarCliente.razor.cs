@@ -5,6 +5,7 @@ using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Services.Lugares;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Clientes
 {
@@ -523,6 +524,19 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private async Task SalirConLaX()
         {
             await OnClose.InvokeAsync(false);
+        }
+
+        private async Task ActivarScrollBarDeErrores()
+        {
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
+
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
         }
     }
 }
