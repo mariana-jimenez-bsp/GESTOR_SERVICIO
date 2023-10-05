@@ -61,8 +61,7 @@
                         <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                             @if (proyectos != null)
                             {
-                                var listaDeProyectos = proyectos;
-                                listaDeProyectos = listaDeProyectos.OrderByDescending(p => p.numero).ToList();
+                                var listaDeProyectos = proyectos.OrderByDescending(p => p.numero).ToList();
                                 if (!string.IsNullOrEmpty(textoRecibido))
                                 {
                                     // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
