@@ -23,6 +23,8 @@ namespace BSP.POS.API.Controllers
         private readonly string _secretKey = string.Empty;
         private readonly string _correoUsuario = string.Empty;
         private readonly string _claveUsuario = string.Empty;
+        private readonly string _urlWeb = string.Empty;
+        private readonly string _tipoInicio = string.Empty;
         private readonly ICorreosInterface _correoService;
 
         private N_Usuarios user;
@@ -34,17 +36,28 @@ namespace BSP.POS.API.Controllers
             // .Build();
 
 
-            _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
-            _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
-            _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
+            
 
-            //var configuration = new ConfigurationBuilder()
-            //.AddJsonFile("appsettings.json")
-            //.Build();
+            var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+            _tipoInicio = configuration["AppSettings:TipoInicio"];
+            if(_tipoInicio == "debug")
+            {
+                _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
+                _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
+                _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
+                _urlWeb = "https://localhost:7200/";
+            }
+            else
+            {
+                _secretKey = configuration["AppSettings:SecretKey"];
+                _correoUsuario = configuration["AppSettings:SmtpFrom"];
+                _claveUsuario = configuration["AppSettings:SmtpPassword"];
+                _urlWeb = "http://localhost/POS_Prueba_Web_Gestor_Servicios/";
+            }
 
-            //_secretKey = configuration["AppSettings:SecretKey"];
-            //_correoUsuario = configuration["AppSettings:SmtpFrom"];
-            //_claveUsuario = configuration["AppSettings:SmtpPassword"];
+
             _correoService = correoService;
 
         }
@@ -109,7 +122,7 @@ namespace BSP.POS.API.Controllers
                     datos.claveUsuario = _claveUsuario;
                     string token = tokenRecuperado.token_recuperacion;
                     
-                    _correoService.EnviarCorreoRecuperarClave(datos, token, tokenRecuperacion.esquema);
+                    _correoService.EnviarCorreoRecuperarClave(datos, token, tokenRecuperacion.esquema, _urlWeb, _tipoInicio);
                     return Ok();
                 }
                 return BadRequest();

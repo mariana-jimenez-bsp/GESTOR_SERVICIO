@@ -146,13 +146,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             EsConsecutivoNull = false;
             bool verificarAprobacion = false;
             todosLosUsuariosAprobados = false;
+            correoEnviado = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
                 verificarAprobacion = await VerificarAprobacionesUsuarios();
                 if (!verificarAprobacion)
                 {
-                    correoEnviado = null;
+                    
 
                     mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
 

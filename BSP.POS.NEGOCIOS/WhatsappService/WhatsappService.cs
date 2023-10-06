@@ -24,12 +24,19 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
         {
             _hostingEnvironment = hostingEnvironment;
         }
-        public async Task EnviarWhatsappAprobarInforme(mObjetosParaCorreoAprobacion objetosParaAprobacion, string token, string idTelefono)
+        public async Task EnviarWhatsappAprobarInforme(mObjetosParaCorreoAprobacion objetosParaAprobacion, string token, string idTelefono, string tipoInicio)
         {
             try
             {
-                string pathToJson = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/AprobarInforme.json";
-                //string pathToJson = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "AprobarInforme.json");
+                string pathToJson = "";
+                if (tipoInicio == "debug")
+                {
+                    pathToJson = "../BSP.POS.NEGOCIOS/WhatsappService/MensajesJson/AprobarInforme.json";
+                }
+                else
+                {
+                    pathToJson = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "AprobarInforme.json");
+                }
                 string jsonString = File.ReadAllText(pathToJson);
                 
                 // Reemplaza el marcador de posición con el valor real
@@ -121,12 +128,15 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
             }
             catch (Exception ex)
             {
-                //string pathError = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "TextError.txt");
-                //File.WriteAllText(pathError, ex.ToString());
-                //if (ex.InnerException != null)
-                //{
-                //    File.AppendAllText(pathError, "\nInner Exception: " + ex.InnerException.ToString());
-                //}
+                if(tipoInicio == "deploy")
+                {
+                    string pathError = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "TextError.txt");
+                    File.WriteAllText(pathError, ex.ToString());
+                    if (ex.InnerException != null)
+                    {
+                        File.AppendAllText(pathError, "\nInner Exception: " + ex.InnerException.ToString());
+                    }
+                }
 
                 throw;
             }

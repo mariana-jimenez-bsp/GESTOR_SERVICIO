@@ -14,16 +14,18 @@ namespace BSP.POS.UTILITARIOS.Usuarios
         public String cod_cliente { get; set; }
 
         public String usuario { get; set; }
+        public String nombre { get; set; }
         public String departamento { get; set; }
         public String correo { get; set; }
         public String telefono { get; set; }
 
-        public U_ListaDeUsuariosDeCliente(String pId, String pCodigo, String pCod_cliente, String pUsuario, String pDepartamento, String pCorreo, String pTelefono)
+        public U_ListaDeUsuariosDeCliente(String pId, String pCodigo, String pCod_cliente, String pUsuario, String pNombre, String pDepartamento, String pCorreo, String pTelefono)
         {
             id = pId;
             codigo = pCodigo;
             cod_cliente = pCod_cliente;
             usuario = pUsuario;
+            nombre = pNombre;
             departamento = pDepartamento;
             correo = pCorreo;
             telefono = pTelefono;

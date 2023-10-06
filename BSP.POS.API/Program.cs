@@ -25,16 +25,25 @@ builder.Services.AddCors(options =>
 });
 // Configuración de autenticación JWT
 string _secretKey;
+string _tipoInicio;
 //var configuration = new ConfigurationBuilder()
 //    .AddUserSecrets<Program>()
 //    .Build();
-//var configuration = new ConfigurationBuilder()
-//           .AddJsonFile("appsettings.json")
-//           .Build();
+var configuration = new ConfigurationBuilder()
+           .AddJsonFile("appsettings.json")
+           .Build();
 
-//_secretKey = configuration["AppSettings:SecretKey"];
+_tipoInicio = configuration["AppSettings:TipoInicio"];
+if (_tipoInicio == "debug")
+{
+    _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
+}
+else
+{
+    _secretKey = configuration["AppSettings:SecretKey"];
+}
 
-_secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
+    
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 
 builder.Services.AddAuthentication(options =>

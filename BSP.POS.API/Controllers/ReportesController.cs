@@ -9,6 +9,24 @@ namespace BSP.POS.API.Controllers
     [Authorize]
     public class ReportesController : ControllerBase
     {
+        private readonly string _tipoInicio = string.Empty;
+        private readonly string _urlApiCrystal = string.Empty;
+        public ReportesController() {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            _tipoInicio = configuration["AppSettings:TipoInicio"];
+            if (_tipoInicio == "debug")
+            {
+                _urlApiCrystal = "https://localhost:44346/";
+            }
+            else
+            {
+                _urlApiCrystal = "http://localhost/POS_Prueba_APICrystal_Gestor_servicios/";
+            }
+
+        }
         [HttpGet("GenerarReportePorConsecutivo/{esquema}/{consecutivo}")]
         public async Task<IActionResult> GenerarReportePorConsecutivo(string esquema, string consecutivo)
         {
@@ -16,8 +34,7 @@ namespace BSP.POS.API.Controllers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    var response = await client.GetAsync("https://localhost:44346/Api/GenerarReporte/" + esquema + "/" + consecutivo);
-                    //var response = await client.GetAsync("http://localhost/POS_Prueba_APICrystal_Gestor_servicios/Api/GenerarReporte/" + esquema + "/" + consecutivo);
+                    var response = await client.GetAsync(_urlApiCrystal + "Api/GenerarReporte/" + esquema + "/" + consecutivo);
 
                     if (response.IsSuccessStatusCode)
                     {

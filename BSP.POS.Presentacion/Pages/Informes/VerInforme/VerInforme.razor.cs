@@ -3,6 +3,7 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -20,6 +21,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
+        public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
@@ -33,7 +35,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         private string mensajeConsecutivo;
         private bool estadoObseracionNueva = false;
         private bool estadoObservacionCancelada = false;
-
+        private bool todosLosUsuariosAprobados = false;
         protected override async Task OnInitializedAsync()
         {
 
@@ -77,6 +79,33 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 mensajeConsecutivo = "El consecutivo no existe o no es válido";
             }
             cargaInicial = true;
+        }
+
+        private async Task<bool> VerificarAprobacionesUsuarios()
+        {
+            bool aprobado = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(Consecutivo, esquema);
+            if (UsuariosService.ListaUsuariosDeClienteDeInforme.Any())
+            {
+                foreach (var usuario in UsuariosService.ListaUsuariosDeClienteDeInforme)
+                {
+                    if (usuario.aceptacion == "1")
+                    {
+                        aprobado = true;
+                    }
+                    else
+                    {
+                        aprobado = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                aprobado = true;
+            }
+            return aprobado;
         }
         public async Task<bool> VerificarValidezDeConsecutivo()
         {
@@ -137,13 +166,19 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         private async Task RefrescarListaDeUsuariosDeInforme()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+            if (UsuariosService.ListaDeUsuariosParaEditar != null)
+            {
+                listaTodosLosUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
             if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
             {
                 listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
                 foreach (var usuario in listadeUsuariosDeClienteDeInforme)
                 {
-                    usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
+                    usuario.nombre_usuario = listaTodosLosUsuarios.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.nombre).First();
                     usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
                 }
             }
@@ -162,39 +197,48 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         private async Task EnviarCorreosAClientes()
         {
             correoEnviado = null;
-            mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
-            objetoParaCorreo.informe = informe;
-            objetoParaCorreo.total_horas_cobradas = total_horas_cobradas;
-            objetoParaCorreo.total_horas_no_cobradas = total_horas_no_cobradas;
-            objetoParaCorreo.listaActividadesAsociadas = listaActividadesAsociadas;
-            foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
+            todosLosUsuariosAprobados = false;
+            bool verificarAprobacion = false;
+            verificarAprobacion = await VerificarAprobacionesUsuarios();
+            if (!verificarAprobacion)
             {
-                actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
-            }
-            objetoParaCorreo.listadeUsuariosDeClienteDeInforme = listadeUsuariosDeClienteDeInforme;
-            objetoParaCorreo.ClienteAsociado = ClienteAsociado;
-            objetoParaCorreo.esquema = esquema;
-            objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
-            foreach (var observacion in objetoParaCorreo.listaDeObservaciones)
-            {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
-                if(UsuariosService.UsuarioParaEditar != null)
+                mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
+                objetoParaCorreo.informe = informe;
+                objetoParaCorreo.total_horas_cobradas = total_horas_cobradas;
+                objetoParaCorreo.total_horas_no_cobradas = total_horas_no_cobradas;
+                objetoParaCorreo.listaActividadesAsociadas = listaActividadesAsociadas;
+                foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
                 {
-                    observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
+                    actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
                 }
-                
-            }
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
-            if (validar)
-            {
-                correoEnviado = "Correo Enviado";
+                objetoParaCorreo.listadeUsuariosDeClienteDeInforme = listadeUsuariosDeClienteDeInforme;
+                objetoParaCorreo.ClienteAsociado = ClienteAsociado;
+                objetoParaCorreo.esquema = esquema;
+                objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;
+                foreach (var observacion in objetoParaCorreo.listaDeObservaciones)
+                {
+                    if (UsuariosService.UsuarioParaEditar != null)
+                    {
+                        observacion.nombre_usuario = listaTodosLosUsuarios.Where(u => u.codigo == observacion.codigo_usuario).Select(c => c.nombre).First();
+                    }
+
+                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
+                if (validar)
+                {
+                    correoEnviado = "Correo Enviado";
+                }
+                else
+                {
+                    correoEnviado = "Error";
+                }
             }
             else
             {
-                correoEnviado = "Error";
+                todosLosUsuariosAprobados = true;
             }
+            
         }
 
 
@@ -255,6 +299,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         {
             estadoObservacionCancelada = estado;
         }
+
 
         public bool advertenciaFinalizarInforme = false;
         private async Task ActivarAdvertenciaFinalizar()

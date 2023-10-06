@@ -45,7 +45,7 @@ namespace BSP.POS.DATOS.Usuarios
                     U_Perfil perf= ObtenerUsuarioPorId(pPerfil.esquema, pPerfil.id);
                     pPerfil.clave = perf.clave;
                 }
-                    var response = sp.GetData(pPerfil.id, pPerfil.usuario, pPerfil.correo, pPerfil.clave, pPerfil.nombre, pPerfil.rol, pPerfil.telefono, pPerfil.esquema);
+                    var response = sp.GetData(pPerfil.id, pPerfil.codigo, pPerfil.usuario, pPerfil.correo, pPerfil.clave, pPerfil.nombre, pPerfil.rol, pPerfil.telefono, pPerfil.cod_cliente, pPerfil.esquema);
 
                 
                 return "Exito";
@@ -117,7 +117,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, item.departamento, item.correo, item.telefono);
+                    U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, item.nombre, item.departamento, item.correo, item.telefono);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -330,7 +330,7 @@ namespace BSP.POS.DATOS.Usuarios
 
             foreach (var item in response)
             {
-                U_ListaDeUsuariosDeCliente user = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, item.departamento, item.correo, item.telefono);
+                U_ListaDeUsuariosDeCliente user = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, "", item.departamento, item.correo, item.telefono);
                 usuario = user;
             }
 
@@ -498,7 +498,7 @@ namespace BSP.POS.DATOS.Usuarios
                         U_Perfil perf = ObtenerUsuarioPorId(pUsuario.esquema, pUsuario.id);
                         pUsuario.clave = perf.clave;
                     }
-                    var response = sp.GetData(esquema, pUsuario.id, pUsuario.cod_cliente, pUsuario.departamento, pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, pUsuario.rol, pUsuario.telefono, pUsuario.imagen);
+                    var response = sp.GetData(esquema, pUsuario.id, pUsuario.codigo, pUsuario.cod_cliente, pUsuario.departamento, pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, pUsuario.rol, pUsuario.telefono, pUsuario.imagen);
 
                 
                 return "Exito";

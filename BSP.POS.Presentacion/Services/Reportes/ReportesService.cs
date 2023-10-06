@@ -19,7 +19,7 @@ namespace BSP.POS.Presentacion.Services.Reportes
                 {
                     return await response.Content.ReadAsByteArrayAsync();
                 }
-
+                var reponseMessage = response.RequestMessage;
                 throw new Exception("Error al obtener el PDF");
             
         }

@@ -247,6 +247,10 @@
     @if(advertenciaGuardarInforme){
         <ModalAdvertencia mensaje="El informe fue finalizado y no se puede editar"></ModalAdvertencia>
     }
+    @if (todosLosUsuariosAprobados)
+    {
+        <ModalInfo mensaje="Todos los usuarios ya aprobaron el informe seleccionado"></ModalInfo>
+    }
             <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
         }
         else if (informe.estado == "Borrador")

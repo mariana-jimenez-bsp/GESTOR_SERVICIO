@@ -24,13 +24,21 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema)
+        public void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema, string urlWeb, string tipoInicio)
         {
-            string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/RecuperarClave.html";
-            //string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "RecuperarClave.html");
+            string PathHtml = "";
+            if(tipoInicio == "debug")
+            {
+                PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/RecuperarClave.html";
+            }
+            else
+            {
+                PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "RecuperarClave.html");
+            }
             string CuerpoHtml = File.ReadAllText(PathHtml);
             CuerpoHtml = CuerpoHtml.Replace("{{token}}", token)
-                           .Replace("{{esquema}}", esquema);
+                           .Replace("{{esquema}}", esquema)
+                           .Replace("{{UrlWeb}}", urlWeb);
             var correo = new MimeMessage();
             correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
             correo.To.Add(MailboxAddress.Parse(datos.para));
@@ -44,7 +52,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             smtp.Disconnect(true);
 
         }
-        public void EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion)
+        public void EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion, string urlWeb, string tipoInicio)
         {
 
             foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
@@ -71,8 +79,16 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 {
                     observaciones += "<tr>\r\n <td>" + itemObservacion.nombre_usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
                 }
-                    string PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
-                    //string PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "AprobarInforme.html");
+                    string PathHtml = "";
+                    if (tipoInicio == "debug")
+                    {
+                        PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
+                    }
+                    else
+                    {
+                        PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "AprobarInforme.html");
+                    }
+                   
                     string CuerpoHtml = File.ReadAllText(PathHtml);
                     CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
                            .Replace("{{esquema}}", objetosParaAprobacion.esquema)
@@ -85,7 +101,8 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                            .Replace("{{Total_Horas_No_Cobradas}}", objetosParaAprobacion.total_horas_no_cobradas.ToString())
                            .Replace("{{Usuarios_Cliente}}", usuarios)
                            .Replace("{{Actividades}}", actividades)
-                           .Replace("{{Observaciones}}", observaciones);
+                           .Replace("{{Observaciones}}", observaciones)
+                           .Replace("{{UrlWeb}}", urlWeb);
                 correo.Body = new TextPart(TextFormat.Html) { Text = CuerpoHtml };
 
                 using var smtp = new SmtpClient();

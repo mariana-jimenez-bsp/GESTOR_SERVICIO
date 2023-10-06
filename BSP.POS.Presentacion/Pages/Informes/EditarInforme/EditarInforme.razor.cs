@@ -23,6 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
+        public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
@@ -303,13 +304,19 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private async Task RefrescarListaDeUsuariosDeInforme()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+            if(UsuariosService.ListaDeUsuariosParaEditar != null)
+            {
+                listaTodosLosUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
             if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
             {
                 listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
                 foreach (var usuario in listadeUsuariosDeClienteDeInforme)
                 {
-                    usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
+                    usuario.nombre_usuario = listaTodosLosUsuarios.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.nombre).First();
                     usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
                 }
             }
