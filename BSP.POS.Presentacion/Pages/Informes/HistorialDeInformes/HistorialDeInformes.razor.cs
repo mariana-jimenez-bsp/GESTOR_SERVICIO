@@ -69,6 +69,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
                             foreach (var informe in informesDeUsuarioFinalizados)
                             {
                                 informe.fecha_consultoria = informesAsociados.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
+                                informe.FechaConsultoriaDateTime = DateTime.ParseExact(informe.fecha_consultoria, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                             }
                             if (informesDeUsuarioFinalizados.Any())
                             {

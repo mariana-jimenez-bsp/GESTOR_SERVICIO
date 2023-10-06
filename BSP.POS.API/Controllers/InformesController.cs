@@ -38,21 +38,21 @@ namespace BSP.POS.API.Controllers
             //var configuration = new ConfigurationBuilder()
             // .AddUserSecrets<Program>()
             // .Build();
-          
+
             _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
             _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
             _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
             _tokenWhatsapp = Environment.GetEnvironmentVariable("tokenWhatsappGS");
             _idTelefonoWhatsapp = Environment.GetEnvironmentVariable("idTelefonoWhatsappGS");
-            
+
             // var configuration = new ConfigurationBuilder()
             //.AddJsonFile("appsettings.json")
             //.Build();
-            //_secretKey = configuration["AppSettings:SecretKey"];
-            //_correoUsuario = configuration["AppSettings:SmtpFrom"];
-            //_claveUsuario = configuration["AppSettings:SmtpPassword"];
-            //_tokenWhatsapp = configuration["AppSettings:tokenWhatsapp"];
-            //_idTelefonoWhatsapp = configuration["AppSettings:idTelefonoWhatsapp"];
+            // _secretKey = configuration["AppSettings:SecretKey"];
+            // _correoUsuario = configuration["AppSettings:SmtpFrom"];
+            // _claveUsuario = configuration["AppSettings:SmtpPassword"];
+            // _tokenWhatsapp = configuration["AppSettings:tokenWhatsapp"];
+            // _idTelefonoWhatsapp = configuration["AppSettings:idTelefonoWhatsapp"];
             _correoService = correoService;
             _whatsappService = whatsappService;
 

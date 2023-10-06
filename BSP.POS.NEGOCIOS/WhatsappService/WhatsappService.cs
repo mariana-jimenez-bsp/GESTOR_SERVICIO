@@ -127,7 +127,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                 //{
                 //    File.AppendAllText(pathError, "\nInner Exception: " + ex.InnerException.ToString());
                 //}
-                
+
                 throw;
             }
           

@@ -41,6 +41,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private bool estadoObservacionCancelada = false;
         private bool informeGuardado = false;
         private bool activarBotonFinalizar = false;
+        private bool informeActualizado = false;
 
         private async Task SubmitActividades()
         {
@@ -54,10 +55,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task TodosLosBotonesSubmit()
         {
+            informeActualizado = false;
             mensajeError = null;
             try
             {
                 await SubmitInforme();
+                StateHasChanged();
+                await Task.Delay(100);
                 await SubmitActividades();
                
             }
@@ -227,26 +231,35 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task ActualizarActividadesAsociadas()
         {
+            informeGuardado = false;
             successMessage = null;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
-            await RefrescarListaDeActividadesAsociadas();
-            
-            if (!activarBotonFinalizar)
+            if (informeActualizado)
             {
-                successMessage = "Se han guardado los cambios";
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
+                await RefrescarListaDeActividadesAsociadas();
+
+                if (!activarBotonFinalizar)
+                {
+                    successMessage = "Se han guardado los cambios";
+                }
+                CambiarEstadoInformeGuardado(true);
+                
             }
-            CambiarEstadoInformeGuardado(true);
+            
+            
         }
 
         private async Task ActualizarInformeAsociado()
         {
-
+            
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ActualizarInformeAsociado(informe, esquema);
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
             informe = InformesService.InformeAsociado;
+            informeActualizado = true;
+           
 
         }
         private void CambioCodigoDeUsuario(ChangeEventArgs e)

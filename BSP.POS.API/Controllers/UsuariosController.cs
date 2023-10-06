@@ -32,7 +32,7 @@ namespace BSP.POS.API.Controllers
             //var configuration = new ConfigurationBuilder()
             // .AddUserSecrets<Program>()
             // .Build();
-            
+
 
             _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
             _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BSP.POS.Presentacion.Models.Informes
 {
-    public class mInformeAsociado
+    public class mInformeAsociado : IValidatableObject
     {
         public string consecutivo { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo de Fecha de consultoría es requerido")]
@@ -38,6 +38,27 @@ namespace BSP.POS.Presentacion.Models.Informes
         {
             get => DateTime.Parse(hora_final);
             set => hora_final = value.ToString("HH:mm");
+        }
+        public TimeSpan HoraInicioTimeSpan
+        {
+            get => TimeSpan.Parse(hora_inicio);
+        }
+
+        public TimeSpan HoraFinalTimeSpan
+        {
+            get => TimeSpan.Parse(hora_final);
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (HoraInicioTimeSpan > HoraFinalTimeSpan)
+            {
+                yield return new ValidationResult("La Hora de Inicio no puede ser mayor que la Hora Final.", new[] { nameof(HoraInicioTimeSpan) });
+            }
+            else if (HoraFinalTimeSpan < HoraInicioTimeSpan)
+            {
+                yield return new ValidationResult("La Hora Final no puede ser menor que la Hora de Inicio.", new[] { nameof(HoraFinalTimeSpan) });
+            }
         }
     }
 }

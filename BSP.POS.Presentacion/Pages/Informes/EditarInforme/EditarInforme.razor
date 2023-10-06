@@ -46,13 +46,13 @@
                             <div>
                                     <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
                                 <span class="green-text">hs</span>
-                                <ValidationMessage For="@(() => informe.HoraInicioTime)" />
+                                <ValidationMessage For="@(() => informe.HoraInicioTimeSpan)" />
                             </div>
                       
                             <div>
                                 <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                 <span class="green-text">hs</span>
-                                <ValidationMessage For="@(() => informe.HoraFinalTime)" />
+                                <ValidationMessage For="@(() => informe.HoraFinalTimeSpan)" />
                             </div>
                         </div>
                    
