@@ -10,9 +10,9 @@ namespace BSP.POS.Presentacion.Models.Informes
         public string fecha_consultoria { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El campo de Hora de Inicio es requerido")]
-        public string hora_inicio { get; set; } = string.Empty;
+        public string hora_inicio { get; set; } = DateTime.Now.ToString("HH:mm");
         [Required(ErrorMessage = "El campo de Hora Final es requerido")]
-        public string hora_final { get; set; } = string.Empty;
+        public string hora_final { get; set; } = DateTime.Now.ToString("HH:mm");
         [Required(ErrorMessage = "El campo de la Modalidad es requerido")]
         public string modalidad_consultoria { get; set; } = string.Empty;
         public string cliente { get; set; } = string.Empty;
@@ -37,11 +37,12 @@ namespace BSP.POS.Presentacion.Models.Informes
         public DateTime HoraFinalTime
         {
             get => DateTime.Parse(hora_final);
-            set => hora_final = value.ToString("HH:mm");
+            set => hora_final = value.ToString(@"HH\:mm");
         }
         public TimeSpan HoraInicioTimeSpan
         {
             get => TimeSpan.Parse(hora_inicio);
+            set => hora_inicio = value.ToString(@"HH\:mm");
         }
 
         public TimeSpan HoraFinalTimeSpan
