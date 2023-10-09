@@ -2,9 +2,12 @@
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Lugares;
 using BSP.POS.Presentacion.Models.Proyectos;
+using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using BSP.POS.Presentacion.Services.Lugares;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Clientes
@@ -471,6 +474,11 @@ namespace BSP.POS.Presentacion.Pages.Clientes
 
             if (archivo != null)
             {
+                clienteNuevo.ImagenFile = new FormFile(archivo.OpenReadStream(archivo.Size), 0, archivo.Size, "name", archivo.Name)
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = archivo.ContentType
+                };
                 using (var memoryStream = new MemoryStream())
                 {
                     await archivo.OpenReadStream().CopyToAsync(memoryStream);

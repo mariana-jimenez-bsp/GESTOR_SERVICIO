@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BSP.POS.Presentacion.Models.Usuarios
 {
-    public class mUsuariosParaEditar
+    public class mUsuariosParaEditar : IValidatableObject
     {
         public string id { get; set; } = string.Empty;
         public string codigo { get; set; } = string.Empty;
@@ -40,7 +40,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         [StringLength(10, ErrorMessage = "Tamaño máximo de 10 caracteres")]
         public string esquema { get; set; } = string.Empty;
 
-        [RegularExpression(@"\.(png|jpg|jpeg)$", ErrorMessage = "La imagen debe ser un archivo PNG o JPG.")]
+        
         public IFormFile? ImagenFile { get; set; }
         public List<mPermisos> listaTodosLosPermisos = new List<mPermisos>();
         public List<mPermisosAsociados> listaPermisosAsociados = new List<mPermisosAsociados>();
@@ -51,7 +51,21 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public string mensajeUsuarioRepite { get; set; } = string.Empty;
         public string correoRepite { get; set; } = string.Empty;
         public string mensajeCorreoRepite { get; set; } = string.Empty;
-
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (ImagenFile != null)
+            {
+                bool validacion = false;
+                if (Path.GetExtension(ImagenFile.FileName) == ".png" || Path.GetExtension(ImagenFile.FileName) == ".jpeg" || Path.GetExtension(ImagenFile.FileName) == ".jpg")
+                {
+                    validacion = true;
+                }
+                if (!validacion)
+                {
+                    yield return new ValidationResult("La imagen debe ser tipo tipo .png o .jpg", new[] { nameof(ImagenFile) });
+                }
+            }
+        }
     }
 
 

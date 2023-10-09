@@ -2,6 +2,7 @@
 @inject IUsuariosInterface UsuariosService
 @inject ILocalStorageService localStorageService
 @inject NavigationManager navigationManager
+@inject IJSRuntime JS
 @inject AuthenticationStateProvider AuthenticationStateProvider
         <div class="container container-full">
             <div class="row">
@@ -56,9 +57,18 @@
                         </div>
                     }
                     <button type="submit" class="btn btn-success btn-block">Ingresar</button>
-                        <p class="mt-5 text-light forgot-pass">¿Olvidó su contraseña?</p>
+                    <button @onclick="ActivarInputFileLLave" type="button" class="btn btn-success btn-block">Ingresar LLave</button>
+                        <p class="mt-4 text-light forgot-pass">¿Olvidó su contraseña?</p>
                         <a class="mouse-pointer reset-pass" @onclick="CorreoRecuperacion">Resetear contraseña</a>
                      </EditForm>
+                <EditForm Model="licenciaLlave" OnValidSubmit="EnviarLLave">
+                    <DataAnnotationsValidator />
+                    <div @ref="LlaveInputFile">
+                        <InputFile style="display: none" accept=".txt" OnChange="CambiarArchivoLlave" />
+                    </div>
+                    <ValidationMessage For="@(() => licenciaLlave.archivo_llave)" />
+                    <button @ref="LlaveButton" type="submit" style="display: none"></button>
+                </EditForm>
                     </div>
                 </div>
             </div>

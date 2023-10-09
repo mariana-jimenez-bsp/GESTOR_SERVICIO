@@ -50,7 +50,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
             
         }
 
-        public async Task ActualizarListaDeActividades(List<mActividades> listaActividades, string esquema)
+        public async Task<bool> ActualizarListaDeActividades(List<mActividades> listaActividades, string esquema)
         {
             try
             {
@@ -63,12 +63,16 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 var response = await _http.PostAsync(url, content);
                 if( response.StatusCode == HttpStatusCode.OK )
                 {
-
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
 

@@ -1,5 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using BSP.POS.Presentacion.Models.Usuarios;
+using Microsoft.JSInterop;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using BSP.POS.Presentacion.Models.Licencias;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios
 {
@@ -13,6 +19,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private string mensajeIntentos { get; set; } = string.Empty;
         public mLogin usuarioLogin { get; set; } = new mLogin();
         public mLogin usuario { get; set; } = new mLogin();
+        public mLicenciaLlave licenciaLlave = new mLicenciaLlave();
+        private ElementReference LlaveInputFile;
+        private ElementReference LlaveButton;
+        private string llaveSeccionada = string.Empty;
         protected override void OnParametersSet()
         {
 
@@ -23,6 +33,38 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
             }
         }
+
+        private async Task ActivarInputFileLLave()
+        {
+            await JS.InvokeVoidAsync("clickInput", LlaveInputFile);
+        }
+
+        private async Task SubmitLlave()
+        {
+            await JS.InvokeVoidAsync("clickButton", LlaveButton);
+        }
+        private async void CambiarArchivoLlave(InputFileChangeEventArgs e)
+        {
+            // Aquí puedes manejar el archivo seleccionado.
+            var archivoSeleccionado = e.File;
+            
+            if (archivoSeleccionado != null)
+            {
+                licenciaLlave.archivo_llave = new FormFile(archivoSeleccionado.OpenReadStream(archivoSeleccionado.Size), 0, archivoSeleccionado.Size, "name", archivoSeleccionado.Name)
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = archivoSeleccionado.ContentType
+                };
+                await SubmitLlave();
+            }
+        }
+
+        private void EnviarLLave()
+        {
+            navigationManager.NavigateTo("https://www.google.com/");
+        }
+
+
         private async Task Ingresar()
         {
             mensajeIntentos = string.Empty;

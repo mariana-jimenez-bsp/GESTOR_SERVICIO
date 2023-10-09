@@ -2,6 +2,10 @@
     element.click();
 }
 
+window.clickInput = (element) => {
+    element.querySelector('input').click();
+}
+
 function guardarDocumento(filename, content) {
     var link = document.createElement('a');
     link.download = filename;

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BSP.POS.Presentacion.Models.Clientes
 {
-    public class mAgregarCliente
+    public class mAgregarCliente : IValidatableObject
     {
         public string CLIENTE { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo del Responsable es requerido")]
@@ -81,7 +81,23 @@ namespace BSP.POS.Presentacion.Models.Clientes
 
         public bool readonlyExento = true;
         public bool readonlyCorporacion = true;
-        [RegularExpression(@"\.(png|jpg|jpeg)$", ErrorMessage = "La imagen debe ser un archivo PNG o JPG.")]
+        
         public IFormFile? ImagenFile { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (ImagenFile != null)
+            {
+                bool validacion = false;
+                if (Path.GetExtension(ImagenFile.FileName) == ".png" || Path.GetExtension(ImagenFile.FileName) == ".jpeg" || Path.GetExtension(ImagenFile.FileName) == ".jpg")
+                {
+                    validacion = true;
+                }
+                if (!validacion)
+                {
+                    yield return new ValidationResult("La imagen debe ser tipo tipo .png o .jpg", new[] { nameof(ImagenFile) });
+                }
+            }
+        }
     }
 }

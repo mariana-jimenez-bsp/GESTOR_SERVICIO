@@ -5,6 +5,8 @@ using BSP.POS.Presentacion.Services.Clientes;
 using BSP.POS.Presentacion.Services.Proyectos;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
@@ -144,6 +146,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
             if (archivo != null)
             {
+                usuario.ImagenFile = new FormFile(archivo.OpenReadStream(archivo.Size), 0, archivo.Size, "name", archivo.Name)
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = archivo.ContentType
+                };
                 using (var memoryStream = new MemoryStream())
                 {
                     await archivo.OpenReadStream().CopyToAsync(memoryStream);

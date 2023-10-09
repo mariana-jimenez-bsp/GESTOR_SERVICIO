@@ -104,13 +104,21 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.ActualizarListaDeActividades(actividades, esquema);
+                bool seActualizo = await ActividadesService.ActualizarListaDeActividades(actividades, esquema);
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ActividadesService.ObtenerListaDeActividades(esquema);
                 if (ActividadesService.ListaActividades != null)
                 {
                     actividades = ActividadesService.ListaActividades;
-                    mensajeActualizar = "Actividades Actualizadas";
+                    if (seActualizo)
+                    {
+                        mensajeActualizar = "Actividades Actualizadas";
+                    }
+                    else
+                    {
+                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    }
+                    
                 }
             }
             catch (Exception)
