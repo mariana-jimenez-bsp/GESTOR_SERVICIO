@@ -16,9 +16,11 @@
             @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
             {
 
+                <div class="el-layout">
+                    <Layout Texto="RecibirTexto"></Layout>
+                </div>
 
-                <Layout Texto="RecibirTexto"></Layout>
-                <div class="">
+                <div class="width-content">
                     <div class=" d-flex row g-2 text-center ">
                         <div class="container mt-1 border-transparent">
 
@@ -126,7 +128,7 @@
             {
                 <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
             }
-
+            <ScriptMaxHeight Contenido=".max-height-projects" Elemento1=".el-layout" Elemento2=".footer-project" Elemento3=".card-header"></ScriptMaxHeight>
         }
         else
         {

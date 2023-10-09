@@ -18,6 +18,17 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public string mensajeError;
         private bool estadoActividadNueva = false;
         private bool estadoActividadCancelada = false;
+        private string script = @"
+        // Coloca aquí tu JavaScript
+        const headerHeight = document.querySelector('.el-layout').offsetHeight;
+        const footerHeight = document.querySelector('.footer-activity').offsetHeight;
+        const headersContentHeight = document.querySelector('.card-header').offsetHeight;
+        const content = document.querySelector('.max-height-activities');
+
+        const windowHeight = window.innerHeight;
+        const availableHeight = windowHeight - headerHeight - footerHeight - headersContentHeight;
+        content.style.maxHeight = availableHeight + 'px';
+    ";
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -36,7 +47,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             cargaInicial = true;
         }
 
-
+        
 
 
 

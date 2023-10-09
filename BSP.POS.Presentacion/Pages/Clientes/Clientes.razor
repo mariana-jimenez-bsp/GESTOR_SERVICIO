@@ -12,9 +12,11 @@
     @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
     {
 
-
-        <Layout Texto="RecibirTexto"></Layout>
-        <div class="">
+        <div class="el-layout">
+            <Layout Texto="RecibirTexto"></Layout>
+        </div>
+        
+        <div class="width-content">
             <EditForm Model="@clientes" OnValidSubmit="ActualizarListaClientes" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
@@ -290,7 +292,7 @@
     {
         <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
     }
-
+    <ScriptMaxHeight Contenido=".max-height-clients" Elemento1=".el-layout" Elemento2=".footer-client" Elemento3=".card-header"></ScriptMaxHeight>
 }
 else
 {

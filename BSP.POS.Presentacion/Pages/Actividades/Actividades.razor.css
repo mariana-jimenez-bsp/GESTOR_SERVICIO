@@ -1,5 +1,7 @@
 ﻿
 .footer-activity {
+    position: fixed;
+    bottom: 0;
     display: flex;
     justify-content: end;
     height: 120px;
@@ -7,13 +9,16 @@
     background-color: #2FAD70;
     align-items: center;
 }
+.width-activities {
+    max-width: 99%;
+}
 
-    .footer-activity .button-footer {
-        padding: 10px 20px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-    }
+.footer-activity .button-footer {
+    padding: 10px 20px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
 
 .blue-light-bg {
     background-color: #2255A1;
