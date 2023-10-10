@@ -1,5 +1,6 @@
 ﻿@page "/RecuperarClave/{token}/{esquema}"
 @inject IUsuariosInterface UsuariosService
+@inject ILoginInterface LoginService
 @inject ILicenciasInterface LicenciasService
 @if(cargaInicial){
  @if(string.IsNullOrEmpty(mensajeEsquema)){

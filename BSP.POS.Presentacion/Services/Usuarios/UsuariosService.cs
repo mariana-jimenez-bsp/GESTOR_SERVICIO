@@ -14,14 +14,14 @@ namespace BSP.POS.Presentacion.Services.Usuarios
     public class UsuariosService : IUsuariosInterface
     {
         private readonly HttpClient _http;
-        public mLogin UsuarioLogin { get; set; } = new mLogin();
+        
         public mPerfil Perfil { get; set; } = new mPerfil();
         private readonly ILocalStorageService _localStorageService;
         private readonly NavigationManager _navigationManager;
         public List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; } = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; } = new List<mUsuariosDeClienteDeInforme>();
         public List<mPerfil> ListaDeUsuarios { get; set; } = new List<mPerfil>();
-        public mTokenRecuperacion UsuarioRecuperacion { get; set; } = new mTokenRecuperacion();
+        
         public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
         public List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; } = new List<mUsuariosDeClienteDeInforme>();
         public List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; } = new List<mUsuariosParaEditar>();
@@ -33,22 +33,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             _localStorageService = localStorageService;
             _navigationManager = navigationManager;
         }
-        public async Task<mLogin> RealizarLogin(mLogin usuarioLog)
-        {
-
-            string claveEncriptada = EncriptarClave(usuarioLog.clave);
-            usuarioLog.clave = claveEncriptada;
-            string url = "Usuarios/Login";
-            string jsonData = JsonSerializer.Serialize(usuarioLog);
-            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-            var usuario = await _http.PostAsync(url, content);
-            if (usuario.StatusCode == HttpStatusCode.OK)
-            {
-                return await usuario.Content.ReadFromJsonAsync<mLogin?>();
-            }
-            return null;
-        }
+        
 
         public string EncriptarClave(string clave)
         {
@@ -132,84 +117,6 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             return new List<mUsuariosDeCliente>();
         }
 
-        public async Task<bool> EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion)
-        {
-            try
-            {
-                string url = "Usuarios/EnviarTokenRecuperacion";
-                string jsonData = JsonSerializer.Serialize(tokenRecuperacion);
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                var response = await _http.PostAsync(url, content);
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-
-                    
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-
-                return false;
-            }
-           
-
-        }
-        public async Task<mTokenRecuperacion> ValidarTokenRecuperacion(string esquema, string token)
-        {
-            string url = "Usuarios/ValidaTokenRecuperacion/" + esquema + "/" + token;
-            var response = await _http.GetAsync(url);
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                var tokenRecuperacion = await response.Content.ReadFromJsonAsync<mTokenRecuperacion>();
-                if (tokenRecuperacion is not null)
-                {
-                    return tokenRecuperacion;
-                }
-                else
-                {
-                    return new mTokenRecuperacion();
-                }
-            }
-            return new mTokenRecuperacion();
-        }
-
-        public async Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario)
-        {
-            usuario.clave = EncriptarClave(usuario.clave);
-            usuario.confirmarClave = usuario.clave;
-            string url = "Usuarios/ActualizaClaveDeUsuario";
-            string jsonData = JsonSerializer.Serialize(usuario);
-            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-            var response = await _http.PostAsync(url, content);
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                _navigationManager.NavigateTo($"", forceLoad: true);
-            }
-        }
-
-        public async Task<string> ValidarCorreoCambioClave(string esquema, string correo)
-        {
-            string url = "Usuarios/ValidaCorreoCambioClave/" + esquema + "/" + correo;
-            var response = await _http.GetAsync(url);
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                string correoDevuelto = await response.Content.ReadAsStringAsync();
-                if (!string.IsNullOrEmpty(correoDevuelto))
-                {
-                    return correoDevuelto;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            return null;
-        }
 
         public async Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
         {
@@ -487,43 +394,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             return null;
         }
 
-        public async Task AumentarIntentosDeLogin(string esquema, string correo)
-        {
-            string url = "Usuarios/AumentaIntentosDeLogin";
-            _http.DefaultRequestHeaders.Remove("X-Esquema");
-            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            _http.DefaultRequestHeaders.Remove("X-Correo");
-            _http.DefaultRequestHeaders.Add("X-Correo", correo);
-
-            var content = new StringContent("");
-
-            var response = await _http.PostAsync(url, content);
-            if(response.StatusCode == HttpStatusCode.OK )
-            {
-
-            }
-            
-        }
-        public async Task<int> ObtenerIntentosDeLogin(string esquema, string correo)
-        {
-            string url = "Usuarios/ObtengaLosIntentosDeLogin";
-            _http.DefaultRequestHeaders.Remove("X-Esquema");
-            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            _http.DefaultRequestHeaders.Remove("X-Correo");
-            _http.DefaultRequestHeaders.Add("X-Correo", correo);
-            var response = await _http.GetAsync(url);
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                string intentosString = await response.Content.ReadAsStringAsync();
-                int intentos = int.Parse(intentosString);
-                return intentos;
-            }
-            else
-            {
-                throw new Exception("Error al obtener los intentos");
-            }
-            
-        }
+        
 
     }
  }

@@ -4,8 +4,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 {
     public interface IUsuariosInterface
     {
-        mLogin UsuarioLogin { get; set; }
-        Task<mLogin> RealizarLogin(mLogin usuarioLog);
+       
         string EncriptarClave(string clave);
 
         mPerfil Perfil { get; set; }
@@ -15,18 +14,9 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 
         Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente);
         List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; }
-
-        Task<bool> EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion);
-        mTokenRecuperacion UsuarioRecuperacion { get; set; }
-
-        Task<mTokenRecuperacion> ValidarTokenRecuperacion(string esquema, string token);
-
-        Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario);
-
-        Task<string> ValidarCorreoCambioClave(string esquema, string correo);
+        
         Task<string> ValidarCorreoExistente(string esquema, string correo);
         Task<string> ValidarUsuarioExistente(string esquema, string usuario);
-
         List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; }
         Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
         Task AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema);
@@ -48,9 +38,6 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         mUsuariosParaEditar UsuarioParaEditar { get; set; }
         Task ObtenerElUsuarioParaEditar(string esquema, string codigo);
         Task ActualizarUsuario(mUsuariosParaEditar usuario, string esquema, string usuarioActual);
-        Task<string> ValidarExistenciaEsquema(string esquema);
-
-        Task AumentarIntentosDeLogin(string esquema, string correo);
-        Task<int> ObtenerIntentosDeLogin(string esquema, string correo);
+        Task<string> ValidarExistenciaEsquema(string esquema); 
     }
 }

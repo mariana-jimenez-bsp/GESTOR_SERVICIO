@@ -106,6 +106,89 @@ namespace BSP.POS.DATOS.Usuarios
             return string.Empty;
 
         }
+        public string ActualizarClaveDeUsuario(U_UsuarioNuevaClave pUsuario)
+        {
+            POSDataSet.ActualizarClaveDeUsuarioDataTable bTabla = new POSDataSet.ActualizarClaveDeUsuarioDataTable();
+            ActualizarClaveDeUsuarioTableAdapter sp = new ActualizarClaveDeUsuarioTableAdapter();
+            try
+            {
+                var response = sp.GetData(pUsuario.token_recuperacion, pUsuario.clave, pUsuario.esquema);
+
+
+                return "Exito";
+            }
+            catch (Exception)
+            {
+
+                return "Error";
+            }
+
+
+
+        }
+
+        public U_TokenRecuperacion EnviarTokenRecuperacion(string pCorreo, string pEsquema, string token, DateTime expira)
+        {
+            GenerarTokenRecuperacionTableAdapter sp = new GenerarTokenRecuperacionTableAdapter();
+
+            try
+            {
+                var response = sp.GetData(pCorreo, token, expira, pEsquema).ToList();
+                U_TokenRecuperacion TokenRecuperacion = new U_TokenRecuperacion();
+
+                foreach (var item in response)
+                {
+                    U_TokenRecuperacion tokeRecuperacion = new U_TokenRecuperacion(item.token_recuperacion, pEsquema, item.correo, item.fecha_expiracion_TR.ToString());
+                    TokenRecuperacion = tokeRecuperacion;
+                }
+                if (TokenRecuperacion != null)
+                {
+                    return TokenRecuperacion;
+                }
+                return new U_TokenRecuperacion();
+            }
+            catch (Exception)
+            {
+
+                return new U_TokenRecuperacion();
+            }
+
+
+
+
+        }
+
+        public U_TokenRecuperacion ValidarTokenRecuperacion(String pEsquema, String pToken)
+        {
+            var tokenRecuperacion = new U_TokenRecuperacion();
+
+            ObtenerFechaTokenDeRecuperacionTableAdapter sp = new ObtenerFechaTokenDeRecuperacionTableAdapter();
+
+            var response = sp.GetData(pEsquema, pToken).ToList();
+
+            foreach (var item in response)
+            {
+                U_TokenRecuperacion tok = new U_TokenRecuperacion(item.token_recuperacion, pEsquema, "", item.fecha_expiracion_TR);
+                tokenRecuperacion = tok;
+            }
+            if (tokenRecuperacion.token_recuperacion != null)
+            {
+                DateTime fechaRecuperacion = DateTime.Parse(tokenRecuperacion.fecha_expiracion);
+                if (fechaRecuperacion < DateTime.Now)
+                {
+
+                    return new U_TokenRecuperacion();
+                }
+                else
+                {
+                    return tokenRecuperacion;
+                }
+
+            }
+            return new U_TokenRecuperacion();
+
+
+        }
         public string AumentarIntentosDeLogin(string esquema, string correo)
         {
             AumentarIntentosLoginTableAdapter sp = new AumentarIntentosLoginTableAdapter();

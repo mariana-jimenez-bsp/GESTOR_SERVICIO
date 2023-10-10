@@ -15,11 +15,13 @@ using System.Data.Odbc;
 using System.Web.Hosting;
 using BSP.POS.APICrystalReport.Models.Reportes;
 using System.Web.UI.WebControls;
+using clSeguridad;
 
 namespace BSP.POS.APICrystalReport.Controllers
 {
     public class ReportesController : ApiController
     {
+        Cryptografia _Cryptografia = new Cryptografia();
         Prueba_Gestor_ServiciosEntities4 ModelDb = new Prueba_Gestor_ServiciosEntities4();
         [HttpGet]
         [Route("Api/GenerarReporte/{esquema}/{consecutivo}")]
@@ -49,6 +51,15 @@ namespace BSP.POS.APICrystalReport.Controllers
 
                 throw new Exception(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("Api/PruebaDesencriptar")]
+        public HttpResponseMessage PruebaDesencriptar()
+        {
+            string clavePrueba = _Cryptografia.EncryptString("Hola123", null);
+            string clavePruebaDes = _Cryptografia.DecryptString(clavePrueba, null);
+            return Request.CreateResponse(HttpStatusCode.OK, clavePruebaDes);
         }
     }
 }

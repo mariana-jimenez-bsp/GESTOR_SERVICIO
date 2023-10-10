@@ -56,7 +56,7 @@ namespace BSP.POS.Presentacion.Services.Autorizacion
             mLogin enviarUsuario = new mLogin();
             enviarUsuario.token = token;
             enviarUsuario.esquema = esquema;
-            string url = "Usuarios/ValidarToken";
+            string url = "Login/ValidarToken";
             string jsonData = JsonSerializer.Serialize(enviarUsuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 

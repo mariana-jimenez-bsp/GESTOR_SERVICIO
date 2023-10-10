@@ -29,7 +29,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
             if (usuarioLogin != null)
             {
-                UsuariosService.UsuarioLogin = usuarioLogin;
+                LoginService.UsuarioLogin = usuarioLogin;
 
             }
         }
@@ -72,14 +72,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             correoExistente = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
             if(correoExistente != null)
             {
-                intentos = await UsuariosService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
+                intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
                 if(intentos >= 3)
                 {
                     mensajeIntentos = "Se excedió el limite de intentos, oprima la opción recuperar contraseña";
                 }
                 else
                 {
-                    usuarioLogin = await UsuariosService.RealizarLogin(usuario);
+                    usuarioLogin = await LoginService.RealizarLogin(usuario);
 
                     if (!string.IsNullOrEmpty(usuarioLogin.token))
                     {
@@ -92,7 +92,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                     }
                     else
                     {
-                        await UsuariosService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
+                        await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
                         mensajeError();
 
                         usuario.correo = string.Empty;

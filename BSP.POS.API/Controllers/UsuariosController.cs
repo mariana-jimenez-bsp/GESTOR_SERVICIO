@@ -26,7 +26,7 @@ namespace BSP.POS.API.Controllers
         private readonly string _urlWeb = string.Empty;
         private readonly string _tipoInicio = string.Empty;
         private readonly ICorreosInterface _correoService;
-
+        
         private N_Usuarios user;
         public UsuariosController(ICorreosInterface correoService)
         {
@@ -60,138 +60,6 @@ namespace BSP.POS.API.Controllers
 
             _correoService = correoService;
 
-        }
-        // GET: api/<UsuariosController>
-        [HttpPost("Login")]
-        public IActionResult Login([FromBody] mLogin datos)
-        {
-            try
-            {
-                U_Login nuevoLogin = new U_Login();
-                nuevoLogin.correo = datos.correo;
-                nuevoLogin.contrasena = datos.clave;
-                nuevoLogin.esquema = datos.esquema;
-                nuevoLogin.key = _secretKey;
-
-                var usuarioLogeado = user.Login(nuevoLogin);
-                if (string.IsNullOrEmpty(usuarioLogeado))
-                {
-                    return NotFound();
-                }
-                return Ok(usuarioLogeado);
-            }
-            catch(Exception ex) 
-            {
-                return StatusCode(500, ex.Message);
-            }
-           
-        }
-
-        [HttpPost("ValidarToken")]
-        public IActionResult ValidarToken([FromBody] U_LoginToken datos)
-        {
-            try
-            {
-                string token = datos.token.Trim('"');
-                string esquema = datos.esquema.Trim('"');
-                var tokenValidacion = user.ValidarToken(token, esquema);
-
-                if (string.IsNullOrEmpty(tokenValidacion))
-                {
-                    return NotFound();
-                }
-                return Ok(tokenValidacion);
-            }
-
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [HttpPost("EnviarTokenRecuperacion")]
-        public IActionResult EnviarTokenRecuperacion(U_TokenRecuperacion tokenRecuperacion)
-        {
-            U_Correo datos = new U_Correo();
-            U_TokenRecuperacion tokenRecuperado = user.EnviarTokenRecuperacion(tokenRecuperacion.correo, tokenRecuperacion.esquema);
-            try
-            {
-                if (tokenRecuperado != null)
-                {
-                    datos.para = tokenRecuperado.correo;
-                    datos.correoUsuario = _correoUsuario;
-                    datos.claveUsuario = _claveUsuario;
-                    string token = tokenRecuperado.token_recuperacion;
-                    
-                    _correoService.EnviarCorreoRecuperarClave(datos, token, tokenRecuperacion.esquema, _urlWeb, _tipoInicio);
-                    return Ok();
-                }
-                return BadRequest();
-            }
-
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-        }
-
-
-        [HttpGet("ValidaTokenRecuperacion/{esquema}/{token}")]
-        public IActionResult ValidaTokenRecuperacion(string esquema, string token)
-        {
-            try
-            {
-                string tokenRecuperadoJson = user.ValidarTokenRecuperacion(esquema, token);
-                if (string.IsNullOrEmpty(tokenRecuperadoJson))
-                {
-                    return NotFound();
-                }
-                return Ok(tokenRecuperadoJson);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, ex.Message);
-            }
-
-        }
-
-        [HttpPost("ActualizaClaveDeUsuario")]
-        public IActionResult ActualizaClaveDeUsuario([FromBody] U_UsuarioNuevaClave datos)
-        {
-            try
-            {
-
-
-
-                string mensaje = user.ActualizarClaveDeUsuario(datos);
-                if (string.IsNullOrEmpty(mensaje))
-                {
-                    return NotFound();
-                }
-                return Ok(mensaje);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-
-        }
-
-        [HttpGet("ValidaCorreoCambioClave/{esquema}/{correo}")]
-        public IActionResult ValidaCorreoCambioClave(string esquema, string correo)
-        {
-            try
-            {
-                string correoDevuelto = user.ValidarCorreoExistente(esquema, correo);
-                return Ok(correoDevuelto);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, ex.Message);
-            }
-            
         }
 
         [HttpGet("ValidaExistenciaEsquema/{esquema}")]
@@ -227,48 +95,6 @@ namespace BSP.POS.API.Controllers
                 return StatusCode(500, ex.Message);
             }
             
-        }
-        [HttpPost("AumentaIntentosDeLogin")]
-        public IActionResult AumentaIntentosDeLogin()
-        {
-            try
-            {
-                string esquema = Request.Headers["X-Esquema"];
-                string correo = Request.Headers["X-Correo"];
-                string mensaje = user.AumentarIntentosDeLogin(esquema, correo);
-                if (string.IsNullOrEmpty(mensaje))
-                {
-                    return NotFound();
-                }
-                return Ok(mensaje);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-
-        }
-
-        [HttpGet("ObtengaLosIntentosDeLogin")]
-        public IActionResult ObtengaLosIntentosDeLogin()
-        {
-            try
-            {
-                string esquema = Request.Headers["X-Esquema"];
-                string correo = Request.Headers["X-Correo"];
-                int intentos = user.ObtenerIntentosDeLogin(esquema, correo);
-                if (string.IsNullOrEmpty(intentos.ToString()))
-                {
-                    return NotFound();
-                }
-                return Ok(intentos.ToString());
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, ex.Message);
-            }
-
         }
         [Authorize]
         [HttpGet("ValidaUsuarioExistente/{esquema}/{usuario}")]

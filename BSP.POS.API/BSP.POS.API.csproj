@@ -23,6 +23,9 @@
     <ProjectReference Include="..\BSP.POS.UTILITARIOS\BSP.POS.UTILITARIOS.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="clSeguridad">
+      <HintPath>bin\Debug\net6.0\clSeguridad.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\BSP.POS.Presentacion\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>

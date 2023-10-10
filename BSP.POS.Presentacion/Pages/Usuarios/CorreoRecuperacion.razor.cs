@@ -42,10 +42,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private async Task EnviarCorreo()
         {
-            string verificar = await UsuariosService.ValidarCorreoCambioClave(tokenRecuperacion.esquema, tokenRecuperacion.correo);
+            string verificar = await LoginService.ValidarCorreoCambioClave(tokenRecuperacion.esquema, tokenRecuperacion.correo);
             if(verificar != null)
             {
-                bool validar = await UsuariosService.EnviarCorreoRecuperarClave(tokenRecuperacion);
+                bool validar = await LoginService.EnviarCorreoRecuperarClave(tokenRecuperacion);
                 if (validar)
                 {
                     mensaje = string.Empty;

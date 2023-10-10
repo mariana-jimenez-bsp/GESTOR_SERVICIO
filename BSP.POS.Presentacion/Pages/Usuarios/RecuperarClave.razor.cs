@@ -37,7 +37,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 }
                 if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema))
                 {
-                    tokenRecuperacion = await UsuariosService.ValidarTokenRecuperacion(esquema, token);
+                    tokenRecuperacion = await LoginService.ValidarTokenRecuperacion(esquema, token);
                 }
             }
             else
@@ -67,7 +67,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         {
             usuario.token_recuperacion = token;
             usuario.esquema = esquema;
-            await UsuariosService.ActualizarClaveDeUsuario(usuario);
+            await LoginService.ActualizarClaveDeUsuario(usuario);
         }
 
         private void ValorClave(ChangeEventArgs e)
