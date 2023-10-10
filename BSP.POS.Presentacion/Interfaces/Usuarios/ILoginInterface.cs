@@ -1,4 +1,6 @@
-﻿using BSP.POS.Presentacion.Models.Usuarios;
+﻿using BSP.POS.Presentacion.Models.Licencias;
+using BSP.POS.Presentacion.Models.Usuarios;
+using Microsoft.AspNetCore.Http;
 
 namespace BSP.POS.Presentacion.Interfaces.Usuarios
 {
@@ -14,5 +16,6 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task<string> ValidarCorreoCambioClave(string esquema, string correo);
         Task AumentarIntentosDeLogin(string esquema, string correo);
         Task<int> ObtenerIntentosDeLogin(string esquema, string correo);
+        Task<bool> EnviarLlaveLicencia(mLicenciaByte licenciaLlave);
     }
 }

@@ -1,77 +1,106 @@
-﻿
+﻿@page "/"
+@page "/login"
 @inject IUsuariosInterface UsuariosService
 @inject ILoginInterface LoginService
 @inject ILocalStorageService localStorageService
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
+@inject ILicenciasInterface LicenciasService
 @inject AuthenticationStateProvider AuthenticationStateProvider
-        <div class="container container-full">
-            <div class="row">
-                <div class="col columna">
-                    <div class="columna-left-imagen d-flex justify-content-center align-items-center">
-                         <img src="images/Login/Logo-BSP.png" class="icon-bsp"/>
-                    </div>
-                    <footer class="d-flex justify-content-center p-3 w-100 text-light footer-left">Todos los derechos reservados, 2023</footer>
+@if (cargaInicial)
+{
+    if (!licenciaActiva)
+    {
+        <ModalError mensaje="Licencia no activa, debe renovarla"></ModalError>
+    }
+    if (licenciaProximaAVencer)
+    {
+        <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
+    }
+    if (!mismaMacAdress)
+    {
+        <ModalError mensaje="La MacAddress no es la misma registrada"></ModalError>
+    }
+    if (archivoLicenciaInvalido)
+    {
+        <ModalError mensaje="Archivo de Licencia Inválido"></ModalError>
+    }
+    if (archivoLicenciaValido)
+    {
+        <ModalExito mensaje="Archivo de Licencia Introducido Correctamente"></ModalExito>
+    }
+    <div class="container container-full">
+        <div class="row">
+            <div class="col columna">
+                <div class="columna-left-imagen d-flex justify-content-center align-items-center">
+                    <img src="images/Login/Logo-BSP.png" class="icon-bsp" />
                 </div>
-                <div class="col columna columna-right-imagen">
-                    <div class="text-center">
-                         <EditForm Model="usuario" OnValidSubmit="Ingresar">
-                    <DataAnnotationsValidator />
-                        <img src="images/Login/Logo-Gestor.png" class="logo-gestor"/>
-                       
+                <footer class="d-flex justify-content-center p-3 w-100 text-light footer-left">Todos los derechos reservados, 2023</footer>
+            </div>
+            <div class="col columna columna-right-imagen">
+                <div class="text-center">
+                    <EditForm Model="usuario" OnValidSubmit="Ingresar">
+                        <DataAnnotationsValidator />
+                        <img src="images/Login/Logo-Gestor.png" class="logo-gestor" />
+
                         <h3 class="text-light information">Ingrese su información</h3>
                         <div class="form-group d-flex align-items-center">
-                            <img src="images/Login/Icono-correo.png" class="p-2"/>
-                        <input placeholder="Correo..." type="text" class="form-control" @bind-value="usuario.correo" @oninput="ValorCorreo" />
+                            <img src="images/Login/Icono-correo.png" class="p-2" />
+                            <input placeholder="Correo..." type="text" class="form-control" @bind-value="usuario.correo" @oninput="ValorCorreo" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)" />
                         </div>
-                     <ValidationMessage For="@(() => usuario.correo)" />
+                        <ValidationMessage For="@(() => usuario.correo)" />
                         <div class="form-group d-flex align-items-center">
-                            <img src="images/Login/Icono-candado.png" class="p-2"/>
-                        <input @bind-value="claveActual" placeholder="Contraseña..." type="@(mostrarClave ? "text" : "password")" class="form-control" @oninput="ValorClave" />
-                        @if (mostrarClave)
-                        {
-                            <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
-                        }else{
-                            <i class="fa-solid fa-eye p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
-                        }
-                        
-                        
+                            <img src="images/Login/Icono-candado.png" class="p-2" />
+                            <input @bind-value="claveActual" placeholder="Contraseña..." type="@(mostrarClave ? "text" : "password")" class="form-control" @oninput="ValorClave" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)"/>
+                            @if (mostrarClave)
+                            {
+                                <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-eye p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                            }
+
+
                         </div>
-                    <ValidationMessage For="@(() => usuario.clave)" />
+                        <ValidationMessage For="@(() => usuario.clave)" />
                         <div class="form-group d-flex align-items-center">
-                           <img src="images/Login/Icono-casita.png" class="p-2"/>
-                        <select class="form-control" @oninput="ValorEsquema" @bind="usuario.esquema">
+                            <img src="images/Login/Icono-casita.png" class="p-2" />
+                            <select class="form-control" @oninput="ValorEsquema" @bind="usuario.esquema" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">
                                 <option value="" class="form-control">Seleccionar Esquema</option>
-                            <option value="BSP" class="form-control">BSP</option>
+                                <option value="BSP" class="form-control">BSP</option>
                             </select>
                         </div>
-                    <ValidationMessage For="@(() => usuario.esquema)" />
-                        @if(!string.IsNullOrEmpty(mensaje)){
-                        <div class="text-danger">
-                            <span>@mensaje</span>
-                        </div>
-                         }
-                    @if (!string.IsNullOrEmpty(mensajeIntentos))
-                    {
-                        <div class="text-danger">
-                            <span>@mensajeIntentos</span>
-                        </div>
-                    }
-                    <button type="submit" class="btn btn-success btn-block">Ingresar</button>
-                    <button @onclick="ActivarInputFileLLave" type="button" class="btn btn-success btn-block">Ingresar LLave</button>
+                        <ValidationMessage For="@(() => usuario.esquema)" />
+                        @if (!string.IsNullOrEmpty(mensaje))
+                        {
+                            <div class="text-danger">
+                                <span>@mensaje</span>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(mensajeIntentos))
+                        {
+                            <div class="text-danger">
+                                <span>@mensajeIntentos</span>
+                            </div>
+                        }
+                        <button type="submit" class="btn btn-success btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
+                        <button @onclick="ActivarInputFileLLave" type="button" class="btn btn-success btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar LLave</button>
                         <p class="mt-4 text-light forgot-pass">¿Olvidó su contraseña?</p>
                         <a class="mouse-pointer reset-pass" @onclick="CorreoRecuperacion">Resetear contraseña</a>
-                     </EditForm>
-                <EditForm Model="licenciaLlave" OnValidSubmit="EnviarLLave">
-                    <DataAnnotationsValidator />
-                    <div @ref="LlaveInputFile">
-                        <InputFile style="display: none" accept=".txt" OnChange="CambiarArchivoLlave" />
-                    </div>
-                    <ValidationMessage For="@(() => licenciaLlave.archivo_llave)" />
-                    <button @ref="LlaveButton" type="submit" style="display: none"></button>
-                </EditForm>
-                    </div>
+                    </EditForm>
+                    <EditForm Model="licenciaLlave" OnValidSubmit="EnviarLLave" enctype="multipart/form-data">
+                        <DataAnnotationsValidator />
+                        <div @ref="LlaveInputFile">
+                            <InputFile style="display: none" accept=".txt" OnChange="CambiarArchivoLlave" />
+                        </div>
+                        <ValidationMessage For="@(() => licenciaLlave.archivo_llave)" />
+                        <button @ref="LlaveButton" type="submit" style="display: none"></button>
+                    </EditForm>
                 </div>
             </div>
         </div>
+    </div>
+}
+
 

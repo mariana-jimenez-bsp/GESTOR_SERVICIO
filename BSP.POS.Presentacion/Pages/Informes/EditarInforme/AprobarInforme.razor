@@ -5,64 +5,47 @@
 @if (terminaCarga)
 {
 @if(string.IsNullOrEmpty(mensajeEsquema)){
-@if (!string.IsNullOrEmpty(licencia.estado))
-{
-    if (licencia.estado == "Activo")
-    {
-        @if (tokenAprobacion.token_aprobacion != null && aprobado && terminaCarga)
+        
+        if (licenciaProximaAVencer)
         {
-            <div class="h-100 w-100 fondo bg-body-secondary">
-
-                <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                <ModalExito mensaje="El informe ha sido aprobado"></ModalExito>
-            </div>
+            <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
         }
-        else
+        @if (!licenciaActiva || !mismaMacAdress)
         {
-
-                <div class="h-100 w-100 fondo bg-body-secondary">
-
-                    <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                    <ModalError mensaje="Token o url inválido"></ModalError>
-                </div>
-            
-            
-
-        }
-
-
-    }
-    else if (licencia.estado == "Proximo")
-    {
-        if (!string.IsNullOrEmpty(mensajeLicencia))
-        {
-            <ModalAdvertencia mensaje="@mensajeLicencia"></ModalAdvertencia>
-        }
-        @if (tokenAprobacion.token_aprobacion != null && aprobado && terminaCarga)
-        {
-            <div class="h-100 w-100 fondo bg-body-secondary">
-
-                <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                <ModalExito mensaje="El informe ha sido aprobado"></ModalExito>
-            </div>
-        }
-        else
-        {
-                <div class="h-100 w-100 fondo bg-body-secondary">
-
-                    <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                    <ModalError mensaje="Token o url inválido"></ModalError>
-                </div>
-
-        }
-
-
-    }
-    else
-    {
-        <ModalError mensaje="La Licencia ha vencido"></ModalError>
+            if (!licenciaActiva)
+            {
+                <ModalError mensaje="Licencia no activa, debe renovarla"></ModalError>
+            }
+            if (!mismaMacAdress)
+            {
+                <ModalError mensaje="La MacAddress no es la misma registrada"></ModalError>
             }
         }
+        else
+        {
+            @if (tokenAprobacion.token_aprobacion != null && aprobado && terminaCarga)
+            {
+                <div class="h-100 w-100 fondo bg-body-secondary">
+
+                    <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
+                    <ModalExito mensaje="El informe ha sido aprobado"></ModalExito>
+                </div>
+            }
+            else
+            {
+
+                <div class="h-100 w-100 fondo bg-body-secondary">
+
+                    <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
+                    <ModalError mensaje="Token o url inválido"></ModalError>
+                </div>
+
+
+
+            }
+        }
+
+       
 
     }
     else

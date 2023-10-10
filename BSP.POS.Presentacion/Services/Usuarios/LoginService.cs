@@ -7,6 +7,9 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Http;
+using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
+using BSP.POS.Presentacion.Models.Licencias;
 
 namespace BSP.POS.Presentacion.Services.Usuarios
 {
@@ -167,6 +170,23 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 throw new Exception("Error al obtener los intentos");
             }
 
+        }
+
+        public async Task<bool> EnviarLlaveLicencia(mLicenciaByte licenciaLlave)
+        {
+            string url = "Login/EnviaLlaveLicencia";
+            string jsonData = JsonSerializer.Serialize(licenciaLlave);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            var response = await _http.PostAsync(url, content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -110,6 +110,12 @@ input[readonly] {
 select[disabled] {
     cursor: not-allowed;
 }
+input[disabled] {
+    cursor: not-allowed;
+}
+button[disabled] {
+    cursor: not-allowed;
+}
 .load {
     width: 23px;
     height: 3px;

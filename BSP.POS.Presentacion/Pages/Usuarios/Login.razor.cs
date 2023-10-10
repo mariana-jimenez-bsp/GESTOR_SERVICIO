@@ -20,9 +20,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public mLogin usuarioLogin { get; set; } = new mLogin();
         public mLogin usuario { get; set; } = new mLogin();
         public mLicenciaLlave licenciaLlave = new mLicenciaLlave();
+        public mLicenciaByte licenciaByte = new mLicenciaByte();
         private ElementReference LlaveInputFile;
         private ElementReference LlaveButton;
-        private string llaveSeccionada = string.Empty;
+        public mLicencia licencia = new mLicencia();
+        private bool cargaInicial = false;
+        private bool licenciaActiva = false;
+        private bool licenciaProximaAVencer = false;
+        private bool mismaMacAdress = true;
+        private bool archivoLicenciaValido = false;
+        private bool archivoLicenciaInvalido = false;
+
+        protected override async Task OnInitializedAsync()
+        {
+            await ValidarLicencia();
+        }
         protected override void OnParametersSet()
         {
 
@@ -33,7 +45,32 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
             }
         }
-
+        private async Task ValidarLicencia()
+        {
+             licenciaActiva = false;
+             licenciaProximaAVencer = false;
+             mismaMacAdress = true;
+             archivoLicenciaValido = false;
+             archivoLicenciaInvalido = false;
+            await LicenciasService.ObtenerDatosDeLicencia();
+            if (LicenciasService.licencia != null)
+            {
+                licencia = LicenciasService.licencia;
+                if (licencia.FechaFin > DateTime.Now)
+                {
+                    licenciaActiva = true;
+                    if (licencia.FechaAviso < DateTime.Now)
+                    {
+                        licenciaProximaAVencer = true;
+                    }
+                    if (licencia.MacAddressActual != licencia.MacAddress)
+                    {
+                        mismaMacAdress = false;
+                    }
+                }
+            }
+            cargaInicial = true;
+        }
         private async Task ActivarInputFileLLave()
         {
             await JS.InvokeVoidAsync("clickInput", LlaveInputFile);
@@ -55,13 +92,40 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                     Headers = new HeaderDictionary(),
                     ContentType = archivoSeleccionado.ContentType
                 };
+                using (var memoryStream = new MemoryStream())
+                {
+                    await archivoSeleccionado.OpenReadStream().CopyToAsync(memoryStream);
+                    byte[] bytes = memoryStream.ToArray();
+                    licenciaByte.archivo_byte = bytes;
+
+                }
                 await SubmitLlave();
             }
         }
 
-        private void EnviarLLave()
+        private async Task EnviarLLave()
         {
-            navigationManager.NavigateTo("https://www.google.com/");
+            archivoLicenciaValido = false;
+            archivoLicenciaInvalido = false;
+                if(licenciaLlave.archivo_byte != null)
+                {
+                    bool respuestaLicencia = await LoginService.EnviarLlaveLicencia(licenciaByte);
+                    if (respuestaLicencia)
+                    {
+                        archivoLicenciaValido = true;
+                        StateHasChanged();
+                        await Task.Delay(100);
+                        if (archivoLicenciaValido)
+                        {
+                            await ValidarLicencia();
+                        }
+                    }
+                    else
+                    {
+                        archivoLicenciaInvalido = true;
+                    }
+                }
+            
         }
 
 
@@ -163,8 +227,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private void CorreoRecuperacion()
         {
-
-            navigationManager.NavigateTo($"CorreoRecuperacion");
+            if(licenciaActiva && mismaMacAdress)
+            {
+                navigationManager.NavigateTo($"CorreoRecuperacion");
+            }
+            
         }
 
         private bool mostrarClave = false;

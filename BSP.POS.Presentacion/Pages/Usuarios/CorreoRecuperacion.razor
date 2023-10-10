@@ -1,10 +1,20 @@
 ﻿@page "/CorreoRecuperacion"
 @inject ILoginInterface LoginService
 @inject ILicenciasInterface LicenciasService
-@if (!string.IsNullOrEmpty(licencia.estado))
+@if (cargaInicial)
 {
-    if (licencia.estado == "Activo")
+    if (!licenciaActiva)
     {
+        <ModalError mensaje="Licencia no activa, debe renovarla"></ModalError>
+    }
+    if (licenciaProximaAVencer)
+    {
+        <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
+    }
+    if (!mismaMacAdress)
+    {
+        <ModalError mensaje="La MacAddress no es la misma registrada"></ModalError>
+    }
         <div class="h-100 w-100 fondo">
             @if (!CorreoEnviado)
             {
@@ -18,7 +28,7 @@
                             <h3 class="text-center">Ingrese el Correo: </h3>
                             <div class="form-group d-flex align-items-center m-3">
                                 <i class="fa-solid fa-lock text-success p-2"></i>
-                                <input placeholder="Correo..." type="email" class="form-control text-success" @oninput="ValorCorreo" @bind-value="tokenRecuperacion.correo" />
+                                <input placeholder="Correo..." type="email" class="form-control text-success" @oninput="ValorCorreo" @bind-value="tokenRecuperacion.correo" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)"/>
                             </div>
                             <ValidationMessage For="@(() => tokenRecuperacion.correo)" />
                             @if (!string.IsNullOrEmpty(mensaje))
@@ -30,7 +40,7 @@
                             <h3 class="text-center">Seleccione el esquema: </h3>
                             <div class="form-group d-flex align-items-center m-3">
                                 <i class="fa-solid fa-house text-success p-2"></i>
-                                <select class="form-control text-success" @oninput="ValorEsquema" @bind="tokenRecuperacion.esquema">
+                                <select class="form-control text-success" @oninput="ValorEsquema" @bind="tokenRecuperacion.esquema" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">
                                     <option value="">Seleccionar Esquema</option>
                                     <option value="BSP">BSP</option>
                                 </select>
@@ -38,7 +48,7 @@
                             </div>
                             <ValidationMessage For="@(() => tokenRecuperacion.esquema)" />
                         </div>
-                        <button type="submit" class="btn btn-success btn-block col-md-6 ms-4">Restablecer</button>
+                        <button type="submit" class="btn btn-success btn-block col-md-6 ms-4" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Restablecer</button>
 
                     </div>
                 </EditForm>
@@ -48,64 +58,8 @@
                 <CorreoEnviadoMensaje></CorreoEnviadoMensaje>
             }
         </div>
+    
 
-    }
-    else if (licencia.estado == "Proximo")
-    {
-        if (!string.IsNullOrEmpty(mensajeLicencia))
-        {
-            <ModalAdvertencia mensaje="@mensajeLicencia"></ModalAdvertencia>
-        }
-        <div class="h-100 w-100 fondo">
-            @if (!CorreoEnviado)
-            {
-                <EditForm Model="tokenRecuperacion" OnValidSubmit="EnviarCorreo">
-                    <DataAnnotationsValidator />
-                    <h1 class="w-100 text-center text-light">Gestor de Servicios BSP</h1>
-                    <div class="row w-100 h-25 text-light d-flex justify-content-center align-items-center">
-
-
-                        <div class="col-md-7">
-                            <h3 class="text-center">Ingrese el Correo: </h3>
-                            <div class="form-group d-flex align-items-center m-3">
-                                <i class="fa-solid fa-lock text-success p-2"></i>
-                                <input placeholder="Correo..." type="email" class="form-control text-success" @oninput="ValorCorreo" @bind-value="tokenRecuperacion.correo" />
-                            </div>
-                            <ValidationMessage For="@(() => tokenRecuperacion.correo)" />
-                            @if (!string.IsNullOrEmpty(mensaje))
-                            {
-                                <div class="text-danger">
-                                    <span>@mensaje</span>
-                                </div>
-                            }
-                            <h3 class="text-center">Seleccione el esquema: </h3>
-                            <div class="form-group d-flex align-items-center m-3">
-                                <i class="fa-solid fa-house text-success p-2"></i>
-                                <select class="form-control text-success" @oninput="ValorEsquema" @bind="tokenRecuperacion.esquema">
-                                    <option value="">Seleccionar Esquema</option>
-                                    <option value="BSP">BSP</option>
-                                </select>
-
-                            </div>
-                            <ValidationMessage For="@(() => tokenRecuperacion.esquema)" />
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block col-md-6 ms-4">Restablecer</button>
-
-                    </div>
-                </EditForm>
-            }
-            else
-            {
-                <CorreoEnviadoMensaje></CorreoEnviadoMensaje>
-            }
-        </div>
-    }
-    else
-    {
-        <div class="w-100 h-100 d-flex text-danger justify-content-center align-items-center">
-            <h1>La Licencia ha vencido</h1>
-        </div>
-    }
 }
 else
 {

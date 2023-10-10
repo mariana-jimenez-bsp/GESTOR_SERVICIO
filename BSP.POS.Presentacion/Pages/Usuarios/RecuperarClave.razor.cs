@@ -15,7 +15,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public mTokenRecuperacion tokenRecuperacion = new mTokenRecuperacion();
         public mUsuarioNuevaClave usuario = new mUsuarioNuevaClave();
         public mLicencia licencia = new mLicencia();
-        public string mensajeLicencia;
+        private bool licenciaActiva = false;
+        private bool licenciaProximaAVencer = false;
+        private bool mismaMacAdress = true;
         public string mensajeEsquema;
         public string claveActual = string.Empty;
         public string confirmarClaveActual = string.Empty;
@@ -26,13 +28,22 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             
             if(await VerificarValidezEsquema())
             {
-                await LicenciasService.ObtenerEstadoDeLicencia();
+                
+                await LicenciasService.ObtenerDatosDeLicencia();
                 if (LicenciasService.licencia != null)
                 {
                     licencia = LicenciasService.licencia;
-                    if (licencia.estado == "Proximo")
+                    if (licencia.FechaFin > DateTime.Now)
                     {
-                        mensajeLicencia = "La licencia está proxima a vencer";
+                        licenciaActiva = true;
+                        if (licencia.FechaAviso < DateTime.Now)
+                        {
+                            licenciaProximaAVencer = true;
+                        }
+                        if (licencia.MacAddressActual != licencia.MacAddress)
+                        {
+                            mismaMacAdress = false;
+                        }
                     }
                 }
                 if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema))

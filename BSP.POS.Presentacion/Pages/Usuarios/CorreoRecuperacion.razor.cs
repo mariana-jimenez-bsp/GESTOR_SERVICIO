@@ -7,18 +7,30 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
     public partial class CorreoRecuperacion: ComponentBase
     {
         public mLicencia licencia = new mLicencia();
-        public string mensajeLicencia;
+        private bool cargaInicial = false;
+        private bool licenciaActiva = false;
+        private bool licenciaProximaAVencer = false;
+        private bool mismaMacAdress = true;
         protected override async Task OnInitializedAsync()
         {
-            await LicenciasService.ObtenerEstadoDeLicencia();
+            await LicenciasService.ObtenerDatosDeLicencia();
             if (LicenciasService.licencia != null)
             {
                 licencia = LicenciasService.licencia;
-                if (licencia.estado == "Proximo")
+                if (licencia.FechaFin > DateTime.Now)
                 {
-                    mensajeLicencia = "La licencia está proxima a vencer";
+                    licenciaActiva = true;
+                    if (licencia.FechaAviso < DateTime.Now)
+                    {
+                        licenciaProximaAVencer = true;
+                    }
+                    if (licencia.MacAddressActual != licencia.MacAddress)
+                    {
+                        mismaMacAdress = false;
+                    }
                 }
             }
+            cargaInicial = true;
 
         }
         public mTokenRecuperacion tokenRecuperacion { get; set; } = new mTokenRecuperacion();

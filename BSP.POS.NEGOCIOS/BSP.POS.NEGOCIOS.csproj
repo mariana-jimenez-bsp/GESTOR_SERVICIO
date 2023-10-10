@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="clSeguridad">
+      <HintPath>bin\Debug\net6.0\clSeguridad.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="CorreosService\CuerposHtml\AprobarInforme.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

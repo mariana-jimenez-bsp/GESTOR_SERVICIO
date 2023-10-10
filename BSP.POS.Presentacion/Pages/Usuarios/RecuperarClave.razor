@@ -4,12 +4,21 @@
 @inject ILicenciasInterface LicenciasService
 @if(cargaInicial){
  @if(string.IsNullOrEmpty(mensajeEsquema)){
-@if (!string.IsNullOrEmpty(licencia.estado))
-{
-    if (licencia.estado == "Activo")
-    {
+        
         @if (tokenRecuperacion.token_recuperacion != null)
         {
+            if (!licenciaActiva)
+            {
+                <ModalError mensaje="Licencia no activa, debe renovarla"></ModalError>
+            }
+            if (licenciaProximaAVencer)
+            {
+                <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
+            }
+            if (!mismaMacAdress)
+            {
+                <ModalError mensaje="La MacAddress no es la misma registrada"></ModalError>
+            }
             <div class="h-100 w-100 fondo">
                 <EditForm Model="usuario" OnValidSubmit="ActualizarClaveUsuario">
                     <DataAnnotationsValidator />
@@ -67,53 +76,9 @@
                     <ModalError mensaje="Token o url inválido"></ModalError>
         }
 
-    }
-    else if (licencia.estado == "Proximo")
-    {
-        if (!string.IsNullOrEmpty(mensajeLicencia))
-        {
-            <ModalAdvertencia mensaje="@mensajeLicencia"></ModalAdvertencia>
-        }
-        @if (tokenRecuperacion.token_recuperacion != null)
-        {
-            <div class="h-100 w-100 fondo">
-                <EditForm Model="usuario" OnValidSubmit="ActualizarClaveUsuario">
-                    <DataAnnotationsValidator />
-                    <h1 class="w-100 text-center text-light">Gestor de Servicios BSP</h1>
-                    <div class="row w-100 h-75 text-light d-flex justify-content-center align-items-center">
-                        <div class="col-md-7">
-                            <h3>Ingrese la nueva Contraseña: </h3>
-                            <div class="form-group d-flex align-items-center">
-                                <i class="fa-solid fa-lock text-success p-2"></i>
-                                        <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClave" @bind-value="claveActual" />
-                            </div>
-                            <ValidationMessage For="@(() => usuario.clave)" />
-                        </div>
-                        <div class="col-md-7 mt-3">
-                            <h3>Confirme la contraseña: </h3>
-                            <div class="form-group d-flex align-items-center">
-                                <i class="fa-solid fa-lock text-success p-2"></i>
-                                <input placeholder="Contraseña..." type="password" class="form-control text-success" @oninput="ValorClaveConfirmacion" @bind-value="confirmarClaveActual" />
-                            </div>
-                            <ValidationMessage For="@(() => usuario.confirmarClave)" />
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block w-50 mt-3">Restablecer</button>
-                    </div>
-                </EditForm>
-            </div>
+    
+    
 
-        }
-        else
-        {
-            <ModalError mensaje="Token o url inválido"></ModalError>
-        }
-
-    }
-    else
-    {
-            <ModalError mensaje="La Licencia ha vencido"></ModalError>
-    }
-}
     }else{
             <ModalError mensaje="@mensajeEsquema"></ModalError>
     }

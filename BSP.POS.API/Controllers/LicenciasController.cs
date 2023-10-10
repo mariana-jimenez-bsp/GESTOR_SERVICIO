@@ -14,12 +14,12 @@ namespace BSP.POS.API.Controllers
         {
             licencias = new N_Licencias();
         }
-        [HttpGet("ObtengaElEstadoDeLaLicencia")]
-        public IActionResult ObtengaElEstadoDeLaLicencia()
+        [HttpGet("ObtengaLosDatosDeLaLicencia")]
+        public IActionResult ObtengaLosDatosDeLaLicencia()
         {
             try
             {
-                string licencia = licencias.ObtenerEstadoDeLicencia();
+                string licencia = licencias.ObtenerDatosDeLicencia();
                 if(string.IsNullOrEmpty(licencia))
                 {
                     return NotFound();

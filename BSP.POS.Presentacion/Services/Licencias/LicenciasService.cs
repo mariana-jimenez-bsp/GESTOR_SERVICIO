@@ -1,5 +1,4 @@
 ﻿using BSP.POS.Presentacion.Interfaces.Licencias;
-using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Licencias;
 using System.Net;
 using System.Net.Http.Json;
@@ -15,10 +14,10 @@ namespace BSP.POS.Presentacion.Services.Licencias
             _http = htpp;
         }
         public mLicencia licencia { get; set; } = new mLicencia();
-        public async Task ObtenerEstadoDeLicencia()
+        public async Task ObtenerDatosDeLicencia()
         {
 
-            string url = "Licencias/ObtengaElEstadoDeLaLicencia/";
+            string url = "Licencias/ObtengaLosDatosDeLaLicencia";
             var response = await _http.GetAsync(url);
             if(response.StatusCode == HttpStatusCode.OK)
             {
@@ -30,5 +29,6 @@ namespace BSP.POS.Presentacion.Services.Licencias
             }
             
         }
+
     }
 }

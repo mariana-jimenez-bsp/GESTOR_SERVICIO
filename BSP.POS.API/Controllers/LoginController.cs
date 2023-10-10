@@ -1,10 +1,12 @@
-﻿using BSP.POS.API.Models.Usuarios;
+﻿using BSP.POS.API.Models.Licencias;
+using BSP.POS.API.Models.Usuarios;
 using BSP.POS.NEGOCIOS.CorreosService;
+using BSP.POS.NEGOCIOS.Licencias;
 using BSP.POS.NEGOCIOS.Usuarios;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.Usuarios;
-using clSeguridad;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace BSP.POS.API.Controllers
 {
@@ -18,13 +20,15 @@ namespace BSP.POS.API.Controllers
         private readonly string _urlWeb = string.Empty;
         private readonly string _tipoInicio = string.Empty;
         private readonly ICorreosInterface _correoService;
-        Cryptografia _Cryptografia = new Cryptografia();
+        
         private N_Usuarios user;
         private N_Login login;
+        private N_Licencias licencias;
         public LoginController(ICorreosInterface correoService)
         {
             user = new N_Usuarios();
             login = new N_Login();
+            licencias = new N_Licencias();
             //var configuration = new ConfigurationBuilder()
             // .AddUserSecrets<Program>()
             // .Build();
@@ -231,14 +235,34 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpGet("PruebaEncriptar")]
-        public IActionResult PruebaEncriptar()
+        [HttpPost("EnviaLlaveLicencia")]
+        public async Task<IActionResult> EnviaLlaveLicencia([FromBody] mLicenciaLlave licenciaLlave)
         {
             try
             {
-                string clavePrueba = _Cryptografia.EncryptString("Hola123", null);
-                string clavePruebaDes = _Cryptografia.DecryptString(clavePrueba, null);
-                return Ok(clavePruebaDes);
+                if (licenciaLlave.archivo_byte != null)
+                {
+                    IFormFile archivoFormFile = new FormFile(
+                        baseStream: new MemoryStream(licenciaLlave.archivo_byte), // Pasar los bytes como una secuencia
+                        baseStreamOffset: 0,
+                        length: licenciaLlave.archivo_byte.Length,
+                        name: "archivo",
+                        fileName: "archivo.txt"
+                    );
+                    int resultado = -1;
+                    using (var streamReader = new StreamReader(archivoFormFile.OpenReadStream(), Encoding.UTF8))
+                    {
+                        var textoArchivo = await streamReader.ReadToEndAsync();
+                        resultado = licencias.EnviarXMLLicencia(textoArchivo);
+                    }
+                    
+                    if(resultado == 1)
+                    {
+                        return Ok();
+                    }
+                    
+                }
+                return BadRequest();
             }
             catch (Exception ex)
             {

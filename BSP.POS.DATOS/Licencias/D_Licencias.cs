@@ -10,17 +10,31 @@ namespace BSP.POS.DATOS.Licencias
 {
     public class D_Licencias
     {
-        public U_Licencia ObtenerEstadoDeLicencia()
+        public U_Licencia ObtenerDatosDeLicencia()
         {
-            ObtenerEstadoDeLicenciaTableAdapter sp = new ObtenerEstadoDeLicenciaTableAdapter();
+            ObtenerDatosDeLicenciaTableAdapter sp = new ObtenerDatosDeLicenciaTableAdapter();
             var response = sp.GetData().ToList();
             U_Licencia licencia = new U_Licencia();
             foreach (var item in response)
             {
-                licencia = new U_Licencia(item.Id, item.codigo, item.esquema, item.estado, item.fecha_inicio, item.fecha_vencimiento);
+                licencia = new U_Licencia(item.FechaInicio, item.FechaFin, item.FechaAviso, item.CantidadUsuarios, item.MacAddress);
                 
             }
             return licencia;
+        }
+
+        public int EnviarXMLLicencia(string textoXML)
+        {
+            IngresarXMLTableAdapter sp = new IngresarXMLTableAdapter();
+
+            var response = sp.GetData(textoXML).ToList();
+            int resultado = -1;
+            foreach (var item in response)
+            {
+                resultado = item.ResultCode;
+            }
+
+            return resultado;
         }
     }
 }

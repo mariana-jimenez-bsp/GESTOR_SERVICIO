@@ -4,7 +4,10 @@ namespace BSP.POS.Presentacion.Interfaces.Licencias
 {
     public interface ILicenciasInterface
     {
-        Task ObtenerEstadoDeLicencia();
+        Task ObtenerDatosDeLicencia();
         mLicencia licencia { get; set; }
+
+       
     }
+
 }

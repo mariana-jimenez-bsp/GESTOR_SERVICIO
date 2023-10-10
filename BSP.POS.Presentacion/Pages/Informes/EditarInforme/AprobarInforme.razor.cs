@@ -16,31 +16,42 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public bool terminaCarga = false;
         public mTokenAprobacionInforme tokenAprobacion = new mTokenAprobacionInforme();
         public mLicencia licencia = new mLicencia();
-        public string mensajeLicencia;
+        private bool licenciaActiva = false;
+        private bool licenciaProximaAVencer = false;
+        private bool mismaMacAdress = true;
         public string mensajeEsquema;
         public bool cargaInicial = false;
         protected override async Task OnInitializedAsync()
         {
             
-            if (await VerificarValidezEsquema()) { 
-                await LicenciasService.ObtenerEstadoDeLicencia();
-            if (LicenciasService.licencia != null)
-            {
-                licencia = LicenciasService.licencia;
-                if (licencia.estado == "Proximo")
+            if (await VerificarValidezEsquema()) {
+                
+                await LicenciasService.ObtenerDatosDeLicencia();
+                if (LicenciasService.licencia != null)
                 {
-                    mensajeLicencia = "La licencia está proxima a vencer";
+                    licencia = LicenciasService.licencia;
+                    if (licencia.FechaFin > DateTime.Now)
+                    {
+                        licenciaActiva = true;
+                        if (licencia.FechaAviso < DateTime.Now)
+                        {
+                            licenciaProximaAVencer = true;
+                        }
+                        if (licencia.MacAddressActual != licencia.MacAddress)
+                        {
+                            mismaMacAdress = false;
+                        }
+                    }
                 }
-            }
-            if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema))
-            {
+                if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema) && licenciaActiva && mismaMacAdress)
+                {
                 tokenAprobacion = await InformesService.ValidarTokenAprobacionDeInforme(esquema, token);
                 if(tokenAprobacion.token_aprobacion != null)
                 {
                     await InformesService.AprobarInforme(tokenAprobacion, esquema);
                     aprobado = true;
                 }
-            }
+                }
             }
             else
             {

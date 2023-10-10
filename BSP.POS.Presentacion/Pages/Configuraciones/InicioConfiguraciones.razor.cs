@@ -18,7 +18,7 @@ namespace BSP.POS.Presentacion.Pages.Configuraciones
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await LicenciasService.ObtenerEstadoDeLicencia();
+            await LicenciasService.ObtenerDatosDeLicencia();
             if(LicenciasService.licencia != null)
             {
                 licencia = LicenciasService.licencia;
