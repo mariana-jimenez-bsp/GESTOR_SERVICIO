@@ -235,7 +235,7 @@
                      </div>
                 </div>
                 <div class="footer-client text-13-medium">
-                    <div @onclick="() => ClickHandlerAgregarCliente(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                    <div @onclick="() => IrAAgregarCliente()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
                         Agregar
                         Cliente
                     </div>
@@ -250,25 +250,18 @@
                 </div>
             </EditForm>
         </div>
-        @if (estadoClienteNuevo)
-        {
-            <ModalExito mensaje="Cliente Agregado"></ModalExito>
-        }
+        
         @if (!string.IsNullOrEmpty(mensajeDescartar))
         {
             <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
         }
-        @if (estadoClienteCancelado)
-        {
-            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-        }
+       
         @if (limiteDeUsuarios)
         {
             <ModalAdvertencia mensaje="Límite de Cantidad de Usuarios Alcanzado"></ModalAdvertencia>
         }
         
-        
-        <ModalAgregarCliente ActivarModal="@actividarModalAgregarCliente" OnClose="ClickHandlerAgregarCliente" clienteAgregado="CambiarEstadoClienteNuevo" clienteCancelado="CambiarEstadoClienteCancelado"></ModalAgregarCliente>
+       
         
         
     }

@@ -22,7 +22,7 @@
             <h3 class="subtitle-edit">Informe de Servicios</h3>
             </div>
         }
-        else if (navigationManager.Uri.IndexOf("/informes/misinformes", StringComparison.OrdinalIgnoreCase) >= 0)
+        else if (navigationManager.Uri.IndexOf("/informes/misinformes", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/cliente/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
         {
 
         }
@@ -133,12 +133,22 @@
         </nav>
     </div>
 }
-else if (navigationManager.Uri.IndexOf("/clientes", StringComparison.OrdinalIgnoreCase) >= 0)
+else if (navigationManager.Uri.IndexOf("/cliente", StringComparison.OrdinalIgnoreCase) >= 0)
 {
     <div class="d-flex justify-content-between mb-3">
-        <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-            <span class="blue-dark-text text-20-book">Clientes <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
-        </div>
+        @if (navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                <span class="blue-dark-text text-20-book">Agregar Cliente <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                <span class="blue-dark-text text-20-book">Clientes <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
+            </div>
+        }
+
 
         <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
             <div class="sections p-3 div-sections">

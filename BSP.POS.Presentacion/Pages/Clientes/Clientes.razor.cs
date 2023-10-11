@@ -24,8 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public string mensajeActualizar;
         public string mensajeDescartar;
         public string mensajeError;
-        private bool estadoClienteNuevo = false;
-        private bool estadoClienteCancelado = false;
+       
         private bool limiteDeUsuarios = false;
 
         protected override async Task OnInitializedAsync()
@@ -203,7 +202,6 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             mensajeError = null;
             mensajeDescartar = null;
             mensajeActualizar = null;
-            estadoClienteNuevo = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -229,7 +227,6 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private async Task DescartarCambios()
         {
             mensajeActualizar = null;
-            estadoClienteNuevo = false;
             mensajeDescartar = null;
             await RefrescarListaClientes();
             mensajeDescartar = "Se han descartado los cambios";
@@ -245,36 +242,6 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             textoRecibido = texto;
             return Task.CompletedTask;
         }
-
-        bool actividarModalAgregarCliente = false;
-
-        async Task ClickHandlerAgregarCliente(bool activar)
-        {
-            actividarModalAgregarCliente = activar;
-            if (!activar)
-            {
-                mensajeActualizar = null;
-                await RefrescarListaClientes();
-            }
-            if (activar)
-            {
-                estadoClienteNuevo = false;
-                estadoClienteCancelado = false;
-            }
-            StateHasChanged();
-        }
-
-        
-        public void CambiarEstadoClienteNuevo(bool estado)
-        {
-            estadoClienteNuevo = estado;
-        }
-        public void CambiarEstadoClienteCancelado(bool estado)
-        {
-            estadoClienteCancelado = estado;
-        }
-        
-
         
 
         private async Task ActivarScrollBarDeErrores()
@@ -309,6 +276,11 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private void IrAEditarUsuario(string codigo, string cliente)
         {
             navigationManager.NavigateTo($"configuraciones/usuario/editar/{codigo}/{cliente}");
+        }
+
+        private void IrAAgregarCliente()
+        {
+            navigationManager.NavigateTo($"cliente/agregar");
         }
     }
 }

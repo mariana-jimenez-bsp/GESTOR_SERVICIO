@@ -1,0 +1,167 @@
+﻿
+
+.width-col-special {
+    width: 200px;
+}
+
+.width-pass {
+    width: 200px;
+}
+
+.footer-agregar-cliente {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: end;
+    height: 120px;
+    width: 100%;
+    background-color: #2FAD70;
+    align-items: center;
+}
+
+    .footer-agregar-cliente .button-footer {
+        padding: 10px 20px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+.width-content {
+    max-width: 99%;
+}
+
+.blue-light-bg {
+    background-color: #2255A1;
+}
+
+.blue-dark-bg {
+    background-color: #1C3259;
+}
+
+.blue-light-text {
+    color: #2255A1;
+}
+
+.blue-dark-text {
+    color: #1C3259;
+}
+
+.green-bg {
+    background-color: #2FAD70;
+}
+
+.green-add-bg {
+    background-color: #0A8637;
+}
+
+.green-text {
+    color: #2FAD70;
+}
+
+.border-success {
+    border-color: #2FAD70;
+}
+
+.border-primary {
+    border-color: #1C3259;
+}
+
+.w-label {
+    max-width: 40%;
+}
+
+.scrollbar-modal-client::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Color del área de seguimiento */
+.scrollbar-modal-client::-webkit-scrollbar-track {
+    background-color: #198754;
+    border: 5px solid white;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-modal-client::-webkit-scrollbar-thumb {
+    background-color: #198754;
+    border-radius: 20px;
+    border: 3px solid white;
+}
+
+.text-41-book {
+    font-size: 15pt;
+}
+
+.text-16-book {
+    font-size: 16pt;
+}
+
+.text-16-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 16pt;
+}
+
+.text-13-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 13pt;
+}
+
+.border-input-gray {
+    border-color: #D5D5D5;
+}
+
+.max-height-client {
+    max-height: 300px;
+}
+
+@media screen and (max-width: 768px) {
+    .text-41-book {
+        font-size: 10pt;
+    }
+
+    .text-16-book {
+        font-size: 8pt;
+    }
+
+    .text-16-medium {
+        font-size: 8pt;
+    }
+
+    .text-13-medium {
+        font-size: 10pt;
+    }
+
+    .border-input-gray {
+        border-color: #D5D5D5;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+
+    .text-41-book {
+        font-size: 15pt;
+    }
+
+    .text-16-book {
+        font-size: 10pt;
+    }
+
+    .text-16-medium {
+        font-size: 10pt;
+    }
+
+    .text-13-medium {
+        font-size: 10pt;
+    }
+
+    .border-input-gray {
+        border-color: #D5D5D5;
+    }
+
+    .max-height-client {
+        max-height: 300px;
+    }
+    .footer-agregar-cliente {
+        height: 70px;
+        max-width: 100%;
+    }
+}
