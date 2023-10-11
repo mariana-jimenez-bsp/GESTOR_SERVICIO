@@ -1,0 +1,15 @@
+﻿@page "/configuraciones/usuario/editar/{codigo}/{cliente}"
+@page "/configuraciones/usuario/editar/{codigo}"
+
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+        <EditarUsuario codigo="@codigo" codigoCliente="@cliente"></EditarUsuario>
+    </Authorized>
+</AuthorizeView>
+@code {
+    [Parameter]
+    public string codigo { get; set; } = string.Empty;
+    [Parameter]
+    public string cliente { get; set; } = string.Empty;
+}

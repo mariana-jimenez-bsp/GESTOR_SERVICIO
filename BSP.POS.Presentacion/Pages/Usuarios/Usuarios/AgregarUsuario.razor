@@ -9,7 +9,10 @@
 {
     if (!limiteDeUsuarios)
     {
-        <Layout></Layout>
+        <div class="el-layout">
+            <Layout></Layout>
+        </div>
+        
         <EditForm Model="@usuario" OnValidSubmit="AgregarUsuarioNuevo" OnInvalidSubmit="ActivarScrollBarDeErrores">
             <ObjectGraphDataAnnotationsValidator />
             @if (!string.IsNullOrEmpty(mensajeError))
@@ -24,6 +27,7 @@
             {
                 <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
             }
+            <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
                 <div class="mt-4 container max-height-users overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="row  border border-success rounded-5 mx-2 ">
@@ -184,5 +188,5 @@
     {
         <ModalAdvertencia mensaje="Límite de cantidad de usuarios alcanzado"></ModalAdvertencia>
     }
-
+    <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-agregar-usuario" Elemento3=".div-vacio"></ScriptMaxHeight>
 }

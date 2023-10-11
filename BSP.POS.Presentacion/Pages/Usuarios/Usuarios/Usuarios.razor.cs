@@ -15,11 +15,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public mLicencia licencia = new mLicencia();
         public bool cargaInicial = false;
         public string rol = string.Empty;
-        public string codigoUsuario = string.Empty;
-        private bool estadoUsuarioNuevo = false;
-        private bool estadoUsuarioActualizado = false;
-        private bool estadoUsuarioNuevoCancelado = false;
-        private bool estadoUsuarioActualizadoCancelado = false;
         private bool limiteDeUsuarios = false;
         protected override async Task OnInitializedAsync()
         {
@@ -60,66 +55,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 usuarios = UsuariosService.ListaDeUsuariosParaEditar;
             }
         }
-        bool actividarModalAgregarUsuario = false;
-
-        async Task ClickHandlerAgregarUsuario(bool activar)
-        {
-            actividarModalAgregarUsuario = activar;
-            if (!activar)
-            {
-                await RefrescarListaDeUsuarios();
-            }
-            if (activar)
-            {
-                estadoUsuarioNuevo = false;
-                estadoUsuarioNuevoCancelado = false;
-            }
-            StateHasChanged();
-        }
-        private async Task EnviarCodigo(bool activar, string codigo)
-        {
-            if (activar)
-            {
-                codigoUsuario = codigo;
-                await ClickHandlerEditarUsuario(activar);
-            }
-        }
-        bool actividarModalEditarUsuario = false;
-
-        async Task ClickHandlerEditarUsuario(bool activar)
-        {
-            
-           
-            if (!activar)
-            {
-                await RefrescarListaDeUsuarios();
-                codigoUsuario = string.Empty;
-            }
-            if (activar)
-            {
-                estadoUsuarioActualizado = false;
-                estadoUsuarioActualizadoCancelado = false;
-            }
-            actividarModalEditarUsuario = activar;
-            StateHasChanged();
-        }
-        public void CambiarEstadoUsuarioNuevo(bool estado)
-        {
-            estadoUsuarioNuevo = estado;
-        }
-
-        public void CambiarEstadoUsuarioActualizado(bool estado)
-        {
-            estadoUsuarioActualizado = estado;
-        }
-        public void CambiarEstadoUsuarioNuevoCancelado(bool estado)
-        {
-            estadoUsuarioNuevoCancelado = estado;
-        }
-        public void CambiarEstadoUsuarioActualizadoCancelado(bool estado)
-        {
-            estadoUsuarioActualizadoCancelado = estado;
-        }
+        
+        
         private async Task IrAAgregarUsuario()
         {
             limiteDeUsuarios = false;
@@ -134,6 +71,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 navigationManager.NavigateTo($"configuraciones/usuario/agregar");
             }
             
+        }
+
+        private void IrAEditarUsuario(string codigo)
+        {
+            navigationManager.NavigateTo($"configuraciones/usuario/editar/{codigo}");
         }
     }
 }

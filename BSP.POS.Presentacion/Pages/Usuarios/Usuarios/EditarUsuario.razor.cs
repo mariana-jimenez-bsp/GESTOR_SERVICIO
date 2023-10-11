@@ -2,91 +2,83 @@
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
-using BSP.POS.Presentacion.Services.Clientes;
-using BSP.POS.Presentacion.Services.Permisos;
-using BSP.POS.Presentacion.Services.Proyectos;
-using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
-    public partial class ModalEditarUsuario:ComponentBase
+    public partial class EditarUsuario: ComponentBase
     {
-        public string usuarioActual = string.Empty;
-        [Parameter] public bool ActivarModal { get; set; } = false;
+        [Parameter] public string codigo { get; set; } = string.Empty;
         [Parameter] public string codigoCliente { get; set; } = string.Empty;
-        [Parameter] public EventCallback<bool> OnClose { get; set; }
-        [Parameter]
-        public string codigo { get; set; } = string.Empty;
-        public mUsuariosParaEditar usuario { get; set; } = new mUsuariosParaEditar();
         public string esquema = string.Empty;
+        public mUsuariosParaEditar usuario = new mUsuariosParaEditar();
         public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
         public List<mClientes> listaClientes = new List<mClientes>();
+        public string usuarioActual = string.Empty;
         bool repetido = false;
         public string correoRepite = string.Empty;
         public string mensajeCorreoRepite = string.Empty;
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
-        [Parameter] public EventCallback<bool> usuarioActualizado { get; set; }
-        [Parameter] public EventCallback<bool> usuarioCancelado { get; set; }
+        private bool usuarioActualizado = false;
+        private bool descartarCambios = false;
+        private bool cargarInicial = false;
+
         protected override async Task OnInitializedAsync()
         {
-            if (!string.IsNullOrEmpty(codigo))
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
+            if (UsuariosService.UsuarioParaEditar != null)
             {
-                var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                var user = authenticationState.User;
-                usuarioActual = user.Identity.Name;
-                esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
-                if (UsuariosService.UsuarioParaEditar != null)
-                {
-                    usuario = UsuariosService.UsuarioParaEditar;
-                    await RefrescarPermisos();
-                }
+                usuario = UsuariosService.UsuarioParaEditar;
+                await RefrescarPermisos();
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ClientesService.ObtenerListaClientes(esquema);
+            if (ClientesService.ListaClientes != null)
+            {
+                listaClientes = ClientesService.ListaClientes;
+            }
+            if (usuarioActual == usuario.usuario)
+            {
+                usuario.claveOriginal = usuario.clave;
+            }
+            usuario.usuarioOrignal = usuario.usuario;
+            usuario.correoOriginal = usuario.correo;
+            usuario.clave = null;
+            cargarInicial = true;
+        }
 
-
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.ObtenerListaClientes(esquema);
-                if (ClientesService.ListaClientes != null)
+        private async Task RefrescarPermisos()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await PermisosService.ObtenerListaDePermisos(esquema);
+            usuario.listaTodosLosPermisos = PermisosService.ListaPermisos;
+            PermisosService.ListaPermisosAsociadados = new List<mPermisosAsociados>();
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await PermisosService.ObtenerListaDePermisosAsociados(esquema, usuario.id);
+            if (PermisosService.ListaPermisosAsociadados != null)
+            {
+                usuario.listaPermisosAsociados = PermisosService.ListaPermisosAsociadados;
+                foreach (var item in usuario.listaTodosLosPermisos)
                 {
-                    listaClientes = ClientesService.ListaClientes;
+                    if (usuario.listaPermisosAsociados.Any(elPermiso => elPermiso.id_permiso == item.Id))
+                    {
+                        item.EstadoCheck = true;
+                    }
                 }
-
-                if (usuarioActual == usuario.usuario)
-                {
-                    usuario.claveOriginal = usuario.clave;
-                }
-                usuario.usuarioOrignal = usuario.usuario;
-                usuario.correoOriginal = usuario.correo;
-                usuario.clave = null;
             }
             
         }
-
-        private void OpenModal()
-        {
-            ActivarModal = true;
-        }
-        private async Task CancelarCambios()
-        {
-            await usuarioCancelado.InvokeAsync(true);
-            usuario = new mUsuariosParaEditar();
-            await CloseModal();
-        }
-        private async Task CloseModal()
-        {
-            
-            await OnClose.InvokeAsync(false);
-
-        }
-
         private void CambioCliente(ChangeEventArgs e, string usuarioId)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
@@ -212,32 +204,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 }
             }
         }
-        private async Task RefrescarPermisos()
-        {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await PermisosService.ObtenerListaDePermisos(esquema);
-            usuario.listaTodosLosPermisos = PermisosService.ListaPermisos;
-            PermisosService.ListaPermisosAsociadados = new List<mPermisosAsociados>();
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await PermisosService.ObtenerListaDePermisosAsociados(esquema, usuario.id);
-            if (PermisosService.ListaPermisosAsociadados != null)
-            {
-                usuario.listaPermisosAsociados = PermisosService.ListaPermisosAsociadados;
-                foreach (var item in usuario.listaTodosLosPermisos)
-                {
-                    if (usuario.listaPermisosAsociados.Any(elPermiso => elPermiso.id_permiso == item.Id))
-                    {
-                        item.EstadoCheck = true;
-                    }
-                }
-            }
-            
-        }
         private async Task VerificarCorreoYUsuarioExistente()
         {
-
-            
-           
 
             if (usuario.usuarioOrignal != usuario.usuario)
             {
@@ -247,7 +215,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 if (!string.IsNullOrEmpty(usuario.usuarioRepite))
                 {
                     mensajeUsuarioRepite = "El usuario ya existe";
-                    
+
                     repetido = true;
                 }
                 else
@@ -267,7 +235,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 if (!string.IsNullOrEmpty(usuario.correoRepite))
                 {
                     mensajeCorreoRepite = "El correo ya existe";
-                    
+
                     repetido = true;
                 }
                 else
@@ -282,6 +250,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         }
 
+        private async Task DescartarCambios()
+        {
+            descartarCambios = false;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
+            if (UsuariosService.UsuarioParaEditar != null)
+            {
+                usuario = UsuariosService.UsuarioParaEditar;
+                await RefrescarPermisos();
+            }
+            StateHasChanged();
+            await Task.Delay(100);
+            descartarCambios = true;
+        }
+
         private async Task ActualizarListaDePermisos()
         {
 
@@ -294,11 +277,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 await PermisosService.ActualizarListaPermisosAsociados(usuario.listaPermisosAsociados, usuario.id, usuario.esquema);
 
             }
-            
+
         }
         private async Task ActualizarUsuario()
         {
             mensajeError = null;
+            usuarioActualizado = false;
             try
             {
                 repetido = false;
@@ -309,10 +293,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
                     await ActualizarListaDePermisos();
-                    await usuarioActualizado.InvokeAsync(true);
-                    usuario = new mUsuariosParaEditar();
-                    await CloseModal();
-
+                    usuarioActualizado = true;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
+                    if (UsuariosService.UsuarioParaEditar != null)
+                    {
+                        usuario = UsuariosService.UsuarioParaEditar;
+                        await RefrescarPermisos();
+                    }
                 }
                 else
                 {
@@ -324,13 +312,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
                 mensajeError = "Ocurrío un Error vuelva a intentarlo";
             }
-            
+
         }
 
-        private async Task SalirConLaX()
-        {
-            await OnClose.InvokeAsync(false);
-        }
+
         private bool mostrarClave = false;
 
         private void CambiarEstadoMostrarClave(bool estado)
@@ -346,11 +331,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             await Task.Delay(100);
             var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
 
-                if (!isValid)
-                {
-                    // Si hay errores de validación, activa el scrollbar
-                    await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
-                }
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
+
         }
 
         private async Task ActivarScrollBarErroresRepite()
@@ -364,10 +350,15 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".mensaje-repite");
 
 
-                    // Si hay errores de validación, activa el scrollbar
-              await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".mensaje-repite");
-                
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".mensaje-repite");
+
             }
+        }
+
+        private void IrAUsuarios()
+        {
+            navigationManager.NavigateTo($"configuraciones/usuarios");
         }
     }
 }

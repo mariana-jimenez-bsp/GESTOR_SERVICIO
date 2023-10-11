@@ -68,7 +68,7 @@
                                         <label class="w-100 text-center">@usuario.rol</label>
                                     </div>
                                     <div class="mb-0 col-md-1 mouse-pointer">
-                                        <i class="fa-solid fa-pen-to-square" @onclick="() => EnviarCodigo(true, usuario.codigo)"></i>
+                                        <i class="fa-solid fa-pen-to-square" @onclick="() => IrAEditarUsuario(usuario.codigo)"></i>
                                     </div>
                                 </div>
                             }
@@ -85,32 +85,13 @@
             </div>
 
         </div>
-        @if (estadoUsuarioNuevo)
-        {
-            <ModalExito mensaje="Usuario Agregado"></ModalExito>
-        }
-        @if (estadoUsuarioActualizado)
-        {
-            <ModalExito mensaje="Usuario Actualizado"></ModalExito>
-        }
-        @if (estadoUsuarioNuevoCancelado)
-        {
-            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-        }
-        @if (estadoUsuarioActualizadoCancelado)
-        {
-            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-        }
+        
         @if (limiteDeUsuarios)
         {
             <ModalAdvertencia mensaje="Límite de Cantidad de Usuarios Alcanzado"></ModalAdvertencia>
         }
 
-            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" usuarioAgregado="CambiarEstadoUsuarioNuevo" usuarioCancelado="CambiarEstadoUsuarioNuevoCancelado"></ModalAgregarUsuario>
-        @if (actividarModalEditarUsuario)
-        {
-            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoUsuario" usuarioActualizado="CambiarEstadoUsuarioActualizado" usuarioCancelado="CambiarEstadoUsuarioActualizadoCancelado"></ModalEditarUsuario>
-        }
+       
         
         
 

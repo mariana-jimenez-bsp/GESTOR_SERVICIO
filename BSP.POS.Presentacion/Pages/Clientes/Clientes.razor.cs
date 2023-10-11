@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.ItemsCliente;
+using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Services.Usuarios;
@@ -14,6 +15,8 @@ namespace BSP.POS.Presentacion.Pages.Clientes
     public partial class Clientes: ComponentBase
     {
         public List<mClientes> clientes = new List<mClientes>();
+        public mLicencia licencia = new mLicencia();
+        public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
         public string esquema = string.Empty;
         public bool cargaInicial = false;
         public string rol = string.Empty;
@@ -21,15 +24,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public string mensajeActualizar;
         public string mensajeDescartar;
         public string mensajeError;
-        private string codigoClienteActual;
-        private string codigoEditarUsuario;
         private bool estadoClienteNuevo = false;
         private bool estadoClienteCancelado = false;
-        private bool estadoUsuarioNuevo = false;
-        private bool estadoUsuarioActualizado = false;
-        private bool estadoUsuarioNuevoCancelado = false;
-        private bool estadoUsuarioActualizadoCancelado = false;
-         
+        private bool limiteDeUsuarios = false;
+
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -38,6 +36,18 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await RefrescarListaClientes();
+            await LicenciasService.ObtenerDatosDeLicencia();
+            if (LicenciasService.licencia != null)
+            {
+                licencia = LicenciasService.licencia;
+
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+            if (UsuariosService.ListaDeUsuariosParaEditar != null)
+            {
+                usuarios = UsuariosService.ListaDeUsuariosParaEditar;
+            }
             cargaInicial = true;
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -263,83 +273,9 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         {
             estadoClienteCancelado = estado;
         }
-        bool actividarModalAgregarUsuario = false;
-        public async Task EnviarCodigoClienteNuevoUsuario(bool activar, string codigo)
-        {
-            codigoClienteActual = codigo;
-            await ClickHandlerAgregarUsuario(activar);
-        }
+        
 
-        public async Task EnviarCodigoEditarUsuario(bool activar, string codigoUsuario, string codigoCliente)
-        {
-            codigoEditarUsuario = codigoUsuario;
-            codigoClienteActual = codigoCliente;
-            await ClickHandlerEditarUsuario(activar);
-        }
-
-
-        async Task ClickHandlerAgregarUsuario(bool activar)
-        {
-            actividarModalAgregarUsuario = activar;
-            if (!activar)
-            {
-                if (!string.IsNullOrEmpty(codigoClienteActual))
-                {
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ObtenerUsuariosDeCliente(codigoClienteActual);
-                    codigoClienteActual = string.Empty;
-                    
-                }
-            }
-            if (activar)
-            {
-                estadoUsuarioNuevo = false;
-                estadoUsuarioNuevoCancelado = false;
-            }
-            StateHasChanged();
-        }
-        bool actividarModalEditarUsuario = false;
-
-        async Task ClickHandlerEditarUsuario(bool activar)
-        {
-
-
-            if (!activar)
-            {
-                if (!string.IsNullOrEmpty(codigoClienteActual))
-                {
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ObtenerUsuariosDeCliente(codigoClienteActual);
-                    codigoClienteActual = string.Empty;
-                    codigoEditarUsuario = string.Empty;
-                }
-            }
-            if (activar)
-            {
-                estadoUsuarioActualizado = false;
-                estadoUsuarioActualizadoCancelado = false;
-            }
-            actividarModalEditarUsuario = activar;
-            StateHasChanged();
-        }
-
-        public void CambiarEstadoUsuarioNuevo(bool estado)
-        {
-            estadoUsuarioNuevo = estado;
-        }
-
-        public void CambiarEstadoUsuarioActualizado(bool estado)
-        {
-            estadoUsuarioActualizado = estado;
-        }
-        public void CambiarEstadoUsuarioNuevoCancelado(bool estado)
-        {
-            estadoUsuarioNuevoCancelado = estado;
-        }
-        public void CambiarEstadoUsuarioActualizadoCancelado(bool estado)
-        {
-            estadoUsuarioActualizadoCancelado = estado;
-        }
+        
 
         private async Task ActivarScrollBarDeErrores()
         {
@@ -352,6 +288,27 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 // Si hay errores de validación, activa el scrollbar
                 await JS.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
             }
+        }
+
+        private async Task IrAAgregarUsuario(string cliente)
+        {
+            limiteDeUsuarios = false;
+            StateHasChanged();
+            await Task.Delay(100);
+            if (licencia.CantidadUsuarios <= usuarios.Count)
+            {
+                limiteDeUsuarios = true;
+            }
+            else
+            {
+                navigationManager.NavigateTo($"configuraciones/usuario/agregar/{cliente}");
+            }
+
+        }
+
+        private void IrAEditarUsuario(string codigo, string cliente)
+        {
+            navigationManager.NavigateTo($"configuraciones/usuario/editar/{codigo}/{cliente}");
         }
     }
 }

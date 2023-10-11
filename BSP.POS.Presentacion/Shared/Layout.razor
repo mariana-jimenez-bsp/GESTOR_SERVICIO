@@ -203,12 +203,28 @@ else if (navigationManager.Uri.IndexOf("/actividades", StringComparison.OrdinalI
         </nav>
     </div>
 }
-else if (navigationManager.Uri.IndexOf("/configuraciones/usuarios", StringComparison.OrdinalIgnoreCase) >= 0)
+else if (navigationManager.Uri.IndexOf("/configuraciones/usuario", StringComparison.OrdinalIgnoreCase) >= 0)
 {
     <div class="d-flex justify-content-between mb-3">
-        <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-            <span class="blue-dark-text text-20-book">Usuarios <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
-        </div>
+        @if(navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                <span class="blue-dark-text text-20-book">Agregar Usuario <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
+            </div>
+        }
+        else if (navigationManager.Uri.IndexOf("/editar", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                <span class="blue-dark-text text-20-book">Editar Usuario <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                <span class="blue-dark-text text-20-book">Usuarios <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
+            </div>
+        }
+        
         <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
             <div class="sections p-3 div-sections">
 

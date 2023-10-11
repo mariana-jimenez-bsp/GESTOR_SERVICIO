@@ -7,6 +7,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
+@inject ILicenciasInterface LicenciasService
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
@@ -170,7 +171,7 @@
                                                 <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <div class="content w-75 pb-3">
-                                                        <span class="mouse-pointer" @onclick="() => EnviarCodigoClienteNuevoUsuario(true, cliente.CLIENTE)"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</span>
+                                                        <span class="mouse-pointer" @onclick="() => IrAAgregarUsuario(cliente.CLIENTE)"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</span>
                                                         
                                                         @if (cliente.listaDeUsuarios.Any())
                                                         {
@@ -214,7 +215,7 @@
                                                                         <span>@usuario.telefono</span>
                                                                     </div>
                                                                     <div class="col-md-1">
-                                                                        <i class="fa-solid fa-pen-to-square ms-2 mouse-pointer" @onclick="() => EnviarCodigoEditarUsuario(true, usuario.codigo, cliente.CLIENTE)"></i>
+                                                                        <i class="fa-solid fa-pen-to-square ms-2 mouse-pointer" @onclick="() => IrAEditarUsuario(usuario.codigo, cliente.CLIENTE)"></i>
                                                                     </div>
                                                                 </div>
                                                             }
@@ -261,31 +262,14 @@
         {
             <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
         }
-        @if (estadoUsuarioNuevo)
+        @if (limiteDeUsuarios)
         {
-            <ModalExito mensaje="Usuario Agregado"></ModalExito>
+            <ModalAdvertencia mensaje="Límite de Cantidad de Usuarios Alcanzado"></ModalAdvertencia>
         }
-        @if (estadoUsuarioActualizado)
-        {
-            <ModalExito mensaje="Usuario Actualizado"></ModalExito>
-        }
-        @if (estadoUsuarioNuevoCancelado)
-        {
-            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-        }
-        @if (estadoUsuarioActualizadoCancelado)
-        {
-            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-        }
+        
+        
         <ModalAgregarCliente ActivarModal="@actividarModalAgregarCliente" OnClose="ClickHandlerAgregarCliente" clienteAgregado="CambiarEstadoClienteNuevo" clienteCancelado="CambiarEstadoClienteCancelado"></ModalAgregarCliente>
-        @if (actividarModalAgregarUsuario)
-        {
-            <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" usuarioAgregado="CambiarEstadoUsuarioNuevo" usuarioCancelado="CambiarEstadoUsuarioNuevoCancelado" codigoCliente="@codigoClienteActual"></ModalAgregarUsuario>
-        }
-        @if (actividarModalEditarUsuario)
-        {
-            <ModalEditarUsuario ActivarModal="@actividarModalEditarUsuario" OnClose="ClickHandlerEditarUsuario" codigo="@codigoEditarUsuario" usuarioActualizado="CambiarEstadoUsuarioActualizado" usuarioCancelado="CambiarEstadoUsuarioActualizadoCancelado" codigoCliente="@codigoClienteActual"></ModalEditarUsuario>
-        }
+        
         
     }
     else

@@ -3,23 +3,32 @@
 @inject IClientesInterface ClientesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
-<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
-    <div class="modal-content">
-        <EditForm Model="@usuario" OnValidSubmit="AgregarUsuario" OnInvalidSubmit="ActivarScrollBarDeErrores">
+@inject ILicenciasInterface LicenciasService
+@inject NavigationManager navigationManager
+@if (cargarInicial)
+{
+        <div class="el-layout">
+            <Layout></Layout>
+        </div>
+        
+        <EditForm Model="@usuario" OnValidSubmit="ActualizarUsuario" OnInvalidSubmit="ActivarScrollBarDeErrores">
             <ObjectGraphDataAnnotationsValidator />
-            <div class="modal-header d-flex justify-content-center text-primary">
-                <h2 class="blue-dark-text text-41-book">Agregar<img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
-            </div>
-            <div class="text-end pe-2">
-                <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
-            </div>
             @if (!string.IsNullOrEmpty(mensajeError))
             {
-                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+                <ModalError mensaje="@mensajeError"></ModalError>
             }
-            <div class=" modal-body d-flex row g-2 text-center ">
-                <div class="container border-transparent max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
-                    <div class="row  border border-success rounded-5 ">
+            @if (usuarioActualizado)
+            {
+                <ModalExito mensaje="El usuario se ha actualizado"></ModalExito>
+            }
+            @if (descartarCambios)
+            {
+                <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+            }
+            <div class="div-vacio"></div>
+            <div class=" d-flex row g-2 text-center width-content">
+                <div class="mt-4 container max-height-users overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                    <div class="row  border border-success rounded-5 mx-2 ">
                         <div class="d-flex justify-content-center my-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-nombreUsuario">Nombre:</label>
                             <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-nombreUsuario" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e, usuario.id)">
@@ -46,7 +55,7 @@
                             <div class="mensaje-repite">
                                 <MensajeRepite Message="@mensajeCorreoRepite" />
                             </div>
-                            
+
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-clave">Clave:</label>
@@ -117,52 +126,61 @@
                         <ValidationMessage For="@(() => usuario.departamento)" />
 
                         <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text">Imagen:</label>
-                            <div class="col-md-4 px-2">
-                                @if (usuario.imagen != null && !usuario.imagen.SequenceEqual(new byte[] { 0x00 }))
-                                {
-                                    <img src="data:image/png;base64,@Convert.ToBase64String(usuario.imagen)" class="ps-2 pb-1 image-user" alt="Imagen" />
-                                }
-                                else
-                                {
-                                    <img class="ps-2 pb-1" alt="Sin Imagen" />
-                                }
-                                <InputFile class="text-center d-flex row me-2" accept=".png,.jpg,.jpeg" OnChange="CambioImagen" />
+                            <label class="col-md-4  blue-dark-text label-text text-center">Imagen:</label>
+                            <div class="col-md-4 px-2 d-flex justify-content-center width-col-special">
+                                <div class=" d-flex row justify-content-center">
+                                    @if (usuario.imagen != null && !usuario.imagen.SequenceEqual(new byte[] { 0x00 }))
+                                    {
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(usuario.imagen)" class="ps-2 pb-1 image-user" alt="Imagen" />
+                                    }
+                                    else
+                                    {
+                                        <img class="ps-2 pb-1" alt="Sin Imagen" />
+                                    }
+                                    <InputFile class="text-center d-flex row me-2" accept=".png,.jpg,.jpeg" OnChange="CambioImagen" />
+                                </div>
                             </div>
 
                         </div>
                         <ValidationMessage For="@(() => usuario.ImagenFile)" />
-                        <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text">Permisos:</label>
-                            <div class="col-md-4 px-2">
-                                @if (todosLosPermisos != null)
+                        <div class="d-flex justify-content-center align-items-center mb-2 mt-2">
+                            <label class="col-md-4  blue-dark-text label-text text-center">Permisos:</label>
+                            <div class="col-md-4 px-2 d-flex justify-content-center row width-col-special">
+                            @if (usuario.listaTodosLosPermisos != null)
+                            {
+
+                                foreach (var permiso in usuario.listaTodosLosPermisos)
                                 {
 
-                                    foreach (var permiso in todosLosPermisos)
-                                    {
 
+                                    <div>
+                                        <input type="checkbox" class="custom-checkbox" id="myCheckbox-@usuario.id-@permiso.Id" checked="@permiso.EstadoCheck" @onchange="(e) => HandleCheckCambiado(e, permiso.Id)">
+                                        <label class="label-transparent" for="myCheckbox-@usuario.id-@permiso.Id">@permiso.permiso</label>
+                                    </div>
 
-                                        <div class=" ms-4">
-                                            <input type="checkbox" class="custom-checkbox" id="myCheckbox-@usuario.id-@permiso.Id" checked="@permiso.EstadoCheck" @onchange="(e) => HandleCheckCambiado(e, permiso.Id)">
-                                            <label class="label-transparent" for="myCheckbox-@usuario.id-@permiso.Id">@permiso.permiso</label>
-                                        </div>
-
-                                    }
                                 }
+                            }
                             </div>
 
                         </div>
                     </div>
                 </div>
+
             </div>
-            <div class="modal-footer text-13-medium">
-                <div @onclick="() => CancelarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light mx-4 mouse-pointer" id="descartar-agregar-usuario">
-                    Cancelar
-                </div>
-                <button type="submit" class="button-footer rounded-pill border border-input-gray green-bg text-light mx-4" id="guardar-agregar-usuario">
-                    Agregar
+            <div class="footer-agregar-usuario text-13-medium">
+                <button type="button" @onclick="IrAUsuarios" class="rounded-pill border border-primary blue-light-bg text-light button-footer mx-5" id="ir-a-usuarios-desde-editar">
+                    Usuarios
                 </button>
+                <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-actualizar-usuario">
+                    Descartar
+                    cambios
+                </button>
+                <button type="submit" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="actualizar-usuario">
+                    Actualizar
+                </button>
+
             </div>
         </EditForm>
-    </div>
-</div>
+   
+    <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-agregar-usuario" Elemento3=".div-vacio"></ScriptMaxHeight>
+}
