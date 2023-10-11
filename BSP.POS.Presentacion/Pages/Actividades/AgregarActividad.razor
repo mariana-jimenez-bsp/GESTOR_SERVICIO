@@ -4,6 +4,8 @@
 @inject NavigationManager navigationManager
 @if (cargaInicial)
 {
+    @if (permisos != null && permisos.Any(p => p.Contains("Actividades")))
+    {
 
         <div class="el-layout">
             <Layout></Layout>
@@ -69,4 +71,7 @@
         </EditForm>
 
     <ScriptMaxHeight Contenido=".max-height-activity" Elemento1=".el-layout" Elemento2=".footer-agregar-actividad" Elemento3=".div-vacio"></ScriptMaxHeight>
+}else{
+    <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+}
 }

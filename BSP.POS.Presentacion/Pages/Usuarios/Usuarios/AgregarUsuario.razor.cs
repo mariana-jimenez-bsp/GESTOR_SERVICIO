@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 using BSP.POS.Presentacion.Models.Licencias;
+using System.Security.Claims;
+using BSP.POS.Presentacion.Services.Informes;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -26,26 +28,38 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
+        public string rol = string.Empty;
         private bool usuarioAgregado = false;
         private bool descartarCambios = false;
         private bool limiteDeUsuarios = false;
         private bool cargarInicial = false;
+        private string mensajeCliente = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await PermisosService.ObtenerListaDePermisos(esquema);
-            if (!string.IsNullOrEmpty(codigoCliente))
-            {
-                usuario.cod_cliente = codigoCliente;
-            }
-            if (PermisosService.ListaPermisos != null)
-            {
-                todosLosPermisos = PermisosService.ListaPermisos;
+            rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            if (await VerificarValidaCodigoCliente()){
+                
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await PermisosService.ObtenerListaDePermisos(esquema);
+                if (!string.IsNullOrEmpty(codigoCliente))
+                {
+                    usuario.cod_cliente = codigoCliente;
+                }
+                if (PermisosService.ListaPermisos != null)
+                {
+                    todosLosPermisos = PermisosService.ListaPermisos;
 
+                }
+
+
+            }
+            else
+            {
+                mensajeCliente = "El codigo del cliente no existe";
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
@@ -65,13 +79,34 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             {
                 usuarios = UsuariosService.ListaDeUsuariosParaEditar;
             }
-            //if (licencia.CantidadUsuarios <= usuarios.Count)
-            //{
-            //    limiteDeUsuarios = true;
-            //}
+            if (licencia.CantidadUsuarios <= usuarios.Count)
+            {
+                limiteDeUsuarios = true;
+            }
             cargarInicial = true;
         }
+        public async Task<bool> VerificarValidaCodigoCliente()
+        {
+            if (string.IsNullOrEmpty(codigoCliente))
+            {
+                return true;
+            }
+            if (codigoCliente.Length > 20)
+            {
+                return false;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            string clienteValidar = await ClientesService.ValidarExistenciaDeCliente(esquema, codigoCliente);
 
+            if (!string.IsNullOrEmpty(clienteValidar))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         private void CambioCliente(ChangeEventArgs e, string usuarioId)
         {

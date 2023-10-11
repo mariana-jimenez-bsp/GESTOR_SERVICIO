@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.JSInterop;
+using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -21,6 +22,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public List<mClientes> listaClientes = new List<mClientes>();
         public string usuarioActual = string.Empty;
         bool repetido = false;
+        public string rol = string.Empty;
         public string correoRepite = string.Empty;
         public string mensajeCorreoRepite = string.Empty;
         public string usuarioRepite = string.Empty;
@@ -35,6 +37,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
             if (UsuariosService.UsuarioParaEditar != null)

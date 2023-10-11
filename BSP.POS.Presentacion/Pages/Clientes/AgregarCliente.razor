@@ -7,7 +7,8 @@
 @inject NavigationManager navigationManager
 @if (cargaInicial)
 {
-    
+    @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
+    {
         <div class="el-layout">
             <Layout></Layout>
         </div>
@@ -426,4 +427,7 @@
         </EditForm>
 
     <ScriptMaxHeight Contenido=".max-height-client" Elemento1=".el-layout" Elemento2=".footer-agregar-cliente" Elemento3=".div-vacio"></ScriptMaxHeight>
+}else{
+    <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+}
 }

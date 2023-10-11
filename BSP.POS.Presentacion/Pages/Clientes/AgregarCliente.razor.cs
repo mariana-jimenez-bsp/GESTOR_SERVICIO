@@ -30,13 +30,14 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private bool clienteAgregado = false;
         private bool descartarCambios = false;
         private bool cargaInicial = false;
-
+        List<string> permisos;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             await RefresacarListas();
             cargaInicial = true;
         }

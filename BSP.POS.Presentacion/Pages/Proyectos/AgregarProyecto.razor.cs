@@ -14,6 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
         public List<mClientes> listaDeClientes = new List<mClientes>();
         public string mensajeError;
+        List<string> permisos;
         private bool proyectoAgregado = false;
         private bool descartarCambios = false;
         private bool cargaInicial = false;
@@ -22,6 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
             if (ClientesService.ListaClientes != null)
