@@ -16,19 +16,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public string mensajeActualizar;
         public string mensajeDescartar;
         public string mensajeError;
-        private bool estadoActividadNueva = false;
-        private bool estadoActividadCancelada = false;
-        private string script = @"
-        // Coloca aquí tu JavaScript
-        const headerHeight = document.querySelector('.el-layout').offsetHeight;
-        const footerHeight = document.querySelector('.footer-activity').offsetHeight;
-        const headersContentHeight = document.querySelector('.card-header').offsetHeight;
-        const content = document.querySelector('.max-height-activities');
-
-        const windowHeight = window.innerHeight;
-        const availableHeight = windowHeight - headerHeight - footerHeight - headersContentHeight;
-        content.style.maxHeight = availableHeight + 'px';
-    ";
+       
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -96,7 +84,6 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         private async Task DescartarCambios()
         {
             mensajeActualizar = null;
-            estadoActividadNueva = false;
             mensajeDescartar = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ActividadesService.ObtenerListaDeActividades(esquema);
@@ -110,7 +97,6 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         {
             mensajeActualizar = null;
             mensajeError = null;
-            estadoActividadNueva = false;
             mensajeDescartar = null;
             try
             {
@@ -149,38 +135,6 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             return Task.CompletedTask;
         }
 
-        bool activarModalAgregarActividad = false;
-
-        async Task ClickHandlerAgregarActividad(bool activar)
-        {
-            activarModalAgregarActividad = activar;
-            if (!activar)
-            {
-                mensajeActualizar = null;
-                mensajeDescartar = null;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.ObtenerListaDeActividades(esquema);
-                if (ActividadesService.ListaActividades != null)
-                {
-                    actividades = ActividadesService.ListaActividades;
-                }
-            }
-            if (activar)
-            {
-                estadoActividadNueva = false;
-                estadoActividadCancelada = false;
-            }
-            StateHasChanged();
-        }
-        public void CambiarEstadoActividadNueva(bool estado)
-        {
-            estadoActividadNueva = estado;
-        }
-        public void CambiarEstadoActividadCancelada(bool estado)
-        {
-            estadoActividadCancelada = estado;
-        }
-
         private async Task ActivarScrollBarDeErrores()
         {
             StateHasChanged();
@@ -192,6 +146,11 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                 // Si hay errores de validación, activa el scrollbar
                 await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
             }
+        }
+
+        private void IrAAgregarActividad()
+        {
+            navigationManager.NavigateTo($"actividad/agregar");
         }
     }
 }

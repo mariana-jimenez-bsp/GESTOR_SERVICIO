@@ -84,7 +84,7 @@
                     </div>
                 </div>
                 <div class="footer-activity text-13-medium">
-                    <div @onclick="() => ClickHandlerAgregarActividad(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                    <div @onclick="() => IrAAgregarActividad()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
                         Agregar
                         Actividad
                     </div>
@@ -99,19 +99,12 @@
                 </div>
             </EditForm>
         </div>
-        @if (estadoActividadNueva)
-        {
-            <ModalExito mensaje="Actividad Agregada"></ModalExito>
-        }
-        @if (estadoActividadCancelada)
-        {
-            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-        }
+
         @if (!string.IsNullOrEmpty(mensajeDescartar))
         {
             <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
         }
-        <ModalAgregarActividad ActivarModal="@activarModalAgregarActividad" OnClose="ClickHandlerAgregarActividad" actividadAgregada="CambiarEstadoActividadNueva" actividadCancelada="CambiarEstadoActividadCancelada"></ModalAgregarActividad>
+        
     }
     else
 

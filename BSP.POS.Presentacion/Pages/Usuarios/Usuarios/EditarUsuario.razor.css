@@ -211,4 +211,9 @@
     .max-height-users {
         max-height: 300px;
     }
+
+    .footer-agregar-usuario .button-footer {
+        padding: 10px 10px;
+        height: 40px;
+    }
 }

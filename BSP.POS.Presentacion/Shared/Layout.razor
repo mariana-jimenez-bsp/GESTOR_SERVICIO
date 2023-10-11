@@ -22,7 +22,7 @@
             <h3 class="subtitle-edit">Informe de Servicios</h3>
             </div>
         }
-        else if (navigationManager.Uri.IndexOf("/informes/misinformes", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/cliente/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
+        else if (navigationManager.Uri.IndexOf("/informes/misinformes", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/cliente/agregar", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/actividad/agregar", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/proyecto/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
         {
 
         }
@@ -98,171 +98,115 @@
             </div>
         </div>
     </nav>
-@if (navigationManager.Uri.IndexOf("/proyectos", StringComparison.OrdinalIgnoreCase) >= 0)
+@if (navigationManager.Uri.IndexOf("/proyecto", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/cliente", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/actividad", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/cliente", StringComparison.OrdinalIgnoreCase) >= 0 || navigationManager.Uri.IndexOf("/configuraciones/usuario", StringComparison.OrdinalIgnoreCase) >= 0)
 {
     <div class="d-flex justify-content-between mb-3">
-        <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-            <span class="blue-dark-text text-20-book">Proyectos <img class="mb-3 img-proyectos" src="images/Proyectos/Icono-Proyectos.png" /></span>
-        </div>
+    @if (navigationManager.Uri.IndexOf("/proyecto", StringComparison.OrdinalIgnoreCase) >= 0)
+    {
 
-        <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
-            <div class="sections p-3 div-sections">
-
-                <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
-                @if (permisos != null)
-                {
-                    @if (permisos.Any(p => p.Contains("Clientes")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Proyectos")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Actividades")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
-                    }
-                }
-
-
-            </div>
-        </nav>
-    </div>
-}
-else if (navigationManager.Uri.IndexOf("/cliente", StringComparison.OrdinalIgnoreCase) >= 0)
-{
-    <div class="d-flex justify-content-between mb-3">
-        @if (navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
-        {
-            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-                <span class="blue-dark-text text-20-book">Agregar Cliente <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
-            </div>
-        }
-        else
-        {
-            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-                <span class="blue-dark-text text-20-book">Clientes <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
-            </div>
-        }
-
-
-        <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
-            <div class="sections p-3 div-sections">
-
-                <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
-                @if (permisos != null)
-                {
-                    @if (permisos.Any(p => p.Contains("Clientes")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Proyectos")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Actividades")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
-                    }
-                }
-
-
-            </div>
-        </nav>
-    </div>
-}
-else if (navigationManager.Uri.IndexOf("/actividades", StringComparison.OrdinalIgnoreCase) >= 0)
-{
-    <div class="d-flex justify-content-between mb-3">
-        <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-            <span class="blue-dark-text text-20-book">Actividades <img class="mb-3 img-proyectos" src="images/Actividades/Icono-actividades.png" /></span>
-        </div>
-
-        <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
-            <div class="sections p-3 div-sections">
-
-                <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
-                @if (permisos != null)
-                {
-                    @if (permisos.Any(p => p.Contains("Clientes")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Proyectos")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Actividades")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
-                    }
-                }
-
-
-            </div>
-        </nav>
-    </div>
-}
-else if (navigationManager.Uri.IndexOf("/configuraciones/usuario", StringComparison.OrdinalIgnoreCase) >= 0)
-{
-    <div class="d-flex justify-content-between mb-3">
-        @if(navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
-        {
-            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-                <span class="blue-dark-text text-20-book">Agregar Usuario <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
-            </div>
-        }
-        else if (navigationManager.Uri.IndexOf("/editar", StringComparison.OrdinalIgnoreCase) >= 0)
-        {
-            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-                <span class="blue-dark-text text-20-book">Editar Usuario <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
-            </div>
-        }
-        else
-        {
-            <div class="d-flex justify-content-start align-items-center w-20 ps-2">
-                <span class="blue-dark-text text-20-book">Usuarios <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
-            </div>
-        }
+            @if (navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Agregar Proyecto <img class="mb-3 img-proyectos" src="images/Proyectos/Icono-Proyectos.png" /></span>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Proyectos <img class="mb-3 img-proyectos" src="images/Proyectos/Icono-Proyectos.png" /></span>
+                </div>
+            }
+    }
+    else if (navigationManager.Uri.IndexOf("/cliente", StringComparison.OrdinalIgnoreCase) >= 0)
+    {
         
-        <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
-            <div class="sections p-3 div-sections">
+            @if (navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Agregar Cliente <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Clientes <img class="mb-3 img-proyectos" src="images/Clientes/Icono-clientes.png" /></span>
+                </div>
+            }
 
-                <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
-                @if (permisos != null)
+
+            
+    }
+    else if (navigationManager.Uri.IndexOf("/actividad", StringComparison.OrdinalIgnoreCase) >= 0)
+    {
+
+            @if (navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Agregar Actividad <img class="mb-3 img-proyectos" src="images/Actividades/Icono-actividades.png" /></span>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Actividades <img class="mb-3 img-proyectos" src="images/Actividades/Icono-actividades.png" /></span>
+                </div>
+            }
+
+    }
+    else if (navigationManager.Uri.IndexOf("/configuraciones/usuario", StringComparison.OrdinalIgnoreCase) >= 0)
+    {
+       
+            @if (navigationManager.Uri.IndexOf("/agregar", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Agregar Usuario <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
+                </div>
+            }
+            else if (navigationManager.Uri.IndexOf("/editar", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Editar Usuario <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-start align-items-center w-20 ps-2">
+                    <span class="blue-dark-text text-20-book">Usuarios <img class="mb-3 img-proyectos" src="images/Perfil/Icono-de-usuario.png" /></span>
+                </div>
+            }
+
+            
+       
+    }
+    <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
+        <div class="sections p-3 div-sections">
+
+            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+            @if (permisos != null)
+            {
+                @if (permisos.Any(p => p.Contains("Clientes")))
                 {
-                    @if (permisos.Any(p => p.Contains("Clientes")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Proyectos")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
-                    }
-                    @if (permisos.Any(p => p.Contains("Actividades")))
-                    {
-                        <a class="vertical-line p-2 border-light"></a>
-                        <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
-                    }
+                    <a class="vertical-line p-2 border-light"></a>
+                    <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                 }
+                @if (permisos.Any(p => p.Contains("Proyectos")))
+                {
+                    <a class="vertical-line p-2 border-light"></a>
+                    <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+                }
+                @if (permisos.Any(p => p.Contains("Actividades")))
+                {
+                    <a class="vertical-line p-2 border-light"></a>
+                    <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
+                }
+            }
 
 
-            </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
+        </div>
 }
+
 else
 {
     <nav class="d-flex justify-content-end sections text-light pe-5">

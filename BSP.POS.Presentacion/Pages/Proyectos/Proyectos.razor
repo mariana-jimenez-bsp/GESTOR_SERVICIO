@@ -150,7 +150,7 @@
                         Proyectos
                         Terminados
                     </div>
-                    <div @onclick="() => ClickHandlerAgregarProyecto(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                    <div @onclick="() => IrAAgregarProyecto()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
                         Agregar
                         Proyecto
                     </div>
@@ -165,14 +165,6 @@
                 </div>
             </EditForm>
         </div>
-        @if (estadoProyectoNuevo)
-        {
-            <ModalExito mensaje="Proyecto Agregado"></ModalExito>
-        }
-        @if (estadoProyectoCancelado)
-        {
-            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-        }
         @if (estadoProyectoTerminado)
         {
             <ModalInfo mensaje="Se ha cambiado el estado del proyecto a Terminado"></ModalInfo>
@@ -181,7 +173,6 @@
         {
             <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
         }
-        <ModalAgregarProyecto ActivarModal="@actividadModalAgregarProyecto" OnClose="ClickHandlerAgregarProyecto" proyectoAgregado="CambiarEstadoProyectoNuevo" proyectoCancelado="CambiarEstadoProyectoCancelado"></ModalAgregarProyecto>
         @if (actividarModalTerminarProyecto)
         {
             <ModalTerminarProyecto esquema="@esquema" ActivarModal="@actividarModalTerminarProyecto" numero="@numeroActual" OnClose="ClickHandlerTerminarProyecto" proyectoTerminado="CambiarEstadoProyectoTerminado"></ModalTerminarProyecto>

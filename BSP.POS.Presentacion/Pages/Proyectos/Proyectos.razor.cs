@@ -23,8 +23,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string mensajeActualizar;
         public string mensajeDescartar;
         public string mensajeError;
-        private bool estadoProyectoNuevo = false;
-        private bool estadoProyectoCancelado = false;
         private bool estadoProyectoTerminado = false;
         protected override async Task OnInitializedAsync()
         {
@@ -172,7 +170,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         {
             mensajeActualizar = null;
             mensajeDescartar = null;
-            actividadModalAgregarProyecto = false;
             await RefrescarListaDeProyectos();
             mensajeDescartar = "Se han Descartado los cambios";
             
@@ -182,7 +179,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             mensajeActualizar = null;
             mensajeError = null;
             mensajeDescartar = null;
-            estadoProyectoNuevo = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -208,31 +204,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             return Task.CompletedTask;
         }
 
-        bool actividadModalAgregarProyecto = false;
-
-        async Task ClickHandlerAgregarProyecto(bool activar)
-        {
-            actividadModalAgregarProyecto = activar;
-            if (!activar)
-            {
-                mensajeActualizar = null;
-                await RefrescarListaDeProyectos();
-            }
-            if (activar)
-            {
-                estadoProyectoNuevo = false;
-                estadoProyectoCancelado = false;
-            }
-            StateHasChanged();
-        }
-        public void CambiarEstadoProyectoNuevo(bool estado)
-        {
-            estadoProyectoNuevo = estado;
-        }
-        public void CambiarEstadoProyectoCancelado(bool estado)
-        {
-            estadoProyectoCancelado = estado;
-        }
+        
         bool actividarModalTerminarProyecto = false;
         async Task ClickHandlerTerminarProyecto(bool activar)
         {
@@ -277,6 +249,11 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         {
 
             navigationManager.NavigateTo($"proyectos/terminados");
+        }
+
+        private void IrAAgregarProyecto()
+        {
+            navigationManager.NavigateTo($"proyecto/agregar");
         }
     }
 }

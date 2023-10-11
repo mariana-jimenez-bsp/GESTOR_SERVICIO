@@ -1,68 +1,39 @@
-﻿.mouse-pointer {
-    transition: background-color 0.3s;
-    cursor: pointer;
+﻿
+.max-height-activity input,
+.max-height-activity select {
+    width: 200px;
 }
 
-.modal {
-    display: none;
+.width-col-special {
+    width: 200px;
+}
+
+.width-pass {
+    width: 200px;
+}
+
+
+.footer-agregar-actividad {
     position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: end;
+    height: 120px;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    text-align: center;
+    background-color: #2FAD70;
+    align-items: center;
 }
 
-.modal-content {
-    display: inline-block;
-    margin-top: 20%;
-    background-color: transparent;
-    background-image: url("images/Actividades/Pestaña-actividades.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    max-width: 60%;
-    border: transparent;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-}
-
-
-
-.modal-body {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-}
-
-    .modal-body label {
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .modal-body input,
-    .modal-body select {
-        width: 200px;
-    }
-
-.modal-footer {
-    display: flex;
-    justify-content: center;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-
-    .modal-footer .button-footer {
+    .footer-agregar-actividad .button-footer {
         padding: 10px 20px;
+        height: 50px;
+        display: flex;
+        align-items: center;
     }
+
+.width-content {
+    max-width: 99%;
+}
 
 .blue-light-bg {
     background-color: #2255A1;
@@ -117,6 +88,7 @@
     border: 3px solid white;
 }
 
+
 .text-41-book {
     font-size: 15pt;
 }
@@ -135,20 +107,42 @@
     font-size: 13pt;
 }
 
+
 .border-input-gray {
     border-color: #D5D5D5;
 }
 
 .max-height-activity {
-    max-height: 200px;
+    max-height: 700px;
 }
 
 @media screen and (max-width: 768px) {
+    .footer-agregar-usuario {
+        height: 70px;
+        width: 100%;
+    }
+
+    .text-41-book {
+        font-size: 20pt;
+    }
+
+    .text-16-book {
+        font-size: 8pt;
+    }
+
+    .text-16-medium {
+        font-size: 8pt;
+    }
+
+    .text-13-medium {
+        font-size: 6pt;
+    }
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
-    .modal-content {
-        margin-top: 5%;
+    .footer-agregar-actividad {
+        height: 70px;
+        max-width: 100%;
     }
 
     .text-41-book {
@@ -164,7 +158,7 @@
     }
 
     .text-13-medium {
-        font-size: 13pt;
+        font-size: 10pt;
     }
 
     .border-input-gray {
@@ -172,6 +166,10 @@
     }
 
     .max-height-activity {
-        max-height: 200px;
+        max-height: 300px;
+    }
+    .footer-agregar-actividad .button-footer {
+        padding: 10px 10px;
+        height: 40px;
     }
 }

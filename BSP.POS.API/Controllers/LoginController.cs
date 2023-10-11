@@ -33,9 +33,6 @@ namespace BSP.POS.API.Controllers
             // .AddUserSecrets<Program>()
             // .Build();
 
-
-
-
             var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();

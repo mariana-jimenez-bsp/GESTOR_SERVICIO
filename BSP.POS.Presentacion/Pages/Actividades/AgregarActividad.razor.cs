@@ -1,42 +1,29 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
-using BSP.POS.Presentacion.Models.ItemsCliente;
-using BSP.POS.Presentacion.Models.Proyectos;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Actividades
 {
-    public partial class ModalAgregarActividad:ComponentBase
+    public partial class AgregarActividad: ComponentBase
     {
-        [Parameter] public bool ActivarModal { get; set; } = false;
-        [Parameter] public EventCallback<bool> OnClose { get; set; }
+        
         public string esquema = string.Empty;
         public mActividades activadNueva = new mActividades();
-        
+
         public string mensajeError;
-        [Parameter] public EventCallback<bool> actividadAgregada { get; set; }
-        [Parameter] public EventCallback<bool> actividadCancelada { get; set; }
+        private bool actividadAgregada = false;
+        private bool descartarCambios = false;
+        private bool cargaInicial = false;
+
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+            cargaInicial = true;
         }
 
-        private void OpenModal()
-        {
-            ActivarModal = true;
-        }
-        private async Task CancelarCambios()
-        {
-            await actividadCancelada.InvokeAsync(true);
-            await CloseModal();
-        }
-        private async Task CloseModal()
-        {
-            activadNueva = new mActividades();
-            await OnClose.InvokeAsync(false);
-
-        }
+        
+       
 
         private void CambioActividad(ChangeEventArgs e)
         {
@@ -68,16 +55,24 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             }
 
         }
-
-        private async Task AgregarActividad()
+        private async Task DescartarCambios()
+        {
+            descartarCambios = false;
+            activadNueva = new mActividades();
+            StateHasChanged();
+            await Task.Delay(100);
+            descartarCambios = true;
+        }
+        private async Task AgregarActividadNueva()
         {
             mensajeError = null;
+            actividadAgregada = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ActividadesService.AgregarActividad(activadNueva, esquema);
-                await actividadAgregada.InvokeAsync(true);
-                await CloseModal();
+                actividadAgregada = true;
+                activadNueva = new mActividades();
             }
             catch (Exception)
             {
@@ -86,9 +81,10 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             }
 
         }
-        private async Task SalirConLaX()
+
+        private void IrAActividades()
         {
-            await OnClose.InvokeAsync(false);
+            navigationManager.NavigateTo($"actividades");
         }
     }
 }

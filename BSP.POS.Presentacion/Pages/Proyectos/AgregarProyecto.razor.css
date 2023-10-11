@@ -1,4 +1,8 @@
 ﻿
+.max-height-project input,
+.max-height-project select {
+    width: 200px;
+}
 
 .width-col-special {
     width: 200px;
@@ -8,7 +12,8 @@
     width: 200px;
 }
 
-.footer-agregar-cliente {
+
+.footer-agregar-proyecto {
     position: fixed;
     bottom: 0;
     display: flex;
@@ -19,7 +24,7 @@
     align-items: center;
 }
 
-    .footer-agregar-cliente .button-footer {
+    .footer-agregar-proyecto .button-footer {
         padding: 10px 20px;
         height: 50px;
         display: flex;
@@ -66,26 +71,23 @@
     border-color: #1C3259;
 }
 
-.w-label {
-    max-width: 40%;
-}
-
-.scrollbar-modal-client::-webkit-scrollbar {
+.scrollbar-modal-projects::-webkit-scrollbar {
     width: 12px;
 }
 
 /* Color del área de seguimiento */
-.scrollbar-modal-client::-webkit-scrollbar-track {
+.scrollbar-modal-projects::-webkit-scrollbar-track {
     background-color: #198754;
     border: 5px solid white;
 }
 
 /* Color y forma del botón de desplazamiento */
-.scrollbar-modal-client::-webkit-scrollbar-thumb {
+.scrollbar-modal-projects::-webkit-scrollbar-thumb {
     background-color: #198754;
     border-radius: 20px;
     border: 3px solid white;
 }
+
 
 .text-41-book {
     font-size: 15pt;
@@ -105,17 +107,23 @@
     font-size: 13pt;
 }
 
+
 .border-input-gray {
     border-color: #D5D5D5;
 }
 
-.max-height-client {
-    max-height: 300px;
+.max-height-project {
+    max-height: 700px;
 }
 
 @media screen and (max-width: 768px) {
+    .footer-agregar-proyecto {
+        height: 70px;
+        width: 100%;
+    }
+
     .text-41-book {
-        font-size: 10pt;
+        font-size: 20pt;
     }
 
     .text-16-book {
@@ -127,15 +135,15 @@
     }
 
     .text-13-medium {
-        font-size: 10pt;
-    }
-
-    .border-input-gray {
-        border-color: #D5D5D5;
+        font-size: 6pt;
     }
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
+    .footer-agregar-proyecto {
+        height: 70px;
+        max-width: 100%;
+    }
 
     .text-41-book {
         font-size: 15pt;
@@ -157,15 +165,12 @@
         border-color: #D5D5D5;
     }
 
-    .max-height-client {
+    .max-height-project {
         max-height: 300px;
     }
-    .footer-agregar-cliente {
-        height: 70px;
-        max-width: 100%;
+
+    .footer-agregar-proyecto .button-footer {
+        padding: 10px 10px;
+        height: 40px;
     }
-        .footer-agregar-cliente .button-footer {
-            padding: 10px 10px;
-            height: 40px;
-        }
 }

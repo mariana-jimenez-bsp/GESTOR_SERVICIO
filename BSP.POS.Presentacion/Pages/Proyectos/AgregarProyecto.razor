@@ -1,0 +1,105 @@
+﻿@inject IProyectosInterface ProyectosService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IItemsClienteInterface ItemsClienteService
+@inject IClientesInterface ClientesService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager navigationManager
+@if (cargaInicial)
+{
+
+    <div class="el-layout">
+        <Layout></Layout>
+    </div>
+
+    <EditForm Model="@proyecto" OnValidSubmit="AgregarProyectoNuevo" OnInvalidSubmit="ActivarScrollBarDeErrores">
+        <ObjectGraphDataAnnotationsValidator />
+        @if (!string.IsNullOrEmpty(mensajeError))
+        {
+            <ModalError mensaje="@mensajeError"></ModalError>
+        }
+        @if (proyectoAgregado)
+        {
+            <ModalExito mensaje="El proyecto se ha agregado"></ModalExito>
+        }
+        @if (descartarCambios)
+        {
+            <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
+        <div class="div-vacio"></div>
+        <div class=" d-flex row g-2 text-center width-content">
+            <div class="mt-4 mx-2 container border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                <div class="row  border border-success rounded-5">
+                    <div class="d-flex justify-content-center my-2">
+                        <label class="col-md-4  blue-dark-text label-text" for="c-cod-cliente">Nombre de la empresa:</label>
+                        <select class="col-md-4 border border-success rounded-pill px-2 text-input" @bind="proyecto.codigo_cliente" id="c-cod-cliente" @oninput="CambioCodigoCliente">
+                            <option value="">Seleccione el Cliente</option>
+                            @if (listaDeClientes.Any())
+                            {
+                                foreach (var cliente in listaDeClientes)
+                                {
+                                    <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <ValidationMessage For="@(() => proyecto.codigo_cliente)" />
+                    <div class="d-flex justify-content-center my-2">
+                        <label class="col-md-4  blue-dark-text label-text" for="c-consultor">Nombre Consultor:</label>
+                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consultor" @bind-value="proyecto.nombre_consultor" readonly />
+                    </div>
+                    <div class="d-flex justify-content-center mb-2">
+                        <label class="col-md-4  blue-dark-text label-text" for="c-fechaInicial">Fecha Inicial:</label>
+                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="date" id="c-fechaInicial" @bind-value="proyecto.FechaInicialDateTime" @oninput="CambioFechaInicial" />
+                    </div>
+                    <ValidationMessage For="@(() => proyecto.FechaInicialDateTime)" />
+                    <div class="d-flex justify-content-center mb-2">
+                        <label class="col-md-4  blue-dark-text label-text" for="c-fechaFinal">Fecha Final:</label>
+                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="date" id="c-fechaFinal" @bind-value="proyecto.FechaFinalDateTime" @oninput="CambioFechaFinal" />
+                    </div>
+                    <ValidationMessage For="@(() => proyecto.FechaFinalDateTime)" />
+                    <div class="d-flex justify-content-center mb-2 mt-2">
+                        <label class="col-md-4  blue-dark-text label-text" for="c-horasTotales">Horas Totales:</label>
+                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-horasTotales" @bind-value="proyecto.horas_totales" @oninput="CambioHorasTotales" />
+                    </div>
+                    <ValidationMessage For="@(() => proyecto.horas_totales)" />
+                    <div class="d-flex justify-content-center mb-2 mt-2">
+                        <label class="col-md-4  blue-dark-text label-text" for="c-centroCosto">Centro de Costo:</label>
+                        <select class="col-md-4 border border-success rounded-pill px-2 text-input" @bind="proyecto.centro_costo" id="c-centroCosto" @oninput="CambioCentroCosto">
+                            <option value="">Seleccione el Centro de Costo</option>
+                            @if (listaCentrosDeCosto.Any())
+                            {
+                                foreach (var centro in listaCentrosDeCosto)
+                                {
+                                    <option value="@centro.valor">@centro.descripcion</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <ValidationMessage For="@(() => proyecto.centro_costo)" />
+                    <div class="d-flex justify-content-center mb-2 mt-2">
+                        <label class="col-md-4  blue-dark-text label-text" for="c-nombreProyecto">Nombre de Proyecto:</label>
+                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-nombreProyecto" @bind-value="proyecto.nombre_proyecto" @oninput="CambioNombreProyecto" />
+                    </div>
+                    <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
+                </div>
+            </div>
+
+        </div>
+        <div class="footer-agregar-proyecto text-13-medium">
+            <button type="button" @onclick="IrAProyectos" class="rounded-pill border border-primary blue-light-bg text-light button-footer mx-5" id="ir-a-proyectos">
+                Proyectos
+            </button>
+            <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-agregar-proyecto">
+                Descartar
+                cambios
+            </button>
+            <button type="submit" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyecto">
+                Agregar
+            </button>
+
+        </div>
+    </EditForm>
+
+    <ScriptMaxHeight Contenido=".max-height-project" Elemento1=".el-layout" Elemento2=".footer-agregar-proyecto" Elemento3=".div-vacio"></ScriptMaxHeight>
+}
