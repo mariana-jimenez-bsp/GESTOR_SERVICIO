@@ -1,0 +1,13 @@
+﻿@page "/configuraciones/usuario/agregar/{cliente}"
+@page "/configuraciones/usuario/agregar"
+
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+        <AgregarUsuario codigoCliente="@cliente"></AgregarUsuario>
+    </Authorized>
+</AuthorizeView>
+@code{
+    [Parameter]
+    public string cliente { get; set; } = string.Empty;
+}

@@ -24,7 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                     {
                         licenciaProximaAVencer = true;
                     }
-                    if (licencia.MacAddressActual != licencia.MacAddress)
+                    if (!licencia.MacAddressIguales)
                     {
                         mismaMacAdress = false;
                     }

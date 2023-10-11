@@ -36,7 +36,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         {
                             licenciaProximaAVencer = true;
                         }
-                        if (licencia.MacAddressActual != licencia.MacAddress)
+                        if (!licencia.MacAddressIguales)
                         {
                             mismaMacAdress = false;
                         }

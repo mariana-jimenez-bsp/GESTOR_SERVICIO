@@ -94,10 +94,6 @@ namespace BSP.POS.API.Controllers
                 string esquema = datos.esquema.Trim('"');
                 var tokenValidacion = login.ValidarToken(token, esquema);
 
-                if (string.IsNullOrEmpty(tokenValidacion))
-                {
-                    return NotFound();
-                }
                 return Ok(tokenValidacion);
             }
 

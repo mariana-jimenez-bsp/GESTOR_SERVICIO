@@ -87,14 +87,19 @@
     font-size: 20pt;
 }
 
-.btn-success {
+.btn-block {
+    color: white;
     border-radius: 30px;
     max-width: 470px;
     font-size: 20pt;
     height: 65px;
+}
+.bg-blue-light {
+    background-color: #2255A1;
+}
+.bg-green {
     background-color: #2FAD70;
 }
-
 .mouse-pointer {
     transition: background-color 0.3s;
     cursor: pointer;
@@ -143,7 +148,7 @@
         max-width: 100px;
         font-size: 10pt;
     }
-    .btn-success {
+    .btn-block {
         max-width: 100px;
         font-size: 10pt;
     }
@@ -183,7 +188,7 @@
         font-size: 15pt;
     }
 
-    .btn-success {
+    .btn-block {
 
         font-size: 15pt;
     }

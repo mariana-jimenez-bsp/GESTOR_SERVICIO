@@ -1,4 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -11,6 +12,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string esquema = string.Empty;
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
         public List<mClientes> listaClientes = new List<mClientes>();
+        public mLicencia licencia = new mLicencia();
         public bool cargaInicial = false;
         public string rol = string.Empty;
         public string codigoUsuario = string.Empty;
@@ -18,6 +20,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private bool estadoUsuarioActualizado = false;
         private bool estadoUsuarioNuevoCancelado = false;
         private bool estadoUsuarioActualizadoCancelado = false;
+        private bool limiteDeUsuarios = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -26,7 +29,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await RefrescarListaDeUsuarios();
-            cargaInicial = true;
+            await LicenciasService.ObtenerDatosDeLicencia();
+            if (LicenciasService.licencia != null)
+            {
+                licencia = LicenciasService.licencia;
+
+            }
+                cargaInicial = true;
 
 
         }
@@ -110,6 +119,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public void CambiarEstadoUsuarioActualizadoCancelado(bool estado)
         {
             estadoUsuarioActualizadoCancelado = estado;
+        }
+        private async Task IrAAgregarUsuario()
+        {
+            limiteDeUsuarios = false;
+            StateHasChanged();
+            await Task.Delay(100);
+            if(licencia.CantidadUsuarios <= usuarios.Count)
+            {
+                limiteDeUsuarios = true;
+            }
+            else
+            {
+                navigationManager.NavigateTo($"configuraciones/usuario/agregar");
+            }
+            
         }
     }
 }

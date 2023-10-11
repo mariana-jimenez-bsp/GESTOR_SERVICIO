@@ -33,8 +33,12 @@ namespace BSP.POS.NEGOCIOS.Licencias
                 datosLicencia.FechaFin = DateTime.ParseExact(FechaFinTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
                 datosLicencia.FechaAviso = DateTime.ParseExact(FechaAvisoTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
                 datosLicencia.CantidadUsuarios = int.Parse(cantidadUsuariosTemp);
-                datosLicencia.MacAddress = _Cryptografia.DecryptString(licencia.MacAddress, "BSP");
-                datosLicencia.MacAddressActual = GetMacAddress();
+                string MacAddress = _Cryptografia.DecryptString(licencia.MacAddress, "BSP");
+                string MacAddressActual = GetMacAddress();
+                if(MacAddress == MacAddressActual)
+                {
+                    datosLicencia.MacAddressIguales = true;
+                }
                 string licenciaJson = JsonConvert.SerializeObject(datosLicencia);
                 return licenciaJson;
             }

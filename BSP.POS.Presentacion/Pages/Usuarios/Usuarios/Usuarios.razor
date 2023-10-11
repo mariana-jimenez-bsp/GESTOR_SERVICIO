@@ -3,6 +3,7 @@
 @inject IClientesInterface ClientesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
+@inject ILicenciasInterface LicenciasService
 @if (cargaInicial)
 {
     @if (rol == "Admin")
@@ -77,7 +78,7 @@
                 </div>
             </div>
             <div class="footer-project text-13-medium">
-                <div @onclick="() => ClickHandlerAgregarUsuario(true)" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-usuarios">
+                <div @onclick="() => IrAAgregarUsuario()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-usuarios">
                     Agregar
                     Usuario
                 </div>
@@ -99,6 +100,10 @@
         @if (estadoUsuarioActualizadoCancelado)
         {
             <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
+        }
+        @if (limiteDeUsuarios)
+        {
+            <ModalAdvertencia mensaje="Límite de Cantidad de Usuarios Alcanzado"></ModalAdvertencia>
         }
 
             <ModalAgregarUsuario ActivarModal="@actividarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" usuarioAgregado="CambiarEstadoUsuarioNuevo" usuarioCancelado="CambiarEstadoUsuarioNuevoCancelado"></ModalAgregarUsuario>

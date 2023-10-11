@@ -1,0 +1,209 @@
+﻿
+.max-height-users input,
+.max-height-users select {
+    width: 200px;
+}
+.width-col-special {
+    width: 200px;
+}
+.width-pass {
+    width: 200px;
+}
+
+
+.footer-agregar-usuario {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: end;
+    height: 120px;
+    width: 100%;
+    background-color: #2FAD70;
+    align-items: center;
+}
+
+    .footer-agregar-usuario .button-footer {
+        padding: 10px 20px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+.width-content {
+    max-width: 99%;
+}
+.blue-light-bg {
+    background-color: #2255A1;
+}
+
+.blue-dark-bg {
+    background-color: #1C3259;
+}
+
+.blue-light-text {
+    color: #2255A1;
+}
+
+.blue-dark-text {
+    color: #1C3259;
+}
+
+.green-bg {
+    background-color: #2FAD70;
+}
+
+.green-add-bg {
+    background-color: #0A8637;
+}
+
+.green-text {
+    color: #2FAD70;
+}
+
+.border-success {
+    border-color: #2FAD70;
+}
+
+.border-primary {
+    border-color: #1C3259;
+}
+
+.scrollbar-modal-projects::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Color del área de seguimiento */
+.scrollbar-modal-projects::-webkit-scrollbar-track {
+    background-color: #198754;
+    border: 5px solid white;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-modal-projects::-webkit-scrollbar-thumb {
+    background-color: #198754;
+    border-radius: 20px;
+    border: 3px solid white;
+}
+
+.custom-checkbox {
+    opacity: 0;
+    cursor: pointer;
+}
+    /* Estilos para crear el diseño del checkbox personalizado */
+    .custom-checkbox + label {
+        position: relative;
+        padding-left: 25px; /* Espacio para el check personalizado */
+        cursor: pointer;
+    }
+
+        .custom-checkbox + label:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            border: 2px solid #2FAD70; /* Color del borde del checkbox */
+            background-color: white; /* Color de fondo del checkbox */
+        }
+
+    /* Estilos para el check personalizado cuando está seleccionado */
+    .custom-checkbox:checked + label:before {
+        content: "\2713";
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        font-size: medium;
+        color: white; /* Cambiar el color del fondo cuando está seleccionado */
+        border: 2px solid #2FAD70; /* Cambiar el color del borde cuando está seleccionado */
+        background-color: #2FAD70; /* Color de fondo del checkbox */
+    }
+
+.mx-permissions {
+    max-width: 50px;
+}
+
+.image-user {
+    width: 70px;
+}
+
+.text-41-book {
+    font-size: 15pt;
+}
+
+.text-16-book {
+    font-size: 16pt;
+}
+
+.text-16-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 16pt;
+}
+
+.text-13-medium {
+    font-family: 'Circular Std Medium', sans-serif;
+    font-size: 13pt;
+}
+
+
+.border-input-gray {
+    border-color: #D5D5D5;
+}
+
+.max-height-users {
+    max-height: 700px;
+}
+
+@media screen and (max-width: 768px) {
+    .footer-agregar-usuario {
+        height: 70px;
+        width: 100%;
+    }
+
+    .text-41-book {
+        font-size: 20pt;
+    }
+
+    .text-16-book {
+        font-size: 8pt;
+    }
+
+    .text-16-medium {
+        font-size: 8pt;
+    }
+
+    .text-13-medium {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-height: 768px) and (min-width: 768px) {
+    .footer-agregar-usuario {
+        height: 70px;
+        max-width: 100%;
+    }
+    .text-41-book {
+        font-size: 15pt;
+    }
+
+    .text-16-book {
+        font-size: 10pt;
+    }
+
+    .text-16-medium {
+        font-size: 10pt;
+    }
+
+    .text-13-medium {
+        font-size: 10pt;
+    }
+
+    .border-input-gray {
+        border-color: #D5D5D5;
+    }
+
+    .max-height-users {
+        max-height: 300px;
+    }
+}

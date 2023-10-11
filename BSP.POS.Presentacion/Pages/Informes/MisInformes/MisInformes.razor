@@ -13,8 +13,10 @@
 <AuthorizeView>
     <Authorized>
 
+<div class="el-layout">
+    <Layout></Layout>
+</div>
 
-<Layout></Layout>
 <div class="div-contenedor">
 
 
@@ -33,7 +35,7 @@
                     </div>
 
                     <div class="w-100">
-                        <div class="d-flex justify-content-start align-items-center">
+                        <div class="d-flex justify-content-start align-items-center header-informes">
                             <div class="d-flex justify-content-start align-items-center div-search m-2">
                             <button class="search-icon text-light d-flex align-items-center justify-content-center">
                                 <img src="images/Home/Buscador.png" width="25"/>
@@ -133,8 +135,10 @@
             </div>
            
         </div>
+        <div class="footer-vacio"></div>
     </div>
 </div>
+        <ScriptMaxHeight Contenido=".scrollbar-max-height" Elemento1=".el-layout" Elemento2=".footer-vacio" Elemento3=".header-informes"></ScriptMaxHeight>
         @if (EsConsecutivoNull)
         {
             <ModalAdvertencia mensaje="Debe seleccionar un Informe"></ModalAdvertencia>

@@ -6,7 +6,6 @@
         public DateTime FechaFin { get; set; } = DateTime.Now;
         public DateTime FechaAviso { get; set; } = DateTime.Now;
         public int CantidadUsuarios { get; set; } = 0;
-        public string MacAddress { get; set; } = string.Empty;
-        public string MacAddressActual { get; set; } = string.Empty;
+        public bool MacAddressIguales { get; set; } = false;
     }
 }

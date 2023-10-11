@@ -84,8 +84,8 @@
                                 <span>@mensajeIntentos</span>
                             </div>
                         }
-                        <button type="submit" class="btn btn-success btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
-                        <button @onclick="ActivarInputFileLLave" type="button" class="btn btn-success btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar LLave</button>
+                        <button type="submit" class="btn bg-green btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
+                        <button @onclick="ActivarInputFileLLave" type="button" class="btn bg-blue-light btn-block">Ingresar Llave</button>
                         <p class="mt-4 text-light forgot-pass">¿Olvidó su contraseña?</p>
                         <a class="mouse-pointer reset-pass" @onclick="CorreoRecuperacion">Resetear contraseña</a>
                     </EditForm>
