@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
+using BSP.POS.Presentacion.Pages.Clientes;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Home
@@ -14,6 +15,8 @@ namespace BSP.POS.Presentacion.Pages.Home
         public string textoRecibido { get; set; } = string.Empty;
         [Parameter]
         public string filtroRecibido { get; set; } = string.Empty;
+        [Parameter]
+        public string esquema { get; set; } = string.Empty;
         private bool EsClienteNull = false;
 
 
@@ -39,24 +42,36 @@ namespace BSP.POS.Presentacion.Pages.Home
             }
         }
 
-        private async Task IrACrear()
-        {
-            EsClienteNull = false;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            if (!string.IsNullOrEmpty(clienteAsociado.CLIENTE))
-            {
-                navigationManager.NavigateTo($"Informe/Crear/{clienteAsociado.CLIENTE}");
-            }
-            else
-            {
-                EsClienteNull = true;
-            }
-        }
+        
         public void RefrescarDatos()
         {
             Consecutivo = string.Empty;
             Estado = string.Empty;
             StateHasChanged();
+        }
+
+        private async Task CrearInforme()
+        {
+            EsClienteNull = false;
+            StateHasChanged();
+            await Task.Delay(100);
+            if (!string.IsNullOrEmpty(clienteAsociado.CLIENTE))
+            {
+                if (!string.IsNullOrEmpty(esquema))
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    Consecutivo = await InformesService.AgregarInformeAsociado(clienteAsociado.CLIENTE, esquema);
+                    if (!string.IsNullOrEmpty(Consecutivo))
+                    {
+                        navigationManager.NavigateTo($"Informe/Editar/{Consecutivo}");
+                    }
+                }
+                
+            }
+            else
+            {
+                EsClienteNull = true;
+            }
         }
     }
 }

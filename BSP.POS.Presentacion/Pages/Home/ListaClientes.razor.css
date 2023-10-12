@@ -124,55 +124,10 @@ a {
     font-size: 10pt;
 }
 
-.item-report {
-    border: 1px white;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    background-color: white;
-}
-
 .update-report-text {
     font-size: 12px;
 }
 
-.borrador {
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    margin-bottom: 5%;
-    font-size: 11pt;
-    width: 194px;
-    max-width: 194px;
-    max-height: 121px;
-}
-
-.background-reports {
-    width: 100%;
-    background-color: #D5D5D5;
-}
-
-.click-report-up {
-    transition: background-color 0.3s;
-    cursor: pointer;
-    width: 194px;
-    max-width: 194px;
-    max-height: 121px;
-}
-
-    .click-report-up:hover {
-        border: 4px white;
-        border-bottom: 0;
-        border-top-left-radius: 30px;
-        border-top-right-radius: 30px;
-        border-style: ridge;
-    }
-
-        .click-report-up:hover ~ .click-report-down {
-            border: 4px white;
-            border-top: 0;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            border-style: ridge;
-        }
 
 .fa-circle-plus {
     font-size: 50px;

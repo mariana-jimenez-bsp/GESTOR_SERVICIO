@@ -31,6 +31,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private bool usuarioActualizado = false;
         private bool descartarCambios = false;
         private bool cargarInicial = false;
+        private string mensajeValidacion = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
@@ -38,27 +39,81 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
-            if (UsuariosService.UsuarioParaEditar != null)
+            if(await VerificarValidaCodigoCliente() && await VerificarValidaCodigoUsuario())
             {
-                usuario = UsuariosService.UsuarioParaEditar;
-                await RefrescarPermisos();
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
+                if (UsuariosService.UsuarioParaEditar != null)
+                {
+                    usuario = UsuariosService.UsuarioParaEditar;
+                    await RefrescarPermisos();
+                }
+                if (usuarioActual == usuario.usuario)
+                {
+                    usuario.claveOriginal = usuario.clave;
+                }
+                usuario.usuarioOrignal = usuario.usuario;
+                usuario.correoOriginal = usuario.correo;
+                usuario.clave = null;
             }
+            else
+            {
+                mensajeValidacion = "Codigo de cliente o de usuario inválidos";
+            }
+            
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
             if (ClientesService.ListaClientes != null)
             {
                 listaClientes = ClientesService.ListaClientes;
             }
-            if (usuarioActual == usuario.usuario)
-            {
-                usuario.claveOriginal = usuario.clave;
-            }
-            usuario.usuarioOrignal = usuario.usuario;
-            usuario.correoOriginal = usuario.correo;
-            usuario.clave = null;
+           
+            
             cargarInicial = true;
+        }
+        public async Task<bool> VerificarValidaCodigoCliente()
+        {
+            if (string.IsNullOrEmpty(codigoCliente))
+            {
+                return true;
+            }
+            if (codigoCliente.Length > 20)
+            {
+                return false;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            string clienteValidar = await ClientesService.ValidarExistenciaDeCliente(esquema, codigoCliente);
+
+            if (!string.IsNullOrEmpty(clienteValidar))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<bool> VerificarValidaCodigoUsuario()
+        {
+            if (string.IsNullOrEmpty(codigo))
+            {
+                return true;
+            }
+            if (codigo.Length > 6)
+            {
+                return false;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            string codigoValidar = await UsuariosService.ValidarExistenciaDeCodigoUsuario(esquema, codigo);
+
+            if (!string.IsNullOrEmpty(codigoValidar))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private async Task RefrescarPermisos()

@@ -153,7 +153,30 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
-        
+
+        public string ValidarExistenciaDeCodigoUsuario(String pEsquema, String pCodigo)
+        {
+
+            ValidarExistenciaDeCodigoUsuarioTableAdapter sp = new ValidarExistenciaDeCodigoUsuarioTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            string codigo = null;
+            foreach (var item in response)
+            {
+                codigo = item.codigo;
+            }
+
+
+            if (codigo != null)
+            {
+                return codigo;
+            }
+
+            return null;
+
+
+        }
+
         public string ValidarCorreoExistente(String pEsquema, String pCorreo)
         {
 

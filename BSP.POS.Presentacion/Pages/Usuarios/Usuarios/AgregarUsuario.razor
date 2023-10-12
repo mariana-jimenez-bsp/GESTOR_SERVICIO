@@ -9,11 +9,11 @@
 {
     @if (rol == "Admin")
     {
-        if (string.IsNullOrEmpty(mensajeCliente))
+        if (!limiteDeUsuarios)
         {
             
-        
-        if (!limiteDeUsuarios)
+            
+        if (string.IsNullOrEmpty(mensajeCliente))
         {
             <div class="el-layout">
                 <Layout></Layout>
@@ -191,10 +191,11 @@
         }
         else
         {
-            <ModalAdvertencia mensaje="Límite de cantidad de usuarios alcanzado"></ModalAdvertencia>
+                <ModalError mensaje="@mensajeCliente"></ModalError>
         }
         }else{
-            <ModalError mensaje="@mensajeCliente"></ModalError>
+            <ModalAdvertencia mensaje="Límite de cantidad de usuarios alcanzado"></ModalAdvertencia>
+            
         }
         <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-agregar-usuario" Elemento3=".div-vacio"></ScriptMaxHeight>
     }else{

@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net;
@@ -283,10 +284,28 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             var response = await _http.GetAsync(url);
             if(response.StatusCode == HttpStatusCode.OK )
             {
-                string correoDevuelto = await response.Content.ReadAsStringAsync();
-                if (!string.IsNullOrEmpty(correoDevuelto))
+                string usuarioDevuelto = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(usuarioDevuelto))
                 {
-                    return correoDevuelto;
+                    return usuarioDevuelto;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+        public async Task<string> ValidarExistenciaDeCodigoUsuario(string esquema, string codigo)
+        {
+            string url = "Usuarios/ValidaExistenciaDeCodigoUsuario/" + esquema + "/" + codigo;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string codigoDevuelto = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(codigoDevuelto))
+                {
+                    return codigoDevuelto;
                 }
                 else
                 {

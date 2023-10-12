@@ -91,6 +91,12 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             string usuario = objetoUsuario.ValidarUsuarioExistente(pEsquema, pUsuario);
             return usuario;
         }
+
+        public string ValidarExistenciaDeCodigoUsuario(string pEsquema, string pCodigo)
+        {
+            string codigo = objetoUsuario.ValidarExistenciaDeCodigoUsuario(pEsquema, pCodigo);
+            return codigo;
+        }
         public string ListarUsuariosDeClienteDeInforme(String pEsquema, String pConsecutivo)
         {
             try

@@ -17,6 +17,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         
         Task<string> ValidarCorreoExistente(string esquema, string correo);
         Task<string> ValidarUsuarioExistente(string esquema, string usuario);
+        Task<string> ValidarExistenciaDeCodigoUsuario(string esquema, string codigo);
         List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; }
         Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
         Task AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema);

@@ -68,10 +68,6 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquemaDevuelto = user.ValidarExistenciaEsquema(esquema);
-                if (string.IsNullOrEmpty(esquemaDevuelto))
-                {
-                    return NotFound();
-                }
                 return Ok(esquemaDevuelto);
             }
             catch (Exception ex)
@@ -104,6 +100,23 @@ namespace BSP.POS.API.Controllers
             {
                 string usuarioDevuelto = user.ValidarUsuarioExistente(esquema, usuario);
                 return Ok(usuarioDevuelto);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [Authorize]
+        [HttpGet("ValidaExistenciaDeCodigoUsuario/{esquema}/{codigo}")]
+        public IActionResult ValidaExistenciaDeCodigoUsuario(string esquema, string codigo)
+        {
+            try
+            {
+                string codigoDevuelto = user.ValidarExistenciaDeCodigoUsuario(esquema, codigo);
+                return Ok(codigoDevuelto);
             }
             catch (Exception ex)
             {

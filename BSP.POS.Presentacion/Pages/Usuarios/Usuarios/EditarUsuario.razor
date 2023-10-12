@@ -9,6 +9,7 @@
 {
     @if (rol == "Admin")
     {
+        @if(string.IsNullOrEmpty(mensajeValidacion)){
         <div class="el-layout">
             <Layout></Layout>
         </div>
@@ -182,9 +183,13 @@
                 </button>
 
             </div>
-        </EditForm>
-   
-    <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-agregar-usuario" Elemento3=".div-vacio"></ScriptMaxHeight>
+            </EditForm>
+        }
+        else
+        {
+            <ModalError mensaje="@mensajeValidacion"></ModalError>
+        }
+        <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-agregar-usuario" Elemento3=".div-vacio"></ScriptMaxHeight>
 }else{
    <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
 }
