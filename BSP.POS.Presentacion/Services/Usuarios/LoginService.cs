@@ -172,20 +172,28 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         }
 
-        public async Task<bool> EnviarLlaveLicencia(mLicenciaByte licenciaLlave)
+        public async Task<mLicencia> EnviarXMLLicencia(mLicenciaByte licenciaLlave)
         {
-            string url = "Login/EnviaLlaveLicencia";
+            string url = "https://localhost:7121/api/Licencias";
             string jsonData = JsonSerializer.Serialize(licenciaLlave);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
             var response = await _http.PostAsync(url, content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return true;
+                    
+                    var datosLicencia = await response.Content.ReadFromJsonAsync<mLicencia>();
+                    if (datosLicencia != null)
+                    {
+                        return datosLicencia;
+                    }
+                    return null;
+                
+               
+                return null;
             }
             else
             {
-                return false;
+                return null;
             }
         }
     }

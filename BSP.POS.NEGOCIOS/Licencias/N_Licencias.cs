@@ -49,6 +49,19 @@ namespace BSP.POS.NEGOCIOS.Licencias
             }
         }
 
+        public string ActualizarDatosLicencia(U_ActualizarDatosLicencia datosLicencia)
+        {
+            bool resultado = licencias.ActualizarDatosLicencia(datosLicencia);
+            string resultadoString = resultado.ToString();
+            return resultadoString;
+        }
+        public string ObtenerCodigoDeLicencia() {
+            U_CodigoDeLicencia codigoLicencia = new U_CodigoDeLicencia();
+            codigoLicencia = licencias.ObtenerCodigoDeLicencia();
+            string codigoLicenciaJson = JsonConvert.SerializeObject(codigoLicencia);
+            return codigoLicenciaJson;
+        }
+
         public int EnviarXMLLicencia(string textoXML)
         {
             int resultado = licencias.EnviarXMLLicencia(textoXML);

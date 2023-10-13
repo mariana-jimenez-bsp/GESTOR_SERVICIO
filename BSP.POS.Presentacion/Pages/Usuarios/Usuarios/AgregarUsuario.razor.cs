@@ -21,7 +21,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
         public List<mClientes> listaClientes = new List<mClientes>();
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         bool repetido = false;
         public string correoRepite = string.Empty;
         public string mensajeCorreoRepite = string.Empty;

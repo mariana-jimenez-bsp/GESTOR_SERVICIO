@@ -12,7 +12,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string esquema = string.Empty;
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
         public List<mClientes> listaClientes = new List<mClientes>();
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         public bool cargaInicial = false;
         public string rol = string.Empty;
         private bool limiteDeUsuarios = false;

@@ -6,7 +6,7 @@ namespace BSP.POS.Presentacion.Pages.Configuraciones
 {
     public partial class InicioConfiguraciones : ComponentBase
     {
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         public string esquema = string.Empty;
         public string rol = string.Empty;
         public bool cargaInicial = false;

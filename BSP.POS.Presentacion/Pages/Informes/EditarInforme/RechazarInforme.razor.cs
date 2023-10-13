@@ -14,7 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public bool rechazado = false;
         public bool terminaCarga = false;
         public mTokenAprobacionInforme tokenAprobacion = new mTokenAprobacionInforme();
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         private bool licenciaActiva = false;
         private bool licenciaProximaAVencer = false;
         private bool mismaMacAdress = true;

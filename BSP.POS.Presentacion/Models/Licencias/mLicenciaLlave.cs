@@ -6,7 +6,7 @@ namespace BSP.POS.Presentacion.Models.Licencias
     public class mLicenciaLlave : IValidatableObject
     {
         public IFormFile? archivo_llave { get; set; }
-        public byte[] archivo_byte { get; set; } = new byte[] { 0x00 };
+        public string texto_archivo { get; set; } = string.Empty;
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (archivo_llave != null && Path.GetExtension(archivo_llave.FileName) != ".txt")

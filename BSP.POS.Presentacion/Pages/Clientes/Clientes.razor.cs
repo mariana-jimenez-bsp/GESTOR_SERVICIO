@@ -15,7 +15,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
     public partial class Clientes: ComponentBase
     {
         public List<mClientes> clientes = new List<mClientes>();
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
         public string esquema = string.Empty;
         public bool cargaInicial = false;

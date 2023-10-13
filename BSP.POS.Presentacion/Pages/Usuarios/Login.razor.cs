@@ -23,7 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public mLicenciaByte licenciaByte = new mLicenciaByte();
         private ElementReference LlaveInputFile;
         private ElementReference LlaveButton;
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         private bool cargaInicial = false;
         private bool licenciaActiva = false;
         private bool licenciaProximaAVencer = false;
@@ -87,18 +87,18 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             
             if (archivoSeleccionado != null)
             {
+                using (var stream = archivoSeleccionado.OpenReadStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    var contenido = await reader.ReadToEndAsync();
+                    licenciaLlave.texto_archivo = contenido;
+                }
                 licenciaLlave.archivo_llave = new FormFile(archivoSeleccionado.OpenReadStream(archivoSeleccionado.Size), 0, archivoSeleccionado.Size, "name", archivoSeleccionado.Name)
                 {
                     Headers = new HeaderDictionary(),
                     ContentType = archivoSeleccionado.ContentType
                 };
-                using (var memoryStream = new MemoryStream())
-                {
-                    await archivoSeleccionado.OpenReadStream().CopyToAsync(memoryStream);
-                    byte[] bytes = memoryStream.ToArray();
-                    licenciaByte.archivo_byte = bytes;
-
-                }
+                
                 await SubmitLlave();
             }
         }
@@ -107,23 +107,43 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         {
             archivoLicenciaValido = false;
             archivoLicenciaInvalido = false;
-                if(licenciaLlave.archivo_byte != null)
+                if(!string.IsNullOrEmpty(licenciaLlave.texto_archivo))
                 {
-                    bool respuestaLicencia = await LoginService.EnviarLlaveLicencia(licenciaByte);
-                    if (respuestaLicencia)
+                    await LicenciasService.ObtenerCodigoDeLicencia();
+                    if(LicenciasService.codigoLicencia.codigo_licencia != null)
                     {
-                        archivoLicenciaValido = true;
-                        StateHasChanged();
-                        await Task.Delay(100);
-                        if (archivoLicenciaValido)
+                        licenciaByte.codigo_licencia = LicenciasService.codigoLicencia.codigo_licencia;
+                        var datosLicencia = await LoginService.EnviarXMLLicencia(licenciaByte);
+                        if (datosLicencia != null)
                         {
-                            await ValidarLicencia();
+                            mActualizarDatosLicencia actualizarLicencia = new mActualizarDatosLicencia();
+                            actualizarLicencia.FechaInicio = datosLicencia.FechaInicio;
+                            actualizarLicencia.FechaFin = datosLicencia.FechaFin;
+                            actualizarLicencia.FechaAviso = datosLicencia.FechaAviso;
+                            actualizarLicencia.CantidadCajas = datosLicencia.CantidadCajas;
+                            actualizarLicencia.CantidadUsuarios = datosLicencia.CantidadUsuarios;
+                            actualizarLicencia.MacAddress = datosLicencia.MacAddress;
+                            actualizarLicencia.Codigo = licenciaByte.codigo_licencia;
+
+                            bool resultadoActualizar = await LicenciasService.ActualizarDatosLicencia(actualizarLicencia);
+                            if (resultadoActualizar)
+                            {
+                            archivoLicenciaValido = true;
+                            StateHasChanged();
+                            await Task.Delay(100);
+                            if (archivoLicenciaValido)
+                            {
+                                await ValidarLicencia();
+                            }
                         }
-                    }
-                    else
-                    {
-                        archivoLicenciaInvalido = true;
-                    }
+                            
+                        }
+                        else
+                        {
+                            archivoLicenciaInvalido = true;
+                        }
+                }
+                    
                 }
             
         }

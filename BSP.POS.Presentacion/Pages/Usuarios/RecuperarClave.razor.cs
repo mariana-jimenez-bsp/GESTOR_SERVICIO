@@ -14,7 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public string esquema { get; set; } = string.Empty;
         public mTokenRecuperacion tokenRecuperacion = new mTokenRecuperacion();
         public mUsuarioNuevaClave usuario = new mUsuarioNuevaClave();
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         private bool licenciaActiva = false;
         private bool licenciaProximaAVencer = false;
         private bool mismaMacAdress = true;

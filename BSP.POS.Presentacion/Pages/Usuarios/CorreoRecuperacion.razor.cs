@@ -6,7 +6,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 {
     public partial class CorreoRecuperacion: ComponentBase
     {
-        public mLicencia licencia = new mLicencia();
+        public mDatosLicencia licencia = new mDatosLicencia();
         private bool cargaInicial = false;
         private bool licenciaActiva = false;
         private bool licenciaProximaAVencer = false;

@@ -1,8 +1,7 @@
 ﻿namespace BSP.POS.Presentacion.Models.Licencias
 {
-    public class mLicenciaByte
+    public class mCodigoLicencia
     {
-        public string texto_archivo { get; set; } = string.Empty;
         public byte[] codigo_licencia { get; set; } = new byte[] { 0x00 };
     }
 }
