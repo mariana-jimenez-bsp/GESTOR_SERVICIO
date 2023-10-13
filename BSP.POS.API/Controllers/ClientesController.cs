@@ -191,7 +191,34 @@ namespace BSP.POS.API.Controllers
             }
             
         }
+        [HttpGet("ObtengaPaisDeCliente/{esquema}/{cliente}")]
+        public IActionResult ObtengaPaisDeCliente(string esquema, string cliente)
+        {
+            try
+            {
+                string paisDevuelto = clientes.ObtenerPaisDeCliente(cliente, esquema);
+                return Ok(paisDevuelto);
+            }
+            catch (Exception ex)
+            {
 
+                return StatusCode(500, ex.Message);
+            }
+        }
 
+        [HttpGet("ObtengaContribuyenteDeCliente/{esquema}/{cliente}")]
+        public IActionResult ObtengaContribuyenteDeCliente(string esquema, string cliente)
+        {
+            try
+            {
+                string contribuyenteDevuelto = clientes.ObtenerContribuyenteDeCliente(cliente, esquema);
+                return Ok(contribuyenteDevuelto);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

@@ -49,6 +49,19 @@ namespace BSP.POS.DATOS.Licencias
             return licencia;
         }
 
+        public string ObtenerCodigoDeLicenciaDesencriptado()
+        {
+            ObtenerCodigoDeLicenciaDesencriptadoTableAdapter sp = new ObtenerCodigoDeLicenciaDesencriptadoTableAdapter();
+            var response = sp.GetData().ToList();
+            string codigoLicencia = "";
+            foreach (var item in response)
+            {
+                codigoLicencia = item.ValorDesencriptado;
+
+            }
+            return codigoLicencia;
+        }
+
         public int EnviarXMLLicencia(string textoXML)
         {
             IngresarXMLTableAdapter sp = new IngresarXMLTableAdapter();

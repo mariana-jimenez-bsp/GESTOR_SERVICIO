@@ -113,6 +113,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                     if(LicenciasService.codigoLicencia.codigo_licencia != null)
                     {
                         licenciaByte.codigo_licencia = LicenciasService.codigoLicencia.codigo_licencia;
+                        licenciaByte.producto = "Gestor Servicios";
+                        licenciaByte.texto_archivo = licenciaLlave.texto_archivo;
                         var datosLicencia = await LoginService.EnviarXMLLicencia(licenciaByte);
                         if (datosLicencia != null)
                         {

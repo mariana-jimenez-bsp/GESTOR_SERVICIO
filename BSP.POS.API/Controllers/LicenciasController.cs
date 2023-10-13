@@ -54,6 +54,25 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [HttpGet("ObtengaElCodigoDeLicenciaDesencriptado")]
+        public IActionResult ObtengaElCodigoDeLicenciaDesencriptado()
+        {
+            try
+            {
+                string licencia = licencias.ObtenerCodigoDeLicenciaDescencriptado();
+                if (string.IsNullOrEmpty(licencia))
+                {
+                    return NotFound();
+                }
+                return Ok(licencia);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+
+        }
 
         [HttpPost("ActualizaDatosDeLicencia")]
         public IActionResult ActualizaDatosDeLicencia([FromBody] U_ActualizarDatosLicencia datosLicencia)

@@ -149,5 +149,17 @@ namespace BSP.POS.NEGOCIOS.Clientes
             string cliente = objCliente.ValidarExistenciaDeCliente(pEsquema, pCliente);
             return cliente;
         }
+
+        public string ObtenerPaisDeCliente(string cliente, string esquema)
+        {
+            string pais = objCliente.ObtenerPaisDeCliente(cliente, esquema);
+            return pais;
+        }
+
+        public string ObtenerContribuyenteDeCliente(string cliente, string esquema)
+        {
+            string contribuyente = objCliente.ObtenerContribuyenteDeCliente(cliente, esquema);
+            return contribuyente;
+        }
     }
 }

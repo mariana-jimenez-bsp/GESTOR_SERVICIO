@@ -187,7 +187,31 @@ namespace BSP.POS.DATOS.Clientes
             return cliente;
         }
 
+        public string ObtenerPaisDeCliente(string cliente, string esquema)
+        {
+            ObtenerPaisDeClienteTableAdapter sp = new ObtenerPaisDeClienteTableAdapter();
+            string pais = "";
 
+            var response = sp.GetData(cliente, esquema);
+            foreach (var item in response)
+            {
+                pais = item.NombrePais;
+            }
+            return pais;
+        }
+
+        public string ObtenerContribuyenteDeCliente(string cliente, string esquema)
+        {
+            ObtenerContribuyenteClienteTableAdapter sp = new ObtenerContribuyenteClienteTableAdapter();
+            string contribuyente = "";
+
+            var response = sp.GetData(esquema, cliente);
+            foreach (var item in response)
+            {
+                contribuyente = item.CONTRIBUYENTE;
+            }
+            return contribuyente;
+        }
     }
 }
 

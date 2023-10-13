@@ -142,5 +142,43 @@ namespace BSP.POS.Presentacion.Services.Clientes
             }
             return null;
         }
+
+        public async Task<string> ObtenerPaisDeCliente(string esquema, string cliente)
+        {
+            string url = "Clientes/ObtengaPaisDeCliente/" + esquema + "/" + cliente;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string paisDevuelto = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(paisDevuelto))
+                {
+                    return paisDevuelto;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        public async Task<string> ObtenerContribuyenteDeCliente(string esquema, string cliente)
+        {
+            string url = "Clientes/ObtengaContribuyenteDeCliente/" + esquema + "/" + cliente;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string contribuyente = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(contribuyente))
+                {
+                    return contribuyente;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
     }
 }

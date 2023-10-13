@@ -8,6 +8,7 @@ namespace BSP.POS.Presentacion.Interfaces.Licencias
         mDatosLicencia licencia { get; set; }
 
         Task ObtenerCodigoDeLicencia();
+        Task<string> ObtenerCodigoDeLicenciaDesencriptado();
 
         mCodigoLicencia codigoLicencia { get; set; }
 

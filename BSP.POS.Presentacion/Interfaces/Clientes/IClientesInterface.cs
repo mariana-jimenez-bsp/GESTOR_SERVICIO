@@ -17,5 +17,8 @@ namespace BSP.POS.Presentacion.Interfaces.Clientes
 
         Task AgregarCliente(mAgregarCliente cliente, string esquema, string usuario);
         Task<string> ValidarExistenciaDeCliente(string esquema, string cliente);
+        Task<string> ObtenerPaisDeCliente(string esquema, string cliente);
+        Task<string> ObtenerContribuyenteDeCliente(string esquema, string cliente);
+        
     }
 }

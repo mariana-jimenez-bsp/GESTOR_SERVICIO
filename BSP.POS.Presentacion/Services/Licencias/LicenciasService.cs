@@ -46,6 +46,22 @@ namespace BSP.POS.Presentacion.Services.Licencias
                 }
             }
         }
+
+        public async Task<string> ObtenerCodigoDeLicenciaDesencriptado()
+        {
+            string url = "Licencias/ObtengaElCodigoDeLicenciaDesencriptado";
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var licenciaResponse = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(licenciaResponse))
+                {
+                    return licenciaResponse;
+                }
+                return null;
+            }
+            return null;
+        }
         public async Task<bool> ActualizarDatosLicencia(mActualizarDatosLicencia datosLicencia)
         {
 

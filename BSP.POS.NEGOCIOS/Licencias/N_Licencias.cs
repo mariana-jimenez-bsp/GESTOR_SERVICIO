@@ -2,6 +2,7 @@
 using BSP.POS.UTILITARIOS.Licencias;
 using clSeguridad;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -60,6 +61,13 @@ namespace BSP.POS.NEGOCIOS.Licencias
             codigoLicencia = licencias.ObtenerCodigoDeLicencia();
             string codigoLicenciaJson = JsonConvert.SerializeObject(codigoLicencia);
             return codigoLicenciaJson;
+        }
+
+        public string ObtenerCodigoDeLicenciaDescencriptado()
+        {
+            string codigoLicencia;
+            codigoLicencia = licencias.ObtenerCodigoDeLicenciaDesencriptado();
+            return codigoLicencia;
         }
 
         public int EnviarXMLLicencia(string textoXML)

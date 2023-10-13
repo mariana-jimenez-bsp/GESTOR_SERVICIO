@@ -188,8 +188,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                     }
                     return null;
                 
-               
-                return null;
+              
             }
             else
             {

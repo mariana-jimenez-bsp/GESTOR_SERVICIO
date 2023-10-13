@@ -2,6 +2,8 @@
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ILicenciasInterface LicenciasService
+@inject IClientesInterface ClientesService
+@inject IUsuariosInterface UsuariosService
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
@@ -14,6 +16,12 @@
                 {
                     <div class="d-flex m-3 p-3 row blue-light-text border border-success rounded-pill">
                         <h4>Información de Licencia</h4>
+                        @if (!string.IsNullOrEmpty(codigoLicencia))
+                        {
+                            <div class="col-md-4">
+                                <label for="licencia-codigo">Código: <span id="licencia-codigo" class="text-black">@codigoLicencia</span></label>
+                            </div>
+                        }
                         <div class="col-md-4">
                             <label for="licencia-fechaInicio">Fecha Inicio: <span id="licencia-fechaInicio" class="text-black">@licencia.FechaInicio</span></label>
                         </div>
@@ -26,6 +34,24 @@
                         <div class="col-md-4">
                             <label for="licencia-cantidadUsuarios">Cantidad Usuarios: <span id="licencia-cantidadUsuarios" class="text-black">@licencia.CantidadUsuarios</span></label>
                         </div>
+                        @if (!string.IsNullOrEmpty(clienteAsociado.NOMBRE))
+                        {
+                            <div class="col-md-4">
+                                <label for="licencia-nombreCliente">Nombre Cliente: <span id="licencia-nombreCliente" class="text-black">@clienteAsociado.NOMBRE</span></label>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(contribuyente))
+                        {
+                            <div class="col-md-4">
+                                <label for="licencia-contribuyente">Cédula Jurídica: <span id="licencia-contribuyente" class="text-black">@contribuyente</span></label>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(pais))
+                        {
+                            <div class="col-md-4">
+                                <label for="licencia-pais">País: <span id="licencia-pais" class="text-black">@pais</span></label>
+                            </div>
+                        }
                     </div>
                 }
                 <div class="d-flex mx-3 row blue-light-text mt-3">
