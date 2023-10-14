@@ -16,7 +16,7 @@ namespace BSP.POS.Presentacion.Services.Licencias
             _http = htpp;
         }
         public mDatosLicencia licencia { get; set; } = new mDatosLicencia();
-        public mCodigoLicencia codigoLicencia { get; set; } = new mCodigoLicencia();
+        public mCodigoLicenciaYProducto codigoLicenciaYProducto { get; set; } = new mCodigoLicenciaYProducto();
         public async Task ObtenerDatosDeLicencia()
         {
 
@@ -33,16 +33,16 @@ namespace BSP.POS.Presentacion.Services.Licencias
             
         }
 
-        public async Task ObtenerCodigoDeLicencia()
+        public async Task ObtenerCodigoDeLicenciaYProducto()
         {
-            string url = "Licencias/ObtengaElCodigoDeLicencia";
+            string url = "Licencias/ObtengaElCodigoDeLicenciaYProducto";
             var response = await _http.GetAsync(url);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var licenciaResponse = await response.Content.ReadFromJsonAsync<mCodigoLicencia>();
+                var licenciaResponse = await response.Content.ReadFromJsonAsync<mCodigoLicenciaYProducto>();
                 if (licenciaResponse is not null)
                 {
-                    codigoLicencia = licenciaResponse;
+                    codigoLicenciaYProducto = licenciaResponse;
                 }
             }
         }
@@ -62,19 +62,32 @@ namespace BSP.POS.Presentacion.Services.Licencias
             }
             return null;
         }
-        public async Task<bool> ActualizarDatosLicencia(mActualizarDatosLicencia datosLicencia)
+        public async Task<bool> ActualizarDatosLicencia(mLicencia datosLicencia, byte[] codigoLicencia)
         {
-
-                string url = "Licencias/ActualizaDatosDeLicencia";
-                string jsonData = JsonSerializer.Serialize(datosLicencia);
+            mActualizarDatosLicencia datosAActualizar = new mActualizarDatosLicencia();
+            datosAActualizar.FechaInicio = datosLicencia.FechaInicio;
+            datosAActualizar.FechaFin = datosLicencia.FechaFin;
+            datosAActualizar.FechaAviso = datosLicencia.FechaAviso;
+            datosAActualizar.CantidadCajas = datosLicencia.CantidadCajas;
+            datosAActualizar.CantidadUsuarios = datosLicencia.CantidadUsuarios;
+            datosAActualizar.MacAddress = datosLicencia.MacAddress;
+            datosAActualizar.Pais = datosLicencia.Pais;
+            datosAActualizar.CedulaJuridica = datosLicencia.CedulaJuridica;
+            datosAActualizar.NombreCliente = datosLicencia.NombreCliente;
+            datosAActualizar.Codigo = codigoLicencia;
+            string url = "Licencias/ActualizaDatosDeLicencia";
+                string jsonData = JsonSerializer.Serialize(datosAActualizar);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var response = await _http.PostAsync(url, content);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     string respuesta = await response.Content.ReadAsStringAsync();
-                    
+                if (!string.IsNullOrEmpty(respuesta))
+                {
                     return bool.Parse(respuesta);
+                }
+                return false;
                 }
                 else
                 {

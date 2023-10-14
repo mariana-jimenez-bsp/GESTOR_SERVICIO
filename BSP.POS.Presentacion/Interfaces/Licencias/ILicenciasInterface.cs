@@ -7,12 +7,12 @@ namespace BSP.POS.Presentacion.Interfaces.Licencias
         Task ObtenerDatosDeLicencia();
         mDatosLicencia licencia { get; set; }
 
-        Task ObtenerCodigoDeLicencia();
+        Task ObtenerCodigoDeLicenciaYProducto();
         Task<string> ObtenerCodigoDeLicenciaDesencriptado();
 
-        mCodigoLicencia codigoLicencia { get; set; }
+        mCodigoLicenciaYProducto codigoLicenciaYProducto { get; set; }
 
-        Task<bool> ActualizarDatosLicencia(mActualizarDatosLicencia datosLicencia);
+        Task<bool> ActualizarDatosLicencia(mLicencia datosLicencia, byte[] codigoLicencia);
     }
 
 }

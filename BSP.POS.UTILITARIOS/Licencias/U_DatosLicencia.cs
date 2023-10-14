@@ -13,6 +13,9 @@ namespace BSP.POS.UTILITARIOS.Licencias
         public DateTime FechaAviso { get; set; } = DateTime.Now;
         public int CantidadUsuarios { get; set; } = 0;
         public bool MacAddressIguales { get; set; } = false;
+        public string Pais { get; set; } = string.Empty;
+        public string CedulaJuridica { get; set; } = string.Empty;  
+        public string NombreCliente { get; set; } = string.Empty;   
 
     }
 }

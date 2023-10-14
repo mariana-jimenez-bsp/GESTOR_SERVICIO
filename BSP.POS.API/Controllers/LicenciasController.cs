@@ -35,12 +35,12 @@ namespace BSP.POS.API.Controllers
             
         }
 
-        [HttpGet("ObtengaElCodigoDeLicencia")]
-        public IActionResult ObtengaElCodigoDeLicencia()
+        [HttpGet("ObtengaElCodigoDeLicenciaYProducto")]
+        public IActionResult ObtengaElCodigoDeLicenciaYProducto()
         {
             try
             {
-                string licencia = licencias.ObtenerCodigoDeLicencia();
+                string licencia = licencias.ObtenerCodigoDeLicenciaYProducto();
                 if (string.IsNullOrEmpty(licencia))
                 {
                     return NotFound();

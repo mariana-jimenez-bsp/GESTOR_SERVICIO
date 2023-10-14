@@ -35,6 +35,9 @@ namespace BSP.POS.NEGOCIOS.Licencias
                 datosLicencia.FechaAviso = DateTime.ParseExact(FechaAvisoTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
                 datosLicencia.CantidadUsuarios = int.Parse(cantidadUsuariosTemp);
                 string MacAddress = _Cryptografia.DecryptString(licencia.MacAddress, "BSP");
+                datosLicencia.Pais = _Cryptografia.DecryptString(licencia.Pais, "BSP");
+                datosLicencia.CedulaJuridica = _Cryptografia.DecryptString(licencia.CedulaJuridica, "BSP");
+                datosLicencia.NombreCliente = _Cryptografia.DecryptString(licencia.NombreCliente, "BSP");
                 string MacAddressActual = GetMacAddress();
                 if(MacAddress == MacAddressActual)
                 {
@@ -56,10 +59,10 @@ namespace BSP.POS.NEGOCIOS.Licencias
             string resultadoString = resultado.ToString();
             return resultadoString;
         }
-        public string ObtenerCodigoDeLicencia() {
-            U_CodigoDeLicencia codigoLicencia = new U_CodigoDeLicencia();
-            codigoLicencia = licencias.ObtenerCodigoDeLicencia();
-            string codigoLicenciaJson = JsonConvert.SerializeObject(codigoLicencia);
+        public string ObtenerCodigoDeLicenciaYProducto() {
+            U_CodigoLicenciaYProducto codigoLicenciaYProducto = new U_CodigoLicenciaYProducto();
+            codigoLicenciaYProducto = licencias.ObtenerCodigoDeLicenciaYProducto();
+            string codigoLicenciaJson = JsonConvert.SerializeObject(codigoLicenciaYProducto);
             return codigoLicenciaJson;
         }
 

@@ -8,5 +8,8 @@
         public string CantidadCajas { get; set; } = string.Empty;
         public string CantidadUsuarios { get; set; } = string.Empty;
         public string MacAddress { get; set; } = string.Empty;
+        public string Pais { get; set; } = string.Empty;
+        public string CedulaJuridica { get; set; } = string.Empty;
+        public string NombreCliente { get; set; } = string.Empty;
     }
 }

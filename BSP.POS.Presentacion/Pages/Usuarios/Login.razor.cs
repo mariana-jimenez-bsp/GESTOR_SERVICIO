@@ -109,25 +109,17 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             archivoLicenciaInvalido = false;
                 if(!string.IsNullOrEmpty(licenciaLlave.texto_archivo))
                 {
-                    await LicenciasService.ObtenerCodigoDeLicencia();
-                    if(LicenciasService.codigoLicencia.codigo_licencia != null)
+                    await LicenciasService.ObtenerCodigoDeLicenciaYProducto();
+                    if(LicenciasService.codigoLicenciaYProducto.codigo_licencia != null && LicenciasService.codigoLicenciaYProducto.producto != null)
                     {
-                        licenciaByte.codigo_licencia = LicenciasService.codigoLicencia.codigo_licencia;
-                        licenciaByte.producto = "Gestor Servicios";
+                        licenciaByte.codigo_licencia = LicenciasService.codigoLicenciaYProducto.codigo_licencia;
+                        licenciaByte.producto = LicenciasService.codigoLicenciaYProducto.producto;
                         licenciaByte.texto_archivo = licenciaLlave.texto_archivo;
                         var datosLicencia = await LoginService.EnviarXMLLicencia(licenciaByte);
                         if (datosLicencia != null)
                         {
-                            mActualizarDatosLicencia actualizarLicencia = new mActualizarDatosLicencia();
-                            actualizarLicencia.FechaInicio = datosLicencia.FechaInicio;
-                            actualizarLicencia.FechaFin = datosLicencia.FechaFin;
-                            actualizarLicencia.FechaAviso = datosLicencia.FechaAviso;
-                            actualizarLicencia.CantidadCajas = datosLicencia.CantidadCajas;
-                            actualizarLicencia.CantidadUsuarios = datosLicencia.CantidadUsuarios;
-                            actualizarLicencia.MacAddress = datosLicencia.MacAddress;
-                            actualizarLicencia.Codigo = licenciaByte.codigo_licencia;
-
-                            bool resultadoActualizar = await LicenciasService.ActualizarDatosLicencia(actualizarLicencia);
+                            
+                            bool resultadoActualizar = await LicenciasService.ActualizarDatosLicencia(datosLicencia, licenciaByte.codigo_licencia);
                             if (resultadoActualizar)
                             {
                             archivoLicenciaValido = true;

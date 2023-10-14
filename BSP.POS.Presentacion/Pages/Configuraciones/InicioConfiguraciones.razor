@@ -34,24 +34,20 @@
                         <div class="col-md-4">
                             <label for="licencia-cantidadUsuarios">Cantidad Usuarios: <span id="licencia-cantidadUsuarios" class="text-black">@licencia.CantidadUsuarios</span></label>
                         </div>
-                        @if (!string.IsNullOrEmpty(clienteAsociado.NOMBRE))
-                        {
                             <div class="col-md-4">
-                                <label for="licencia-nombreCliente">Nombre Cliente: <span id="licencia-nombreCliente" class="text-black">@clienteAsociado.NOMBRE</span></label>
+                                <label for="licencia-nombreCliente">Nombre Cliente: <span id="licencia-nombreCliente" class="text-black">@licencia.NombreCliente</span></label>
                             </div>
-                        }
-                        @if (!string.IsNullOrEmpty(contribuyente))
-                        {
+                        
+    
                             <div class="col-md-4">
-                                <label for="licencia-contribuyente">Cédula Jurídica: <span id="licencia-contribuyente" class="text-black">@contribuyente</span></label>
+                                <label for="licencia-contribuyente">Cédula Jurídica: <span id="licencia-contribuyente" class="text-black">@licencia.CedulaJuridica</span></label>
                             </div>
-                        }
-                        @if (!string.IsNullOrEmpty(pais))
-                        {
+                        
+
                             <div class="col-md-4">
-                                <label for="licencia-pais">País: <span id="licencia-pais" class="text-black">@pais</span></label>
+                                <label for="licencia-pais">País: <span id="licencia-pais" class="text-black">@licencia.Pais</span></label>
                             </div>
-                        }
+                        
                     </div>
                 }
                 <div class="d-flex mx-3 row blue-light-text mt-3">
