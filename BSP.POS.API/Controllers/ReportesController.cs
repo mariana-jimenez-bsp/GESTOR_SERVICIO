@@ -23,7 +23,7 @@ namespace BSP.POS.API.Controllers
             }
             else
             {
-                _urlApiCrystal = "http://localhost/POS_Prueba_APICrystal_Gestor_servicios/";
+                _urlApiCrystal = "https://localhost/POS_Prueba_APICrystal_Gestor_servicios/";
             }
 
         }

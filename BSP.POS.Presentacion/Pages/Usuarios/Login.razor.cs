@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using BSP.POS.Presentacion.Models.Licencias;
+using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios
 {
@@ -33,6 +34,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         protected override async Task OnInitializedAsync()
         {
+            usuario.esquema = "BSP";
             await ValidarLicencia();
         }
         protected override void OnParametersSet()
