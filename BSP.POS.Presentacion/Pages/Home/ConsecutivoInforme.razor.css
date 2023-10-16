@@ -193,7 +193,7 @@ a {
     border-bottom-right-radius: 40px;
     color: white;
     padding: 3%;
-    width: 641px;
+
     height: 111px;
 }
 
@@ -318,7 +318,6 @@ a {
     }
 
     .footer-right {
-        max-width: 300px;
         height: 111px;
     }
 
@@ -398,7 +397,6 @@ a {
     }
 
     .footer-right {
-        width: 641px;
         height: 90px;
     }
 

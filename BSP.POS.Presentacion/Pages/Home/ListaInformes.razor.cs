@@ -18,8 +18,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         [Parameter]
         public string esquema { get; set; } = string.Empty;
         private bool EsClienteNull = false;
-
-
+        private string[] elementos = new string[]{ ".el-layout", ".cliente-asociado", ".consecutivo-informe", ".header-col-left" };
         public string Consecutivo { get; set; } = string.Empty;
         public string Estado { get; set; } = string.Empty;
         protected override void OnParametersSet()

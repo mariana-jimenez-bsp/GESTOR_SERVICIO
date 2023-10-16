@@ -103,16 +103,6 @@ a {
     border: 3px solid white;
 }
 
-.scrollbar-max-height {
-    min-height: 400px;
-    max-height: 400px;
-}
-
-.scrollbar-max-height-client {
-    min-height: 660px;
-    max-height: 660px;
-}
-
 .d-all {
     display: none;
 }
@@ -183,9 +173,6 @@ a {
     border-top-right-radius: 10px;
 }
 
-.col-right {
-    width: 641px;
-}
 
 .footer-right {
     background-color: #2255A1;
@@ -280,15 +267,7 @@ a {
         font-size: 7pt;
     }
 
-    .scrollbar-max-height {
-        min-height: 130px;
-        max-height: 130px;
-    }
 
-    .scrollbar-max-height-client {
-        min-height: 320px;
-        max-height: 320px;
-    }
 
     .info-client {
         font-size: 5pt;
@@ -313,10 +292,6 @@ a {
     }
 
 
-    .col-right {
-        max-width: 300px;
-    }
-
     .footer-right {
         max-width: 300px;
         height: 111px;
@@ -338,9 +313,6 @@ a {
         max-width: 45px;
     }
 
-    .col-left {
-        max-width: 250px;
-    }
 
     .circle-font {
         font-size: 6pt;
@@ -357,15 +329,6 @@ a {
         font-size: 11pt;
     }
 
-    .scrollbar-max-height {
-        min-height: 130px;
-        max-height: 130px;
-    }
-
-    .scrollbar-max-height-client {
-        min-height: 350px;
-        max-height: 350px;
-    }
 
     .info-client {
         font-size: 8pt;
@@ -392,10 +355,6 @@ a {
         max-height: 121px;
     }
 
-
-    .col-right {
-        width: 641px;
-    }
 
     .footer-right {
         width: 641px;

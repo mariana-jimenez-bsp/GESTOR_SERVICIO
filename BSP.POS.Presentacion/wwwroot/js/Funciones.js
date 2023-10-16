@@ -65,3 +65,39 @@ function ScriptMaxHeight(contenido, elemento1,elemento2, elemento3) {
     const availableHeight = windowHeight - headerHeight - footerHeight - headersContentHeight - 50;
     content.style.maxHeight = availableHeight + 'px';
 }
+function ScriptMaxHeightExtra(contenido, elementosJson) {
+    const elementos = JSON.parse(elementosJson);
+    const elements = elementos.map(elemento => document.querySelector(elemento));
+    const content = document.querySelector(contenido);
+
+    if (elements.includes(null) || !content) {
+        return;
+    }
+
+    const totalHeight = elements.reduce((acc, elemento) => acc + elemento.offsetHeight, 0);
+    const windowHeight = window.innerHeight;
+    const availableHeight = windowHeight - totalHeight - 50;
+
+    content.style.maxHeight = availableHeight + 'px';
+    content.style.minHeight = availableHeight + 'px';
+}
+
+function ScriptMaxHeightExtraContainer(contenido, contenedor, elementosJson) {
+    const elementos = JSON.parse(elementosJson);
+    const elements = elementos.map(elemento => document.querySelector(elemento));
+    const content = document.querySelector(contenido);
+    const container = document.querySelector(contenedor);
+
+    if (elements.includes(null) || !content || !container) {
+        return;
+    }
+
+    const totalHeight = elements.reduce((acc, elemento) => acc + elemento.offsetHeight, 0);
+    const windowHeight = window.innerHeight;
+    const availableHeight = windowHeight - totalHeight - 50;
+    const HeightContent = availableHeight - (availableHeight * 0.6);
+    container.style.maxHeight = availableHeight + 'px';
+    container.style.minHeight = availableHeight + 'px';
+    content.style.maxHeight = HeightContent + 'px';
+    content.style.minHeight = HeightContent + 'px';
+}

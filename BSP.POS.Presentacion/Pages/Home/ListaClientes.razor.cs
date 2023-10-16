@@ -17,6 +17,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public string rol = string.Empty;
+        
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();

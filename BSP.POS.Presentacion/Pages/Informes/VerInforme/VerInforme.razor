@@ -9,8 +9,10 @@
 @if(cargaInicial){
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
 @if (informe.estado == "Finalizado")
-{
+{   <div class="el-layout">
     <Layout></Layout>
+    </div>
+    
 
     <div class="container-fluid p-2 pe-5 ps-5 body-edit">
         @if (successMessage != null)
@@ -19,7 +21,7 @@
         }
         <div class="row">
             <div class="col-md-6">
-                    <div class="row p-2">
+                        <div class="row p-2 header-col-left">
                         @if (!string.IsNullOrEmpty(informe.consecutivo))
                         {
                             <div class="col-md-6 d-flex row text-start">
@@ -100,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                        <div class="d-flex row justify-content-center align-items-center text-center">
+                        <div class="d-flex row justify-content-center align-items-center text-center div-observaciones">
                             <span class="green-text font-19-bold">Observaciones</span>
                             <div class="observation row max-height-observation overflow-y-auto overflow-x-hidden scrollbar-report mb-1">
                                 @if (listaDeObservaciones.Any())
@@ -124,7 +126,7 @@
 
             </div>
             <div class="col-md-6">
-                <div class="p-2 d-flex justify-content-between align-items-center">
+                <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
                     <span class="blue-dark-text font-23-medium">Informe #@informe.consecutivo</span>
                     <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-23-medium">
                         <option value="@informe.modalidad_consultoria">@informe.modalidad_consultoria</option>
@@ -147,7 +149,7 @@
                                         <span>HS NO COBRADAS</span>
                                     </div>
                                 </div>
-                                <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report ">
+                                <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report ">
                                   
                                         @if (listaActividadesAsociadas != null)
                                         {
@@ -186,7 +188,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book">
+                        <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
                             <div class="col-md-4">
                                 <span>Total de Horas</span>
                             </div>
@@ -203,7 +205,7 @@
 
                 </div>
 
-                <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium">
+                <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
                     <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerEliminarInforme(true)">
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                         <span>Descartar</span>
@@ -252,6 +254,16 @@
         <ModalInfo mensaje="Todos los usuarios ya aprobaron el informe seleccionado"></ModalInfo>
     }
             <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
+       
+        
+            @if (elementos1.Any())
+            {
+                <ScriptMaxHeightExtraContainer Contenido=".max-height-col" Contenedor=".table-gray-left" Elementos="@elementos1"></ScriptMaxHeightExtraContainer>
+            }
+            @if (elementos2.Any())
+            {
+                <ScriptMaxHeightExtraContainer Contenido=".max-height-col-activity" Contenedor=".content-behind-bottom" Elementos="@elementos2"></ScriptMaxHeightExtraContainer>
+            }
         }
         else if (informe.estado == "Borrador")
         {

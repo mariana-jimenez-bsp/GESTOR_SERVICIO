@@ -2,12 +2,12 @@
     width: 10%;
 }
 
-.observation {  
-    margin-right: 3%;
-    max-width: 578px;
+.observation {
+    margin-left: 1%;
+   width: 96%;
 }
 .max-height-observation{
-    max-height: 100px;
+    max-height: 80px;
 }
 .user-observation {
     word-wrap: break-word;
@@ -127,7 +127,7 @@
     width: 15%;
 }
 .table-gray-left {
-    max-width: 578px;
+
     height: 384px;
     max-height: 384px;
     margin-left: 1%;
@@ -156,7 +156,7 @@
 
 
 .table-right {
-    max-width: 645px;
+
     height: 384px;
     max-height: 384px;
 }
@@ -262,6 +262,6 @@
         font-size: 12pt;
     }
     .max-height-observation {
-        max-height: 80px;
+        max-height: 60px;
     }
 }

@@ -28,24 +28,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             
             if(await VerificarValidezEsquema())
             {
-                
-                await LicenciasService.ObtenerDatosDeLicencia();
-                if (LicenciasService.licencia != null)
-                {
-                    licencia = LicenciasService.licencia;
-                    if (licencia.FechaFin > DateTime.Now)
-                    {
-                        licenciaActiva = true;
-                        if (licencia.FechaAviso < DateTime.Now)
-                        {
-                            licenciaProximaAVencer = true;
-                        }
-                        if (!licencia.MacAddressIguales)
-                        {
-                            mismaMacAdress = false;
-                        }
-                    }
-                }
+
+                await ValidarLicencia();
                 if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema))
                 {
                     tokenRecuperacion = await LoginService.ValidarTokenRecuperacion(esquema, token);
@@ -57,6 +41,30 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             }
 
             cargaInicial = true;
+        }
+
+        private async Task ValidarLicencia()
+        {
+            licenciaActiva = false;
+            licenciaProximaAVencer = false;
+            mismaMacAdress = true;
+            await LicenciasService.ObtenerDatosDeLicencia();
+            if (LicenciasService.licencia != null)
+            {
+                licencia = LicenciasService.licencia;
+                if (licencia.FechaFin > DateTime.Now)
+                {
+                    licenciaActiva = true;
+                    if (licencia.FechaAviso < DateTime.Now)
+                    {
+                        licenciaProximaAVencer = true;
+                    }
+                    if (!licencia.MacAddressIguales)
+                    {
+                        mismaMacAdress = false;
+                    }
+                }
+            }
         }
         private async Task<bool> VerificarValidezEsquema()
         {
@@ -76,9 +84,16 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
         private async Task ActualizarClaveUsuario()
         {
-            usuario.token_recuperacion = token;
-            usuario.esquema = esquema;
-            await LoginService.ActualizarClaveDeUsuario(usuario);
+            if(mismaMacAdress && licenciaActiva)
+            {
+                usuario.token_recuperacion = token;
+                usuario.esquema = esquema;
+                await LoginService.ActualizarClaveDeUsuario(usuario);
+            }
+            else
+            {
+                await ValidarLicencia();
+            }
         }
 
         private void ValorClave(ChangeEventArgs e)

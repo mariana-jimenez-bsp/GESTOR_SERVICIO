@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime JSRuntime
+﻿@using System.Text.Json;
+@inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
 <div>
 </div>
@@ -7,11 +8,10 @@
     [Parameter]
     public string Contenido { get; set; } = string.Empty;
     [Parameter]
-    public string Elemento1 { get; set; } = string.Empty;
+    public string Contenedor { get; set; } = string.Empty;
     [Parameter]
-    public string Elemento2 { get; set; } = string.Empty;
-    [Parameter]
-    public string Elemento3 { get; set; } = string.Empty;
+    public string[] Elementos { get; set; } = new string[0];
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -19,18 +19,19 @@
         {
             StateHasChanged();
             await Task.Delay(100);
-            await JSRuntime.InvokeVoidAsync("ScriptMaxHeight", Contenido, Elemento1, Elemento2, Elemento3);
+            var elementosJson = JsonSerializer.Serialize(Elementos);
+            await JSRuntime.InvokeVoidAsync("ScriptMaxHeightExtraContainer", Contenido, Contenedor, elementosJson);
             await JSRuntime.InvokeVoidAsync("eval", @"
                 window.addEventListener('resize', function() {
-                    ScriptMaxHeight('" + Contenido + "', '" + Elemento1 + "', '" + Elemento2 + "', '" + Elemento3 + @"');
+                    ScriptMaxHeightExtraContainer('" + Contenido + "', '" + Contenedor + "', '" + elementosJson + @"');
                 });
             ");
-            
+
 
         }
     }
-   
 
-    
-    
+
+
+
 }

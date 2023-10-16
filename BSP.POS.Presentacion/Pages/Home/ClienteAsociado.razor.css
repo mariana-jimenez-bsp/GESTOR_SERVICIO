@@ -186,10 +186,7 @@ a {
     border-top-right-radius: 10px;
 }
 
-.col-right {
-    width: 641px;
-    min-height: 120px;
-}
+
 
 .footer-right {
     background-color: #2255A1;
@@ -316,11 +313,6 @@ a {
         max-height: 121px;
     }
 
-
-    .col-right {
-        max-width: 300px;
-    }
-
     .footer-right {
         max-width: 300px;
         height: 111px;
@@ -396,10 +388,6 @@ a {
         max-height: 121px;
     }
 
-
-    .col-right {
-        width: 641px;
-    }
 
     .footer-right {
         width: 641px;

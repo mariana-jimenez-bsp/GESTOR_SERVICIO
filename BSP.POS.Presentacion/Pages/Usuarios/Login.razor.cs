@@ -149,51 +149,59 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         {
             mensajeIntentos = string.Empty;
             mensaje = string.Empty;
-            correoExistente = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
-            if(correoExistente != null)
+            if (licenciaActiva && mismaMacAdress)
             {
-                intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
-                if(intentos >= 3)
+                correoExistente = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
+                if (correoExistente != null)
                 {
-                    mensajeIntentos = "Se excedió el limite de intentos, oprima la opción recuperar contraseña";
-                }
-                else
-                {
-                    usuarioLogin = await LoginService.RealizarLogin(usuario);
-
-                    if (!string.IsNullOrEmpty(usuarioLogin.token))
+                    intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
+                    if (intentos >= 3)
                     {
-
-                        await localStorageService.SetItemAsync<string>("token", usuarioLogin.token);
-                        await localStorageService.SetItemAsync<string>("esquema", usuario.esquema);
-                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        navigationManager.NavigateTo($"index", forceLoad: true);
-
+                        mensajeIntentos = "Se excedió el limite de intentos, oprima la opción recuperar contraseña";
                     }
                     else
                     {
-                        await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
-                        mensajeError();
+                        usuarioLogin = await LoginService.RealizarLogin(usuario);
 
-                        usuario.correo = string.Empty;
-                        usuario.clave = string.Empty;
-                        usuario.esquema = string.Empty;
-                        claveActual = string.Empty;
+                        if (!string.IsNullOrEmpty(usuarioLogin.token))
+                        {
+
+                            await localStorageService.SetItemAsync<string>("token", usuarioLogin.token);
+                            await localStorageService.SetItemAsync<string>("esquema", usuario.esquema);
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            navigationManager.NavigateTo($"index", forceLoad: true);
+
+                        }
+                        else
+                        {
+                            await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
+                            mensajeError();
+
+                            usuario.correo = string.Empty;
+                            usuario.clave = string.Empty;
+                            usuario.esquema = string.Empty;
+                            claveActual = string.Empty;
+                        }
                     }
+                }
+                else
+                {
+                    mensajeError();
+
+                    usuario.correo = string.Empty;
+                    usuario.clave = string.Empty;
+                    usuario.esquema = string.Empty;
+                    claveActual = string.Empty;
                 }
             }
             else
             {
-                mensajeError();
-
-                usuario.correo = string.Empty;
-                usuario.clave = string.Empty;
-                usuario.esquema = string.Empty;
-                claveActual = string.Empty;
+                await ValidarLicencia();
             }
-            
 
-            
+
+
+
 
         }
 
@@ -241,11 +249,15 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             }
         }
 
-        private void CorreoRecuperacion()
+        private async Task CorreoRecuperacion()
         {
             if(licenciaActiva && mismaMacAdress)
             {
                 navigationManager.NavigateTo($"CorreoRecuperacion");
+            }
+            else
+            {
+                await ValidarLicencia();
             }
             
         }

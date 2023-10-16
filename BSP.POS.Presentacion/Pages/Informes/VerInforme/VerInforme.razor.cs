@@ -27,6 +27,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
         public int total_horas_cobradas = 0;
         public int total_horas_no_cobradas = 0;
+        private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones" };
+        private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" };
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         private string successMessage;

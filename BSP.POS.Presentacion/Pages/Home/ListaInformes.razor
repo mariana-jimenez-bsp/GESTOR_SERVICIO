@@ -6,7 +6,10 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="col-md-7 col-right">
-    <ClienteAsociado clienteAsociado="clienteAsociado"></ClienteAsociado>
+    <div class="cliente-asociado">
+        <ClienteAsociado clienteAsociado="clienteAsociado"></ClienteAsociado>
+    </div>
+   
     <div class="background-reports pb-2 col-right">
         <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height col-right">
             <div class="row d-flex justify-content-between m-2 reports-list">
@@ -64,10 +67,16 @@
          
         </div>
     </div>
-  <ConsecutivoInforme consecutivo="@Consecutivo" estado="@Estado"></ConsecutivoInforme>
+    <div class="consecutivo-informe">
+        <ConsecutivoInforme consecutivo="@Consecutivo" estado="@Estado"></ConsecutivoInforme>
+    </div>
+     
     @if (EsClienteNull)
     {
         <ModalAdvertencia mensaje="Debe seleccionar un cliente"></ModalAdvertencia>
     }
 </div>
-
+@if (elementos.Any())
+{
+    <ScriptMaxHeightExtra Contenido=".scrollbar-max-height" Elementos="@elementos"></ScriptMaxHeightExtra>
+}

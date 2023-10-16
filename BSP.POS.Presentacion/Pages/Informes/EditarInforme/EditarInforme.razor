@@ -12,8 +12,11 @@
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
 
 @if (informe.estado == "Borrador")
-{
-        <Layout></Layout>
+{       
+        <div class="el-layout">
+                <Layout></Layout>
+        </div>
+        
 
         <div class="container-fluid p-2 pe-5 ps-5 body-edit">
             @if(successMessage != null){
@@ -63,7 +66,7 @@
             </EditForm>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
-                        <div class="row text-center p-2 blue-light-text font-20-book">
+                        <div class="row text-center p-2 blue-light-text font-20-book header-usuarios-informe">
                             <div class="col-md-4 ms-1">
                                 <span>NOMBRE</span>
                             </div>
@@ -115,7 +118,7 @@
                 {
                     <EditForm Model="@usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme">
                     <ObjectGraphDataAnnotationsValidator />
-                    <div class="font-14-book ms-3">
+                    <div class="font-14-book ms-3 div-agregar-usuario">
                         <span class="green-text">Agregar Usuario</span>
                         <div>
                             <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
@@ -134,7 +137,7 @@
                 }
              </div>
             </div>
-                    <div class="d-flex row justify-content-center align-items-center text-center">
+                    <div class="d-flex row justify-content-center align-items-center text-center div-observaciones">
                         <span class="green-text font-19-bold">Observaciones</span>
                         <div class=" observation row max-height-observation overflow-y-auto overflow-x-hidden scrollbar-report mb-1">
                                 @if (listaDeObservaciones.Any())
@@ -159,7 +162,7 @@
 
                 </div>
                 <div class="col-md-6">
-                    <div class="p-2 d-flex justify-content-between align-items-center">
+                    <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
                         <span class="blue-dark-text font-23-medium">Informe #@informe.consecutivo</span>
                         <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-23-medium">
                             <option value="Virtual">Virtual</option>
@@ -183,7 +186,7 @@
                                     <span>HS NO COBRADAS</span>
                                 </div>
                             </div>
-                            <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report ">
+                            <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report ">
                             <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas">
                     <ObjectGraphDataAnnotationsValidator />
                                 @if (listaActividadesAsociadas != null)
@@ -245,7 +248,7 @@
                 }
                             </div>
                         </div>
-                        <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book">
+                        <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
 
                             <div class="col-md-4">
                                 <span>Total de Horas</span>
@@ -263,7 +266,7 @@
 
                 </div>
 
-                    <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium">
+                    <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
                     <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerEliminarInforme(true)">
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                             <span>Descartar</span>
@@ -299,6 +302,15 @@
     }
     <ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalFinalizarInforme>
     <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
+@if (elementos1.Any())
+{
+    <ScriptMaxHeightExtraContainer Contenido=".max-height-col" Contenedor=".table-gray-left" Elementos="@elementos1"></ScriptMaxHeightExtraContainer>
+}
+@if (elementos2.Any())
+{
+    <ScriptMaxHeightExtraContainer Contenido=".max-height-col-activity" Contenedor=".content-behind-bottom" Elementos="@elementos2"></ScriptMaxHeightExtraContainer>
+}
+
 }else if(informe.estado == "Finalizado"){
      <ModalAdvertencia mensaje="El informe ya finalizó"></ModalAdvertencia>
         }

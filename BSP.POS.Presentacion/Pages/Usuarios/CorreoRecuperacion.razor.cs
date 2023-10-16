@@ -13,6 +13,16 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private bool mismaMacAdress = true;
         protected override async Task OnInitializedAsync()
         {
+            await ValidarLicencia();
+            cargaInicial = true;
+
+        }
+
+        private async Task ValidarLicencia()
+        {
+            licenciaActiva = false;
+            licenciaProximaAVencer = false;
+            mismaMacAdress = true;
             await LicenciasService.ObtenerDatosDeLicencia();
             if (LicenciasService.licencia != null)
             {
@@ -30,8 +40,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                     }
                 }
             }
-            cargaInicial = true;
-
         }
         public mTokenRecuperacion tokenRecuperacion { get; set; } = new mTokenRecuperacion();
         public string mensaje { get; set; } = string.Empty;
@@ -54,21 +62,29 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private async Task EnviarCorreo()
         {
-            string verificar = await LoginService.ValidarCorreoCambioClave(tokenRecuperacion.esquema, tokenRecuperacion.correo);
-            if(verificar != null)
+            if(licenciaActiva && mismaMacAdress)
             {
-                bool validar = await LoginService.EnviarCorreoRecuperarClave(tokenRecuperacion);
-                if (validar)
+                string verificar = await LoginService.ValidarCorreoCambioClave(tokenRecuperacion.esquema, tokenRecuperacion.correo);
+                if (verificar != null)
                 {
-                    mensaje = string.Empty;
-                    CorreoEnviado = true;
+                    bool validar = await LoginService.EnviarCorreoRecuperarClave(tokenRecuperacion);
+                    if (validar)
+                    {
+                        mensaje = string.Empty;
+                        CorreoEnviado = true;
+                    }
+
                 }
-              
+                else
+                {
+                    mensaje = "El correo no existe";
+                }
             }
             else
             {
-                mensaje = "El correo no existe";
+                await ValidarLicencia();
             }
+            
            
         }
         }

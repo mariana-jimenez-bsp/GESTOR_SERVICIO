@@ -6,10 +6,13 @@
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
-<Layout Texto="RecibirTexto" Filtro="RecibirFiltro"></Layout>
+        <div class="el-layout">
+            <Layout Texto="RecibirTexto" Filtro="RecibirFiltro"></Layout>
+        </div>
+
 <div class="container-fluid ps-5 pe-5">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 header-col-left">
             <div class="d-flex ps-5">
                 <a  class='text-light eyelash eyelash-recent p-2 pe-3 ps-3 @GetTabLinkClass("recent")' @onclick='() => ChangeTab("recent")'>Clientes recientes</a>
                 <a  class=' text-light eyelash eyelash-all p-2 pe-3 ps-3 @GetTabLinkClass("all")' @onclick='() => ChangeTab("all")'>Todos los clientes</a>
@@ -118,8 +121,14 @@
 
         <ListaInformes informesAsociados="@InformesAsociados" clienteAsociado="@ClienteAsociado" textoRecibido="@textoRecibido" filtroRecibido="@filtroRecibido" esquema="@esquema" @ref="listaInformesComponente"/>
     </div>
-    
+    <div class="div-vacio"></div>
 </div>
+     
     </Authorized>
 </AuthorizeView>
+
+@if (Clientes.Any())
+{
+    <ScriptMaxHeight Contenido=".scrollbar-max-height-client" Elemento1=".el-layout" Elemento2=".div-vacio" Elemento3=".header-col-left"></ScriptMaxHeight>
+}
 
