@@ -136,11 +136,19 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                         }
                         else
                         {
-                            archivoLicenciaInvalido = true;
+                        StateHasChanged();
+                        await Task.Delay(100);
+                        archivoLicenciaInvalido = true;
                         }
                 }
-                    
-                }
+
+            }
+            else
+            {
+                StateHasChanged();
+                await Task.Delay(100);
+                archivoLicenciaInvalido = true;
+            }
             
         }
 
@@ -179,7 +187,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
                             usuario.correo = string.Empty;
                             usuario.clave = string.Empty;
-                            usuario.esquema = string.Empty;
                             claveActual = string.Empty;
                         }
                     }
@@ -190,7 +197,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
                     usuario.correo = string.Empty;
                     usuario.clave = string.Empty;
-                    usuario.esquema = string.Empty;
                     claveActual = string.Empty;
                 }
             }

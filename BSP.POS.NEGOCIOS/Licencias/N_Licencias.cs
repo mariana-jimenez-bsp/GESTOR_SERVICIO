@@ -73,12 +73,6 @@ namespace BSP.POS.NEGOCIOS.Licencias
             return codigoLicencia;
         }
 
-        public int EnviarXMLLicencia(string textoXML)
-        {
-            int resultado = licencias.EnviarXMLLicencia(textoXML);
-            return resultado;
-        }
-
         public string GetMacAddress()
         {
             string macAddresses = string.Empty;

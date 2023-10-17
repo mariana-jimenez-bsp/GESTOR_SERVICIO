@@ -2,7 +2,9 @@
     margin: 0;
     padding: 0;
 }
-
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
 .columna {
     height: 100vh;
     display: flex;

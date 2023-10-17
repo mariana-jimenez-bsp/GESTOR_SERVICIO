@@ -65,19 +65,5 @@ namespace BSP.POS.DATOS.Licencias
             }
             return codigoLicencia;
         }
-
-        public int EnviarXMLLicencia(string textoXML)
-        {
-            IngresarXMLTableAdapter sp = new IngresarXMLTableAdapter();
-
-            var response = sp.GetData(textoXML).ToList();
-            int resultado = -1;
-            foreach (var item in response)
-            {
-                resultado = item.ResultCode;
-            }
-
-            return resultado;
-        }
     }
 }

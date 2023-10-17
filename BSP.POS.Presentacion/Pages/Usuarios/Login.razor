@@ -86,8 +86,6 @@
                         }
                         <button type="submit" class="btn bg-green btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
                         <button @onclick="ActivarInputFileLLave" type="button" class="btn bg-blue-light btn-block">Ingresar Llave</button>
-                        <p class="mt-4 text-light forgot-pass">¿Olvidó su contraseña?</p>
-                        <a class="mouse-pointer reset-pass" @onclick="CorreoRecuperacion">Resetear contraseña</a>
                     </EditForm>
                     <EditForm Model="licenciaLlave" OnValidSubmit="EnviarLLave" enctype="multipart/form-data">
                         <DataAnnotationsValidator />
@@ -97,6 +95,10 @@
                         <ValidationMessage For="@(() => licenciaLlave.archivo_llave)" />
                         <button @ref="LlaveButton" type="submit" style="display: none"></button>
                     </EditForm>
+                        <p class="mt-4 text-light forgot-pass">¿Olvidó su contraseña?</p>
+                        <a class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")" @onclick="CorreoRecuperacion">Resetear contraseña</a>
+                  
+                    
                 </div>
             </div>
         </div>
