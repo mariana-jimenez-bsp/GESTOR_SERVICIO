@@ -62,7 +62,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                     var correo = new MimeMessage();
 
                 correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
-                correo.To.Add(MailboxAddress.Parse("juanramirez1881@gmail.com"));
+                correo.To.Add(MailboxAddress.Parse(item.correo_usuario));
                 correo.Subject = "Solicitud de Aprobación de Informe #" + objetosParaAprobacion.informe.consecutivo;
                 string usuarios = "";
                 string actividades = "";
@@ -110,7 +110,6 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 smtp.Authenticate(datos.correoUsuario, datos.claveUsuario);
                 smtp.Send(correo);
                 smtp.Disconnect(true);
-                break;
                 }
             }
            

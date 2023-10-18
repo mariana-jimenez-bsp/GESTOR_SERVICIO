@@ -30,9 +30,12 @@ namespace BSP.POS.NEGOCIOS.Licencias
                 string FechaFinTemp = _Cryptografia.DecryptString(licencia.FechaFin, "BSP");
                 string FechaAvisoTemp = _Cryptografia.DecryptString(licencia.FechaAviso, "BSP");
                 string cantidadUsuariosTemp = _Cryptografia.DecryptString(licencia.CantidadUsuarios, "BSP");
-                datosLicencia.FechaInicio = DateTime.ParseExact(FechaInicioTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
-                datosLicencia.FechaFin = DateTime.ParseExact(FechaFinTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
-                datosLicencia.FechaAviso = DateTime.ParseExact(FechaAvisoTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                //datosLicencia.FechaInicio = DateTime.ParseExact(FechaInicioTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                //datosLicencia.FechaFin = DateTime.ParseExact(FechaFinTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                //datosLicencia.FechaAviso = DateTime.ParseExact(FechaAvisoTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                datosLicencia.FechaInicio = DateTime.Parse(FechaInicioTemp);
+                datosLicencia.FechaFin = DateTime.Parse(FechaFinTemp);
+                datosLicencia.FechaAviso = DateTime.Parse(FechaAvisoTemp);
                 datosLicencia.CantidadUsuarios = int.Parse(cantidadUsuariosTemp);
                 string MacAddress = _Cryptografia.DecryptString(licencia.MacAddress, "BSP");
                 datosLicencia.Pais = _Cryptografia.DecryptString(licencia.Pais, "BSP");

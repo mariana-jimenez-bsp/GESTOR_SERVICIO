@@ -2,6 +2,10 @@
 using BSP.POS.UTILITARIOS.Licencias;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.WebRequestMethods;
+using System.Text;
+using System.Text.Json;
+using System.Net;
 
 namespace BSP.POS.API.Controllers
 {
@@ -85,6 +89,46 @@ namespace BSP.POS.API.Controllers
                     return NotFound();
                 }
                 return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpPost("ConectaApiEnviaXML")]
+        public async Task<IActionResult> ConectaApiEnviaXML([FromBody] U_LicenciaByte licenciaLlave)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            HttpClient http = new HttpClient(clientHandler);
+
+            try
+            {
+                //string url = "https://localhost:7121/api/Licencias/EnviaXML";
+                //string url = "http://localhost/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
+                string url = "https://192.168.2.21/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
+                string jsonData = JsonSerializer.Serialize(licenciaLlave);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var response = await http.PostAsync(url, content);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+
+                    var datosLicencia = await response.Content.ReadFromJsonAsync<U_Licencia>();
+                    if (datosLicencia != null)
+                    {
+                        return Ok(datosLicencia);
+                    }
+                    return BadRequest();
+
+
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {

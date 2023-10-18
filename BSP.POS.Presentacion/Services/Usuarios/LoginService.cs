@@ -174,9 +174,8 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         public async Task<mLicencia> EnviarXMLLicencia(mLicenciaByte licenciaLlave)
         {
-            string url = "https://localhost:7121/api/Licencias/EnviaXML";
-            //string url = "http://localhost/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
-            //string url = "https://192.168.2.21/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
+            string url = "Licencias/ConectaApiEnviaXML";
+            
             string jsonData = JsonSerializer.Serialize(licenciaLlave);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var response = await _http.PostAsync(url, content);
