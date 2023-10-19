@@ -13,6 +13,8 @@ namespace BSP.POS.API.Controllers
         private readonly string _urlApiCrystal = string.Empty;
         private readonly IWebHostEnvironment _hostingEnvironment;
         public ReportesController(IWebHostEnvironment hostingEnvironment) {
+
+            
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
@@ -20,11 +22,14 @@ namespace BSP.POS.API.Controllers
             _tipoInicio = configuration["AppSettings:TipoInicio"];
             if (_tipoInicio == "debug")
             {
-                _urlApiCrystal = "https://localhost:44346/";
+                var configurationSecrets = new ConfigurationBuilder()
+                 .AddUserSecrets<Program>()
+                 .Build();
+                _urlApiCrystal = configurationSecrets["UrlApiCrystalDebug"];
             }
             else
             {
-                _urlApiCrystal = "https://localhost/POS_Prueba_APICrystal_Gestor_servicios/";
+                _urlApiCrystal = configuration["AppSettings:UrlApiCrystalDeploy"];
             }
 
         }

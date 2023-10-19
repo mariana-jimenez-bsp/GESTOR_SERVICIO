@@ -3,7 +3,7 @@ using BSP.POS.Presentacion.Models.Usuarios;
 
 namespace BSP.POS.Presentacion.Models.Clientes
 {
-    public class mClientes
+    public class mClientes : IValidatableObject
     {
         public string CLIENTE { get; set; } = string.Empty;
         public string CONTACTO { get; set; } = string.Empty;
@@ -43,7 +43,20 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public byte[] IMAGEN { get; set; } = new byte[] { 0x00 };
         public List<mUsuariosDeCliente> listaDeUsuarios { get; set; } = new List<mUsuariosDeCliente>();
         public bool IsOpen { get; set; } = false;
-
-    
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (PAIS == "CRI")
+            {
+                if(TELEFONO1.Length != 8)
+                {
+                    yield return new ValidationResult("Un número de télefono de Costa Rica debe tener 8 dígitos", new[] { nameof(TELEFONO1) });
+                }else if(!string.IsNullOrEmpty(TELEFONO2) && TELEFONO2.Length != 8)
+                {
+                    yield return new ValidationResult("Un número de télefono de Costa Rica debe tener 8 dígitos", new[] { nameof(TELEFONO2) });
+                }
+                
+            }
+            
+        }
     }
 }

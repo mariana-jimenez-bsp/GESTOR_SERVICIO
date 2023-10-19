@@ -38,10 +38,22 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             await RefresacarListas();
+            await CargaInciialPaisCliente();
             cargaInicial = true;
+        }
+        public async Task CargaInciialPaisCliente() {
+            clienteNuevo.PAIS = "CRI";
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await LugaresService.ObtenerListaDeProvinciasPorPais(esquema, clienteNuevo.PAIS);
+            if (LugaresService.listaDeProvincias != null)
+            {
+                listaProvincias = LugaresService.listaDeProvincias;
+            }
+
         }
         public async Task RefresacarListas()
         {
+            
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await LugaresService.ObtenerListaDePaises(esquema);
             if (LugaresService.listaDePaises != null)

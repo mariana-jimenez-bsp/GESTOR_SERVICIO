@@ -98,6 +98,18 @@ namespace BSP.POS.Presentacion.Models.Clientes
                     yield return new ValidationResult("La imagen debe ser tipo tipo .png o .jpg", new[] { nameof(ImagenFile) });
                 }
             }
+            if (PAIS == "CRI")
+            {
+                if (TELEFONO1.Length != 8)
+                {
+                    yield return new ValidationResult("Un número de télefono de Costa Rica debe tener 8 dígitos", new[] { nameof(TELEFONO1) });
+                }
+                else if (!string.IsNullOrEmpty(TELEFONO2) && TELEFONO2.Length != 8)
+                {
+                    yield return new ValidationResult("Un número de télefono de Costa Rica debe tener 8 dígitos", new[] { nameof(TELEFONO2) });
+                }
+
+            }
         }
     }
 }

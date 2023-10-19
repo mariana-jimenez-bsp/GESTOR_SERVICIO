@@ -85,7 +85,6 @@
                     <div class="d-flex justify-content-center mb-2">
                         <label class="col-md-4  blue-dark-text label-text" for="c-pais">País:</label>
                         <select class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-pais" @bind="clienteNuevo.PAIS" @oninput="CambioPais">
-                            <option value="">Seleccione el páis</option>
                             @if (listaPaises.Any())
                             {
                                 foreach (var pais in listaPaises)

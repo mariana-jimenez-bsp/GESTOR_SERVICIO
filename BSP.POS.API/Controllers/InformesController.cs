@@ -37,35 +37,30 @@ namespace BSP.POS.API.Controllers
         {
             informes = new N_Informes();
             user = new N_Usuarios();
-            //var configuration = new ConfigurationBuilder()
-            // .AddUserSecrets<Program>()
-            // .Build();
+            
+
             var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
             _tipoInicio = configuration["AppSettings:TipoInicio"];
             if (_tipoInicio == "debug")
             {
-                _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
-                _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
-                _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
-                _tokenWhatsapp = Environment.GetEnvironmentVariable("tokenWhatsappGS");
-                _idTelefonoWhatsapp = Environment.GetEnvironmentVariable("idTelefonoWhatsappGS");
-                _urlWeb = "https://localhost:7200/";
+                var configurationSecrets = new ConfigurationBuilder()
+                 .AddUserSecrets<Program>()
+                 .Build();
+                _secretKey = configurationSecrets["SecretKey"];
+                _correoUsuario = configurationSecrets["SmtpFrom"];
+                _claveUsuario = configurationSecrets["SmtpPassword"];
+                _urlWeb = configurationSecrets["UrlWebDebug"];
             }
             else
             {
                 _secretKey = configuration["AppSettings:SecretKey"];
                 _correoUsuario = configuration["AppSettings:SmtpFrom"];
                 _claveUsuario = configuration["AppSettings:SmtpPassword"];
-                _tokenWhatsapp = configuration["AppSettings:tokenWhatsapp"];
-                _idTelefonoWhatsapp = configuration["AppSettings:idTelefonoWhatsapp"];
-                _urlWeb = "http://localhost/POS_Prueba_Web_Gestor_Servicios/";
+                _urlWeb = configuration["AppSettings:UrlWebDeploy"];
             }
 
-
-
-            
             _correoService = correoService;
             _whatsappService = whatsappService;
 

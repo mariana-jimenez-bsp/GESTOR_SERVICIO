@@ -26,9 +26,7 @@ builder.Services.AddCors(options =>
 // Configuración de autenticación JWT
 string _secretKey;
 string _tipoInicio;
-//var configuration = new ConfigurationBuilder()
-//    .AddUserSecrets<Program>()
-//    .Build();
+
 var configuration = new ConfigurationBuilder()
            .AddJsonFile("appsettings.json")
            .Build();
@@ -36,7 +34,10 @@ var configuration = new ConfigurationBuilder()
 _tipoInicio = configuration["AppSettings:TipoInicio"];
 if (_tipoInicio == "debug")
 {
-    _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
+    var configurationSecrets = new ConfigurationBuilder()
+             .AddUserSecrets<Program>()
+             .Build();
+    _secretKey = configurationSecrets["SecretKey"];
 }
 else
 {

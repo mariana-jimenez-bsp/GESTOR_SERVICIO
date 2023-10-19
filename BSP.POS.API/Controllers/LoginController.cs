@@ -27,9 +27,7 @@ namespace BSP.POS.API.Controllers
             user = new N_Usuarios();
             login = new N_Login();
 
-            //var configuration = new ConfigurationBuilder()
-            // .AddUserSecrets<Program>()
-            // .Build();
+            
 
             var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
@@ -37,17 +35,20 @@ namespace BSP.POS.API.Controllers
             _tipoInicio = configuration["AppSettings:TipoInicio"];
             if (_tipoInicio == "debug")
             {
-                _secretKey = Environment.GetEnvironmentVariable("SecretKeyGS");
-                _correoUsuario = Environment.GetEnvironmentVariable("SmtpFromGS");
-                _claveUsuario = Environment.GetEnvironmentVariable("SmtpPasswordGS");
-                _urlWeb = "https://localhost:7200/";
+                var configurationSecrets = new ConfigurationBuilder()
+                 .AddUserSecrets<Program>()
+                 .Build();
+                _secretKey = configurationSecrets["SecretKey"];
+                _correoUsuario = configurationSecrets["SmtpFrom"];
+                _claveUsuario = configurationSecrets["SmtpPassword"];
+                _urlWeb = configurationSecrets["UrlWebDebug"];
             }
             else
             {
                 _secretKey = configuration["AppSettings:SecretKey"];
                 _correoUsuario = configuration["AppSettings:SmtpFrom"];
                 _claveUsuario = configuration["AppSettings:SmtpPassword"];
-                _urlWeb = "http://localhost/POS_Prueba_Web_Gestor_Servicios/";
+                _urlWeb = configuration["AppSettings:UrlWebDeploy"];
             }
 
 

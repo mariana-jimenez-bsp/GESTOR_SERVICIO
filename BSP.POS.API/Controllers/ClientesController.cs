@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using System.Reflection.PortableExecutable;
 using BSP.POS.API.Models.Clientes;
+using BSP.POS.NEGOCIOS.CodigoTelefonoPais;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -15,10 +16,11 @@ namespace BSP.POS.API.Controllers
     public class ClientesController : ControllerBase
     {
         private N_Clientes clientes;
+        private N_CodigoTelefonoPais _datosTelefono;
         public ClientesController()
         {
             clientes = new N_Clientes();
-
+            _datosTelefono = new N_CodigoTelefonoPais();
         }
         // GET: api/<ClientesController>
         [HttpGet("ObtengaLaListaDeClientes/{esquema}")]
@@ -168,6 +170,8 @@ namespace BSP.POS.API.Controllers
 
 
                 clientes.AgregarCliente(cliente, esquema);
+                int IdCodigoTelefono = _datosTelefono.ObtenerIdCodigoTelefonoPais(esquema, cliente.PAIS);
+                _datosTelefono.AgregarCodigoTelefonoPaisCliente(cliente.CLIENTE, IdCodigoTelefono, esquema);
                 return Ok();
             }
             catch (Exception ex)
