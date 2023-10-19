@@ -19,8 +19,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         [Required(ErrorMessage = "El Correo es requerido")]
         public string correo { get; set; } = string.Empty;
         [Required(ErrorMessage = "La clave es requerida")]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "El tamaño debe ser entre 8 a 100 caracteres")]
-        [RegularExpression(@"^(?=.*\d)(?=.*[!@#$%^&*()_+\-=?.])(?=.*[A-Z]).+$", ErrorMessage = "La contraseña debe contener al menos un dígito, al menos un carácter de la lista !@#$%^&*()_+-=?. y al menos una letra mayúscula.")]
+        
         public string clave { get; set; } = string.Empty;
         [StringLength(100, ErrorMessage = "Tamaño máximo de 100 caracteres")]
         [Required(ErrorMessage = "El Nombre de la empresa es requerido")]
@@ -48,6 +47,9 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public string mensajeUsuarioRepite { get; set; } = string.Empty;
         public string correoRepite { get; set; } = string.Empty;
         public string mensajeCorreoRepite { get; set; } = string.Empty;
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "El tamaño debe ser entre 8 a 100 caracteres")]
+        [RegularExpression(@"^(?=.*\d)(?=.*[!@#$%^&*()_+\-=?.])(?=.*[A-Z]).+$", ErrorMessage = "La contraseña debe contener al menos un dígito, al menos un carácter de la lista !@#$%^&*()_+-=?. y al menos una letra mayúscula.")]
+        public string? claveDesencriptada { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (ImagenFile != null)

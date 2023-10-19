@@ -6,6 +6,7 @@
 @inject ILicenciasInterface LicenciasService
 @inject NavigationManager navigationManager
 @inject ILocalStorageService localStorageService
+@inject SweetAlertService Swal;
 @if (cargarInicial)
 {
     @if (rol == "Admin")

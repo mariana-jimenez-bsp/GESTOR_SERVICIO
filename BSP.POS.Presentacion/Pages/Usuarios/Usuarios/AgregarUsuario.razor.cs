@@ -135,7 +135,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuario.clave = e.Value.ToString();
+                usuario.claveDesencriptada = e.Value.ToString();
+                usuario.clave = UsuariosService.EncriptarClave(usuario.claveDesencriptada);
+            }
+            else
+            {
+                usuario.clave = null;
             }
         }
 
@@ -287,26 +292,46 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             usuarioAgregado = false;
             try
             {
+                bool resultadoUsuario = false;
+                bool resultadoPermisos = false;
                 repetido = false;
                 await VerificarCorreoYUsuarioExistente();
                 if (!repetido)
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.AgregarUsuario(usuario, esquema);
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
-                    mPerfil usuarioCreado = new mPerfil();
-                    if (UsuariosService.Perfil != null)
-                    {
-                        usuarioCreado = UsuariosService.Perfil;
-                    }
-                    if (permisosAsociados.Any())
+                    resultadoUsuario = await UsuariosService.AgregarUsuario(usuario, esquema);
+                    if (resultadoUsuario)
                     {
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
+                        await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
+                        mPerfil usuarioCreado = new mPerfil();
+                        if (UsuariosService.Perfil != null)
+                        {
+                            usuarioCreado = UsuariosService.Perfil;
+                        }
+                        if (permisosAsociados.Any())
+                        {
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            resultadoPermisos = await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
+                        }
+                        else
+                        {
+                            resultadoPermisos = true;
+                        }
+                        if(resultadoPermisos)
+                        {
+                            IrAUsuarios();
+                        }
+                        else
+                        {
+                            mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                        }
+
                     }
-                    usuarioAgregado = true;
-                    usuario = new mUsuarioParaAgregar();
+                    else
+                    {
+                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    }
                 }
                 else
                 {

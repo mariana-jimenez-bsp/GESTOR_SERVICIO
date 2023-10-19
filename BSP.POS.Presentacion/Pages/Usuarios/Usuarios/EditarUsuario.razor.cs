@@ -3,6 +3,7 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
@@ -370,18 +371,19 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         {
                             if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || usuario.claveOriginal != usuario.claveDesencriptada)
                             {
-
-                                navigationManager.NavigateTo($"login", forceLoad: true);
+                                await SwalExito("Se ha actualizado el usuario", "login");
                                 await localStorageService.RemoveItemAsync("token");
                             }
                             else
                             {
-                                IrAUsuarios();
+                                await SwalExito("Se ha actualizado el usuario", "usuarios");
+
                             }
                         }
                         else
                         {
-                            IrAUsuarios();
+                            await SwalExito("Se ha actualizado el usuario", "usuarios");
+
                         }
                         
                         
@@ -448,6 +450,33 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private void IrAUsuarios()
         {
             navigationManager.NavigateTo($"configuraciones/usuarios");
+        }
+
+        private async Task SwalExito(string mensajeAlerta, string irA)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    if(irA == "usuarios")
+                    {
+                        IrAUsuarios();
+                    }
+                    else
+                    {
+                        navigationManager.NavigateTo($"login", forceLoad: true);
+                        
+                    }
+                }
+            });
         }
     }
 }
