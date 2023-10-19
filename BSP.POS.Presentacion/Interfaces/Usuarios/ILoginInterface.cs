@@ -14,8 +14,8 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario);
         Task<mTokenRecuperacion> ValidarTokenRecuperacion(string esquema, string token);
         Task<string> ValidarCorreoCambioClave(string esquema, string correo);
-        Task AumentarIntentosDeLogin(string esquema, string correo);
-        Task<int> ObtenerIntentosDeLogin(string esquema, string correo);
+        Task AumentarIntentosDeLogin(string esquema, string usuario);
+        Task<int> ObtenerIntentosDeLogin(string esquema, string usuario);
         Task<mLicencia> EnviarXMLLicencia(mLicenciaByte licenciaLlave);
     }
 }

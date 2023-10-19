@@ -143,7 +143,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
             }
         }
 
-        public async Task AgregarActividad(mActividades actividad, string esquema)
+        public async Task<bool> AgregarActividad(mActividades actividad, string esquema)
         {
             try
             {
@@ -156,12 +156,13 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK )
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
     }

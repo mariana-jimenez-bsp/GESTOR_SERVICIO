@@ -1,4 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Actividades
@@ -10,8 +11,6 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public mActividades activadNueva = new mActividades();
 
         public string mensajeError;
-        private bool actividadAgregada = false;
-        private bool descartarCambios = false;
         private bool cargaInicial = false;
         List<string> permisos;
 
@@ -59,22 +58,25 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         }
         private async Task DescartarCambios()
         {
-            descartarCambios = false;
-            activadNueva = new mActividades();
-            StateHasChanged();
-            await Task.Delay(100);
-            descartarCambios = true;
+            await SwalAviso("Se han cancelado los cambios");
         }
         private async Task AgregarActividadNueva()
         {
             mensajeError = null;
-            actividadAgregada = false;
+            bool resultadoActividad = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.AgregarActividad(activadNueva, esquema);
-                actividadAgregada = true;
-                activadNueva = new mActividades();
+                resultadoActividad = await ActividadesService.AgregarActividad(activadNueva, esquema);
+                if (resultadoActividad)
+                {
+                    await SwalExito("La actividad se ha agregado");
+                }
+                else
+                {
+                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                }
+                
             }
             catch (Exception)
             {
@@ -87,6 +89,44 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         private void IrAActividades()
         {
             navigationManager.NavigateTo($"actividades");
+        }
+
+        private async Task SwalExito(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    IrAActividades();
+                }
+            });
+        }
+
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    IrAActividades();
+                }
+            });
         }
     }
 }

@@ -5,6 +5,7 @@
 @inject IJSRuntime JSRuntime
 @inject ILicenciasInterface LicenciasService
 @inject NavigationManager navigationManager
+@inject SweetAlertService Swal;
 @if (cargarInicial)
 {
     @if (rol == "Admin")
@@ -24,14 +25,7 @@
                 {
                     <ModalError mensaje="@mensajeError"></ModalError>
                 }
-                @if (usuarioAgregado)
-                {
-                    <ModalExito mensaje="El usuario se ha agregado"></ModalExito>
-                }
-                @if (descartarCambios)
-                {
-                    <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-                }
+               
                 <div class="div-vacio"></div>
                 <div class=" d-flex row g-2 text-center width-content">
                     <div class="mt-4 container max-height-users overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
@@ -175,12 +169,8 @@
 
                 </div>
                 <div class="footer-agregar-usuario text-13-medium">
-                    <button type="button" @onclick="IrAUsuarios" class="rounded-pill border border-primary blue-light-bg text-light button-footer mx-5" id="ir-a-usuarios">
-                        Usuarios
-                    </button>
                     <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-agregar-usuario">
-                        Descartar
-                        cambios
+                        Cancelar
                     </button>
                     <button type="submit" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-usuario">
                         Agregar

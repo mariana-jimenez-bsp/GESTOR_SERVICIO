@@ -4,6 +4,7 @@
 @inject IClientesInterface ClientesService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
+@inject SweetAlertService Swal;
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
@@ -15,14 +16,6 @@
             @if (!string.IsNullOrEmpty(mensajeError))
             {
                 <ModalError mensaje="@mensajeError"></ModalError>
-            }
-            @if (proyectoAgregado)
-            {
-                <ModalExito mensaje="El proyecto se ha agregado"></ModalExito>
-            }
-            @if (descartarCambios)
-            {
-                <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
             }
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
@@ -86,12 +79,8 @@
 
             </div>
             <div class="footer-agregar-proyecto text-13-medium">
-                <button type="button" @onclick="IrAProyectos" class="rounded-pill border border-primary blue-light-bg text-light button-footer mx-5" id="ir-a-proyectos">
-                    Proyectos
-                </button>
                 <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-agregar-proyecto">
-                    Descartar
-                    cambios
+                    Cancelar
                 </button>
                 <button type="submit" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyecto">
                     Agregar

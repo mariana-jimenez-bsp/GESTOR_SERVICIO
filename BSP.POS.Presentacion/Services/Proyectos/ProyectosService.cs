@@ -68,7 +68,7 @@ namespace BSP.POS.Presentacion.Services.Proyectos
             }
         }
 
-        public async Task AgregarProyecto(mProyectos proyecto, string esquema)
+        public async Task<bool> AgregarProyecto(mProyectos proyecto, string esquema)
         {
             try
             {
@@ -81,12 +81,13 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
         public async Task TerminarProyecto(string numero, string esquema)

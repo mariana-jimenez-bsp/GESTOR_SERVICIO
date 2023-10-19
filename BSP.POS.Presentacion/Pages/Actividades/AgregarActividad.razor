@@ -2,6 +2,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
+@inject SweetAlertService Swal;
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Actividades")))
@@ -16,14 +17,6 @@
             @if (!string.IsNullOrEmpty(mensajeError))
             {
                 <ModalError mensaje="@mensajeError"></ModalError>
-            }
-            @if (actividadAgregada)
-            {
-                <ModalExito mensaje="La actividad se ha agregado"></ModalExito>
-            }
-            @if (descartarCambios)
-            {
-                <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
             }
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
@@ -56,12 +49,8 @@
 
             </div>
             <div class="footer-agregar-actividad text-13-medium">
-                <button type="button" @onclick="IrAActividades" class="rounded-pill border border-primary blue-light-bg text-light button-footer mx-5" id="ir-a-actividades">
-                    Actividades
-                </button>
                 <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-agregar-actividad">
-                    Descartar
-                    cambios
+                    Cancelar
                 </button>
                 <button type="submit" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-actividad">
                     Agregar

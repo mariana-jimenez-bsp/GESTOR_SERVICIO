@@ -14,7 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
     {
 
         private string mensaje { get; set; } = string.Empty;
-        private string correoExistente { get; set; } = string.Empty;
+        private string usuarioExistente { get; set; } = string.Empty;
         private string claveActual { get; set; } = string.Empty;
         private int intentos = 0;
         private string mensajeIntentos { get; set; } = string.Empty;
@@ -159,8 +159,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             mensaje = string.Empty;
             if (licenciaActiva && mismaMacAdress)
             {
-                correoExistente = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
-                if (correoExistente != null)
+                usuarioExistente = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
+                if (usuarioExistente != null)
                 {
                     intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
                     if (intentos >= 3)
@@ -185,7 +185,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                             await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
                             mensajeError();
 
-                            usuario.correo = string.Empty;
                             usuario.clave = string.Empty;
                             claveActual = string.Empty;
                         }
@@ -195,7 +194,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 {
                     mensajeError();
 
-                    usuario.correo = string.Empty;
+                    usuario.usuario = string.Empty;
                     usuario.clave = string.Empty;
                     claveActual = string.Empty;
                 }
@@ -212,11 +211,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
 
 
-        private void ValorCorreo(ChangeEventArgs e)
+        private void ValorUsuario(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuario.correo = e.Value.ToString();
+                usuario.usuario = e.Value.ToString();
             }
         }
 
@@ -233,12 +232,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private void mensajeError()
         { 
-            if(!string.IsNullOrEmpty(correoExistente))
+            if(!string.IsNullOrEmpty(usuarioExistente))
             {
                 mensaje = "Contraseña Incorrecta";
             }else
             {
-                mensaje = "El correo no existe en el esquema";
+                mensaje = "El usuario no existe en el esquema";
             }
 
             

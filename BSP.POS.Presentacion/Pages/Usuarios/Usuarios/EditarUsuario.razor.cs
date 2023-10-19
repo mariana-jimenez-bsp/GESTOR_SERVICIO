@@ -30,8 +30,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
-        private bool usuarioActualizado = false;
-        private bool descartarCambios = false;
         private bool cargarInicial = false;
         private string mensajeValidacion = string.Empty;
 
@@ -317,17 +315,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         private async Task DescartarCambios()
         {
-            descartarCambios = false;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
-            if (UsuariosService.UsuarioParaEditar != null)
-            {
-                usuario = UsuariosService.UsuarioParaEditar;
-                await RefrescarPermisos();
-            }
-            StateHasChanged();
-            await Task.Delay(100);
-            descartarCambios = true;
+            await SwalAviso("Se han cancelado los cambios");
         }
 
         private async Task<bool> ActualizarListaDePermisos()
@@ -351,7 +339,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private async Task ActualizarUsuario()
         {
             mensajeError = null;
-            usuarioActualizado = false;
             try
             {
                 bool ResultadoUsuario = false;
@@ -364,7 +351,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     ResultadoUsuario = await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
                     ResultadoPermisos = await ActualizarListaDePermisos();
-                    usuarioActualizado = true;
                     if(ResultadoUsuario && ResultadoPermisos)
                     {
                         if(usuarioActual == usuario.usuarioOrignal)
@@ -451,6 +437,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             navigationManager.NavigateTo($"configuraciones/usuarios");
         }
+        private void IrAClientes()
+        {
+            navigationManager.NavigateTo($"clientes");
+        }
 
         private async Task SwalExito(string mensajeAlerta, string irA)
         {
@@ -468,13 +458,49 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 {
                     if(irA == "usuarios")
                     {
-                        IrAUsuarios();
+                        if (!string.IsNullOrEmpty(codigoCliente))
+                        {
+                            IrAClientes();
+                        }
+                        else
+                        {
+                            IrAUsuarios();
+                        }
+                       
                     }
                     else
                     {
                         navigationManager.NavigateTo($"login", forceLoad: true);
                         
                     }
+                }
+            });
+        }
+
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                        if (!string.IsNullOrEmpty(codigoCliente))
+                        {
+                            IrAClientes();
+                        }
+                        else
+                        {
+                            IrAUsuarios();
+                        }
+
+                    
                 }
             });
         }

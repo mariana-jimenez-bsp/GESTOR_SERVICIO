@@ -87,6 +87,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
+                    cliente.listaDeUsuarios = cliente.listaDeUsuarios.OrderBy(c => c.cod_cliente).ToList();
                 }
             }
         }

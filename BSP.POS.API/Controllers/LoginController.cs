@@ -61,7 +61,7 @@ namespace BSP.POS.API.Controllers
             try
             {
                 U_Login nuevoLogin = new U_Login();
-                nuevoLogin.correo = datos.correo;
+                nuevoLogin.usuario = datos.usuario;
                 nuevoLogin.contrasena = datos.clave;
                 nuevoLogin.esquema = datos.esquema;
                 nuevoLogin.key = _secretKey;
@@ -189,8 +189,8 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-                string correo = Request.Headers["X-Correo"];
-                string mensaje = login.AumentarIntentosDeLogin(esquema, correo);
+                string usuario = Request.Headers["X-Usuario"];
+                string mensaje = login.AumentarIntentosDeLogin(esquema, usuario);
                 if (string.IsNullOrEmpty(mensaje))
                 {
                     return NotFound();
@@ -210,8 +210,8 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-                string correo = Request.Headers["X-Correo"];
-                int intentos = login.ObtenerIntentosDeLogin(esquema, correo);
+                string usuario = Request.Headers["X-Usuario"];
+                int intentos = login.ObtenerIntentosDeLogin(esquema, usuario);
                 if (string.IsNullOrEmpty(intentos.ToString()))
                 {
                     return NotFound();

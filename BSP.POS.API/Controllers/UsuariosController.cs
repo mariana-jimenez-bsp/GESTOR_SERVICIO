@@ -92,7 +92,6 @@ namespace BSP.POS.API.Controllers
             }
             
         }
-        [Authorize]
         [HttpGet("ValidaUsuarioExistente/{esquema}/{usuario}")]
         public IActionResult ValidaUsuarioExistente(string esquema, string usuario)
         {

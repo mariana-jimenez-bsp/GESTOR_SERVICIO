@@ -9,6 +9,7 @@ using Microsoft.JSInterop;
 using BSP.POS.Presentacion.Models.Licencias;
 using System.Security.Claims;
 using BSP.POS.Presentacion.Services.Informes;
+using CurrieTechnologies.Razor.SweetAlert2;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -29,8 +30,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeUsuarioRepite = string.Empty;
         public string mensajeError;
         public string rol = string.Empty;
-        private bool usuarioAgregado = false;
-        private bool descartarCambios = false;
+       
         private bool limiteDeUsuarios = false;
         private bool cargarInicial = false;
         private string mensajeCliente = string.Empty;
@@ -276,20 +276,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         private async Task DescartarCambios()
         {
-            descartarCambios = false;
-            usuario = new mUsuarioParaAgregar();
-            if (!string.IsNullOrEmpty(codigoCliente))
-            {
-                usuario.cod_cliente = codigoCliente;
-            }
-            StateHasChanged();
-            await Task.Delay(100);
-            descartarCambios = true;
+            await SwalAviso("Se han cancelado los cambios");
         }
         private async Task AgregarUsuarioNuevo()
         {
             mensajeError = null;
-            usuarioAgregado = false;
             try
             {
                 bool resultadoUsuario = false;
@@ -320,7 +311,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         }
                         if(resultadoPermisos)
                         {
-                            IrAUsuarios();
+                            await SwalExito("Se ha agregado el usuario", "usuarios");
                         }
                         else
                         {
@@ -390,6 +381,69 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private void IrAUsuarios()
         {
             navigationManager.NavigateTo($"configuraciones/usuarios");
+        }
+
+        private void IrAClientes()
+        {
+            navigationManager.NavigateTo($"clientes");
+        }
+
+        private async Task SwalExito(string mensajeAlerta, string irA)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    if (irA == "usuarios")
+                    {
+                        if (!string.IsNullOrEmpty(codigoCliente))
+                        {
+                            IrAClientes();
+                        }
+                        else
+                        {
+                            IrAUsuarios();
+                        }
+                    }
+                    
+                }
+            });
+        }
+
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                        if (!string.IsNullOrEmpty(codigoCliente))
+                        {
+                            IrAClientes();
+                        }
+                        else
+                        {
+                            IrAUsuarios();
+                        }
+
+
+                }
+            });
         }
     }
 }

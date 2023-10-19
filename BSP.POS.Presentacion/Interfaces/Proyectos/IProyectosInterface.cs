@@ -12,6 +12,6 @@ namespace BSP.POS.Presentacion.Interfaces.Proyectos
 
         Task ActualizarListaDeProyectos(List<mProyectos> listaProyectos, string esquema);
         Task TerminarProyecto(string numero, string esquema);
-        Task AgregarProyecto(mProyectos proyecto, string esquema);
+        Task<bool> AgregarProyecto(mProyectos proyecto, string esquema);
     }
 }

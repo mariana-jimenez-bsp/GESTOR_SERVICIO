@@ -25,27 +25,27 @@ namespace BSP.POS.NEGOCIOS.Usuarios
         {
             string usuarioJson;
             U_LoginToken login = new U_LoginToken();
-            string usuario = objetoLogin.ObtenerUsuarioPorCorreo(pLogin.esquema, pLogin.correo);
-            string claveActual = objetoLogin.ConsultarClaveUsuario(pLogin, usuario);
+ 
+            string claveActual = objetoLogin.ConsultarClaveUsuario(pLogin);
             string claveActualDescifrada = _cryptografia.DecryptString(claveActual, "BSP");
             string claveLoginDescifrada = _cryptografia.DecryptString(pLogin.contrasena, "BSP");
             if (CompararClaves(claveActualDescifrada, claveLoginDescifrada))
             {
                 D_Permisos datosPermisos = new D_Permisos();
                 D_Usuarios datosUsuarios = new D_Usuarios();
-                string rol = objetoLogin.ObtenerRol(pLogin.esquema, usuario);
+                string rol = objetoLogin.ObtenerRol(pLogin.esquema, pLogin.usuario);
                 U_Perfil perfil = new U_Perfil();
-                perfil = datosUsuarios.ObtenerPefil(pLogin.esquema, usuario);
+                perfil = datosUsuarios.ObtenerPefil(pLogin.esquema, pLogin.usuario);
                 List<U_PermisosAsociados> permisos = new List<U_PermisosAsociados>();
                 List<U_Permisos> todosLosPermisos = new List<U_Permisos>();
                 todosLosPermisos = datosPermisos.ListaPermisos(pLogin.esquema);
                 permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, perfil.id);
-                string token = GenerateJWT(usuario, pLogin.key, rol, permisos, todosLosPermisos, pLogin.esquema);
-                login = objetoLogin.Login(pLogin, usuario, token);
+                string token = GenerateJWT(pLogin.usuario, pLogin.key, rol, permisos, todosLosPermisos, pLogin.esquema);
+                login = objetoLogin.Login(pLogin, token);
                 usuarioJson = JsonConvert.SerializeObject(login);
                 return usuarioJson;
             }
-            login = new U_LoginToken("", "", "", "");
+            login = new U_LoginToken("", "", "");
             usuarioJson = JsonConvert.SerializeObject(login);
             return usuarioJson;
         }
@@ -104,17 +104,17 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             return mensaje;
         }
 
-        public string AumentarIntentosDeLogin(string esquema, string correo)
+        public string AumentarIntentosDeLogin(string esquema, string usuario)
         {
             string mensaje = string.Empty;
-            mensaje = objetoLogin.AumentarIntentosDeLogin(esquema, correo);
+            mensaje = objetoLogin.AumentarIntentosDeLogin(esquema, usuario);
             return mensaje;
         }
 
-        public int ObtenerIntentosDeLogin(string esquema, string correo)
+        public int ObtenerIntentosDeLogin(string esquema, string usuario)
         {
             int intentos = 0;
-            intentos = objetoLogin.ObtenerIntentosDeLogin(esquema, correo);
+            intentos = objetoLogin.ObtenerIntentosDeLogin(esquema, usuario);
             return intentos;
         }
 

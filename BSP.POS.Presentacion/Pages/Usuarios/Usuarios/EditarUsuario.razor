@@ -22,14 +22,7 @@
             {
                 <ModalError mensaje="@mensajeError"></ModalError>
             }
-            @if (usuarioActualizado)
-            {
-                <ModalExito mensaje="El usuario se ha actualizado"></ModalExito>
-            }
-            @if (descartarCambios)
-            {
-                <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-            }
+
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
                 <div class="mt-4 container max-height-users overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
@@ -174,12 +167,8 @@
 
             </div>
             <div class="footer-agregar-usuario text-13-medium">
-                <button type="button" @onclick="IrAUsuarios" class="rounded-pill border border-primary blue-light-bg text-light button-footer mx-5" id="ir-a-usuarios-desde-editar">
-                    Usuarios
-                </button>
                 <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-actualizar-usuario">
-                    Descartar
-                    cambios
+                    Cancelar
                 </button>
                 <button type="submit" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="actualizar-usuario">
                     Actualizar

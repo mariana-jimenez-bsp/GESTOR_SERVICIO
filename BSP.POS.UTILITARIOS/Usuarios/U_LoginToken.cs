@@ -11,14 +11,12 @@ namespace BSP.POS.UTILITARIOS.Usuarios
         public String token { get; set; } 
         public String esquema { get; set; }
         public String usuario { get; set; }
-        public String correo { get; set; }
 
-        public U_LoginToken(String pToken, String pEsquema, String pUsuario, String pCorreo)
+        public U_LoginToken(String pToken, String pEsquema, String pUsuario)
         {
             usuario = pUsuario;
             esquema = pEsquema;
             token = pToken;
-            correo = pCorreo;
         }
         public U_LoginToken()
         {

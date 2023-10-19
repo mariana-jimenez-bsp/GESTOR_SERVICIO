@@ -13,31 +13,31 @@ namespace BSP.POS.DATOS.Usuarios
     public class D_Login
     {
 
-        public U_LoginToken Login(U_Login pLogin, string usuario, string token)
+        public U_LoginToken Login(U_Login pLogin, string token)
         {
             POSDataSet.LoginUsuarioDataTable _tabla = new POSDataSet.LoginUsuarioDataTable();
             LoginUsuarioTableAdapter _tablaUsuario = new LoginUsuarioTableAdapter();
 
             U_LoginToken login = null;
 
-                var j = _tablaUsuario.GetData(pLogin.correo, pLogin.contrasena, pLogin.esquema, token).ToList();
+                var j = _tablaUsuario.GetData(pLogin.usuario, pLogin.contrasena, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.LoginUsuarioRow item in j)
                 {
-                    login = new U_LoginToken(item.token, item.esquema, usuario, item.correo);
+                    login = new U_LoginToken(item.token, item.esquema, pLogin.usuario);
                 }
                 if (j.Count == 0)
                 {
-                    login = new U_LoginToken("", "", "", "");
+                    login = new U_LoginToken("", "", "");
                 }
 
 
             return login;
         }
 
-        public string ConsultarClaveUsuario(U_Login pLogin, string usuario)
+        public string ConsultarClaveUsuario(U_Login pLogin)
         {
             ObtenerClaveUsuarioTableAdapter _claveUsuario = new ObtenerClaveUsuarioTableAdapter();
-            var consultaClave = _claveUsuario.GetData(pLogin.esquema, usuario);
+            var consultaClave = _claveUsuario.GetData(pLogin.esquema, pLogin.usuario);
             string claveActual = string.Empty;
             foreach (POSDataSet.ObtenerClaveUsuarioRow item in consultaClave)
             {
@@ -189,12 +189,12 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
-        public string AumentarIntentosDeLogin(string esquema, string correo)
+        public string AumentarIntentosDeLogin(string esquema, string usuario)
         {
             AumentarIntentosLoginTableAdapter sp = new AumentarIntentosLoginTableAdapter();
             try
             {
-                var response = sp.GetData(correo, esquema).ToList();
+                var response = sp.GetData(usuario, esquema).ToList();
                 return "Éxito";
             }
             catch (Exception ex)
@@ -206,11 +206,11 @@ namespace BSP.POS.DATOS.Usuarios
 
         }
 
-        public int ObtenerIntentosDeLogin(string esquema, string correo)
+        public int ObtenerIntentosDeLogin(string esquema, string usuario)
         {
             ObtenerIntentosDeLoginTableAdapter sp = new ObtenerIntentosDeLoginTableAdapter();
                 int intentos = 0;
-                var response = sp.GetData(esquema, correo).ToList();
+                var response = sp.GetData(esquema, usuario).ToList();
                 foreach(var item in response)
                 {
                     intentos = item.maximo_intentos;

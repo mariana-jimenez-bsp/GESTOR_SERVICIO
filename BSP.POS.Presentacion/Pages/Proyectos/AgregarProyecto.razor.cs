@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Services.Clientes;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -15,8 +16,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public List<mClientes> listaDeClientes = new List<mClientes>();
         public string mensajeError;
         List<string> permisos;
-        private bool proyectoAgregado = false;
-        private bool descartarCambios = false;
+
         private bool cargaInicial = false;
         protected override async Task OnInitializedAsync()
         {
@@ -101,22 +101,23 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         }
         private async Task DescartarCambios()
         {
-            descartarCambios = false;
-            proyecto = new mProyectos();
-            StateHasChanged();
-            await Task.Delay(100);
-            descartarCambios = true;
+            await SwalAviso("Se han cancelado los cambios");
         }
         private async Task AgregarProyectoNuevo()
         {
             mensajeError = null;
-            proyectoAgregado = false;
+            bool resultadoProyecto = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ProyectosService.AgregarProyecto(proyecto, esquema);
-                proyecto = new mProyectos();
-                proyectoAgregado = true;
+                resultadoProyecto = await ProyectosService.AgregarProyecto(proyecto, esquema);
+                if(resultadoProyecto) {
+                    await SwalExito("Se ha agregado el Proyecto");
+                }
+                else
+                {
+                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                }
             }
             catch (Exception)
             {
@@ -142,6 +143,44 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private void IrAProyectos()
         {
             navigationManager.NavigateTo($"proyectos");
+        }
+
+        private async Task SwalExito(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    IrAProyectos();
+                }
+            });
+        }
+
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    IrAProyectos();
+                }
+            });
         }
     }
 }

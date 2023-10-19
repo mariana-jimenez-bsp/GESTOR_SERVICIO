@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
+using CurrieTechnologies.Razor.SweetAlert2;
 
 namespace BSP.POS.Presentacion.Pages.Clientes
 {
@@ -27,8 +28,6 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public mAgregarCliente clienteNuevo = new mAgregarCliente();
         public string mensajeError;
         public string monedaActual;
-        private bool clienteAgregado = false;
-        private bool descartarCambios = false;
         private bool cargaInicial = false;
         List<string> permisos;
         protected override async Task OnInitializedAsync()
@@ -477,15 +476,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         }
         private async Task DescartarCambios()
         {
-            descartarCambios = false;
-            clienteNuevo = new mAgregarCliente();
-            StateHasChanged();
-            await Task.Delay(100);
-            descartarCambios = true;
+            await SwalAviso("Se han cancelado los cambios");
         }
         private async Task AgregarClienteNuevo()
         {
-            clienteAgregado = false;
             mensajeError = null;
             try
             {
@@ -504,9 +498,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
                 if (ClientesService.ClienteAsociado != null)
                 {
-
-                    clienteAgregado = true;
-                    clienteNuevo = new mAgregarCliente();
+                    await SwalExito("Se ha agregado el cliente");
                 }
                 else
                 {
@@ -539,6 +531,44 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private void IrAClientes()
         {
             navigationManager.NavigateTo($"clientes");
+        }
+
+        private async Task SwalExito(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                           IrAClientes();
+                }
+            });
+        }
+
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    IrAClientes();   
+                }
+            });
         }
     }
 }

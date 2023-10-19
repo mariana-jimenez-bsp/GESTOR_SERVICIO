@@ -5,6 +5,7 @@
 @inject IClientesInterface ClientesService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
+@inject SweetAlertService Swal;
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
@@ -18,14 +19,6 @@
             @if (!string.IsNullOrEmpty(mensajeError))
             {
                 <ModalError mensaje="@mensajeError"></ModalError>
-            }
-            @if (clienteAgregado)
-            {
-                <ModalExito mensaje="El cliente se ha agregado"></ModalExito>
-            }
-            @if (descartarCambios)
-            {
-                <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
             }
             <div class="div-vacio"></div>
             <div class="mt-4 d-flex row g-2 text-center width-content">
@@ -412,12 +405,8 @@
 
             </div>
             <div class="footer-agregar-cliente text-13-medium">
-                <button type="button" @onclick="IrAClientes" class="rounded-pill border border-primary blue-light-bg text-light button-footer mx-5" id="ir-a-clientes">
-                    Clientes
-                </button>
                 <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-agregar-cliente">
-                    Descartar
-                    cambios
+                    Cancelar
                 </button>
                 <button type="submit" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-cliente">
                     Agregar
