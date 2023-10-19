@@ -25,4 +25,10 @@
     <Folder Include="wwwroot\sample-data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="clSeguridad">
+      <HintPath>bin\clSeguridad.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

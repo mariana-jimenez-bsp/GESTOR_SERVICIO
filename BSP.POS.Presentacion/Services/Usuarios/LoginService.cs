@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using BSP.POS.Presentacion.Models.Licencias;
+using clSeguridad;
 
 namespace BSP.POS.Presentacion.Services.Usuarios
 {
@@ -47,12 +48,14 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         public string EncriptarClave(string clave)
         {
-            byte[] data = Encoding.UTF8.GetBytes(clave);
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hash = sha256.ComputeHash(data);
-                return Convert.ToBase64String(hash);
-            }
+            Cryptografia _cryptografia = new Cryptografia();
+            //byte[] data = Encoding.UTF8.GetBytes(clave);
+            //using (SHA256 sha256 = SHA256.Create())
+            //{
+            //    byte[] hash = sha256.ComputeHash(data);
+            //    return Convert.ToBase64String(hash);
+            //}
+            return _cryptografia.EncryptString(clave, "BSP");
         }
 
         public async Task<bool> EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion)

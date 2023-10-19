@@ -6,11 +6,12 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
     {
        
         string EncriptarClave(string clave);
+        string DesencriptarClave(string clave);
 
         mPerfil Perfil { get; set; }
         Task ObtenerPerfil(string usuario, string esquema);
 
-        Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal);
+        Task<bool> ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal);
 
         Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente);
         List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; }
@@ -38,7 +39,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
 
         mUsuariosParaEditar UsuarioParaEditar { get; set; }
         Task ObtenerElUsuarioParaEditar(string esquema, string codigo);
-        Task ActualizarUsuario(mUsuariosParaEditar usuario, string esquema, string usuarioActual);
+        Task<bool> ActualizarUsuario(mUsuariosParaEditar usuario, string esquema, string usuarioActual);
         Task<string> ValidarExistenciaEsquema(string esquema); 
     }
 }

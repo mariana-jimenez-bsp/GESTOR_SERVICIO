@@ -45,9 +45,9 @@
                             <div class="d-flex justify-content-center align-items-center font-blue-light">
                                 <span class="mx-2">Filtro:</span>
                                 <span>Desde</span>
-                                <input class="mx-2 input-date text-light text-center" type="date" min="@fechaMin" max="@fechaMax" @bind="@fechaInicioDateTime" @oninput="CambioFechaInicio"/>
+                                <input class="mx-2 input-date text-light text-center" type="date" @bind="@fechaInicioDateTime" @oninput="CambioFechaInicio"/>
                                 <span>Hasta</span>
-                                <input class="ms-2 input-date text-light text-center" type="date" min="@fechaMin" max="@fechaMax" @bind="@fechaFinalDateTime" @oninput="CambioFechaFinal"/>
+                                <input class="ms-2 input-date text-light text-center" type="date" @bind="@fechaFinalDateTime" @oninput="CambioFechaFinal"/>
                             </div>
                         </div>
                         @if (correoEnviado != null)

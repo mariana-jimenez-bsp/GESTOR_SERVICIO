@@ -12,13 +12,14 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using clSeguridad;
 
 namespace BSP.POS.NEGOCIOS.Usuarios
 {
     public class N_Login
     {
         D_Login objetoLogin = new D_Login();
-        D_Usuarios objetoUsuario = new D_Usuarios();
+        Cryptografia _cryptografia = new Cryptografia();
 
         public string Login(U_Login pLogin)
         {
@@ -26,7 +27,9 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             U_LoginToken login = new U_LoginToken();
             string usuario = objetoLogin.ObtenerUsuarioPorCorreo(pLogin.esquema, pLogin.correo);
             string claveActual = objetoLogin.ConsultarClaveUsuario(pLogin, usuario);
-            if (CompararClaves(pLogin.contrasena, claveActual))
+            string claveActualDescifrada = _cryptografia.DecryptString(claveActual, "BSP");
+            string claveLoginDescifrada = _cryptografia.DecryptString(pLogin.contrasena, "BSP");
+            if (CompararClaves(claveActualDescifrada, claveLoginDescifrada))
             {
                 D_Permisos datosPermisos = new D_Permisos();
                 D_Usuarios datosUsuarios = new D_Usuarios();

@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Interfaces.Usuarios;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
+using clSeguridad;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net;
@@ -38,14 +39,22 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         public string EncriptarClave(string clave)
         {
-            byte[] data = Encoding.UTF8.GetBytes(clave);
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hash = sha256.ComputeHash(data);
-                return Convert.ToBase64String(hash);
-            }
+            Cryptografia _cryptografia = new Cryptografia();
+            //byte[] data = Encoding.UTF8.GetBytes(clave);
+            //using (SHA256 sha256 = SHA256.Create())
+            //{
+            //    byte[] hash = sha256.ComputeHash(data);
+            //    return Convert.ToBase64String(hash);
+            //}
+            return _cryptografia.EncryptString(clave, "BSP");
         }
-        
+
+        public string DesencriptarClave(string clave)
+        {
+            Cryptografia _cryptografia = new Cryptografia();
+            return _cryptografia.DecryptString(clave, "BSP");
+        }
+
         public async Task ObtenerPerfil(string usuario, string esquema)
         {
             string url = "Usuarios/ObtenerPerfil/" + usuario + "/" + esquema;
@@ -58,32 +67,19 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         }
 
-        public async Task ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal)
+        public async Task<bool> ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal)
         {
-
-
-                if (!string.IsNullOrEmpty(perfil.clave))
-                {
-                    perfil.clave = EncriptarClave(perfil.clave);
-                }
-                else {
-                    perfil.clave = string.Empty;
-                }
+                perfil.claveDesencriptada = null;
                 string url = "Usuarios/ActualizarPerfil";
                 string jsonData = JsonSerializer.Serialize(perfil);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK) {
-                if (usuarioOriginal != perfil.usuario || correoOriginal != perfil.correo || (claveOriginal != perfil.clave && !string.IsNullOrEmpty(perfil.clave)))
-                {
-
-                    _navigationManager.NavigateTo($"login", forceLoad: true);
-                    await _localStorageService.RemoveItemAsync("token");
-                }
+                return true;
 
             }
-                
+            return false;
             
         }
         public async Task ObtenerListaDeUsuarios(string esquema)
@@ -351,20 +347,12 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             
         }
 
-        public async Task ActualizarUsuario(mUsuariosParaEditar usuario, string esquema, string usuarioActual)
+        public async Task<bool> ActualizarUsuario(mUsuariosParaEditar usuario, string esquema, string usuarioActual)
         {
             try
-            {
-                
-                    if (!string.IsNullOrEmpty(usuario.clave))
-                    {
-                        usuario.clave = EncriptarClave(usuario.clave);
-                    }
-                    else
-                    {
-                        usuario.clave = string.Empty;
-                    }
-                
+            { 
+                usuario.claveDesencriptada = null;
+                usuario.claveOriginal = null;
 
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 string url = "Usuarios/ActualizaElUsuario";
@@ -375,22 +363,16 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK )
                 {
-                    if (usuarioActual == usuario.usuarioOrignal)
-                    {
-                        if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || (usuario.claveOriginal != usuario.clave && !string.IsNullOrEmpty(usuario.clave)))
-                        {
-
-                            _navigationManager.NavigateTo($"login", forceLoad: true);
-                            await _localStorageService.RemoveItemAsync("token");
-                        }
-                    }
-                }
                     
+                    return true;
+                    
+                }
+                return false; 
                 
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
 

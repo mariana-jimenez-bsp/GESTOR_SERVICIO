@@ -5,6 +5,7 @@ using BSP.POS.Presentacion.Models.Permisos;
 using System;
 using System.Security.Claims;
 using BSP.POS.Presentacion.Models.Clientes;
+using Blazored.LocalStorage;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
@@ -50,9 +51,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
             if (UsuariosService.Perfil != null)
             {
                 perfil = UsuariosService.Perfil;
-                claveOriginal = perfil.clave;
+                claveOriginal = UsuariosService.DesencriptarClave(perfil.clave);
+                perfil.claveDesencriptada = claveOriginal;
                 correoOriginal = perfil.correo;
-                perfil.clave = null;
                 usuarioOriginal = perfil.usuario;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ClientesService.ObtenerListaClientes(esquema);
@@ -135,7 +136,8 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                perfil.clave = e.Value.ToString();
+                perfil.claveDesencriptada = e.Value.ToString();
+                perfil.clave = UsuariosService.EncriptarClave(perfil.claveDesencriptada);
             }
             else
             {
@@ -214,6 +216,8 @@ namespace BSP.POS.Presentacion.Pages.Modals
             mensajeError = null;
             try
             {
+                bool resultadoPermisos = false;
+                bool resultaPerfil = false;
                 repetido = false;
                 await VerificarCorreoYUsuarioExistente();
                 if (!repetido)
@@ -224,13 +228,35 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     if (!sonIguales)
                     {
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
+                        resultadoPermisos =  await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, perfil.id, perfil.esquema);
 
                     }
+                    else
+                    {
+                        resultadoPermisos = true;
+                    }
+                    string claveDesencriptada = perfil.claveDesencriptada;
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
-                    await perfilActualizado.InvokeAsync(true);
-                    await CloseModal();
+                    resultaPerfil =  await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
+                    if (resultaPerfil && resultadoPermisos)
+                    {
+                        if (usuarioOriginal != perfil.usuario || correoOriginal != perfil.correo || claveOriginal != claveDesencriptada)
+                        {
+
+                            navigationManager.NavigateTo($"login", forceLoad: true);
+                            await localStorageService.RemoveItemAsync("token");
+                        }
+                        else
+                        {
+                            await perfilActualizado.InvokeAsync(true);
+                            await CloseModal();
+                        }
+                    }
+                    else
+                    {
+                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    }
+                    
                 }
             }
             catch (Exception)
@@ -276,9 +302,9 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 }
 
             }
-            claveOriginal = perfil.clave;
+            claveOriginal = UsuariosService.DesencriptarClave(perfil.clave);
+            perfil.claveDesencriptada = claveOriginal;
             correoOriginal = perfil.correo;
-            perfil.clave = null;
             usuarioOriginal = perfil.usuario;
             await OnClose.InvokeAsync(false);
 

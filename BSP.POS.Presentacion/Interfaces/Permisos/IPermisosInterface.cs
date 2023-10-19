@@ -9,6 +9,6 @@ namespace BSP.POS.Presentacion.Interfaces.Permisos
 
         List<mPermisos> ListaPermisos { get; set; }
         Task ObtenerListaDePermisos(string esquema);
-        Task ActualizarListaPermisosAsociados(List<mPermisosAsociados> listaPermisos, string idUsuario, string esquema);
+        Task<bool> ActualizarListaPermisosAsociados(List<mPermisosAsociados> listaPermisos, string idUsuario, string esquema);
     }
 }

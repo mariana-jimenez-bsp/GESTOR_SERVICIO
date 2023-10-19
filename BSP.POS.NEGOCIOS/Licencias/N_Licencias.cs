@@ -25,17 +25,42 @@ namespace BSP.POS.NEGOCIOS.Licencias
                 U_Licencia licencia = new U_Licencia();
                 U_DatosLicencia datosLicencia = new U_DatosLicencia();
                 licencia = licencias.ObtenerDatosDeLicencia();
-                string formato = "M/d/yyyy h:mm:ss tt";
+                string[] formatos = { "dd/MM/yyyy h:mm:ss tt", "M/d/yyyy h:mm:ss tt" };
                 string FechaInicioTemp = _Cryptografia.DecryptString(licencia.FechaInicio, "BSP");
                 string FechaFinTemp = _Cryptografia.DecryptString(licencia.FechaFin, "BSP");
                 string FechaAvisoTemp = _Cryptografia.DecryptString(licencia.FechaAviso, "BSP");
                 string cantidadUsuariosTemp = _Cryptografia.DecryptString(licencia.CantidadUsuarios, "BSP");
+                DateTime parsedDate1, parsedDate2, parsedDate3;
+
+                if (DateTime.TryParseExact(FechaInicioTemp, formatos, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate1))
+                {
+                    datosLicencia.FechaInicio = parsedDate1;
+                }
+                else
+                {
+                    return null;
+                }
+                if (DateTime.TryParseExact(FechaFinTemp, formatos, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate2))
+                {
+                    datosLicencia.FechaFin = parsedDate2;
+                }
+                else
+                {
+                    return null;
+                }
+                if (DateTime.TryParseExact(FechaAvisoTemp, formatos, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate3))
+                {
+                    datosLicencia.FechaAviso = parsedDate3;
+                }
+                else
+                {
+                    return null;
+                }
+
                 //datosLicencia.FechaInicio = DateTime.ParseExact(FechaInicioTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
                 //datosLicencia.FechaFin = DateTime.ParseExact(FechaFinTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
                 //datosLicencia.FechaAviso = DateTime.ParseExact(FechaAvisoTemp, formato, CultureInfo.InvariantCulture, DateTimeStyles.None);
-                datosLicencia.FechaInicio = DateTime.Parse(FechaInicioTemp);
-                datosLicencia.FechaFin = DateTime.Parse(FechaFinTemp);
-                datosLicencia.FechaAviso = DateTime.Parse(FechaAvisoTemp);
+
                 datosLicencia.CantidadUsuarios = int.Parse(cantidadUsuariosTemp);
                 string MacAddress = _Cryptografia.DecryptString(licencia.MacAddress, "BSP");
                 datosLicencia.Pais = _Cryptografia.DecryptString(licencia.Pais, "BSP");

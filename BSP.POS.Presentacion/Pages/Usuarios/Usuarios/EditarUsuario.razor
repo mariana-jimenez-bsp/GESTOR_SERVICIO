@@ -5,6 +5,7 @@
 @inject IJSRuntime JSRuntime
 @inject ILicenciasInterface LicenciasService
 @inject NavigationManager navigationManager
+@inject ILocalStorageService localStorageService
 @if (cargarInicial)
 {
     @if (rol == "Admin")
@@ -63,7 +64,7 @@
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-clave">Clave:</label>
                             <div class="width-pass d-flex align-items-center col-md-4 border border-success rounded-pill text-input">
-                                <input class="border-0 w-100 h-100 rounded-pill px-2 " id="a-clave" type="@(mostrarClave ? "text" : "password")" @oninput="(e) => CambioClave(e, usuario.id)">
+                                <input class="border-0 w-100 h-100 rounded-pill px-2 " id="a-clave" type="@(mostrarClave ? "text" : "password")" @bind-value="@usuario.claveDesencriptada" @oninput="(e) => CambioClave(e, usuario.id)">
                                 @if (mostrarClave)
                                 {
                                     <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
@@ -75,6 +76,7 @@
                             </div>
                         </div>
                         <ValidationMessage For="@(() => usuario.clave)" />
+                            <ValidationMessage For="@(() => usuario.claveDesencriptada)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-nombreCliente">Nombre Cliente:</label>
                             @if (string.IsNullOrEmpty(codigoCliente))

@@ -1,4 +1,5 @@
-﻿using BSP.POS.Presentacion.Models.Clientes;
+﻿using Blazored.LocalStorage;
+using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
@@ -39,7 +40,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
-            if(await VerificarValidaCodigoCliente() && await VerificarValidaCodigoUsuario())
+            usuarioActual = user.Identity.Name;
+            if (await VerificarValidaCodigoCliente() && await VerificarValidaCodigoUsuario())
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
@@ -48,13 +50,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     usuario = UsuariosService.UsuarioParaEditar;
                     await RefrescarPermisos();
                 }
-                if (usuarioActual == usuario.usuario)
-                {
-                    usuario.claveOriginal = usuario.clave;
-                }
+                    usuario.claveOriginal = UsuariosService.DesencriptarClave(usuario.clave);
+                    usuario.claveDesencriptada = usuario.claveOriginal;
+                
                 usuario.usuarioOrignal = usuario.usuario;
                 usuario.correoOriginal = usuario.correo;
-                usuario.clave = null;
             }
             else
             {
@@ -164,7 +164,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuario.clave = e.Value.ToString();
+                usuario.claveDesencriptada = e.Value.ToString();
+                usuario.clave = UsuariosService.EncriptarClave(usuario.claveDesencriptada);
+
+            }
+            else
+            {
+                usuario.clave = null;
             }
         }
 
@@ -323,19 +329,23 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             descartarCambios = true;
         }
 
-        private async Task ActualizarListaDePermisos()
+        private async Task<bool> ActualizarListaDePermisos()
         {
-
+            bool resultado = false;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await PermisosService.ObtenerListaDePermisosAsociados(usuario.esquema, usuario.id);
             bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == usuario.listaPermisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(usuario.listaPermisosAsociados.Contains);
             if (!sonIguales)
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await PermisosService.ActualizarListaPermisosAsociados(usuario.listaPermisosAsociados, usuario.id, usuario.esquema);
+                resultado = await PermisosService.ActualizarListaPermisosAsociados(usuario.listaPermisosAsociados, usuario.id, usuario.esquema);
 
             }
-
+            else
+            {
+                resultado = true;
+            }
+            return resultado;
         }
         private async Task ActualizarUsuario()
         {
@@ -343,21 +353,42 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             usuarioActualizado = false;
             try
             {
+                bool ResultadoUsuario = false;
+                bool ResultadoPermisos = false;
                 repetido = false;
                 await VerificarCorreoYUsuarioExistente();
                 if (!repetido)
                 {
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
-                    await ActualizarListaDePermisos();
+                    ResultadoUsuario = await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
+                    ResultadoPermisos = await ActualizarListaDePermisos();
                     usuarioActualizado = true;
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerElUsuarioParaEditar(esquema, codigo);
-                    if (UsuariosService.UsuarioParaEditar != null)
+                    if(ResultadoUsuario && ResultadoPermisos)
                     {
-                        usuario = UsuariosService.UsuarioParaEditar;
-                        await RefrescarPermisos();
+                        if(usuarioActual == usuario.usuarioOrignal)
+                        {
+                            if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || usuario.claveOriginal != usuario.claveDesencriptada)
+                            {
+
+                                navigationManager.NavigateTo($"login", forceLoad: true);
+                                await localStorageService.RemoveItemAsync("token");
+                            }
+                            else
+                            {
+                                IrAUsuarios();
+                            }
+                        }
+                        else
+                        {
+                            IrAUsuarios();
+                        }
+                        
+                        
+                    }
+                    else
+                    {
+                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
                     }
                 }
                 else

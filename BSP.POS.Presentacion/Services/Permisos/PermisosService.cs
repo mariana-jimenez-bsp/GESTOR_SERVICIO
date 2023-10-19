@@ -48,7 +48,7 @@ namespace BSP.POS.Presentacion.Services.Permisos
            
         }
 
-        public async Task ActualizarListaPermisosAsociados(List<mPermisosAsociados> listaPermisos, string idUsuario, string esquema)
+        public async Task<bool> ActualizarListaPermisosAsociados(List<mPermisosAsociados> listaPermisos, string idUsuario, string esquema)
         {
             try
             {
@@ -63,12 +63,13 @@ namespace BSP.POS.Presentacion.Services.Permisos
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
     }
