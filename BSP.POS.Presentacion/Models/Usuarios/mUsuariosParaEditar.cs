@@ -30,6 +30,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         public string rol { get; set; } = string.Empty;
         [Required(ErrorMessage = "El teléfono es requerido")]
         [StringLength(50, ErrorMessage = "Tamaño máximo de 50 caracteres")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "El campo tiene que ser un teléfono válido")]
         public string telefono { get; set; } = string.Empty;
         [Required(ErrorMessage = "El departamento es requerido")]
         [StringLength(100, ErrorMessage = "Tamaño máximo de 100 caracteres")]
@@ -53,6 +54,9 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         [StringLength(100, MinimumLength = 8, ErrorMessage = "El tamaño debe ser entre 8 a 100 caracteres")]
         [RegularExpression(@"^(?=.*\d)(?=.*[!@#$%^&*()_+\-=?.])(?=.*[A-Z]).+$", ErrorMessage = "La contraseña debe contener al menos un dígito, al menos un carácter de la lista !@#$%^&*()_+-=?. y al menos una letra mayúscula.")]
         public string? claveDesencriptada { get; set; }
+        [Required(ErrorMessage = "El pais del télefono es requerido")]
+        public string paisTelefono { get; set; } = string.Empty;
+        public int IdCodigoTelefono { get; set; } = 0;
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (ImagenFile != null)
@@ -65,6 +69,14 @@ namespace BSP.POS.Presentacion.Models.Usuarios
                 if (!validacion)
                 {
                     yield return new ValidationResult("La imagen debe ser tipo tipo .png o .jpg", new[] { nameof(ImagenFile) });
+                }
+                
+            }
+            if (paisTelefono == "CRI")
+            {
+                if (telefono.Length != 8)
+                {
+                    yield return new ValidationResult("Un número de télefono de Costa Rica debe tener 8 dígitos", new[] { nameof(telefono) });
                 }
             }
         }

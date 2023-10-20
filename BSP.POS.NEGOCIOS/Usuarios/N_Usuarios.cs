@@ -1,4 +1,5 @@
-﻿using BSP.POS.DATOS.Permisos;
+﻿using BSP.POS.DATOS.CodigoTelefonoPais;
+using BSP.POS.DATOS.Permisos;
 using BSP.POS.DATOS.Usuarios;
 using BSP.POS.UTILITARIOS.Permisos;
 using BSP.POS.UTILITARIOS.Usuarios;
@@ -18,6 +19,7 @@ namespace BSP.POS.NEGOCIOS.Usuarios
     public class N_Usuarios
     {
         D_Usuarios objetoUsuario = new D_Usuarios();
+        D_CodigoTelefonoPais _datosTelefono = new D_CodigoTelefonoPais();
         public string ObtenerPerfil(String pEsquema, String pUsuario)
         {
             try
@@ -214,10 +216,15 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             mensaje = objetoUsuario.ActualizarListaDeUsuarios(pUsuarios, esquema);
             return mensaje;
         }
-        public string AgregarUsuario(U_UsuariosParaEditar pUsuario, string esquema)
+        public string AgregarUsuario(U_UsuariosParaEditar pUsuario, string esquema, int IdCodigoTelefono)
         {
             string mensaje = string.Empty;
             mensaje = objetoUsuario.AgregarUsuario(pUsuario, esquema);
+            if(mensaje != null)
+            {
+                U_Perfil perfil = objetoUsuario.ObtenerPefil(esquema, pUsuario.usuario);
+                _datosTelefono.AgregarCodigoTelefonoPaisUsuario(perfil.codigo, IdCodigoTelefono, esquema);
+            }
             return mensaje;
         }
 

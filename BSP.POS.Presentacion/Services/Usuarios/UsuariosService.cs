@@ -314,11 +314,13 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         {
             try
             {
-                usuario.claveDesencriptada = null; 
+                usuario.claveDesencriptada = null;
+                _http.DefaultRequestHeaders.Remove("X-IdCodigoTelefono");
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 string url = "Usuarios/AgregaUsuario";
                 string jsonData = JsonSerializer.Serialize(usuario);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-IdCodigoTelefono", usuario.IdCodigoTelefono.ToString());
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var response = await _http.PostAsync(url, content);
@@ -359,9 +361,11 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 usuario.claveOriginal = null;
 
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-IdCodigoTelefono");
                 string url = "Usuarios/ActualizaElUsuario";
                 string jsonData = JsonSerializer.Serialize(usuario);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-IdCodigoTelefono", usuario.IdCodigoTelefono.ToString());
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var response = await _http.PostAsync(url, content);

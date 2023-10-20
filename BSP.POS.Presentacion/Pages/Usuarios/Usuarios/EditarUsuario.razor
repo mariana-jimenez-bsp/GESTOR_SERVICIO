@@ -1,6 +1,7 @@
 ﻿@inject IUsuariosInterface UsuariosService
 @inject IPermisosInterface PermisosService
 @inject IClientesInterface ClientesService
+@inject ICodigoTelefonoPaisInterface CodigoTelefonoPaisService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 @inject ILicenciasInterface LicenciasService
@@ -29,12 +30,12 @@
                     <div class="row  border border-success rounded-5 mx-2 ">
                         <div class="d-flex justify-content-center my-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-nombreUsuario">Nombre:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-nombreUsuario" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e, usuario.id)">
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-nombreUsuario" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e)">
                         </div>
                         <ValidationMessage For="@(() => usuario.nombre)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-usuario">Usuario:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-usuario" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e, usuario.id)">
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-usuario" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e)">
                         </div>
                         <ValidationMessage For="@(() => usuario.usuario)" />
                         @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
@@ -45,7 +46,7 @@
                         }
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-correo">Correo:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-correo" type="email" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e, usuario.id)">
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-correo" type="email" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e)">
                         </div>
                         <ValidationMessage For="@(() => usuario.correo)" />
                         @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
@@ -58,7 +59,7 @@
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-clave">Clave:</label>
                             <div class="width-pass d-flex align-items-center col-md-4 border border-success rounded-pill text-input">
-                                <input class="border-0 w-100 h-100 rounded-pill px-2 " id="a-clave" type="@(mostrarClave ? "text" : "password")" @bind-value="@usuario.claveDesencriptada" @oninput="(e) => CambioClave(e, usuario.id)">
+                                <input class="border-0 w-100 h-100 rounded-pill px-2 " id="a-clave" type="@(mostrarClave ? "text" : "password")" @bind-value="@usuario.claveDesencriptada" @oninput="(e) => CambioClave(e)">
                                 @if (mostrarClave)
                                 {
                                     <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
@@ -75,7 +76,7 @@
                             <label class="col-md-4  blue-dark-text label-text" for="c-nombreCliente">Nombre Cliente:</label>
                             @if (string.IsNullOrEmpty(codigoCliente))
                             {
-                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)">
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e)">
                                     <option value="">Seleccione el Cliente</option>
                                     @foreach (var cliente in listaClientes)
                                     {
@@ -85,7 +86,7 @@
                             }
                             else
                             {
-                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e, usuario.id)" disabled>
+                                <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e)" disabled>
                                     @foreach (var cliente in listaClientes)
                                     {
                                         <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
@@ -98,7 +99,7 @@
 
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-esquema">Esquema:</label>
-                            <select @bind="usuario.esquema" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-esquema" @oninput="(e) => CambioEsquema(e, usuario.id)">
+                            <select @bind="usuario.esquema" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-esquema" @oninput="(e) => CambioEsquema(e)">
                                 <option value="">Seleccione el Esquema</option>
                                 <option value="BSP">BSP</option>
                             </select>
@@ -106,21 +107,34 @@
                         <ValidationMessage For="@(() => usuario.esquema)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-rol">Rol:</label>
-                            <select @bind="usuario.rol" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-rol" @oninput="(e) => CambioRol(e, usuario.id)">
+                            <select @bind="usuario.rol" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-rol" @oninput="(e) => CambioRol(e)">
                                 <option value="">Seleccione el Rol</option>
                                 <option value="Usuario">Usuario</option>
                                 <option value="Admin">Administrador</option>
                             </select>
                         </div>
                         <ValidationMessage For="@(() => usuario.rol)" />
+                            <div class="d-flex justify-content-center mb-2 mt-2">
+                                <label class="col-md-4  blue-dark-text label-text" for="c-paisTelefono">Código Teléfono:</label>
+                                <select class="col-md-4 px-2 border border-success rounded-pill text-input" @bind="@usuario.paisTelefono" id="c-paisTelefono" @oninput="CambioPaisTelefono">
+                                    @if (listaCodigoTelefonoPais.Any())
+                                    {
+                                        foreach (var CodigoTelefonoPais in listaCodigoTelefonoPais)
+                                        {
+                                            <option value="@CodigoTelefonoPais.Pais">@CodigoTelefonoPais.CodigoTelefono - @CodigoTelefonoPais.NombrePais</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <ValidationMessage For="@(() => usuario.paisTelefono)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-telefono">Teléfono:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-telefono" @bind-value="@usuario.telefono" @oninput="(e) => CambioTelefono(e, usuario.id)">
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" type="text" id="c-telefono" @bind-value="@usuario.telefono" @oninput="(e) => CambioTelefono(e)">
                         </div>
                         <ValidationMessage For="@(() => usuario.telefono)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-departamento">Departamento:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-departamento" type="text" @bind-value="@usuario.departamento" @oninput="(e) => CambioDepartamento(e, usuario.id)">
+                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-departamento" type="text" @bind-value="@usuario.departamento" @oninput="(e) => CambioDepartamento(e)">
                         </div>
                         <ValidationMessage For="@(() => usuario.departamento)" />
 

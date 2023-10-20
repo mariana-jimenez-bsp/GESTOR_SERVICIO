@@ -10,6 +10,7 @@ using BSP.POS.Presentacion.Models.Licencias;
 using System.Security.Claims;
 using BSP.POS.Presentacion.Services.Informes;
 using CurrieTechnologies.Razor.SweetAlert2;
+using BSP.POS.Presentacion.Models.CodigoTelefonoPais;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -22,6 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
         public List<mClientes> listaClientes = new List<mClientes>();
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
+        public List<mCodigoTelefonoPais> listaCodigoTelefonoPais = new List<mCodigoTelefonoPais>();
         public mDatosLicencia licencia = new mDatosLicencia();
         bool repetido = false;
         public string correoRepite = string.Empty;
@@ -54,7 +56,15 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     todosLosPermisos = PermisosService.ListaPermisos;
 
                 }
-
+                usuario.paisTelefono = "CRI";
+               
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await CodigoTelefonoPaisService.ObtenerDatosCodigoTelefonoPais(esquema);
+                if(CodigoTelefonoPaisService.listaDatosCodigoTelefonoPais != null)
+                {
+                    listaCodigoTelefonoPais = CodigoTelefonoPaisService.listaDatosCodigoTelefonoPais;
+                    usuario.IdCodigoTelefono = listaCodigoTelefonoPais.Where(ct => ct.Pais == usuario.paisTelefono).Select(ct => ct.Id).First();
+                }
 
             }
             else
@@ -108,14 +118,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioCliente(ChangeEventArgs e, string usuarioId)
+        private void CambioCliente(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
                 usuario.cod_cliente = e.Value.ToString();
         }
 
 
-        private void CambioUsuario(ChangeEventArgs e, string usuarioId)
+        private void CambioUsuario(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -123,7 +133,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioCorreo(ChangeEventArgs e, string usuarioId)
+        private void CambioCorreo(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -131,7 +141,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioClave(ChangeEventArgs e, string usuarioId)
+        private void CambioClave(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -144,14 +154,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioRol(ChangeEventArgs e, string usuarioId)
+        private void CambioRol(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
                 usuario.rol = e.Value.ToString();
             }
         }
-        private void CambioEsquema(ChangeEventArgs e, string usuarioId)
+        private void CambioEsquema(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -159,7 +169,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioNombre(ChangeEventArgs e, string usuarioId)
+        private void CambioNombre(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -167,7 +177,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioTelefono(ChangeEventArgs e, string usuarioId)
+        private void CambioTelefono(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -175,8 +185,17 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
+        private void CambioPaisTelefono(ChangeEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                usuario.paisTelefono = e.Value.ToString();
+                usuario.IdCodigoTelefono = listaCodigoTelefonoPais.Where(ct => ct.Pais == usuario.paisTelefono).Select(ct => ct.Id).First();
+            }
+        }
 
-        private void CambioDepartamento(ChangeEventArgs e, string usuarioId)
+
+        private void CambioDepartamento(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {

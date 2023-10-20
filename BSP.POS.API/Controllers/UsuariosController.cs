@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Hosting;
 using System.Reflection.Metadata.Ecma335;
+using BSP.POS.NEGOCIOS.CodigoTelefonoPais;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BSP.POS.API.Controllers
@@ -28,10 +29,11 @@ namespace BSP.POS.API.Controllers
         private readonly ICorreosInterface _correoService;
         
         private N_Usuarios user;
+        private N_CodigoTelefonoPais _datosTelefono;
         public UsuariosController(ICorreosInterface correoService)
         {
             user = new N_Usuarios();
-            
+            _datosTelefono = new N_CodigoTelefonoPais();
 
             var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
@@ -356,8 +358,9 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
+                int IdCodigoTelefono = int.Parse(Request.Headers["X-IdCodigoTelefono"]);
 
-                string mensaje = user.AgregarUsuario(datos, esquema);
+                string mensaje = user.AgregarUsuario(datos, esquema, IdCodigoTelefono);
                 if (string.IsNullOrEmpty(mensaje))
                 {
                     return NotFound();
@@ -399,11 +402,13 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
+                int IdCodigoTelefono = int.Parse(Request.Headers["X-IdCodigoTelefono"]);
                 string mensaje = user.ActualizarUsuario(datos, esquema);
                 if (string.IsNullOrEmpty(mensaje))
                 {
                     return NotFound();
                 }
+                _datosTelefono.ActualizarCodigoTelefonoPaisUsuario(datos.codigo, IdCodigoTelefono, esquema);
                 return Ok(mensaje);
             }
             catch (Exception ex)

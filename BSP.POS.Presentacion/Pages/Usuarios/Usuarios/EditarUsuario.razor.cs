@@ -1,8 +1,10 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.CodigoTelefonoPais;
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Services.CodigoTelefonoPais;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -22,6 +24,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
         public List<mClientes> listaClientes = new List<mClientes>();
+        public List<mCodigoTelefonoPais> listaCodigoTelefonoPais = new List<mCodigoTelefonoPais>();
+        public mCodigoTelefonoPaisUsuarios datosCodigoTelefonoPaisDeUsuario = new mCodigoTelefonoPaisUsuarios();
         public string usuarioActual = string.Empty;
         bool repetido = false;
         public string rol = string.Empty;
@@ -54,6 +58,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 
                 usuario.usuarioOrignal = usuario.usuario;
                 usuario.correoOriginal = usuario.correo;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await CodigoTelefonoPaisService.ObtenerDatosCodigoTelefonoPaisDeUsuarioPorUsuario(esquema, usuario.codigo);
+                if(CodigoTelefonoPaisService.datosCodigoTelefonoPaisDeUsuario != null)
+                {
+                    datosCodigoTelefonoPaisDeUsuario = CodigoTelefonoPaisService.datosCodigoTelefonoPaisDeUsuario;
+                    usuario.IdCodigoTelefono = datosCodigoTelefonoPaisDeUsuario.IdCodigoTelefono;
+                    usuario.paisTelefono = datosCodigoTelefonoPaisDeUsuario.Pais;
+                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await CodigoTelefonoPaisService.ObtenerDatosCodigoTelefonoPais(esquema);
+                if (CodigoTelefonoPaisService.listaDatosCodigoTelefonoPais != null)
+                {
+                    listaCodigoTelefonoPais = CodigoTelefonoPaisService.listaDatosCodigoTelefonoPais;
+                    
+                }
             }
             else
             {
@@ -136,14 +155,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
             
         }
-        private void CambioCliente(ChangeEventArgs e, string usuarioId)
+        private void CambioCliente(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
                 usuario.cod_cliente = e.Value.ToString();
         }
 
 
-        private void CambioUsuario(ChangeEventArgs e, string usuarioId)
+        private void CambioUsuario(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -151,7 +170,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioCorreo(ChangeEventArgs e, string usuarioId)
+        private void CambioCorreo(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -159,7 +178,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioClave(ChangeEventArgs e, string usuarioId)
+        private void CambioClave(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -173,14 +192,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioRol(ChangeEventArgs e, string usuarioId)
+        private void CambioRol(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
                 usuario.rol = e.Value.ToString();
             }
         }
-        private void CambioEsquema(ChangeEventArgs e, string usuarioId)
+        private void CambioEsquema(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -188,7 +207,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioNombre(ChangeEventArgs e, string usuarioId)
+        private void CambioNombre(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
@@ -196,16 +215,23 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
         }
 
-        private void CambioTelefono(ChangeEventArgs e, string usuarioId)
+        private void CambioTelefono(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
                 usuario.telefono = e.Value.ToString();
             }
         }
+        private void CambioPaisTelefono(ChangeEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                usuario.paisTelefono = e.Value.ToString();
+                usuario.IdCodigoTelefono = listaCodigoTelefonoPais.Where(ct => ct.Pais == usuario.paisTelefono).Select(ct => ct.Id).First();
+            }
+        }
 
-
-        private void CambioDepartamento(ChangeEventArgs e, string usuarioId)
+        private void CambioDepartamento(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
