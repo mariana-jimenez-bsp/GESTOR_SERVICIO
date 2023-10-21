@@ -1,0 +1,109 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigationManager
+@inject IDepartamentosInterface DepartamentosService
+@inject IJSRuntime JSRuntime
+
+@if (cargaInicial)
+{
+    @if (rol != null && rol == "Admin")
+    {
+
+        <div class="el-layout">
+            <Layout Texto="RecibirTexto"></Layout>
+        </div>
+
+        <div class="width-departamentos">
+            <EditForm Model="@departamentos" OnValidSubmit="ActualizarListaDepartamentos" OnInvalidSubmit="ActivarScrollBarDeErrores">
+                <ObjectGraphDataAnnotationsValidator />
+
+                @if (!string.IsNullOrEmpty(mensajeActualizar))
+                {
+                    <ModalExito mensaje="@mensajeActualizar"></ModalExito>
+                }
+                @if (!string.IsNullOrEmpty(mensajeError))
+                {
+                    <ModalError mensaje="@mensajeError"></ModalError>
+                }
+                <div class=" d-flex row g-2 text-center ">
+                    <div class="container mt-1 border-transparent">
+
+                        <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
+                            <div class="col-md-6">
+                                <label class=" text-center w-75 ">Código de Departamento</label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="pe-2 text-center w-100">Nombre</label>
+                            </div>
+                        </div>
+                        <div class="max-height-departamentos overflow-y-auto overflow-x-hidden scrollbar-modal-departamentos">
+                            @if (departamentos != null)
+                            {
+                                var listaDepartamentos = departamentos.OrderBy(a => a.codigo).ToList();
+                                if (!string.IsNullOrEmpty(textoRecibido))
+                                {
+                                    // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
+                                    listaDepartamentos = listaDepartamentos.Where(departamento =>
+                                    departamento.Departamento.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    departamento.codigo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                    ).ToList();
+                                }
+                                @foreach (var departamento in listaDepartamentos)
+                                {
+                                    <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
+                                        <div class="col-md-6">
+                                            <input class="w-75 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@departamento.codigo" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="w-100 text-center blue-dark-text border-primary rounded-pill" type="text" @bind-value="@departamento.Departamento" @oninput="(e) => CambioDepartamentoNombre(e, departamento.Id)">
+                                            <ValidationMessage For="@(() => departamento.Departamento)" />
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-departamento text-13-medium">
+                    <div @onclick="() => IrAAgregarDepartamento()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-departamento">
+                        Agregar
+                        Departamento
+                    </div>
+                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-departamentos">
+                        Cancelar
+                    </div>
+                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-departamentos">
+                        Guardar
+                        cambios
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+
+        @if (!string.IsNullOrEmpty(mensajeDescartar))
+        {
+            <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
+        }
+
+    }
+    else
+
+
+    {
+        <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+    }
+    <ScriptMaxHeight Contenido=".max-height-departamentos" Elemento1=".el-layout" Elemento2=".footer-departamento" Elemento3=".card-header"></ScriptMaxHeight>
+}
+else
+{
+    <div class="loader">
+        <p class="heading">Loading</p>
+        <div class="loading">
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+            <div class="load"></div>
+        </div>
+    </div>
+}

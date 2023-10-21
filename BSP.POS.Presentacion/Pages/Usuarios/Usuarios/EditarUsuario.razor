@@ -2,6 +2,7 @@
 @inject IPermisosInterface PermisosService
 @inject IClientesInterface ClientesService
 @inject ICodigoTelefonoPaisInterface CodigoTelefonoPaisService
+@inject IDepartamentosInterface DepartamentosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 @inject ILicenciasInterface LicenciasService
@@ -134,9 +135,18 @@
                         <ValidationMessage For="@(() => usuario.telefono)" />
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-departamento">Departamento:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-departamento" type="text" @bind-value="@usuario.departamento" @oninput="(e) => CambioDepartamento(e)">
+                           
+                            <select class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-departamento" @bind="@usuario.codigo_departamento" @oninput="(e) => CambioDepartamento(e)">
+                                @if (listaDepartamentos.Any())
+                                {
+                                    foreach (var departamento in listaDepartamentos)
+                                    {
+                                        <option value="@departamento.codigo">@departamento.Departamento</option>
+                                    } 
+                                }
+                             </select>
                         </div>
-                        <ValidationMessage For="@(() => usuario.departamento)" />
+                        <ValidationMessage For="@(() => usuario.codigo_departamento)" />
 
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text text-center">Imagen:</label>

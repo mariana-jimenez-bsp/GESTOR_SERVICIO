@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
 using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
@@ -24,6 +25,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public mUsuariosDeClienteDeInforme informeDeUsuarioAsociado = new mUsuariosDeClienteDeInforme();
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
+        public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         private string correoEnviado;
         public string mensajeError;
         private bool EsConsecutivoNull = false;
@@ -46,8 +48,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
             }
-
-            if(UsuariosService.Perfil != null)
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+            if (DepartamentosService.listaDepartamentos != null)
+            {
+                listaDepartamentos = DepartamentosService.listaDepartamentos;
+            }
+            if (UsuariosService.Perfil != null)
             {
                 datosUsuario = UsuariosService.Perfil;
                 if (!string.IsNullOrEmpty(datosUsuario.codigo))
@@ -192,8 +199,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                         objetoParaCorreo.listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
                         foreach (var usuario in objetoParaCorreo.listadeUsuariosDeClienteDeInforme)
                         {
-                            usuario.nombre_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.usuario).First();
-                            usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
+                            mUsuariosDeCliente usuarioTemporal = new mUsuariosDeCliente();
+                            usuarioTemporal = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).First();
+                            usuario.nombre_usuario = usuarioTemporal.nombre;
+                            usuario.departamento_usuario = listaDepartamentos.Where(d => d.codigo == usuarioTemporal.codigo_departamento).Select(d => d.Departamento).First();
                         }
                     }
                     objetoParaCorreo.ClienteAsociado = clienteAsociado;

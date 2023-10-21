@@ -1,5 +1,4 @@
 ﻿using BSP.POS.Presentacion.Interfaces.CodigoTelefonoPais;
-using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.CodigoTelefonoPais;
 using BSP.POS.Presentacion.Pages.Home;
 using System.Net.Http.Json;

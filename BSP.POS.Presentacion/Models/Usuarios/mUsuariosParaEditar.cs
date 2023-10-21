@@ -33,8 +33,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         [RegularExpression(@"^\d+$", ErrorMessage = "El campo tiene que ser un teléfono válido")]
         public string telefono { get; set; } = string.Empty;
         [Required(ErrorMessage = "El departamento es requerido")]
-        [StringLength(100, ErrorMessage = "Tamaño máximo de 100 caracteres")]
-        public string departamento { get; set; } = string.Empty;
+        public string codigo_departamento { get; set; } = string.Empty;
         public byte[] imagen { get; set; } = new byte[] { 0x00 };
         [Required(ErrorMessage = "El esquema es requerido")]
         [StringLength(10, ErrorMessage = "Tamaño máximo de 10 caracteres")]

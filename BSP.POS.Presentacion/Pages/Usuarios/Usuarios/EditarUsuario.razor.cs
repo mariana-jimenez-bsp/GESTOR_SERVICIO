@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.CodigoTelefonoPais;
+using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
@@ -25,6 +26,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
         public List<mClientes> listaClientes = new List<mClientes>();
         public List<mCodigoTelefonoPais> listaCodigoTelefonoPais = new List<mCodigoTelefonoPais>();
+        public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mCodigoTelefonoPaisUsuarios datosCodigoTelefonoPaisDeUsuario = new mCodigoTelefonoPaisUsuarios();
         public string usuarioActual = string.Empty;
         bool repetido = false;
@@ -72,6 +74,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 {
                     listaCodigoTelefonoPais = CodigoTelefonoPaisService.listaDatosCodigoTelefonoPais;
                     
+                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+                if (DepartamentosService.listaDepartamentos != null)
+                {
+                    listaDepartamentos = DepartamentosService.listaDepartamentos;
                 }
             }
             else
@@ -235,7 +243,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuario.departamento = e.Value.ToString();
+                usuario.codigo_departamento = e.Value.ToString();
             }
         }
         private async Task CambioImagen(InputFileChangeEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Proyectos;
@@ -17,6 +18,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public List<mClientes> clientes = new List<mClientes>();
         public mDatosLicencia licencia = new mDatosLicencia();
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
+        public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public string esquema = string.Empty;
         public bool cargaInicial = false;
         public string rol = string.Empty;
@@ -40,6 +42,12 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             {
                 licencia = LicenciasService.licencia;
 
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+            if (DepartamentosService.listaDepartamentos != null)
+            {
+                listaDepartamentos = DepartamentosService.listaDepartamentos;
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
@@ -88,6 +96,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     cliente.listaDeUsuarios = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, cliente.CLIENTE);
                     cliente.listaDeUsuarios = cliente.listaDeUsuarios.OrderBy(c => c.cod_cliente).ToList();
+                    foreach (var usuarioCliente in cliente.listaDeUsuarios)
+                    {
+                        usuarioCliente.nombre_departamento = listaDepartamentos.Where(d => d.codigo == usuarioCliente.codigo_departamento).Select(d => d.Departamento).First();
+                    }
                 }
             }
         }

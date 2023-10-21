@@ -117,7 +117,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, item.nombre, item.departamento, item.correo, item.telefono);
+                    U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, item.nombre, item.codigo_departamento, item.correo, item.telefono);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -272,7 +272,7 @@ namespace BSP.POS.DATOS.Usuarios
 
             foreach (var item in response)
             {
-                U_ListaDeUsuariosDeCliente user = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, "", item.departamento, item.correo, item.telefono);
+                U_ListaDeUsuariosDeCliente user = new U_ListaDeUsuariosDeCliente(item.Id, item.codigo, item.cod_cliente, item.usuario, "", item.codigo_departamento, item.correo, item.telefono);
                 usuario = user;
             }
 
@@ -342,7 +342,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.departamento, item.imagen, item.esquema);
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.codigo_departamento, item.imagen, item.esquema);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -354,40 +354,14 @@ namespace BSP.POS.DATOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
-        public string ActualizarListaDeUsuarios(List<U_UsuariosParaEditar> pUsuarios, string esquema)
-        {
-            POSDataSet.ActualizarListaDeUsuariosDataTable bTabla = new POSDataSet.ActualizarListaDeUsuariosDataTable();
-            ActualizarListaDeUsuariosTableAdapter sp = new ActualizarListaDeUsuariosTableAdapter();
-            try
-            {
-                foreach (var usuario in pUsuarios)
-                {
-                    if (string.IsNullOrEmpty(usuario.clave))
-                    {
-                        U_Perfil perf = ObtenerUsuarioPorId(usuario.esquema, usuario.id);
-                        usuario.clave = perf.clave;
-                    }
-                    var response = sp.GetData(esquema, usuario.id, usuario.cod_cliente, usuario.departamento, usuario.usuario, usuario.correo, usuario.clave, usuario.nombre, usuario.rol, usuario.telefono, usuario.imagen);
-
-                }
-                return "Exito";
-            }
-            catch (Exception)
-            {
-
-                return "Error";
-            }
-
-
-
-        }
+        
         public string AgregarUsuario(U_UsuariosParaEditar pUsuario, string esquema)
         {
             POSDataSet.AgregarUsuarioDataTable bTabla = new POSDataSet.AgregarUsuarioDataTable();
             AgregarUsuarioTableAdapter sp = new AgregarUsuarioTableAdapter();
             try
             {
-                var response = sp.GetData(pUsuario.cod_cliente, pUsuario.departamento, 
+                var response = sp.GetData(pUsuario.cod_cliente, pUsuario.codigo_departamento, 
                     pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, 
                     pUsuario.rol, pUsuario.telefono, pUsuario.imagen, pUsuario.esquema);
 
@@ -415,7 +389,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.departamento, item.imagen, item.esquema);
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.codigo_departamento, item.imagen, item.esquema);
 
                     usuarioParEditar = usuario;
                 }
@@ -440,7 +414,7 @@ namespace BSP.POS.DATOS.Usuarios
                         U_Perfil perf = ObtenerUsuarioPorId(pUsuario.esquema, pUsuario.id);
                         pUsuario.clave = perf.clave;
                     }
-                    var response = sp.GetData(esquema, pUsuario.id, pUsuario.codigo, pUsuario.cod_cliente, pUsuario.departamento, pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, pUsuario.rol, pUsuario.telefono, pUsuario.imagen);
+                    var response = sp.GetData(esquema, pUsuario.id, pUsuario.codigo, pUsuario.cod_cliente, pUsuario.codigo_departamento, pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, pUsuario.rol, pUsuario.telefono, pUsuario.imagen);
 
                 
                 return "Exito";

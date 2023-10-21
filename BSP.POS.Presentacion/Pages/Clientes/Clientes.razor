@@ -4,6 +4,7 @@
 @inject IItemsClienteInterface ItemsClienteService
 @inject IClientesInterface ClientesService
 @inject IUsuariosInterface UsuariosService
+@inject IDepartamentosInterface DepartamentosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
@@ -206,7 +207,7 @@
                                                                         <span>@usuario.usuario</span>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <span>@usuario.departamento</span>
+                                                                        <span>@usuario.nombre_departamento</span>
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <span>@usuario.correo</span>

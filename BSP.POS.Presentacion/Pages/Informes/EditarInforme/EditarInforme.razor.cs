@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
 using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
@@ -24,6 +25,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
         public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
+        public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
@@ -105,7 +107,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         listaActividades = ActividadesService.ListaActividades;
 
                     }
-                    await RefrescarListaDeActividadesAsociadas();
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+                    if (DepartamentosService.listaDepartamentos != null)
+                    {
+                        listaDepartamentos = DepartamentosService.listaDepartamentos;
+                    }
+                        await RefrescarListaDeActividadesAsociadas();
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
@@ -317,8 +325,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
                 foreach (var usuario in listadeUsuariosDeClienteDeInforme)
                 {
-                    usuario.nombre_usuario = listaTodosLosUsuarios.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.nombre).First();
-                    usuario.departamento_usuario = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).Select(c => c.departamento).First();
+                    mUsuariosParaEditar usuarioTemporal = new mUsuariosParaEditar();
+                    usuarioTemporal = listaTodosLosUsuarios.Where(u => u.codigo == usuario.codigo_usuario_cliente).First();
+                    usuario.nombre_usuario = usuarioTemporal.nombre;
+                    usuario.departamento_usuario = listaDepartamentos.Where(d => d.codigo == usuarioTemporal.codigo_departamento).Select(d => d.Departamento).First();
                 }
             }
             listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();

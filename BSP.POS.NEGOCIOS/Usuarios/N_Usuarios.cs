@@ -210,12 +210,7 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             }
         }
 
-        public string ActualizarListaDeUsuarios(List<U_UsuariosParaEditar> pUsuarios, string esquema)
-        {
-            string mensaje = string.Empty;
-            mensaje = objetoUsuario.ActualizarListaDeUsuarios(pUsuarios, esquema);
-            return mensaje;
-        }
+
         public string AgregarUsuario(U_UsuariosParaEditar pUsuario, string esquema, int IdCodigoTelefono)
         {
             string mensaje = string.Empty;

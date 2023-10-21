@@ -25,6 +25,9 @@
 .img-proyectos {
     width: 50px;
 }
+.img-departamentos {
+    width: 50px;
+}
 .search-input {
     border: none;
     margin: 0;
@@ -67,6 +70,9 @@ a {
 }
 .blue-light-text {
     color: #2255A1;
+}
+.blue-dark-text {
+    color: #1C3259;
 }
 .sections {
     margin-top: 0;

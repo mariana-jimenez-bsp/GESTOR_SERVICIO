@@ -331,26 +331,7 @@ namespace BSP.POS.API.Controllers
             }
 
         }
-        [Authorize]
-        [HttpPost("ActualizaListaDeUsuarios")]
-        public IActionResult ActualizaListaDeUsuarios([FromBody] List<U_UsuariosParaEditar> datos)
-        {
-            try
-            {
-                string esquema = Request.Headers["X-Esquema"];
-                string mensaje = user.ActualizarListaDeUsuarios(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
-                {
-                    return NotFound();
-                }
-                return Ok(mensaje);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-
-        }
+        
         [Authorize]
         [HttpPost("AgregaUsuario")]
         public IActionResult AgregaUsuario([FromBody] U_UsuariosParaEditar datos)

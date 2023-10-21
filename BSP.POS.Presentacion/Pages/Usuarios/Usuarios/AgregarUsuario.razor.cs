@@ -11,6 +11,7 @@ using System.Security.Claims;
 using BSP.POS.Presentacion.Services.Informes;
 using CurrieTechnologies.Razor.SweetAlert2;
 using BSP.POS.Presentacion.Models.CodigoTelefonoPais;
+using BSP.POS.Presentacion.Models.Departamentos;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -24,6 +25,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public List<mClientes> listaClientes = new List<mClientes>();
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
         public List<mCodigoTelefonoPais> listaCodigoTelefonoPais = new List<mCodigoTelefonoPais>();
+        public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mDatosLicencia licencia = new mDatosLicencia();
         bool repetido = false;
         public string correoRepite = string.Empty;
@@ -65,7 +67,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     listaCodigoTelefonoPais = CodigoTelefonoPaisService.listaDatosCodigoTelefonoPais;
                     usuario.IdCodigoTelefono = listaCodigoTelefonoPais.Where(ct => ct.Pais == usuario.paisTelefono).Select(ct => ct.Id).First();
                 }
-
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+                if(DepartamentosService.listaDepartamentos != null)
+                {
+                    listaDepartamentos = DepartamentosService.listaDepartamentos;
+                }
             }
             else
             {
@@ -199,7 +206,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuario.departamento = e.Value.ToString();
+                usuario.codigo_departamento = e.Value.ToString();
             }
         }
         private async Task CambioImagen(InputFileChangeEventArgs e)
