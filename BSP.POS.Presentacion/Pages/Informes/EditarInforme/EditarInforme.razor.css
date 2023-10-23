@@ -6,6 +6,12 @@
     margin-left: 1%;
    width: 96%;
 }
+.input-date {
+    border: none;
+    height: 25px;
+    background-color: #1C3259;
+    border-radius: 10px;
+}
 .max-height-observation{
     max-height: 80px;
 }

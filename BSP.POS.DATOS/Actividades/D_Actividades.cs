@@ -23,7 +23,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 { 
-                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas);
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate);
 
                     LstActividades.Add(actividad);
                 }
@@ -47,7 +47,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 {
-                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas);
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate);
 
                     LstActividades.Add(actividad);
                 }

@@ -9,6 +9,7 @@ using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
@@ -49,6 +50,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private bool informeGuardado = false;
         private bool activarBotonFinalizar = false;
         private bool informeActualizado = false;
+        private string fechaInicio = string.Empty;
+        private string fechaFinal = string.Empty;
+        private DateTime fechaInicioDateTime = DateTime.MinValue;
+        private DateTime fechaFinalDateTime = DateTime.MinValue;
+        private string usuarioFiltro = string.Empty;
         private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".div-agregar-usuario" };
         private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".div-agregar-actividad" };
 
@@ -344,7 +350,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             {
                 listaActividadesParaAgregar = listaActividadesDeUsuario.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
             }
-            
+            foreach (var actividad in listaActividadesParaAgregar)
+            {
+                string fecha = actividad.fecha_actualizacion.Replace("  ", " ");
+                actividad.FechaActualizacionDateTime = DateTime.ParseExact(fecha, "MMM dd yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            }
+            fechaInicioDateTime = listaActividadesParaAgregar.OrderBy(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+            fechaFinalDateTime = listaActividadesParaAgregar.OrderByDescending(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
         }
         private async Task RefrescarListaDeUsuariosDeInforme()
         {
@@ -550,6 +562,46 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
             }
             StateHasChanged(); 
+        }
+        private void CambioFechaInicio(ChangeEventArgs e)
+        {
+            fechaInicio = e.Value.ToString();
+            if (!string.IsNullOrEmpty(fechaInicio))
+            {
+                fechaInicioDateTime = DateTime.ParseExact(fechaInicio, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                if (fechaInicioDateTime > fechaFinalDateTime)
+                {
+                    fechaFinal = fechaInicio;
+                    fechaFinalDateTime = fechaInicioDateTime;
+                }
+            }
+        }
+
+        private void CambioFechaFinal(ChangeEventArgs e)
+        {
+            fechaFinal = e.Value.ToString();
+            if (!string.IsNullOrEmpty(fechaFinal))
+            {
+                fechaFinalDateTime = DateTime.ParseExact(fechaFinal, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                if (fechaFinalDateTime < fechaInicioDateTime)
+                {
+                    fechaInicio = fechaFinal;
+                    fechaInicioDateTime = fechaFinalDateTime;
+                }
+            }
+        }
+        private void CambioUsuarioFiltro(ChangeEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                usuarioFiltro = e.Value.ToString();
+            }
+            else
+            {
+                usuarioFiltro = string.Empty;
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public List<mActividades> listaActividadesParaAgregar = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
-        public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
+        public List<mDatosUsuariosDeClienteDeInforme> listadeDatosUsuariosDeClienteDeInforme = new List<mDatosUsuariosDeClienteDeInforme>();
         public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
@@ -183,10 +183,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
-            if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
+            if (UsuariosService.ListaDatosUsuariosDeClienteDeInforme != null)
             {
-                listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
-                foreach (var usuario in listadeUsuariosDeClienteDeInforme)
+                listadeDatosUsuariosDeClienteDeInforme = UsuariosService.ListaDatosUsuariosDeClienteDeInforme;
+                foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                 {
                     mUsuariosParaEditar usuarioTemporal = new mUsuariosParaEditar();
                     usuarioTemporal = listaTodosLosUsuarios.Where(u => u.codigo == usuario.codigo_usuario_cliente).First();
@@ -194,7 +194,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                     usuario.departamento_usuario = listaDepartamentos.Where(d => d.codigo == usuarioTemporal.codigo_departamento).Select(d => d.Departamento).First();
                 }
             }
-            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
+            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeDatosUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
         }
        
 
@@ -223,7 +223,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 {
                     actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
                 }
-                objetoParaCorreo.listadeUsuariosDeClienteDeInforme = listadeUsuariosDeClienteDeInforme;
+                //objetoParaCorreo.listadeUsuariosDeClienteDeInforme = listadeDatosUsuariosDeClienteDeInforme;
                 objetoParaCorreo.ClienteAsociado = ClienteAsociado;
                 objetoParaCorreo.esquema = esquema;
                 objetoParaCorreo.listaDeObservaciones = listaDeObservaciones;

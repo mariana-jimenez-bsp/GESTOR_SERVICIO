@@ -18,5 +18,7 @@ namespace BSP.POS.Presentacion.Models.Actividades
         [Required(ErrorMessage = "El campo de Horas es requerido")]
         [Range(0, int.MaxValue, ErrorMessage = "El valor de horas debe ser un número entero válido.")]
         public string horas { get; set; } = string.Empty;
+        public string fecha_actualizacion { get; set; } = string.Empty;
+        public DateTime FechaActualizacionDateTime { get; set; } = DateTime.MinValue;
     }
 }

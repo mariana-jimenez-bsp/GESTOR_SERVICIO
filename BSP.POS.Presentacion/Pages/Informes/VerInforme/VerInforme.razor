@@ -57,30 +57,45 @@
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
                         <div class="row text-center p-2 blue-light-text font-20-book">
-                            <div class="col-md-4 ">
-                                <span>NOMBRE</span>
+                            <div class="col-md-2">
+                                <span class="ms-3">NOMBRE</span>
                             </div>
-                            <div class="col-md-4 ">
+                            <div class="col-md-3">
                                 <span>DEP.</span>
                             </div>
-                            <div class="col-md-4 ">
-                                <span>ACEPTACIÓN</span>
+                            <div class="col-md-2">
+                                <span>ROL</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>CORREO</span>
+                            </div>
+                            <div class="col-md-1">
+                                <span>ACEPT.</span>
+                            </div>
+                            <div class="col-md-1">
+                                
                             </div>
                         </div>
                         <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report">
-                            @if (listadeUsuariosDeClienteDeInforme != null)
+                            @if (listadeDatosUsuariosDeClienteDeInforme != null)
                             {
 
-                                foreach (var usuario in listadeUsuariosDeClienteDeInforme)
+                                foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                                 {
                                     <div class="row p-2 text-center font-14-book">
-                                        <div class="col-md-4">
-                                            <span>@usuario.nombre_usuario</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <span>@usuario.departamento_usuario</span>
-                                        </div>
-                                        <div class="col-md-4 pt-0 mt-0">
+                                     <div class="col-md-2">
+                                        <span>@usuario.nombre_usuario</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>@usuario.departamento_usuario</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span>@usuario.rol_usuario</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>@usuario.correo_usuario</span>
+                                    </div>
+                                        <div class="col-md-1 pt-0 mt-0">
 
                                                     @if (usuario.aceptacion == "1")
                                                     {
