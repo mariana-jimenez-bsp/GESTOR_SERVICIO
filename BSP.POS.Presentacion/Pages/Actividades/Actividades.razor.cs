@@ -1,4 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
+using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Reflection.Metadata;
@@ -10,7 +11,10 @@ namespace BSP.POS.Presentacion.Pages.Actividades
     {
         public string esquema = string.Empty;
         public List<mActividades> actividades = new List<mActividades>();
+        public List<mUsuariosParaEditar> listaUsuarios = new List<mUsuariosParaEditar>();
+        public mPerfil perfilActual = new mPerfil();
         public bool cargaInicial = false;
+        public string usuarioActual = string.Empty;
         public string rol = string.Empty;
         List<string> permisos;
         public string mensajeActualizar;
@@ -21,22 +25,65 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
+            usuarioActual = user.Identity.Name;
             permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            await ActividadesService.ObtenerListaDeActividades(esquema);
-            if (ActividadesService.ListaActividades != null)
+            await RefrescarListaActividades();
+            
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+            if(UsuariosService.ListaDeUsuariosParaEditar != null)
             {
-                actividades = ActividadesService.ListaActividades;
-
+                listaUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
             }
 
-            
             cargaInicial = true;
         }
+        private async Task RefrescarListaActividades()
+        {
+           
+            if (rol == "Admin")
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.ObtenerListaDeActividades(esquema);
+                if (ActividadesService.ListaActividades != null)
+                {
+                    actividades = ActividadesService.ListaActividades;
 
-        
+                }
+            }
+            else
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
+                if(UsuariosService.Perfil != null)
+                {
+                    perfilActual = UsuariosService.Perfil;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ActividadesService.ObtenerListaDeActividadesPorUsuario(esquema, perfilActual.codigo);
+                    if (ActividadesService.ListaActividades != null)
+                    {
+                        actividades = ActividadesService.ListaActividadesDeUsuario;
 
+                    }
+                }
+            }
+        }
+
+        private void CambioCodigoUsuario(ChangeEventArgs e, string actividadId)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()) && rol == "Admin")
+            {
+                foreach (var actividad in actividades)
+                {
+                    if (actividad.Id == actividadId)
+                    {
+                        actividad.codigo_usuario = e.Value.ToString();
+                    }
+                }
+            }
+        }
 
 
         private void CambioActividadNombre(ChangeEventArgs e, string actividadId)
@@ -85,12 +132,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         {
             mensajeActualizar = null;
             mensajeDescartar = null;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ActividadesService.ObtenerListaDeActividades(esquema);
-            if (ActividadesService.ListaActividades != null)
-            {
-                actividades = ActividadesService.ListaActividades;
-            }
+            await RefrescarListaActividades();
             mensajeDescartar = "Se han Descartado los cambios";
         }
         private async Task ActualizarListaActividades()
@@ -104,10 +146,8 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                 bool seActualizo = await ActividadesService.ActualizarListaDeActividades(actividades, esquema);
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await ActividadesService.ObtenerListaDeActividades(esquema);
-                if (ActividadesService.ListaActividades != null)
-                {
-                    actividades = ActividadesService.ListaActividades;
-                    if (seActualizo)
+                await RefrescarListaActividades();
+                if (seActualizo)
                     {
                         mensajeActualizar = "Actividades Actualizadas";
                     }
@@ -116,7 +156,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                         mensajeError = "Ocurrío un Error vuelva a intentarlo";
                     }
                     
-                }
+                
             }
             catch (Exception)
             {

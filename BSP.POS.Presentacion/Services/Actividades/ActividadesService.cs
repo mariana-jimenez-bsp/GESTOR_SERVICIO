@@ -19,7 +19,7 @@ namespace BSP.POS.Presentacion.Services.Actividades
 
         public List<mActividadesAsociadas> ListaActividadesAsociadas { get; set; } = new List<mActividadesAsociadas>();
         public List<mActividades> ListaActividades { get; set; } = new List<mActividades>();
-
+        public List<mActividades> ListaActividadesDeUsuario { get; set; } = new List<mActividades>();
         public async Task ObtenerListaDeActividadesAsociadas(string consecutivo, string esquema)
         {
             string url = "Actividades/ObtengaLaListaDeActividadesAsociadas/" + consecutivo + "/" + esquema;
@@ -49,7 +49,23 @@ namespace BSP.POS.Presentacion.Services.Actividades
             }
             
         }
-
+        public async Task ObtenerListaDeActividadesPorUsuario(string esquema, string codigo)
+        {
+            string url = "Actividades/ObtengaLaListaDeActividadesPorUsuario";
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Remove("X-CodigoUsuario");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Add("X-CodigoUsuario", codigo);
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaActividades = await response.Content.ReadFromJsonAsync<List<mActividades>>();
+                if (listaActividades is not null)
+                {
+                    ListaActividadesDeUsuario = listaActividades;
+                }
+            }
+        }
         public async Task<bool> ActualizarListaDeActividades(List<mActividades> listaActividades, string esquema)
         {
             try

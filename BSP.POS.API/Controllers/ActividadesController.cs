@@ -44,12 +44,33 @@ namespace BSP.POS.API.Controllers
         {
             try
             {
-                string listaActividadesAsociadasJson = actividades.ListarActividades(esquema);
-                if (string.IsNullOrEmpty(listaActividadesAsociadasJson))
+                string listaActividadesJson = actividades.ListarActividades(esquema);
+                if (string.IsNullOrEmpty(listaActividadesJson))
                 {
                     return NotFound();
                 }
-                return Ok(listaActividadesAsociadasJson);
+                return Ok(listaActividadesJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+        [HttpGet("ObtengaLaListaDeActividadesPorUsuario")]
+        public IActionResult ObtengaLaListaDeActividadesPorUsuario()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-CodigoUsuario"];
+                string listaActividadesJson = actividades.ListarActividadesPorUsuario(esquema, codigo);
+                if (string.IsNullOrEmpty(listaActividadesJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaActividadesJson);
             }
 
             catch (Exception ex)

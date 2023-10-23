@@ -3,6 +3,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IActividadesInterface ActividadesService
+@inject IUsuariosInterface UsuariosService
 @inject IJSRuntime JSRuntime
 @if (cargaInicial)
 {
@@ -29,17 +30,20 @@
                     <div class="container mt-1 border-transparent">
 
                         <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
-                            <div class="col-md-3">
-                                <label class=" text-center w-75 ">Código de Act.</label>
+                            <div class="col-md-2">
+                                <label class=" text-center w-75 ">Código</label>
+                            </div>
+                            <div class="col-md-2">
+                                <label class=" text-center w-75 ">Usuario</label>
                             </div>
                             <div class="col-md-3">
                                 <label class="pe-2 text-center w-100">Nombre</label>
                             </div>
-                            <div class="col-md-4">
-                                <label class="pe-4 text-center w-100 ">CI-Referencia</label>
+                            <div class="col-md-3">
+                                <label class="pe-3 text-center w-100 ">CI-Referencia</label>
                             </div>
                             <div class="col-md-2">
-                                <label class="pe-5 text-center w-50">Horas</label>
+                                <label class="pe-3 text-center w-50">Horas</label>
                             </div>
                         </div>
                         <div class="max-height-activities overflow-y-auto overflow-x-hidden scrollbar-modal-activities">
@@ -58,21 +62,32 @@
                                 @foreach (var actividad in listaDeActividades)
                                 {
                                     <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
-                                        <div class="col-md-3">
-                                            <input class="w-75 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.codigo" readonly>
+                                        <div class="col-md-2">
+                                            <input class="w-75 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.codigo" readonly>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="w-100 text-center blue-dark-text border-dark-blue rounded-pill" @bind="@actividad.codigo_usuario" @oninput="(e) => CambioCodigoUsuario(e, actividad.Id)" disabled="@(rol == "Admin" ? false : true)">
+                                                @if(listaUsuarios.Any()){
+                                                    foreach (var usuario in listaUsuarios)
+                                                    {
+                                                        <option value="@usuario.codigo">@usuario.nombre</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <ValidationMessage For="@(() => actividad.codigo_usuario)" />
                                         </div>
                                         <div class="col-md-3">
-                                            <input class="w-100 text-center blue-dark-text border-primary rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
+                                            <input class="w-100 text-center blue-dark-text border-dark-blue rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
                                             <ValidationMessage For="@(() => actividad.Actividad)" />
                                         </div>
 
-                                        <div class="col-md-4">
-                                            <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
+                                        <div class="col-md-3">
+                                            <input class="w-100 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
                                             <ValidationMessage For="@(() => actividad.CI_referencia)" />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <input class="w-50 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
+                                            <input class="w-50 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
                                             <ValidationMessage For="@(() => actividad.horas)" />
                                         </div>
 
@@ -84,11 +99,11 @@
                     </div>
                 </div>
                 <div class="footer-activity text-13-medium">
-                    <div @onclick="() => IrAAgregarActividad()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                    <div @onclick="() => IrAAgregarActividad()" class="mouse-pointer rounded-pill border border-green green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
                         Agregar
                         Actividad
                     </div>
-                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
+                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-dark-blue blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
                         Cancelar
                     </div>
                     <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos">

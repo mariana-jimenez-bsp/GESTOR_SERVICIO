@@ -48,6 +48,23 @@ namespace BSP.POS.NEGOCIOS.Actividades
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public string ListarActividadesPorUsuario(String pEsquema, string pCodigo)
+        {
+            try
+            {
+                List<U_ListaActividades> list = new List<U_ListaActividades>();
+
+                list = objActividad.ListaActividadesPorUsuario(pEsquema, pCodigo);
+
+                string actividades = JsonConvert.SerializeObject(list);
+                return actividades;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public string ActualizarListaDeActividades(List<U_ListaActividades> pActividades, string esquema)
         {
             string mensaje = string.Empty;

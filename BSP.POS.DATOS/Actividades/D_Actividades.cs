@@ -23,7 +23,31 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 { 
-                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.Actividad, item.CI_referencia, item.horas);
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas);
+
+                    LstActividades.Add(actividad);
+                }
+                return LstActividades;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_ListaActividades> ListaActividadesPorUsuario(String pEsquema, string pCodigo)
+        {
+            var LstActividades = new List<U_ListaActividades>();
+
+            ListarActividadesPorUsuarioTableAdapter sp = new ListarActividadesPorUsuarioTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas);
 
                     LstActividades.Add(actividad);
                 }
@@ -44,7 +68,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var actividad in pActividades)
                 {
-                    var response = sp.GetData(actividad.Id, actividad.codigo, actividad.Actividad, actividad.CI_referencia, actividad.horas, esquema);
+                    var response = sp.GetData(actividad.Id, actividad.codigo, actividad.codigo_usuario, actividad.Actividad, actividad.CI_referencia, actividad.horas, esquema);
 
                 }
                 return "Exito";
@@ -153,7 +177,7 @@ namespace BSP.POS.DATOS.Actividades
             AgregarActividadTableAdapter sp = new AgregarActividadTableAdapter();
             try
             {
-                var response = sp.GetData(pActividad.Actividad, pActividad.CI_referencia, int.Parse(pActividad.horas), esquema);
+                var response = sp.GetData(pActividad.codigo_usuario, pActividad.Actividad, pActividad.CI_referencia, int.Parse(pActividad.horas), esquema);
 
 
                 return "Exito";

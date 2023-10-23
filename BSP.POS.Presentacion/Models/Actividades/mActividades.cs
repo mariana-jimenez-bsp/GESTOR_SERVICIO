@@ -7,6 +7,8 @@ namespace BSP.POS.Presentacion.Models.Actividades
     {
         public string Id { get; set; } = string.Empty;
         public string codigo { get; set; } = string.Empty;
+        [Required(ErrorMessage = "El campo del usuario es requerido")]
+        public string codigo_usuario { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo del nombre es requerido")]
         [StringLength(200, ErrorMessage = "Tamaño máximo de 200 caracteres")]
         public string Actividad { get; set; } = string.Empty;
