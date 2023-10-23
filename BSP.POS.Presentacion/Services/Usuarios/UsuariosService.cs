@@ -22,6 +22,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         private readonly NavigationManager _navigationManager;
         public List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; } = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; } = new List<mUsuariosDeClienteDeInforme>();
+        public List<mDatosUsuariosDeClienteDeInforme> ListaDatosUsuariosDeClienteDeInforme { get; set; } = new List<mDatosUsuariosDeClienteDeInforme>();
         public List<mPerfil> ListaDeUsuarios { get; set; } = new List<mPerfil>();
         
         public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
@@ -129,7 +130,19 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
             
         }
-
+        public async Task ObtenerDatosListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
+        {
+            string url = "Usuarios/ObtengaDatosListaUsuariosDeClienteDeInforme/" + consecutivo + "/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaInformesAsociados = await response.Content.ReadFromJsonAsync<List<mDatosUsuariosDeClienteDeInforme>>();
+                if (listaInformesAsociados is not null)
+                {
+                    ListaDatosUsuariosDeClienteDeInforme = listaInformesAsociados;
+                }
+            }
+        }
         public async Task AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema)
         {
             try

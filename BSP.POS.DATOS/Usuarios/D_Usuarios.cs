@@ -223,6 +223,31 @@ namespace BSP.POS.DATOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public List<U_DatosUsuariosDeClienteDeInforme> ListaDatosUsuariosDeClienteDeInforme(String pEsquema, String pConsecutivo)
+        {
+            var LstInformes = new List<U_DatosUsuariosDeClienteDeInforme>();
+
+            ListarDatosUsuariosDeClienteDeInformeTableAdapter sp = new ListarDatosUsuariosDeClienteDeInformeTableAdapter();
+
+            var response = sp.GetData(pEsquema, pConsecutivo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_DatosUsuariosDeClienteDeInforme informe = new U_DatosUsuariosDeClienteDeInforme(item.Id, 
+                        item.consecutivo_informe, item.codigo_usuario_cliente, item.aceptacion,
+                        item.nombre_usuario, item.departamento_usuario, item.rol_usuario, item.correo_usuario);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public string AgregarUsuarioDeClienteDeInforme(U_UsuariosDeClienteDeInforme pUsuario, string esquema)
         {
             POSDataSet.AgregarUsuarioDeClienteDeInformeDataTable bTabla = new POSDataSet.AgregarUsuarioDeClienteDeInformeDataTable();

@@ -95,8 +95,27 @@ function ScriptMaxHeightExtraContainer(contenido, contenedor, elementosJson) {
     const totalHeight = elements.reduce((acc, elemento) => acc + elemento.offsetHeight, 0);
     const windowHeight = window.innerHeight;
     const availableHeight = windowHeight - totalHeight - 50;
-    const HeightContent = availableHeight - 150;
+    const HeightContent = availableHeight - 100;
     container.style.maxHeight = availableHeight + 'px';
     container.style.minHeight = availableHeight + 'px';
     content.style.maxHeight = HeightContent + 'px';
 }
+window.HacerSelectEditable = function (objRef, selectId) {
+    var select = document.getElementById("select-actividad-" + selectId);
+    var text = select.options[select.selectedIndex].text;
+    var input = document.createElement("input");
+    input.value = text;
+    input.id = "inputEditable";
+    input.classList.add("border-0", "bg-transparent", "text-light", "text-center");
+
+    select.parentNode.replaceChild(input, select);
+
+    input.addEventListener("blur", function () {
+        var updatedText = input.value;
+        input.parentNode.replaceChild(select, input);
+        select.options[select.selectedIndex].text = updatedText;
+
+        // Llama a la función de Blazor para enviar el texto editado.
+        objRef.invokeMethodAsync('ActualizarTextoEditable', updatedText, selectId);
+    });
+};

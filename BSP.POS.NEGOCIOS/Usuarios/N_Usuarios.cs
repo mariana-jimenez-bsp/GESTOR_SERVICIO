@@ -116,6 +116,23 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public string ListarDatosUsuariosDeClienteDeInforme(String pEsquema, String pConsecutivo)
+        {
+            try
+            {
+                List<U_DatosUsuariosDeClienteDeInforme> list = new List<U_DatosUsuariosDeClienteDeInforme>();
+
+                list = objetoUsuario.ListaDatosUsuariosDeClienteDeInforme(pEsquema, pConsecutivo);
+
+                string listaJson = JsonConvert.SerializeObject(list);
+                return listaJson;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public string AgregarUsuarioDeClienteDeInforme(U_UsuariosDeClienteDeInforme pUsuario, string esquema)
         {
             string mensaje = string.Empty;

@@ -15,6 +15,9 @@
 .border-green {
     border: 1px solid #2FAD70;
 }
+.border-dark-blue {
+    border: 1px solid #1C3259;
+}
 .border-inicio-izquierda {
     border-top-left-radius: 20px;
 }

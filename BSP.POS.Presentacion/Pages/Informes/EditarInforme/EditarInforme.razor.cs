@@ -9,6 +9,7 @@ using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
+using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 {
@@ -19,20 +20,23 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public mInformeAsociado informe { get; set; } = new mInformeAsociado();
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
         public List<mActividades> listaActividades = new List<mActividades>();
+        public List<mActividades> listaActividadesDeUsuario = new List<mActividades>();
         public List<mActividadesAsociadas> listaActividadesAsociadas = new List<mActividadesAsociadas>();
         public List<mActividades> listaActividadesParaAgregar = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
-        public List<mUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme = new List<mUsuariosDeClienteDeInforme>();
+        public List<mDatosUsuariosDeClienteDeInforme> listadeDatosUsuariosDeClienteDeInforme = new List<mDatosUsuariosDeClienteDeInforme>();
         public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
+        public mPerfil perfilActual = new mPerfil();
         public int total_horas_cobradas = 0;
         public int total_horas_no_cobradas = 0;
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
+        public string rol = string.Empty;
         private ElementReference actividadesButton;
         private ElementReference informeButton;
         private string successMessage;
@@ -45,8 +49,82 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private bool informeGuardado = false;
         private bool activarBotonFinalizar = false;
         private bool informeActualizado = false;
-        private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones" };
-        private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" };
+        private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".div-agregar-usuario" };
+        private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".div-agregar-actividad" };
+
+        protected override async Task OnInitializedAsync()
+        {
+
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+            usuarioActual = user.Identity.Name;
+            rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
+
+            if (await VerificarValidezDeConsecutivo())
+            {
+                if (!string.IsNullOrEmpty(Consecutivo))
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
+                    if (InformesService.InformeAsociado != null)
+                    {
+                        informe = InformesService.InformeAsociado;
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
+                        if (ClientesService.ClienteAsociado != null)
+                        {
+                            ClienteAsociado = ClientesService.ClienteAsociado;
+                        }
+                        await RefrescarListaActividades();
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+                        if (DepartamentosService.listaDepartamentos != null)
+                        {
+                            listaDepartamentos = DepartamentosService.listaDepartamentos;
+                        }
+                        await RefrescarListaDeActividadesAsociadas();
+
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
+                        await RefrescarListaDeUsuariosDeInforme();
+                        await RefrescarLaListaDeObservaciones(Consecutivo);
+                    }
+                }
+            }
+            else
+            {
+                mensajeConsecutivo = "El consecutivo no existe o no es válido";
+            }
+            cargaInicial = true;
+        }
+        private async Task RefrescarListaActividades()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ActividadesService.ObtenerListaDeActividades(esquema);
+            if (ActividadesService.ListaActividades != null)
+            {
+                listaActividades = ActividadesService.ListaActividades;
+
+            }
+            if (rol != "Admin")
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
+                if(UsuariosService.Perfil != null)
+                {
+                    perfilActual = UsuariosService.Perfil;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ActividadesService.ObtenerListaDeActividadesPorUsuario(esquema, perfilActual.codigo);
+                    if (ActividadesService.ListaActividades != null)
+                    {
+                        listaActividadesDeUsuario = ActividadesService.ListaActividadesDeUsuario;
+
+                    }
+                }
+            }
+            
+        }
         private async Task SubmitActividades()
         {
             await JS.InvokeVoidAsync("clickButton", actividadesButton);
@@ -77,57 +155,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             
 
         }
-        protected override async Task OnInitializedAsync()
-        {
-
-            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authenticationState.User;
-            usuarioActual = user.Identity.Name;
-            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            
-            if (await VerificarValidezDeConsecutivo())
-            {
-            if (!string.IsNullOrEmpty(Consecutivo))
-            {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
-                if (InformesService.InformeAsociado != null)
-                {
-                    informe = InformesService.InformeAsociado;
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
-                    if (ClientesService.ClienteAsociado != null)
-                    {
-                        ClienteAsociado = ClientesService.ClienteAsociado;
-                    }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ActividadesService.ObtenerListaDeActividades(esquema);
-                    if (ActividadesService.ListaActividades != null)
-                    {
-                        listaActividades = ActividadesService.ListaActividades;
-
-                    }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
-                    if (DepartamentosService.listaDepartamentos != null)
-                    {
-                        listaDepartamentos = DepartamentosService.listaDepartamentos;
-                    }
-                        await RefrescarListaDeActividadesAsociadas();
-
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
-                    await RefrescarListaDeUsuariosDeInforme();
-                    await RefrescarLaListaDeObservaciones(Consecutivo);
-                }
-            }
-            }
-            else
-            {
-                mensajeConsecutivo = "El consecutivo no existe o no es válido";
-            }
-            cargaInicial = true;
-        }
+ 
         public async Task<bool> VerificarValidezDeConsecutivo()
         {
             if (Consecutivo.Length > 5)
@@ -308,7 +336,15 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo, esquema);
             listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
             RefrescarTotalHoras();
-            listaActividadesParaAgregar = listaActividades.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+            if(rol == "Admin")
+            {
+                listaActividadesParaAgregar = listaActividades.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+            }
+            else
+            {
+                listaActividadesParaAgregar = listaActividadesDeUsuario.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+            }
+            
         }
         private async Task RefrescarListaDeUsuariosDeInforme()
         {
@@ -319,19 +355,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 listaTodosLosUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
-            if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
+            await UsuariosService.ObtenerDatosListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
+            if (UsuariosService.ListaDatosUsuariosDeClienteDeInforme != null)
             {
-                listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
-                foreach (var usuario in listadeUsuariosDeClienteDeInforme)
-                {
-                    mUsuariosParaEditar usuarioTemporal = new mUsuariosParaEditar();
-                    usuarioTemporal = listaTodosLosUsuarios.Where(u => u.codigo == usuario.codigo_usuario_cliente).First();
-                    usuario.nombre_usuario = usuarioTemporal.nombre;
-                    usuario.departamento_usuario = listaDepartamentos.Where(d => d.codigo == usuarioTemporal.codigo_departamento).Select(d => d.Departamento).First();
-                }
+                listadeDatosUsuariosDeClienteDeInforme = UsuariosService.ListaDatosUsuariosDeClienteDeInforme;
+                
             }
-            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
+            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeDatosUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
         }
         private async Task AgregarUsuarioDeClienteDeInforme()
         {
@@ -495,6 +525,31 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 activarModalFinalizarInforme = true;
                 StateHasChanged();
             }
+        }
+
+        private async Task HacerSelectEditable(string codigoActividad)
+        {
+            if(rol == "Admin" || listaActividadesDeUsuario.Any(a => a.codigo == codigoActividad))
+            {
+                DotNetObjectReference<EditarInforme> objRef = DotNetObjectReference.Create(this);
+                await JS.InvokeVoidAsync("HacerSelectEditable", objRef, codigoActividad);
+            }
+            
+        }
+        [JSInvokable]
+        public async Task ActualizarTextoEditable(string texto, string codigoActividad)
+        {
+            foreach (var actividad in listaActividades)
+            {
+                if(actividad.codigo == codigoActividad && !string.IsNullOrEmpty(texto))
+                {
+                    actividad.Actividad = texto;
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ActividadesService.ActualizarListaDeActividades(listaActividades, esquema);
+                    await RefrescarListaActividades();
+                }
+            }
+            StateHasChanged(); 
         }
     }
 }

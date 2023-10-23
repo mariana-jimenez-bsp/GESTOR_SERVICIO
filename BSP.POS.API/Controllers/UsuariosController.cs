@@ -225,6 +225,26 @@ namespace BSP.POS.API.Controllers
 
         }
         [Authorize]
+        [HttpGet("ObtengaDatosListaUsuariosDeClienteDeInforme/{consecutivo}/{esquema}")]
+        public IActionResult ObtengaDatosListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
+        {
+            try
+            {
+                string listaInformesDeUsuarioDeClienteJson = user.ListarDatosUsuariosDeClienteDeInforme(esquema, consecutivo);
+                if (string.IsNullOrEmpty(listaInformesDeUsuarioDeClienteJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaInformesDeUsuarioDeClienteJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+        [Authorize]
         [HttpPost("AgregaUsuarioDeClienteDeInforme")]
         public IActionResult AgregaUsuarioDeClienteDeInforme([FromBody] U_UsuariosDeClienteDeInforme datos)
         {

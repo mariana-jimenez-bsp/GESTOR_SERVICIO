@@ -20,7 +20,9 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task<string> ValidarUsuarioExistente(string esquema, string usuario);
         Task<string> ValidarExistenciaDeCodigoUsuario(string esquema, string codigo);
         List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; }
+        List<mDatosUsuariosDeClienteDeInforme> ListaDatosUsuariosDeClienteDeInforme { get; set; }
         Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
+        Task ObtenerDatosListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
         Task AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema);
         Task EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema);
         List<mPerfil> ListaDeUsuarios { get; set; }
