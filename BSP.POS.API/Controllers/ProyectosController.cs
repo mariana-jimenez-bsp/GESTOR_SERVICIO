@@ -65,9 +65,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = _proyectos.ActualizarListaDeProyectos(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -86,9 +86,9 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
                 string numero = Request.Headers["X-Numero"];
                 string mensaje = _proyectos.TerminarProyecto(numero, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -106,8 +106,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = _proyectos.AgregarProyecto(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje)) { 
-                    return NotFound();
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
+                {
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }

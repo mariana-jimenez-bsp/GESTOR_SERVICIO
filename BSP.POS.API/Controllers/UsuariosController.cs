@@ -152,9 +152,9 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string mensaje = user.ActualizarPerfil(datos);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -254,9 +254,9 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = user.AgregarUsuarioDeClienteDeInforme(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -277,9 +277,9 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = user.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -362,9 +362,9 @@ namespace BSP.POS.API.Controllers
                 int IdCodigoTelefono = int.Parse(Request.Headers["X-IdCodigoTelefono"]);
 
                 string mensaje = user.AgregarUsuario(datos, esquema, IdCodigoTelefono);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -405,9 +405,9 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
                 int IdCodigoTelefono = int.Parse(Request.Headers["X-IdCodigoTelefono"]);
                 string mensaje = user.ActualizarUsuario(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 _datosTelefono.ActualizarCodigoTelefonoPaisUsuario(datos.codigo, IdCodigoTelefono, esquema);
                 return Ok(mensaje);

@@ -90,8 +90,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = clientes.ActualizarListaDeClientes(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje)){
-                    return NotFound();
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
+                {
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }

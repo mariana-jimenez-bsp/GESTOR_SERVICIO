@@ -13,7 +13,7 @@
     bottom: 0;
     display: flex;
     justify-content: end;
-    height: 120px;
+    height: 90px;
     width: 100%;
     background-color: #2FAD70;
     align-items: center;
@@ -21,7 +21,7 @@
 
     .footer-agregar-cliente .button-footer {
         padding: 10px 20px;
-        height: 50px;
+        height: 40px;
         display: flex;
         align-items: center;
     }
@@ -161,7 +161,7 @@
         max-height: 300px;
     }
     .footer-agregar-cliente {
-        height: 70px;
+        height: 60px;
         max-width: 100%;
     }
         .footer-agregar-cliente .button-footer {

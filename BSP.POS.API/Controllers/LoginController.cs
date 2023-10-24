@@ -155,9 +155,9 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = login.ActualizarClaveDeUsuario(datos);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -192,9 +192,9 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
                 string usuario = Request.Headers["X-Usuario"];
                 string mensaje = login.AumentarIntentosDeLogin(esquema, usuario);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }

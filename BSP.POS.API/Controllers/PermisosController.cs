@@ -69,9 +69,9 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
                 string idUsuario = Request.Headers["X-IdUsuario"];
                 string mensaje = _permisos.ActualizarPermisosAsociados(datos, idUsuario, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }

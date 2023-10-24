@@ -10,8 +10,11 @@
     </div>
     <div class="offcanvas-body">
         <div class="row">
-            <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAMisUsuarios">
+            <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAUsuarios">
                 Usuarios
+            </button>
+            <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrADepartamentos">
+                Departamentos
             </button>
             <button class="btn btn-outline-secondary" type="button" @onclick="IrAlInicio">
                 Volver Al Inicio
@@ -27,9 +30,15 @@
 
         navigationManager.NavigateTo($"Index");
     }
-    private void IrAMisUsuarios()
+    private void IrAUsuarios()
     {
 
         navigationManager.NavigateTo($"Configuraciones/Usuarios");
+    }
+
+    private void IrADepartamentos()
+    {
+
+        navigationManager.NavigateTo($"Configuraciones/Departamentos");
     }
 }

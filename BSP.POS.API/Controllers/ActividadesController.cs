@@ -87,9 +87,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.ActualizarListaDeActividades(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -107,9 +107,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.ActualizarListaDeActividadesAsociadas(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -127,9 +127,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.AgregarActividadDeInforme(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -150,9 +150,9 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = actividades.EliminarActividadDeInforme(idActividad, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -170,9 +170,9 @@ namespace BSP.POS.API.Controllers
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string mensaje = actividades.AgregarActividad(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }

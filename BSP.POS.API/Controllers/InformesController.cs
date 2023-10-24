@@ -118,9 +118,9 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = informes.ActualizarInformeAsociado(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
 
                 // Si todo está bien, devuelve la lista como JSON
@@ -143,9 +143,9 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = informes.CambiarEstadoDeInforme(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -166,9 +166,9 @@ namespace BSP.POS.API.Controllers
 
 
                 string mensaje = informes.EliminarInforme(consecutivo, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }
@@ -285,9 +285,9 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = informes.RechazarInforme(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 return Ok(mensaje);
             }

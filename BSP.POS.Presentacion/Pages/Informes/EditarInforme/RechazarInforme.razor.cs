@@ -25,7 +25,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
             if (await VerificarValidezEsquema())
             {
-                
+                await LicenciasService.ObtenerDatosDeLicencia();
                 if (LicenciasService.licencia != null)
                 {
                     licencia = LicenciasService.licencia;
