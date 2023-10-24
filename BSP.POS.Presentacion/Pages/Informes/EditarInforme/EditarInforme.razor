@@ -256,8 +256,8 @@
                                 </div>
                             </div>
                             <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report ">
-                            <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas">
-                    <ObjectGraphDataAnnotationsValidator />
+                            <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas" OnInvalidSubmit="ActivarScrollBarDeErrores">
+                            <ObjectGraphDataAnnotationsValidator />
                                 @if (listaActividadesAsociadas != null)
                                 {
 
@@ -375,7 +375,7 @@
     }
     else
     {
-        <ModalError mensaje="@mensajeConsecutivo"></ModalError>
+        <RutaErronea mensaje="@mensajeConsecutivo"></RutaErronea>
     }
 }
 else

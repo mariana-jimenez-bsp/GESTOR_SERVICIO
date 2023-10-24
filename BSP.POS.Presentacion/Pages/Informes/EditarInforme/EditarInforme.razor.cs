@@ -647,5 +647,18 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
             });
         }
+
+        private async Task ActivarScrollBarDeErrores()
+        {
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JS.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
+
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JS.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
+        }
     }
 }

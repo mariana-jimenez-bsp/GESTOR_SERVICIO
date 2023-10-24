@@ -3,6 +3,7 @@ using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Actividades;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -23,7 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string mensajeActualizar;
         public string mensajeDescartar;
         public string mensajeError;
-        private bool estadoProyectoTerminado = false;
+
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -204,34 +205,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             return Task.CompletedTask;
         }
 
-        
-        bool actividarModalTerminarProyecto = false;
-        async Task ClickHandlerTerminarProyecto(bool activar)
-        {
-            actividarModalTerminarProyecto = activar;
-            if (!activar)
-            {
-                mensajeActualizar = null;
-                await RefrescarListaDeProyectos();
-            }
-            if (activar)
-            {
-                estadoProyectoTerminado = false;
-            }
-            StateHasChanged();
-        }
-
-        async Task EnviarNumeroTerminarProyecto(bool activar, string numero)
-        {
-            numeroActual = numero;
-            await ClickHandlerTerminarProyecto(activar);
-        }
-
-        void CambiarEstadoProyectoTerminado(bool estado)
-        {
-            estadoProyectoTerminado = estado;
-        }
-
         private async Task ActivarScrollBarDeErrores()
         {
             StateHasChanged();
@@ -254,6 +227,55 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private void IrAAgregarProyecto()
         {
             navigationManager.NavigateTo($"proyecto/agregar");
+        }
+        private async Task TerminarProyecto(string numero)
+        {
+            if (!string.IsNullOrEmpty(numero) && !string.IsNullOrEmpty(esquema))
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ProyectosService.TerminarProyecto(numero, esquema);
+                await SwalAviso("Se ha cambiado el estado del proyecto #"+ numero +" a Terminado");
+            }
+
+        }
+        private async Task SwalTerminarProyecto(string mensajeAlerta, string numero)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Advertencia!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Aceptar",
+                CancelButtonText = "Cancelar"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed)
+                {
+                    await TerminarProyecto(numero);
+                }
+            });
+        }
+
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    await RefrescarListaDeProyectos();
+                    StateHasChanged();
+                }
+            });
         }
     }
 }

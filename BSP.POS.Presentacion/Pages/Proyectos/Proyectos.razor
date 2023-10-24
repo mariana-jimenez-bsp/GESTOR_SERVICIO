@@ -7,6 +7,7 @@
 @inject IClientesInterface ClientesService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
+@inject SweetAlertService Swal;
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
@@ -135,7 +136,7 @@
                                         </div>
                                         <div class="mb-0 col-md-1">
 
-                                            <button type="button" class="green-bg rounded-pill px-2 text-light" @onclick="() => EnviarNumeroTerminarProyecto(true, proyecto.numero)">Terminar</button>
+                                            <button type="button" class="green-bg rounded-pill px-2 text-light" @onclick='() => SwalTerminarProyecto("¿Está seguro de Terminar el proyecto #" + proyecto.numero + "?", proyecto.numero)'>Terminar</button>
 
                                         </div>
                                     </div>
@@ -164,25 +165,18 @@
                 </div>
             </EditForm>
         </div>
-        @if (estadoProyectoTerminado)
-        {
-            <ModalInfo mensaje="Se ha cambiado el estado del proyecto a Terminado"></ModalInfo>
-        }
         @if (!string.IsNullOrEmpty(mensajeDescartar))
         {
             <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
         }
-        @if (actividarModalTerminarProyecto)
-        {
-            <ModalTerminarProyecto esquema="@esquema" ActivarModal="@actividarModalTerminarProyecto" numero="@numeroActual" OnClose="ClickHandlerTerminarProyecto" proyectoTerminado="CambiarEstadoProyectoTerminado"></ModalTerminarProyecto>
-        }
+       
         
     }
     else
 
 
     {
-        <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+        <RutaErronea mensaje="No tienes los permisos suficientes para entrar a esta página"></RutaErronea>
     }
     <ScriptMaxHeight Contenido=".max-height-projects" Elemento1=".el-layout" Elemento2=".footer-project" Elemento3=".card-header"></ScriptMaxHeight>
 }

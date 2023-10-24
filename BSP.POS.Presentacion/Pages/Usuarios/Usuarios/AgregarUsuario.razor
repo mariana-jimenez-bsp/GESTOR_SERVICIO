@@ -207,14 +207,14 @@
         }
         else
         {
-                <ModalError mensaje="@mensajeCliente"></ModalError>
+                <RutaErronea mensaje="@mensajeCliente"></RutaErronea>
         }
         }else{
-            <ModalAdvertencia mensaje="Límite de cantidad de usuarios alcanzado"></ModalAdvertencia>
+            <RutaErronea mensaje="Límite de cantidad de usuarios alcanzado"></RutaErronea>
             
         }
         <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-agregar-usuario" Elemento3=".div-vacio"></ScriptMaxHeight>
     }else{
-        <ModalError mensaje="No tienes los permisos suficientes para entrar a esta página"></ModalError>
+        <RutaErronea mensaje="No tienes los permisos suficientes para entrar a esta página"></RutaErronea>
     }
 }
