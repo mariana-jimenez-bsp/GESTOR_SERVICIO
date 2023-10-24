@@ -112,12 +112,16 @@ namespace BSP.POS.Presentacion.Services.Informes
 
             }
         }
-        public async Task<bool> EnviarCorreoDeAprobacionDeInforme(mObjetosParaCorreoAprobacion objetosParaCorreo)
+        public async Task<bool> EnviarCorreoDeAprobacionDeInforme(string esquema, string consecutivo)
         {
             try
             {
                 string url = "Informes/EnviarTokenDeAprobacionDeInforme";
-                string jsonData = JsonSerializer.Serialize(objetosParaCorreo);
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-Consecutivo");
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-Consecutivo", consecutivo);
+                string jsonData = JsonSerializer.Serialize(esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync(url, content);
 

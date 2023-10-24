@@ -1,4 +1,10 @@
 ﻿
+using BSP.POS.DATOS.Actividades;
+using BSP.POS.DATOS.Clientes;
+using BSP.POS.DATOS.Informes;
+using BSP.POS.DATOS.Observaciones;
+using BSP.POS.DATOS.Usuarios;
+using BSP.POS.UTILITARIOS.Actividades;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using MailKit.Net.Smtp;
@@ -19,6 +25,11 @@ namespace BSP.POS.NEGOCIOS.CorreosService
     public class CorreosService : ICorreosInterface
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
+        D_Informes _informes = new D_Informes();
+        D_Usuarios _usuarios = new D_Usuarios();
+        D_Observaciones _observaciones = new D_Observaciones();
+        D_Clientes _clientes = new D_Clientes();
+        D_Actividades _actividades = new D_Actividades();
         public CorreosService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
@@ -69,7 +80,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 string observaciones = "";
                 foreach (var itemUsuario in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
                 {
-                    usuarios += "<tr>\r\n <td>" + itemUsuario.nombre_usuario + "</td>\r\n <td>" + itemUsuario.departamento_usuario + "</td>\r\n </tr> \r\n";
+                    usuarios += "<tr>\r\n <td>" + itemUsuario.nombre_usuario + "</td>\r\n <td>" + itemUsuario.departamento_usuario
+                            + "</td>\r\n <td>" + itemUsuario.rol_usuario + "</td>\r\n <td>" + itemUsuario.correo_usuario 
+                            + "</td>\r\n </tr> \r\n";
                 }
                 foreach (var itemActividad in objetosParaAprobacion.listaActividadesAsociadas)
                 {
@@ -113,6 +126,28 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 }
             }
            
+        }
+
+        public mObjetosParaCorreoAprobacion CrearObjetoDeCorreo(string esquema, string consecutivo)
+        {
+            mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
+            objetoParaCorreo.informe = _informes.ObtenerInformeAsociado(esquema, consecutivo);
+            objetoParaCorreo.listaActividadesAsociadas = _actividades.ListaDatosActividadesAsociadas(esquema, consecutivo);
+            try
+            {
+                objetoParaCorreo.total_horas_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
+                objetoParaCorreo.total_horas_no_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
+            }
+            catch (Exception)
+            {
+                objetoParaCorreo.total_horas_cobradas = 0;
+                objetoParaCorreo.total_horas_no_cobradas = 0;
+            }
+            objetoParaCorreo.listadeUsuariosDeClienteDeInforme = _usuarios.ListaDatosUsuariosDeClienteDeInforme(esquema, consecutivo);
+            objetoParaCorreo.ClienteAsociado = _clientes.ClienteAsociado(esquema, objetoParaCorreo.informe.cliente);
+            objetoParaCorreo.esquema = esquema;
+            objetoParaCorreo.listaDeObservaciones = _observaciones.ListarDatosObservacionesDeInforme(consecutivo, esquema);
+            return objetoParaCorreo;
         }
     }
 }

@@ -179,23 +179,21 @@ namespace BSP.POS.API.Controllers
 
         }
         [HttpPost("EnviarTokenDeAprobacionDeInforme")]
-        public IActionResult EnviarTokenDeAprobacionDeInforme(mObjetosParaCorreoAprobacion objetosDeAprobacion)
+        public IActionResult EnviarTokenDeAprobacionDeInforme()
         {
             try
             {
+                string esquema = Request.Headers["X-Esquema"];
+                string consecutivo = Request.Headers["X-Consecutivo"];
                 U_Correo datos = new U_Correo();
-
+                mObjetosParaCorreoAprobacion objetosDeAprobacion = _correoService.CrearObjetoDeCorreo(esquema, consecutivo);
                 foreach (var item in objetosDeAprobacion.listadeUsuariosDeClienteDeInforme)
                 {
 
                     U_TokenAprobacionInforme tokenAprobacionRecuperado = informes.EnviarTokenDeAprobacionDeInforme(item.codigo_usuario_cliente, item.consecutivo_informe, objetosDeAprobacion.esquema);
                     if (tokenAprobacionRecuperado != null)
                     {
-                        U_ListaDeUsuariosDeCliente usuario = new U_ListaDeUsuariosDeCliente();
-                        usuario = user.ObtenerUsuarioDeClientePorCodigo(objetosDeAprobacion.esquema, tokenAprobacionRecuperado.codigo);
-
                         item.token = tokenAprobacionRecuperado.token_aprobacion;
-                        item.correo_usuario = usuario.correo;
 
                     }
                 }
@@ -203,7 +201,7 @@ namespace BSP.POS.API.Controllers
                 datos.claveUsuario = _claveUsuario;
 
                 _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion, _urlWeb, _tipoInicio);
-                _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
+                //_whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
                 return Ok();
             }
 

@@ -94,7 +94,7 @@
                                         <span>@usuario.rol_usuario</span>
                                     </div>
                                     <div class="col-md-3">
-                                        <span>@usuario.correo_usuario</span>
+                                        <span class="break-line">@usuario.correo_usuario</span>
                                     </div>
                                         <div class="col-md-1 pt-0 mt-0">
 
@@ -127,10 +127,10 @@
                                     @foreach (var observacion in listaDeObservaciones)
                                     {
                                         <div class="col-md-2 border-green @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")">
-                                            <span class="user-observation">@observacion.nombre_usuario</span>
+                                            <span class="break-line">@observacion.nombre_usuario</span>
                                         </div>
                                         <div class="col-md-10 border-green text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")">
-                                            <span class="user-observation">@observacion.observacion</span>
+                                            <span class="break-line">@observacion.observacion</span>
                                         </div>
                                     }
                                 }

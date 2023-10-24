@@ -28,7 +28,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
         public List<mDatosUsuariosDeClienteDeInforme> listadeDatosUsuariosDeClienteDeInforme = new List<mDatosUsuariosDeClienteDeInforme>();
-        public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
+        
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
@@ -356,17 +356,16 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 string fecha = actividad.fecha_actualizacion.Replace("  ", " ");
                 actividad.FechaActualizacionDateTime = DateTime.ParseExact(fecha, "MMM dd yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.None);
             }
-            fechaInicioDateTime = listaActividadesParaAgregar.OrderBy(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
-            fechaFinalDateTime = listaActividadesParaAgregar.OrderByDescending(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+            if (listaActividadesParaAgregar.Any())
+            {
+                fechaInicioDateTime = listaActividadesParaAgregar.OrderBy(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+                fechaFinalDateTime = listaActividadesParaAgregar.OrderByDescending(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+            }
+            
         }
         private async Task RefrescarListaDeUsuariosDeInforme()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
-            if(UsuariosService.ListaDeUsuariosParaEditar != null)
-            {
-                listaTodosLosUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
-            }
+            
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerDatosListaUsuariosDeClienteDeInforme(informe.consecutivo, esquema);
             if (UsuariosService.ListaDatosUsuariosDeClienteDeInforme != null)

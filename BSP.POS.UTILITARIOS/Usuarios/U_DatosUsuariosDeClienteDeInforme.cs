@@ -16,6 +16,7 @@ namespace BSP.POS.UTILITARIOS.Usuarios
         public string departamento_usuario { get; set; }
         public string rol_usuario { get; set; }
         public string correo_usuario { get; set; }
+        public string token { get; set; } = string.Empty;
 
         public U_DatosUsuariosDeClienteDeInforme(string pId, string pConsecutivo_informe, string pCodigo_usuario_cliente, string pAceptacion, string pNombreUsuario, string pDepartamento, string pRol, string pCorreo)
         {

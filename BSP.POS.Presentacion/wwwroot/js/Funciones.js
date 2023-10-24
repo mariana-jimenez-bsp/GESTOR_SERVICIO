@@ -95,7 +95,7 @@ function ScriptMaxHeightExtraContainer(contenido, contenedor, elementosJson) {
     const totalHeight = elements.reduce((acc, elemento) => acc + elemento.offsetHeight, 0);
     const windowHeight = window.innerHeight;
     const availableHeight = windowHeight - totalHeight - 50;
-    const HeightContent = availableHeight - 100;
+    const HeightContent = availableHeight - 70;
     container.style.maxHeight = availableHeight + 'px';
     container.style.minHeight = availableHeight + 'px';
     content.style.maxHeight = HeightContent + 'px';

@@ -160,71 +160,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 verificarAprobacion = await VerificarAprobacionesUsuarios();
                 if (!verificarAprobacion)
                 {
-                    
-
-                    mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
-
-                    objetoParaCorreo.informe = informeAsociadoSeleccionado;
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ActividadesService.ObtenerListaDeActividadesAsociadas(informeAsociadoSeleccionado.consecutivo, esquema);
-                    if (ActividadesService.ListaActividadesAsociadas != null)
-                    {
-                        objetoParaCorreo.listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
-                    }
-                    try
-                    {
-                        objetoParaCorreo.total_horas_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
-                        objetoParaCorreo.total_horas_no_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
-                    }
-                    catch
-                    {
-                        objetoParaCorreo.total_horas_cobradas = 0;
-                        objetoParaCorreo.total_horas_no_cobradas = 0;
-                    }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ActividadesService.ObtenerListaDeActividades(esquema);
-                    if (ActividadesService.ListaActividades != null)
-                    {
-                        listaDeActividades = ActividadesService.ListaActividades;
-
-                    }
-                    foreach (var actividad in objetoParaCorreo.listaActividadesAsociadas)
-                    {
-                        actividad.nombre_actividad = listaDeActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(c => c.Actividad).First();
-                    }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-                    if (UsuariosService.ListaUsuariosDeClienteDeInforme != null)
-                    {
-                        objetoParaCorreo.listadeUsuariosDeClienteDeInforme = UsuariosService.ListaUsuariosDeClienteDeInforme;
-                        foreach (var usuario in objetoParaCorreo.listadeUsuariosDeClienteDeInforme)
-                        {
-                            mUsuariosDeCliente usuarioTemporal = new mUsuariosDeCliente();
-                            usuarioTemporal = listaDeUsuariosDeCliente.Where(u => u.codigo == usuario.codigo_usuario_cliente).First();
-                            usuario.nombre_usuario = usuarioTemporal.nombre;
-                            usuario.departamento_usuario = listaDepartamentos.Where(d => d.codigo == usuarioTemporal.codigo_departamento).Select(d => d.Departamento).First();
-                        }
-                    }
-                    objetoParaCorreo.ClienteAsociado = clienteAsociado;
-                    objetoParaCorreo.esquema = esquema;
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ObservacionesService.ObtenerListaDeObservacionesDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-                    if (ObservacionesService.ListaDeObservacionesDeInforme != null)
-                    {
-                        objetoParaCorreo.listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-                        foreach (var observacion in objetoParaCorreo.listaDeObservaciones)
-                        {
-                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                            await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
-                            if (UsuariosService.UsuarioParaEditar != null)
-                            {
-                                observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
-                            }
-
-                        }
-                    }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(objetoParaCorreo);
+                    bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
                     if (validar)
                     {
                         correoEnviado = "Correo Enviado";

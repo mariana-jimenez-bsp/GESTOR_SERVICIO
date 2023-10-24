@@ -13,6 +13,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
     {
         void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema, string urlWeb, string tipoInicio);
         void EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion, string urlWeb, string tipoInicio);
-        
+        mObjetosParaCorreoAprobacion CrearObjetoDeCorreo(string esquema, string consecutivo);
+
     }
 }

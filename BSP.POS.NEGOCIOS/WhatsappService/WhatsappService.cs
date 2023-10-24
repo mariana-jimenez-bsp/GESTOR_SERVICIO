@@ -1,6 +1,9 @@
-﻿using BSP.POS.UTILITARIOS.Correos;
+﻿using BSP.POS.UTILITARIOS.Actividades;
+using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using BSP.POS.UTILITARIOS.CorreosModels.Models;
+using BSP.POS.UTILITARIOS.Observaciones;
+using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
@@ -50,9 +53,9 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         string usuarios = "";
                         string actividades = "";
                         string observaciones = "";
-                        mUsuariosDeClientesDeInforme ultimoUsuario = new mUsuariosDeClientesDeInforme();
-                        mLasActividadesAsociadas ultimaActividad = new mLasActividadesAsociadas();
-                        mLasObservaciones ultimaObservacion = new mLasObservaciones();
+                        U_DatosUsuariosDeClienteDeInforme ultimoUsuario = new U_DatosUsuariosDeClienteDeInforme();
+                        U_DatosActividadesAsociadas ultimaActividad = new U_DatosActividadesAsociadas();
+                        U_DatosObservaciones ultimaObservacion = new U_DatosObservaciones();
                         if (objetosParaAprobacion.listadeUsuariosDeClienteDeInforme.Any())
                         {
                            ultimoUsuario = objetosParaAprobacion.listadeUsuariosDeClienteDeInforme[objetosParaAprobacion.listadeUsuariosDeClienteDeInforme.Count - 1];

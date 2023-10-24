@@ -33,6 +33,29 @@ namespace BSP.POS.DATOS.Observaciones
             }
         }
 
+        public List<U_DatosObservaciones> ListarDatosObservacionesDeInforme(string pConsecutivo, string pEsquema)
+        {
+            var LstObservaciones = new List<U_DatosObservaciones>();
+            ObtenerDatosObservacionesDeInformeTableAdapter sp = new ObtenerDatosObservacionesDeInformeTableAdapter();
+            var response = sp.GetData(pEsquema, pConsecutivo).ToList();
+
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_DatosObservaciones observacion = new U_DatosObservaciones(item.Id, item.consecutivo_informe, item.codigo_usuario, item.observacion, item.nombre_usuario);
+
+                    LstObservaciones.Add(observacion);
+                }
+                return LstObservaciones;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public string AgregarObservacionDeInforme(U_Observaciones pObservacion, string esquema)
         {
             POSDataSet.AgregarObservacionDeInformeDataTable bTabla = new POSDataSet.AgregarObservacionDeInformeDataTable();
