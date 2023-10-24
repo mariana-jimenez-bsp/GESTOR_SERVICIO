@@ -5,6 +5,7 @@ using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -329,6 +330,62 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             advertenciaGuardarInforme = true;
             StateHasChanged();
+        }
+        private async Task SwalAdvertencia(string mensajeAlerta, string accion, string identificador)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Advertencia!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Aceptar",
+                CancelButtonText = "Cancelar"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed)
+                {
+                    if (accion == "Informe")
+                    {
+                        await EliminarInforme(identificador);
+                    }
+                }
+                
+            });
+        }
+
+        private async Task EliminarInforme(string consecutivo)
+        {
+
+            if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await InformesService.EliminarInforme(consecutivo, esquema);
+                await SwalAviso("Se ha eliminado el informe", "Informe");
+            }
+        }
+
+        private async Task SwalAviso(string mensajeAlerta, string accion)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    if (accion == "Informe")
+                    {
+                        navigationManager.NavigateTo($"index", forceLoad: true);
+                    }
+                }
+            });
         }
     }
 }

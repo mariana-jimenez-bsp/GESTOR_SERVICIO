@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Clientes;
 using BSP.POS.Presentacion.Services.Clientes;
 using Microsoft.AspNetCore.Components;
 using System.Security.Claims;
@@ -17,6 +18,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public string rol = string.Empty;
+        public string clienteActual = string.Empty;
         
         protected override async Task OnInitializedAsync()
         {
@@ -84,6 +86,7 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         private async Task EnviarInformesAsociados(string cliente)
         {
+            clienteActual = cliente;
             InformesAsociados = new List<mInformes>();
             ClienteAsociado = new mClienteAsociado();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -123,6 +126,18 @@ namespace BSP.POS.Presentacion.Pages.Home
         {
             listaInformesComponente.RefrescarDatos();
         }
-
+        public async Task RefrescaListaInformes(bool estado)
+        {
+            if (estado)
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await InformesService.ObtenerListaDeInformesAsociados(clienteActual, esquema);
+                if (InformesService.ListaInformesAsociados != null)
+                {
+                    InformesAsociados = InformesService.ListaInformesAsociados;
+                }
+            }
+           
+        }
     }
 }

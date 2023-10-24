@@ -2,6 +2,7 @@
 @inject IInformesInterface InformesService
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject SweetAlertService Swal;
 
 <div class="d-flex align-items-center justify-content-center ps-5 footer-right">
     @if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(estado))
@@ -16,7 +17,7 @@
                 <img src="images/Home/Editar.png" class="mb-2 circle-click-max-width"/>
                 <a >Editar</a>
             </div>
-            <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick="() => ClickHandlerFinalizarInforme(true)">
+            <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick='() => SwalAdvertencia("¿Está seguro de finalizar el informe?", "Finalizar", consecutivo)'>
                  <img src="images/Home/Finalizar.png" class="mb-2 circle-click-max-width"/>
                 <a href="">Finalizar</a>
             </div>
@@ -33,5 +34,5 @@
         }
     }
 </div>
-<ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@consecutivo"></ModalFinalizarInforme>
+
 

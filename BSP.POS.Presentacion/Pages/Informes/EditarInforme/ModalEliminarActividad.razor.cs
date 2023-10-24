@@ -1,4 +1,5 @@
-﻿using BSP.POS.Presentacion.Services.Usuarios;
+﻿using BSP.POS.Presentacion.Services.Informes;
+using BSP.POS.Presentacion.Services.Usuarios;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
@@ -26,5 +27,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 await CloseModal();
             }
         }
+
+        
     }
 }

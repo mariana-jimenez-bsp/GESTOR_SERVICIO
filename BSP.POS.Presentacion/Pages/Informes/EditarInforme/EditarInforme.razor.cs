@@ -6,6 +6,7 @@ using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Clientes;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -287,7 +288,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 {
                     successMessage = "Se han guardado los cambios";
                 }
-                CambiarEstadoInformeGuardado(true);
+                await CambiarEstadoInformeGuardado(true);
                 
             }
             
@@ -401,51 +402,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
         }
 
-        bool activarModalEliminarUsuario = false;
-        bool activarModalEliminarActividad = false;
-        bool activarModalObservaciones = false;
-        bool activarModalFinalizarInforme = false;
-        bool activarModalEliminarInforme = false;
-        string idUsuarioActual;
-        string nombreUsuarioActual;
-        string idActividadActual;
-        string nombreActividadActual;
-        async Task AbrirEliminarUsuario(bool activar, string idUsuario, string nombreUsuario)
-        {
-            idUsuarioActual = string.Empty;
-            nombreUsuarioActual = string.Empty;
-            idUsuarioActual = idUsuario;
-            nombreUsuarioActual = nombreUsuario;
-            await ClickHandlerEliminarUsuario(activar);
-
-        }
-
-        async Task AbrirEliminarActividad(bool activar, string idActividad, string codigoActividad)
-        {
-            string nombreActividad = listaActividades.Where(actividad => actividad.codigo == codigoActividad).First().Actividad;
-            idActividadActual = string.Empty;
-            nombreActividadActual = string.Empty;
-            idActividadActual = idActividad;
-            nombreActividadActual = nombreActividad;
-            await ClickHandlerEliminarActividad(activar);
-
-        }
-
         
-        async Task ClickHandlerEliminarUsuario(bool activar)
-        {
-            activarModalEliminarUsuario = activar;
-            await RefrescarListaDeUsuariosDeInforme();
-            StateHasChanged();
-        }
-
-        async Task ClickHandlerEliminarActividad(bool activar)
-        {
-            activarModalEliminarActividad = activar;
-            await RefrescarListaDeActividadesAsociadas();
-            StateHasChanged();
-        }
-
+        bool activarModalObservaciones = false;
         async Task ClickHandlerObservaciones(bool activar)
         {
             activarModalObservaciones = activar;
@@ -462,26 +420,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         }
         async Task ClickHandlerFinalizarInforme(bool activar)
         {
-            if (!activar)
-            {
-                activarBotonFinalizar = false;
-                activarModalFinalizarInforme = activar;
-                StateHasChanged();
-            }
-            else
-            {
                 activarBotonFinalizar = true;
                 await TodosLosBotonesSubmit();
-                
-            }
-            
-            
-        }
-
-        void ClickHandlerEliminarInforme(bool activar)
-        {
-            activarModalEliminarInforme = activar;
-            StateHasChanged();
         }
 
         public bool advertenciaEnviarAlCliente = false;
@@ -529,13 +469,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             estadoObservacionCancelada = estado;
         }
 
-        public void CambiarEstadoInformeGuardado(bool estado)
+        public async Task CambiarEstadoInformeGuardado(bool estado)
         {
             informeGuardado = estado;
             if (informeGuardado && activarBotonFinalizar)
             {
-                activarModalFinalizarInforme = true;
-                StateHasChanged();
+                await SwalAdvertencia("¿Está seguro de finalizar el informe?", "Finalizar", Consecutivo);
             }
         }
 
@@ -602,6 +541,112 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             {
                 usuarioFiltro = string.Empty;
             }
+        }
+
+        private async Task SwalAdvertencia(string mensajeAlerta, string accion, string identificador)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Advertencia!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Aceptar",
+                CancelButtonText = "Cancelar"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed)
+                {
+                    if(accion == "Actividad")
+                    {
+                        await EliminarActividadDeInforme(identificador);
+                    }else if(accion == "Informe")
+                    {
+                        await EliminarInforme(identificador);
+                    }else if(accion == "Usuario")
+                    {
+                        await EliminarUsuarioDeClienteDeInforme(identificador);
+                    }else if(accion == "Finalizar")
+                    {
+                        await FinalizarInforme(identificador);
+                    }
+                }else if(result.IsDismissed && accion == "Finalizar")
+                {
+                    activarBotonFinalizar = false;
+                    StateHasChanged();
+                }
+            });
+        }
+
+        private async Task EliminarActividadDeInforme(string idActividad)
+        {
+            if (!string.IsNullOrEmpty(idActividad) && !string.IsNullOrEmpty(esquema))
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await ActividadesService.EliminarActividadDeInforme(idActividad, esquema);
+                await RefrescarListaDeActividadesAsociadas();
+                StateHasChanged();
+            }
+        }
+
+        private async Task EliminarInforme(string consecutivo)
+        {
+
+            if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await InformesService.EliminarInforme(consecutivo, esquema);
+                await SwalAviso("Se ha eliminado el informe", "Informe");
+            }
+        }
+        private async Task EliminarUsuarioDeClienteDeInforme(string idUsuario)
+        {
+            if (!string.IsNullOrEmpty(idUsuario) && !string.IsNullOrEmpty(esquema))
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await UsuariosService.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
+                await RefrescarListaDeUsuariosDeInforme();
+                StateHasChanged();
+            }
+        }
+        private async Task FinalizarInforme(string consecutivo)
+        {
+            if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
+            {
+                mInformeEstado informeEstado = new mInformeEstado();
+                informeEstado.consecutivo = consecutivo;
+                informeEstado.estado = "Finalizado";
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
+                await SwalAviso("El informe ha sido finalizado", "Finalizar");
+            }
+        }
+
+        private async Task SwalAviso(string mensajeAlerta, string accion)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    if(accion == "Finalizar")
+                    {
+                        navigationManager.NavigateTo($"Informe/VerInforme/" + Consecutivo, forceLoad: true);
+                    }
+                    else if(accion == "Informe")
+                    {
+                        navigationManager.NavigateTo($"index", forceLoad: true);
+                    }
+                }
+            });
         }
     }
 }

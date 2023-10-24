@@ -8,6 +8,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JS
 @inject NavigationManager navigationManager
+@inject SweetAlertService Swal;
 @if (cargaInicial)
 {
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
@@ -143,7 +144,7 @@
                                         }
 
                                     </div>
-                                <div class="col-md-1 mouse-pointer" @onclick="() => AbrirEliminarUsuario(true, usuario.id, usuario.nombre_usuario)">
+                                <div class="col-md-1 mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.id)'>
                                         <i class="fa-solid fa-x text-danger"></i>
                                     </div>
                                 </div>
@@ -294,7 +295,7 @@
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
                                             </div>
-                                            <div class="col-md-1 mouse-pointer" @onclick="() => AbrirEliminarActividad(true, actividad.Id, actividad.codigo_actividad)">
+                                            <div class="col-md-1 mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
                                                 <i class="fa-solid fa-x text-danger"></i>
                                             </div>
                                         </div>
@@ -325,7 +326,7 @@
                 </div>
 
                     <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerEliminarInforme(true)">
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)'>
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                             <span>Descartar</span>
                         </div>
@@ -333,7 +334,7 @@
                         <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
                             <span>Guardar Borrador</span>
                         </div>
-                        <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerFinalizarInforme(true)">
+                            <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerFinalizarInforme(true)">
                         <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
                             <span>Aprobar</span>
                         </div>
@@ -349,8 +350,7 @@
                     <ModalAdvertencia mensaje="El informe debe estar Finalizado para realizar el envío al cliente"></ModalAdvertencia>
                 }
             </div>
-<ModalEliminarUsuario ActivarModal="@activarModalEliminarUsuario" OnClose="ClickHandlerEliminarUsuario" idUsuario="@idUsuarioActual" esquema="@esquema" nombreUsuario="@nombreUsuarioActual"></ModalEliminarUsuario>
-<ModalEliminarActividad ActivarModal="@activarModalEliminarActividad" OnClose="ClickHandlerEliminarActividad" idActividad="@idActividadActual" esquema="@esquema" nombreActividad="@nombreActividadActual"></ModalEliminarActividad>
+
     <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="CambiarEstadoObservacionNueva" observacionCancelada="CambiarEstadoObservacionCancelada"></ModalObservaciones>
     @if(estadoObseracionNueva){
         <ModalExito mensaje="Se ha agregado la observación"></ModalExito>
@@ -358,8 +358,7 @@
     @if(estadoObservacionCancelada){
         <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
     }
-    <ModalFinalizarInforme ActivarModal="@activarModalFinalizarInforme" OnClose="ClickHandlerFinalizarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalFinalizarInforme>
-    <ModalEliminarInforme ActivarModal="@activarModalEliminarInforme" OnClose="ClickHandlerEliminarInforme" esquema="@esquema" consecutivo="@Consecutivo"></ModalEliminarInforme>
+    
 @if (elementos1.Any())
 {
     <ScriptMaxHeightExtraContainer Contenido=".max-height-col" Contenedor=".table-gray-left" Elementos="@elementos1"></ScriptMaxHeightExtraContainer>
@@ -370,7 +369,7 @@
 }
 
 }else if(informe.estado == "Finalizado"){
-     <ModalAdvertencia mensaje="El informe ya finalizó"></ModalAdvertencia>
+     navigationManager.NavigateTo($"Informe/VerInforme/" + informe.consecutivo);
         }
 
     }

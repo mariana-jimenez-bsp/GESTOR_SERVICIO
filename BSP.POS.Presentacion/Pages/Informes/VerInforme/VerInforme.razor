@@ -7,6 +7,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
+@inject SweetAlertService Swal;
 @if(cargaInicial){
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
 @if (informe.estado == "Finalizado")
@@ -222,7 +223,7 @@
                 </div>
 
                 <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerEliminarInforme(true)">
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)'>
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                         <span>Descartar</span>
                     </div>

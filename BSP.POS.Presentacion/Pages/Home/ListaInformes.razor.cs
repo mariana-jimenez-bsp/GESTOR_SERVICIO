@@ -17,6 +17,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         public string filtroRecibido { get; set; } = string.Empty;
         [Parameter]
         public string esquema { get; set; } = string.Empty;
+        [Parameter] public EventCallback<bool> RefrescarListaInformes { get; set; }
         private bool EsClienteNull = false;
         private string[] elementos = new string[]{ ".el-layout", ".cliente-asociado", ".consecutivo-informe", ".header-col-left" };
         public string Consecutivo { get; set; } = string.Empty;
@@ -70,6 +71,14 @@ namespace BSP.POS.Presentacion.Pages.Home
             else
             {
                 EsClienteNull = true;
+            }
+        }
+
+        public async Task RefrescaListaInformes(bool estado)
+        {
+            if (estado)
+            {
+                await RefrescarListaInformes.InvokeAsync(true);
             }
         }
     }
