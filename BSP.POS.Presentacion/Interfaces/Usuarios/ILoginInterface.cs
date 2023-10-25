@@ -11,7 +11,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         string EncriptarClave(string clave);
         Task<bool> EnviarCorreoRecuperarClave(mTokenRecuperacion tokenRecuperacion);
         mTokenRecuperacion UsuarioRecuperacion { get; set; }
-        Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario);
+        Task<bool> ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario);
         Task<mTokenRecuperacion> ValidarTokenRecuperacion(string esquema, string token);
         Task<string> ValidarCorreoCambioClave(string esquema, string correo);
         Task AumentarIntentosDeLogin(string esquema, string usuario);

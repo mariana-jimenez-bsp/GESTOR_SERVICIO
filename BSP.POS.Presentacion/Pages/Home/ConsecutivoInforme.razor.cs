@@ -13,16 +13,11 @@ namespace BSP.POS.Presentacion.Pages.Home
         [Parameter] public EventCallback<bool> RefrescarListaInformes { get; set; }
         public string esquema = string.Empty;
 
-        protected async override Task OnParametersSetAsync()
+        protected async override Task OnInitializedAsync()
         {
-
-
-
-                var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                var user = authenticationState.User;
-                esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-
-            
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+            esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
         }
 
         private void IrAEditar()

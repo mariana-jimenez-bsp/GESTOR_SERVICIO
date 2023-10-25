@@ -63,7 +63,25 @@
     .modal-footer .button-footer {
         padding: 10px 20px;
     }
+.max-height-profile {
+    max-height: 500px;
+}
+.scrollbar-modal-profile::-webkit-scrollbar {
+    width: 12px;
+}
 
+/* Color del área de seguimiento */
+.scrollbar-modal-profile::-webkit-scrollbar-track {
+    background-color: #198754;
+    border: 5px solid white;
+}
+
+/* Color y forma del botón de desplazamiento */
+.scrollbar-modal-profile::-webkit-scrollbar-thumb {
+    background-color: #198754;
+    border-radius: 20px;
+    border: 3px solid white;
+}
 .custom-checkbox {
     position: absolute;
     opacity: 0;
@@ -164,8 +182,11 @@
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
+    .max-height-profile{
+        max-height: 300px;
+    }
     .modal-content {
-        margin-top: 1%;
+        margin-top: 3%;
     }
     .text-profile {
         font-size: 18pt;

@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios
@@ -84,11 +85,16 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
         private async Task ActualizarClaveUsuario()
         {
+            bool resultado = false;
             if(mismaMacAdress && licenciaActiva)
             {
                 usuario.token_recuperacion = token;
                 usuario.esquema = esquema;
-                await LoginService.ActualizarClaveDeUsuario(usuario);
+                resultado = await LoginService.ActualizarClaveDeUsuario(usuario);
+                if (resultado)
+                {
+                    await SwalExito("La clave se ha actualizado");
+                }
             }
             else
             {
@@ -124,6 +130,25 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private void CambiarEstadoMostrarConfirmarClave(bool estado)
         {
             mostrarConfirmarClave = estado;
+        }
+
+        private async Task SwalExito(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    navigationManager.NavigateTo($"");
+                }
+            });
         }
     }
 }

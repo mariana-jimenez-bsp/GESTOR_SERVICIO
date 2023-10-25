@@ -36,6 +36,7 @@ namespace BSP.POS.Presentacion.Pages.Home
                     PerfilActual = UsuariosService.Perfil;
                 }
                 await RefrescarListaClientes();
+                StateHasChanged();
             }
            
 

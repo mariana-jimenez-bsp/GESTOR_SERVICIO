@@ -2,6 +2,8 @@
 @inject IUsuariosInterface UsuariosService
 @inject ILoginInterface LoginService
 @inject ILicenciasInterface LicenciasService
+@inject NavigationManager navigationManager
+@inject SweetAlertService Swal;
 @if(cargaInicial){
  @if(string.IsNullOrEmpty(mensajeEsquema)){
         

@@ -6,6 +6,8 @@ using System;
 using System.Security.Claims;
 using BSP.POS.Presentacion.Models.Clientes;
 using Blazored.LocalStorage;
+using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Modals
 {
@@ -242,21 +244,26 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     {
                         if (usuarioOriginal != perfil.usuario || correoOriginal != perfil.correo || claveOriginal != claveDesencriptada)
                         {
-
-                            navigationManager.NavigateTo($"login", forceLoad: true);
-                            await localStorageService.RemoveItemAsync("token");
+                            await CloseModal();
+                            StateHasChanged();
+                            await SwalExito("Se ha actualizado el perfil");
                         }
                         else
                         {
-                            await perfilActualizado.InvokeAsync(true);
                             await CloseModal();
+                            StateHasChanged();
+                            await perfilActualizado.InvokeAsync(true);
                         }
                     }
                     else
                     {
                         mensajeError = "Ocurrío un Error vuelva a intentarlo";
                     }
-                    
+
+                }
+                else
+                {
+                    await ActivarScrollBarErroresRepite();
                 }
             }
             catch (Exception)
@@ -277,35 +284,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
         }
         private async Task CloseModal()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-
-            if (!string.IsNullOrEmpty(Usuario) && !string.IsNullOrEmpty(esquema))
-            {
-                await UsuariosService.ObtenerPerfil(Usuario, esquema);
-            }
-            perfil = UsuariosService.Perfil;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await PermisosService.ObtenerListaDePermisos(perfil.esquema);
-            todosLosPermisos = PermisosService.ListaPermisos;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await PermisosService.ObtenerListaDePermisosAsociados(perfil.esquema, perfil.id);
-            permisosAsociados = PermisosService.ListaPermisosAsociadados;
-            if (PermisosService.ListaPermisosAsociadados != null)
-            {
-                permisosAsociados = PermisosService.ListaPermisosAsociadados;
-                foreach (var item in todosLosPermisos)
-                {
-                    if (permisosAsociados.Any(elPermiso => elPermiso.id_permiso == item.Id))
-                    {
-                        item.EstadoCheck = true;
-                    }
-                }
-
-            }
-            claveOriginal = UsuariosService.DesencriptarClave(perfil.clave);
-            perfil.claveDesencriptada = claveOriginal;
-            correoOriginal = perfil.correo;
-            usuarioOriginal = perfil.usuario;
             await OnClose.InvokeAsync(false);
 
         }
@@ -320,7 +298,54 @@ namespace BSP.POS.Presentacion.Pages.Modals
         {
             mostrarClave = estado;
         }
+        private async Task ActivarScrollBarDeErrores()
+        {
+            StateHasChanged();
+            await Task.Delay(100);
+            var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".validation-message");
 
-        
+            if (!isValid)
+            {
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
+            }
+        }
+        private async Task ActivarScrollBarErroresRepite()
+        {
+            if (!string.IsNullOrEmpty(mensajeCorreoRepite) || !string.IsNullOrEmpty(mensajeUsuarioRepite))
+            {
+                StateHasChanged();
+                await Task.Delay(100);
+
+
+                var isValid = await JSRuntime.InvokeAsync<bool>("HayErroresValidacion", ".mensaje-repite");
+
+
+                // Si hay errores de validación, activa el scrollbar
+                await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".mensaje-repite");
+
+            }
+        }
+        private async Task SwalExito(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    
+                    navigationManager.NavigateTo($"login", forceLoad: true);
+                    await localStorageService.RemoveItemAsync("token");
+                }
+            });
+        }
+
     }
 }

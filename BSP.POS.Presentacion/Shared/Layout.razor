@@ -263,6 +263,10 @@ else
 {
     <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
 }
-<ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil" perfilActualizado="CambiarEstadoPerfilActualizado" perfilDescartado="CambiarEstadoPerfilDescartado"></ModalPerfil>
+@if (activarModalPerfil)
+{
+    <ModalPerfil ActivarModal="@activarModalPerfil" OnClose="ClickHandlerPefil" perfilActualizado="CambiarEstadoPerfilActualizado" perfilDescartado="CambiarEstadoPerfilDescartado"></ModalPerfil>
+}
+
 
  

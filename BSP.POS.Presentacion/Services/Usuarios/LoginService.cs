@@ -102,7 +102,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             return new mTokenRecuperacion();
         }
 
-        public async Task ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario)
+        public async Task<bool> ActualizarClaveDeUsuario(mUsuarioNuevaClave usuario)
         {
             usuario.clave = EncriptarClave(usuario.clave);
             usuario.confirmarClave = usuario.clave;
@@ -114,8 +114,9 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _navigationManager.NavigateTo($"", forceLoad: true);
+                return true;
             }
+            return false;
         }
 
         public async Task<string> ValidarCorreoCambioClave(string esquema, string correo)

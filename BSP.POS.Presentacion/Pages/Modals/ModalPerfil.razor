@@ -4,10 +4,12 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject ILocalStorageService localStorageService
+@inject IJSRuntime JSRuntime
+@inject SweetAlertService Swal;
 
 <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content">
-        <EditForm Model="perfil" OnValidSubmit="ActualizarPerfil">
+        <EditForm Model="perfil" OnValidSubmit="ActualizarPerfil" OnInvalidSubmit="ActivarScrollBarDeErrores">
             <DataAnnotationsValidator />
             <div class="modal-header d-flex justify-content-center ">
                 <h2 class="text-profile blue-dark-text">Perfil <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
@@ -20,7 +22,7 @@
             {
                 <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
             }
-            <div class="modal-body d-flex row g-2 text-start ">
+            <div class="modal-body d-flex row g-2 text-start max-height-profile overflow-y-auto overflow-x-hidden scrollbar-modal-profile">
                 
                 <div class="d-flex justify-content-center ">
                     <label class="col-md-4  blue-dark-text label-text" for="correo">Correo:</label>
@@ -31,7 +33,7 @@
                 </div>
                 @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
                 {
-                    <div class="text-center">
+                    <div class="text-center mensaje-repite">
                         <MensajeRepite Message="@mensajeCorreoRepite" />
                     </div>
                     
@@ -52,7 +54,7 @@
                 </div>
                 @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
                 {
-                    <div class="text-center">
+                    <div class="text-center mensaje-repite">
                         <MensajeRepite Message="@mensajeUsuarioRepite" />
                     </div>
                 }
