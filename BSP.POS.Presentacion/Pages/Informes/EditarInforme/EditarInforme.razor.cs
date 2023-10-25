@@ -28,7 +28,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
         public List<mDatosUsuariosDeClienteDeInforme> listadeDatosUsuariosDeClienteDeInforme = new List<mDatosUsuariosDeClienteDeInforme>();
-        
+        public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
@@ -89,6 +89,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         if (DepartamentosService.listaDepartamentos != null)
                         {
                             listaDepartamentos = DepartamentosService.listaDepartamentos;
+                        }
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+                        if (UsuariosService.ListaDeUsuariosParaEditar != null)
+                        {
+                            listaTodosLosUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
                         }
                         await RefrescarListaDeActividadesAsociadas();
 

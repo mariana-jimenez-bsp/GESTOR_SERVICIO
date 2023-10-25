@@ -229,8 +229,8 @@
                     @if(rol == "Admin"){
                         <select class="col-md-4 rounded-3 blue-dark-text border-dark-blue" @bind="@usuarioFiltro" @oninput="CambioUsuarioFiltro">
                             <option class="blue-dark-text" value="">Seleccione un usuario</option>
-                            @if(listaDeUsuariosDeCliente.Any()){
-                                 foreach (var usuario in listaDeUsuariosDeCliente)
+                            @if(listaTodosLosUsuarios.Any()){
+                                 foreach (var usuario in listaTodosLosUsuarios)
                                 {
                                   <option class="blue-dark-text" value="@usuario.codigo">@usuario.nombre</option>              
                                 }  
