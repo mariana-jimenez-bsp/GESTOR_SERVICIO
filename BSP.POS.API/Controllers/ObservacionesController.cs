@@ -16,13 +16,12 @@ namespace BSP.POS.API.Controllers
         {
             observaciones = new N_Observaciones();
         }
-
-        [HttpGet("ObtengaLaListaDeObservacionesDeInforme/{consecutivo}/{esquema}")]
-        public IActionResult ObtengaLaListaDeObservacionesDeInforme(string consecutivo, string esquema)
+        [HttpGet("ObtengaLaListaDeDatosObservacionesDeInforme/{consecutivo}/{esquema}")]
+        public IActionResult ObtengaLaListaDeDatosObservacionesDeInforme(string consecutivo, string esquema)
         {
             try
             {
-                string listaDeObservacionesJson = observaciones.ListarObservacionesDeInforme(esquema, consecutivo);
+                string listaDeObservacionesJson = observaciones.ListarDatosObservacionesDeInforme(esquema, consecutivo);
                 if (string.IsNullOrEmpty(listaDeObservacionesJson))
                 {
                     return NotFound();

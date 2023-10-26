@@ -13,16 +13,16 @@ namespace BSP.POS.NEGOCIOS.Observaciones
     {
         D_Observaciones objObservacion = new D_Observaciones();
 
-        public string ListarObservacionesDeInforme(String pEsquema, String pConsecutivo)
+        public string ListarDatosObservacionesDeInforme(String pEsquema, String pConsecutivo)
         {
             try
             {
-                List<U_Observaciones> list = new List<U_Observaciones>();
+                List<U_DatosObservaciones> list = new List<U_DatosObservaciones>();
 
-                list = objObservacion.ListarObservacionesDeInforme(pConsecutivo, pEsquema);
+                list = objObservacion.ListarDatosObservacionesDeInforme(pConsecutivo, pEsquema);
 
-                string informe = JsonConvert.SerializeObject(list);
-                return informe;
+                string observacionesJson = JsonConvert.SerializeObject(list);
+                return observacionesJson;
             }
             catch (Exception ex)
             {

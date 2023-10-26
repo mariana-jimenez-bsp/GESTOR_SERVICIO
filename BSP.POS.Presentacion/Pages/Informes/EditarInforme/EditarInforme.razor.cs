@@ -190,22 +190,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private async Task RefrescarLaListaDeObservaciones(string consecutivo)
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ObservacionesService.ObtenerListaDeObservacionesDeInforme(consecutivo, esquema);
-            if (ObservacionesService.ListaDeObservacionesDeInforme != null)
+            await ObservacionesService.ObtenerListaDatosDeObservacionesDeInforme(consecutivo, esquema);
+            if (ObservacionesService.ListaDatosDeObservacionesDeInforme != null)
             {
-                listaDeObservaciones = ObservacionesService.ListaDeObservacionesDeInforme;
-                foreach (var observacion in listaDeObservaciones)
-                {
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerElUsuarioParaEditar(esquema, observacion.codigo_usuario);
-                    if (UsuariosService.UsuarioParaEditar != null)
-                    {
-                        observacion.nombre_usuario = UsuariosService.UsuarioParaEditar.nombre;
-                        
-                    }
-                    
-                    
-                }
+                listaDeObservaciones = ObservacionesService.ListaDatosDeObservacionesDeInforme;
+                
             }
         }
         private void CambioHorasCobradas(ChangeEventArgs e, string actividadId)

@@ -15,17 +15,17 @@ namespace BSP.POS.Presentacion.Services.Observaciones
         {
             _http = htpp;
         }
-        public List<mObservaciones> ListaDeObservacionesDeInforme { get; set; } = new List<mObservaciones>();
-        public async Task ObtenerListaDeObservacionesDeInforme(string consecutivo, string esquema)
+        public List<mObservaciones> ListaDatosDeObservacionesDeInforme { get; set; } = new List<mObservaciones>();
+        public async Task ObtenerListaDatosDeObservacionesDeInforme(string consecutivo, string esquema)
         {
-            string url = "Observaciones/ObtengaLaListaDeObservacionesDeInforme/" + consecutivo + "/" + esquema;
+            string url = "Observaciones/ObtengaLaListaDeDatosObservacionesDeInforme/" + consecutivo + "/" + esquema;
             var response = await _http.GetAsync(url);
             if(response.StatusCode == HttpStatusCode.OK)
             {
                 var listaDeObservacionesDeInforme = await response.Content.ReadFromJsonAsync<List<mObservaciones>>();
                 if (listaDeObservacionesDeInforme is not null)
                 {
-                    ListaDeObservacionesDeInforme = listaDeObservacionesDeInforme;
+                    ListaDatosDeObservacionesDeInforme = listaDeObservacionesDeInforme;
                 }
             }
             
