@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios
 {
@@ -29,8 +30,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private bool licenciaActiva = false;
         private bool licenciaProximaAVencer = false;
         private bool mismaMacAdress = true;
-        private bool archivoLicenciaValido = false;
-        private bool archivoLicenciaInvalido = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -49,11 +48,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
         private async Task ValidarLicencia()
         {
-             licenciaActiva = false;
-             licenciaProximaAVencer = false;
-             mismaMacAdress = true;
-             archivoLicenciaValido = false;
-             archivoLicenciaInvalido = false;
+            licenciaActiva = false;
+            licenciaProximaAVencer = false;
+            licenciaProximaAVencer = false;
+            mismaMacAdress = true;
             await LicenciasService.ObtenerDatosDeLicencia();
             if (LicenciasService.licencia != null)
             {
@@ -61,14 +59,22 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 if (licencia.FechaFin > DateTime.Now)
                 {
                     licenciaActiva = true;
+                    StateHasChanged();
                     if (licencia.FechaAviso < DateTime.Now)
                     {
                         licenciaProximaAVencer = true;
+                        StateHasChanged();
                     }
                     if (!licencia.MacAddressIguales)
                     {
                         mismaMacAdress = false;
+                        StateHasChanged();
+                        await SwalError("La MacAddress no es la misma registrada");
                     }
+                }
+                else
+                {
+                    await SwalError("Licencia no activa, debe renovarla");
                 }
             }
             cargaInicial = true;
@@ -107,8 +113,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private async Task EnviarLLave()
         {
-            archivoLicenciaValido = false;
-            archivoLicenciaInvalido = false;
+
                 if(!string.IsNullOrEmpty(licenciaLlave.texto_archivo))
                 {
                     await LicenciasService.ObtenerCodigoDeLicenciaYProducto();
@@ -124,30 +129,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                             bool resultadoActualizar = await LicenciasService.ActualizarDatosLicencia(datosLicencia, licenciaByte.codigo_licencia);
                             if (resultadoActualizar)
                             {
-                            archivoLicenciaValido = true;
-                            StateHasChanged();
-                            await Task.Delay(100);
-                            if (archivoLicenciaValido)
-                            {
-                                await ValidarLicencia();
+                                await SwalArchivoLicenciaValido("Archivo de Licencia Ingresado Correctamente");
                             }
-                        }
                             
                         }
                         else
                         {
-                        StateHasChanged();
-                        await Task.Delay(100);
-                        archivoLicenciaInvalido = true;
+
+                        await SwalError("Archivo de Licencia Inválido");
                         }
                 }
 
             }
             else
             {
-                StateHasChanged();
-                await Task.Delay(100);
-                archivoLicenciaInvalido = true;
+                await SwalError("Archivo de Licencia Inválido");
             }
             
         }
@@ -162,7 +158,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 usuarioExistente = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
                 if (usuarioExistente != null)
                 {
-                    intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
+                    intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.usuario);
                     if (intentos >= 3)
                     {
                         mensajeIntentos = "Se excedió el limite de intentos, oprima la opción recuperar contraseña";
@@ -182,7 +178,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                         }
                         else
                         {
-                            bool resutadoIntentos = await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
+                            bool resutadoIntentos = await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.usuario);
                             if (resutadoIntentos)
                             {
                                 mensajeError();
@@ -277,5 +273,38 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         {
             mostrarClave = estado;
         }
+
+        private async Task SwalArchivoLicenciaValido(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    await ValidarLicencia();
+                }
+            });
+        }
+
+        private async Task SwalError(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Error,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            });
+        }
+
+        
     }
 }

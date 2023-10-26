@@ -7,29 +7,17 @@
 @inject IJSRuntime JS
 @inject ILicenciasInterface LicenciasService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject SweetAlertService Swal;
 
 @if (cargaInicial)
 {
-    if (!licenciaActiva)
-    {
-        <ModalError mensaje="Licencia no activa, debe renovarla"></ModalError>
-    }
+
     if (licenciaProximaAVencer)
     {
         <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
     }
-    if (!mismaMacAdress)
-    {
-        <ModalError mensaje="La MacAddress no es la misma registrada"></ModalError>
-    }
-    if (archivoLicenciaInvalido)
-    {
-        <ModalError mensaje="Archivo de Licencia Inválido"></ModalError>
-    }
-    if (archivoLicenciaValido)
-    {
-        <ModalExito mensaje="Archivo de Licencia Introducido Correctamente"></ModalExito>
-    }
+    
+
     <div class="container container-full">
         <div class="row">
             <div class="col columna">
