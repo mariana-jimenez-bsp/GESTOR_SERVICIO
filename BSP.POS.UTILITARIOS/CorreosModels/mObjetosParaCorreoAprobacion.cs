@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using BSP.POS.UTILITARIOS.Actividades;
 using BSP.POS.UTILITARIOS.Clientes;
-using BSP.POS.UTILITARIOS.CorreosModels.Models;
 using BSP.POS.UTILITARIOS.Informes;
 using BSP.POS.UTILITARIOS.Observaciones;
 using BSP.POS.UTILITARIOS.Usuarios;

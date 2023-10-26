@@ -58,7 +58,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("ActualizaListaDeProyectos")]
+        [HttpPut("ActualizaListaDeProyectos")]
         public IActionResult ActualizaListaDeActividades([FromBody] List<U_ListaProyectos> datos)
         {
             try
@@ -78,7 +78,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("TerminaProyecto")]
+        [HttpPut("TerminaProyecto")]
         public IActionResult TerminaProyecto()
         {
             try

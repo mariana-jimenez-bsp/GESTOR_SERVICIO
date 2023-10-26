@@ -9,16 +9,16 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
 
         mInformeAsociado InformeAsociado { get; set; }
         Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo, string esquema);
-        Task ActualizarInformeAsociado(mInformeAsociado informe, string esquema);
+        Task<bool> ActualizarInformeAsociado(mInformeAsociado informe, string esquema);
 
-        Task CambiarEstadoDeInforme(mInformeEstado informe, string esquema);
+        Task<bool> CambiarEstadoDeInforme(mInformeEstado informe, string esquema);
 
-        Task EliminarInforme(string consecutivo, string esquema);
+        Task<bool> EliminarInforme(string consecutivo, string esquema);
 
         Task<bool> EnviarCorreoDeAprobacionDeInforme(string esquema, string consecutivo);
         Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token);
-        Task AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
-        Task RechazarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
+        Task<bool> AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
+        Task<bool> RechazarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
 
         Task<string> AgregarInformeAsociado(string cliente, string esquema);
         Task<string> ValidarExistenciaConsecutivoInforme(string esquema, string consecutivo);

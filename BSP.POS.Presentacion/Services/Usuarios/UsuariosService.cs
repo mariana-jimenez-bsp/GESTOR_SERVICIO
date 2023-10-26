@@ -21,7 +21,6 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         private readonly ILocalStorageService _localStorageService;
         private readonly NavigationManager _navigationManager;
         public List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; } = new List<mUsuariosDeCliente>();
-        public List<mUsuariosDeClienteDeInforme> ListaUsuariosDeClienteDeInforme { get; set; } = new List<mUsuariosDeClienteDeInforme>();
         public List<mDatosUsuariosDeClienteDeInforme> ListaDatosUsuariosDeClienteDeInforme { get; set; } = new List<mDatosUsuariosDeClienteDeInforme>();
         public List<mPerfil> ListaDeUsuarios { get; set; } = new List<mPerfil>();
         
@@ -75,7 +74,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 string jsonData = JsonSerializer.Serialize(perfil);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK) {
                 return true;
 
@@ -115,21 +114,6 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             return new List<mUsuariosDeCliente>();
         }
 
-
-        public async Task ObtenerListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
-        {
-            string url = "Usuarios/ObtengaLaListaUsuariosDeClienteDeInforme/" + consecutivo + "/" + esquema;
-            var response = await _http.GetAsync(url);
-            if( response.StatusCode == HttpStatusCode.OK)
-            {
-                var listaInformesAsociados = await response.Content.ReadFromJsonAsync<List<mUsuariosDeClienteDeInforme>>();
-                if (listaInformesAsociados is not null)
-                {
-                    ListaUsuariosDeClienteDeInforme = listaInformesAsociados;
-                }
-            }
-            
-        }
         public async Task ObtenerDatosListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
         {
             string url = "Usuarios/ObtengaDatosListaUsuariosDeClienteDeInforme/" + consecutivo + "/" + esquema;
@@ -143,7 +127,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 }
             }
         }
-        public async Task AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema)
+        public async Task<bool> AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema)
         {
             try
             {
@@ -156,16 +140,17 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
 
-        public async Task EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema)
+        public async Task<bool> EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema)
         {
             try
             {
@@ -179,12 +164,13 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 var response = await _http.DeleteAsync(url);
                 if( response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
         public async Task ObtenerImagenDeUsuario(string usuario, string esquema)
@@ -226,48 +212,6 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 }
             }
             
-        }
-
-        public async Task ActualizarListaDeUsuarios(List<mUsuariosParaEditar> listaUsuarios, string esquema, string usuarioActual)
-        {
-            try
-            {
-                foreach (var usuario in listaUsuarios)
-                {
-                    if (!string.IsNullOrEmpty(usuario.clave))
-                    {
-                        usuario.clave = EncriptarClave(usuario.clave);
-                    }
-                }
-               
-                _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "Usuarios/ActualizaListaDeUsuarios";
-                string jsonData = JsonSerializer.Serialize(listaUsuarios);
-                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-                var response = await _http.PostAsync(url, content);
-                if(response.StatusCode == HttpStatusCode.OK)
-                {
-                    foreach (var usuario in listaUsuarios)
-                    {
-                        if (usuarioActual == usuario.usuarioOrignal)
-                        {
-                            if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || (usuario.claveOriginal != usuario.clave && !string.IsNullOrEmpty(usuario.clave)))
-                            {
-
-                                _navigationManager.NavigateTo($"login", forceLoad: true);
-                                await _localStorageService.RemoveItemAsync("token");
-                            }
-                        }
-                    }
-                }
-                
-            }
-            catch (Exception)
-            {
-
-            }
         }
         public async Task<string> ValidarCorreoExistente(string esquema, string correo)
         {
@@ -381,7 +325,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 _http.DefaultRequestHeaders.Add("X-IdCodigoTelefono", usuario.IdCodigoTelefono.ToString());
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK )
                 {
                     

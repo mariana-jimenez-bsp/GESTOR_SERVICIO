@@ -217,10 +217,18 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             mensajeActualizar = null;
             try
             {
+                bool resultadoClientes = false;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.ActualizarListaDeClientes(clientes, esquema);
-                await RefrescarListaClientes();
-                mensajeActualizar = "Clientes Actualizados";
+                resultadoClientes = await ClientesService.ActualizarListaDeClientes(clientes, esquema);
+                if(resultadoClientes) {
+                    await RefrescarListaClientes();
+                    mensajeActualizar = "Clientes Actualizados";
+                }
+                else
+                {
+                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                }
+                
                 
                
             }

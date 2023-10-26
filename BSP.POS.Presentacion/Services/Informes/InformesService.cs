@@ -51,7 +51,7 @@ namespace BSP.POS.Presentacion.Services.Informes
             return null;
         }
 
-        public async Task ActualizarInformeAsociado(mInformeAsociado informe, string esquema)
+        public async Task<bool> ActualizarInformeAsociado(mInformeAsociado informe, string esquema)
         {
             try
             {
@@ -61,18 +61,19 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
-        public async Task CambiarEstadoDeInforme(mInformeEstado informe, string esquema)
+        public async Task<bool> CambiarEstadoDeInforme(mInformeEstado informe, string esquema)
         {
             try
             {
@@ -82,19 +83,20 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
 
-        public async Task EliminarInforme(string consecutivo, string esquema)
+        public async Task<bool> EliminarInforme(string consecutivo, string esquema)
         {
             try
             {
@@ -105,11 +107,16 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-consecutivo", consecutivo);
 
 
-                var mensaje = await _http.DeleteAsync(url);
+                var response = await _http.DeleteAsync(url);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
         public async Task<bool> EnviarCorreoDeAprobacionDeInforme(string esquema, string consecutivo)
@@ -158,7 +165,7 @@ namespace BSP.POS.Presentacion.Services.Informes
             }
         }
 
-        public async Task AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
+        public async Task<bool> AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
         {
             try
             {
@@ -168,19 +175,20 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if( response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
 
-        public async Task RechazarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
+        public async Task<bool> RechazarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
         {
             try
             {
@@ -190,15 +198,16 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
 

@@ -38,6 +38,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         private string correoEnviado;
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
+        private string mensajeError;
         private bool estadoObseracionNueva = false;
         private bool estadoObservacionCancelada = false;
         private bool todosLosUsuariosAprobados = false;
@@ -96,10 +97,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         {
             bool aprobado = false;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(Consecutivo, esquema);
-            if (UsuariosService.ListaUsuariosDeClienteDeInforme.Any())
+            await UsuariosService.ObtenerDatosListaUsuariosDeClienteDeInforme(Consecutivo, esquema);
+            if (UsuariosService.ListaDatosUsuariosDeClienteDeInforme.Any())
             {
-                foreach (var usuario in UsuariosService.ListaUsuariosDeClienteDeInforme)
+                foreach (var usuario in UsuariosService.ListaDatosUsuariosDeClienteDeInforme)
                 {
                     if (usuario.aceptacion == "1")
                     {
@@ -325,12 +326,20 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
 
         private async Task EliminarInforme(string consecutivo)
         {
-
+            mensajeError = null;
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await InformesService.EliminarInforme(consecutivo, esquema);
-                await SwalAviso("Se ha eliminado el informe", "Informe");
+                bool resultadoEliminar = await InformesService.EliminarInforme(consecutivo, esquema);
+                if (resultadoEliminar)
+                {
+                    await SwalAviso("Se ha eliminado el informe", "Informe");
+                }
+                else
+                {
+                    mensajeError = "Ocurrió un error vuelva a intentarlo";
+                }
+                
             }
         }
 

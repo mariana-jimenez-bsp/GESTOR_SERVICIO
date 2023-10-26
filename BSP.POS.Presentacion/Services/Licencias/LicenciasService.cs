@@ -79,7 +79,7 @@ namespace BSP.POS.Presentacion.Services.Licencias
                 string jsonData = JsonSerializer.Serialize(datosAActualizar);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     string respuesta = await response.Content.ReadAsStringAsync();

@@ -146,7 +146,7 @@ namespace BSP.POS.API.Controllers
 
         }
         [Authorize]
-        [HttpPost("ActualizarPerfil")]
+        [HttpPut("ActualizarPerfil")]
         public IActionResult ActualizarPerfil([FromBody] U_Perfil datos)
         {
             try
@@ -196,26 +196,6 @@ namespace BSP.POS.API.Controllers
                     return NotFound();
                 }
                 return Ok(listaUsuariosDeClienteAsociadosJson);
-            }
-
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-
-        }
-        [Authorize]
-        [HttpGet("ObtengaLaListaUsuariosDeClienteDeInforme/{consecutivo}/{esquema}")]
-        public IActionResult ObtengaLaListaUsuariosDeClienteDeInforme(string consecutivo, string esquema)
-        {
-            try
-            {
-                string listaInformesDeUsuarioDeClienteJson = user.ListarUsuariosDeClienteDeInforme(esquema, consecutivo);
-                if (string.IsNullOrEmpty(listaInformesDeUsuarioDeClienteJson))
-                {
-                    return NotFound();
-                }
-                return Ok(listaInformesDeUsuarioDeClienteJson);
             }
 
             catch (Exception ex)
@@ -397,7 +377,7 @@ namespace BSP.POS.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("ActualizaElUsuario")]
+        [HttpPut("ActualizaElUsuario")]
         public IActionResult ActualizaElUsuario([FromBody] U_UsuariosParaEditar datos)
         {
             try

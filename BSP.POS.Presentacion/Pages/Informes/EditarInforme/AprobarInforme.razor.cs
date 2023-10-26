@@ -48,8 +48,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 tokenAprobacion = await InformesService.ValidarTokenAprobacionDeInforme(esquema, token);
                 if(tokenAprobacion.token_aprobacion != null)
                 {
-                    await InformesService.AprobarInforme(tokenAprobacion, esquema);
-                    aprobado = true;
+                    bool resultadoInforme = await InformesService.AprobarInforme(tokenAprobacion, esquema);
+                    if(resultadoInforme){
+                        aprobado = true;
+                    }else{
+                        mensajeEsquema = "Ocurrio un error vuelva a intentarlo";
+                    }
+                    
                 }
                 }
             }

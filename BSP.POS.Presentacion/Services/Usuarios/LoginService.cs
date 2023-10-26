@@ -110,7 +110,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             string jsonData = JsonSerializer.Serialize(usuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var response = await _http.PostAsync(url, content);
+            var response = await _http.PutAsync(url, content);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -138,7 +138,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             return null;
         }
 
-        public async Task AumentarIntentosDeLogin(string esquema, string usuario)
+        public async Task<bool> AumentarIntentosDeLogin(string esquema, string usuario)
         {
             string url = "Login/AumentaIntentosDeLogin";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
@@ -148,12 +148,12 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
             var content = new StringContent("");
 
-            var response = await _http.PostAsync(url, content);
+            var response = await _http.PutAsync(url, content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-
+                return true;
             }
-
+            return false;
         }
         public async Task<int> ObtenerIntentosDeLogin(string esquema, string usuario)
         {

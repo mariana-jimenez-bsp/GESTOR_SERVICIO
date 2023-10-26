@@ -10,12 +10,12 @@ namespace BSP.POS.Presentacion.Interfaces.Clientes
         Task ObtenerListaClientesRecientes(string esquema);
         mClienteAsociado ClienteAsociado { get; set; }
         Task<mClienteAsociado?> ObtenerClienteAsociado(string cliente, string esquema);
-        Task ActualizarListaDeClientes(List<mClientes> listaClientes, string esquema);
+        Task<bool> ActualizarListaDeClientes(List<mClientes> listaClientes, string esquema);
 
         List<mClienteContado> ListaClientesCorporaciones { get; set; }
         Task ObtenerListaClientesCorporaciones(string esquema);
 
-        Task AgregarCliente(mAgregarCliente cliente, string esquema, string usuario);
+        Task<bool> AgregarCliente(mAgregarCliente cliente, string esquema, string usuario);
         Task<string> ValidarExistenciaDeCliente(string esquema, string cliente);
         Task<string> ObtenerPaisDeCliente(string esquema, string cliente);
         Task<string> ObtenerContribuyenteDeCliente(string esquema, string cliente);

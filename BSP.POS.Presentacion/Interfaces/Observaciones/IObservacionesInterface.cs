@@ -8,6 +8,6 @@ namespace BSP.POS.Presentacion.Interfaces.Observaciones
     {
         List<mObservaciones> ListaDeObservacionesDeInforme { get; set; }
         Task ObtenerListaDeObservacionesDeInforme(string consecutivo, string esquema);
-        Task AgregarObservacionDeInforme(mObservaciones observacion, string esquema);
+        Task<bool> AgregarObservacionDeInforme(mObservaciones observacion, string esquema);
     }
 }

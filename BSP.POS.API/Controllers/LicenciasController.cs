@@ -78,7 +78,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("ActualizaDatosDeLicencia")]
+        [HttpPut("ActualizaDatosDeLicencia")]
         public IActionResult ActualizaDatosDeLicencia([FromBody] U_ActualizarDatosLicencia datosLicencia)
         {
             try

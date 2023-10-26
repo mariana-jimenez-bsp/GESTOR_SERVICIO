@@ -12,6 +12,7 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         [Parameter] public EventCallback<bool> RefrescarListaInformes { get; set; }
         public string esquema = string.Empty;
+        public string mensajeError = string.Empty;
 
         protected async override Task OnInitializedAsync()
         {
@@ -35,15 +36,24 @@ namespace BSP.POS.Presentacion.Pages.Home
        
         private async Task FinalizarInforme(string consecutivo)
         {
+            mensajeError = null;
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
             {
                 mInformeEstado informeEstado = new mInformeEstado();
                 informeEstado.consecutivo = consecutivo;
                 informeEstado.estado = "Finalizado";
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
-                await RefrescarListaInformes.InvokeAsync(true);
-                await SwalAviso("El informe ha sido finalizado", "Finalizar");
+                bool resultadoEstado = await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
+                if (resultadoEstado)
+                {
+                    await RefrescarListaInformes.InvokeAsync(true);
+                    await SwalAviso("El informe ha sido finalizado", "Finalizar");
+                }
+                else
+                {
+                    mensajeError = "Ocurrió un error vuelva a intentarlo";
+                }
+                
             }
         }
 

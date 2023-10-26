@@ -54,9 +54,17 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         observacionAAgregar.codigo_usuario = UsuariosService.Perfil.codigo;
                     }
                     observacionAAgregar.consecutivo_informe = consecutivo;
-                    await ObservacionesService.AgregarObservacionDeInforme(observacionAAgregar, esquema);
-                    await observacionAgregada.InvokeAsync(true);
-                    await CloseModal();
+                    bool resultadoObservaciones = await ObservacionesService.AgregarObservacionDeInforme(observacionAAgregar, esquema);
+                    if (resultadoObservaciones)
+                    {
+                        await observacionAgregada.InvokeAsync(true);
+                        await CloseModal();
+                    }
+                    else
+                    {
+                        mensajeError = "Ocurrió un error vuelva a intentarlo";
+                    }
+                    
  
                    
                 }

@@ -60,7 +60,7 @@ namespace BSP.POS.Presentacion.Services.Permisos
                 _http.DefaultRequestHeaders.Add("X-IdUsuario", idUsuario);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
                     return true;

@@ -76,7 +76,7 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
                     departamentos = DepartamentosService.listaDepartamentos;
                     if (seActualizo)
                     {
-                        mensajeActualizar = "Actividades Actualizadas";
+                        mensajeActualizar = "Departamentos Actualizados";
                     }
                     else
                     {

@@ -146,7 +146,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("ActualizaClaveDeUsuario")]
+        [HttpPut("ActualizaClaveDeUsuario")]
         public IActionResult ActualizaClaveDeUsuario([FromBody] U_UsuarioNuevaClave datos)
         {
             try
@@ -184,7 +184,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("AumentaIntentosDeLogin")]
+        [HttpPut("AumentaIntentosDeLogin")]
         public IActionResult AumentaIntentosDeLogin()
         {
             try

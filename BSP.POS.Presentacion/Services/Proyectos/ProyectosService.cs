@@ -46,7 +46,7 @@ namespace BSP.POS.Presentacion.Services.Proyectos
         }
 
 
-        public async Task ActualizarListaDeProyectos(List<mProyectos> listaProyectos, string esquema)
+        public async Task<bool> ActualizarListaDeProyectos(List<mProyectos> listaProyectos, string esquema)
         {
             try
             {
@@ -56,15 +56,16 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if( response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return true;
             }
         }
 
@@ -90,7 +91,7 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 return false;
             }
         }
-        public async Task TerminarProyecto(string numero, string esquema)
+        public async Task<bool> TerminarProyecto(string numero, string esquema)
         {
             try
             {
@@ -101,15 +102,16 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 _http.DefaultRequestHeaders.Add("X-Numero", numero);
                 var content = new StringContent(esquema, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
     }

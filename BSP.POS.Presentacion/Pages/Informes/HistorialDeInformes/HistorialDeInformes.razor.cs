@@ -102,10 +102,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         {
             bool aprobado = false;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-            if (UsuariosService.ListaUsuariosDeClienteDeInforme.Any())
+            await UsuariosService.ObtenerDatosListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
+            if (UsuariosService.ListaDatosUsuariosDeClienteDeInforme.Any())
             {
-                foreach (var usuario in UsuariosService.ListaUsuariosDeClienteDeInforme)
+                foreach (var usuario in UsuariosService.ListaDatosUsuariosDeClienteDeInforme)
                 {
                     if (usuario.aceptacion == "1")
                     {

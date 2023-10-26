@@ -1,7 +1,6 @@
 ﻿using BSP.POS.UTILITARIOS.Actividades;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
-using BSP.POS.UTILITARIOS.CorreosModels.Models;
 using BSP.POS.UTILITARIOS.Observaciones;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Hosting;

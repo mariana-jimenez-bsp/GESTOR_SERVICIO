@@ -34,5 +34,8 @@
         }
     }
 </div>
-
+@if (!string.IsNullOrEmpty(mensajeError))
+{
+    <ModalError mensaje="@mensajeError"></ModalError>
+}
 

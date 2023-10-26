@@ -83,7 +83,7 @@ namespace BSP.POS.API.Controllers
             
         }
 
-        [HttpPost("ActualizaListaDeClientes")]
+        [HttpPut("ActualizaListaDeClientes")]
         public IActionResult ActualizaListaDeClientes([FromBody] List<U_ListaClientes> datos)
         {
             try

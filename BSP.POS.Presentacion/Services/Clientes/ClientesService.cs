@@ -62,7 +62,7 @@ namespace BSP.POS.Presentacion.Services.Clientes
             
         }
 
-        public async Task ActualizarListaDeClientes(List<mClientes> listaClientes, string esquema)
+        public async Task<bool> ActualizarListaDeClientes(List<mClientes> listaClientes, string esquema)
         {
             try
             {
@@ -72,15 +72,16 @@ namespace BSP.POS.Presentacion.Services.Clientes
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                var response = await _http.PostAsync(url, content);
+                var response = await _http.PutAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
 
 
@@ -100,7 +101,7 @@ namespace BSP.POS.Presentacion.Services.Clientes
             
         }
 
-        public async Task AgregarCliente(mAgregarCliente cliente, string esquema, string usuario)
+        public async Task<bool> AgregarCliente(mAgregarCliente cliente, string esquema, string usuario)
         {
             try
             {
@@ -116,12 +117,13 @@ namespace BSP.POS.Presentacion.Services.Clientes
                 var response = await _http.PostAsync(url, content);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
         public async Task<string> ValidarExistenciaDeCliente(string esquema, string cliente)

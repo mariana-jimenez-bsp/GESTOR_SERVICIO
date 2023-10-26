@@ -31,7 +31,7 @@ namespace BSP.POS.Presentacion.Services.Observaciones
             
         }
 
-        public async Task AgregarObservacionDeInforme(mObservaciones observacion, string esquema)
+        public async Task<bool> AgregarObservacionDeInforme(mObservaciones observacion, string esquema)
         {
             try
             {
@@ -44,12 +44,13 @@ namespace BSP.POS.Presentacion.Services.Observaciones
                 var response = await _http.PostAsync(url, content);
                 if( response.StatusCode == HttpStatusCode.OK )
                 {
-
+                    return true;
                 }
+                return false;
             }
             catch (Exception)
             {
-
+                return false;
             }
         }
     }

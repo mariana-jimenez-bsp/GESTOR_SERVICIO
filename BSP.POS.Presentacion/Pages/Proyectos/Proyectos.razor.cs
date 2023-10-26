@@ -183,9 +183,17 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ProyectosService.ActualizarListaDeProyectos(proyectos, esquema);
-                await RefrescarListaDeProyectos();
-                mensajeActualizar = "Proyectos Actualizados";
+                bool resultadoActualizar = await ProyectosService.ActualizarListaDeProyectos(proyectos, esquema);
+                if (resultadoActualizar)
+                {
+                    await RefrescarListaDeProyectos();
+                    mensajeActualizar = "Proyectos Actualizados";
+                }
+                else
+                {
+                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                }
+                
 
             }
             catch (Exception)
@@ -230,13 +238,23 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         }
         private async Task TerminarProyecto(string numero)
         {
+            mensajeError = null;
             if (!string.IsNullOrEmpty(numero) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ProyectosService.TerminarProyecto(numero, esquema);
-                await SwalAviso("Se ha cambiado el estado del proyecto #"+ numero +" a Terminado");
+                bool resultadoTerminar = await ProyectosService.TerminarProyecto(numero, esquema);
+                if (resultadoTerminar)
+                {
+                    await SwalAviso("Se ha cambiado el estado del proyecto #" + numero + " a Terminado");
+                }
+                else
+                {
+                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                }
+               
+                
             }
-
+            
         }
         private async Task SwalTerminarProyecto(string mensajeAlerta, string numero)
         {

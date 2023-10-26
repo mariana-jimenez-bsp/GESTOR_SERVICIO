@@ -182,11 +182,15 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                         }
                         else
                         {
-                            await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
-                            mensajeError();
+                            bool resutadoIntentos = await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
+                            if (resutadoIntentos)
+                            {
+                                mensajeError();
 
-                            usuario.clave = string.Empty;
-                            claveActual = string.Empty;
+                                usuario.clave = string.Empty;
+                                claveActual = string.Empty;
+                            }
+                            
                         }
                     }
                 }

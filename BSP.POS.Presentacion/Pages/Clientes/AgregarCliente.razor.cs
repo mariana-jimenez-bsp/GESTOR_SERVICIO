@@ -502,13 +502,18 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 {
                     clienteNuevo.DESCUENTO = "0";
                 }
+                bool resultadoCliente = false;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 clienteNuevo.CLIENTE = await ItemsClienteService.ObtenerElSiguienteCodigoCliente(esquema, clienteNuevo.NOMBRE.Substring(0, 1));
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.AgregarCliente(clienteNuevo, esquema, usuarioActual);
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
-                if (ClientesService.ClienteAsociado != null)
+                resultadoCliente = await ClientesService.AgregarCliente(clienteNuevo, esquema, usuarioActual);
+                if (resultadoCliente)
+                {
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await ClientesService.ObtenerClienteAsociado(clienteNuevo.CLIENTE, esquema);
+                }
+                
+                if (ClientesService.ClienteAsociado != null && resultadoCliente)
                 {
                     await SwalExito("Se ha agregado el cliente");
                 }

@@ -61,7 +61,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("ActualizaListaDePermisosAsociados")]
+        [HttpPut("ActualizaListaDePermisosAsociados")]
         public IActionResult ActualizaListaDePermisosAsociados([FromBody] List<U_PermisosAsociados> datos)
         {
             try

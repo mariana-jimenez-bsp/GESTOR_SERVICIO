@@ -110,7 +110,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("ActualizaElInformeAsociado")]
+        [HttpPut("ActualizaElInformeAsociado")]
         public IActionResult ActualizaElInformeAsociado([FromBody] U_InformeAsociado datos)
         {
             try
@@ -133,7 +133,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("CambiaEstadoDeInforme")]
+        [HttpPut("CambiaEstadoDeInforme")]
         public IActionResult CambiaEstadoDeInforme([FromBody] U_InformeAsociado datos)
         {
             try
@@ -256,7 +256,7 @@ namespace BSP.POS.API.Controllers
            
         }
         [AllowAnonymous]
-        [HttpPost("ApruebaInforme")]
+        [HttpPut("ApruebaInforme")]
         public IActionResult ApruebaInforme([FromBody] U_TokenAprobacionInforme datos)
         {
             try
@@ -277,7 +277,7 @@ namespace BSP.POS.API.Controllers
 
         }
         [AllowAnonymous]
-        [HttpPost("RechazaInforme")]
+        [HttpPut("RechazaInforme")]
         public IActionResult RechazaInforme([FromBody] U_TokenAprobacionInforme datos)
         {
             try

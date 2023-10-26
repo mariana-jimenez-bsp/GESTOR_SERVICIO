@@ -284,18 +284,30 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             informeGuardado = false;
             successMessage = null;
+            mensajeError = null;
             if (informeActualizado)
             {
+                bool resultadoActividad = false;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
-                await RefrescarListaDeActividadesAsociadas();
-
-                if (!activarBotonFinalizar)
+                resultadoActividad = await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
+                if (resultadoActividad)
                 {
-                    successMessage = "Se han guardado los cambios";
+                    await RefrescarListaDeActividadesAsociadas();
+
+                    if (!activarBotonFinalizar)
+                    {
+                        successMessage = "Se han guardado los cambios";
+                    }
+                    await CambiarEstadoInformeGuardado(true);
                 }
-                await CambiarEstadoInformeGuardado(true);
-                
+                else
+                {
+                    mensajeError = "Ocurrió un Error vuelta a intentarlo";
+                }
+            }
+            else
+            {
+                mensajeError = "Ocurrió un Error vuelta a intentarlo";
             }
             
             
@@ -305,12 +317,19 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await InformesService.ActualizarInformeAsociado(informe, esquema);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
-            informe = InformesService.InformeAsociado;
-            informeActualizado = true;
-           
+            bool resultadoActualizar = await InformesService.ActualizarInformeAsociado(informe, esquema);
+            if (resultadoActualizar)
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
+                informe = InformesService.InformeAsociado;
+                informeActualizado = true;
+            }
+            else
+            {
+                informeActualizado = false;
+            }
+
 
         }
         private void CambioCodigoDeUsuario(ChangeEventArgs e)
@@ -383,13 +402,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         }
         private async Task AgregarUsuarioDeClienteDeInforme()
         {
+            mensajeError = null;
             if (usuarioAAgregar.codigo_usuario_cliente != null)
             {
                 usuarioAAgregar.consecutivo_informe = Consecutivo;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.AgregarUsuarioDeClienteDeInforme(usuarioAAgregar, esquema);
-                usuarioAAgregar = new mUsuariosDeClienteDeInforme();
-                await RefrescarListaDeUsuariosDeInforme();
+                bool resultadoAgregar = await UsuariosService.AgregarUsuarioDeClienteDeInforme(usuarioAAgregar, esquema);
+                if (resultadoAgregar)
+                {
+                    usuarioAAgregar = new mUsuariosDeClienteDeInforme();
+                    await RefrescarListaDeUsuariosDeInforme();
+                }
+                else
+                {
+                    mensajeError = "Ocurrió un error vuelva intentarlo";
+                }
+               
             }
         }
 
@@ -586,45 +614,80 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task EliminarActividadDeInforme(string idActividad)
         {
+            mensajeError = null;
             if (!string.IsNullOrEmpty(idActividad) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.EliminarActividadDeInforme(idActividad, esquema);
-                await RefrescarListaDeActividadesAsociadas();
+                bool resultadoEliminar = await ActividadesService.EliminarActividadDeInforme(idActividad, esquema);
+                if (resultadoEliminar)
+                {
+                    await RefrescarListaDeActividadesAsociadas();
+                }
+                else
+                {
+                    mensajeError = "Ocurrió un Error vuelva a intentarlo";
+                }
+               
+               
                 StateHasChanged();
             }
         }
 
         private async Task EliminarInforme(string consecutivo)
         {
-
+            mensajeError = null;
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await InformesService.EliminarInforme(consecutivo, esquema);
-                await SwalAviso("Se ha eliminado el informe", "Informe");
+                bool resultadoEliminar = await InformesService.EliminarInforme(consecutivo, esquema);
+                if (resultadoEliminar)
+                {
+                    await SwalAviso("Se ha eliminado el informe", "Informe");
+                }
+                else
+                {
+                    mensajeError = "Ocurrió un Error vuelva a intentarlo";
+                }
+                
             }
         }
         private async Task EliminarUsuarioDeClienteDeInforme(string idUsuario)
         {
+            mensajeError = null;
             if (!string.IsNullOrEmpty(idUsuario) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
-                await RefrescarListaDeUsuariosDeInforme();
+                bool resultadoEliminar = await UsuariosService.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
+                if (resultadoEliminar)
+                {
+                    await RefrescarListaDeUsuariosDeInforme();
+                }
+                else
+                {
+                    mensajeError = "Ocurrió un error vuelva a intentarlo";
+                }
                 StateHasChanged();
             }
         }
         private async Task FinalizarInforme(string consecutivo)
         {
+            mensajeError = null;
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
             {
                 mInformeEstado informeEstado = new mInformeEstado();
                 informeEstado.consecutivo = consecutivo;
                 informeEstado.estado = "Finalizado";
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
-                await SwalAviso("El informe ha sido finalizado", "Finalizar");
+                bool resultadoEstado = await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
+                if (resultadoEstado)
+                {
+                    await SwalAviso("El informe ha sido finalizado", "Finalizar");
+                }
+                else
+                {
+                    mensajeError = "Ocurrió un Error vuelta a intentarlo";
+                }
+                
             }
         }
 

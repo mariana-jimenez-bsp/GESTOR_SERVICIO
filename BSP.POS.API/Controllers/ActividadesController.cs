@@ -80,7 +80,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("ActualizaListaDeActividades")]
+        [HttpPut("ActualizaListaDeActividades")]
         public IActionResult ActualizaListaDeActividades([FromBody] List<U_ListaActividades> datos)
         {
             try
@@ -100,7 +100,7 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPost("ActualizaListaDeActividadesAsociadas")]
+        [HttpPut("ActualizaListaDeActividadesAsociadas")]
         public IActionResult ActualizaListaDeActividadesAsociadas([FromBody] List<U_ListaActividadesAsociadas> datos)
         {
             try

@@ -41,7 +41,7 @@ namespace BSP.POS.API.Controllers
             }
         }
 
-        [HttpPost("ActualizaListaDepartamentos")]
+        [HttpPut("ActualizaListaDepartamentos")]
         public IActionResult ActualizaListaDepartamentos([FromBody] List<U_Departamentos> datos)
         {
             try

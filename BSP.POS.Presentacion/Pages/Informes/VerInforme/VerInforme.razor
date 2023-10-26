@@ -17,9 +17,13 @@
     
 
     <div class="container-fluid p-2 pe-5 ps-5 body-edit">
-        @if (successMessage != null)
+        @if (!string.IsNullOrEmpty(successMessage))
         {
             <ModalExito mensaje="@successMessage"></ModalExito>
+        }
+        @if (!string.IsNullOrEmpty(mensajeError))
+        {
+            <ModalError mensaje="@mensajeError"></ModalError>
         }
         <div class="row">
             <div class="col-md-6">
