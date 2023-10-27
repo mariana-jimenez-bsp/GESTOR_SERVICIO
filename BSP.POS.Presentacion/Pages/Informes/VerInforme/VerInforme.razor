@@ -8,6 +8,8 @@
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
+
 @if(cargaInicial){
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
 @if (informe.estado == "Finalizado")
@@ -17,14 +19,8 @@
     
 
     <div class="container-fluid p-2 pe-5 ps-5 body-edit">
-        @if (!string.IsNullOrEmpty(successMessage))
-        {
-            <ModalExito mensaje="@successMessage"></ModalExito>
-        }
-        @if (!string.IsNullOrEmpty(mensajeError))
-        {
-            <ModalError mensaje="@mensajeError"></ModalError>
-        }
+        
+        
         <div class="row">
             <div class="col-md-6">
                         <div class="row p-2 header-col-left">
@@ -227,7 +223,7 @@
                 </div>
 
                 <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)'>
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAdvertenciaInforme("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)'>
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                         <span>Descartar</span>
                     </div>
@@ -249,13 +245,8 @@
         </div>
 
     </div>
-  <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="CambiarEstadoObservacionNueva" observacionCancelada="CambiarEstadoObservacionCancelada"></ModalObservaciones>
-    @if(estadoObseracionNueva){
-        <ModalExito mensaje="Se ha agregado la observación"></ModalExito>
-    }
-    @if(estadoObservacionCancelada){
-        <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-    }
+  <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="ObservacionNuevaAgregada" observacionCancelada="ObservacionNuevaCancelada"></ModalObservaciones>
+    
     @if(advertenciaFinalizarInforme){
         <ModalAdvertencia mensaje="El informe ya fue finalizado antes"></ModalAdvertencia>
     }

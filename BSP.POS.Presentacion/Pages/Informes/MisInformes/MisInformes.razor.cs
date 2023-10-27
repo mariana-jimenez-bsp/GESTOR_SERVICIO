@@ -27,7 +27,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
-        public string mensajeError;
         private DateTime fechaInicioDateTime = DateTime.MinValue;
         private DateTime fechaFinalDateTime = DateTime.MinValue;
         private string fechaInicio = string.Empty;
@@ -272,21 +271,21 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
                     if (resultadoCorreo)
                     {
-                        await SwalExito("El correo ha sido enviado");
+                        await AlertasService.SwalExito("El correo ha sido enviado");
                     }
                     else
                     {
-                        await SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                        await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
                     }
                 }
                 else
                 {
-                    await SwalAviso("Todos los usuarios ya aprobaron el informe seleccionado");
+                    await AlertasService.SwalAviso("Todos los usuarios ya aprobaron el informe seleccionado");
                 }
             }
             else
             {
-                await SwalAdvertencia("Debe seleccionar un Informe");
+                await AlertasService.SwalAdvertencia("Debe seleccionar un Informe");
             }
                 
 
@@ -321,66 +320,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
                 if (resultadoDescargar)
                 {
-                    await SwalExito("El reporte se ha descargado");
+                    await AlertasService.SwalExito("El reporte se ha descargado");
                 }
                 else
                 {
-                    await SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                    await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
                 }
                 
             }
             else
             {
-                await SwalAdvertencia("Debe seleccionar un Informe");
+                await AlertasService.SwalAdvertencia("Debe seleccionar un Informe");
             }
 
 
         }
 
-        private async Task SwalExito(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Éxito!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Success,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
-        private async Task SwalError(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Error!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Error,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
-        private async Task SwalAviso(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Aviso!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Info,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
-
-        private async Task SwalAdvertencia(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Aviso!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
+        
     }
 }

@@ -41,13 +41,9 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public string rol = string.Empty;
         private ElementReference actividadesButton;
         private ElementReference informeButton;
-        private string successMessage;
-        private string correoEnviado;
+
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
-        public string mensajeError;
-        private bool estadoObseracionNueva = false;
-        private bool estadoObservacionCancelada = false;
         private bool informeGuardado = false;
         private bool activarBotonFinalizar = false;
         private bool informeActualizado = false;
@@ -151,7 +147,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private async Task TodosLosBotonesSubmit()
         {
             informeActualizado = false;
-            mensajeError = null;
             try
             {
                 await SubmitInforme();
@@ -163,7 +158,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             catch (Exception)
             {
 
-                mensajeError = "Ocurrió un Error vuelva a intentarlo";
+                await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
             }
             
 
@@ -272,8 +267,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private async Task ActualizarActividadesAsociadas()
         {
             informeGuardado = false;
-            successMessage = null;
-            mensajeError = null;
             if (informeActualizado)
             {
                 bool resultadoActividad = false;
@@ -285,18 +278,18 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
                     if (!activarBotonFinalizar)
                     {
-                        successMessage = "Se han guardado los cambios";
+                        await AlertasService.SwalExito("Se han guardado los cambios");
                     }
                     await CambiarEstadoInformeGuardado(true);
                 }
                 else
                 {
-                    mensajeError = "Ocurrió un Error vuelta a intentarlo";
+                    await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
                 }
             }
             else
             {
-                mensajeError = "Ocurrió un Error vuelta a intentarlo";
+                await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
             }
             
             
@@ -391,7 +384,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         }
         private async Task AgregarUsuarioDeClienteDeInforme()
         {
-            mensajeError = null;
+
             if (usuarioAAgregar.codigo_usuario_cliente != null)
             {
                 usuarioAAgregar.consecutivo_informe = Consecutivo;
@@ -404,7 +397,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
                 else
                 {
-                    mensajeError = "Ocurrió un error vuelva intentarlo";
+                    await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
                 }
                
             }
@@ -433,11 +426,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             if (!activar)
             {
                 await RefrescarLaListaDeObservaciones(Consecutivo);
-            }
-            if (activar)
-            {
-                estadoObservacionCancelada = false;
-                estadoObseracionNueva = false;
             }
         }
         async Task ClickHandlerFinalizarInforme(bool activar)
@@ -481,14 +469,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
         }
 
-        public void CambiarEstadoObservacionNueva(bool estado)
+        public async Task ObservacionNuevaAgregada()
         {
-            estadoObseracionNueva = estado;
+            await AlertasService.SwalExito("Se ha agregado la observación");
             
         }
-        public void CambiarEstadoObservacionCancelada(bool estado)
+        public async Task ObservacionNuevaCancelada()
         {
-            estadoObservacionCancelada = estado;
+            await AlertasService.SwalAviso("Se han descartado los cambios");
         }
 
         public async Task CambiarEstadoInformeGuardado(bool estado)
@@ -496,7 +484,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             informeGuardado = estado;
             if (informeGuardado && activarBotonFinalizar)
             {
-                await SwalAdvertencia("¿Está seguro de finalizar el informe?", "Finalizar", Consecutivo);
+                await SwalAccionPregunta("¿Está seguro de finalizar el informe?", "Finalizar", Consecutivo);
             }
         }
 
@@ -565,13 +553,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
         }
 
-        private async Task SwalAdvertencia(string mensajeAlerta, string accion, string identificador)
+        private async Task SwalAccionPregunta(string mensajeAlerta, string accion, string identificador)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {
-                Title = "Advertencia!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Warning,
+                Title = mensajeAlerta,
+                Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
                 ConfirmButtonText = "Aceptar",
                 CancelButtonText = "Cancelar"
@@ -603,7 +590,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task EliminarActividadDeInforme(string idActividad)
         {
-            mensajeError = null;
             if (!string.IsNullOrEmpty(idActividad) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -614,7 +600,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
                 else
                 {
-                    mensajeError = "Ocurrió un Error vuelva a intentarlo";
+                    await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
                 }
                
                
@@ -624,25 +610,23 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task EliminarInforme(string consecutivo)
         {
-            mensajeError = null;
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 bool resultadoEliminar = await InformesService.EliminarInforme(consecutivo, esquema);
                 if (resultadoEliminar)
                 {
-                    await SwalAviso("Se ha eliminado el informe", "Informe");
+                    await SwalAvisoInforme("Se ha eliminado el informe", "Informe");
                 }
                 else
                 {
-                    mensajeError = "Ocurrió un Error vuelva a intentarlo";
+                    await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
                 }
                 
             }
         }
         private async Task EliminarUsuarioDeClienteDeInforme(string idUsuario)
         {
-            mensajeError = null;
             if (!string.IsNullOrEmpty(idUsuario) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -653,14 +637,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
                 else
                 {
-                    mensajeError = "Ocurrió un error vuelva a intentarlo";
+                    await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
                 }
                 StateHasChanged();
             }
         }
         private async Task FinalizarInforme(string consecutivo)
         {
-            mensajeError = null;
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
             {
                 mInformeEstado informeEstado = new mInformeEstado();
@@ -670,17 +653,17 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 bool resultadoEstado = await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
                 if (resultadoEstado)
                 {
-                    await SwalAviso("El informe ha sido finalizado", "Finalizar");
+                    await SwalAvisoInforme("El informe ha sido finalizado", "Finalizar");
                 }
                 else
                 {
-                    mensajeError = "Ocurrió un Error vuelta a intentarlo";
+                    await AlertasService.SwalExito("Ocurrió un Error vuelta a intentarlo");
                 }
                 
             }
         }
 
-        private async Task SwalAviso(string mensajeAlerta, string accion)
+        private async Task SwalAvisoInforme(string mensajeAlerta, string accion)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {

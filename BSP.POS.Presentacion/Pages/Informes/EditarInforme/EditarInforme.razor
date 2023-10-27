@@ -9,6 +9,7 @@
 @inject IJSRuntime JS
 @inject NavigationManager navigationManager
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
@@ -21,13 +22,7 @@
         
 
         <div class="container-fluid p-2 pe-5 ps-5 body-edit">
-            @if(successMessage != null){
-            <ModalExito mensaje="@successMessage"></ModalExito>
-             }
-                @if (!string.IsNullOrEmpty(mensajeError))
-                {
-                    <ModalError mensaje="@mensajeError"></ModalError>
-                }
+            
                 <div class="row">
                 <div class="col-md-6">
             <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
@@ -144,7 +139,7 @@
                                         }
 
                                     </div>
-                                <div class="col-md-1 mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.id)'>
+                                <div class="col-md-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.id)'>
                                         <i class="fa-solid fa-x text-danger"></i>
                                     </div>
                                 </div>
@@ -295,7 +290,7 @@
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
                                             </div>
-                                            <div class="col-md-1 mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
+                                            <div class="col-md-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
                                                 <i class="fa-solid fa-x text-danger"></i>
                                             </div>
                                         </div>
@@ -326,7 +321,7 @@
                 </div>
 
                     <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAdvertencia("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)'>
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)'>
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                             <span>Descartar</span>
                         </div>
@@ -351,13 +346,8 @@
                 }
             </div>
 
-    <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="CambiarEstadoObservacionNueva" observacionCancelada="CambiarEstadoObservacionCancelada"></ModalObservaciones>
-    @if(estadoObseracionNueva){
-        <ModalExito mensaje="Se ha agregado la observación"></ModalExito>
-    }
-    @if(estadoObservacionCancelada){
-        <ModalInfo mensaje="Se han descartado los cambios"></ModalInfo>
-    }
+    <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="ObservacionNuevaAgregada" observacionCancelada="ObservacionNuevaCancelada"></ModalObservaciones>
+    
     
 @if (elementos1.Any())
 {

@@ -9,6 +9,8 @@
 @inject IReportesInterface ReportesService
 @inject IDepartamentosInterface DepartamentosService
 @inject IJSRuntime JSRuntime
+@inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
@@ -50,19 +52,7 @@
                                 <input class="ms-2 input-date text-light text-center" type="date" @bind="@fechaFinalDateTime" @oninput="CambioFechaFinal"/>
                             </div>
                         </div>
-                        @if (correoEnviado != null)
-                        {
-                            if(correoEnviado == "Error")
-                            {
-                                <ModalError mensaje="Ocurrió Un error vuelva a intentarlo"></ModalError>           
-                            }else{
-                                <ModalExito mensaje="@correoEnviado"></ModalExito>
-                            }
-                            
-                        }
-                        @if(!string.IsNullOrEmpty(mensajeError)){
-                            <ModalError mensaje="@mensajeError"></ModalError>
-                        }
+                        
                         @if (informesDeUsuarioFinalizados.Any() && clienteAsociado != null)
                         {
                             var informesUsuario = informesDeUsuarioFinalizados.Where(informe =>
@@ -114,14 +104,14 @@
             <div class="col-md-3">
                 <div class="ps-5 col-right-bg d-flex justify-content-start align-items-center row">
                     <div class="col-md-4 col-right-bg ">
-                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="ReenviarCorreo">
+                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="SwalEnviandoCorreo">
                             <span class="me-4 span-report">REENVIAR A CLIENTE</span>
                         </div>
                         <div class="generar-cotizacion imagen-div">
                             <span class="me-4 span-report">GERNERAR COTIZACIÓN</span>
                         </div>
                         <div class="generar-reporte imagen-div mouse-pointer">
-                            <span class="me-4 span-report " @onclick="DescargarReporte">GENERAR REPORTE</span>
+                            <span class="me-4 span-report " @onclick="SwalDescargandoReporte">GENERAR REPORTE</span>
                         </div>
                         <div class="facturar imagen-div">
                             <span class="me-4 span-report">FACTURAR</span>
@@ -139,13 +129,5 @@
     </div>
 </div>
         <ScriptMaxHeight Contenido=".scrollbar-max-height" Elemento1=".el-layout" Elemento2=".footer-vacio" Elemento3=".header-informes"></ScriptMaxHeight>
-        @if (EsConsecutivoNull)
-        {
-            <ModalAdvertencia mensaje="Debe seleccionar un Informe"></ModalAdvertencia>
-        }
-        @if (todosLosUsuariosAprobados)
-        {
-            <ModalInfo mensaje="Todos los usuarios ya aprobaron el informe seleccionado"></ModalInfo>
-        }
     </Authorized>
 </AuthorizeView>

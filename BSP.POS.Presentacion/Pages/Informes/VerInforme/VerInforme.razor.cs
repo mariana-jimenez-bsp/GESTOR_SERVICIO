@@ -34,12 +34,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" };
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
-        private string successMessage;
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
-        private string mensajeError;
-        private bool estadoObseracionNueva = false;
-        private bool estadoObservacionCancelada = false;
         protected override async Task OnInitializedAsync()
         {
 
@@ -207,11 +203,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             {
                 await RefrescarLaListaDeObservaciones(Consecutivo);
             }
-            if (activar)
-            {
-                estadoObservacionCancelada = false;
-                estadoObseracionNueva = false;
-            }
+           
         }
       
         void ClickHandlerEliminarInforme(bool activar)
@@ -245,14 +237,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 return false;
             }
         }
-        public void CambiarEstadoObservacionNueva(bool estado)
+        public async Task ObservacionNuevaAgregada()
         {
-            estadoObseracionNueva = estado;
+            await AlertasService.SwalExito("Se ha agregado la observación");
 
         }
-        public void CambiarEstadoObservacionCancelada(bool estado)
+        public async Task ObservacionNuevaCancelada()
         {
-            estadoObservacionCancelada = estado;
+            await AlertasService.SwalAviso("Se han descartado los cambios");
         }
 
 
@@ -273,7 +265,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             advertenciaGuardarInforme = true;
             StateHasChanged();
         }
-        private async Task SwalAdvertencia(string mensajeAlerta, string accion, string identificador)
+        private async Task SwalAdvertenciaInforme(string mensajeAlerta, string accion, string identificador)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {
@@ -299,7 +291,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
 
         private async Task EliminarInforme(string consecutivo)
         {
-            mensajeError = null;
+     
             if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -310,7 +302,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 }
                 else
                 {
-                    mensajeError = "Ocurrió un error vuelva a intentarlo";
+                    await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
                 }
                 
             }
@@ -365,52 +357,20 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
 
                 if (resultadoCorreo)
                 {
-                    await SwalExito("El correo ha sido enviado");
+                    await AlertasService.SwalExito("El correo ha sido enviado");
                 }
                 else
                 {
-                    await SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                    await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
                 }
             }
             else
             {
-                await SwalAviso("Todos los usuarios ya aprobaron el informe");
+                await AlertasService.SwalAviso("Todos los usuarios ya aprobaron el informe");
             }
             
         }
 
-        private async Task SwalExito(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Éxito!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Success,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
-        private async Task SwalError(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Error!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Error,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
-        private async Task SwalAviso(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Aviso!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Info,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
+        
     }
 }

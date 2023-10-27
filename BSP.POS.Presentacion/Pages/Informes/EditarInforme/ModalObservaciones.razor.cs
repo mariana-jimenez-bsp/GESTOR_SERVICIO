@@ -12,8 +12,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         [Parameter] public string esquema { get; set; } = string.Empty;
         [Parameter] public string consecutivo { get; set; } = string.Empty;
         [Parameter] public string usuarioActual { get; set; } = string.Empty;
-        [Parameter] public EventCallback<bool> observacionAgregada { get; set; }
-        [Parameter] public EventCallback<bool> observacionCancelada { get; set; }
+        [Parameter] public EventCallback observacionAgregada { get; set; }
+        [Parameter] public EventCallback observacionCancelada { get; set; }
 
         public mObservaciones observacionAAgregar = new mObservaciones();
         public string mensajeError;
@@ -21,14 +21,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task CancelarCambios()
         {
-            await observacionCancelada.InvokeAsync(true);
             await CloseModal();
+            await observacionCancelada.InvokeAsync();
         }
 
         private async Task CloseModal()
         {
-            observacionAAgregar = new mObservaciones();
             await OnClose.InvokeAsync(false);
+            observacionAAgregar = new mObservaciones();
 
         }
 
@@ -57,8 +57,9 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     bool resultadoObservaciones = await ObservacionesService.AgregarObservacionDeInforme(observacionAAgregar, esquema);
                     if (resultadoObservaciones)
                     {
-                        await observacionAgregada.InvokeAsync(true);
                         await CloseModal();
+                        await observacionAgregada.InvokeAsync();
+                       
                     }
                     else
                     {
