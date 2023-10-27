@@ -24,7 +24,6 @@ namespace BSP.POS.API.Controllers
     {
         private N_Informes informes;
         private N_Usuarios user;
-        private readonly string _secretKey;
         private readonly string _correoUsuario;
         private readonly string _claveUsuario;
         private readonly string _tokenWhatsapp;
@@ -48,17 +47,21 @@ namespace BSP.POS.API.Controllers
                 var configurationSecrets = new ConfigurationBuilder()
                  .AddUserSecrets<Program>()
                  .Build();
-                _secretKey = configurationSecrets["SecretKey"];
+                
                 _correoUsuario = configurationSecrets["SmtpFrom"];
                 _claveUsuario = configurationSecrets["SmtpPassword"];
                 _urlWeb = configurationSecrets["UrlWebDebug"];
+                _idTelefonoWhatsapp = configurationSecrets["idTelefonoWhatsapp"];
+                _tokenWhatsapp = configurationSecrets["tokenWhatsapp"];
             }
             else
             {
-                _secretKey = configuration["AppSettings:SecretKey"];
+               
                 _correoUsuario = configuration["AppSettings:SmtpFrom"];
                 _claveUsuario = configuration["AppSettings:SmtpPassword"];
                 _urlWeb = configuration["AppSettings:UrlWebDeploy"];
+                _idTelefonoWhatsapp = configuration["AppSettings:idTelefonoWhatsapp"];
+                _tokenWhatsapp = configuration["AppSettings:tokenWhatsapp"];
             }
 
             _correoService = correoService;
@@ -201,7 +204,7 @@ namespace BSP.POS.API.Controllers
                 datos.claveUsuario = _claveUsuario;
 
                 _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion, _urlWeb, _tipoInicio);
-                //_whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
+                _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
                 return Ok();
             }
 

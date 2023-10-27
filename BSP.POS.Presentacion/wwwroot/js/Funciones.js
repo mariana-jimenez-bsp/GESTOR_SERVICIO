@@ -95,10 +95,15 @@ function ScriptMaxHeightExtraContainer(contenido, contenedor, elementosJson) {
     const totalHeight = elements.reduce((acc, elemento) => acc + elemento.offsetHeight, 0);
     const windowHeight = window.innerHeight;
     const availableHeight = windowHeight - totalHeight - 50;
-    const HeightContent = availableHeight - 70;
+    let HeightContent = availableHeight - 70;
     container.style.maxHeight = availableHeight + 'px';
     container.style.minHeight = availableHeight + 'px';
+    if (HeightContent <= 50) {
+        HeightContent = 50;
+    }
     content.style.maxHeight = HeightContent + 'px';
+    content.style.minHeight = 50 + 'px';
+    
 }
 window.HacerSelectEditable = function (objRef, selectId) {
     var select = document.getElementById("select-actividad-" + selectId);

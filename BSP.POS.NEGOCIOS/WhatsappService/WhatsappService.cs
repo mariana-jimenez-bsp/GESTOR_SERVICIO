@@ -1,4 +1,7 @@
-﻿using BSP.POS.UTILITARIOS.Actividades;
+﻿using BSP.POS.DATOS.CodigoTelefonoPais;
+using BSP.POS.DATOS.Usuarios;
+using BSP.POS.UTILITARIOS.Actividades;
+using BSP.POS.UTILITARIOS.CodigoTelefonoPais;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using BSP.POS.UTILITARIOS.Observaciones;
@@ -22,6 +25,8 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
     public class WhatsappService : IWhatsappInterface
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
+        D_CodigoTelefonoPais _codigoTelefonoPais = new D_CodigoTelefonoPais();
+        D_Usuarios _usuarios = new D_Usuarios();
         public WhatsappService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
@@ -39,16 +44,21 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                 {
                     pathToJson = Path.Combine(_hostingEnvironment.ContentRootPath, "WhatsappService", "MensajesJson", "AprobarInforme.json");
                 }
-                string jsonString = File.ReadAllText(pathToJson);
+                
                 
                 // Reemplaza el marcador de posición con el valor real
 
                 foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
                 {
+                    string jsonString = File.ReadAllText(pathToJson);
                     if (item.aceptacion == "0")
                     {
+                        U_CodigoTelefonoPaisUsuarios codigoTelefono = new U_CodigoTelefonoPaisUsuarios();
+                        U_UsuariosParaEditar usuarioActual = new U_UsuariosParaEditar();
+                        usuarioActual = _usuarios.ObtenerUsuarioParaEditar(objetosParaAprobacion.esquema, item.codigo_usuario_cliente);
+                        codigoTelefono = _codigoTelefonoPais.ObtenerDatosCodigoTelefonoPaisDeUsuariosPorUsuario(objetosParaAprobacion.esquema, item.codigo_usuario_cliente);
                         //Nuestro telefono
-                        string telefono = "50671417642";
+                        string telefono = codigoTelefono.CodigoTelefono + usuarioActual.telefono;
                         string usuarios = "";
                         string actividades = "";
                         string observaciones = "";
@@ -70,7 +80,8 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         }
                         foreach (var itemUsuario in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
                         {
-                            usuarios += "Nombre: " + itemUsuario.nombre_usuario + " - Departamento: " + itemUsuario.departamento_usuario;
+                            usuarios += "Nombre: " + itemUsuario.nombre_usuario + " - Departamento: " + itemUsuario.departamento_usuario
+                                + " - Rol: " + itemUsuario.rol_usuario + " - Correo: " + itemUsuario.correo_usuario;
                             if(itemUsuario.codigo_usuario_cliente != ultimoUsuario.codigo_usuario_cliente)
                             {
                                 usuarios += ", ";
@@ -107,8 +118,8 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                                     .Replace("{Usuarios_Cliente}", !usuarios.IsNullOrEmpty() ? usuarios : "Sin Usuarios")
                                     .Replace("{Actividades}", !actividades.IsNullOrEmpty() ? actividades : "Sin Actividades")
                                     .Replace("{Observaciones}", !observaciones.IsNullOrEmpty() ? observaciones : "Sin Observaciones")
-                                    .Replace("{linkAprobar}", item.token + "/" + objetosParaAprobacion.esquema)
-                                    .Replace("{linkRechazar}", item.token + "/" + objetosParaAprobacion.esquema);
+                                    .Replace("{linkAprobar}", "POS_Prueba_Web_Gestor_Servicios/ValidarAprobacionInforme/" + item.token + "/" + objetosParaAprobacion.esquema)
+                                    .Replace("{linkRechazar}", "POS_Prueba_Web_Gestor_Servicios/ValidarRechazoInforme/" + item.token + "/" + objetosParaAprobacion.esquema);
 
                         JObject jsonObject = JObject.Parse(jsonString);
 
@@ -129,7 +140,6 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                             File.WriteAllText(pathError, responseBody);
                             
                         }
-                        break;
                     }
                 }
             }
