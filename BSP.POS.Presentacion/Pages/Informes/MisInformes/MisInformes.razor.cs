@@ -5,6 +5,7 @@ using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Pages.Proyectos;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Globalization;
@@ -26,10 +27,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
-        private string correoEnviado;
         public string mensajeError;
-        private bool EsConsecutivoNull = false;
-        private bool todosLosUsuariosAprobados = false;
         private DateTime fechaInicioDateTime = DateTime.MinValue;
         private DateTime fechaFinalDateTime = DateTime.MinValue;
         private string fechaInicio = string.Empty;
@@ -148,38 +146,17 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 }
             }
         }
-        private async Task ReenviarCorreo()
+        private async Task<bool> ReenviarCorreo()
         {
-            EsConsecutivoNull = false;
-            bool verificarAprobacion = false;
-            todosLosUsuariosAprobados = false;
-            correoEnviado = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
+            if (validar)
             {
-                verificarAprobacion = await VerificarAprobacionesUsuarios();
-                if (!verificarAprobacion)
-                {
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
-                    if (validar)
-                    {
-                        correoEnviado = "Correo Enviado";
-                    }
-                    else
-                    {
-                        correoEnviado = "Error";
-                    }
-                }
-                else
-                {
-                    todosLosUsuariosAprobados = true;
-                }
-                
+                return true;
             }
             else
             {
-                EsConsecutivoNull = true;
+                return false;
             }
         }
         [Parameter]
@@ -199,15 +176,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
         private byte[] pdfContent;
 
-        private async Task DescargarReporte()
+        private async Task<bool> DescargarReporte()
         {
-            mensajeError = null;
-            EsConsecutivoNull = false;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            
             try
             {
-                if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
-                {
+                
                     pdfContent = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
 
                     var fileName = "ReporteInforme_"+ informeAsociadoSeleccionado.consecutivo + ".pdf";
@@ -215,17 +189,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                     var url = $"data:application/pdf;base64,{data}";
 
                     await JSRuntime.InvokeVoidAsync("guardarDocumento", fileName, url);
-                    //await JSRuntime.InvokeVoidAsync("imprimirDocumento", url, fileName);
-                }
-                else
-                {
-                    EsConsecutivoNull = true;
-                }
+                    return true;
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                string error = ex.ToString();
-                mensajeError = "Ocurrió un Error vuelva a intentarlo";
+                return false;
             }
             
         }
@@ -272,6 +241,146 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             fechaMax = fechaTemporal.ToString("yyyy-MM-dd");
             fechaFinalDateTime = fechaTemporal;
         }
+        private async Task SwalEnviandoCorreo()
+        {
 
+            bool verificarAprobacion = false;
+           
+            if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+            {
+                verificarAprobacion = await VerificarAprobacionesUsuarios();
+                if (!verificarAprobacion)
+                {
+                    bool resultadoCorreo = false;
+                    await Swal.FireAsync(new SweetAlertOptions
+                    {
+                        Icon = SweetAlertIcon.Info,
+                        Title = "Enviando...",
+                        ShowCancelButton = false,
+                        ShowConfirmButton = false,
+                        AllowOutsideClick = false,
+                        AllowEscapeKey = false,
+                        DidOpen = new SweetAlertCallback(async () =>
+                        {
+                            resultadoCorreo = await ReenviarCorreo();
+                            await Swal.CloseAsync();
+
+                        }),
+                        WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                    });
+
+                    if (resultadoCorreo)
+                    {
+                        await SwalExito("El correo ha sido enviado");
+                    }
+                    else
+                    {
+                        await SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                    }
+                }
+                else
+                {
+                    await SwalAviso("Todos los usuarios ya aprobaron el informe seleccionado");
+                }
+            }
+            else
+            {
+                await SwalAdvertencia("Debe seleccionar un Informe");
+            }
+                
+
+        }
+
+        private async Task SwalDescargandoReporte()
+        {
+
+            bool verificarAprobacion = false;
+
+            if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+            {
+                
+                bool resultadoDescargar = false;
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Icon = SweetAlertIcon.Info,
+                    Title = "Descargando...",
+                    ShowCancelButton = false,
+                    ShowConfirmButton = false,
+                    AllowOutsideClick = false,
+                    AllowEscapeKey = false,
+                    DidOpen = new SweetAlertCallback(async () =>
+                    {
+                        resultadoDescargar = await DescargarReporte();
+                        await Swal.CloseAsync();
+
+                    }),
+                    WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                });
+
+                if (resultadoDescargar)
+                {
+                    await SwalExito("El reporte se ha descargado");
+                }
+                else
+                {
+                    await SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                }
+                
+            }
+            else
+            {
+                await SwalAdvertencia("Debe seleccionar un Informe");
+            }
+
+
+        }
+
+        private async Task SwalExito(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            });
+        }
+        private async Task SwalError(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Error,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            });
+        }
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            });
+        }
+
+        private async Task SwalAdvertencia(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            });
+        }
     }
 }

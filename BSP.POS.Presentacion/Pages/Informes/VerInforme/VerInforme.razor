@@ -239,19 +239,11 @@
                         <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
                         <span>Aprobar</span>
                     </div>
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="EnviarCorreosAClientes">
+                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="SwalEnviandoCorreo">
                         <img src="images/EditarInforme/Enviar-a-cliente.png" class="circle-max-width" />
                         <span>Enviar al cliente</span>
                     </div>
-                    @if (correoEnviado != null)
-                    {
-                       if(correoEnviado == "Error")
-                        {
-                            <ModalError mensaje="Ocurrió Un error vuelva a intentarlo"></ModalError>           
-                        }else{
-                            <ModalExito mensaje="@correoEnviado"></ModalExito>
-                        }
-                    }
+                    
                 </div>
             </div>
         </div>
@@ -269,10 +261,6 @@
     }
     @if(advertenciaGuardarInforme){
         <ModalAdvertencia mensaje="El informe fue finalizado y no se puede editar"></ModalAdvertencia>
-    }
-    @if (todosLosUsuariosAprobados)
-    {
-        <ModalInfo mensaje="Todos los usuarios ya aprobaron el informe seleccionado"></ModalInfo>
     }
             
        

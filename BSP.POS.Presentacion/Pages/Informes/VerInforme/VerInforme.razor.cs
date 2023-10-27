@@ -35,13 +35,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         private string successMessage;
-        private string correoEnviado;
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
         private string mensajeError;
         private bool estadoObseracionNueva = false;
         private bool estadoObservacionCancelada = false;
-        private bool todosLosUsuariosAprobados = false;
         protected override async Task OnInitializedAsync()
         {
 
@@ -184,31 +182,18 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
        
 
       
-        private async Task EnviarCorreosAClientes()
-        {
-            correoEnviado = null;
-            todosLosUsuariosAprobados = false;
-            bool verificarAprobacion = false;
-            verificarAprobacion = await VerificarAprobacionesUsuarios();
-            if (!verificarAprobacion)
+        private async Task<bool> EnviarCorreosAClientes()
+        { 
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(esquema, Consecutivo);
+            if (validar)
             {
-
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(esquema, Consecutivo);
-                if (validar)
-                {
-                    correoEnviado = "Correo Enviado";
-                }
-                else
-                {
-                    correoEnviado = "Error";
-                }
+                return true;
             }
             else
             {
-                todosLosUsuariosAprobados = true;
+                return false;
             }
-            
         }
 
 
@@ -321,7 +306,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 bool resultadoEliminar = await InformesService.EliminarInforme(consecutivo, esquema);
                 if (resultadoEliminar)
                 {
-                    await SwalAviso("Se ha eliminado el informe", "Informe");
+                    await SwalAvisoInforme("Se ha eliminado el informe", "Informe");
                 }
                 else
                 {
@@ -331,7 +316,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             }
         }
 
-        private async Task SwalAviso(string mensajeAlerta, string accion)
+        private async Task SwalAvisoInforme(string mensajeAlerta, string accion)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {
@@ -350,6 +335,81 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                         navigationManager.NavigateTo($"index", forceLoad: true);
                     }
                 }
+            });
+        }
+
+        private async Task SwalEnviandoCorreo()
+        {
+            bool verificarAprobacion = false;
+            verificarAprobacion = await VerificarAprobacionesUsuarios();
+            if (!verificarAprobacion)
+            {
+                bool resultadoCorreo = false;
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Icon = SweetAlertIcon.Info,
+                    Title = "Enviando...",
+                    ShowCancelButton = false,
+                    ShowConfirmButton = false,
+                    AllowOutsideClick = false,
+                    AllowEscapeKey = false,
+                    DidOpen = new SweetAlertCallback(async () =>
+                    {
+                        resultadoCorreo = await EnviarCorreosAClientes();
+                        await Swal.CloseAsync();
+                        
+                    }),
+                    WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                });
+
+                if (resultadoCorreo)
+                {
+                    await SwalExito("El correo ha sido enviado");
+                }
+                else
+                {
+                    await SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                }
+            }
+            else
+            {
+                await SwalAviso("Todos los usuarios ya aprobaron el informe");
+            }
+            
+        }
+
+        private async Task SwalExito(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            });
+        }
+        private async Task SwalError(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Error,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            });
+        }
+        private async Task SwalAviso(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
             });
         }
     }

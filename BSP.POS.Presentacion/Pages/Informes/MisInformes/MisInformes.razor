@@ -9,6 +9,7 @@
 @inject IDepartamentosInterface DepartamentosService
 @inject NavigationManager navigationManager
 @inject IJSRuntime JSRuntime
+@inject SweetAlertService Swal;
 
 @attribute [Authorize]
 <AuthorizeView>
@@ -51,16 +52,7 @@
                                 <input class="ms-2 input-date text-light text-center" type="date" @bind="@fechaFinalDateTime" @oninput="CambioFechaFinal"/>
                             </div>
                         </div>
-                        @if (correoEnviado != null)
-                        {
-                            if(correoEnviado == "Error")
-                            {
-                                <ModalError mensaje="Ocurrió Un error vuelva a intentarlo"></ModalError>           
-                            }else{
-                                <ModalExito mensaje="@correoEnviado"></ModalExito>
-                            }
-                            
-                        }
+                        
                         @if(!string.IsNullOrEmpty(mensajeError)){
                             <ModalError mensaje="@mensajeError"></ModalError>
                         }
@@ -115,13 +107,13 @@
             <div class="col-md-3">
                 <div class="col-right-bg d-flex justify-content-start align-items-center row">
                     <div class="ps-5 col-md-4 col-right-bg ">
-                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="ReenviarCorreo">
+                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="SwalEnviandoCorreo">
                             <span class="me-4 span-report">REENVIAR A CLIENTE</span>
                         </div>
                         <div class="generar-cotizacion imagen-div">
                             <span class="me-4 span-report">GERNERAR COTIZACIÓN</span>
                         </div>
-                        <div class="generar-reporte imagen-div mouse-pointer" @onclick="DescargarReporte">
+                        <div class="generar-reporte imagen-div mouse-pointer" @onclick="SwalDescargandoReporte">
                             <span class="me-4 span-report">GENERAR REPORTE</span>
                         </div>
                         <div class="facturar imagen-div">
@@ -140,13 +132,5 @@
     </div>
 </div>
         <ScriptMaxHeight Contenido=".scrollbar-max-height" Elemento1=".el-layout" Elemento2=".footer-vacio" Elemento3=".header-informes"></ScriptMaxHeight>
-        @if (EsConsecutivoNull)
-        {
-            <ModalAdvertencia mensaje="Debe seleccionar un Informe"></ModalAdvertencia>
-        }
-        @if (todosLosUsuariosAprobados)
-        {
-            <ModalInfo mensaje="Todos los usuarios ya aprobaron el informe seleccionado"></ModalInfo>
-        }
     </Authorized>
 </AuthorizeView>
