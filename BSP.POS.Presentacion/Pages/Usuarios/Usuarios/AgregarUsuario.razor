@@ -8,6 +8,8 @@
 @inject ILicenciasInterface LicenciasService
 @inject NavigationManager navigationManager
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
+
 @if (cargarInicial)
 {
     @if (rol == "Admin")
@@ -23,10 +25,7 @@
             </div>
             <EditForm Model="@usuario" OnValidSubmit="AgregarUsuarioNuevo" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
-                @if (!string.IsNullOrEmpty(mensajeError))
-                {
-                    <ModalError mensaje="@mensajeError"></ModalError>
-                }
+                
                
                 <div class="div-vacio"></div>
                 <div class=" d-flex row g-2 text-center width-content">

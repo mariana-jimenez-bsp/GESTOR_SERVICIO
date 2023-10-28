@@ -13,7 +13,6 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public mActividades activadNueva = new mActividades();
         public List<mUsuariosParaEditar> listaUsuarios = new List<mUsuariosParaEditar>();
         public mPerfil perfilActual = new mPerfil();
-        public string mensajeError;
         private bool cargaInicial = false;
         public string usuarioActual = string.Empty;
         public string rol = string.Empty;
@@ -91,75 +90,30 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         }
         private async Task DescartarCambios()
         {
-            await SwalAviso("Se han cancelado los cambios");
+            await AlertasService.SwalAvisoNuevoDescartado("Se han cancelado los cambios", "Actividades");
         }
         private async Task AgregarActividadNueva()
         {
-            mensajeError = null;
-            bool resultadoActividad = false;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                resultadoActividad = await ActividadesService.AgregarActividad(activadNueva, esquema);
+                bool resultadoActividad = await ActividadesService.AgregarActividad(activadNueva, esquema);
                 if (resultadoActividad)
                 {
-                    await SwalExito("La actividad se ha agregado");
+                    await AlertasService.SwalExitoNuevo("La actividad se ha agregado", "Actividades");
                 }
                 else
                 {
-                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
                 }
                 
             }
             catch (Exception)
             {
 
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
             }
 
-        }
-
-        private void IrAActividades()
-        {
-            navigationManager.NavigateTo($"actividades");
-        }
-
-        private async Task SwalExito(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Éxito",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Success,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                    IrAActividades();
-                }
-            });
-        }
-
-        private async Task SwalAviso(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Aviso!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Info,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                    IrAActividades();
-                }
-            });
         }
     }
 }

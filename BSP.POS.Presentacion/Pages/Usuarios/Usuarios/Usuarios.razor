@@ -4,6 +4,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject ILicenciasInterface LicenciasService
+@inject IAlertasInterface AlertasService
+
 @if (cargaInicial)
 {
     @if (rol == "Admin")
@@ -85,16 +87,7 @@
             </div>
 
         </div>
-        
-        @if (limiteDeUsuarios)
-        {
-            <ModalAdvertencia mensaje="Límite de Cantidad de Usuarios Alcanzado"></ModalAdvertencia>
-        }
-
        
-        
-        
-
     }
     else
     {

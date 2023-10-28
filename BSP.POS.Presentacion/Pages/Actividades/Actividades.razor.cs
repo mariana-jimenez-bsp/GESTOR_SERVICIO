@@ -1,5 +1,6 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
 using BSP.POS.Presentacion.Models.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Reflection.Metadata;
@@ -17,9 +18,6 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public string usuarioActual = string.Empty;
         public string rol = string.Empty;
         List<string> permisos;
-        public string mensajeActualizar;
-        public string mensajeDescartar;
-        public string mensajeError;
        
         protected override async Task OnInitializedAsync()
         {
@@ -130,16 +128,11 @@ namespace BSP.POS.Presentacion.Pages.Actividades
 
         private async Task DescartarCambios()
         {
-            mensajeActualizar = null;
-            mensajeDescartar = null;
             await RefrescarListaActividades();
-            mensajeDescartar = "Se han Descartado los cambios";
+            await AlertasService.SwalAviso("Se han Descartado los cambios");
         }
-        private async Task ActualizarListaActividades()
+        private async Task<bool> ActualizarListaActividades()
         {
-            mensajeActualizar = null;
-            mensajeError = null;
-            mensajeDescartar = null;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -148,20 +141,20 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                 await ActividadesService.ObtenerListaDeActividades(esquema);
                 await RefrescarListaActividades();
                 if (seActualizo)
-                    {
-                        mensajeActualizar = "Actividades Actualizadas";
-                    }
-                    else
-                    {
-                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
-                    }
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
                     
                 
             }
             catch (Exception)
             {
 
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                return false;
             }
 
         }
@@ -191,6 +184,40 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         private void IrAAgregarActividad()
         {
             navigationManager.NavigateTo($"actividad/agregar");
+        }
+
+        private async Task SwalActualizandoActividades()
+        {
+
+            bool resultadoActualizar = false;
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Icon = SweetAlertIcon.Info,
+                Title = "Actualizando...",
+                ShowCancelButton = false,
+                ShowConfirmButton = false,
+                AllowOutsideClick = false,
+                AllowEscapeKey = false,
+                DidOpen = new SweetAlertCallback(async () =>
+                {
+                    resultadoActualizar = await ActualizarListaActividades();
+                    await Swal.CloseAsync();
+
+                }),
+                WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+            });
+
+            if (resultadoActualizar)
+            {
+                await AlertasService.SwalExito("Actividades Actualizadas");
+            }
+            else
+            {
+                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+            }
+
+
         }
     }
 }

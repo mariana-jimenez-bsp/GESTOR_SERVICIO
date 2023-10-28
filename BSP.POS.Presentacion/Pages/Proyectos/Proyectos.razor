@@ -8,6 +8,7 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
@@ -18,17 +19,10 @@
         </div>
         
         <div class="width-content">
-            <EditForm Model="@proyectos" OnValidSubmit="ActualizarListaProyectos" OnInvalidSubmit="ActivarScrollBarDeErrores">
+            <EditForm Model="@proyectos" OnValidSubmit="SwalActualizandoProyectos" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
-                @if (!string.IsNullOrEmpty(mensajeActualizar))
-                {
-                    <ModalExito mensaje="@mensajeActualizar"></ModalExito>
-                }
-                @if (!string.IsNullOrEmpty(mensajeError))
-                {
-                    <ModalError mensaje="@mensajeError"></ModalError>
-                }
+                
                 <div class=" d-flex row g-2 text-center ">
                     <div class="container mt-1 border-transparent">
 
@@ -165,11 +159,6 @@
                 </div>
             </EditForm>
         </div>
-        @if (!string.IsNullOrEmpty(mensajeDescartar))
-        {
-            <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
-        }
-       
         
     }
     else

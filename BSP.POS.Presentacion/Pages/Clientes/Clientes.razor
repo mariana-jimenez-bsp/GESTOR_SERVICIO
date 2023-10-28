@@ -9,6 +9,8 @@
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
 @inject ILicenciasInterface LicenciasService
+@inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
@@ -19,17 +21,10 @@
         </div>
         
         <div class="width-content">
-            <EditForm Model="@clientes" OnValidSubmit="ActualizarListaClientes" OnInvalidSubmit="ActivarScrollBarDeErrores">
+            <EditForm Model="@clientes" OnValidSubmit="SwalActualizandoClientes" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
-                @if (!string.IsNullOrEmpty(mensajeActualizar))
-                {
-                    <ModalExito mensaje="@mensajeActualizar"></ModalExito>
-                }
-                @if (!string.IsNullOrEmpty(mensajeError))
-                {
-                    <ModalError mensaje="@mensajeError"></ModalError>
-                }
+                
                 <div class="">
                     <div id="accordion" class="border-transparent">
                     <div class="mt-1 border-transparent">
@@ -250,19 +245,6 @@
                 </div>
             </EditForm>
         </div>
-        
-        @if (!string.IsNullOrEmpty(mensajeDescartar))
-        {
-            <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
-        }
-       
-        @if (limiteDeUsuarios)
-        {
-            <ModalAdvertencia mensaje="Límite de Cantidad de Usuarios Alcanzado"></ModalAdvertencia>
-        }
-        
-       
-        
         
     }
     else

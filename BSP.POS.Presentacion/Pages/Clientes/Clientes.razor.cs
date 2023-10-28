@@ -5,6 +5,7 @@ using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Services.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -23,11 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public bool cargaInicial = false;
         public string rol = string.Empty;
         List<string> permisos;
-        public string mensajeActualizar;
-        public string mensajeDescartar;
-        public string mensajeError;
        
-        private bool limiteDeUsuarios = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -210,11 +207,8 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             }
         }
 
-        private async Task ActualizarListaClientes()
+        private async Task<bool> ActualizarListaClientes()
         {
-            mensajeError = null;
-            mensajeDescartar = null;
-            mensajeActualizar = null;
             try
             {
                 bool resultadoClientes = false;
@@ -222,11 +216,11 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 resultadoClientes = await ClientesService.ActualizarListaDeClientes(clientes, esquema);
                 if(resultadoClientes) {
                     await RefrescarListaClientes();
-                    mensajeActualizar = "Clientes Actualizados";
+                    return true;
                 }
                 else
                 {
-                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    return false;
                 }
                 
                 
@@ -235,7 +229,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             catch (Exception)
             {
 
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                return true;
             }
 
         }
@@ -247,11 +241,8 @@ namespace BSP.POS.Presentacion.Pages.Clientes
 
         private async Task DescartarCambios()
         {
-            mensajeActualizar = null;
-            mensajeDescartar = null;
             await RefrescarListaClientes();
-            mensajeDescartar = "Se han descartado los cambios";
-            
+            await AlertasService.SwalAviso("Se han descartado los cambios");
         }
         
 
@@ -280,12 +271,9 @@ namespace BSP.POS.Presentacion.Pages.Clientes
 
         private async Task IrAAgregarUsuario(string cliente)
         {
-            limiteDeUsuarios = false;
-            StateHasChanged();
-            await Task.Delay(100);
             if (licencia.CantidadUsuarios <= usuarios.Count)
             {
-                limiteDeUsuarios = true;
+                await AlertasService.SwalAdvertencia("Límite de Cantidad de Usuarios Alcanzado");
             }
             else
             {
@@ -302,6 +290,39 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         private void IrAAgregarCliente()
         {
             navigationManager.NavigateTo($"cliente/agregar");
+        }
+        private async Task SwalActualizandoClientes()
+        {
+
+            bool resultadoActualizar = false;
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Icon = SweetAlertIcon.Info,
+                Title = "Actualizando...",
+                ShowCancelButton = false,
+                ShowConfirmButton = false,
+                AllowOutsideClick = false,
+                AllowEscapeKey = false,
+                DidOpen = new SweetAlertCallback(async () =>
+                {
+                    resultadoActualizar = await ActualizarListaClientes();
+                    await Swal.CloseAsync();
+
+                }),
+                WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+            });
+
+            if (resultadoActualizar)
+            {
+                await AlertasService.SwalExito("Clientes Actualizados");
+            }
+            else
+            {
+                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+            }
+
+
         }
     }
 }

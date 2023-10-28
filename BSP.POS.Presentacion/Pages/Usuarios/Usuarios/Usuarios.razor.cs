@@ -15,7 +15,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public mDatosLicencia licencia = new mDatosLicencia();
         public bool cargaInicial = false;
         public string rol = string.Empty;
-        private bool limiteDeUsuarios = false;
+
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -59,12 +59,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         
         private async Task IrAAgregarUsuario()
         {
-            limiteDeUsuarios = false;
-            StateHasChanged();
-            await Task.Delay(100);
             if(licencia.CantidadUsuarios <= usuarios.Count)
             {
-                limiteDeUsuarios = true;
+                await AlertasService.SwalAdvertencia("Límite de Cantidad de Usuarios Alcanzado");
             }
             else
             {

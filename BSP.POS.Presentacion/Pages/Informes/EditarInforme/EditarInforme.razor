@@ -13,7 +13,7 @@
 @if (cargaInicial)
 {
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
-
+@if(usuarioAutorizado){
 @if (informe.estado == "Borrador")
 {       
         <div class="el-layout">
@@ -340,10 +340,6 @@
                     </div>
                 </div>
             </div>
-                @if (advertenciaEnviarAlCliente)
-                {
-                    <ModalAdvertencia mensaje="El informe debe estar Finalizado para realizar el envío al cliente"></ModalAdvertencia>
-                }
             </div>
 
     <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="ObservacionNuevaAgregada" observacionCancelada="ObservacionNuevaCancelada"></ModalObservaciones>
@@ -356,12 +352,17 @@
 @if (elementos2.Any())
 {
     <ScriptMaxHeightExtraContainer Contenido=".max-height-col-activity" Contenedor=".content-behind-bottom" Elementos="@elementos2"></ScriptMaxHeightExtraContainer>
-}
+                }
 
-}else if(informe.estado == "Finalizado"){
-     navigationManager.NavigateTo($"Informe/VerInforme/" + informe.consecutivo);
+            }else if(informe.estado == "Finalizado"){
+                navigationManager.NavigateTo($"Informe/VerInforme/" + informe.consecutivo);
+            }
+
         }
-
+        else
+        {
+            <RutaErronea mensaje="Este informe no pertenece a su cliente asociado"></RutaErronea>
+        }
     }
     else
     {

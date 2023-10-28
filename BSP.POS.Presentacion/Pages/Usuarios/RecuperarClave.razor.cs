@@ -17,7 +17,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public mUsuarioNuevaClave usuario = new mUsuarioNuevaClave();
         public mDatosLicencia licencia = new mDatosLicencia();
         private bool licenciaActiva = false;
-        private bool licenciaProximaAVencer = false;
         private bool mismaMacAdress = true;
         public string mensajeEsquema;
         public string claveActual = string.Empty;
@@ -47,7 +46,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private async Task ValidarLicencia()
         {
             licenciaActiva = false;
-            licenciaProximaAVencer = false;
             mismaMacAdress = true;
             await LicenciasService.ObtenerDatosDeLicencia();
             if (LicenciasService.licencia != null)
@@ -56,14 +54,21 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 if (licencia.FechaFin > DateTime.Now)
                 {
                     licenciaActiva = true;
+                    StateHasChanged();
                     if (licencia.FechaAviso < DateTime.Now)
                     {
-                        licenciaProximaAVencer = true;
+                        await AlertasService.SwalAdvertencia("Licencia Próxima a vencer");
                     }
                     if (!licencia.MacAddressIguales)
                     {
                         mismaMacAdress = false;
+                        StateHasChanged();
+                        await AlertasService.SwalError("La MacAddress no es la misma registrada");
                     }
+                }
+                else
+                {
+                    await AlertasService.SwalError("Licencia no activa, debe renovarla");
                 }
             }
         }
@@ -93,7 +98,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 resultado = await LoginService.ActualizarClaveDeUsuario(usuario);
                 if (resultado)
                 {
-                    await SwalExito("La clave se ha actualizado");
+                    await SwalExitoCambio("La clave se ha actualizado");
                 }
             }
             else
@@ -132,7 +137,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             mostrarConfirmarClave = estado;
         }
 
-        private async Task SwalExito(string mensajeAlerta)
+        private async Task SwalExitoCambio(string mensajeAlerta)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {

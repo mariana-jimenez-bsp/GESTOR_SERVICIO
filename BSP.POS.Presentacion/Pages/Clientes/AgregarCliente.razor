@@ -6,6 +6,7 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
@@ -16,10 +17,7 @@
 
         <EditForm Model="@clienteNuevo" OnValidSubmit="AgregarClienteNuevo" OnInvalidSubmit="ActivarScrollBarDeErrores">
             <ObjectGraphDataAnnotationsValidator />
-            @if (!string.IsNullOrEmpty(mensajeError))
-            {
-                <ModalError mensaje="@mensajeError"></ModalError>
-            }
+            
             <div class="div-vacio"></div>
             <div class="mt-4 d-flex row g-2 text-center width-content">
             <div class="container border-transparent max-height-client overflow-y-auto overflow-x-hidden scrollbar-modal-client mx-2">

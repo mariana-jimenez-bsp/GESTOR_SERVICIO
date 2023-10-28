@@ -32,7 +32,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeCorreoRepite = string.Empty;
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
-        public string mensajeError;
         public string rol = string.Empty;
        
         private bool limiteDeUsuarios = false;
@@ -302,11 +301,17 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         private async Task DescartarCambios()
         {
-            await SwalAviso("Se han cancelado los cambios");
+            if (!string.IsNullOrEmpty(codigoCliente))
+            {
+                await AlertasService.SwalAvisoNuevoDescartado("Se han descartado los cambios", "Clientes");
+            }
+            else
+            {
+                await AlertasService.SwalAvisoNuevoDescartado("Se han descartado los cambios", "Usuarios");
+            }
         }
         private async Task AgregarUsuarioNuevo()
         {
-            mensajeError = null;
             try
             {
                 bool resultadoUsuario = false;
@@ -337,17 +342,25 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         }
                         if(resultadoPermisos)
                         {
-                            await SwalExito("Se ha agregado el usuario", "usuarios");
+                            if (!string.IsNullOrEmpty(codigoCliente))
+                            {
+                                await AlertasService.SwalExitoNuevo("Se ha agregado el usuario", "Clientes");
+                            }
+                            else
+                            {
+                                await AlertasService.SwalExitoNuevo("Se ha agregado el usuario", "Usuarios");
+                            }
+                            
                         }
                         else
                         {
-                            mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                            await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
                         }
 
                     }
                     else
                     {
-                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                        await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
                     }
                 }
                 else
@@ -358,7 +371,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             catch (Exception)
             {
 
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
             }
 
         }
@@ -402,74 +415,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".mensaje-repite");
 
             }
-        }
-
-        private void IrAUsuarios()
-        {
-            navigationManager.NavigateTo($"configuraciones/usuarios");
-        }
-
-        private void IrAClientes()
-        {
-            navigationManager.NavigateTo($"clientes");
-        }
-
-        private async Task SwalExito(string mensajeAlerta, string irA)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Éxito",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Success,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                    if (irA == "usuarios")
-                    {
-                        if (!string.IsNullOrEmpty(codigoCliente))
-                        {
-                            IrAClientes();
-                        }
-                        else
-                        {
-                            IrAUsuarios();
-                        }
-                    }
-                    
-                }
-            });
-        }
-
-        private async Task SwalAviso(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Aviso!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Info,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                        if (!string.IsNullOrEmpty(codigoCliente))
-                        {
-                            IrAClientes();
-                        }
-                        else
-                        {
-                            IrAUsuarios();
-                        }
-
-
-                }
-            });
         }
     }
 }

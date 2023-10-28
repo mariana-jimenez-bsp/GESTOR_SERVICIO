@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Pages.Actividades;
 using BSP.POS.Presentacion.Services.Departamentos;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Security.Claims;
@@ -13,9 +14,6 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
         public List<mDepartamentos> departamentos = new List<mDepartamentos>();
         public bool cargaInicial = false;
         public string rol = string.Empty;
-        public string mensajeActualizar;
-        public string mensajeDescartar;
-        public string mensajeError;
 
         protected override async Task OnInitializedAsync()
         {
@@ -49,22 +47,17 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
         }
         private async Task DescartarCambios()
         {
-            mensajeActualizar = null;
-            mensajeDescartar = null;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
             if (DepartamentosService.listaDepartamentos != null)
             {
                 departamentos = DepartamentosService.listaDepartamentos;
             }
-            mensajeDescartar = "Se han Descartado los cambios";
+            await AlertasService.SwalAviso("Se han Descartado los cambios");
         }
 
-        private async Task ActualizarListaDepartamentos()
+        private async Task<bool> ActualizarListaDepartamentos()
         {
-            mensajeActualizar = null;
-            mensajeError = null;
-            mensajeDescartar = null;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -74,21 +67,20 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
                 if (DepartamentosService.listaDepartamentos != null)
                 {
                     departamentos = DepartamentosService.listaDepartamentos;
-                    if (seActualizo)
-                    {
-                        mensajeActualizar = "Departamentos Actualizados";
-                    }
-                    else
-                    {
-                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
-                    }
-
+                }
+                if (seActualizo)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             catch (Exception)
             {
 
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                return false;
             }
 
         }
@@ -119,6 +111,40 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
         private void IrAAgregarDepartamento()
         {
             navigationManager.NavigateTo($"configuraciones/departamento/agregar");
+        }
+
+        private async Task SwalActualizandoDepartamentos()
+        {
+
+            bool resultadoActualizar = false;
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Icon = SweetAlertIcon.Info,
+                Title = "Actualizando...",
+                ShowCancelButton = false,
+                ShowConfirmButton = false,
+                AllowOutsideClick = false,
+                AllowEscapeKey = false,
+                DidOpen = new SweetAlertCallback(async () =>
+                {
+                    resultadoActualizar = await ActualizarListaDepartamentos();
+                    await Swal.CloseAsync();
+
+                }),
+                WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+            });
+
+            if (resultadoActualizar)
+            {
+                await AlertasService.SwalExito("Departamentos Actualizados");
+            }
+            else
+            {
+                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+            }
+
+
         }
     }
 }

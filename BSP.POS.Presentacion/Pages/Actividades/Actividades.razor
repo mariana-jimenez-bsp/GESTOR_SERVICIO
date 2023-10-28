@@ -5,6 +5,9 @@
 @inject IActividadesInterface ActividadesService
 @inject IUsuariosInterface UsuariosService
 @inject IJSRuntime JSRuntime
+@inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
+
 @if (cargaInicial)
 {
     @if (permisos != null && permisos.Any(p => p.Contains("Actividades")))
@@ -18,14 +21,7 @@
             <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
-                @if (!string.IsNullOrEmpty(mensajeActualizar))
-                {
-                    <ModalExito mensaje="@mensajeActualizar"></ModalExito>
-                }
-                @if (!string.IsNullOrEmpty(mensajeError))
-                {
-                    <ModalError mensaje="@mensajeError"></ModalError>
-                }
+                
                 <div class=" d-flex row g-2 text-center ">
                     <div class="container mt-1 border-transparent">
 
@@ -113,11 +109,6 @@
                 </div>
             </EditForm>
         </div>
-
-        @if (!string.IsNullOrEmpty(mensajeDescartar))
-        {
-            <ModalInfo mensaje="@mensajeDescartar"></ModalInfo>
-        }
         
     }
     else

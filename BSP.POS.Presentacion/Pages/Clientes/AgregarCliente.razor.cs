@@ -26,7 +26,6 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public List<mTarifa> listaTiposTarifasImpuesto = new List<mTarifa>();
         public List<mClienteContado> listaClientesCorporaciones = new List<mClienteContado>();
         public mAgregarCliente clienteNuevo = new mAgregarCliente();
-        public string mensajeError;
         public string monedaActual;
         private bool cargaInicial = false;
         List<string> permisos;
@@ -488,11 +487,10 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         }
         private async Task DescartarCambios()
         {
-            await SwalAviso("Se han cancelado los cambios");
+            await AlertasService.SwalAvisoNuevoDescartado("Se han cancelado los cambios", "Clientes");
         }
         private async Task AgregarClienteNuevo()
         {
-            mensajeError = null;
             try
             {
                 clienteNuevo.CARGO = "ND";
@@ -515,19 +513,17 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 
                 if (ClientesService.ClienteAsociado != null && resultadoCliente)
                 {
-                    await SwalExito("Se ha agregado el cliente");
+                    await AlertasService.SwalExitoNuevo("Se ha agregado el cliente", "Clientes");
                 }
                 else
                 {
-                    mensajeError = "Error al agregar el cliente";
-                    clienteNuevo = new mAgregarCliente();
+                    await AlertasService.SwalError("Error al agregar el cliente");
                 }
 
             }
             catch (Exception)
             {
-                clienteNuevo = new mAgregarCliente();
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
             }
 
         }
@@ -545,47 +541,5 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             }
         }
 
-        private void IrAClientes()
-        {
-            navigationManager.NavigateTo($"clientes");
-        }
-
-        private async Task SwalExito(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Éxito",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Success,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                           IrAClientes();
-                }
-            });
-        }
-
-        private async Task SwalAviso(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Aviso!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Info,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                    IrAClientes();   
-                }
-            });
-        }
     }
 }

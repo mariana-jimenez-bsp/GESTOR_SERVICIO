@@ -6,5 +6,8 @@
         Task SwalExito(string mensajeAlerta);
         Task SwalError(string mensajeAlerta);
         Task SwalAdvertencia(string mensajeAlerta);
+        Task SwalAvisoNuevoDescartado(string mensajeAlerta, string accion);
+        Task SwalExitoNuevo(string mensajeAlerta, string accion);
+
     }
 }

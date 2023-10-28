@@ -3,6 +3,8 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
+
 @if (cargaInicial)
 {
     @if (rol != null && rol == "Admin")
@@ -14,10 +16,7 @@
 
         <EditForm Model="@departamentoNuevo" OnValidSubmit="AgregarDepartamentoNuevo">
             <ObjectGraphDataAnnotationsValidator />
-            @if (!string.IsNullOrEmpty(mensajeError))
-            {
-                <ModalError mensaje="@mensajeError"></ModalError>
-            }
+            
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
                 <div class="mx-2 mt-4 container border-transparent max-height-departamento overflow-y-auto overflow-x-hidden scrollbar-modal-departamentos">

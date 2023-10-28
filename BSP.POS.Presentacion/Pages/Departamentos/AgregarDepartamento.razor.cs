@@ -11,7 +11,6 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
         public string esquema = string.Empty;
         public mDepartamentos departamentoNuevo = new mDepartamentos();
 
-        public string mensajeError;
         private bool cargaInicial = false;
         private string rol = string.Empty;
         
@@ -36,11 +35,10 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
 
         private async Task DescartarCambios()
         {
-            await SwalAviso("Se han cancelado los cambios");
+            await AlertasService.SwalAvisoNuevoDescartado("Se han cancelado los cambios", "Departamentos");
         }
         private async Task AgregarDepartamentoNuevo()
         {
-            mensajeError = null;
             bool resultadoDepartamento = false;
             try
             {
@@ -48,63 +46,20 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
                 resultadoDepartamento = await DepartamentosService.AgregarDepartamento(departamentoNuevo, esquema);
                 if (resultadoDepartamento)
                 {
-                    await SwalExito("El departamento se ha agregado");
+                    await AlertasService.SwalExitoNuevo("El departamento se ha agregado", "Departamentos");
                 }
                 else
                 {
-                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
                 }
 
             }
             catch (Exception)
             {
 
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
             }
 
-        }
-
-        private void IrADepartamentos()
-        {
-            navigationManager.NavigateTo($"configuraciones/departamentos");
-        }
-
-        private async Task SwalExito(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Éxito",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Success,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                    IrADepartamentos();
-                }
-            });
-        }
-
-        private async Task SwalAviso(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Aviso!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Info,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            }).ContinueWith(swalTask =>
-            {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed || result.IsDismissed)
-                {
-                    IrADepartamentos();
-                }
-            });
         }
     }
 }

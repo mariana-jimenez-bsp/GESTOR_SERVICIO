@@ -1,20 +1,10 @@
 ﻿@page "/CorreoRecuperacion"
 @inject ILoginInterface LoginService
 @inject ILicenciasInterface LicenciasService
+@inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
-    if (!licenciaActiva)
-    {
-        <ModalError mensaje="Licencia no activa, debe renovarla"></ModalError>
-    }
-    if (licenciaProximaAVencer)
-    {
-        <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
-    }
-    if (!mismaMacAdress)
-    {
-        <ModalError mensaje="La MacAddress no es la misma registrada"></ModalError>
-    }
+    
         <div class="h-100 w-100 fondo">
             @if (!CorreoEnviado)
             {

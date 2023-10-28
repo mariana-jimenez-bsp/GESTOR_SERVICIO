@@ -9,6 +9,8 @@
 @inject NavigationManager navigationManager
 @inject ILocalStorageService localStorageService
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
+
 @if (cargarInicial)
 {
     @if (rol == "Admin")
@@ -20,10 +22,6 @@
         
         <EditForm Model="@usuario" OnValidSubmit="ActualizarUsuario" OnInvalidSubmit="ActivarScrollBarDeErrores">
             <ObjectGraphDataAnnotationsValidator />
-            @if (!string.IsNullOrEmpty(mensajeError))
-            {
-                <ModalError mensaje="@mensajeError"></ModalError>
-            }
 
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
@@ -78,7 +76,6 @@
                             @if (string.IsNullOrEmpty(codigoCliente))
                             {
                                 <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e)">
-                                    <option value="">Seleccione el Cliente</option>
                                     @foreach (var cliente in listaClientes)
                                     {
                                         <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
@@ -101,7 +98,6 @@
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-esquema">Esquema:</label>
                             <select @bind="usuario.esquema" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-esquema" @oninput="(e) => CambioEsquema(e)">
-                                <option value="">Seleccione el Esquema</option>
                                 <option value="BSP">BSP</option>
                             </select>
                         </div>
@@ -109,7 +105,6 @@
                         <div class="d-flex justify-content-center mb-2 mt-2">
                             <label class="col-md-4  blue-dark-text label-text" for="c-rol">Rol:</label>
                             <select @bind="usuario.rol" class="col-md-4 border border-success rounded-pill px-2 text-input" id="c-rol" @oninput="(e) => CambioRol(e)">
-                                <option value="">Seleccione el Rol</option>
                                 <option value="Usuario">Usuario</option>
                                 <option value="Admin">Administrador</option>
                             </select>

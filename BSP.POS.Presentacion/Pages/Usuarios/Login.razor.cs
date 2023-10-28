@@ -28,7 +28,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         public mDatosLicencia licencia = new mDatosLicencia();
         private bool cargaInicial = false;
         private bool licenciaActiva = false;
-        private bool licenciaProximaAVencer = false;
         private bool mismaMacAdress = true;
 
         protected override async Task OnInitializedAsync()
@@ -49,8 +48,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         private async Task ValidarLicencia()
         {
             licenciaActiva = false;
-            licenciaProximaAVencer = false;
-            licenciaProximaAVencer = false;
             mismaMacAdress = true;
             await LicenciasService.ObtenerDatosDeLicencia();
             if (LicenciasService.licencia != null)
@@ -62,19 +59,18 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                     StateHasChanged();
                     if (licencia.FechaAviso < DateTime.Now)
                     {
-                        licenciaProximaAVencer = true;
-                        StateHasChanged();
+                        await AlertasService.SwalAdvertencia("Licencia Próxima a vencer");
                     }
                     if (!licencia.MacAddressIguales)
                     {
                         mismaMacAdress = false;
                         StateHasChanged();
-                        await SwalError("La MacAddress no es la misma registrada");
+                        await AlertasService.SwalError("La MacAddress no es la misma registrada");
                     }
                 }
                 else
                 {
-                    await SwalError("Licencia no activa, debe renovarla");
+                    await AlertasService.SwalError("Licencia no activa, debe renovarla");
                 }
             }
             cargaInicial = true;
@@ -136,14 +132,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                         else
                         {
 
-                        await SwalError("Archivo de Licencia Inválido");
+                        await AlertasService.SwalError("Archivo de Licencia Inválido");
                         }
                 }
 
             }
             else
             {
-                await SwalError("Archivo de Licencia Inválido");
+                await AlertasService.SwalError("Archivo de Licencia Inválido");
             }
             
         }
@@ -292,19 +288,5 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 }
             });
         }
-
-        private async Task SwalError(string mensajeAlerta)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Error!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Error,
-                ShowCancelButton = false,
-                ConfirmButtonText = "Ok"
-            });
-        }
-
-        
     }
 }

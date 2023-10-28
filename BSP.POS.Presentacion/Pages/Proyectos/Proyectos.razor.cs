@@ -21,9 +21,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public string rol = string.Empty;
         public string numeroActual = string.Empty;
         List<string> permisos;
-        public string mensajeActualizar;
-        public string mensajeDescartar;
-        public string mensajeError;
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -169,17 +167,12 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         
         private async Task DescartarCambios()
         {
-            mensajeActualizar = null;
-            mensajeDescartar = null;
+
             await RefrescarListaDeProyectos();
-            mensajeDescartar = "Se han Descartado los cambios";
-            
+            await AlertasService.SwalAviso("Se han Descartado los cambios");
         }
-        private async Task ActualizarListaProyectos()
+        private async Task<bool> ActualizarListaProyectos()
         {
-            mensajeActualizar = null;
-            mensajeError = null;
-            mensajeDescartar = null;
             try
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -187,11 +180,11 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 if (resultadoActualizar)
                 {
                     await RefrescarListaDeProyectos();
-                    mensajeActualizar = "Proyectos Actualizados";
+                    return true;
                 }
                 else
                 {
-                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    return false;
                 }
                 
 
@@ -199,7 +192,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             catch (Exception)
             {
 
-                mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                return false;
             }
             
         }
@@ -238,18 +231,17 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         }
         private async Task TerminarProyecto(string numero)
         {
-            mensajeError = null;
             if (!string.IsNullOrEmpty(numero) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 bool resultadoTerminar = await ProyectosService.TerminarProyecto(numero, esquema);
                 if (resultadoTerminar)
                 {
-                    await SwalAviso("Se ha cambiado el estado del proyecto #" + numero + " a Terminado");
+                    await SwalAvisoProyectos("Se ha cambiado el estado del proyecto #" + numero + " a Terminado");
                 }
                 else
                 {
-                    mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                    await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
                 }
                
                 
@@ -276,7 +268,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             });
         }
 
-        private async Task SwalAviso(string mensajeAlerta)
+        private async Task SwalAvisoProyectos(string mensajeAlerta)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {
@@ -294,6 +286,40 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                     StateHasChanged();
                 }
             });
+        }
+
+        private async Task SwalActualizandoProyectos()
+        {
+
+            bool resultadoActualizar = false;
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Icon = SweetAlertIcon.Info,
+                Title = "Actualizando...",
+                ShowCancelButton = false,
+                ShowConfirmButton = false,
+                AllowOutsideClick = false,
+                AllowEscapeKey = false,
+                DidOpen = new SweetAlertCallback(async () =>
+                {
+                    resultadoActualizar = await ActualizarListaProyectos();
+                    await Swal.CloseAsync();
+
+                }),
+                WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+            });
+
+            if (resultadoActualizar)
+            {
+                await AlertasService.SwalExito("Proyectos Actualizados");
+            }
+            else
+            {
+                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+            }
+            
+
         }
     }
 }

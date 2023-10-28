@@ -4,23 +4,12 @@
 @inject ILicenciasInterface LicenciasService
 @inject NavigationManager navigationManager
 @inject SweetAlertService Swal;
+@inject IAlertasInterface AlertasService
 @if(cargaInicial){
  @if(string.IsNullOrEmpty(mensajeEsquema)){
         
         @if (tokenRecuperacion.token_recuperacion != null)
         {
-            if (!licenciaActiva)
-            {
-                <ModalError mensaje="Licencia no activa, debe renovarla"></ModalError>
-            }
-            if (licenciaProximaAVencer)
-            {
-                <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
-            }
-            if (!mismaMacAdress)
-            {
-                <ModalError mensaje="La MacAddress no es la misma registrada"></ModalError>
-            }
             <div class="h-100 w-100 fondo">
                 <EditForm Model="usuario" OnValidSubmit="ActualizarClaveUsuario">
                     <DataAnnotationsValidator />

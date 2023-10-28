@@ -8,16 +8,9 @@
 @inject ILicenciasInterface LicenciasService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject SweetAlertService Swal;
-
+@inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
-
-    if (licenciaProximaAVencer)
-    {
-        <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
-    }
-    
-
     <div class="container container-full">
         <div class="row">
             <div class="col columna">

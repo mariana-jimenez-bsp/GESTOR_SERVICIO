@@ -52,6 +52,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private DateTime fechaInicioDateTime = DateTime.MinValue;
         private DateTime fechaFinalDateTime = DateTime.MinValue;
         private string usuarioFiltro = string.Empty;
+        private bool usuarioAutorizado = true;
         private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".div-agregar-usuario" };
         private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".div-agregar-actividad" };
 
@@ -69,35 +70,49 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 if (!string.IsNullOrEmpty(Consecutivo))
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                    await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
+                    if (UsuariosService.Perfil != null)
+                    {
+                        perfilActual = UsuariosService.Perfil;
+                    }
+                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
                     if (InformesService.InformeAsociado != null)
                     {
                         informe = InformesService.InformeAsociado;
-                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
-                        if (ClientesService.ClienteAsociado != null)
+                        if (VerificarUsuarioAutorizado())
                         {
-                            ClienteAsociado = ClientesService.ClienteAsociado;
-                        }
-                        await RefrescarListaActividades();
-                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
-                        if (DepartamentosService.listaDepartamentos != null)
-                        {
-                            listaDepartamentos = DepartamentosService.listaDepartamentos;
-                        }
-                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
-                        if (UsuariosService.ListaDeUsuariosParaEditar != null)
-                        {
-                            listaTodosLosUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
-                        }
-                        await RefrescarListaDeActividadesAsociadas();
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
+                            if (ClientesService.ClienteAsociado != null)
+                            {
+                                ClienteAsociado = ClientesService.ClienteAsociado;
+                            }
+                            await RefrescarListaActividades();
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+                            if (DepartamentosService.listaDepartamentos != null)
+                            {
+                                listaDepartamentos = DepartamentosService.listaDepartamentos;
+                            }
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);
+                            if (UsuariosService.ListaDeUsuariosParaEditar != null)
+                            {
+                                listaTodosLosUsuarios = UsuariosService.ListaDeUsuariosParaEditar;
+                            }
+                            await RefrescarListaDeActividadesAsociadas();
 
-                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
-                        await RefrescarListaDeUsuariosDeInforme();
-                        await RefrescarLaListaDeObservaciones(Consecutivo);
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, ClienteAsociado.CLIENTE);
+                            await RefrescarListaDeUsuariosDeInforme();
+                            await RefrescarLaListaDeObservaciones(Consecutivo);
+                        }
+                        else
+                        {
+                            usuarioAutorizado = false;
+                        }
+                        
                     }
                 }
             }
@@ -118,11 +133,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
             if (rol != "Admin")
             {
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
-                if(UsuariosService.Perfil != null)
-                {
-                    perfilActual = UsuariosService.Perfil;
+                
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await ActividadesService.ObtenerListaDeActividadesPorUsuario(esquema, perfilActual.codigo);
                     if (ActividadesService.ListaActividades != null)
@@ -130,7 +141,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         listaActividadesDeUsuario = ActividadesService.ListaActividadesDeUsuario;
 
                     }
-                }
+                
             }
             
         }
@@ -163,7 +174,15 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             
 
         }
- 
+        public bool VerificarUsuarioAutorizado()
+        {
+            
+            if(perfilActual.cod_cliente == informe.cliente || rol == "Admin")
+            {
+                return true;
+            }
+            return false;
+        }
         public async Task<bool> VerificarValidezDeConsecutivo()
         {
             if (Consecutivo.Length > 5)
@@ -434,13 +453,9 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 await TodosLosBotonesSubmit();
         }
 
-        public bool advertenciaEnviarAlCliente = false;
         private async Task ActivarAdvertenciaEnviar()
         {
-            advertenciaEnviarAlCliente = false;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            advertenciaEnviarAlCliente = true;
-            StateHasChanged();
+            await AlertasService.SwalAdvertencia("El informe debe estar Finalizado para realizar el envío al cliente");
         }
 
         private bool EsLaPrimeraObservacion(mObservaciones observacion)
