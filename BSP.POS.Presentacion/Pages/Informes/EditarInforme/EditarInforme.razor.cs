@@ -53,6 +53,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private DateTime fechaFinalDateTime = DateTime.MinValue;
         private string usuarioFiltro = string.Empty;
         private bool usuarioAutorizado = true;
+        private string tipoFiltro = "Fecha";
         private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".div-agregar-usuario" };
         private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".div-agregar-actividad" };
 

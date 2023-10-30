@@ -187,7 +187,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
                 mensajeUsuarioRepite = null;
                 mensajeCorreoRepite = null;
-                if (usuarioOriginal != perfil.usuario)
+                if (usuarioOriginal.ToLower() != perfil.usuario.ToLower())
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     usuarioRepite = await UsuariosService.ValidarUsuarioExistente(perfil.esquema, perfil.usuario);
@@ -200,7 +200,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     }
 
                 }
-                if (correoOriginal != perfil.correo)
+                if (correoOriginal.ToLower() != perfil.correo.ToLower())
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     correoRepite = await UsuariosService.ValidarCorreoExistente(perfil.esquema, perfil.correo);
@@ -242,7 +242,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     resultaPerfil =  await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
                     if (resultaPerfil && resultadoPermisos)
                     {
-                        if (usuarioOriginal != perfil.usuario || correoOriginal != perfil.correo || claveOriginal != claveDesencriptada)
+                        if (usuarioOriginal.ToLower() != perfil.usuario.ToLower() || correoOriginal.ToLower() != perfil.correo.ToLower() || claveOriginal != claveDesencriptada)
                         {
                             await CloseModal();
                             StateHasChanged();

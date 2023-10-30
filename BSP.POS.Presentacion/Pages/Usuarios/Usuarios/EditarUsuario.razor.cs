@@ -303,7 +303,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private async Task VerificarCorreoYUsuarioExistente()
         {
 
-            if (usuario.usuarioOrignal != usuario.usuario)
+            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower())
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 usuario.usuarioRepite = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
@@ -324,7 +324,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             {
                 mensajeUsuarioRepite = null;
             }
-            if (usuario.correoOriginal != usuario.correo)
+            if (usuario.correoOriginal.ToLower() != usuario.correo.ToLower())
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 usuario.correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
@@ -392,9 +392,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     ResultadoPermisos = await ActualizarListaDePermisos();
                     if(ResultadoUsuario && ResultadoPermisos)
                     {
-                        if(usuarioActual.IndexOf(usuario.usuarioOrignal, StringComparison.OrdinalIgnoreCase) >= 0)
+                        if(usuarioActual.ToLower() == usuario.usuarioOrignal.ToLower())
                         {
-                            if (usuario.usuarioOrignal != usuario.usuario || usuario.correoOriginal != usuario.correo || usuario.claveOriginal != usuario.claveDesencriptada)
+                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada)
                             {
                                 await AlertasService.SwalExitoNuevo("Se ha actualizado el usuario", "Login");
                                 
