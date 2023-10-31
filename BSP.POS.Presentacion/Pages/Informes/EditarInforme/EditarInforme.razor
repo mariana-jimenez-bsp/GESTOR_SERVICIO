@@ -25,7 +25,7 @@
             
                 <div class="row">
                 <div class="col-md-6">
-            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
+            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado" id="InformeForm">
                 <ObjectGraphDataAnnotationsValidator />
                     <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
@@ -85,16 +85,13 @@
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
                         <div class="row text-center p-2 blue-light-text font-20-book header-usuarios-informe">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <span class="ms-3">NOMBRE</span>
                             </div>
                             <div class="col-md-3">
                                 <span>DEP.</span>
                             </div>
-                            <div class="col-md-2">
-                                <span>ROL</span>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <span>CORREO</span>
                             </div>
                             <div class="col-md-1">
@@ -111,17 +108,17 @@
                         foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                             {
                                 <div class="row p-2 text-center font-14-book">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
                                     <div class="col-md-3">
                                         <span>@usuario.departamento_usuario</span>
                                     </div>
-                                    <div class="col-md-2">
-                                        <span class="me-3">@usuario.rol_usuario</span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <span class="break-line">@usuario.correo_usuario</span>
+                                    <div class="col-md-4">
+                                        <div class="texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@usuario.correo_usuario">
+                                            <span >@usuario.correo_usuario</span>
+                                        </div>
+                                       
                                     </div>
                                     <div class="col-md-1 pt-0 mt-0">
                                         
@@ -190,7 +187,7 @@
                         informe.FechaActualizacionDateTime >= fechaInicioDateTime &&
                         informe.FechaActualizacionDateTime <= fechaFinalDateTime
                         ).OrderBy(i => i.FechaActualizacionDateTime).ToList();
-                        if(rol == "Admin" && !string.IsNullOrEmpty(usuarioFiltro)){
+                        if(rol == "Admin" && !string.IsNullOrEmpty(usuarioFiltro) && tipoFiltro == "Usuarios"){
                             listaActividadesAgregarFiltro = listaActividadesAgregarFiltro.Where(a => a.codigo_usuario == usuarioFiltro).ToList();
                         }
                     <EditForm Model="@actividadAAgregar" OnValidSubmit="AgregarActividadDeInforme">
@@ -368,7 +365,7 @@
 {
     <ScriptMaxHeightExtraContainer Contenido=".max-height-col-activity" Contenedor=".content-behind-bottom" Elementos="@elementos2"></ScriptMaxHeightExtraContainer>
                 }
-
+<DesactivarEnterSubmit IdForm="InformeForm"></DesactivarEnterSubmit>
             }else if(informe.estado == "Finalizado"){
                 navigationManager.NavigateTo($"Informe/VerInforme/" + informe.consecutivo);
             }

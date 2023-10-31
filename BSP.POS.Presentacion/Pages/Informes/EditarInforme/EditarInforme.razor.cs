@@ -123,6 +123,23 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
             cargaInicial = true;
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+
+            // Inicializa los tooltips de Bootstrap
+            try
+            {
+                await JS.InvokeVoidAsync("initTooltips");
+            }
+            catch (Exception ex)
+            {
+
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
+
+
+        }
         private async Task RefrescarListaActividades()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();

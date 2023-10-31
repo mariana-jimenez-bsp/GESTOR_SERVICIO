@@ -23,9 +23,9 @@
         <div class="col-md-5 col-left">
             <div class="my-3">
                 <div id='recent' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "recent" ? "block" : "none")'>
-                            @if (ClientesRecientes != null)
+                    @if (ClientesRecientes.Any() && Clientes.Any() && cargaInicial)
                     {
-                        var listaClientesRecientes = ClientesRecientes;
+                        var listaClientesRecientes = !string.IsNullOrEmpty(textoRecibido) ? Clientes : ClientesRecientes;
                         if (!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "clientes")
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
@@ -66,11 +66,13 @@
                     else
                     {
                         
-                        <p>No hay clientes recientes</p>
+                        @if(cargaInicial){
+                             <p>No se encontraron clientes recientes</p>
+                        }
                     }
                 </div>
                 <div id='all' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "all" ? "block" : "none")'>
-                    @if (Clientes != null)
+                    @if (Clientes.Any() && cargaInicial)
                     {
                         var listaClientes = Clientes;
                         if (!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "clientes")
@@ -113,7 +115,10 @@
                     }
                     else
                     {
-                        <p>No se encontraron clientes.</p>
+                        @if(cargaInicial){
+                             <p>No se encontraron clientes.</p>
+                        }
+                       
                     }
                 </div>
             </div>

@@ -149,13 +149,10 @@
                                                     else
                                                     {
                                                         <div class="d-flex">
-                                                            @if (!string.IsNullOrEmpty(cliente.E_MAIL) && cliente.E_MAIL.Length > 12)
-                                                            {
-                                                                string correoCortado = cliente.E_MAIL.Substring(0, 12) + "...";
-                                                                <label class="w-75 text-center text-secondary me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@cliente.E_MAIL">@correoCortado</label>
-                                                            }else{
-                                                                <label class="w-75 text-center text-secondary me-3">@cliente.E_MAIL</label>
-                                                            }
+
+                             
+                                                                <label class="w-75 text-center text-secondary me-3 texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@cliente.E_MAIL">@cliente.E_MAIL</label>
+                                                            
                                                             <i class="fa-solid fa-sort-down fa-xl d-flex justify-content-end blue-light-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
                                                         </div>
                                                     }

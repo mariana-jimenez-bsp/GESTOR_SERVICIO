@@ -19,7 +19,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         public string esquema = string.Empty;
         public string rol = string.Empty;
         public string clienteActual = string.Empty;
-        
+        public bool cargaInicial = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -36,6 +36,7 @@ namespace BSP.POS.Presentacion.Pages.Home
                     PerfilActual = UsuariosService.Perfil;
                 }
                 await RefrescarListaClientes();
+                cargaInicial = true;
                 StateHasChanged();
             }
            

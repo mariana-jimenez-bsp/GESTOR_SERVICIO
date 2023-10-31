@@ -114,13 +114,41 @@ window.HacerSelectEditable = function (objRef, selectId) {
     input.classList.add("border-0", "bg-transparent", "text-light", "text-center");
 
     select.parentNode.replaceChild(input, select);
-
+    var enterPressed = false;
     input.addEventListener("blur", function () {
-        var updatedText = input.value;
-        input.parentNode.replaceChild(select, input);
-        select.options[select.selectedIndex].text = updatedText;
+        if (input.parentNode && !enterPressed) {
+            var updatedText = input.value;
+            input.parentNode.replaceChild(select, input);
+            select.options[select.selectedIndex].text = updatedText;
 
-        // Llama a la función de Blazor para enviar el texto editado.
-        objRef.invokeMethodAsync('ActualizarTextoEditable', updatedText, selectId);
+            // Llama a la función de Blazor para enviar el texto editado.
+            objRef.invokeMethodAsync('ActualizarTextoEditable', updatedText, selectId);
+        }
+        enterPressed = false;
+    });
+
+    input.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            enterPressed = true;
+            var updatedText = input.value;
+            input.parentNode.replaceChild(select, input);
+            select.options[select.selectedIndex].text = updatedText;
+
+            // Llama a la función de Blazor para enviar el texto editado.
+            objRef.invokeMethodAsync('ActualizarTextoEditable', updatedText, selectId);
+           
+        }
+    });
+};
+
+window.desactivarEnterSubmit = function (formId) {
+    var form = document.getElementById(formId);
+    if (!form) {
+        return;
+    }
+    form.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+        }
     });
 };
