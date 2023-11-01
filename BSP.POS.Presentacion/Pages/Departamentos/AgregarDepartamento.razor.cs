@@ -35,7 +35,7 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
 
         private async Task DescartarCambios()
         {
-            await AlertasService.SwalAvisoNuevoDescartado("Se han cancelado los cambios", "Departamentos");
+            await AlertasService.SwalAvisoCancelado("Se han cancelado los cambios");
         }
         private async Task AgregarDepartamentoNuevo()
         {
@@ -46,7 +46,7 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
                 resultadoDepartamento = await DepartamentosService.AgregarDepartamento(departamentoNuevo, esquema);
                 if (resultadoDepartamento)
                 {
-                    await AlertasService.SwalExitoNuevo("El departamento se ha agregado", "Departamentos");
+                    await AlertasService.SwalExitoHecho("El departamento se ha agregado");
                 }
                 else
                 {

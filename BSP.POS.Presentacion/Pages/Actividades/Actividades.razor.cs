@@ -128,8 +128,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
 
         private async Task DescartarCambios()
         {
-            await RefrescarListaActividades();
-            await AlertasService.SwalAviso("Se han Descartado los cambios");
+            await AlertasService.SwalAvisoCancelado("Se han Descartado los cambios");
         }
         private async Task<bool> ActualizarListaActividades()
         {

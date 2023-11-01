@@ -89,7 +89,9 @@
     background-size: cover;
     justify-content: center;
 }
-
+.color-change-consecutivo:hover {
+    color: #2FAD70;
+}
 .col-right-bg {
     background: linear-gradient(to bottom, white 10%, transparent 10%, transparent 90%, white 90%), url('images/MisInformes/Fondo-verde-columna-derecha.png');
     background-size: 100% 100%, cover;

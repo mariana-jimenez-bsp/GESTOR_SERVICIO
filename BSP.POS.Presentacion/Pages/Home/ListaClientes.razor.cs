@@ -4,6 +4,7 @@ using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Clientes;
 using BSP.POS.Presentacion.Services.Clientes;
 using Microsoft.AspNetCore.Components;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Home
@@ -15,6 +16,8 @@ namespace BSP.POS.Presentacion.Pages.Home
         public List<mClientes> Clientes = new List<mClientes>();
         public List<mClientes> ClientesRecientes = new List<mClientes>();
         public mPerfil PerfilActual = new mPerfil();
+        private DateTime fechaInicioDateTime = DateTime.MinValue;
+        private DateTime fechaFinalDateTime = DateTime.MinValue;
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public string rol = string.Empty;
@@ -36,6 +39,7 @@ namespace BSP.POS.Presentacion.Pages.Home
                     PerfilActual = UsuariosService.Perfil;
                 }
                 await RefrescarListaClientes();
+                ActualizarFiltroFechas();
                 cargaInicial = true;
                 StateHasChanged();
             }
@@ -74,11 +78,12 @@ namespace BSP.POS.Presentacion.Pages.Home
                 }
             }
         }
-        private string activeTab = "recent"; // Pestaña activa inicialmente
+        private string activeTab = "all"; // Pestaña activa inicialmente
 
         private void ChangeTab(string tabId)
         {
             activeTab = tabId;
+            ActualizarFiltroFechas();
         }
 
         private string GetTabLinkClass(string tabId)
@@ -104,12 +109,13 @@ namespace BSP.POS.Presentacion.Pages.Home
                 ClienteAsociado = ClientesService.ClienteAsociado;
             }
             RefrescarDatosInformes();
+            ActualizarFiltroFechas();
         }
 
         [Parameter]
         public string textoRecibido { get; set; } = string.Empty;
         [Parameter]
-        public string filtroRecibido { get; set; } = string.Empty;
+        public string filtroRecibido { get; set; } = "clientes";
 
         private Task RecibirTexto(string texto)
         {
@@ -119,9 +125,33 @@ namespace BSP.POS.Presentacion.Pages.Home
         private Task RecibirFiltro(string texto)
         {
             filtroRecibido = texto;
+            ActualizarFiltroFechas();
             return Task.CompletedTask;
         }
-
+        private void ActualizarFiltroFechas()
+        {
+            if (activeTab == "all" && filtroRecibido == "clientes")
+            {
+                if (Clientes.Any())
+                {
+                    fechaInicioDateTime = Clientes.OrderBy(i => i.RecordDateDateTime).Select(i => i.RecordDateDateTime).First();
+                    fechaFinalDateTime = Clientes.OrderByDescending(i => i.RecordDateDateTime).Select(i => i.RecordDateDateTime).First();
+                }
+            }
+            else if (activeTab == "recent" && filtroRecibido == "clientes")
+            {
+                if (ClientesRecientes.Any())
+                {
+                    fechaInicioDateTime = ClientesRecientes.OrderBy(i => i.RecordDateDateTime).Select(i => i.RecordDateDateTime).First();
+                    fechaFinalDateTime = ClientesRecientes.OrderByDescending(i => i.RecordDateDateTime).Select(i => i.RecordDateDateTime).First();
+                }
+            }else if(filtroRecibido == "informes" && InformesAsociados.Any())
+            {
+                fechaInicioDateTime = InformesAsociados.OrderBy(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+                fechaFinalDateTime = InformesAsociados.OrderByDescending(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+            }
+            StateHasChanged();
+        }
         private ListaInformes listaInformesComponente;
 
         private void RefrescarDatosInformes()
@@ -140,6 +170,16 @@ namespace BSP.POS.Presentacion.Pages.Home
                 }
             }
            
+        }
+        public void ActualizarFechaInicio(DateTime fechaInicio)
+        {
+            fechaInicioDateTime = fechaInicio;
+            StateHasChanged();
+        }
+        public void ActualizarFechaFin(DateTime fechaFin)
+        {
+            fechaFinalDateTime = fechaFin;
+            StateHasChanged();
         }
     }
 }

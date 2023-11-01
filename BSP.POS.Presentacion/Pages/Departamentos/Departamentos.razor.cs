@@ -47,13 +47,7 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
         }
         private async Task DescartarCambios()
         {
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
-            if (DepartamentosService.listaDepartamentos != null)
-            {
-                departamentos = DepartamentosService.listaDepartamentos;
-            }
-            await AlertasService.SwalAviso("Se han Descartado los cambios");
+            await AlertasService.SwalAvisoCancelado("Se han Descartado los cambios");
         }
 
         private async Task<bool> ActualizarListaDepartamentos()

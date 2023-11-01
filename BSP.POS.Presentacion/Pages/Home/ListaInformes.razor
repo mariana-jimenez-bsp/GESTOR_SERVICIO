@@ -19,7 +19,11 @@
                 </div>
                 @if (informesAsociados.Any())
                 {
-                    var listaDeInformes = informesAsociados.OrderByDescending(i => i.consecutivo).ToList();
+                    var listaDeInformes = filtroRecibido == "informes" ?
+                    informesAsociados.Where(cliente =>
+                    cliente.FechaActualizacionDateTime >= fechaInicioDateTime &&
+                    cliente.FechaActualizacionDateTime <= fechaFinalDateTime
+                    ).OrderByDescending(i => i.FechaActualizacionDateTime).ToList() : informesAsociados.OrderByDescending(i => i.FechaActualizacionDateTime).ToList();
                     if(!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "informes")
                     {
                         listaDeInformes = listaDeInformes.Where(informe =>

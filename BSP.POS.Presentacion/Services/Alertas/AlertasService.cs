@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Interfaces.Alertas;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Services.Alertas
 {
@@ -10,11 +11,13 @@ namespace BSP.POS.Presentacion.Services.Alertas
         private readonly SweetAlertService Swal;
         private readonly NavigationManager _navigationManager;
         private readonly ILocalStorageService _localStorageService;
-        public AlertasService(SweetAlertService alertasService, NavigationManager navigationManager, ILocalStorageService localStorageService)
+        private readonly IJSRuntime _JSRuntime;
+        public AlertasService(SweetAlertService alertasService, NavigationManager navigationManager, ILocalStorageService localStorageService, IJSRuntime JSRuntime)
         {
             Swal = alertasService;
             _navigationManager = navigationManager;
             _localStorageService = localStorageService;
+            _JSRuntime = JSRuntime;
         }
         public async Task SwalExito(string mensajeAlerta)
         {
@@ -62,7 +65,26 @@ namespace BSP.POS.Presentacion.Services.Alertas
             });
         }
 
-        public async Task SwalAvisoNuevoDescartado(string mensajeAlerta, string accion)
+        public async Task SwalAvisoCancelado(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Aviso!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    await _JSRuntime.InvokeVoidAsync("history.back");
+                }
+            });
+        }
+
+        public async Task SwalAvisoLogin(string mensajeAlerta)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {
@@ -76,34 +98,11 @@ namespace BSP.POS.Presentacion.Services.Alertas
                 SweetAlertResult result = swalTask.Result;
                 if (result.IsConfirmed || result.IsDismissed)
                 {
-                    if (accion == "Proyectos")
-                    {
-                        _navigationManager.NavigateTo($"proyectos");
-                    }
-                    else if (accion == "Clientes")
-                    {
-                        _navigationManager.NavigateTo($"clientes");
-                    }
-                    else if (accion == "Actividades")
-                    {
-                        _navigationManager.NavigateTo($"actividades");
-                    }
-                    else if (accion == "Departamentos")
-                    {
-                        _navigationManager.NavigateTo($"configuraciones/departamentos");
-                    }
-                    else if (accion == "Usuarios")
-                    {
-                        _navigationManager.NavigateTo($"configuraciones/usuarios");
-                    }
-                    else if (accion == "Login")
-                    {
-                        _navigationManager.NavigateTo($"login");
-                    }
+                    _navigationManager.NavigateTo($"login");
                 }
             });
         }
-        public async Task SwalExitoNuevo(string mensajeAlerta, string accion)
+        public async Task SwalExitoHecho(string mensajeAlerta)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {
@@ -117,30 +116,27 @@ namespace BSP.POS.Presentacion.Services.Alertas
                 SweetAlertResult result = swalTask.Result;
                 if (result.IsConfirmed || result.IsDismissed)
                 {
-                    if (accion == "Proyectos")
-                    {
-                        _navigationManager.NavigateTo($"proyectos");
-                    }else if(accion == "Clientes")
-                    {
-                        _navigationManager.NavigateTo($"clientes");
-                    }
-                    else if (accion == "Actividades")
-                    {
-                        _navigationManager.NavigateTo($"actividades");
-                    }
-                    else if (accion == "Departamentos")
-                    {
-                        _navigationManager.NavigateTo($"configuraciones/departamentos");
-                    }
-                    else if (accion == "Usuarios")
-                    {
-                        _navigationManager.NavigateTo($"configuraciones/usuarios");
-                    }
-                    else if (accion == "Login")
-                    {
-                        await _localStorageService.RemoveItemAsync("token");
-                        _navigationManager.NavigateTo($"login");
-                    }
+                    await _JSRuntime.InvokeVoidAsync("history.back");
+                }
+            });
+        }
+
+        public async Task SwalExitoLogin(string mensajeAlerta)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Éxito!",
+                Text = mensajeAlerta,
+                Icon = SweetAlertIcon.Success,
+                ShowCancelButton = false,
+                ConfirmButtonText = "Ok"
+            }).ContinueWith(async swalTask =>
+            {
+                SweetAlertResult result = swalTask.Result;
+                if (result.IsConfirmed || result.IsDismissed)
+                {
+                    await _localStorageService.RemoveItemAsync("token");
+                    _navigationManager.NavigateTo($"login");
                 }
             });
         }

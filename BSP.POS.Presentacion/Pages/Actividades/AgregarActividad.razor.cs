@@ -90,7 +90,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         }
         private async Task DescartarCambios()
         {
-            await AlertasService.SwalAvisoNuevoDescartado("Se han cancelado los cambios", "Actividades");
+            await AlertasService.SwalAvisoCancelado("Se han cancelado los cambios");
         }
         private async Task AgregarActividadNueva()
         {
@@ -100,7 +100,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                 bool resultadoActividad = await ActividadesService.AgregarActividad(activadNueva, esquema);
                 if (resultadoActividad)
                 {
-                    await AlertasService.SwalExitoNuevo("La actividad se ha agregado", "Actividades");
+                    await AlertasService.SwalExitoHecho("La actividad se ha agregado");
                 }
                 else
                 {

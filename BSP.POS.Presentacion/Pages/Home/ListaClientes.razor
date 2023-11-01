@@ -7,7 +7,7 @@
 <AuthorizeView>
     <Authorized>
         <div class="el-layout">
-            <Layout Texto="RecibirTexto" Filtro="RecibirFiltro"></Layout>
+            <Layout Texto="RecibirTexto" Filtro="RecibirFiltro" fechaInicioDateTime="@fechaInicioDateTime" fechaFinalDateTime="@fechaFinalDateTime" ActualizaFechaInicio="ActualizarFechaInicio" ActualizaFechaFin="ActualizarFechaFin"></Layout>
         </div>
 
 <div class="container-fluid ps-5 pe-5">
@@ -23,9 +23,13 @@
         <div class="col-md-5 col-left">
             <div class="my-3">
                 <div id='recent' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "recent" ? "block" : "none")'>
-                    @if (ClientesRecientes.Any() && Clientes.Any() && cargaInicial)
+                    @if (ClientesRecientes.Any() && cargaInicial)
                     {
-                        var listaClientesRecientes = !string.IsNullOrEmpty(textoRecibido) ? Clientes : ClientesRecientes;
+                        var listaClientesRecientes = filtroRecibido == "clientes" ?
+                        ClientesRecientes.Where(cliente =>
+                        cliente.RecordDateDateTime >= fechaInicioDateTime &&
+                        cliente.RecordDateDateTime <= fechaFinalDateTime
+                        ).OrderByDescending(i => i.RecordDateDateTime).ToList() : ClientesRecientes.OrderByDescending(i => i.RecordDateDateTime).ToList();
                         if (!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "clientes")
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
@@ -74,7 +78,11 @@
                 <div id='all' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "all" ? "block" : "none")'>
                     @if (Clientes.Any() && cargaInicial)
                     {
-                        var listaClientes = Clientes;
+                        var listaClientes = filtroRecibido == "clientes" ?
+                        Clientes.Where(cliente =>
+                        cliente.RecordDateDateTime >= fechaInicioDateTime &&
+                        cliente.RecordDateDateTime <= fechaFinalDateTime
+                        ).OrderByDescending(i => i.RecordDateDateTime).ToList() : Clientes.OrderByDescending(i => i.RecordDateDateTime).ToList();
                         if (!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "clientes")
                         {
                             // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
@@ -124,7 +132,7 @@
             </div>
         </div>
 
-        <ListaInformes informesAsociados="@InformesAsociados" clienteAsociado="@ClienteAsociado" textoRecibido="@textoRecibido" filtroRecibido="@filtroRecibido" esquema="@esquema" RefrescarListaInformes="RefrescaListaInformes" @ref="listaInformesComponente"/>
+        <ListaInformes informesAsociados="@InformesAsociados" clienteAsociado="@ClienteAsociado" textoRecibido="@textoRecibido" fechaInicioDateTime="@fechaInicioDateTime" fechaFinalDateTime="fechaFinalDateTime" filtroRecibido="@filtroRecibido" esquema="@esquema" RefrescarListaInformes="RefrescaListaInformes" @ref="listaInformesComponente"/>
     </div>
     <div class="div-vacio"></div>
 </div>

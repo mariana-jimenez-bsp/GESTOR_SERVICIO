@@ -167,9 +167,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         
         private async Task DescartarCambios()
         {
-
-            await RefrescarListaDeProyectos();
-            await AlertasService.SwalAviso("Se han Descartado los cambios");
+            await AlertasService.SwalAvisoCancelado("Se han Descartado los cambios");
         }
         private async Task<bool> ActualizarListaProyectos()
         {

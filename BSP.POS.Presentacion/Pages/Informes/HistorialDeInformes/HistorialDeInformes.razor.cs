@@ -336,5 +336,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
 
 
         }
+
+        private void VerInforme(string consecutivo)
+        {
+
+            navigationManager.NavigateTo($"Informe/VerInforme/{consecutivo}");
+        }
     }
 }

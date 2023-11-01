@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Shared
@@ -13,6 +14,14 @@ namespace BSP.POS.Presentacion.Shared
         public EventCallback<string> Texto { get; set; }
         [Parameter]
         public EventCallback<string> Filtro { get; set; }
+        [Parameter]
+        public EventCallback<DateTime> ActualizaFechaInicio { get; set; }
+        [Parameter]
+        public EventCallback<DateTime> ActualizaFechaFin { get; set; }
+        [Parameter]
+        public DateTime fechaInicioDateTime { get; set; } = DateTime.MinValue;
+        [Parameter]
+        public DateTime fechaFinalDateTime { get; set; } = DateTime.MinValue;
         public string UsuarioActual { get; set; } = string.Empty;
         public mImagenUsuario imagenDeUsuario = new mImagenUsuario();
         public string esquema = string.Empty;
@@ -21,6 +30,10 @@ namespace BSP.POS.Presentacion.Shared
         List<string> permisos;
         private bool estadoPerfilActualizado = false;
         private bool estadoPerfilDescartado = false;
+
+        
+        private string fechaInicio = string.Empty;
+        private string fechaFinal = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
@@ -58,15 +71,14 @@ namespace BSP.POS.Presentacion.Shared
             if (e.Value.ToString() != null)
             {
                 filtroValue = e.Value.ToString();
+                await Filtro.InvokeAsync(filtroValue);
             }
         }
 
         public async Task EnviarTextoABuscar(string texto)
         {
-
             if (texto != null)
             {
-                await Filtro.InvokeAsync(filtroValue);
                 await Texto.InvokeAsync(texto);
             }
         }
@@ -86,24 +98,20 @@ namespace BSP.POS.Presentacion.Shared
 
         private void IrAlInicio()
         {
-
             navigationManager.NavigateTo($"Index");
         }
         private void IrAMisInformes()
         {
-
             navigationManager.NavigateTo($"Informes/MisInformes");
         }
 
         private void IrAProyectos()
         {
-
             navigationManager.NavigateTo($"proyectos");
         }
 
         private void IrAClientes()
         {
-
             navigationManager.NavigateTo($"clientes");
         }
 
@@ -121,7 +129,6 @@ namespace BSP.POS.Presentacion.Shared
 
         private async Task IrAtras()
         {
-
             await JSRuntime.InvokeVoidAsync("history.back");
         }
 
@@ -140,7 +147,37 @@ namespace BSP.POS.Presentacion.Shared
         {
             estadoPerfilDescartado = estado;
         }
+        private async Task CambioFechaInicio(ChangeEventArgs e)
+        {
+            fechaInicio = e.Value.ToString();
+            if (!string.IsNullOrEmpty(fechaInicio))
+            {
+                fechaInicioDateTime = DateTime.ParseExact(fechaInicio, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
+                if (fechaInicioDateTime > fechaFinalDateTime)
+                {
+                    fechaFinal = fechaInicio;
+                    fechaFinalDateTime = fechaInicioDateTime;
+                }
+                await ActualizaFechaInicio.InvokeAsync(fechaInicioDateTime);
+            }
+        }
+
+        private async Task CambioFechaFinal(ChangeEventArgs e)
+        {
+            fechaFinal = e.Value.ToString();
+            if (!string.IsNullOrEmpty(fechaFinal))
+            {
+                fechaFinalDateTime = DateTime.ParseExact(fechaFinal, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                if (fechaFinalDateTime < fechaInicioDateTime)
+                {
+                    fechaInicio = fechaFinal;
+                    fechaInicioDateTime = fechaFinalDateTime;
+                }
+                await ActualizaFechaFin.InvokeAsync(fechaFinalDateTime);
+            }
+        }
 
     }
 }

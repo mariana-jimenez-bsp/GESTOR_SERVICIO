@@ -301,14 +301,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         private async Task DescartarCambios()
         {
-            if (!string.IsNullOrEmpty(codigoCliente))
-            {
-                await AlertasService.SwalAvisoNuevoDescartado("Se han descartado los cambios", "Clientes");
-            }
-            else
-            {
-                await AlertasService.SwalAvisoNuevoDescartado("Se han descartado los cambios", "Usuarios");
-            }
+           await AlertasService.SwalAvisoCancelado("Se han descartado los cambios");
         }
         private async Task AgregarUsuarioNuevo()
         {
@@ -342,14 +335,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         }
                         if(resultadoPermisos)
                         {
-                            if (!string.IsNullOrEmpty(codigoCliente))
-                            {
-                                await AlertasService.SwalExitoNuevo("Se ha agregado el usuario", "Clientes");
-                            }
-                            else
-                            {
-                                await AlertasService.SwalExitoNuevo("Se ha agregado el usuario", "Usuarios");
-                            }
+
+                          await AlertasService.SwalExitoHecho("Se ha agregado el usuario");
                             
                         }
                         else

@@ -241,8 +241,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
 
         private async Task DescartarCambios()
         {
-            await RefrescarListaClientes();
-            await AlertasService.SwalAviso("Se han descartado los cambios");
+            await AlertasService.SwalAvisoCancelado("Se han Descartado los cambios");
         }
         
 

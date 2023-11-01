@@ -58,7 +58,7 @@
                 <button class="search-icon text-light" @onclick="() => EnviarTextoABuscar(inputValue)">
                     <img src="images/Home/Buscador.png" class="w-100"/>
                 </button>
-                <input type="text" width="100" placeholder="Buscar..." class="text-light search-input" @oninput="ActualizarValor" />
+                <input type="text" placeholder="Buscar..." class="text-light search-input" @oninput="ActualizarValor" />
                 </div>
                 @if (navigationManager.Uri.IndexOf("/index", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -68,6 +68,12 @@
                             <option value="clientes">Clientes</option>
                             <option value="informes">Informes</option>
                         </select>
+                        <div class="d-flex ms-2 align-items-center">
+                            <span>Desde</span>
+                            <input class="mx-2 input-date text-light text-center" type="date" @bind="@fechaInicioDateTime" @oninput="CambioFechaInicio" />
+                            <span>Hasta</span>
+                            <input class="ms-2 input-date text-light text-center" type="date" @bind="@fechaFinalDateTime" @oninput="CambioFechaFinal" />
+                        </div>
                     </div>
                 }
                 

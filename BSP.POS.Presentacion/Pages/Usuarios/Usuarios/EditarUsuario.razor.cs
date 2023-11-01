@@ -348,14 +348,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         private async Task DescartarCambios()
         {
-            if (!string.IsNullOrEmpty(codigoCliente))
-            {
-                await AlertasService.SwalAvisoNuevoDescartado("Se han descartado los cambios", "Clientes");
-            }
-            else
-            {
-                await AlertasService.SwalAvisoNuevoDescartado("Se han descartado los cambios", "Usuarios");
-            }
+            await AlertasService.SwalAvisoCancelado("Se han descartado los cambios");
+            
         }
 
         private async Task<bool> ActualizarListaDePermisos()
@@ -396,33 +390,18 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         {
                             if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada)
                             {
-                                await AlertasService.SwalExitoNuevo("Se ha actualizado el usuario", "Login");
+                                await AlertasService.SwalExitoLogin("Se ha actualizado el usuario");
                                 
                             }
                             else
                             {
-                                if (!string.IsNullOrEmpty(codigoCliente))
-                                {
-                                    await AlertasService.SwalExitoNuevo("Se ha actualizado el usuario", "Clientes");
-                                }
-                                else
-                                {
-                                    await AlertasService.SwalExitoNuevo("Se ha actualizado el usuario", "Usuarios");
-                                }
-                                
+                                await AlertasService.SwalExitoHecho("Se ha actualizado el usuario");
 
                             }
                         }
                         else
                         {
-                            if (!string.IsNullOrEmpty(codigoCliente))
-                            {
-                                await AlertasService.SwalExitoNuevo("Se ha actualizado el usuario", "Clientes");
-                            }
-                            else
-                            {
-                                await AlertasService.SwalExitoNuevo("Se ha actualizado el usuario", "Usuarios");
-                            }
+                           await AlertasService.SwalExitoHecho("Se ha actualizado el usuario");
 
                         }
                         

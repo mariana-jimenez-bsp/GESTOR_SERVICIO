@@ -100,7 +100,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         }
         private async Task DescartarCambios()
         {
-            await AlertasService.SwalAvisoNuevoDescartado("Se han cancelado los cambios", "Proyectos");
+            await AlertasService.SwalAvisoCancelado("Se han cancelado los cambios");
         }
         private async Task AgregarProyectoNuevo()
         {
@@ -110,7 +110,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 resultadoProyecto = await ProyectosService.AgregarProyecto(proyecto, esquema);
                 if(resultadoProyecto) {
-                    await AlertasService.SwalExitoNuevo("Se ha agregado el Proyecto", "Proyectos");
+                    await AlertasService.SwalExitoHecho("Se ha agregado el Proyecto");
                 }
                 else
                 {

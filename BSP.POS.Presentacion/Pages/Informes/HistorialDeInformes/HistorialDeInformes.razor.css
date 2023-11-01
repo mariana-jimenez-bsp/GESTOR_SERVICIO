@@ -63,7 +63,9 @@
 .bg-blue-light {
     background-color: #2255A1;
 }
-
+.color-change-consecutivo:hover {
+    color: #2FAD70;
+}
 .font-blue-light {
     color: #2255A1;
 }

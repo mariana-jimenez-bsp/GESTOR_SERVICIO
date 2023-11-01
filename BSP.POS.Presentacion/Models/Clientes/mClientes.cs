@@ -43,6 +43,12 @@ namespace BSP.POS.Presentacion.Models.Clientes
         public byte[] IMAGEN { get; set; } = new byte[] { 0x00 };
         public List<mUsuariosDeCliente> listaDeUsuarios { get; set; } = new List<mUsuariosDeCliente>();
         public bool IsOpen { get; set; } = false;
+        
+        public DateTime RecordDateDateTime
+        {
+            get => DateTime.Parse(RecordDate);
+            set { }
+        }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (PAIS == "CRI")

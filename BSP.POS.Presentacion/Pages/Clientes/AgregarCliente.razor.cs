@@ -487,7 +487,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         }
         private async Task DescartarCambios()
         {
-            await AlertasService.SwalAvisoNuevoDescartado("Se han cancelado los cambios", "Clientes");
+            await AlertasService.SwalAvisoCancelado("Se han cancelado los cambios");
         }
         private async Task AgregarClienteNuevo()
         {
@@ -513,7 +513,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 
                 if (ClientesService.ClienteAsociado != null && resultadoCliente)
                 {
-                    await AlertasService.SwalExitoNuevo("Se ha agregado el cliente", "Clientes");
+                    await AlertasService.SwalExitoHecho("Se ha agregado el cliente");
                 }
                 else
                 {
