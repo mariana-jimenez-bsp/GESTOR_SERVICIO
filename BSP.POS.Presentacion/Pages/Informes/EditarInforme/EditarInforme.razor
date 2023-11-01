@@ -25,7 +25,7 @@
             
                 <div class="row">
                 <div class="col-md-6">
-            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado" id="InformeForm">
+            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
                 <ObjectGraphDataAnnotationsValidator />
                     <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
@@ -61,27 +61,7 @@
                         
                     </div>
             </EditForm>
-                        @if (listaDeUsuariosParaAgregar != null)
-                        {
-                            <EditForm Model="@usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme">
-                                <ObjectGraphDataAnnotationsValidator />
-                                <div class="font-14-book ms-3 pb-2 div-agregar-usuario">
-                                    <span class="green-text">Agregar Usuario</span>
-                                    <div>
-                                        <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
-                                            <option value="">Seleccione el usuario</option>
-                                            @foreach (var usuario in listaDeUsuariosParaAgregar)
-                                            {
-                                                <option value="@usuario.codigo">@usuario.nombre</option>
-                                            }
-
-                                        </select>
-                                        <button type="submit" class="border-success rounded-3 btn-agregar-usuario text-light px-2">Agregar</button>
-                                    </div>
-                                    <ValidationMessage For="@(() => usuarioAAgregar.codigo_usuario_cliente)" />
-                                </div>
-                            </EditForm>
-                        }
+                <button type="button" class="border-success rounded-3 btn-agregar-usuario text-light px-2 my-1" @onclick="() => ClickHandlerAgregarUsuario(true)">Agregar Usuario</button>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
                         <div class="row text-center p-2 blue-light-text font-20-book header-usuarios-informe">
@@ -107,7 +87,7 @@
 
                         foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                             {
-                                <div class="row p-2 text-center font-14-book">
+                                <div class="row p-2 text-center font-14-book borde-gris-arriba ms-1">
                                     <div class="col-md-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
@@ -118,7 +98,6 @@
                                         <div class="texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@usuario.correo_usuario">
                                             <span >@usuario.correo_usuario</span>
                                         </div>
-                                       
                                     </div>
                                     <div class="col-md-1 pt-0 mt-0">
                                         
@@ -179,99 +158,33 @@
                             <option value="Presencial">Presencial</option>
                         </select>
                     </div>
-                    <div class="d-flex">
-                    @if (listaActividadesParaAgregar != null)
-                    {
-                        var listaActividadesAgregarFiltro = 
-                        listaActividadesParaAgregar.Where(informe =>
-                        informe.FechaActualizacionDateTime >= fechaInicioDateTime &&
-                        informe.FechaActualizacionDateTime <= fechaFinalDateTime
-                        ).OrderBy(i => i.FechaActualizacionDateTime).ToList();
-                        if(rol == "Admin" && !string.IsNullOrEmpty(usuarioFiltro) && tipoFiltro == "Usuarios"){
-                            listaActividadesAgregarFiltro = listaActividadesAgregarFiltro.Where(a => a.codigo_usuario == usuarioFiltro).ToList();
-                        }
-                    <EditForm Model="@actividadAAgregar" OnValidSubmit="AgregarActividadDeInforme">
-                    <ObjectGraphDataAnnotationsValidator />
-                    <div class="ms-3 mt-2 font-14-book div-agregar-actividad">
-                        <span class="blue-dark-text">Agregar Actividad</span>
-                        <div>
-                            <select class="rounded-3 blue-dark-text border-dark-blue" @bind="@actividadAAgregar.codigo_actividad" @oninput="CambioCodigoActividad">
-                                <option value="" class="blue-dark-text">Seleccione la actividad</option>
-                                @foreach (var actividad in listaActividadesAgregarFiltro)
-                                {
-                                    <option class="blue-dark-text" value="@actividad.codigo">@actividad.Actividad</option>
-                                }
-                               
-                            </select>
-                            <button type="submit" class="border-light rounded-3 blue-light-bg text-light px-2">Agregar</button>
-                        </div>
-                        <ValidationMessage For="@(() => actividadAAgregar.codigo_actividad)" />
-                    </div>
-                    </EditForm>
-                }
-                <div class="row d-flex font-14-book justify-content-center align-items-center font-blue-light">
-                    <div class="d-flex col-md-12">
-                         <span>Filtro @(rol == "Admin" ? " por:" : ":")</span>
-                         @if(rol == "Admin"){
-                             
-                             <select class="mx-2 col-md-4 rounded-3 blue-dark-text border-dark-blue" @bind="@tipoFiltro">
-                            
-                                <option value="Fecha">Fecha</option>
-                                <option value="Usuarios">Usuarios</option>
-                             </select>
-                         }
-                      </div>
-                       <div class="d-flex col-md-12">
-                         @if(tipoFiltro == "Fecha"){
-                                <div class="mx-2 d-flex">
-                                <span>Desde</span>
-                                <input class="mx-2 input-date text-light text-center" type="date" @bind="@fechaInicioDateTime" @oninput="CambioFechaInicio"/>
-                                <span>Hasta</span>
-                                <input class="ms-2 input-date text-light text-center" type="date" @bind="@fechaFinalDateTime" @oninput="CambioFechaFinal"/>
-                                </div>
-                         }else if(tipoFiltro == "Usuarios"){
-                                <select class="mx-2 rounded-3 blue-dark-text border-dark-blue" @bind="@usuarioFiltro" @oninput="CambioUsuarioFiltro">
-                                <option class="blue-dark-text" value="">Seleccione un usuario</option>
-                                @if(listaTodosLosUsuarios.Any()){
-                                     foreach (var usuario in listaTodosLosUsuarios)
-                                    {
-                                      <option class="blue-dark-text" value="@usuario.codigo">@usuario.nombre</option>              
-                                    }  
-                                }
-                                </select>
-                         }
-                       
-                    </div>
-                    
-                    
-                </div>
-                </div>
+                <button type="button" class="border-light rounded-3 blue-light-bg text-light px-2" @onclick="() => ClickHandlerAgregarActividad(true)">Agregar Actividad</button>
                 <div class="content text-light">
                     
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                         <div class="ps-0 ms-0 ">
-                                <div class="row text-center p-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
-                                <div class="col-md-4">
+                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
+                                <div class="col-md-4 borde-gris-derecha py-2">
                                     <span>ACTIVIDAD</span>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 borde-gris-derecha py-2">
                                     <span>HS COBRADAS</span>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 py-2">
                                     <span>HS NO COBRADAS</span>
                                 </div>
                             </div>
                             <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report ">
-                            <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas" OnInvalidSubmit="ActivarScrollBarDeErrores">
+                            <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas" OnInvalidSubmit="ActivarScrollBarDeErrores"  id="ActividadesForm">
                             <ObjectGraphDataAnnotationsValidator />
                                 @if (listaActividadesAsociadas != null)
                                 {
 
                                     @foreach (var actividad in listaActividadesAsociadas)
                                     {
-                                        <div class="row p-2 text-center ms-0 font-14-book">
-                                            <div class="col-md-4">
+                                        <div class="row px-2 text-center ms-0 font-14-book borde-gris-arriba">
+                                            <div class="col-md-4 borde-gris-derecha py-2">
                                                 <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" 
                                                     class="border-0 bg-transparent text-light" id="select-actividad-@actividad.codigo_actividad" 
                                                                 @ondblclick="() => HacerSelectEditable(actividad.codigo_actividad)" data-toggle="tooltip" data-placement="top" title="@(rol == "Admin" || listaActividadesDeUsuario.Any(a => a.codigo == actividad.codigo_actividad) ? "Haga Doble click para editar" : "No se puede editar ya que está actividad no es suya")">
@@ -292,17 +205,17 @@
                                                 </select>
                                                 <ValidationMessage For="@(() => actividad.codigo_actividad)" />
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-3 borde-gris-derecha py-2">
                                                 <input type="text" @bind-value="actividad.horas_cobradas" @oninput="(e) => CambioHorasCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_cobradas)" />
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 py-2">
                                                 <input type="text" @bind-value="actividad.horas_no_cobradas" @oninput="(e) => CambioHorasNoCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
                                             </div>
-                                            <div class="col-md-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
+                                            <div class="col-md-1 mouse-pointer py-2" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
                                                 <i class="fa-solid fa-x text-danger"></i>
                                             </div>
                                         </div>
@@ -314,16 +227,16 @@
                     
                             </div>
                         </div>
-                        <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
+                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 borde-gris-derecha ms-1 py-4">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 borde-gris-derecha ms-1 py-4">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 py-4">
                                 <span>@total_horas_no_cobradas</span>
                                 <span>horas</span>
                             </div>
@@ -365,7 +278,14 @@
 {
     <ScriptMaxHeightExtraContainer Contenido=".max-height-col-activity" Contenedor=".content-behind-bottom" Elementos="@elementos2"></ScriptMaxHeightExtraContainer>
                 }
-<DesactivarEnterSubmit IdForm="InformeForm"></DesactivarEnterSubmit>
+@if (activarModalAgregarUsuario)
+{
+<AgregarUsuarioInforme ActivarModal="@activarModalAgregarUsuario" OnClose="ClickHandlerAgregarUsuario" Consecutivo="@Consecutivo" listaDeUsuariosParaAgregar="@listaDeUsuariosParaAgregar"></AgregarUsuarioInforme>
+}
+@if(activarModalAgregarActividad){
+<AgregarActividadInforme ActivarModal="@activarModalAgregarActividad" OnClose="ClickHandlerAgregarActividad" Consecutivo="@Consecutivo" listaActividadesParaAgregar="@listaActividadesParaAgregar" listaTodosLosUsuarios="@listaTodosLosUsuarios"></AgregarActividadInforme>
+}
+<DesactivarEnterSubmit IdForm="ActividadesForm"></DesactivarEnterSubmit>
             }else if(informe.estado == "Finalizado"){
                 navigationManager.NavigateTo($"Informe/VerInforme/" + informe.consecutivo);
             }

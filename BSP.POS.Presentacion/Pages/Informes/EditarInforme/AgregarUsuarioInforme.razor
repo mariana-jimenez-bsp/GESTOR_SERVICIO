@@ -1,0 +1,47 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IInformesInterface InformesService
+@inject IActividadesInterface ActividadesService
+@inject IUsuariosInterface UsuariosService
+
+<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content">
+        <EditForm Model="usuarioAAgregar" OnValidSubmit="AgregarUsuarioDeClienteDeInforme" >
+            <DataAnnotationsValidator />
+            
+            <div class="modal-header">
+                <h2 class="text-add-user blue-dark-text mx-auto">Agregar Usuario</h2>
+                <div class="text-end">
+                    <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+                </div>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+            }
+            <div class="modal-body d-flex row g-2 justify-content-center">
+                <div class="font-14-book ms-3 pb-2 div-agregar-usuario">
+                    <span class="green-text">Seleccione el usuario del cliente</span>
+                    <div>
+                        <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
+                            <option value="">Seleccione el usuario</option>
+                            @foreach (var usuario in listaDeUsuariosParaAgregar)
+                            {
+                                <option value="@usuario.codigo">@usuario.nombre</option>
+                            }
+
+                        </select>
+                    </div>
+                    <ValidationMessage For="@(() => usuarioAAgregar.codigo_usuario_cliente)" />
+                </div>
+                
+            </div>
+
+            <div class="modal-footer">
+                <div @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-usuario-informe">Cancelar</div>
+                <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4 btn-agregar-usuario" id="guardar-usuario-informe">Agregar</button>
+            </div>
+
+        </EditForm>
+    </div>
+</div>

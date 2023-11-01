@@ -303,6 +303,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task ActualizarActividadesAsociadas()
         {
+            StateHasChanged();
+            await Task.Delay(100);
             informeGuardado = false;
             if (informeActualizado)
             {
@@ -351,14 +353,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
 
         }
-        private void CambioCodigoDeUsuario(ChangeEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(e.Value.ToString()))
-            {
-                usuarioAAgregar.codigo_usuario_cliente = e.Value.ToString();
-
-            }
-        }
+       
 
         private void CambioCodigoActividad(ChangeEventArgs e)
         {
@@ -543,7 +538,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     await RefrescarListaActividades();
                 }
             }
-            StateHasChanged(); 
+            StateHasChanged();
+            await Task.Delay(100);
         }
         private void CambioFechaInicio(ChangeEventArgs e)
         {
@@ -733,6 +729,29 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 // Si hay errores de validación, activa el scrollbar
                 await JS.InvokeVoidAsync("ActivarScrollViewValidacion", ".validation-message");
             }
+        }
+
+        bool activarModalAgregarUsuario = false;
+        bool activarModalAgregarActividad = false;
+
+        async Task ClickHandlerAgregarUsuario(bool activar)
+        {
+            if (!activar)
+            {
+                await RefrescarListaDeUsuariosDeInforme();
+            }
+            activarModalAgregarUsuario = activar;
+            StateHasChanged();
+        }
+
+        async Task ClickHandlerAgregarActividad(bool activar)
+        {
+            if (!activar)
+            {
+                await RefrescarListaDeActividadesAsociadas();
+            }
+            activarModalAgregarActividad = activar;
+            StateHasChanged();
         }
     }
 }

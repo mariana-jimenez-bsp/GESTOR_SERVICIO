@@ -104,7 +104,23 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             }
             cargaInicial = true;
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
 
+            // Inicializa los tooltips de Bootstrap
+            try
+            {
+                await JS.InvokeVoidAsync("initTooltips");
+            }
+            catch (Exception ex)
+            {
+
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
+
+
+        }
         private async Task<bool> VerificarAprobacionesUsuarios()
         {
             bool aprobado = false;

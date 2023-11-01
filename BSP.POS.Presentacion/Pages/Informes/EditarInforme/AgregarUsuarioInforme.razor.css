@@ -12,12 +12,8 @@
 
 .modal-content {
     display: inline-block;
-    margin-top: 10%;
-    background-color: transparent;
-    background-image: url("images/Perfil/Pestaña-de-usuario.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    max-width: 60%;
+    margin-top: 20%;
+    max-width: 40%;
     padding: 20px;
     margin-bottom: 5%;
     border: transparent;
@@ -28,7 +24,6 @@
     justify-content: center;
     text-align: center;
     position: relative;
-
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 }
@@ -41,7 +36,6 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 3px;
-
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
@@ -54,7 +48,6 @@
 
 .modal-footer {
     display: flex;
-
     justify-content: center;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -62,61 +55,6 @@
 
     .modal-footer .button-footer {
         padding: 10px 20px;
-    }
-.max-height-profile {
-    max-height: 500px;
-}
-.scrollbar-modal-profile::-webkit-scrollbar {
-    width: 12px;
-}
-
-/* Color del área de seguimiento */
-.scrollbar-modal-profile::-webkit-scrollbar-track {
-    background-color: #198754;
-    border: 5px solid white;
-}
-
-/* Color y forma del botón de desplazamiento */
-.scrollbar-modal-profile::-webkit-scrollbar-thumb {
-    background-color: #198754;
-    border-radius: 20px;
-    border: 3px solid white;
-}
-.custom-checkbox {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-/* Estilos para crear el diseño del checkbox personalizado */
-.custom-checkbox + label {
-    position: relative;
-    padding-left: 25px; /* Espacio para el check personalizado */
-    cursor: pointer;
-}
-
-    .custom-checkbox + label:before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 20px;
-        height: 20px;
-        border-radius: 20px;
-        border: 2px solid #2FAD70; /* Color del borde del checkbox */
-        background-color: white; /* Color de fondo del checkbox */
-    }
-
-/* Estilos para el check personalizado cuando está seleccionado */
-    .custom-checkbox:checked + label:before {
-        content: "\2713";
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-        font-size: medium;
-        color: white; /* Cambiar el color del fondo cuando está seleccionado */
-        border: 2px solid #2FAD70; /* Cambiar el color del borde cuando está seleccionado */
-        background-color: #2FAD70; /* Color de fondo del checkbox */
     }
 .blue-light-bg {
     background-color: #2255A1;
@@ -133,33 +71,43 @@
 .blue-dark-text {
     color: #1C3259;
 }
+
 .green-bg {
     background-color: #2FAD70;
 }
+
 .text-green {
     color: #2FAD70;
 }
-.text-profile {
+
+.text-add-user {
     font-size: 25pt;
 }
-.label-text{
+
+.label-text {
     font-size: 20pt;
 }
+
 .text-input {
     font-size: 16pt;
 }
+
 .button-text {
     font-family: 'Circular Std Medium', sans-serif;
     font-size: 12pt;
 }
+
 .border-success {
     border-color: #2FAD70;
 }
-
+.btn-agregar-usuario {
+    background-color: #2FAD70;
+}
 @media screen and (max-width: 768px) {
     .modal-content {
         margin-top: 5%;
     }
+
     .text-profile {
         font-size: 12pt;
     }
@@ -173,18 +121,19 @@
     }
 
     .button-text {
-       
         font-size: 6pt;
     }
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
-    .max-height-profile{
+    .max-height-profile {
         max-height: 300px;
     }
+
     .modal-content {
         margin-top: 3%;
     }
+
     .text-profile {
         font-size: 18pt;
     }
