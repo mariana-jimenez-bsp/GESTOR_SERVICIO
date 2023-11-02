@@ -1,0 +1,46 @@
+﻿@page "/prueba"
+@inject IJSRuntime JSRuntime
+
+<div class="custom-select" id="customSelect" multiple>
+    <div class="custom-option" data-value="opcion1">Opción 1</div>
+    <div class="custom-option" data-value="opcion2">Opción 2</div>
+    <div class="custom-option" data-value="opcion3">Opción 3</div>
+    <div class="custom-option" data-value="opcion4">Opción 4</div>
+    <div class="custom-option" data-value="opcion5">Opción 5</div>
+</div>
+      
+
+
+
+@code {
+    public string modelo { get; set; } = string.Empty;
+    List<string> items = new List<string> { "Item 1", "Item 2", "Item 3" };
+    List<string> selectedItems = new List<string>();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("PersonalizarSelect");
+        }
+        catch (Exception ex)
+        {
+
+            string error = ex.ToString();
+            Console.WriteLine(error);
+        }
+
+
+    }
+    async Task ToggleSelection(string item)
+    {
+        
+        if (selectedItems.Contains(item))
+        {
+            selectedItems.Remove(item);
+        }
+        else
+        {
+            selectedItems.Add(item);
+        }
+    }
+}

@@ -1,7 +1,8 @@
 ﻿
+
 .max-height-users input,
 .max-height-users select {
-    width: 200px;
+    max-width: 50%;
 }
 
 .width-col-special {
@@ -9,7 +10,29 @@
 }
 
 .width-pass {
-    width: 200px;
+    max-width: 55%;
+}
+
+#a-clave {
+    max-width: 100%;
+    border-right: none;
+    border-left: 1px solid #2FAD70;
+    border-top: 1px solid #2FAD70;
+    border-bottom: 1px solid #2FAD70;
+    border-start-start-radius: 20px;
+    border-end-start-radius: 20px;
+}
+
+.fa-solid {
+    border-right: 1px solid #2FAD70;
+    border-top: 1px solid #2FAD70;
+    border-bottom: 1px solid #2FAD70;
+    border-start-end-radius: 20px;
+    border-end-end-radius: 20px;
+}
+
+.col-md-4 {
+    max-width: 32%;
 }
 
 

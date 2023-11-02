@@ -1,4 +1,49 @@
-﻿window.clickButton = (element) => {
+﻿function ActivarDobleClick(IdElemento) {
+    var elemento = document.getElementById(IdElemento);
+
+    var eventoClick = new Event("dblclick");
+
+    elemento.dispatchEvent(eventoClick);
+}
+
+function PersonalizarSelect() {
+    const customSelect = document.getElementById('customSelect');
+    const customOptions = customSelect.querySelectorAll('.custom-option');
+
+    if (customOptions) {
+        customOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                option.classList.toggle('selected');
+            });
+        });
+    }
+}
+function AgregarCustomSelectListener(selectId) {
+    var select = document.getElementById(selectId);
+
+    if (!select) {
+        return;
+    }
+
+    select.addEventListener("mousedown", function (e) {
+        e.preventDefault();
+
+        var scroll = select.scrollTop;
+
+        e.target.selected = !e.target.selected;
+
+        setTimeout(function () {
+            select.scrollTop = scroll;
+        }, 0);
+
+        select.focus();
+    });
+
+    select.addEventListener("mousemove", function (e) {
+        e.preventDefault();
+    });
+}
+window.clickButton = (element) => {
     element.click();
 }
 

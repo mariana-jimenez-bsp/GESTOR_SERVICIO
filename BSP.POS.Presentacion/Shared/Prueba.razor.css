@@ -1,0 +1,21 @@
+﻿.custom-select {
+    width: 200px;
+    height: 150px;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+}
+
+.custom-option {
+    padding: 5px;
+    cursor: pointer;
+}
+
+    .custom-option.selected {
+        background-color: #4CAF50; /* Cambia el color de fondo de los elementos seleccionados */
+        color: white; /* Cambia el color del texto de los elementos seleccionados */
+    }
+
+        .custom-option.selected::after {
+            content: "\2713"; /* Agrega un icono de verificación ✔ */
+            margin-left: 5px; /* Espacio entre el icono y el texto */
+        }
