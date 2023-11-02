@@ -15,6 +15,7 @@ using MimeKit;
 using MimeKit.Text;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,9 +64,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             smtp.Disconnect(true);
 
         }
-        public void EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion, string urlWeb, string tipoInicio)
+        public async Task EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion, string urlWeb, string tipoInicio, string urlApiCristal)
         {
-
+            byte[] byteReporte = await GenerarReporteDeInforme(objetosParaAprobacion.esquema, objetosParaAprobacion.informe.consecutivo, urlApiCristal);
             foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
             {
                 if (item.aceptacion == "0")
@@ -116,7 +117,23 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                            .Replace("{{Actividades}}", actividades)
                            .Replace("{{Observaciones}}", observaciones)
                            .Replace("{{UrlWeb}}", urlWeb);
-                correo.Body = new TextPart(TextFormat.Html) { Text = CuerpoHtml };
+                var cuerpoHtml = new TextPart(TextFormat.Html)
+                {
+                    Text = CuerpoHtml
+                };
+                
+                var attachment = new MimePart
+                {
+                    Content = new MimeContent(new MemoryStream(byteReporte), ContentEncoding.Default),
+                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                    ContentTransferEncoding = ContentEncoding.Base64,
+                    FileName = "ReporteInforme_" + objetosParaAprobacion.informe.consecutivo + ".pdf"
+                };
+                var multipart = new Multipart("mixed");
+                multipart.Add(cuerpoHtml); // Agregar el cuerpo HTML
+                multipart.Add(attachment); // Agregar el archivo adjunto
+
+                correo.Body = multipart;
 
                 using var smtp = new SmtpClient();
                 smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
@@ -148,6 +165,37 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             objetoParaCorreo.esquema = esquema;
             objetoParaCorreo.listaDeObservaciones = _observaciones.ListarDatosObservacionesDeInforme(consecutivo, esquema);
             return objetoParaCorreo;
+        }
+
+        public async Task<byte[]> GenerarReporteDeInforme(string esquema, string consecutivo, string urlApiCristal)
+        {
+            try
+            {
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+                using (HttpClient client = new HttpClient(clientHandler))
+                {
+                    var response = await client.GetAsync(urlApiCristal + "Api/GenerarReporte/" + esquema + "/" + consecutivo);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var fileBytes = await response.Content.ReadAsByteArrayAsync();
+
+
+                        return fileBytes;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

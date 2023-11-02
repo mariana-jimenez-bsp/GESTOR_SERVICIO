@@ -64,7 +64,7 @@
                 <button type="button" class="border-success rounded-3 btn-agregar-usuario text-light px-2 my-1" @onclick="() => ClickHandlerAgregarUsuario(true)">Agregar Usuario</button>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
-                        <div class="row text-center p-2 blue-light-text font-20-book header-usuarios-informe">
+                        <div class="row text-center p-2 blue-light-text font-20-book header-usuarios-informe mx-1">
                             <div class="col-md-3">
                                 <span class="ms-3">NOMBRE</span>
                             </div>
@@ -72,10 +72,10 @@
                                 <span>DEP.</span>
                             </div>
                             <div class="col-md-4">
-                                <span>CORREO</span>
+                                <span class="me-3">CORREO</span>
                             </div>
                             <div class="col-md-1">
-                                <span>ACEPT.</span>
+                                <span class="me-2">ACEPT.</span>
                             </div>
                             <div class="col-md-1">
                                 
@@ -87,7 +87,7 @@
 
                         foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                             {
-                                <div class="row p-2 text-center font-14-book borde-gris-arriba ms-1">
+                                <div class="row p-2 text-center font-14-book borde-gris-arriba mx-1">
                                     <div class="col-md-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
@@ -105,18 +105,18 @@
                                         {
                                            
                                             <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" checked disabled>
-                                                <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
+                                                <label class="label-transparent ms-4" for="myCheckbox @usuario.id">.</label>
   
                                         }
                                         else
                                         {
                                                 <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" disabled>
-                                            <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
+                                            <label class="label-transparent ms-4" for="myCheckbox @usuario.id">.</label>
                                         }
 
                                     </div>
                                 <div class="col-md-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.id)'>
-                                        <i class="fa-solid fa-x text-danger"></i>
+                                        <i class="ms-4 fa-solid fa-x text-danger"></i>
                                     </div>
                                 </div>
                             }
@@ -158,7 +158,7 @@
                             <option value="Presencial">Presencial</option>
                         </select>
                     </div>
-                <button type="button" class="border-light rounded-3 blue-light-bg text-light px-2" @onclick="() => ClickHandlerAgregarActividad(true)">Agregar Actividad</button>
+                <button type="button" class="border-light rounded-3 blue-light-bg text-light px-2 btn-agregar-actividad" @onclick="() => ClickHandlerAgregarActividad(true)">Agregar Actividad</button>
                 <div class="content text-light">
                     
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
@@ -229,10 +229,10 @@
                         </div>
                         <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
 
-                            <div class="col-md-4 borde-gris-derecha ms-1 py-4">
+                            <div class="col-md-4 borde-gris-derecha py-4">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-3 borde-gris-derecha ms-1 py-4">
+                            <div class="col-md-3 borde-gris-derecha py-4">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>

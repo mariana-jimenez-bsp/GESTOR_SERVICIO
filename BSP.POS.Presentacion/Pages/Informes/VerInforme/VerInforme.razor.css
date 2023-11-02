@@ -34,7 +34,13 @@
 .border-final-derecha {
     border-bottom-right-radius: 20px;
 }
+.borde-gris-arriba {
+    border-top: 1px solid #A9A9A9;
+}
 
+.borde-gris-derecha {
+    border-right: 1px solid #A9A9A9;
+}
 
 .blue-light-bg {
     background-color: #2255A1;

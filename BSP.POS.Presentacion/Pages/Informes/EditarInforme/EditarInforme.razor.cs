@@ -48,8 +48,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private bool activarBotonFinalizar = false;
         private bool informeActualizado = false;
         private bool usuarioAutorizado = true;
-        private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".div-agregar-usuario" };
-        private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".div-agregar-actividad" };
+        private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".btn-agregar-usuario" };
+        private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".btn-agregar-actividad" };
 
         protected override async Task OnInitializedAsync()
         {
@@ -348,15 +348,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         }
        
-
-        private void CambioCodigoActividad(ChangeEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(e.Value.ToString()))
-            {
-                actividadAAgregar.codigo_actividad = e.Value.ToString();
-
-            }
-        }
         private void RefrescarTotalHoras()
         {
             try
@@ -387,7 +378,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             foreach (var actividad in listaActividadesParaAgregar)
             {
                 string fecha = actividad.fecha_actualizacion.Replace("  ", " ");
-                actividad.FechaActualizacionDateTime = DateTime.ParseExact(fecha, "MMM dd yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                actividad.FechaActualizacionDateTime = DateTime.ParseExact(fecha, "MMM d yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.None);
             }
             
             
@@ -404,40 +395,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
             listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeDatosUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
         }
-        private async Task AgregarUsuarioDeClienteDeInforme()
-        {
-
-            if (usuarioAAgregar.codigo_usuario_cliente != null)
-            {
-                usuarioAAgregar.consecutivo_informe = Consecutivo;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                bool resultadoAgregar = await UsuariosService.AgregarUsuarioDeClienteDeInforme(usuarioAAgregar, esquema);
-                if (resultadoAgregar)
-                {
-                    usuarioAAgregar = new mUsuariosDeClienteDeInforme();
-                    await RefrescarListaDeUsuariosDeInforme();
-                }
-                else
-                {
-                    await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
-                }
-               
-            }
-        }
-
-        private async Task AgregarActividadDeInforme()
-        {
-            if (actividadAAgregar.codigo_actividad != null)
-            {
-                string horas = listaActividadesParaAgregar.Where(actividad => actividad.codigo == actividadAAgregar.codigo_actividad).First().horas;
-                actividadAAgregar.consecutivo_informe = Consecutivo;
-                actividadAAgregar.horas_cobradas = horas;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.AgregarActividadDeInforme(actividadAAgregar, esquema);
-                actividadAAgregar = new mActividadAsociadaParaAgregar();
-                await RefrescarListaDeActividadesAsociadas();
-            }
-        }
+        
 
         
         bool activarModalObservaciones = false;

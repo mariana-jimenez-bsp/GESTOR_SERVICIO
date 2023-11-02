@@ -30,6 +30,7 @@ namespace BSP.POS.API.Controllers
         private readonly string _idTelefonoWhatsapp;
         private readonly string _urlWeb = string.Empty;
         private readonly string _tipoInicio = string.Empty;
+        private readonly string _urlApiCrystal = string.Empty;
         private readonly ICorreosInterface _correoService;
         private readonly IWhatsappInterface _whatsappService;
         public InformesController(ICorreosInterface correoService, IWhatsappInterface whatsappService)
@@ -53,6 +54,7 @@ namespace BSP.POS.API.Controllers
                 _urlWeb = configurationSecrets["UrlWebDebug"];
                 _idTelefonoWhatsapp = configurationSecrets["idTelefonoWhatsapp"];
                 _tokenWhatsapp = configurationSecrets["tokenWhatsapp"];
+                _urlApiCrystal = configurationSecrets["UrlApiCrystalDebug"];
             }
             else
             {
@@ -62,6 +64,7 @@ namespace BSP.POS.API.Controllers
                 _urlWeb = configuration["AppSettings:UrlWebDeploy"];
                 _idTelefonoWhatsapp = configuration["AppSettings:idTelefonoWhatsapp"];
                 _tokenWhatsapp = configuration["AppSettings:tokenWhatsapp"];
+                _urlApiCrystal = configuration["AppSettings:UrlApiCrystalDeploy"];
             }
 
             _correoService = correoService;
@@ -182,7 +185,7 @@ namespace BSP.POS.API.Controllers
 
         }
         [HttpPost("EnviarTokenDeAprobacionDeInforme")]
-        public IActionResult EnviarTokenDeAprobacionDeInforme()
+        public async Task<ActionResult> EnviarTokenDeAprobacionDeInforme()
         {
             try
             {
@@ -203,8 +206,8 @@ namespace BSP.POS.API.Controllers
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
 
-                _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion, _urlWeb, _tipoInicio);
-                _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
+                await _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion, _urlWeb, _tipoInicio, _urlApiCrystal);
+                //await _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
                 return Ok();
             }
 

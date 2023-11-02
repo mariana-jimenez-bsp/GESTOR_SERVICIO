@@ -53,8 +53,8 @@
         else
         {
             
-            <div class="d-flex justify-content-start align-items-center">
-                <div class="d-flex justify-content-start align-items-center">
+            <div class="row d-flex justify-content-start align-items-center">
+                <div class="col-md-4 d-flex justify-content-start align-items-center">
                 <button class="search-icon text-light" @onclick="() => EnviarTextoABuscar(inputValue)">
                     <img src="images/Home/Buscador.png" class="w-100"/>
                 </button>
@@ -62,12 +62,14 @@
                 </div>
                 @if (navigationManager.Uri.IndexOf("/index", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    <div class="d-flex justify-content-start align-items-center header-menu">
+                    <div class="col-md-2 d-flex justify-content-start align-items-center header-menu">
                         <label for="select-filtro" class="mx-2">Filtro:</label>
                         <select id="select-filtro" class="select-filtro text-light" @bind="@filtroValue" @oninput="ActualizarFiltro">
                             <option value="clientes">Clientes</option>
                             <option value="informes">Informes</option>
                         </select>
+                    </div>
+                     <div class="col-md-6 d-flex justify-content-start align-items-center header-menu">
                         <div class="d-flex ms-2 align-items-center">
                             <span>Desde</span>
                             <input class="mx-2 input-date text-light text-center" type="date" @bind="@fechaInicioDateTime" @oninput="CambioFechaInicio" />
@@ -85,7 +87,7 @@
                 <a class="vertical-line p-2 border-primary"></a>
                 <a @onclick="IrAMisInformes" class="me-2 mouse-pointer">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
-            <div class="btn-group dropend dropdown-logout">
+            <div class="btn-group dropup-center dropup dropdown-logout">
                 <button type="button" class="dropdown-toggle border-0 dropdown-logout blue-light-text" data-bs-toggle="dropdown" aria-expanded="false">
                     @UsuarioActual
                     @if (imagenDeUsuario.imagen != null && !imagenDeUsuario.imagen.SequenceEqual(new byte[] { 0x00 }))

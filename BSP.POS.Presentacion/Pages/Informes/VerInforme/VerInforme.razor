@@ -58,7 +58,7 @@
                     </div>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
-                        <div class="row text-center p-2 blue-light-text font-20-book">
+                        <div class="row text-center p-2 blue-light-text font-20-book mx-1">
                             <div class="col-md-3">
                                 <span class="ms-3">NOMBRE</span>
                             </div>
@@ -71,9 +71,6 @@
                             <div class="col-md-1">
                                 <span>ACEPT.</span>
                             </div>
-                            <div class="col-md-1">
-                                
-                            </div>
                         </div>
                         <div class="overflow-y-auto overflow-x-hidden max-height-col scrollbar-report">
                             @if (listadeDatosUsuariosDeClienteDeInforme != null)
@@ -81,7 +78,7 @@
 
                                 foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                                 {
-                                    <div class="row p-2 text-center font-14-book">
+                                    <div class="row p-2 text-center font-14-book borde-gris-arriba mx-1">
                                      <div class="col-md-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
@@ -99,13 +96,13 @@
                                                     {
 
                                                         <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" checked disabled>
-                                                        <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
+                                                        <label class="label-transparent ms-4" for="myCheckbox @usuario.id">.</label>
 
                                                     }
                                                     else
                                                     {
                                                         <input type="checkbox" class="custom-checkbox" id="myCheckbox @usuario.id" disabled>
-                                                        <label class="label-transparent" for="myCheckbox @usuario.id">.</label>
+                                                        <label class="label-transparent ms-4" for="myCheckbox @usuario.id">.</label>
                                                     }
 
                                         </div>
@@ -152,11 +149,11 @@
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                             <div class="ps-0 ms-0 ">
-                                <div class="row text-center p-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
-                                    <div class="col-md-4">
+                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
+                                    <div class="col-md-4 borde-gris-derecha py-2">
                                         <span>ACTIVIDAD</span>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 borde-gris-derecha py-2">
                                         <span>HS COBRADAS</span>
                                     </div>
                                     <div class="col-md-4">
@@ -170,8 +167,8 @@
 
                                             @foreach (var actividad in listaActividadesAsociadas)
                                             {
-                                                <div class="row p-2 text-center ms-0 font-14-book">
-                                                    <div class="col-md-4">
+                                                <div class="row px-2 text-center ms-0 font-14-book borde-gris-arriba">
+                                                    <div class="col-md-4 borde-gris-derecha py-2">
                                                         <select @bind="@actividad.codigo_actividad" class="border-0 bg-transparent text-light">
                                                             @foreach (var laActividad in listaActividades)
                                                             {
@@ -185,7 +182,7 @@
                                                         </select>
                                                        
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-4 borde-gris-derecha py-2">
                                                         <span class="border-0 bg-transparent width-input text-light">@actividad.horas_cobradas horas</span>
                                                       
                                                     </div>
@@ -202,15 +199,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row p-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
-                            <div class="col-md-4">
+                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
+                            <div class="col-md-4 borde-gris-derecha py-4">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 borde-gris-derecha py-4">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 py-4">
                                 <span>@total_horas_no_cobradas</span>
                                 <span>horas</span>
                             </div>
