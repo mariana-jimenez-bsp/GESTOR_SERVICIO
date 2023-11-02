@@ -1,4 +1,6 @@
-﻿
+﻿.item-departamento{
+    max-width: 33%;
+}
 .max-height-departamento input,
 .max-height-departamento select {
     width: 200px;

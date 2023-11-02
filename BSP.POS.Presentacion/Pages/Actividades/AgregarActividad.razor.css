@@ -1,17 +1,15 @@
 ﻿
 .max-height-activity input,
 .max-height-activity select {
-    width: 200px;
+    max-width: 50%;
 }
 
 .width-col-special {
     width: 200px;
 }
-
-.width-pass {
-    width: 200px;
+.col-md-4 {
+    max-width: 32%;
 }
-
 
 .footer-agregar-actividad {
     position: fixed;

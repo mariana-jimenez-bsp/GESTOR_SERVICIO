@@ -117,9 +117,7 @@ button.btn:disabled {
     cursor: not-allowed;
     pointer-events: auto !important;
 }
-::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-}
+
 .texto-puntos-suspensivos {
     white-space: nowrap; /* Evita saltos de línea */
     overflow: hidden; /* Oculta el texto que desborda */

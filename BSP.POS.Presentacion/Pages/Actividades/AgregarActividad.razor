@@ -20,48 +20,56 @@
             
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
-            <div class="mx-2 mt-4 container border-transparent max-height-activity overflow-y-auto overflow-x-hidden scrollbar-modal-activities">
-                <div class="row  border border-success rounded-5 my-3">
-                    <div class="d-flex justify-content-center mb-2 mt-2">
-                        <label class="col-md-4  blue-dark-text label-text" for="c-codigoUsuario">Usuario:</label>
-                        <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-codigoUsuario" @bind="@activadNueva.codigo_usuario" @oninput="CambioCodigoUsuario" disabled="@(rol == "Admin" ? false : true)">
-                            @if(listaUsuarios.Any()){
-                                if(rol == "Admin"){
-                                    <option value="">Seleccione el Usuario</option>
-                                }
-                                foreach (var usuario in listaUsuarios)
+            <div class="d-flex row align-items-center mx-2 mt-4 container border-transparent max-height-activity overflow-y-auto overflow-x-hidden scrollbar-modal-activities">
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2 mt-2">
+                            <label class="blue-dark-text label-text" for="c-codigoUsuario">Usuario:</label>
+                            <select class="border border-success rounded-pill px-2 text-input " id="c-codigoUsuario" @bind="@activadNueva.codigo_usuario" @oninput="CambioCodigoUsuario" disabled="@(rol == "Admin" ? false : true)">
+                                @if (listaUsuarios.Any())
                                 {
-                                    <option value="@usuario.codigo">@usuario.nombre</option>
+                                    if (rol == "Admin")
+                                    {
+                                        <option value="">Seleccione el Usuario</option>
+                                    }
+                                    foreach (var usuario in listaUsuarios)
+                                    {
+                                        <option value="@usuario.codigo">@usuario.nombre</option>
+                                    }
                                 }
-                            }
-                        </select>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <ValidationMessage For="@(() => activadNueva.codigo_usuario)" />
+                        </div>
                     </div>
-                     <div class="text-center">
-                        <ValidationMessage For="@(() => activadNueva.codigo_usuario)" />
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2 mt-2">
+                            <label class="blue-dark-text label-text" for="c-actividad">Nombre Actividad:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-actividad" @bind-value="activadNueva.Actividad" @oninput="CambioActividad" />
+                        </div>
+                        <div class="text-center">
+                            <ValidationMessage For="@(() => activadNueva.Actividad)" />
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-center mb-2 mt-2">
-                        <label class="col-md-4  blue-dark-text label-text" for="c-actividad">Nombre Actividad:</label>
-                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-actividad" @bind-value="activadNueva.Actividad" @oninput="CambioActividad" />
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2">
+                            <label class=" blue-dark-text label-text" for="c-CiReferencia">CI-Referencia:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-CiReferencia" @bind-value="activadNueva.CI_referencia" @oninput="CambioCIReferencia" />
+                        </div>
+                        <div class="text-center">
+                            <ValidationMessage For="@(() => activadNueva.CI_referencia)" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2">
+                            <label class="blue-dark-text label-text" for="c-horas">Horas:</label>
+                            <input class="md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-horas" @bind-value="activadNueva.horas" @oninput="CambioHoras" />
+                        </div>
+                        <div class="text-center">
+                            <ValidationMessage For="@(() => activadNueva.horas)" />
+                        </div>
                     </div>
 
-                    <div class="text-center">
-                        <ValidationMessage For="@(() => activadNueva.Actividad)" />
-                    </div>
-                    <div class="d-flex justify-content-center mb-2">
-                        <label class="col-md-4  blue-dark-text label-text" for="c-CiReferencia">CI-Referencia:</label>
-                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-CiReferencia" @bind-value="activadNueva.CI_referencia" @oninput="CambioCIReferencia" />
-                    </div>
-                    <div class="text-center">
-                        <ValidationMessage For="@(() => activadNueva.CI_referencia)" />
-                    </div>
-                    <div class="d-flex justify-content-center mb-2">
-                        <label class="col-md-4  blue-dark-text label-text" for="c-horas">Horas:</label>
-                        <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-horas" @bind-value="activadNueva.horas" @oninput="CambioHoras" />
-                    </div>
-                    <div class="text-center">
-                        <ValidationMessage For="@(() => activadNueva.horas)" />
-                    </div>
-                </div>
             </div>
 
             </div>

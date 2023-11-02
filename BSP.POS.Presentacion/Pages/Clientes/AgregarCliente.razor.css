@@ -1,9 +1,16 @@
 ﻿
-
+.max-height-client input,
+.max-height-client select,
+.max-height-client textarea
+{
+    max-width: 50%;
+}
 .width-col-special {
     width: 200px;
 }
-
+.col-md-4 {
+    max-width: 32%;
+}
 .width-pass {
     width: 200px;
 }

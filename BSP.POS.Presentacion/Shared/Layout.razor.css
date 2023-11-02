@@ -1,4 +1,7 @@
-﻿.layout-header {
+﻿::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+.layout-header {
     background-image: url('images/Home/Figura-cabecera.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;

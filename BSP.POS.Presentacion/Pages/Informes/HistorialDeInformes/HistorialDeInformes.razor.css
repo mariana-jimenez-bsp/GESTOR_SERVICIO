@@ -1,4 +1,7 @@
-﻿.div-contenedor {
+﻿::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+.div-contenedor {
     max-width: 99%;
 }
 

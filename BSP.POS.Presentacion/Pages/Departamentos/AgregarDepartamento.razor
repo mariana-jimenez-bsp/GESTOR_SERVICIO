@@ -19,11 +19,11 @@
             
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
-                <div class="mx-2 mt-4 container border-transparent max-height-departamento overflow-y-auto overflow-x-hidden scrollbar-modal-departamentos">
-                    <div class="row  border border-success rounded-5 my-3">
-                        <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-departamento">Nombre Departamento:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-departamento" @bind-value="departamentoNuevo.Departamento" @oninput="CambioDepartamentoNombre" />
+                <div class="mx-2 mt-4 d-flex justify-content-center container border-transparent max-height-departamento overflow-y-auto overflow-x-hidden scrollbar-modal-departamentos">
+                    <div class="row  border border-success rounded-5 my-3 item-departamento">
+                        <div class="row ms-2 d-flex justify-content-center mb-2 mt-2">
+                            <label class="  blue-dark-text label-text" for="c-departamento">Nombre Departamento:</label>
+                            <input class=" border border-success rounded-pill px-2 text-input " type="text" id="c-departamento" @bind-value="departamentoNuevo.Departamento" @oninput="CambioDepartamentoNombre" />
                         </div>
 
                         <div class="text-center">

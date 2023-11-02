@@ -17,11 +17,11 @@
             
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
-                <div class="mt-4 mx-2 container border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
-                    <div class="row  border border-success rounded-5">
-                        <div class="d-flex justify-content-center my-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-cod-cliente">Nombre de la empresa:</label>
-                            <select class="col-md-4 border border-success rounded-pill px-2 text-input" @bind="proyecto.codigo_cliente" id="c-cod-cliente" @oninput="CambioCodigoCliente">
+                <div class="mt-4 d-flex align-items-center row  mx-2 container border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center my-2">
+                            <label class="blue-dark-text label-text" for="c-cod-cliente">Nombre de la empresa:</label>
+                            <select class="border border-success rounded-pill px-2 text-input" @bind="proyecto.codigo_cliente" id="c-cod-cliente" @oninput="CambioCodigoCliente">
                                 <option value="">Seleccione el Cliente</option>
                                 @if (listaDeClientes.Any())
                                 {
@@ -34,28 +34,38 @@
                         </div>
 
                         <ValidationMessage For="@(() => proyecto.codigo_cliente)" />
-                        <div class="d-flex justify-content-center my-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-consultor">Nombre Consultor:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-consultor" @bind-value="proyecto.nombre_consultor" readonly />
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center my-2">
+                            <label class="blue-dark-text label-text" for="c-consultor">Nombre Consultor:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-consultor" @bind-value="proyecto.nombre_consultor" readonly />
                         </div>
-                        <div class="d-flex justify-content-center mb-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-fechaInicial">Fecha Inicial:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="date" id="c-fechaInicial" @bind-value="proyecto.FechaInicialDateTime" @oninput="CambioFechaInicial" />
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2">
+                            <label class="blue-dark-text label-text" for="c-fechaInicial">Fecha Inicial:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="date" id="c-fechaInicial" @bind-value="proyecto.FechaInicialDateTime" @oninput="CambioFechaInicial" />
                         </div>
                         <ValidationMessage For="@(() => proyecto.FechaInicialDateTime)" />
-                        <div class="d-flex justify-content-center mb-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-fechaFinal">Fecha Final:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="date" id="c-fechaFinal" @bind-value="proyecto.FechaFinalDateTime" @oninput="CambioFechaFinal" />
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2">
+                            <label class="blue-dark-text label-text" for="c-fechaFinal">Fecha Final:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="date" id="c-fechaFinal" @bind-value="proyecto.FechaFinalDateTime" @oninput="CambioFechaFinal" />
                         </div>
                         <ValidationMessage For="@(() => proyecto.FechaFinalDateTime)" />
-                        <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-horasTotales">Horas Totales:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-horasTotales" @bind-value="proyecto.horas_totales" @oninput="CambioHorasTotales" />
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2 mt-2">
+                            <label class="blue-dark-text label-text" for="c-horasTotales">Horas Totales:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-horasTotales" @bind-value="proyecto.horas_totales" @oninput="CambioHorasTotales" />
                         </div>
                         <ValidationMessage For="@(() => proyecto.horas_totales)" />
-                        <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-centroCosto">Centro de Costo:</label>
-                            <select class="col-md-4 border border-success rounded-pill px-2 text-input" @bind="proyecto.centro_costo" id="c-centroCosto" @oninput="CambioCentroCosto">
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2 mt-2">
+                            <label class=" blue-dark-text label-text" for="c-centroCosto">Centro de Costo:</label>
+                            <select class="border border-success rounded-pill px-2 text-input" @bind="proyecto.centro_costo" id="c-centroCosto" @oninput="CambioCentroCosto">
                                 <option value="">Seleccione el Centro de Costo</option>
                                 @if (listaCentrosDeCosto.Any())
                                 {
@@ -67,12 +77,14 @@
                             </select>
                         </div>
                         <ValidationMessage For="@(() => proyecto.centro_costo)" />
-                        <div class="d-flex justify-content-center mb-2 mt-2">
-                            <label class="col-md-4  blue-dark-text label-text" for="c-nombreProyecto">Nombre de Proyecto:</label>
-                            <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="c-nombreProyecto" @bind-value="proyecto.nombre_proyecto" @oninput="CambioNombreProyecto" />
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="row d-flex justify-content-center mb-2 mt-2">
+                            <label class="blue-dark-text label-text" for="c-nombreProyecto">Nombre de Proyecto:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-nombreProyecto" @bind-value="proyecto.nombre_proyecto" @oninput="CambioNombreProyecto" />
                         </div>
                         <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
-                    </div>
+                    </div>  
                 </div>
 
             </div>
