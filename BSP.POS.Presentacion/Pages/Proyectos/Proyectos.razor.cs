@@ -1,11 +1,13 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.ItemsCliente;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Actividades;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System;
 using System.Security.Claims;
 
@@ -20,14 +22,18 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public bool cargaInicial = false;
         public string rol = string.Empty;
         public string numeroActual = string.Empty;
-        List<string> permisos;
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
 
 
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -37,17 +43,32 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 listaDeClientes = ClientesService.ListaClientes;
             }
             await RefrescarListaDeProyectos();
-            
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ItemsClienteService.ObtenerListaDeCentrosDeCosto(esquema);
             if(ItemsClienteService.listaCentrosDeCosto != null)
             {
                 listaCentrosDeCosto = ItemsClienteService.listaCentrosDeCosto;
             }
+            
             cargaInicial = true;
         }
 
-
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            try
+            {
+                if (permisos.Any(p => p.permiso == "Proyectos" && !p.subpermisos.Contains("Editar")))
+                {
+                    await JSRuntime.InvokeVoidAsync("DesactivarElementos");
+                    await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
+        }
 
 
         private async Task RefrescarListaDeProyectos()
@@ -248,22 +269,30 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         }
         private async Task SwalTerminarProyecto(string mensajeAlerta, string numero)
         {
-            await Swal.FireAsync(new SweetAlertOptions
+            if (permisos.Any(p => p.permiso == "Proyectos" && !p.subpermisos.Contains("Terminar")))
             {
-                Title = "Advertencia!",
-                Text = mensajeAlerta,
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true,
-                ConfirmButtonText = "Aceptar",
-                CancelButtonText = "Cancelar"
-            }).ContinueWith(async swalTask =>
+                await AlertasService.SwalAdvertencia("No tienes permisos para realizar esta acción");
+            }
+            else
             {
-                SweetAlertResult result = swalTask.Result;
-                if (result.IsConfirmed)
+                await Swal.FireAsync(new SweetAlertOptions
                 {
-                    await TerminarProyecto(numero);
-                }
-            });
+                    Title = "Advertencia!",
+                    Text = mensajeAlerta,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Aceptar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        await TerminarProyecto(numero);
+                    }
+                });
+            }
+            
         }
 
         private async Task SwalAvisoProyectos(string mensajeAlerta)
@@ -288,35 +317,42 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
 
         private async Task SwalActualizandoProyectos()
         {
-
             bool resultadoActualizar = false;
-            await Swal.FireAsync(new SweetAlertOptions
+            if (permisos.Any(p => p.permiso == "Proyectos" && !p.subpermisos.Contains("Editar")))
             {
-                Icon = SweetAlertIcon.Info,
-                Title = "Actualizando...",
-                ShowCancelButton = false,
-                ShowConfirmButton = false,
-                AllowOutsideClick = false,
-                AllowEscapeKey = false,
-                DidOpen = new SweetAlertCallback(async () =>
-                {
-                    resultadoActualizar = await ActualizarListaProyectos();
-                    await Swal.CloseAsync();
-
-                }),
-                WillClose = new SweetAlertCallback(Swal.CloseAsync)
-
-            });
-
-            if (resultadoActualizar)
-            {
-                await AlertasService.SwalExito("Proyectos Actualizados");
+                await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
             }
             else
             {
-                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Icon = SweetAlertIcon.Info,
+                    Title = "Actualizando...",
+                    ShowCancelButton = false,
+                    ShowConfirmButton = false,
+                    AllowOutsideClick = false,
+                    AllowEscapeKey = false,
+                    DidOpen = new SweetAlertCallback(async () =>
+                    {
+                        resultadoActualizar = await ActualizarListaProyectos();
+                        await Swal.CloseAsync();
+
+                    }),
+                    WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                });
+
+                if (resultadoActualizar)
+                {
+                    await AlertasService.SwalExito("Proyectos Actualizados");
+                }
+                else
+                {
+                    await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                }
+
             }
-            
+
 
         }
     }

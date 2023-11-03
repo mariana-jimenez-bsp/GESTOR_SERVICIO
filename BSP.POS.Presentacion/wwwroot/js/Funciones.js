@@ -197,3 +197,18 @@ window.desactivarEnterSubmit = function (formId) {
         }
     });
 };
+function DesactivarElementos() {
+    const inputElements = document.querySelectorAll('input');
+    const selectElements = document.querySelectorAll('select');
+
+    // Establece el atributo 'readonly' en los elementos de entrada
+    inputElements.forEach((input) => {
+        input.setAttribute('readonly', true);
+    });
+
+    // Establece el atributo 'disabled' en los elementos de selección
+    selectElements.forEach((select) => {
+        select.setAttribute('disabled', true);
+    });
+
+}

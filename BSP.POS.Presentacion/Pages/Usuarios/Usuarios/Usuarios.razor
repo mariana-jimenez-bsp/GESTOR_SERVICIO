@@ -8,7 +8,7 @@
 
 @if (cargaInicial)
 {
-    @if (rol == "Admin")
+    @if (permisos.Any(p => p.permiso == "Usuarios"))
     {
         <div class="el-layout">
             <Layout Texto="RecibirTexto"></Layout>

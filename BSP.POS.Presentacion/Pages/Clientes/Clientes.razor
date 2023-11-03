@@ -13,7 +13,7 @@
 @inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
-    @if (permisos != null && permisos.Any(p => p.Contains("Clientes")))
+    @if (permisos.Any(p => p.permiso == "Clientes"))
     {
 
         <div class="el-layout">

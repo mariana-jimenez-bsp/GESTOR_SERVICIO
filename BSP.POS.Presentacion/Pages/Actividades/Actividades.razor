@@ -10,7 +10,7 @@
 
 @if (cargaInicial)
 {
-    @if (permisos != null && permisos.Any(p => p.Contains("Actividades")))
+    @if (permisos.Any(p => p.permiso == "Actividades"))
     {
 
         <div class="el-layout">
@@ -18,7 +18,7 @@
         </div>
         
         <div class="width-activities">
-            <EditForm Model="@actividades" OnValidSubmit="ActualizarListaActividades" OnInvalidSubmit="ActivarScrollBarDeErrores">
+            <EditForm Model="@actividades" OnValidSubmit="SwalActualizandoActividades" OnInvalidSubmit="ActivarScrollBarDeErrores">
                 <ObjectGraphDataAnnotationsValidator />
 
                 

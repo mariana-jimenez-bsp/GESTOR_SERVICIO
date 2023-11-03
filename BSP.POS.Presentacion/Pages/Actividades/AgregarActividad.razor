@@ -8,7 +8,7 @@
 
 @if (cargaInicial)
 {
-    @if (permisos != null && permisos.Any(p => p.Contains("Actividades")))
+    @if (permisos.Any(p => p.permiso == "Actividades" && p.subpermisos.Contains("Agregar")))
     {
 
         <div class="el-layout">

@@ -1,7 +1,9 @@
 ﻿using BSP.POS.Presentacion.Models.Departamentos;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Services.Actividades;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Departamentos
@@ -10,7 +12,7 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
     {
         public string esquema = string.Empty;
         public mDepartamentos departamentoNuevo = new mDepartamentos();
-
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
         private bool cargaInicial = false;
         private string rol = string.Empty;
         
@@ -20,6 +22,11 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             cargaInicial = true;
         }
         private void CambioDepartamentoNombre(ChangeEventArgs e)

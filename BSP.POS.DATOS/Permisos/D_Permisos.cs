@@ -97,5 +97,52 @@ namespace BSP.POS.DATOS.Permisos
                 throw new Exception("Ha ocurrido un error: ", ex.InnerException);
             }
         }
+
+        public List<U_DatosPermisosDeUsuarios> ListaDatosDePermisosDeUsuario(String pEsquema, String pCodigo)
+        {
+            var LstPermisos = new List<U_DatosPermisosDeUsuarios>();
+
+            ListarDatosPermiso_UsuariosTableAdapter sp = new ListarDatosPermiso_UsuariosTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_DatosPermisosDeUsuarios permiso = new U_DatosPermisosDeUsuarios(item.Id, item.id_permiso, item.permiso);
+
+                    LstPermisos.Add(permiso);
+                }
+                return LstPermisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+        public List<U_DatosSubPermisosDeUsuario> ListaDatosDeSubPermisosDeUsuario(String pEsquema, String pCodigo)
+        {
+            var LstPermisos = new List<U_DatosSubPermisosDeUsuario>();
+
+            ListarDatosPermiso_Usuarios_SubPermisoTableAdapter sp = new ListarDatosPermiso_Usuarios_SubPermisoTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_DatosSubPermisosDeUsuario permiso = new U_DatosSubPermisosDeUsuario(item.Id, item.id_permiso_usuario, item.id_sub_permiso, item.sub_permiso);
+
+                    LstPermisos.Add(permiso);
+                }
+                return LstPermisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

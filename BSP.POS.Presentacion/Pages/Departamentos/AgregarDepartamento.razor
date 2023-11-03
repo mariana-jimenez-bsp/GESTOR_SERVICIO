@@ -7,7 +7,7 @@
 
 @if (cargaInicial)
 {
-    @if (rol != null && rol == "Admin")
+    @if (permisos.Any(p => p.permiso == "Departamentos" && p.subpermisos.Contains("Agregar")))
     {
 
         <div class="el-layout">

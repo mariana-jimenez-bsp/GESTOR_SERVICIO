@@ -12,6 +12,7 @@ using BSP.POS.Presentacion.Services.Informes;
 using CurrieTechnologies.Razor.SweetAlert2;
 using BSP.POS.Presentacion.Models.CodigoTelefonoPais;
 using BSP.POS.Presentacion.Models.Departamentos;
+using Newtonsoft.Json;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -33,7 +34,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string usuarioRepite = string.Empty;
         public string mensajeUsuarioRepite = string.Empty;
         public string rol = string.Empty;
-       
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
         private bool limiteDeUsuarios = false;
         private bool cargarInicial = false;
         private string mensajeCliente = string.Empty;
@@ -44,6 +45,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+
+
+            }
             if (await VerificarValidaCodigoCliente()){
                 
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 using CurrieTechnologies.Razor.SweetAlert2;
+using BSP.POS.Presentacion.Models.Permisos;
+using Newtonsoft.Json;
 
 namespace BSP.POS.Presentacion.Pages.Clientes
 {
@@ -26,16 +28,20 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public List<mTarifa> listaTiposTarifasImpuesto = new List<mTarifa>();
         public List<mClienteContado> listaClientesCorporaciones = new List<mClienteContado>();
         public mAgregarCliente clienteNuevo = new mAgregarCliente();
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
         public string monedaActual;
         private bool cargaInicial = false;
-        List<string> permisos;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             await RefresacarListas();
             await CargaInicialPaisCliente();
             cargaInicial = true;

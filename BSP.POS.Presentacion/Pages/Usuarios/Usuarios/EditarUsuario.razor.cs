@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
@@ -37,6 +38,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeUsuarioRepite = string.Empty;
         private bool cargarInicial = false;
         private string mensajeValidacion = string.Empty;
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,6 +46,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+
+
+            }
             usuarioActual = user.Identity.Name;
             if (await VerificarValidaCodigoCliente() && await VerificarValidaCodigoUsuario())
             {

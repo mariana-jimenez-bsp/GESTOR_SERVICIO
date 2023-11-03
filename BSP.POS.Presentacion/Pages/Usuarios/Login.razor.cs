@@ -63,7 +63,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                     }
                     if (!licencia.MacAddressIguales)
                     {
-                        mismaMacAdress = false;
+                        mismaMacAdress = true;
                         StateHasChanged();
                         await AlertasService.SwalError("La MacAddress no es la misma registrada");
                     }

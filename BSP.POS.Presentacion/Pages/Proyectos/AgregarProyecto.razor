@@ -8,7 +8,7 @@
 @inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
-    @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
+    @if (permisos.Any(p => p.permiso == "Proyectos" && p.subpermisos.Contains("Agregar")))
     {
         <div class="el-layout">
             <Layout></Layout>

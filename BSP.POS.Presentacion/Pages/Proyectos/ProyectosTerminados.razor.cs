@@ -1,7 +1,9 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.ItemsCliente;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
@@ -14,13 +16,17 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public List<mClientes> listaDeClientes = new List<mClientes>();
         public bool cargaInicial = false;
         public string rol = string.Empty;
-        List<string> permisos;
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
 
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();

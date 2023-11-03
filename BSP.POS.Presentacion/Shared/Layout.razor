@@ -211,17 +211,17 @@
             <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
             @if (permisos != null)
             {
-                @if (permisos.Any(p => p.Contains("Clientes")))
+                @if (permisos.Any(p => p.permiso == "Clientes"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
                     <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                 }
-                @if (permisos.Any(p => p.Contains("Proyectos")))
+                @if (permisos.Any(p => p.permiso == "Proyectos"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
                     <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
                 }
-                @if (permisos.Any(p => p.Contains("Actividades")))
+                @if (permisos.Any(p => p.permiso == "Actividades"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
                     <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>
@@ -242,17 +242,17 @@ else
             <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
             @if (permisos != null)
             {
-                @if (permisos.Any(p => p.Contains("Clientes")))
+                @if (permisos.Any(p => p.permiso == "Clientes"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
                     <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                 }
-                @if (permisos.Any(p => p.Contains("Proyectos")))
+                @if (permisos.Any(p => p.permiso == "Proyectos"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
                     <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
                 }
-                @if (permisos.Any(p => p.Contains("Actividades")))
+                @if (permisos.Any(p => p.permiso == "Actividades"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
                     <a class="mouse-pointer" @onclick="IrAActividades">Actividades <img src="images/Home/Actividades.png" class="ps-1 pb-1"></a>

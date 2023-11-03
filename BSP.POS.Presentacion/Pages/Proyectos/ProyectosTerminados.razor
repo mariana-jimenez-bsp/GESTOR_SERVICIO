@@ -13,7 +13,7 @@
     <Authorized>
         @if (cargaInicial)
         {
-            @if (permisos != null && permisos.Any(p => p.Contains("Proyectos")))
+            @if (permisos.Any(p => p.permiso == "Proyectos"))
             {
 
                 <div class="el-layout">

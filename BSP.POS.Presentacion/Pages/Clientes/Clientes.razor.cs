@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Licencias;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Services.Usuarios;
@@ -9,6 +10,7 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.Reflection.Metadata;
 using System.Security.Claims;
 
@@ -23,14 +25,18 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         public string esquema = string.Empty;
         public bool cargaInicial = false;
         public string rol = string.Empty;
-        List<string> permisos;
-       
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
+
 
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await RefrescarListaClientes();
@@ -60,6 +66,11 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 // Inicializa los tooltips de Bootstrap
                 try
                 {
+                    if (permisos.Any(p => p.permiso == "Clientes" && !p.subpermisos.Contains("Editar")))
+                    {
+                        await JS.InvokeVoidAsync("DesactivarElementos");
+                        await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
+                    }
                     await JS.InvokeVoidAsync("initTooltips");
                 }
                 catch (Exception ex)
@@ -292,35 +303,41 @@ namespace BSP.POS.Presentacion.Pages.Clientes
         }
         private async Task SwalActualizandoClientes()
         {
-
             bool resultadoActualizar = false;
-            await Swal.FireAsync(new SweetAlertOptions
+            if (permisos.Any(p => p.permiso == "Clientes" && !p.subpermisos.Contains("Editar")))
             {
-                Icon = SweetAlertIcon.Info,
-                Title = "Actualizando...",
-                ShowCancelButton = false,
-                ShowConfirmButton = false,
-                AllowOutsideClick = false,
-                AllowEscapeKey = false,
-                DidOpen = new SweetAlertCallback(async () =>
-                {
-                    resultadoActualizar = await ActualizarListaClientes();
-                    await Swal.CloseAsync();
-
-                }),
-                WillClose = new SweetAlertCallback(Swal.CloseAsync)
-
-            });
-
-            if (resultadoActualizar)
-            {
-                await AlertasService.SwalExito("Clientes Actualizados");
+                await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
             }
             else
             {
-                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
-            }
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Icon = SweetAlertIcon.Info,
+                    Title = "Actualizando...",
+                    ShowCancelButton = false,
+                    ShowConfirmButton = false,
+                    AllowOutsideClick = false,
+                    AllowEscapeKey = false,
+                    DidOpen = new SweetAlertCallback(async () =>
+                    {
+                        resultadoActualizar = await ActualizarListaClientes();
+                        await Swal.CloseAsync();
 
+                    }),
+                    WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                });
+
+                if (resultadoActualizar)
+                {
+                    await AlertasService.SwalExito("Clientes Actualizados");
+                }
+                else
+                {
+                    await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                }
+            }
+           
 
         }
     }

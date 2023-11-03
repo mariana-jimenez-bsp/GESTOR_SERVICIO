@@ -7,7 +7,7 @@
 
 @if (cargaInicial)
 {
-    @if (rol != null && rol == "Admin")
+    @if (permisos.Any(p => p.permiso == "Departamentos"))
     {
 
         <div class="el-layout">

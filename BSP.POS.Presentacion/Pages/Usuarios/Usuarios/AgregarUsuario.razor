@@ -12,7 +12,7 @@
 
 @if (cargarInicial)
 {
-    @if (rol == "Admin")
+    @if (permisos.Any(p => p.permiso == "Usuarios" && p.subpermisos.Contains("Agregar")))
     {
         if (!limiteDeUsuarios)
         {

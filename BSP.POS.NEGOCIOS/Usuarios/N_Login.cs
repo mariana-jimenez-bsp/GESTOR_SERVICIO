@@ -36,12 +36,15 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 string rol = objetoLogin.ObtenerRol(pLogin.esquema, pLogin.usuario);
                 U_Perfil perfil = new U_Perfil();
                 perfil = datosUsuarios.ObtenerPefil(pLogin.esquema, pLogin.usuario);
-                List<U_PermisosAsociados> permisos = new List<U_PermisosAsociados>();
-                List<U_Permisos> todosLosPermisos = new List<U_Permisos>();
-                todosLosPermisos = datosPermisos.ListaPermisos(pLogin.esquema);
-                permisos = datosPermisos.ListaPermisosAsociados(pLogin.esquema, perfil.id);
-                string token = GenerateJWT(pLogin.usuario, pLogin.key, rol, permisos, todosLosPermisos, pLogin.esquema);
-                login = objetoLogin.Login(pLogin, token);
+                List<U_DatosPermisosDeUsuarios> permisos = new List<U_DatosPermisosDeUsuarios>();
+                List<U_DatosSubPermisosDeUsuario> subPermisos = new List<U_DatosSubPermisosDeUsuario>();
+                permisos = datosPermisos.ListaDatosDePermisosDeUsuario(pLogin.esquema, perfil.codigo);
+                subPermisos = datosPermisos.ListaDatosDeSubPermisosDeUsuario(pLogin.esquema, perfil.codigo);
+                
+                string token = GenerateJWT(pLogin.usuario, pLogin.key, rol, permisos, subPermisos, pLogin.esquema);
+                string tokenEncriptado = EncriptarToken(token);
+                login = objetoLogin.Login(pLogin, tokenEncriptado);
+                login.token = token;
                 usuarioJson = JsonConvert.SerializeObject(login);
                 return usuarioJson;
             }
@@ -52,7 +55,8 @@ namespace BSP.POS.NEGOCIOS.Usuarios
         public string ValidarToken(string token, string esquema)
         {
             string login;
-            login = objetoLogin.ValidarToken(token, esquema);
+            string tokenEncriptado = EncriptarToken(token);
+            login = objetoLogin.ValidarToken(tokenEncriptado, esquema);
             if (login != null)
             {
                 JwtSecurityToken tokenDecodificado = DecodificarToken(token);
@@ -125,7 +129,7 @@ namespace BSP.POS.NEGOCIOS.Usuarios
 
         }
 
-        private string GenerateJWT(string username, string key, string rol, List<U_PermisosAsociados> permisos, List<U_Permisos> todoLosPermisos, string esquema)
+        private string GenerateJWT(string username, string key, string rol, List<U_DatosPermisosDeUsuarios> permisosUsuarios, List<U_DatosSubPermisosDeUsuario> subPermisosUsuarios, string esquema)
         {
             // Also consider using AsymmetricSecurityKey if you want the client to be able to validate the token
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
@@ -141,15 +145,30 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             {
                 claims.Add(new Claim("esquema", esquema));
             }
-            if (todoLosPermisos != null)
+            if (permisosUsuarios != null)
             {
-                foreach (var permiso in todoLosPermisos)
+                var permisos = new List<U_ObjetoPermiso>();
+                foreach (var permiso in permisosUsuarios)
                 {
-                    if (permisos.Any(p => p.id_permiso == permiso.Id))
+                    U_ObjetoPermiso nuevoPermiso = new U_ObjetoPermiso();
+                    nuevoPermiso.permiso = permiso.permiso;
+                    if(subPermisosUsuarios != null)
                     {
-                        claims.Add(new Claim("permission", permiso.permiso));
+                        foreach (var subPermiso in subPermisosUsuarios)
+                        {
+                            if (subPermiso.id_permiso_usuario == permiso.Id)
+                            {
+                                string subpermisoNuevo = subPermiso.sub_permiso;
+                                nuevoPermiso.subpermisos.Add(subpermisoNuevo);
+                            }
+
+                        }
                     }
+                    
+                    permisos.Add (nuevoPermiso);
                 }
+
+                 claims.Add(new Claim("permisos", JsonConvert.SerializeObject(permisos)));
             }
 
             var token = new JwtSecurityToken(
@@ -175,6 +194,16 @@ namespace BSP.POS.NEGOCIOS.Usuarios
         public string GenerarTokenRecuperacion()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+        public string EncriptarToken(string token)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(token);
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hash = sha256.ComputeHash(data);
+                return Convert.ToBase64String(hash);
+            }
         }
     }
 }

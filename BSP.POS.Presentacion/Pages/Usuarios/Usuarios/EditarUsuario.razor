@@ -13,7 +13,7 @@
 
 @if (cargarInicial)
 {
-    @if (rol == "Admin")
+    @if (permisos.Any(p => p.permiso == "Usuarios" && p.subpermisos.Contains("Editar")))
     {
         @if(string.IsNullOrEmpty(mensajeValidacion)){
         <div class="el-layout">

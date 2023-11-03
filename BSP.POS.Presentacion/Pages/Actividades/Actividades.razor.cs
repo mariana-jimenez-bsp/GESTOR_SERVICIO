@@ -1,8 +1,10 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.Reflection.Metadata;
 using System.Security.Claims;
 
@@ -17,14 +19,18 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         public bool cargaInicial = false;
         public string usuarioActual = string.Empty;
         public string rol = string.Empty;
-        List<string> permisos;
-       
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
+
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             usuarioActual = user.Identity.Name;
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await RefrescarListaActividades();
@@ -37,6 +43,23 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             }
 
             cargaInicial = true;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            try
+            {
+                if (permisos.Any(p => p.permiso == "Actividades" && !p.subpermisos.Contains("Editar")))
+                {
+                    await JSRuntime.InvokeVoidAsync("DesactivarElementos");
+                    await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
         }
         private async Task RefrescarListaActividades()
         {
@@ -189,33 +212,39 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         {
 
             bool resultadoActualizar = false;
-            await Swal.FireAsync(new SweetAlertOptions
+            if (permisos.Any(p => p.permiso == "Actividades" && !p.subpermisos.Contains("Editar")))
             {
-                Icon = SweetAlertIcon.Info,
-                Title = "Actualizando...",
-                ShowCancelButton = false,
-                ShowConfirmButton = false,
-                AllowOutsideClick = false,
-                AllowEscapeKey = false,
-                DidOpen = new SweetAlertCallback(async () =>
-                {
-                    resultadoActualizar = await ActualizarListaActividades();
-                    await Swal.CloseAsync();
-
-                }),
-                WillClose = new SweetAlertCallback(Swal.CloseAsync)
-
-            });
-
-            if (resultadoActualizar)
-            {
-                await AlertasService.SwalExito("Actividades Actualizadas");
+                await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
             }
             else
             {
-                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
-            }
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Icon = SweetAlertIcon.Info,
+                    Title = "Actualizando...",
+                    ShowCancelButton = false,
+                    ShowConfirmButton = false,
+                    AllowOutsideClick = false,
+                    AllowEscapeKey = false,
+                    DidOpen = new SweetAlertCallback(async () =>
+                    {
+                        resultadoActualizar = await ActualizarListaActividades();
+                        await Swal.CloseAsync();
 
+                    }),
+                    WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                });
+
+                if (resultadoActualizar)
+                {
+                    await AlertasService.SwalExito("Actividades Actualizadas");
+                }
+                else
+                {
+                    await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                }
+            }
 
         }
     }

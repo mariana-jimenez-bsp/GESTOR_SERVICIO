@@ -1,6 +1,8 @@
-﻿using BSP.POS.Presentacion.Models.Usuarios;
+﻿using BSP.POS.Presentacion.Models.Permisos;
+using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -26,8 +28,8 @@ namespace BSP.POS.Presentacion.Shared
         public mImagenUsuario imagenDeUsuario = new mImagenUsuario();
         public string esquema = string.Empty;
         public string rol = string.Empty;
-        
-        List<string> permisos;
+
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
         private bool estadoPerfilActualizado = false;
         private bool estadoPerfilDescartado = false;
 
@@ -41,9 +43,14 @@ namespace BSP.POS.Presentacion.Shared
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
 
-            
+                
+            }
+
 
 
             UsuarioActual = user.Identity.Name;

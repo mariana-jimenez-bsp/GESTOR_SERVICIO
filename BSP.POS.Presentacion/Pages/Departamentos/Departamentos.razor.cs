@@ -1,9 +1,11 @@
 ﻿using BSP.POS.Presentacion.Models.Departamentos;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Pages.Actividades;
 using BSP.POS.Presentacion.Services.Departamentos;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Departamentos
@@ -13,6 +15,7 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
         public string esquema = string.Empty;
         public List<mDepartamentos> departamentos = new List<mDepartamentos>();
         public bool cargaInicial = false;
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
         public string rol = string.Empty;
 
         protected override async Task OnInitializedAsync()
@@ -20,6 +23,11 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
             if (DepartamentosService.listaDepartamentos != null)
@@ -30,6 +38,23 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
 
 
             cargaInicial = true;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            try
+            {
+                if (permisos.Any(p => p.permiso == "Departamentos" && !p.subpermisos.Contains("Editar")))
+                {
+                    await JSRuntime.InvokeVoidAsync("DesactivarElementos");
+                    await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
         }
 
         private void CambioDepartamentoNombre(ChangeEventArgs e, int departamentoId)
@@ -111,32 +136,40 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
         {
 
             bool resultadoActualizar = false;
-            await Swal.FireAsync(new SweetAlertOptions
+            if (permisos.Any(p => p.permiso == "Departamentos" && !p.subpermisos.Contains("Editar")))
             {
-                Icon = SweetAlertIcon.Info,
-                Title = "Actualizando...",
-                ShowCancelButton = false,
-                ShowConfirmButton = false,
-                AllowOutsideClick = false,
-                AllowEscapeKey = false,
-                DidOpen = new SweetAlertCallback(async () =>
-                {
-                    resultadoActualizar = await ActualizarListaDepartamentos();
-                    await Swal.CloseAsync();
-
-                }),
-                WillClose = new SweetAlertCallback(Swal.CloseAsync)
-
-            });
-
-            if (resultadoActualizar)
-            {
-                await AlertasService.SwalExito("Departamentos Actualizados");
+                await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");
             }
             else
             {
-                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Icon = SweetAlertIcon.Info,
+                    Title = "Actualizando...",
+                    ShowCancelButton = false,
+                    ShowConfirmButton = false,
+                    AllowOutsideClick = false,
+                    AllowEscapeKey = false,
+                    DidOpen = new SweetAlertCallback(async () =>
+                    {
+                        resultadoActualizar = await ActualizarListaDepartamentos();
+                        await Swal.CloseAsync();
+
+                    }),
+                    WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                });
+
+                if (resultadoActualizar)
+                {
+                    await AlertasService.SwalExito("Departamentos Actualizados");
+                }
+                else
+                {
+                    await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+                }
             }
+            
 
 
         }

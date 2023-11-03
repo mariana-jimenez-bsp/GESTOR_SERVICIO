@@ -1,7 +1,9 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Actividades
@@ -16,7 +18,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         private bool cargaInicial = false;
         public string usuarioActual = string.Empty;
         public string rol = string.Empty;
-        List<string> permisos;
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -24,7 +26,11 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
             rol = user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).First();
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+            }
             usuarioActual = user.Identity.Name;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await UsuariosService.ObtenerListaDeUsuariosParaEditar(esquema);

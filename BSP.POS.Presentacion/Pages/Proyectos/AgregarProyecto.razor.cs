@@ -1,10 +1,12 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.ItemsCliente;
+using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Services.Clientes;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
 {
@@ -14,7 +16,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public mProyectos proyecto = new mProyectos();
         public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
         public List<mClientes> listaDeClientes = new List<mClientes>();
-        List<string> permisos;
+        List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
 
         private bool cargaInicial = false;
         protected override async Task OnInitializedAsync()
@@ -22,7 +24,13 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authenticationState.User;
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
-            permisos = user.Claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+            var PermisosClaim = user.Claims.FirstOrDefault(c => c.Type == "permisos");
+            if (PermisosClaim != null)
+            {
+                permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
+
+
+            }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ClientesService.ObtenerListaClientes(esquema);
             if (ClientesService.ListaClientes != null)
