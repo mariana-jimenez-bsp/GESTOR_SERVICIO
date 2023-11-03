@@ -270,7 +270,7 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
 
                 string mensaje = informes.ActivarRecibidoInforme(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje))
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
                     return BadRequest();
                 }

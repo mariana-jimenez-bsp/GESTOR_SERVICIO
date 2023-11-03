@@ -27,29 +27,29 @@
                 
                 <div class="">
                     <div id="accordion" class="border-transparent">
-                    <div class="mt-1 border-transparent">
+                    <div class="ms-2 mt-1 border-transparent">
 
                         <div class="card-header row blue-light-text fw-bold text-15-book" id="headings-clients">
                                 <div class="col-md-1">
-                                    <label class="text-center w-100 ">Código</label>
+                                    <label class="text-start w-100 ">Código</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <label class=" text-center w-100 ">Nombre</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <label class=" text-center w-100 ">Razón Social</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class="label-padding-right  text-center w-100">Cédula</label>
+                                    <label class="text-start w-100">Cédula</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="text-start w-100">Télefono 1</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="text-start w-100">Télefono 2</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="label-padding-left  text-start w-100">Télefono 1</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="label-padding-left text-start w-100">Télefono 2</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="label-padding-left text-start w-100">Correo</label>
+                                    <label class="label-padding-right text-center w-100">Correo</label>
                                 </div>
                         </div>
                         <div class="max-height-clients overflow-y-auto overflow-x-hidden scrollbar-modal-clients">
@@ -69,7 +69,7 @@
                                     @foreach (var cliente in listaDeClientes)
                                     {
                                     int cont = index;
-                                    <div class="mb-3 mt-3">
+                                    <div class="my-3">
                                             <div class="card-header row text-15-book" id="heading-@cont">
                                                 <div class="mb-0 col-md-1">
                                                     @if (cliente.IsOpen)
@@ -78,29 +78,29 @@
                                                     }
                                                     else
                                                     {
-                                                        <label class="w-100 text-center text-secondary">@cliente.CLIENTE</label>
+                                                        <label class="w-100 text-start text-secondary">@cliente.CLIENTE</label>
                                                     }
 
                                                 </div>
-                                                <div class="mb-0 col-md-2">
+                                                <div class="mb-0 col-md-3">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.NOMBRE" @oninput="(e) => CambioNombre(e, cliente.CLIENTE)">
                                                     }
                                                     else
                                                     {
-                                                        <label class="w-100 text-center text-secondary">@cliente.NOMBRE</label>
+                                                        <label class="w-100 text-start text-secondary">@cliente.NOMBRE</label>
                                                     }
                                                     <ValidationMessage For="@(() => cliente.NOMBRE)" />
                                                 </div>
-                                                <div class="mb-0 col-md-2">
+                                                <div class="mb-0 col-md-3">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.ALIAS" @oninput="(e) => CambioAlias(e, cliente.CLIENTE)">
                                                     }
                                                     else
                                                     {
-                                                        <label class="w-100 text-center text-secondary">@cliente.ALIAS</label>
+                                                        <label class="w-100 text-start text-secondary">@cliente.ALIAS</label>
                                                     }
                                                     <ValidationMessage For="@(() => cliente.ALIAS)" />
                                                 </div>
@@ -111,11 +111,11 @@
                                                     }
                                                     else
                                                     {
-                                                        <label class="w-100 text-center text-secondary">@cliente.CONTRIBUYENTE</label>
+                                                        <label class="w-100 text-start text-secondary">@cliente.CONTRIBUYENTE</label>
                                                     }
                                                     <ValidationMessage For="@(() => cliente.CONTRIBUYENTE)" />
                                                 </div>
-                                                <div class="mb-0 col-md-2">
+                                                <div class="mb-0 col-md-1">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO1" @oninput="(e) => CambioTelefono1(e, cliente.CLIENTE)">
@@ -126,7 +126,7 @@
                                                     }
                                                     <ValidationMessage For="@(() => cliente.TELEFONO1)" />
                                                 </div>
-                                                <div class="mb-0 col-md-2">
+                                                <div class="mb-0 col-md-1">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO2" @oninput="(e) => CambioTelefono2(e, cliente.CLIENTE)">
@@ -151,7 +151,7 @@
                                                         <div class="d-flex">
 
                              
-                                                                <label class="w-75 text-center text-secondary me-3 texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@cliente.E_MAIL">@cliente.E_MAIL</label>
+                                                                <label class="w-75 text-start text-secondary me-3 texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@cliente.E_MAIL">@cliente.E_MAIL</label>
                                                             
                                                             <i class="fa-solid fa-sort-down fa-xl d-flex justify-content-end blue-light-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
                                                         </div>

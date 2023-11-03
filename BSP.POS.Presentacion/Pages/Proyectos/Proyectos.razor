@@ -31,6 +31,9 @@
                                 <label class="text-center w-100" ># de Proyecto</label>
                             </div>
                             <div class="col-md-2">
+                                <label class="pe-4 text-center w-100">Nombre de Proyecto</label>
+                            </div>
+                            <div class="col-md-2">
                                 <label class=" text-center w-100" >Nombre de la empresa</label>
                             </div>
                             <div class="col-md-1">
@@ -47,9 +50,6 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="pe-4 text-center w-100" >Centro de Costo</label>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="pe-4 text-center w-100" >Nombre de Proyecto</label>
                             </div>
                             <div class="col-md-1">
                                 <label class="pe-4 text-center w-100">Acción</label>
@@ -76,6 +76,11 @@
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.numero" readonly>
 
 
+                                        </div>
+                                        <div class="mb-0  col-md-2">
+
+                                            <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.nombre_proyecto" @oninput="(e) => CambioNombreProyecto(e, proyecto.Id)">
+                                            <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
                                         </div>
                                         <div class="mb-0 col-md-2">
                                             <select class="w-100 text-center border-input-gray rounded-pill" @bind="proyecto.codigo_cliente" @oninput="(e) => CambioCodigoCliente(e, proyecto.Id)">
@@ -122,11 +127,6 @@
                                                 }
                                             </select>
                                             <ValidationMessage For="@(() => proyecto.centro_costo)" />
-                                        </div>
-                                        <div class="mb-0  col-md-2">
-
-                                            <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.nombre_proyecto" @oninput="(e) => CambioNombreProyecto(e, proyecto.Id)">
-                                            <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
                                         </div>
                                         <div class="mb-0 col-md-1">
 

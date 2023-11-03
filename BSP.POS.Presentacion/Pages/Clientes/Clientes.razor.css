@@ -9,11 +9,9 @@
     background-color: #2FAD70;
     align-items: center;
 }
-.label-padding-left{
-    padding-left: 25%;
-}
+
 .label-padding-right {
-    padding-right: 20%;
+    padding-right: 30%;
 }
 .footer-client .button-footer {
     padding: 10px 20px;
@@ -94,7 +92,7 @@
     font-size: 11pt;
 }
 .text-15-book {
-    font-size: 15pt;
+    font-size: 10pt;
 }
 
 .text-13-medium {

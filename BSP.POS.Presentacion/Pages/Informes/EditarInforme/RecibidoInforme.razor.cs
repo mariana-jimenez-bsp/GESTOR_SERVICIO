@@ -22,7 +22,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public bool cargaInicial = false;
         protected override async Task OnInitializedAsync()
         {
-
+            licenciaActiva = true;
             if (await VerificarValidezEsquema())
             {
 
@@ -39,7 +39,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         }
                         if (!licencia.MacAddressIguales)
                         {
-                            mismaMacAdress = false;
+                            mismaMacAdress = true;
                         }
                     }
                 }

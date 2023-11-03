@@ -21,34 +21,35 @@
                 </div>
 
                 <div class="width-content">
-                    <div class=" d-flex row g-2 text-center ">
+                    <div class=" d-flex row g-2 text-start ">
                         <div class="container mt-1 border-transparent">
 
                             <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
                                 <div class="col-md-1">
-                                    <label class="text-center w-100"># de Proyecto</label>
+                                    <label class="text-start w-100"># de Proyecto</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class=" text-center w-100">Nombre de la empresa</label>
+                                    <label class="pe-4 text-start w-100">Nombre de Proyecto</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class=" text-center w-100">Nombre del Consultor</label>
+                                    <label class=" text-start w-100">Nombre de la empresa</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class=" text-start w-100">Nombre del Consultor</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class="pe-1 text-center w-100">Fecha Inicial</label>
+                                    <label class="pe-1 text-start w-100">Fecha Inicial</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class="pe-3 text-center w-100">Fecha Final</label>
+                                    <label class="pe-3 text-start w-100">Fecha Final</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class="pe-2 text-center w-100">Horas Totales</label>
+                                    <label class="pe-2 text-start w-100">Horas Totales</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="pe-4 text-center w-100">Centro de Costo</label>
+                                    <label class="pe-4 text-start w-100">Centro de Costo</label>
                                 </div>
-                                <div class="col-md-2">
-                                    <label class="pe-4 text-center w-100">Nombre de Proyecto</label>
-                                </div>
+                                
                                 
                             </div>
                             <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
@@ -68,41 +69,42 @@
                                     @foreach (var proyecto in listaDeProyectos)
                                     {
                                         <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
-                                            <div class="mb-0 col-md-1">
-                                                <span class="w-100 text-center">@proyecto.numero</span>
+                                            <div class="mb-0 col-md-1 text-center">
+                                                <span class="w-100 ">@proyecto.numero</span>
+
+                                            </div>
+                                            <div class="mb-0  col-md-2">
+                                                <span class="w-100 text-start">@proyecto.nombre_proyecto</span>
 
                                             </div>
                                             <div class="mb-0 col-md-2">
 
-                                                <span class="w-100 text-center">@proyecto.nombre_cliente</span>
+                                                <span class="w-100 text-start">@proyecto.nombre_cliente</span>
 
 
 
                                             </div>
                                             <div class="mb-0 col-md-2">
 
-                                                <span class="w-100 text-center">@proyecto.nombre_consultor</span>
+                                                <span class="w-100 text-start">@proyecto.nombre_consultor</span>
                                             </div>
-                                            <div class="mb-0 col-md-1">
-                                                <span class="w-100 text-center">@proyecto.fecha_inicial</span>
+                                            <div class="mb-0 col-md-1 text-center">
+                                                <span class="w-100 ">@proyecto.fecha_inicial</span>
 
                                             </div>
-                                            <div class="mb-0  col-md-1">
-                                                <span class="w-100 text-center">@proyecto.fecha_final</span>
+                                            <div class="mb-0  col-md-1 text-center">
+                                                <span class="w-100">@proyecto.fecha_final</span>
 
                                             </div>
-                                            <div class="mb-0  col-md-1">
-                                                <span class="w-100 text-center">@proyecto.horas_totales</span>
-
-                                            </div>
-                                            <div class="mb-0  col-md-2">
-                                                <span class="w-100 text-center">@proyecto.descripcion_centro_costo</span>
+                                            <div class="mb-0  col-md-1 text-center">
+                                                <span class="w-100">@proyecto.horas_totales</span>
 
                                             </div>
                                             <div class="mb-0  col-md-2">
-                                                <span class="w-100 text-center">@proyecto.nombre_proyecto</span>
+                                                <span class="w-100 text-start">@proyecto.descripcion_centro_costo</span>
 
                                             </div>
+                                           
 
                                         </div>
                                     }
