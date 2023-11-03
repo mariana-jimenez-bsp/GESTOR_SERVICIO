@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Informe de Servicios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        h2 {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-left: 4px solid #198754;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        textarea {
+            width: 50%;
+            height: 100px;
+            resize: vertical;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <p style="font-size: 18px;">Buenas,</p>
+    <p>Se adjunta el Reporte del Informe #{{consecutivo}}</p>
+    <h2>Informe de Servicios</h2>
+    <table>
+        <tr>
+            <td><strong>Fecha: {{Fecha}}</strong></td>
+            <td><strong>Hora Inicio: {{Hora_Inicio}}</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Modalidad: {{Modalidad}}</strong></td>
+            <td><strong>Hora Fin: {{Hora_Fin}}</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Cliente: {{Cliente}}</strong></td>
+        </tr>
+    </table>
+    <h2>Usuarios de cliente</h2>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Departamento</th>
+            <th>Rol</th>
+            <th>Correo</th>
+        </tr>
+        {{Usuarios_Cliente}}
+
+    </table>
+    <h2>Actividades</h2>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Horas Cobradas</th>
+            <th>Horas No Cobradas</th>
+        </tr>
+        {{Actividades}}
+
+
+        <tr>
+            <td><strong>Total de horas:</strong></td>
+            <td>{{Total_Horas_Cobradas}}</td>
+            <td>{{Total_Horas_No_Cobradas}}</td>
+        </tr>
+    </table>
+
+    <h2>Observaciones</h2>
+    <table>
+        <tr>
+            <th>Usuario</th>
+            <th>Observación</th>
+        </tr>
+        {{Observaciones}}
+    </table>
+</body>
+</html>

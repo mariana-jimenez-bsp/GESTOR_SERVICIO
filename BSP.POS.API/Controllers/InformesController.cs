@@ -206,7 +206,7 @@ namespace BSP.POS.API.Controllers
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
 
-                await _correoService.EnviarCorreoReporteInforme(datos, objetosParaInforme, _urlWeb, _tipoInicio, _urlApiCrystal);
+                await _correoService.EnviarCorreosInformes(datos, objetosParaInforme, _urlWeb, _tipoInicio, _urlApiCrystal);
                 //await _whatsappService.EnviarWhatsappReporteInforme(objetosParaInforme, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
                 return Ok();
             }

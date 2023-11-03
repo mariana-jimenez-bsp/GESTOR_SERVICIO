@@ -19,13 +19,14 @@
             <div class=" d-flex row g-2 text-center width-content">
                 <div class="mt-4 d-flex align-items-center row  mx-2 container border-transparent max-height-project overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                     <div class="col-md-4 border border-success rounded-5 m-1 ">
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
-                            <div class="row d-flex justify-content-center mb-2 mt-2">
-                                <label class="blue-dark-text label-text" for="c-nombreProyecto">Nombre de Proyecto:</label>
-                                <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-nombreProyecto" @bind-value="proyecto.nombre_proyecto" @oninput="CambioNombreProyecto" />
-                            </div>
-                            <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
+                        <div class="row d-flex justify-content-center mb-2 mt-2">
+                            <label class="blue-dark-text label-text" for="c-nombreProyecto">Nombre de Proyecto:</label>
+                            <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-nombreProyecto" @bind-value="proyecto.nombre_proyecto" @oninput="CambioNombreProyecto" />
                         </div>
+                        <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
+                    </div>
+                    <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        
                         <div class="row d-flex justify-content-center my-2">
                             <label class="blue-dark-text label-text" for="c-cod-cliente">Nombre de la empresa:</label>
                             <select class="border border-success rounded-pill px-2 text-input" @bind="proyecto.codigo_cliente" id="c-cod-cliente" @oninput="CambioCodigoCliente">

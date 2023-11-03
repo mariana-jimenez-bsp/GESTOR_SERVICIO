@@ -32,6 +32,9 @@
     <None Update="CorreosService\CuerposHtml\RecuperarClave.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="CorreosService\CuerposHtml\ReporteInforme.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="WhatsappService\MensajesJson\AprobarInforme.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="  blue-dark-text label-text" for="c-razon">Razón Social:</label>
                         <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-razon" @bind-value="clienteNuevo.ALIAS" @oninput="CambioAlias" />
                     </div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                        <div class="row d-flex justify-content-center mb-2">
+                        <div class="row d-flex justify-content-center my-2">
                             <label class="  blue-dark-text label-text">Imagen:</label>
                             <div class="w-50 d-flex row justify-content-center px-2">
                                 @if (clienteNuevo.IMAGEN != null && !clienteNuevo.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
@@ -59,7 +59,7 @@
                         </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="  blue-dark-text label-text" for="c-tipoNit">Tipo de NIT:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-tipoNit" @bind="clienteNuevo.TIPO_NIT" @oninput="CambioTipoNit">
                             <option value="">Seleccione el Tipo de Nit </option>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class=" blue-dark-text label-text" for="c-pais">País:</label>
                         <select class=" border border-success rounded-pill px-2 text-input " type="text" id="c-pais" @bind="clienteNuevo.PAIS" @oninput="CambioPais">
                             @if (listaPaises.Any())
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-provincia">Provincia:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-provincia" @bind="clienteNuevo.DIVISION_GEOGRAFICA1" @oninput="CambioProvincia">
                             <option value="">Seleccione la Provincia</option>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-canton">Cantón:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-canton" @bind="clienteNuevo.DIVISION_GEOGRAFICA2" @oninput="CambioCanton">
                             <option value="">Seleccione el Cantón</option>
@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-distrito">Distrito:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-distrito" @bind="clienteNuevo.DIVISION_GEOGRAFICA3" @oninput="CambioDistrito">
                             <option value="">Seleccione el Distrito</option>
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="  blue-dark-text label-text" for="c-distrito">Distrito:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-distrito" @bind="clienteNuevo.DIVISION_GEOGRAFICA3" @oninput="CambioDistrito">
                             <option value="">Seleccione el Distrito</option>
@@ -175,7 +175,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="  blue-dark-text label-text" for="c-barrio">Barrio:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-barrio" @bind="clienteNuevo.DIVISION_GEOGRAFICA4" @oninput="CambioBarrio">
                             <option value="">Seleccione el Barrio</option>
@@ -193,7 +193,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-otrassenas">Otras señas:</label>
                         <textarea class="border border-success rounded-pill px-3 text-input " type="text" id="c-otrassenas" @bind="clienteNuevo.OTRAS_SENAS" @oninput="CambioOtrasSeñas"></textarea>
                     </div>
@@ -211,7 +211,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-telefono1">Teléfono 1:</label>
                         <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-telefono1" @bind-value="clienteNuevo.TELEFONO1" @oninput="CambioTelefono1" />
                     </div>
@@ -220,7 +220,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-telefono2">Teléfono 2:</label>
                         <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-telefono2" @bind-value="clienteNuevo.TELEFONO2" @oninput="CambioTelefono2" />
                     </div>
@@ -229,7 +229,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="d-flex justify-content-center mb-2">
+                    <div class="d-flex justify-content-center my-2">
                         <label class="col-md-4  blue-dark-text label-text" for="c-correo-cliente">Correo:</label>
                         <input class="col-md-4 border border-success rounded-pill px-2 text-input " type="email" id="c-correo-cliente" @bind-value="clienteNuevo.E_MAIL" @oninput="CambioCorreo" />
                     </div>
@@ -248,7 +248,7 @@
                     </div>
                 </div>
                  <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-nivel">Nivel precio:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-nivel" @bind="clienteNuevo.NIVEL_PRECIO" @oninput="CambioNivelPrecio">
                             <option value="">Seleccione el Nivel Precio</option>
@@ -266,7 +266,7 @@
                     </div>
                 </div>
                  <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class=" blue-dark-text">Documento a Generar:</label>
                         <div class=" d-flex justify-content-center">
                             <label class="d-flex w-label me-2">
@@ -282,7 +282,7 @@
                     </div>
                 </div>
                  <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class=" blue-dark-text label-text">Exento de Impuesto:</label>
                         <div class="d-flex justify-content-center">
                             <label class="d-flex w-label me-2">
@@ -316,7 +316,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-descuento">Descuento %:</label>
                         <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-descuento" @bind-value="clienteNuevo.DESCUENTO" @oninput="CambioDescuento" placeholder="Ejemplo: 0.00" />
                     </div>
@@ -325,7 +325,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-ventas">Exento Ventas %:</label>
                         <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-ventas" @bind-value="clienteNuevo.EXENCION_IMP1" readonly="@clienteNuevo.readonlyExento" placeholder="Ejemplo: 0.00" />
                     </div>
@@ -334,7 +334,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class=" blue-dark-text label-text" for="c-consumo">Exento Consumo %:</label>
                         <input class=" border border-success rounded-pill px-2 text-input " type="text" id="c-consumo" @bind-value="clienteNuevo.EXENCION_IMP2" readonly="@clienteNuevo.readonlyExento" placeholder="Ejemplo: 0.00" />
                     </div>
@@ -343,7 +343,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2 mt-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class=" blue-dark-text label-text">Es Corporación:</label>
                         <div class=" d-flex justify-content-center">
                             <label class="d-flex w-label me-2">
@@ -359,7 +359,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-corporacion">Cliente Corporación:</label>
                         <select class=" border border-success rounded-pill px-2 text-input " type="text" id="c-corporacion" disabled="@clienteNuevo.readonlyCorporacion" @bind="clienteNuevo.CLI_CORPORAC_ASOC" @oninput="CambioCorporacionAsociada">
                             <option value="">Seleccione Cliente Corporación asociado</option>
@@ -392,7 +392,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-tipoTarifa">Tipo Tarifa:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-tipoTarifa" @bind="clienteNuevo.TIPO_TARIFA" @oninput="CambioTipoTarifa">
                             <option value="">Seleccione el Tipo de Tarifa</option>
@@ -410,7 +410,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-porcetajeTarifa">Porcentaje Tarifa:</label>
                         <input class="border border-success rounded-pill px-2 text-input " type="text" id="c-porcetajeTarifa" @bind-value="clienteNuevo.PORC_TARIFA" readonly />
                     </div>
@@ -434,7 +434,7 @@
                     </div>
                 </div>
                  <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center mb-2">
+                    <div class="row d-flex justify-content-center my-2">
                         <label class="blue-dark-text label-text" for="c-afectacionIva">Afectación de IVA:</label>
                         <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-afectacionIva" @bind="clienteNuevo.AFECTACION_IVA" @oninput="CambioAfectacionIva">
                             <option value="">Seleccione la Afectación de IVA</option>

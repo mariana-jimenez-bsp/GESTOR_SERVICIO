@@ -95,33 +95,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
             }
 
         }
-        private async Task<bool> VerificarAprobacionesUsuarios()
-        {
-            bool aprobado = false;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerDatosListaUsuariosDeClienteDeInforme(informeAsociadoSeleccionado.consecutivo, esquema);
-            if (UsuariosService.ListaDatosUsuariosDeClienteDeInforme.Any())
-            {
-                foreach (var usuario in UsuariosService.ListaDatosUsuariosDeClienteDeInforme)
-                {
-                    if (usuario.recibido == "1")
-                    {
-                        aprobado = true;
-                    }
-                    else
-                    {
-                        aprobado = false;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                aprobado = true;
-            }
-            return aprobado;
-        }
-
+        
         public async Task cambioSeleccion(string consecutivo)
         {
             foreach (var informe in informesDeUsuarioFinalizados)
@@ -244,13 +218,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         private async Task SwalEnviandoCorreo()
         {
 
-            bool verificarAprobacion = false;
+           
 
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
-                verificarAprobacion = await VerificarAprobacionesUsuarios();
-                if (!verificarAprobacion)
-                {
+                
                     bool resultadoCorreo = false;
                     await Swal.FireAsync(new SweetAlertOptions
                     {
@@ -283,11 +255,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
                 {
                     await AlertasService.SwalAviso("Todos los usuarios ya aprobaron el informe seleccionado");
                 }
-            }
-            else
-            {
-                await AlertasService.SwalAdvertencia("Debe seleccionar un Informe");
-            }
 
 
         }
@@ -295,7 +262,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         private async Task SwalDescargandoReporte()
         {
 
-            bool verificarAprobacion = false;
 
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {

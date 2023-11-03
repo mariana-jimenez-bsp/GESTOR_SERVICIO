@@ -121,32 +121,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
 
 
         }
-        private async Task<bool> VerificarAprobacionesUsuarios()
-        {
-            bool aprobado = false;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await UsuariosService.ObtenerDatosListaUsuariosDeClienteDeInforme(Consecutivo, esquema);
-            if (UsuariosService.ListaDatosUsuariosDeClienteDeInforme.Any())
-            {
-                foreach (var usuario in UsuariosService.ListaDatosUsuariosDeClienteDeInforme)
-                {
-                    if (usuario.recibido == "1")
-                    {
-                        aprobado = true;
-                    }
-                    else
-                    {
-                        aprobado = false;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                aprobado = true;
-            }
-            return aprobado;
-        }
+        
         public bool VerificarUsuarioAutorizado()
         {
 
@@ -355,10 +330,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
 
         private async Task SwalEnviandoCorreo()
         {
-            bool verificarAprobacion = false;
-            verificarAprobacion = await VerificarAprobacionesUsuarios();
-            if (!verificarAprobacion)
-            {
+           
                 bool resultadoCorreo = false;
                 await Swal.FireAsync(new SweetAlertOptions
                 {
@@ -386,11 +358,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 {
                     await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
                 }
-            }
-            else
-            {
-                await AlertasService.SwalAviso("Todos los usuarios ya aprobaron el informe");
-            }
+            
             
         }
 

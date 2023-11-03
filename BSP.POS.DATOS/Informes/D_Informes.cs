@@ -124,7 +124,7 @@ namespace BSP.POS.DATOS.Informes
         {
             GenerarTokenRecibidoDeInformeTableAdapter sp = new GenerarTokenRecibidoDeInformeTableAdapter();
            
-            DateTime expira = DateTime.Now.AddDays(3);
+            DateTime expira = DateTime.Now.AddMinutes(15);
             try
             {
                 var response = sp.GetData(pCodigo, pConsecutivo, token, expira, pEsquema).ToList();
