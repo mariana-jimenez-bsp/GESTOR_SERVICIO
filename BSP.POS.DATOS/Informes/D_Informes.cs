@@ -120,76 +120,76 @@ namespace BSP.POS.DATOS.Informes
 
         }
 
-        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pConsecutivo, string pEsquema)
+        public U_TokenRecibidoInforme EnviarTokenDeRecibidoDeInforme(string pCodigo, string pConsecutivo, string pEsquema, string token)
         {
-            GenerarTokenAprobacionDeInformeTableAdapter sp = new GenerarTokenAprobacionDeInformeTableAdapter();
-            string token = GenerarTokenDeAprobacion();
+            GenerarTokenRecibidoDeInformeTableAdapter sp = new GenerarTokenRecibidoDeInformeTableAdapter();
+           
             DateTime expira = DateTime.Now.AddDays(3);
             try
             {
                 var response = sp.GetData(pCodigo, pConsecutivo, token, expira, pEsquema).ToList();
-                U_TokenAprobacionInforme TokenAprobacion = new U_TokenAprobacionInforme();
+                U_TokenRecibidoInforme TokenRecibido = new U_TokenRecibidoInforme();
 
                 foreach (var item in response)
                 {
-                    U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme(item.token_aprobacion, pEsquema, item.codigo_usuario_cliente, item.fecha_expiracion_TA.ToString());
-                    TokenAprobacion = tokenAprobacion;
+                    U_TokenRecibidoInforme tokenRecibido = new U_TokenRecibidoInforme(item.token_recibido, pEsquema, item.codigo_usuario_cliente, item.fecha_expiracion_TA.ToString());
+                    TokenRecibido = tokenRecibido;
                 }
-                if (TokenAprobacion != null)
+                if (TokenRecibido != null)
                 {
-                    return TokenAprobacion;
+                    return TokenRecibido;
                 }
-                return new U_TokenAprobacionInforme();
+                return new U_TokenRecibidoInforme();
             }
             catch (Exception)
             {
 
-                return new U_TokenAprobacionInforme();
+                return new U_TokenRecibidoInforme();
             }
 
 
 
 
         }
-        public U_TokenAprobacionInforme ValidarTokenAprobacionInforme(String pEsquema, String pToken)
+        public U_TokenRecibidoInforme ValidarTokenRecibidoInforme(String pEsquema, String pToken)
         {
-            var tokenAprobacion = new U_TokenAprobacionInforme();
+            var tokenRecibido = new U_TokenRecibidoInforme();
 
-            ObtenerFechaTokenDeAprobacionInformeTableAdapter sp = new ObtenerFechaTokenDeAprobacionInformeTableAdapter();
+            ObtenerFechaTokenDeRecibidoInformeTableAdapter sp = new ObtenerFechaTokenDeRecibidoInformeTableAdapter();
 
             var response = sp.GetData(pEsquema, pToken).ToList();
 
             foreach (var item in response)
             {
-                U_TokenAprobacionInforme tok = new U_TokenAprobacionInforme(item.token_aprobacion, pEsquema, "", item.fecha_expiracion_TA);
-                tokenAprobacion = tok;
+                U_TokenRecibidoInforme tok = new U_TokenRecibidoInforme(item.token_recibido, pEsquema, "", item.fecha_expiracion_TA);
+                tokenRecibido = tok;
             }
-            if (tokenAprobacion.token_aprobacion != null)
+            if (tokenRecibido.token_recibido != null)
             {
-                DateTime fechaAprobacion = DateTime.Parse(tokenAprobacion.fecha_expiracion);
+                DateTime fechaAprobacion = DateTime.Parse(tokenRecibido.fecha_expiracion);
                 if (fechaAprobacion < DateTime.Now)
                 {
 
-                    return new U_TokenAprobacionInforme();
+                    return new U_TokenRecibidoInforme();
                 }
                 else
                 {
-                    return tokenAprobacion;
+                    return tokenRecibido;
                 }
 
             }
-            return new U_TokenAprobacionInforme();
+            return new U_TokenRecibidoInforme();
 
 
         }
 
-        public string AprobarInforme(U_TokenAprobacionInforme pInforme, string esquema)
+        public string ActivarRecibidoInforme(U_TokenRecibidoInforme pInforme, string esquema)
         {
-            POSDataSet.AprobarInformeDataTable bTabla = new POSDataSet.AprobarInformeDataTable();
-            AprobarInformeTableAdapter sp = new AprobarInformeTableAdapter();
+            POSDataSet.ActivarRecibidoInformeDataTable bTabla = new POSDataSet.ActivarRecibidoInformeDataTable();
+            ActivarRecibidoInformeTableAdapter sp = new ActivarRecibidoInformeTableAdapter();
             try
             {
-                var response = sp.GetData(pInforme.token_aprobacion, true, esquema);
+                var response = sp.GetData(pInforme.token_recibido, true, esquema);
 
 
                 return "Exito";
@@ -203,31 +203,7 @@ namespace BSP.POS.DATOS.Informes
 
 
         }
-
-        public string RechazarInforme(U_TokenAprobacionInforme pInforme, string esquema)
-        {
-            POSDataSet.RechazarInformeDataTable bTabla = new POSDataSet.RechazarInformeDataTable();
-            RechazarInformeTableAdapter sp = new RechazarInformeTableAdapter();
-            try
-            {
-                var response = sp.GetData(pInforme.token_aprobacion, esquema);
-
-
-                return "Exito";
-            }
-            catch (Exception)
-            {
-
-                return "Error";
-            }
-
-
-
-        }
-        public string GenerarTokenDeAprobacion()
-        {
-            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-        }
+        
 
         public string AgregarInformeAsociado(string pCliente, string esquema)
         {

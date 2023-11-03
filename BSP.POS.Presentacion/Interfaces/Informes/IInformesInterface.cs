@@ -15,10 +15,9 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
 
         Task<bool> EliminarInforme(string consecutivo, string esquema);
 
-        Task<bool> EnviarCorreoDeAprobacionDeInforme(string esquema, string consecutivo);
-        Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token);
-        Task<bool> AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
-        Task<bool> RechazarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema);
+        Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo);
+        Task<mTokenRecibidoInforme> ValidarTokenRecibidoDeInforme(string esquema, string token);
+        Task<bool> ActivarRecibidoInforme(mTokenRecibidoInforme tokenRecibido, string esquema);
 
         Task<string> AgregarInformeAsociado(string cliente, string esquema);
         Task<string> ValidarExistenciaConsecutivoInforme(string esquema, string consecutivo);

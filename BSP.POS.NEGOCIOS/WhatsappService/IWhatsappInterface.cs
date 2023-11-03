@@ -10,6 +10,6 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
 {
     public interface IWhatsappInterface
     {
-        Task EnviarWhatsappAprobarInforme(mObjetosParaCorreoAprobacion objetosParaAprobacion, string token, string idTelefono, string tipoInicio);
+        Task EnviarWhatsappReporteInforme(mObjetoParaCorreoInforme objetoParaInforme, string token, string idTelefono, string tipoInicio);
     }
 }

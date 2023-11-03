@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BSP.POS.UTILITARIOS.Actividades;
+﻿using BSP.POS.UTILITARIOS.Actividades;
 using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.UTILITARIOS.Informes;
 using BSP.POS.UTILITARIOS.Observaciones;
 using BSP.POS.UTILITARIOS.Usuarios;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BSP.POS.UTILITARIOS.CorreosModels
 {
-    public class mObjetosParaCorreoAprobacion
+    public class mObjetoParaCorreoInforme
     {
         public U_InformeAsociado informe { get; set; } = new U_InformeAsociado();
         public string esquema { get; set; } = string.Empty;

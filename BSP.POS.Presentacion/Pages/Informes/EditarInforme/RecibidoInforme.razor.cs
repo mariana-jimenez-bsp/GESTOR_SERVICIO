@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Components;
 
 namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 {
-    public partial class RechazarInforme : ComponentBase
+    public partial class RecibidoInforme: ComponentBase
     {
         [Parameter]
         public string token { get; set; } = string.Empty;
 
         [Parameter]
         public string esquema { get; set; } = string.Empty;
-        public bool rechazado = false;
+        public bool recibido = false;
         public bool terminaCarga = false;
-        public mTokenAprobacionInforme tokenAprobacion = new mTokenAprobacionInforme();
+        public mTokenRecibidoInforme tokenRecibido = new mTokenRecibidoInforme();
         public mDatosLicencia licencia = new mDatosLicencia();
         private bool licenciaActiva = false;
         private bool licenciaProximaAVencer = false;
@@ -25,6 +25,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
             if (await VerificarValidezEsquema())
             {
+
                 await LicenciasService.ObtenerDatosDeLicencia();
                 if (LicenciasService.licencia != null)
                 {
@@ -44,19 +45,19 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
                 if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(esquema) && licenciaActiva && mismaMacAdress)
                 {
-                    tokenAprobacion = await InformesService.ValidarTokenAprobacionDeInforme(esquema, token);
-                    if (tokenAprobacion.token_aprobacion != null)
+                    tokenRecibido = await InformesService.ValidarTokenRecibidoDeInforme(esquema, token);
+                    if (tokenRecibido.token_recibido != null)
                     {
-                        bool resultadoInforme = await InformesService.RechazarInforme(tokenAprobacion, esquema);
+                        bool resultadoInforme = await InformesService.ActivarRecibidoInforme(tokenRecibido, esquema);
                         if (resultadoInforme)
                         {
-                            rechazado = true;
+                            recibido = true;
                         }
                         else
                         {
                             mensajeEsquema = "Ocurrio un error vuelva a intentarlo";
                         }
-                        
+
                     }
                 }
             }

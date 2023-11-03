@@ -119,11 +119,11 @@ namespace BSP.POS.Presentacion.Services.Informes
                 return false;
             }
         }
-        public async Task<bool> EnviarCorreoDeAprobacionDeInforme(string esquema, string consecutivo)
+        public async Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo)
         {
             try
             {
-                string url = "Informes/EnviarTokenDeAprobacionDeInforme";
+                string url = "Informes/EnviarTokenDeRecibidoDeInforme";
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Remove("X-Consecutivo");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
@@ -146,60 +146,37 @@ namespace BSP.POS.Presentacion.Services.Informes
                 return false;
             }
         }
-        public async Task<mTokenAprobacionInforme> ValidarTokenAprobacionDeInforme(string esquema, string token)
+        public async Task<mTokenRecibidoInforme> ValidarTokenRecibidoDeInforme(string esquema, string token)
         {
-            string url = "Informes/ValidaTokenAprobacionDeInforme/" + esquema + "/" + token;
+            string url = "Informes/ValidaTokenRecibidoInforme/" + esquema + "/" + token;
             var response = await _http.GetAsync(url);
             if(response.StatusCode == HttpStatusCode.OK)
             {
-                var tokenAprobacion = await response.Content.ReadFromJsonAsync<mTokenAprobacionInforme>();
-                if (tokenAprobacion is not null)
+                var tokenRecibido = await response.Content.ReadFromJsonAsync<mTokenRecibidoInforme>();
+                if (tokenRecibido is not null)
                 {
-                    return tokenAprobacion;
+                    return tokenRecibido;
                 }
-                return new mTokenAprobacionInforme();
+                return new mTokenRecibidoInforme();
             }
             else
             {
-                return new mTokenAprobacionInforme();
+                return new mTokenRecibidoInforme();
             }
         }
 
-        public async Task<bool> AprobarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
+        public async Task<bool> ActivarRecibidoInforme(mTokenRecibidoInforme tokenRecibido, string esquema)
         {
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "Informes/ApruebaInforme";
-                string jsonData = JsonSerializer.Serialize(tokenAprobacion);
+                string url = "Informes/ActivaRecibidoInforme";
+                string jsonData = JsonSerializer.Serialize(tokenRecibido);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var response = await _http.PutAsync(url, content);
                 if( response.StatusCode == HttpStatusCode.OK)
-                {
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> RechazarInforme(mTokenAprobacionInforme tokenAprobacion, string esquema)
-        {
-            try
-            {
-                _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "Informes/RechazaInforme";
-                string jsonData = JsonSerializer.Serialize(tokenAprobacion);
-                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-                var response = await _http.PutAsync(url, content);
-                if(response.StatusCode == HttpStatusCode.OK)
                 {
                     return true;
                 }

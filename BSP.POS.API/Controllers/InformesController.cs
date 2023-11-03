@@ -184,30 +184,30 @@ namespace BSP.POS.API.Controllers
             }
 
         }
-        [HttpPost("EnviarTokenDeAprobacionDeInforme")]
-        public async Task<ActionResult> EnviarTokenDeAprobacionDeInforme()
+        [HttpPost("EnviarTokenDeRecibidoDeInforme")]
+        public async Task<ActionResult> EnviarTokenDeRecibidoDeInforme()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
                 string consecutivo = Request.Headers["X-Consecutivo"];
                 U_Correo datos = new U_Correo();
-                mObjetosParaCorreoAprobacion objetosDeAprobacion = _correoService.CrearObjetoDeCorreo(esquema, consecutivo);
-                foreach (var item in objetosDeAprobacion.listadeUsuariosDeClienteDeInforme)
+                mObjetoParaCorreoInforme objetosParaInforme = _correoService.CrearObjetoDeCorreo(esquema, consecutivo);
+                foreach (var item in objetosParaInforme.listadeUsuariosDeClienteDeInforme)
                 {
 
-                    U_TokenAprobacionInforme tokenAprobacionRecuperado = informes.EnviarTokenDeAprobacionDeInforme(item.codigo_usuario_cliente, item.consecutivo_informe, objetosDeAprobacion.esquema);
-                    if (tokenAprobacionRecuperado != null)
+                    U_TokenRecibidoInforme tokenRecibidoRecuperado = informes.EnviarTokenDeRecibidoDeInforme(item.codigo_usuario_cliente, item.consecutivo_informe, objetosParaInforme.esquema);
+                    if (tokenRecibidoRecuperado != null)
                     {
-                        item.token = tokenAprobacionRecuperado.token_aprobacion;
+                        item.token = tokenRecibidoRecuperado.token_recibido;
 
                     }
                 }
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
 
-                await _correoService.EnviarCorreoAprobarInforme(datos, objetosDeAprobacion, _urlWeb, _tipoInicio, _urlApiCrystal);
-                //await _whatsappService.EnviarWhatsappAprobarInforme(objetosDeAprobacion, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
+                await _correoService.EnviarCorreoReporteInforme(datos, objetosParaInforme, _urlWeb, _tipoInicio, _urlApiCrystal);
+                //await _whatsappService.EnviarWhatsappReporteInforme(objetosParaInforme, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
                 return Ok();
             }
 
@@ -241,18 +241,18 @@ namespace BSP.POS.API.Controllers
 
         }
         [AllowAnonymous]
-        [HttpGet("ValidaTokenAprobacionDeInforme/{esquema}/{token}")]
-        public IActionResult ValidaTokenAprobacionDeInforme(string esquema, string token)
+        [HttpGet("ValidaTokenRecibidoInforme/{esquema}/{token}")]
+        public IActionResult ValidaTokenRecibidoInforme(string esquema, string token)
         {
             try
             {
-                string tokenAprobacionJson = informes.ValidarTokenAprobacionDeInforme(esquema, token);
+                string tokenRecibidoJson = informes.ValidarTokenRecibidoInforme(esquema, token);
 
-                if (string.IsNullOrEmpty(tokenAprobacionJson))
+                if (string.IsNullOrEmpty(tokenRecibidoJson))
                 {
                     return BadRequest();
                 }
-                return Ok(tokenAprobacionJson);
+                return Ok(tokenRecibidoJson);
             }
             catch (Exception ex)
             {
@@ -262,14 +262,14 @@ namespace BSP.POS.API.Controllers
            
         }
         [AllowAnonymous]
-        [HttpPut("ApruebaInforme")]
-        public IActionResult ApruebaInforme([FromBody] U_TokenAprobacionInforme datos)
+        [HttpPut("ActivaRecibidoInforme")]
+        public IActionResult ActivaRecibidoInforme([FromBody] U_TokenRecibidoInforme datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
-                string mensaje = informes.AprobarInforme(datos, esquema);
+                string mensaje = informes.ActivarRecibidoInforme(datos, esquema);
                 if (string.IsNullOrEmpty(mensaje))
                 {
                     return BadRequest();
@@ -282,27 +282,7 @@ namespace BSP.POS.API.Controllers
             }
 
         }
-        [AllowAnonymous]
-        [HttpPut("RechazaInforme")]
-        public IActionResult RechazaInforme([FromBody] U_TokenAprobacionInforme datos)
-        {
-            try
-            {
-                string esquema = Request.Headers["X-Esquema"];
-
-                string mensaje = informes.RechazarInforme(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
-                {
-                    return BadRequest();
-                }
-                return Ok(mensaje);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-
-        }
+        
         [HttpGet("ValidaExistenciaConsecutivoInforme/{esquema}/{consecutivo}")]
         public IActionResult ValidaExistenciaConsecutivoInforme(string esquema, string consecutivo)
         {

@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="CorreosService\CuerposHtml\AprobarInforme.html">
+    <None Update="CorreosService\CuerposHtml\RecibidoInforme.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="CorreosService\CuerposHtml\RecuperarClave.html">

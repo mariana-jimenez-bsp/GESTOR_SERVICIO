@@ -31,7 +31,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
         {
             _hostingEnvironment = hostingEnvironment;
         }
-        public async Task EnviarWhatsappAprobarInforme(mObjetosParaCorreoAprobacion objetosParaAprobacion, string token, string idTelefono, string tipoInicio)
+        public async Task EnviarWhatsappReporteInforme(mObjetoParaCorreoInforme objetosParaInforme, string token, string idTelefono, string tipoInicio)
         {
             try
             {
@@ -48,15 +48,15 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                 
                 // Reemplaza el marcador de posición con el valor real
 
-                foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
+                foreach (var item in objetosParaInforme.listadeUsuariosDeClienteDeInforme)
                 {
                     string jsonString = File.ReadAllText(pathToJson);
-                    if (item.aceptacion == "0")
+                    if (item.recibido == "0")
                     {
                         U_CodigoTelefonoPaisUsuarios codigoTelefono = new U_CodigoTelefonoPaisUsuarios();
                         U_UsuariosParaEditar usuarioActual = new U_UsuariosParaEditar();
-                        usuarioActual = _usuarios.ObtenerUsuarioParaEditar(objetosParaAprobacion.esquema, item.codigo_usuario_cliente);
-                        codigoTelefono = _codigoTelefonoPais.ObtenerDatosCodigoTelefonoPaisDeUsuariosPorUsuario(objetosParaAprobacion.esquema, item.codigo_usuario_cliente);
+                        usuarioActual = _usuarios.ObtenerUsuarioParaEditar(objetosParaInforme.esquema, item.codigo_usuario_cliente);
+                        codigoTelefono = _codigoTelefonoPais.ObtenerDatosCodigoTelefonoPaisDeUsuariosPorUsuario(objetosParaInforme.esquema, item.codigo_usuario_cliente);
                         //Nuestro telefono
                         string telefono = codigoTelefono.CodigoTelefono + usuarioActual.telefono;
                         string usuarios = "";
@@ -65,20 +65,20 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         U_DatosUsuariosDeClienteDeInforme ultimoUsuario = new U_DatosUsuariosDeClienteDeInforme();
                         U_DatosActividadesAsociadas ultimaActividad = new U_DatosActividadesAsociadas();
                         U_DatosObservaciones ultimaObservacion = new U_DatosObservaciones();
-                        if (objetosParaAprobacion.listadeUsuariosDeClienteDeInforme.Any())
+                        if (objetosParaInforme.listadeUsuariosDeClienteDeInforme.Any())
                         {
-                           ultimoUsuario = objetosParaAprobacion.listadeUsuariosDeClienteDeInforme[objetosParaAprobacion.listadeUsuariosDeClienteDeInforme.Count - 1];
+                           ultimoUsuario = objetosParaInforme.listadeUsuariosDeClienteDeInforme[objetosParaInforme.listadeUsuariosDeClienteDeInforme.Count - 1];
                         }
 
-                        if (objetosParaAprobacion.listaActividadesAsociadas.Any())
+                        if (objetosParaInforme.listaActividadesAsociadas.Any())
                         {
-                            ultimaActividad = objetosParaAprobacion.listaActividadesAsociadas[objetosParaAprobacion.listaActividadesAsociadas.Count - 1];
+                            ultimaActividad = objetosParaInforme.listaActividadesAsociadas[objetosParaInforme.listaActividadesAsociadas.Count - 1];
                         }
-                        if (objetosParaAprobacion.listaDeObservaciones.Any())
+                        if (objetosParaInforme.listaDeObservaciones.Any())
                         {
-                            ultimaObservacion = objetosParaAprobacion.listaDeObservaciones[objetosParaAprobacion.listaDeObservaciones.Count - 1];
+                            ultimaObservacion = objetosParaInforme.listaDeObservaciones[objetosParaInforme.listaDeObservaciones.Count - 1];
                         }
-                        foreach (var itemUsuario in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
+                        foreach (var itemUsuario in objetosParaInforme.listadeUsuariosDeClienteDeInforme)
                         {
                             usuarios += "Nombre: " + itemUsuario.nombre_usuario + " - Departamento: " + itemUsuario.departamento_usuario
                                 + " - Rol: " + itemUsuario.rol_usuario + " - Correo: " + itemUsuario.correo_usuario;
@@ -88,7 +88,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                             }
 
                         }
-                        foreach (var itemActividad in objetosParaAprobacion.listaActividadesAsociadas)
+                        foreach (var itemActividad in objetosParaInforme.listaActividadesAsociadas)
                         {
                             actividades += "Actividad: " + itemActividad.nombre_actividad + " - Horas Cobradas: " + itemActividad.horas_cobradas + " - Horas no Cobradas: " + itemActividad.horas_no_cobradas;
                             if (itemActividad.Id != ultimaActividad.Id)
@@ -96,7 +96,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                                 actividades += ", ";
                             }
                         }
-                        foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
+                        foreach (var itemObservacion in objetosParaInforme.listaDeObservaciones)
                         {
                             observaciones += "Usuario: " + itemObservacion.nombre_usuario + " - Observación: " + itemObservacion.observacion;
                             if (itemObservacion.Id != ultimaObservacion.Id)
@@ -106,20 +106,20 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         }
                         jsonString = jsonString.Replace("{telefono}", telefono);
                         jsonString = jsonString.Replace("{token}", item.token)
-                                    .Replace("{consecutivo}", objetosParaAprobacion.informe.consecutivo)
-                                    .Replace("{esquema}", objetosParaAprobacion.esquema)
-                                    .Replace("{Fecha}", objetosParaAprobacion.informe.fecha_consultoria)
-                                    .Replace("{Hora_Inicio}", objetosParaAprobacion.informe.hora_inicio.Substring(0, 5))
-                                    .Replace("{Modalidad}", objetosParaAprobacion.informe.modalidad_consultoria)
-                                    .Replace("{Hora_Fin}", objetosParaAprobacion.informe.hora_final.Substring(0, 5))
-                                    .Replace("{Cliente}", objetosParaAprobacion.ClienteAsociado.NOMBRE)
-                                    .Replace("{Total_Horas_Cobradas}", objetosParaAprobacion.total_horas_cobradas.ToString())
-                                    .Replace("{Total_Horas_No_Cobradas}", objetosParaAprobacion.total_horas_no_cobradas.ToString())
+                                    .Replace("{consecutivo}", objetosParaInforme.informe.consecutivo)
+                                    .Replace("{esquema}", objetosParaInforme.esquema)
+                                    .Replace("{Fecha}", objetosParaInforme.informe.fecha_consultoria)
+                                    .Replace("{Hora_Inicio}", objetosParaInforme.informe.hora_inicio.Substring(0, 5))
+                                    .Replace("{Modalidad}", objetosParaInforme.informe.modalidad_consultoria)
+                                    .Replace("{Hora_Fin}", objetosParaInforme.informe.hora_final.Substring(0, 5))
+                                    .Replace("{Cliente}", objetosParaInforme.ClienteAsociado.NOMBRE)
+                                    .Replace("{Total_Horas_Cobradas}", objetosParaInforme.total_horas_cobradas.ToString())
+                                    .Replace("{Total_Horas_No_Cobradas}", objetosParaInforme.total_horas_no_cobradas.ToString())
                                     .Replace("{Usuarios_Cliente}", !usuarios.IsNullOrEmpty() ? usuarios : "Sin Usuarios")
                                     .Replace("{Actividades}", !actividades.IsNullOrEmpty() ? actividades : "Sin Actividades")
                                     .Replace("{Observaciones}", !observaciones.IsNullOrEmpty() ? observaciones : "Sin Observaciones")
-                                    .Replace("{linkAprobar}", "POS_Prueba_Web_Gestor_Servicios/ValidarAprobacionInforme/" + item.token + "/" + objetosParaAprobacion.esquema)
-                                    .Replace("{linkRechazar}", "POS_Prueba_Web_Gestor_Servicios/ValidarRechazoInforme/" + item.token + "/" + objetosParaAprobacion.esquema);
+                                    .Replace("{linkAprobar}", "POS_Prueba_Web_Gestor_Servicios/ValidarAprobacionInforme/" + item.token + "/" + objetosParaInforme.esquema)
+                                    .Replace("{linkRechazar}", "POS_Prueba_Web_Gestor_Servicios/ValidarRechazoInforme/" + item.token + "/" + objetosParaInforme.esquema);
 
                         JObject jsonObject = JObject.Parse(jsonString);
 

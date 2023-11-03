@@ -1,4 +1,4 @@
-﻿@page "/ValidarRechazoInforme/{token}/{esquema}"
+﻿@page "/ActivarRecibidoInforme/{token}/{esquema}"
 @inject IInformesInterface InformesService
 @inject ILicenciasInterface LicenciasService
 @inject IUsuariosInterface UsuariosService
@@ -6,6 +6,7 @@
 {
     @if (string.IsNullOrEmpty(mensajeEsquema))
     {
+
         if (licenciaProximaAVencer)
         {
             <ModalAdvertencia mensaje="Licencia Próxima a vencer"></ModalAdvertencia>
@@ -23,12 +24,12 @@
         }
         else
         {
-            @if (tokenAprobacion.token_aprobacion != null && rechazado && terminaCarga)
+            @if (tokenRecibido.token_recibido != null && recibido && terminaCarga)
             {
                 <div class="h-100 w-100 fondo bg-body-secondary">
 
                     <h1 class="w-100 text-center text-black">Gestor de Servicios BSP</h1>
-                    <ModalAdvertencia mensaje="El informe ha sido Rechazado"></ModalAdvertencia>
+                    <ModalExito mensaje="El correo se ha recibido"></ModalExito>
                 </div>
             }
             else
@@ -44,6 +45,8 @@
 
             }
         }
+
+
 
     }
     else

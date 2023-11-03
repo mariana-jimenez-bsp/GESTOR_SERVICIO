@@ -11,16 +11,16 @@ namespace BSP.POS.UTILITARIOS.Usuarios
         public string id { get; set; }
         public string consecutivo_informe { get; set; }
         public string codigo_usuario_cliente { get; set; }
-        public string aceptacion { get; set; }
+        public string recibido { get; set; }
 
 
 
-        public U_UsuariosDeClienteDeInforme(string pId, string pConsecutivo_informe, string pCodigo_usuario_cliente, string pAceptacion)
+        public U_UsuariosDeClienteDeInforme(string pId, string pConsecutivo_informe, string pCodigo_usuario_cliente, string pRecibido)
         {
             id = pId;
             consecutivo_informe = pConsecutivo_informe;
             codigo_usuario_cliente = pCodigo_usuario_cliente;
-            aceptacion = pAceptacion;
+            recibido = pRecibido;
         }
         public U_UsuariosDeClienteDeInforme() { }
     }

@@ -12,8 +12,8 @@ namespace BSP.POS.NEGOCIOS.CorreosService
     public interface ICorreosInterface
     {
         void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema, string urlWeb, string tipoInicio);
-        Task EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion, string urlWeb, string tipoInicio, string urlApiCristal);
-        mObjetosParaCorreoAprobacion CrearObjetoDeCorreo(string esquema, string consecutivo);
+        Task EnviarCorreoReporteInforme(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, string urlApiCristal);
+        mObjetoParaCorreoInforme CrearObjetoDeCorreo(string esquema, string consecutivo);
 
     }
 }

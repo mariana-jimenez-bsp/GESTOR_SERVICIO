@@ -130,7 +130,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             {
                 foreach (var usuario in UsuariosService.ListaDatosUsuariosDeClienteDeInforme)
                 {
-                    if (usuario.aceptacion == "1")
+                    if (usuario.recibido == "1")
                     {
                         aprobado = true;
                     }
@@ -217,7 +217,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         private async Task<bool> EnviarCorreosAClientes()
         { 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeAprobacionDeInforme(esquema, Consecutivo);
+            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, Consecutivo);
             if (validar)
             {
                 return true;

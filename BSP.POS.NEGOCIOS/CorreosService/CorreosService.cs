@@ -64,55 +64,56 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             smtp.Disconnect(true);
 
         }
-        public async Task EnviarCorreoAprobarInforme(U_Correo datos, mObjetosParaCorreoAprobacion objetosParaAprobacion, string urlWeb, string tipoInicio, string urlApiCristal)
+        public async Task EnviarCorreoReporteInforme(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, string urlApiCristal)
         {
-            byte[] byteReporte = await GenerarReporteDeInforme(objetosParaAprobacion.esquema, objetosParaAprobacion.informe.consecutivo, urlApiCristal);
-            foreach (var item in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
+            byte[] byteReporte = await GenerarReporteDeInforme(objetosParaInforme.esquema, objetosParaInforme.informe.consecutivo, urlApiCristal);
+            foreach (var item in objetosParaInforme.listadeUsuariosDeClienteDeInforme)
             {
-                if (item.aceptacion == "0")
+                if (item.recibido == "0")
                 {
                     var correo = new MimeMessage();
 
                 correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
                 correo.To.Add(MailboxAddress.Parse(item.correo_usuario));
-                correo.Subject = "Solicitud de Aprobación de Informe #" + objetosParaAprobacion.informe.consecutivo;
+                correo.Subject = "Solicitud de Aprobación de Informe #" + objetosParaInforme.informe.consecutivo;
                 string usuarios = "";
                 string actividades = "";
                 string observaciones = "";
-                foreach (var itemUsuario in objetosParaAprobacion.listadeUsuariosDeClienteDeInforme)
+                foreach (var itemUsuario in objetosParaInforme.listadeUsuariosDeClienteDeInforme)
                 {
                     usuarios += "<tr>\r\n <td>" + itemUsuario.nombre_usuario + "</td>\r\n <td>" + itemUsuario.departamento_usuario
                             + "</td>\r\n <td>" + itemUsuario.rol_usuario + "</td>\r\n <td>" + itemUsuario.correo_usuario 
                             + "</td>\r\n </tr> \r\n";
                 }
-                foreach (var itemActividad in objetosParaAprobacion.listaActividadesAsociadas)
+                foreach (var itemActividad in objetosParaInforme.listaActividadesAsociadas)
                 {
                     actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n </tr> \r\n";
                 }
-                foreach (var itemObservacion in objetosParaAprobacion.listaDeObservaciones)
+                foreach (var itemObservacion in objetosParaInforme.listaDeObservaciones)
                 {
                     observaciones += "<tr>\r\n <td>" + itemObservacion.nombre_usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";
                 }
                     string PathHtml = "";
                     if (tipoInicio == "debug")
                     {
-                        PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/AprobarInforme.html";
+                        PathHtml = "../BSP.POS.NEGOCIOS/CorreosService/CuerposHtml/RecibidoInforme.html";
                     }
                     else
                     {
-                        PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "AprobarInforme.html");
+                        PathHtml = Path.Combine(_hostingEnvironment.ContentRootPath, "CorreosService", "CuerposHtml", "RecibidoInforme.html");
                     }
                    
                     string CuerpoHtml = File.ReadAllText(PathHtml);
                     CuerpoHtml = CuerpoHtml.Replace("{{token}}", item.token)
-                           .Replace("{{esquema}}", objetosParaAprobacion.esquema)
-                           .Replace("{{Fecha}}", objetosParaAprobacion.informe.fecha_consultoria)
-                           .Replace("{{Hora_Inicio}}", objetosParaAprobacion.informe.hora_inicio.Substring(0, 5))
-                           .Replace("{{Modalidad}}", objetosParaAprobacion.informe.modalidad_consultoria)
-                           .Replace("{{Hora_Fin}}", objetosParaAprobacion.informe.hora_final.Substring(0, 5))
-                           .Replace("{{Cliente}}", objetosParaAprobacion.ClienteAsociado.NOMBRE)
-                           .Replace("{{Total_Horas_Cobradas}}", objetosParaAprobacion.total_horas_cobradas.ToString())
-                           .Replace("{{Total_Horas_No_Cobradas}}", objetosParaAprobacion.total_horas_no_cobradas.ToString())
+                           .Replace("{{esquema}}", objetosParaInforme.esquema)
+                           .Replace("{{consecutivo}}", objetosParaInforme.informe.consecutivo)
+                           .Replace("{{Fecha}}", objetosParaInforme.informe.fecha_consultoria)
+                           .Replace("{{Hora_Inicio}}", objetosParaInforme.informe.hora_inicio.Substring(0, 5))
+                           .Replace("{{Modalidad}}", objetosParaInforme.informe.modalidad_consultoria)
+                           .Replace("{{Hora_Fin}}", objetosParaInforme.informe.hora_final.Substring(0, 5))
+                           .Replace("{{Cliente}}", objetosParaInforme.ClienteAsociado.NOMBRE)
+                           .Replace("{{Total_Horas_Cobradas}}", objetosParaInforme.total_horas_cobradas.ToString())
+                           .Replace("{{Total_Horas_No_Cobradas}}", objetosParaInforme.total_horas_no_cobradas.ToString())
                            .Replace("{{Usuarios_Cliente}}", usuarios)
                            .Replace("{{Actividades}}", actividades)
                            .Replace("{{Observaciones}}", observaciones)
@@ -127,7 +128,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                     Content = new MimeContent(new MemoryStream(byteReporte), ContentEncoding.Default),
                     ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                     ContentTransferEncoding = ContentEncoding.Base64,
-                    FileName = "ReporteInforme_" + objetosParaAprobacion.informe.consecutivo + ".pdf"
+                    FileName = "ReporteInforme_" + objetosParaInforme.informe.consecutivo + ".pdf"
                 };
                 var multipart = new Multipart("mixed");
                 multipart.Add(cuerpoHtml); // Agregar el cuerpo HTML
@@ -145,9 +146,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
            
         }
 
-        public mObjetosParaCorreoAprobacion CrearObjetoDeCorreo(string esquema, string consecutivo)
+        public mObjetoParaCorreoInforme CrearObjetoDeCorreo(string esquema, string consecutivo)
         {
-            mObjetosParaCorreoAprobacion objetoParaCorreo = new mObjetosParaCorreoAprobacion();
+            mObjetoParaCorreoInforme objetoParaCorreo = new mObjetoParaCorreoInforme();
             objetoParaCorreo.informe = _informes.ObtenerInformeAsociado(esquema, consecutivo);
             objetoParaCorreo.listaActividadesAsociadas = _actividades.ListaDatosActividadesAsociadas(esquema, consecutivo);
             try

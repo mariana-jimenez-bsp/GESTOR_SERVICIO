@@ -211,7 +211,7 @@ namespace BSP.POS.DATOS.Usuarios
                 foreach (var item in response)
                 {
                     U_DatosUsuariosDeClienteDeInforme informe = new U_DatosUsuariosDeClienteDeInforme(item.Id, 
-                        item.consecutivo_informe, item.codigo_usuario_cliente, item.aceptacion,
+                        item.consecutivo_informe, item.codigo_usuario_cliente, item.recibido,
                         item.nombre_usuario, item.departamento_usuario, item.rol_usuario, item.correo_usuario);
 
                     LstInformes.Add(informe);
@@ -320,7 +320,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_UsuariosDeClienteDeInforme informe = new U_UsuariosDeClienteDeInforme(item.Id, item.consecutivo_informe, item.codigo_usuario_cliente, item.aceptacion);
+                    U_UsuariosDeClienteDeInforme informe = new U_UsuariosDeClienteDeInforme(item.Id, item.consecutivo_informe, item.codigo_usuario_cliente, item.recibido);
 
                     LstInformes.Add(informe);
                 }

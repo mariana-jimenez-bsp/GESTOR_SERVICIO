@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -79,48 +80,40 @@ namespace BSP.POS.NEGOCIOS.Informes
 
         }
 
-        public U_TokenAprobacionInforme EnviarTokenDeAprobacionDeInforme(string pCodigo, string pConsecutivo, string pEsquema)
+        public U_TokenRecibidoInforme EnviarTokenDeRecibidoDeInforme(string pCodigo, string pConsecutivo, string pEsquema)
         {
-
-            U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme();
-            tokenAprobacion = objInforme.EnviarTokenDeAprobacionDeInforme(pCodigo, pConsecutivo, pEsquema);
+            string token = GenerarTokenDeRecibido();
+            U_TokenRecibidoInforme tokenAprobacion = new U_TokenRecibidoInforme();
+            tokenAprobacion = objInforme.EnviarTokenDeRecibidoDeInforme(pCodigo, pConsecutivo, pEsquema, token);
             if (tokenAprobacion != null)
             {
                 return tokenAprobacion;
             }
-            return new U_TokenAprobacionInforme();
+            return new U_TokenRecibidoInforme();
 
         }
 
-        public string ValidarTokenAprobacionDeInforme(string pEsquema, string pToken)
+        public string ValidarTokenRecibidoInforme(string pEsquema, string pToken)
         {
 
-            U_TokenAprobacionInforme tokenAprobacion = new U_TokenAprobacionInforme();
-            tokenAprobacion = objInforme.ValidarTokenAprobacionInforme(pEsquema, pToken);
-            if (tokenAprobacion != null)
+            U_TokenRecibidoInforme tokenRecibido = new U_TokenRecibidoInforme();
+            tokenRecibido = objInforme.ValidarTokenRecibidoInforme(pEsquema, pToken);
+            if (tokenRecibido != null)
             {
-                string tokenAprobacionJson = JsonConvert.SerializeObject(tokenAprobacion);
-                return tokenAprobacionJson;
+                string tokenRecibidoJson = JsonConvert.SerializeObject(tokenRecibido);
+                return tokenRecibidoJson;
             }
 
-            return JsonConvert.SerializeObject(new U_TokenAprobacionInforme());
+            return JsonConvert.SerializeObject(new U_TokenRecibidoInforme());
 
         }
 
-        public string AprobarInforme(U_TokenAprobacionInforme pInforme, string esquema)
+        public string ActivarRecibidoInforme(U_TokenRecibidoInforme pInforme, string esquema)
         {
             string mensaje = string.Empty;
-            mensaje = objInforme.AprobarInforme(pInforme, esquema);
+            mensaje = objInforme.ActivarRecibidoInforme(pInforme, esquema);
             return mensaje;
         }
-
-        public string RechazarInforme(U_TokenAprobacionInforme pInforme, string esquema)
-        {
-            string mensaje = string.Empty;
-            mensaje = objInforme.RechazarInforme(pInforme, esquema);
-            return mensaje;
-        }
-
         public string AgregarInformeAsociado(string pCliente, string esquema)
         {
             string consecutivo = string.Empty;
@@ -133,6 +126,9 @@ namespace BSP.POS.NEGOCIOS.Informes
             string consecutivo = objInforme.ValidarExistenciaConsecutivoInforme(pEsquema, pConsecutivo);
             return consecutivo;
         }
-
+        public string GenerarTokenDeRecibido()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
     }
 }
