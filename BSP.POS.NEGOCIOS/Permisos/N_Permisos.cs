@@ -67,7 +67,76 @@ namespace BSP.POS.NEGOCIOS.Permisos
             
            
         }
+
+        public string ObtenerListaDePermisos(String pEsquema)
+        {
+            try
+            {
+                List<U_Permisos> list = new List<U_Permisos>();
+
+                list = objetoPermiso.ObtenerListaDePermisos(pEsquema);
+
+                string permisos = JsonConvert.SerializeObject(list);
+                return permisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+        public string ObtenerListaDePermisosDeUsuario(String pEsquema, string pCodigo)
+        {
+            try
+            {
+                List<U_DatosPermisosDeUsuarios> list = new List<U_DatosPermisosDeUsuarios>();
+
+                list = objetoPermiso.ListaDatosDePermisosDeUsuario(pEsquema, pCodigo);
+
+                string permisos = JsonConvert.SerializeObject(list);
+                return permisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ObtenerListaDeSubPermisos(String pEsquema)
+        {
+            try
+            {
+                List<U_SubPermisos> list = new List<U_SubPermisos>();
+
+                list = objetoPermiso.ObtenerListaDeSubPermisos(pEsquema);
+
+                string permisos = JsonConvert.SerializeObject(list);
+                return permisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ObtenerListaDeSubPermisosDeUsuario(String pEsquema, string pCodigo)
+        {
+            try
+            {
+                List<U_DatosSubPermisosDeUsuario> list = new List<U_DatosSubPermisosDeUsuario>();
+
+                list = objetoPermiso.ListaDatosDeSubPermisosDeUsuario(pEsquema, pCodigo);
+
+                string permisos = JsonConvert.SerializeObject(list);
+                return permisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
-
-
 }

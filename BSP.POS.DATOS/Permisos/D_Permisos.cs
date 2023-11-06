@@ -144,5 +144,53 @@ namespace BSP.POS.DATOS.Permisos
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public List<U_Permisos> ObtenerListaDePermisos(String pEsquema)
+        {
+            var LstPermisos = new List<U_Permisos>();
+
+            ObtenerListaPermisosTableAdapter sp = new ObtenerListaPermisosTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_Permisos permiso = new U_Permisos(item.Id, item.permiso);
+
+                    LstPermisos.Add(permiso);
+                }
+                return LstPermisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_SubPermisos> ObtenerListaDeSubPermisos(String pEsquema)
+        {
+            var LstSubPermisos = new List<U_SubPermisos>();
+
+            ObtenerListaSubPermisosTableAdapter sp = new ObtenerListaSubPermisosTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_SubPermisos subpermiso = new U_SubPermisos(item.Id, item.sub_permiso);
+
+                    LstSubPermisos.Add(subpermiso);
+                }
+                return LstSubPermisos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

@@ -41,8 +41,6 @@ namespace BSP.POS.Presentacion.Models.Usuarios
 
         
         public IFormFile? ImagenFile { get; set; }
-        public List<mPermisos> listaTodosLosPermisos = new List<mPermisos>();
-        public List<mPermisosAsociados> listaPermisosAsociados = new List<mPermisosAsociados>();
         public string? claveOriginal { get; set; } = string.Empty;
         public string usuarioOrignal { get; set; } = string.Empty;
         public string correoOriginal { get; set; } = string.Empty;

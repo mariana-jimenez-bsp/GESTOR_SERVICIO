@@ -165,3 +165,22 @@ button.btn:disabled {
         width: 0.2em;
     }
 }
+.ms-parent {
+    max-width: 300px;
+}
+
+.m-hidden {
+    visibility: hidden;
+    height: 0px;
+}
+
+.ms-drop .selected {
+    background-color: #4CAF50; /* Cambia el color de fondo a tu elección */
+    color: #fff; /* Cambia el color del texto a tu elección */
+}
+
+    .ms-drop .selected input[type="checkbox"] {
+        background-color: #4CAF50; /* Cambia el color de fondo a tu elección */
+        border-color: #4CAF50; /* Cambia el color del borde a tu elección */
+        accent-color: #29702b;
+    }

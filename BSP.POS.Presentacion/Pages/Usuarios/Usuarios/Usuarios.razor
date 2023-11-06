@@ -8,7 +8,7 @@
 
 @if (cargaInicial)
 {
-    @if (permisos.Any(p => p.permiso == "Usuarios"))
+    @if (permisos.Any(p => p.permiso == "Usuarios" && p.subpermisos.Contains("Ver Lista")))
     {
         <div class="el-layout">
             <Layout Texto="RecibirTexto"></Layout>

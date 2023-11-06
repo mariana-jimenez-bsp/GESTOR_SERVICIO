@@ -10,7 +10,7 @@
 
 @if (cargaInicial)
 {
-    @if (permisos.Any(p => p.permiso == "Actividades"))
+    @if (permisos.Any(p => p.permiso == "Actividades" && p.subpermisos.Contains("Ver Lista")))
     {
 
         <div class="el-layout">

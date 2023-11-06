@@ -66,7 +66,7 @@ namespace BSP.POS.Presentacion.Pages.Clientes
                 // Inicializa los tooltips de Bootstrap
                 try
                 {
-                    if (permisos.Any(p => p.permiso == "Clientes" && !p.subpermisos.Contains("Editar")))
+                    if (permisos.Any(p => p.permiso == "Clientes" && p.subpermisos.Contains("Ver Lista") && !p.subpermisos.Contains("Editar")))
                     {
                         await JS.InvokeVoidAsync("DesactivarElementos");
                         await AlertasService.SwalAdvertencia("No tienes permisos de edición, solo puedes visualizar");

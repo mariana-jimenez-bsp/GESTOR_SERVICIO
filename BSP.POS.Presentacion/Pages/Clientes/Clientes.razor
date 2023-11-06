@@ -13,7 +13,7 @@
 @inject IAlertasInterface AlertasService
 @if (cargaInicial)
 {
-    @if (permisos.Any(p => p.permiso == "Clientes"))
+    @if (permisos.Any(p => p.permiso == "Clientes" && p.subpermisos.Contains("Ver Lista")))
     {
 
         <div class="el-layout">

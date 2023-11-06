@@ -184,22 +184,42 @@
                         <div class="col-md-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center align-items-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text text-center">Permisos:</label>
-                                <div class="px-2 d-flex justify-content-center row width-col-special">
-                                    @if (usuario.listaTodosLosPermisos != null)
-                                    {
-
-                                        foreach (var permiso in usuario.listaTodosLosPermisos)
-                                        {
-
-
-                                            <div>
-                                                <input type="checkbox" class="custom-checkbox" id="myCheckbox-@usuario.id-@permiso.Id" checked="@permiso.EstadoCheck" @onchange="(e) => HandleCheckCambiado(e, permiso.Id)">
-                                                <label class="label-transparent" for="myCheckbox-@usuario.id-@permiso.Id">@permiso.permiso</label>
-                                            </div>
-
-                                        }
-                                    }
-                                </div>
+                  
+                                    <div class="container">
+                                        <div class="form-group mt-5 d-flex justify-content-start">
+                                            <select multiple id="select-multiple-permisos">
+                                                @if (listaDePermisos.Any())
+                                                {
+                                                    @foreach (var permiso in listaDePermisos)
+                                                    {
+                                                    <optgroup label="@permiso.permiso" class="group-title" data-group-id="@permiso.Id">
+                                                            <option value="@permiso.Id" class="sub-options m-hidden">@permiso.permiso</option>
+                                                            @if (listaDeSubPermisos.Any())
+                                                            {
+                                                                @foreach (var subpermiso in listaDeSubPermisos)
+                                                                {
+                                                                    @if(permiso.permiso == "Proyectos" && subpermiso.sub_permiso == "Terminar")
+                                                                    {
+                                                                        <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
+                                                                    }else{
+                                                                        @if(subpermiso.sub_permiso != "Terminar")
+                                                                        {
+                                                                            <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
+                                                                        }
+                                                                    }
+                                                                    
+                                                                }
+                                                            }
+                                                            
+                                                        </optgroup>
+                                                    }
+                                                    
+                                                }
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                          
 
                             </div>
                         </div>
@@ -222,6 +242,7 @@
             <RutaErronea mensaje="@mensajeValidacion"></RutaErronea>
         }
         <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-agregar-usuario" Elemento3=".div-vacio"></ScriptMaxHeight>
+       
 }else{
    <RutaErronea mensaje="No tienes los permisos suficientes para entrar a esta página"></RutaErronea>
 }

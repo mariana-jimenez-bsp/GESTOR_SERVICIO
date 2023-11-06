@@ -1,48 +1,4 @@
-﻿function ActivarDobleClick(IdElemento) {
-    var elemento = document.getElementById(IdElemento);
-
-    var eventoClick = new Event("dblclick");
-
-    elemento.dispatchEvent(eventoClick);
-}
-
-function PersonalizarSelect() {
-    const customSelect = document.getElementById('customSelect');
-    const customOptions = customSelect.querySelectorAll('.custom-option');
-
-    if (customOptions) {
-        customOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                option.classList.toggle('selected');
-            });
-        });
-    }
-}
-function AgregarCustomSelectListener(selectId) {
-    var select = document.getElementById(selectId);
-
-    if (!select) {
-        return;
-    }
-
-    select.addEventListener("mousedown", function (e) {
-        e.preventDefault();
-
-        var scroll = select.scrollTop;
-
-        e.target.selected = !e.target.selected;
-
-        setTimeout(function () {
-            select.scrollTop = scroll;
-        }, 0);
-
-        select.focus();
-    });
-
-    select.addEventListener("mousemove", function (e) {
-        e.preventDefault();
-    });
-}
+﻿
 window.clickButton = (element) => {
     element.click();
 }
@@ -212,3 +168,40 @@ function DesactivarElementos() {
     });
 
 }
+function ActivarSelectMultiple(jsonData, objRef) {
+
+    if (jsonData) {
+        var opcionesAActivar = JSON.parse(jsonData);
+
+        // Obtén una referencia al elemento select
+        var selectMultiple = document.getElementById("select-multiple-permisos");
+        // Recorre el objeto y activa las opciones
+        for (var groupId in opcionesAActivar) {
+            var opciones = opcionesAActivar[groupId];
+            var optgroup = selectMultiple.querySelector('optgroup[data-group-id="' + groupId + '"]');
+
+            if (optgroup) {
+                opciones.forEach(function (valor) {
+                    var option = optgroup.querySelector('option[value="' + valor + '"]');
+                    if (option) {
+                        option.selected = true;
+                    }
+                });
+            }
+        }
+    }
+    $('#select-multiple-permisos').multipleSelect({
+        filter: true,
+        selectAll: true,
+        selectAllText: 'Everyone in Project',
+        width: '100%',
+
+    });
+    $('#select-multiple-permisos').on('change', function () {
+        var selectedValues = $(this).val();
+        objRef.invokeMethodAsync('CambioDePermisos', selectedValues);
+    });
+}
+
+    
+

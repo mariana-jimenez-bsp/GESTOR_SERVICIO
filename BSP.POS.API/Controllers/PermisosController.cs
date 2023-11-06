@@ -81,5 +81,90 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpGet("ObtengaListaDePermisos")]
+        public IActionResult ObtengaListaDePermisos()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string listaPermisosJson = _permisos.ObtenerListaDePermisos(esquema);
+                if (string.IsNullOrEmpty(listaPermisosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaPermisosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("ObtengaListaDePermisosDeUsuario")]
+        public IActionResult ObtengaListaDePermisosDeUsuario()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-Codigo"];
+                string listaPermisosJson = _permisos.ObtenerListaDePermisosDeUsuario(esquema, codigo);
+                if (string.IsNullOrEmpty(listaPermisosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaPermisosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+        [HttpGet("ObtengaListaDeSubPermisos")]
+        public IActionResult ObtengaListaDeSubPermisos()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string listaPermisosJson = _permisos.ObtenerListaDeSubPermisos(esquema);
+                if (string.IsNullOrEmpty(listaPermisosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaPermisosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("ObtengaListaDeSubPermisosDeUsuario")]
+        public IActionResult ObtengaListaDeSubPermisosDeUsuario()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-Codigo"];
+                string listaPermisosJson = _permisos.ObtenerListaDeSubPermisosDeUsuario(esquema, codigo);
+                if (string.IsNullOrEmpty(listaPermisosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaPermisosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
     }
 }
