@@ -42,7 +42,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private bool cargarInicial = false;
         private string mensajeValidacion = string.Empty;
         List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
-
+        private List<string> permisosCambiados = new List<string>();
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -112,6 +112,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
             try
             {
+                    string jsonData = "";
                     Dictionary<string, List<string>> permisosAActivar = new Dictionary<string, List<string>>();
                     if (listaDePermisosDeUsuario.Any() && listaDeSubPermisosDeUsuario.Any())
                     {
@@ -127,13 +128,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                             }
                             permisosAActivar.Add(permiso.id_permiso, subPermisosAActivar);
                         }
-                        string jsonData = JsonSerializer.Serialize(permisosAActivar);
-                    DotNetObjectReference<EditarUsuario> objRef = DotNetObjectReference.Create(this);
-                    await JSRuntime.InvokeVoidAsync("ActivarSelectMultiple", jsonData, objRef);
+                        jsonData = JsonSerializer.Serialize(permisosAActivar);
+                   
                     }
                 
-                
-               
+                await JSRuntime.InvokeVoidAsync("ActivarSelectMultiplePermisos", jsonData);
+
+
             }
             catch (Exception ex)
             {
@@ -309,23 +310,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         }
         [JSInvokable]
-        public void CambioDePermisos(string[] permisosSeleccioandos)
+        public void CambioDePermisos(string[] permisosSeleccionados)
         {
-            var permisosCambiados = permisosSeleccioandos.ToList();
-
-            foreach (var uniqueId in permisosCambiados)
-            {
-                // Analiza el identificador único para determinar el permiso y el subpermiso seleccionados
-                var ids = uniqueId.Split('-');
-                var permisoId = ids[0];
-                var subpermisoId = ids[1];
-                if(listaDePermisosDeUsuario.Any(p => p.id_permiso == permisoId && listaDeSubPermisosDeUsuario.Any(s => s.id_permiso_usuario == p.Id)))
-                {
-
-                }
-                // Realiza cualquier acción necesaria con los permisos y subpermisos seleccionados
-            }
+            permisosCambiados = permisosSeleccionados.ToList();
         }
+
+
 
         private async Task VerificarCorreoYUsuarioExistente()
         {
@@ -379,24 +369,24 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             
         }
 
-        //private async Task<bool> ActualizarListaDePermisos()
-        //{
-        //    bool resultado = false;
-        //    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        //    await PermisosService.ObtenerListaDePermisosAsociados(usuario.esquema, usuario.id);
-        //    bool sonIguales = PermisosService.ListaPermisosAsociadados.Count == usuario.listaPermisosAsociados.Count && PermisosService.ListaPermisosAsociadados.All(usuario.listaPermisosAsociados.Contains);
-        //    if (!sonIguales)
-        //    {
-        //        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        //        resultado = await PermisosService.ActualizarListaPermisosAsociados(usuario.listaPermisosAsociados, usuario.id, usuario.esquema);
+        private async Task<bool> ActualizarListaDePermisos()
+        {
+            DotNetObjectReference<EditarUsuario> objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("ObtenerValoresDeSelectDePermiso", objRef);
+            bool resultado = false;
+            
+            if (permisosCambiados.Any())
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                resultado = await PermisosService.ActualizarListaPermisosDeUsuario(permisosCambiados, usuario.codigo, usuario.esquema);
 
-        //    }
-        //    else
-        //    {
-        //        resultado = true;
-        //    }
-        //    return resultado;
-        //}
+            }
+            else
+            {
+                resultado = true;
+            }
+            return resultado;
+        }
         private async Task ActualizarUsuario()
         {
             try
@@ -410,12 +400,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     ResultadoUsuario = await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
-                    //ResultadoPermisos = await ActualizarListaDePermisos();
-                    if(ResultadoUsuario && ResultadoPermisos)
+                    ResultadoPermisos = await ActualizarListaDePermisos();
+                    if (ResultadoUsuario && ResultadoPermisos)
                     {
                         if(usuarioActual.ToLower() == usuario.usuarioOrignal.ToLower())
                         {
-                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada)
+                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada || permisosCambiados.Any())
                             {
                                 await AlertasService.SwalExitoLogin("Se ha actualizado el usuario");
                                 

@@ -18,5 +18,6 @@ namespace BSP.POS.Presentacion.Interfaces.Permisos
         Task ObtenerLaListaDeSubPermisos(string esquema);
         Task ObtenerLaListaDePermisosDeUsuario(string esquema, string codigo);
         Task ObtenerLaListaDeSubPermisosDeUsuario(string esquema, string codigo);
+        Task<bool> ActualizarListaPermisosDeUsuario(List<string> listaPermisos, string codigo, string esquema);
     }
 }

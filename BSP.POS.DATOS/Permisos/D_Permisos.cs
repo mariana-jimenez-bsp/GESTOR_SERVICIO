@@ -192,5 +192,79 @@ namespace BSP.POS.DATOS.Permisos
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string EliminarPermisosDeUsuario(string pCodigo, string esquema)
+        {
+            POSDataSet.EliminarPermisosDeUsuarioDataTable bTabla = new POSDataSet.EliminarPermisosDeUsuarioDataTable();
+            EliminarPermisosDeUsuarioTableAdapter sp = new EliminarPermisosDeUsuarioTableAdapter();
+            try
+            {
+                var response = sp.GetData(pCodigo, esquema);
+                return "Exito";
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException);
+            }
+
+
+
+        }
+
+        public string EliminarSubPermisosDeUsuario(string pCodigo, string esquema)
+        {
+            POSDataSet.EliminarSubPermisosDeUsuarioDataTable bTabla = new POSDataSet.EliminarSubPermisosDeUsuarioDataTable();
+            EliminarSubPermisosDeUsuarioTableAdapter sp = new EliminarSubPermisosDeUsuarioTableAdapter();
+            try
+            {
+                var response = sp.GetData(pCodigo, esquema);
+
+                return "Exito";
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException);
+            }
+
+        }
+
+        public string AgregarPermisoDeUsuario(string IdPermiso, string Codigo, string pEsquema)
+        {
+            try
+            {
+                AgregarPermisoDeUsuarioTableAdapter sp = new AgregarPermisoDeUsuarioTableAdapter();
+                var response = sp.GetData(pEsquema, Codigo, int.Parse(IdPermiso));
+                string Id = "";
+                foreach (var item in response)
+                {
+                    Id = item.Id;
+                }
+
+                return Id;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException);
+            }
+        }
+
+        public string AgregarSubPermisoDeUsuario(string IdPermisoUsuario, string IdSupPermiso, string pEsquema)
+        {
+            try
+            {
+                AgregarSubPermisoDeUsuarioTableAdapter sp = new AgregarSubPermisoDeUsuarioTableAdapter();
+                var response = sp.GetData(pEsquema, int.Parse(IdPermisoUsuario), int.Parse(IdSupPermiso));
+
+                return "Exito";
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error: ", ex.InnerException);
+            }
+        }
     }
 }

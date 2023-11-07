@@ -138,5 +138,54 @@ namespace BSP.POS.NEGOCIOS.Permisos
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string ActualizarPermisosDeUsuario(List<string> listaPermisos, string codigo, string esquema)
+        {
+            try
+            {
+                string mensaje = string.Empty;
+                var listaPermisosActuales = objetoPermiso.ListaDatosDePermisosDeUsuario(esquema, codigo);
+                var listaSubPermisosActuales = objetoPermiso.ListaDatosDeSubPermisosDeUsuario(esquema, codigo);
+                if (listaSubPermisosActuales.Any())
+                {
+                    objetoPermiso.EliminarSubPermisosDeUsuario(codigo, esquema);
+                }
+                if (listaPermisosActuales.Any()){
+                    objetoPermiso.EliminarPermisosDeUsuario(codigo, esquema);
+                }
+                if (listaPermisos.Any())
+                {
+                    List<string> IdPermisos = listaPermisos
+                .Select(item => item.Split('-')[0]) // Divide cada cadena en función del guion y toma la parte antes del guion.
+                .Distinct() // Elimina elementos duplicados.
+                .ToList();
+                    foreach (var id in IdPermisos)
+                    {
+                        string IdPermisoUsuario = objetoPermiso.AgregarPermisoDeUsuario(id, codigo, esquema);
+                        foreach (var IdUnico in listaPermisos)
+                        {
+
+                            var ids = IdUnico.Split('-');
+                            var permisoId = ids[0];
+                            var subpermisoId = ids[1];
+                            if (id == permisoId)
+                            {
+                                objetoPermiso.AgregarSubPermisoDeUsuario(IdPermisoUsuario, subpermisoId, esquema);
+                            }
+                        }
+                    }
+                }
+                
+                
+                return "Exito";
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error " + ex.Message, ex.InnerException.InnerException);
+            }
+
+
+        }
     }
 }

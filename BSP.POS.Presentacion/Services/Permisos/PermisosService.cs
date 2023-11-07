@@ -141,5 +141,30 @@ namespace BSP.POS.Presentacion.Services.Permisos
                 }
             }
         }
+
+        public async Task<bool> ActualizarListaPermisosDeUsuario(List<string> listaPermisos, string codigo, string esquema)
+        {
+            try
+            {
+                string url = "Permisos/ActualizaListaDePermisosDeUsuario";
+                string jsonData = JsonSerializer.Serialize(listaPermisos);
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-Codigo");
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-Codigo", codigo);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var response = await _http.PutAsync(url, content);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

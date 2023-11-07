@@ -165,6 +165,11 @@ button.btn:disabled {
         width: 0.2em;
     }
 }
+.ms-choice > span.placeholder {
+    background-color: white;
+    cursor: pointer;
+    color: black;
+}
 .ms-parent {
     max-width: 300px;
 }
@@ -174,13 +179,19 @@ button.btn:disabled {
     height: 0px;
 }
 
-.ms-drop .selected {
-    background-color: #4CAF50; /* Cambia el color de fondo a tu elección */
-    color: #fff; /* Cambia el color del texto a tu elección */
+.ms-drop {
+    border: #4CAF50; /* Cambia el color de fondo a tu elección */
+    
 }
-
-    .ms-drop .selected input[type="checkbox"] {
-        background-color: #4CAF50; /* Cambia el color de fondo a tu elección */
-        border-color: #4CAF50; /* Cambia el color del borde a tu elección */
-        accent-color: #29702b;
-    }
+.ms-select-all input[type="checkbox"] {
+    accent-color: #29702b;
+}
+.ms-select-all {
+    color: #1C3259;
+    font-style: italic;
+}
+.ms-drop .selected input[type="checkbox"] {
+    background-color: #4CAF50; /* Cambia el color de fondo a tu elección */
+    border-color: #4CAF50; /* Cambia el color del borde a tu elección */
+    accent-color: #29702b;
+}

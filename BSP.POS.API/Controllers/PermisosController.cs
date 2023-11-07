@@ -166,5 +166,26 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpPut("ActualizaListaDePermisosDeUsuario")]
+        public IActionResult ActualizaListaDePermisosDeUsuario([FromBody] List<string> datos)
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigoUsuario = Request.Headers["X-Codigo"];
+                string mensaje = _permisos.ActualizarPermisosDeUsuario(datos, codigoUsuario, esquema);
+                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
+                {
+                    return BadRequest();
+                }
+                return Ok(mensaje);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
     }
 }
