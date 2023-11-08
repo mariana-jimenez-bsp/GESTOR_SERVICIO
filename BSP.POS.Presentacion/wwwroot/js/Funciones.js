@@ -168,9 +168,38 @@ function DesactivarElementos() {
     });
 
 }
-function ActivarSelectMultiplePermisos(jsonData) {
-    var todasOpcionesSeleccionadas = false;
-    
+function ActivarSelectMultiplePermisos(jsonData, objRef) {
+
+
+    if (jsonData) {
+        var opcionesAActivar = JSON.parse(jsonData);
+
+        // Obtén una referencia al elemento select
+        var selectMultiple = document.getElementById("select-multiple-permisos");
+
+
+        // Recorre el objeto y activa las opciones
+
+        for (var groupId in opcionesAActivar) {
+            var opciones = opcionesAActivar[groupId];
+            var optgroup = selectMultiple.querySelector('optgroup[data-group-id="' + groupId + '"]');
+
+            if (optgroup) {
+               
+                opciones.forEach(function (valor) {
+                    var option = optgroup.querySelector('option[value="' + valor + '"]');
+                    if (option) {
+                        option.selected = true;
+                    }
+                });
+
+            }
+        }
+
+        // Verificar si todas las opciones están seleccionadas
+
+    }
+
     $('#select-multiple-permisos').multipleSelect({
         formatSelectAll: function () {
             return 'Seleccionar Todo'
@@ -192,48 +221,12 @@ function ActivarSelectMultiplePermisos(jsonData) {
         filterGroup: true,
         filterPlaceholder: 'Buscar Permiso'
     });
-    if (jsonData) {
-        var opcionesAActivar = JSON.parse(jsonData);
 
-        // Obtén una referencia al elemento select
-        var selectMultiple = document.getElementById("select-multiple-permisos");
-        var todasLasOpciones = selectMultiple.querySelectorAll('option');
-        var contadorTodasLasOpciones = 0;
-        // Recorre el objeto y activa las opciones
 
-        for (var groupId in opcionesAActivar) {
-            var opciones = opcionesAActivar[groupId];
-            var optgroup = selectMultiple.querySelector('optgroup[data-group-id="' + groupId + '"]');
-
-            if (optgroup) {
-                var opcionesEnOptgroup = optgroup.querySelectorAll('option');
-                var opcionesSeleccionadas = 0;
-                opciones.forEach(function (valor) {
-                    var option = optgroup.querySelector('option[value="' + valor + '"]');
-                    if (option) {
-                        $('#select-multiple-permisos').multipleSelect('check', valor)
-                        opcionesSeleccionadas++;
-                        contadorTodasLasOpciones++;
-                    }
-                });
-
-                if (contadorTodasLasOpciones === todasLasOpciones.length) {
-                    todasOpcionesSeleccionadas = true;
-                }
-            }
-        }
-
-        // Verificar si todas las opciones están seleccionadas
-
-    }
-    if (todasOpcionesSeleccionadas) {
-        $('#select-multiple-permisos').multipleSelect('checkAll')
-    }
-   
-}
-function ObtenerValoresDeSelectDePermiso(objRef) {
-    var selectedValues = $('#select-multiple-permisos').val();
-    objRef.invokeMethodAsync('CambioDePermisos', selectedValues);
+    $('#select-multiple-permisos').on('change', function () {
+        var selectedValues = $(this).val();
+        objRef.invokeMethodAsync('CambioDePermisos', selectedValues);
+    });
 }
     
 

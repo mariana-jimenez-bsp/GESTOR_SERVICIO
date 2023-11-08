@@ -43,6 +43,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private string mensajeValidacion = string.Empty;
         List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
         private List<string> permisosCambiados = new List<string>();
+        private bool eventoCambioPermiso = false;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -131,8 +132,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         jsonData = JsonSerializer.Serialize(permisosAActivar);
                    
                     }
-                
-                await JSRuntime.InvokeVoidAsync("ActivarSelectMultiplePermisos", jsonData);
+                DotNetObjectReference<EditarUsuario> objRef = DotNetObjectReference.Create(this);
+                await JSRuntime.InvokeVoidAsync("ActivarSelectMultiplePermisos", jsonData, objRef);
 
 
             }
@@ -313,6 +314,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public void CambioDePermisos(string[] permisosSeleccionados)
         {
             permisosCambiados = permisosSeleccionados.ToList();
+            eventoCambioPermiso = true;
         }
 
 
@@ -371,11 +373,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         private async Task<bool> ActualizarListaDePermisos()
         {
-            DotNetObjectReference<EditarUsuario> objRef = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync("ObtenerValoresDeSelectDePermiso", objRef);
+            
             bool resultado = false;
             
-            if (permisosCambiados.Any())
+            if (eventoCambioPermiso)
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 resultado = await PermisosService.ActualizarListaPermisosDeUsuario(permisosCambiados, usuario.codigo, usuario.esquema);
@@ -405,7 +406,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     {
                         if(usuarioActual.ToLower() == usuario.usuarioOrignal.ToLower())
                         {
-                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada || permisosCambiados.Any())
+                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada || eventoCambioPermiso)
                             {
                                 await AlertasService.SwalExitoLogin("Se ha actualizado el usuario");
                                 
