@@ -1,0 +1,43 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JSRuntime
+@inject IPermisosInterface PermisosService
+@if (cargaInicial)
+{
+    <div class="container w-100 px-5">
+        <div class="form-group">
+            <select multiple id="select-multiple-permisos" class="border border-success">
+                @if (listaDePermisos.Any())
+                {
+                    @foreach (var permiso in listaDePermisos)
+                    {
+                        <optgroup label="@permiso.permiso" class="group-title" data-group-id="@permiso.Id">
+                            @if (listaDeSubPermisos.Any())
+                            {
+                                @foreach (var subpermiso in listaDeSubPermisos)
+                                {
+                                    @if (permiso.permiso == "Proyectos" && subpermiso.sub_permiso == "Terminar")
+                                    {
+                                        <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
+                                    }
+                                    else
+                                    {
+                                        @if (subpermiso.sub_permiso != "Terminar")
+                                        {
+                                            <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        </optgroup>
+                    }
+
+                }
+
+            </select>
+        </div>
+    </div>
+
+
+}

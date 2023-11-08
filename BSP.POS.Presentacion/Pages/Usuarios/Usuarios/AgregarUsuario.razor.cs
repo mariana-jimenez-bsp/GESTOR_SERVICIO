@@ -21,13 +21,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         [Parameter] public string codigoCliente { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public mUsuarioParaAgregar usuario = new mUsuarioParaAgregar();
-        public List<mPermisos> todosLosPermisos { get; set; } = new List<mPermisos>();
-        public List<mPermisosAsociados> permisosAsociados { get; set; } = new List<mPermisosAsociados>();
+        
         public List<mClientes> listaClientes = new List<mClientes>();
         public List<mUsuariosParaEditar> usuarios = new List<mUsuariosParaEditar>();
         public List<mCodigoTelefonoPais> listaCodigoTelefonoPais = new List<mCodigoTelefonoPais>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mDatosLicencia licencia = new mDatosLicencia();
+        public List<mPermisos> listaDePermisos { get; set; } = new List<mPermisos>();
+        public List<mSubPermisos> listaDeSubPermisos { get; set; } = new List<mSubPermisos>();
         bool repetido = false;
         public string correoRepite = string.Empty;
         public string mensajeCorreoRepite = string.Empty;
@@ -38,7 +39,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private bool limiteDeUsuarios = false;
         private bool cargarInicial = false;
         private string mensajeCliente = string.Empty;
-
+        private List<string> permisosNuevos = new List<string>();
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -54,17 +55,18 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
             if (await VerificarValidaCodigoCliente()){
                 
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await PermisosService.ObtenerListaDePermisos(esquema);
+               
                 if (!string.IsNullOrEmpty(codigoCliente))
                 {
                     usuario.cod_cliente = codigoCliente;
                 }
-                if (PermisosService.ListaPermisos != null)
-                {
-                    todosLosPermisos = PermisosService.ListaPermisos;
-
-                }
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await PermisosService.ObtenerLaListaDePermisos(esquema);
+                listaDePermisos = PermisosService.ListaDePermisos;
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await PermisosService.ObtenerLaListaDeSubPermisos(esquema);
+                listaDeSubPermisos = PermisosService.ListaDeSubPermisos;
+               
                 usuario.paisTelefono = "CRI";
                
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -108,6 +110,26 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 limiteDeUsuarios = true;
             }
             cargarInicial = true;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            try
+            {
+                
+                DotNetObjectReference<AgregarUsuario> objRef = DotNetObjectReference.Create(this);
+                await JSRuntime.InvokeVoidAsync("ActivarSelectMultiplePermisos", "", objRef);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
+
+
         }
         public async Task<bool> VerificarValidaCodigoCliente()
         {
@@ -237,40 +259,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
 
         }
-        private void HandleCheckCambiado(ChangeEventArgs e, string idPermiso)
+
+        [JSInvokable]
+        public void CambioDePermisos(string[] permisosSeleccionados)
         {
-            var permiso = new mPermisos();
-            foreach (var item in todosLosPermisos)
-            {
-                if (item.Id == idPermiso)
-                {
-                    item.EstadoCheck = (bool)e.Value;
-                    permiso = item;
-                }
-            }
-
-
-            var permisoEncontrado = permisosAsociados.FirstOrDefault(p => p.id_permiso == permiso.Id);
-
-            if (permiso.EstadoCheck)
-            {
-                if (permisoEncontrado == null)
-                {
-                    mPermisosAsociados permisoParaAñadir = new mPermisosAsociados();
-                    permisoParaAñadir.id_permiso = permiso.Id;
-                    permisosAsociados.Add(permisoParaAñadir);
-
-                }
-            }
-            else
-            {
-                if (permisoEncontrado != null)
-                {
-                    permisosAsociados.Remove(permisoEncontrado);
-
-                }
-            }
+            permisosNuevos = permisosSeleccionados.ToList();
         }
+
         private async Task VerificarCorreoYUsuarioExistente()
         {
 
@@ -332,10 +327,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         {
                             usuarioCreado = UsuariosService.Perfil;
                         }
-                        if (permisosAsociados.Any())
+                        if (permisosNuevos.Any())
                         {
                             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                            resultadoPermisos = await PermisosService.ActualizarListaPermisosAsociados(permisosAsociados, usuarioCreado.id, usuarioCreado.esquema);
+                            resultadoPermisos = await PermisosService.ActualizarListaPermisosDeUsuario(permisosNuevos, usuarioCreado.codigo, usuarioCreado.esquema);
                         }
                         else
                         {

@@ -182,42 +182,10 @@
                             <ValidationMessage For="@(() => usuario.ImagenFile)" />
                         </div>
                         <div class="col-md-4 border border-success rounded-5 m-1 ">
-                            <div class="row d-flex justify-content-center mb-2 mt-2 text-start">
+                            <div class="row d-flex justify-content-center my-2 text-start">
                                 <label class=" blue-dark-text label-text text-center">Permisos:</label>
 
-                                <div class="container w-100 px-5">
-                                        <div class="form-group">
-                                            <select multiple id="select-multiple-permisos" class="border border-success">
-                                                @if (listaDePermisos.Any())
-                                                {
-                                                    @foreach (var permiso in listaDePermisos)
-                                                    {
-                                                    <optgroup label="@permiso.permiso" class="group-title" data-group-id="@permiso.Id">
-                                                            @if (listaDeSubPermisos.Any())
-                                                            {
-                                                                @foreach (var subpermiso in listaDeSubPermisos)
-                                                                {
-                                                                    @if(permiso.permiso == "Proyectos" && subpermiso.sub_permiso == "Terminar")
-                                                                    {
-                                                                        <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
-                                                                    }else{
-                                                                        @if(subpermiso.sub_permiso != "Terminar")
-                                                                        {
-                                                                            <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
-                                                                        }
-                                                                    }
-                                                                    
-                                                                }
-                                                            }
-                                                            
-                                                        </optgroup>
-                                                    }
-                                                    
-                                                }
-                                                
-                                            </select>
-                                        </div>
-                                    </div>
+                                <SelectPermisos @ref="selectPermisosComponente" codigo="@usuario.codigo" esquema="@esquema"></SelectPermisos>
                           
 
                             </div>

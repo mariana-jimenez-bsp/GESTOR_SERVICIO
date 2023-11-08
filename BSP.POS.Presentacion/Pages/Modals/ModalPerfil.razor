@@ -7,156 +7,179 @@
 @inject IJSRuntime JSRuntime
 @inject SweetAlertService Swal;
 
-<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
-    <div class="modal-content">
-        <EditForm Model="perfil" OnValidSubmit="ActualizarPerfil" OnInvalidSubmit="ActivarScrollBarDeErrores">
-            <DataAnnotationsValidator />
-            <div class="modal-header d-flex justify-content-center ">
-                <h2 class="text-profile blue-dark-text">Perfil <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
-                
-            </div>
-            <div class="text-end">
-                <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
-            </div>
-            @if (!string.IsNullOrEmpty(mensajeError))
-            {
-                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
-            }
-            <div class="modal-body d-flex row g-2 text-start max-height-profile overflow-y-auto overflow-x-hidden scrollbar-modal-profile">
-                
-                <div class="d-flex justify-content-center ">
-                    <label class="col-md-4  blue-dark-text label-text" for="correo">Correo:</label>
-                    <input @bind-value="@perfil.correo" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="correo" @oninput="CambioCorreo" />
-                </div>
-                <div class="text-center">
-                    <ValidationMessage For="@(() => perfil.correo)" />
-                </div>
-                @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
-                {
-                    <div class="text-center mensaje-repite">
-                        <MensajeRepite Message="@mensajeCorreoRepite" />
-                    </div>
-                    
-                }
-                <div class="d-flex justify-content-center">
-                    <label class="col-md-4  blue-dark-text label-text" for="usuario">Usuario:</label>
-                    @if (rol == "Admin")
-                    {
-                        <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario" @oninput="CambioUsuario" />
-                    }
-                    else{
-                         <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario"  readonly/>
-                    }
+    <div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+        <div class="modal-content">
+            <EditForm Model="perfil" OnValidSubmit="ActualizarPerfil" OnInvalidSubmit="ActivarScrollBarDeErrores">
+                <DataAnnotationsValidator />
+                <div class="modal-header d-flex justify-content-center ">
+                    <h2 class="text-profile blue-dark-text">Perfil <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
 
                 </div>
-                <div class="text-center">
-                    <ValidationMessage For="@(() => perfil.usuario)" />
+                <div class="text-end">
+                    <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
                 </div>
-                @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
+                @if (!string.IsNullOrEmpty(mensajeError))
                 {
-                    <div class="text-center mensaje-repite">
-                        <MensajeRepite Message="@mensajeUsuarioRepite" />
-                    </div>
+                    <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
                 }
-                <div class="d-flex justify-content-center">
-                    <label class="col-md-4  blue-dark-text label-text" for="contraseña">Contraseña:</label>
-                    <div class="col-md-4 d-flex align-items-center border border-success rounded-pill text-input">
-                        <input class="border-0 w-100 h-100 border-success rounded-pill px-2" type="@(mostrarClave ? "text" : "password")" id="contraseña" @bind-value="@perfil.claveDesencriptada" @oninput="CambioClave" />
-                        @if (mostrarClave)
+           
+                <div class="modal-body d-flex row g-2 text-start max-height-profile overflow-y-auto overflow-x-hidden scrollbar-modal-profile">
+                @if (cargaInicial)
+                {
+                    <div class="d-flex justify-content-center ">
+                        <label class="col-md-4  blue-dark-text label-text" for="correo">Correo:</label>
+                        <input @bind-value="@perfil.correo" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="correo" @oninput="CambioCorreo" />
+                    </div>
+                    <div class="text-center">
+                        <ValidationMessage For="@(() => perfil.correo)" />
+                    </div>
+                    @if (!string.IsNullOrEmpty(mensajeCorreoRepite))
+                    {
+                        <div class="text-center mensaje-repite">
+                            <MensajeRepite Message="@mensajeCorreoRepite" />
+                        </div>
+
+                    }
+                    <div class="d-flex justify-content-center">
+                        <label class="col-md-4  blue-dark-text label-text" for="usuario">Usuario:</label>
+                        @if (rol == "Admin")
                         {
-                            <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                            <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario" @oninput="CambioUsuario" />
                         }
                         else
                         {
-                            <i class="fa-solid fa-eye p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                            <input @bind-value="@perfil.usuario" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="usuario" readonly />
                         }
+
                     </div>
-                </div>
-                <div class="text-center">
-                    <ValidationMessage For="@(() => perfil.clave)" />
-                    <ValidationMessage For="@(() => perfil.claveDesencriptada)" />
-                </div>
-                
-                <div class="d-flex justify-content-center">
-                    <label class="col-md-4  blue-dark-text label-text" for="empresa">Empresa:</label>
-                    @if(rol == "Admin")
+                    <div class="text-center">
+                        <ValidationMessage For="@(() => perfil.usuario)" />
+                    </div>
+                    @if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
                     {
-                        <select @bind="@clienteAsociado.CLIENTE" class="col-md-4 border border-success rounded-pill px-2 text-input " id="empresa" @oninput="CambioCodigoCliente">
-                            @if (listaDeClientes.Any())
+                        <div class="text-center mensaje-repite">
+                            <MensajeRepite Message="@mensajeUsuarioRepite" />
+                        </div>
+                    }
+                    <div class="d-flex justify-content-center">
+                        <label class="col-md-4  blue-dark-text label-text" for="contraseña">Contraseña:</label>
+                        <div class="col-md-4 d-flex align-items-center border border-success rounded-pill text-input">
+                            <input class="border-0 w-100 h-100 border-success rounded-pill px-2" type="@(mostrarClave ? "text" : "password")" id="contraseña" @bind-value="@perfil.claveDesencriptada" @oninput="CambioClave" />
+                            @if (mostrarClave)
                             {
-                                foreach (var cliente in listaDeClientes)
-                                {
-                                    <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
-                                }
+                                <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
                             }
-                        </select>
-                    }
-                    else
-                    {
-                        <input @bind="@clienteAsociado.NOMBRE" class="col-md-4 border border-success rounded-pill px-2 text-input " id="empresa" type="text" readonly/>
-                    }
-                    
-                </div>
-                <div class="text-center">
-                    <ValidationMessage For="@(() => perfil.nombre)" />
-                </div>
-                <div class="d-flex justify-content-center">
-                    <label class="col-md-4  blue-dark-text label-text" for="telefono">Telefono:</label>
-                    <input @bind-value="@perfil.telefono" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="telefono" @oninput="CambioTelefono" />
-                </div>
-                <div class="text-center">
-                    <ValidationMessage For="@(() => perfil.telefono)" />
-                </div>
-                @if (rol == "Admin")
-                {
-                <div class="d-flex justify-content-center">
-                    <label class="col-md-4  blue-dark-text label-text" for="esquema">Esquema:</label>
-                    <select @bind="perfil.esquema" class="col-md-4 border border-success rounded-pill green-bg text-light px-2 text-input" id="esquema" @oninput="CambioEsquema">
-                        <option value="BSP">BSP</option>
-                    </select>
-                </div>
-                
-                <div class="d-flex justify-content-center">
-                    <label class="col-md-4  blue-dark-text label-text" for="tipo">Tipo:</label>
-                    <select @bind="perfil.rol" class="col-md-4 border border-success rounded-pill green-bg text-light px-2 text-input" id="tipo" @oninput="CambioRol">
-                        <option value="Usuario">Usuario</option>
-                        <option value="Admin">Administrador</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <ValidationMessage For="@(() => perfil.rol)" />
-                </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <label class="col-md-4  blue-dark-text label-text text-start ps-5" >Permisos:</label>
-                    <div id="permisos" class="row col-md-6 px-2 text-input text-start d-flex align-items-center justify-content-center">
-                        @if (todosLosPermisos != null)
+                            else
+                            {
+                                <i class="fa-solid fa-eye p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                            }
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <ValidationMessage For="@(() => perfil.clave)" />
+                        <ValidationMessage For="@(() => perfil.claveDesencriptada)" />
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <label class="col-md-4  blue-dark-text label-text" for="empresa">Empresa:</label>
+                        @if (rol == "Admin")
                         {
-
-                            foreach (var permiso in todosLosPermisos)
-                            {
-    
-                                
-                                <div class="col-md-4 ms-4">
-                                    <input type="checkbox" class="custom-checkbox" id="myCheckbox-@permiso.Id" checked="@permiso.EstadoCheck" @onchange="(e) => HandleCheckCambiado(e, permiso.Id)">
-                                    <label class="label-transparent" for="myCheckbox-@permiso.Id">@permiso.permiso</label>
-                                </div>
-
-                            }
+                            <select @bind="@clienteAsociado.CLIENTE" class="col-md-4 border border-success rounded-pill px-2 text-input " id="empresa" @oninput="CambioCodigoCliente">
+                                @if (listaDeClientes.Any())
+                                {
+                                    foreach (var cliente in listaDeClientes)
+                                    {
+                                        <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
+                                    }
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <input @bind="@clienteAsociado.NOMBRE" class="col-md-4 border border-success rounded-pill px-2 text-input " id="empresa" type="text" readonly />
                         }
 
-
                     </div>
+                    <div class="text-center">
+                        <ValidationMessage For="@(() => perfil.nombre)" />
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <label class="col-md-4  blue-dark-text label-text" for="telefono">Telefono:</label>
+                        <input @bind-value="@perfil.telefono" class="col-md-4 border border-success rounded-pill px-2 text-input " type="text" id="telefono" @oninput="CambioTelefono" />
+                    </div>
+                    <div class="text-center">
+                        <ValidationMessage For="@(() => perfil.telefono)" />
+                    </div>
+                    @if (rol == "Admin")
+                    {
+                    <div class="d-flex justify-content-center">
+                        <label class="col-md-4  blue-dark-text label-text" for="esquema">Esquema:</label>
+                        <select @bind="perfil.esquema" class="col-md-4 border border-success rounded-pill green-bg text-light px-2 text-input" id="esquema" @oninput="CambioEsquema">
+                            <option value="BSP">BSP</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <label class="col-md-4  blue-dark-text label-text" for="tipo">Tipo:</label>
+                        <select @bind="perfil.rol" class="col-md-4 border border-success rounded-pill green-bg text-light px-2 text-input" id="tipo" @oninput="CambioRol">
+                            <option value="Usuario">Usuario</option>
+                            <option value="Admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <ValidationMessage For="@(() => perfil.rol)" />
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <label class="col-md-4  blue-dark-text label-text">Permisos:</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select multiple id="select-multiple-permisos" class="border border-success">
+                                    @if (listaDePermisos.Any())
+                                    {
+                                        @foreach (var permiso in listaDePermisos)
+                                        {
+                                            <optgroup label="@permiso.permiso" class="group-title" data-group-id="@permiso.Id">
+                                                @if (listaDeSubPermisos.Any())
+                                                {
+                                                    @foreach (var subpermiso in listaDeSubPermisos)
+                                                    {
+                                                        @if (permiso.permiso == "Proyectos" && subpermiso.sub_permiso == "Terminar")
+                                                        {
+                                                            <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            @if (subpermiso.sub_permiso != "Terminar")
+                                                            {
+                                                                <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+
+                                            </optgroup>
+                                        }
+
+                                    }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    }
                 </div>
-                }
-            </div>
 
-            <div class="modal-footer">
-                <div @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-perfil">Descartar cambios</div>
-                <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4" id="guardar-perfil">Guardar cambios</button>
-            </div>
-
-        </EditForm>
+                <div class="modal-footer">
+                    <div @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-perfil">Descartar cambios</div>
+                    <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4" id="guardar-perfil">Guardar cambios</button>
+                </div>
+               
+            </EditForm>
+        </div>
     </div>
-</div>
+
+
 
 
