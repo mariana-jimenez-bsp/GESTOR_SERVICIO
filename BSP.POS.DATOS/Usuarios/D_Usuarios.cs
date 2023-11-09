@@ -33,7 +33,25 @@ namespace BSP.POS.DATOS.Usuarios
                return  new U_Perfil();
 
         }
+        public string ObtenerUsuarioPorCorreo(string correo, string esquema)
+        {
+            try
+            {
+                ObtenerUsuarioPorCorreoTableAdapter sp = new ObtenerUsuarioPorCorreoTableAdapter();
+                var response = sp.GetData(esquema, correo).ToList();
+                string usuario = "";
+                foreach (var item in response)
+                {
+                    usuario = item.usuario;
+                }
+                return usuario;
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
         public string ActualizarPerfil(U_Perfil pPerfil, string esquema)
         {
             POSDataSet.ActualizarPerfilDataTable bTabla = new POSDataSet.ActualizarPerfilDataTable();

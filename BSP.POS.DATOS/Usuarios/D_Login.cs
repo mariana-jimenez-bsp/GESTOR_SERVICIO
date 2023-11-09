@@ -20,10 +20,10 @@ namespace BSP.POS.DATOS.Usuarios
 
             U_LoginToken login = null;
 
-                var j = _tablaUsuario.GetData(pLogin.usuario, pLogin.contrasena, pLogin.esquema, token).ToList();
+                var j = _tablaUsuario.GetData(pLogin.correo, pLogin.contrasena, pLogin.esquema, token).ToList();
                 foreach (POSDataSet.RealizarLoginRow item in j)
                 {
-                    login = new U_LoginToken(item.token, item.esquema, pLogin.usuario);
+                    login = new U_LoginToken(item.token, item.esquema, item.correo);
                 }
                 if (j.Count == 0)
                 {
@@ -189,12 +189,12 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
-        public string AumentarIntentosDeLogin(string esquema, string usuario)
+        public string AumentarIntentosDeLogin(string esquema, string correo)
         {
             AumentarIntentosLoginTableAdapter sp = new AumentarIntentosLoginTableAdapter();
             try
             {
-                var response = sp.GetData(usuario, esquema).ToList();
+                var response = sp.GetData(correo, esquema).ToList();
                 return "Éxito";
             }
             catch (Exception ex)
@@ -206,11 +206,11 @@ namespace BSP.POS.DATOS.Usuarios
 
         }
 
-        public int ObtenerIntentosDeLogin(string esquema, string usuario)
+        public int ObtenerIntentosDeLogin(string esquema, string correo)
         {
             ObtenerIntentosDeLoginTableAdapter sp = new ObtenerIntentosDeLoginTableAdapter();
                 int intentos = 0;
-                var response = sp.GetData(esquema, usuario).ToList();
+                var response = sp.GetData(esquema, correo).ToList();
                 foreach(var item in response)
                 {
                     intentos = item.maximo_intentos;

@@ -128,12 +128,6 @@ namespace BSP.POS.Presentacion.Shared
             navigationManager.NavigateTo($"clientes");
         }
 
-        private void IrAActividades()
-        {
-
-            navigationManager.NavigateTo($"actividades");
-        }
-
         private void IrAConfiguraciones()
         {
 

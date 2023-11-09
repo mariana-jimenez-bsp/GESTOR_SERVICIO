@@ -15,7 +15,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
     {
 
         private string mensaje { get; set; } = string.Empty;
-        private string usuarioExistente { get; set; } = string.Empty;
+        private string correoExistente { get; set; } = string.Empty;
         private string claveActual { get; set; } = string.Empty;
         private int intentos = 0;
         private string mensajeIntentos { get; set; } = string.Empty;
@@ -151,10 +151,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             mensaje = string.Empty;
             if (licenciaActiva && mismaMacAdress)
             {
-                usuarioExistente = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
-                if (usuarioExistente != null)
+                correoExistente = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
+                if (correoExistente != null)
                 {
-                    intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.usuario);
+                    intentos = await LoginService.ObtenerIntentosDeLogin(usuario.esquema, usuario.correo);
                     if (intentos >= 3)
                     {
                         mensajeIntentos = "Se excedió el limite de intentos, oprima la opción recuperar contraseña";
@@ -174,7 +174,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                         }
                         else
                         {
-                            bool resutadoIntentos = await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.usuario);
+                            bool resutadoIntentos = await LoginService.AumentarIntentosDeLogin(usuario.esquema, usuario.correo);
                             if (resutadoIntentos)
                             {
                                 mensajeError();
@@ -190,7 +190,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
                 {
                     mensajeError();
 
-                    usuario.usuario = string.Empty;
+                    usuario.correo = string.Empty;
                     usuario.clave = string.Empty;
                     claveActual = string.Empty;
                 }
@@ -207,11 +207,11 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
         }
 
 
-        private void ValorUsuario(ChangeEventArgs e)
+        private void ValorCorreo(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuario.usuario = e.Value.ToString();
+                usuario.correo = e.Value.ToString();
             }
         }
 
@@ -228,12 +228,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
 
         private void mensajeError()
         { 
-            if(!string.IsNullOrEmpty(usuarioExistente))
+            if(!string.IsNullOrEmpty(correoExistente))
             {
                 mensaje = "Contraseña Incorrecta";
             }else
             {
-                mensaje = "El usuario no existe en el esquema";
+                mensaje = "El correo no existe en el esquema";
             }
 
             

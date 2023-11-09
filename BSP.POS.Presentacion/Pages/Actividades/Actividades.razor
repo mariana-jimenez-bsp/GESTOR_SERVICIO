@@ -52,6 +52,7 @@
                                     listaDeActividades = listaDeActividades.Where(actividad =>
                                     actividad.Actividad.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
                                     actividad.CI_referencia.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                    listaUsuarios.Any(u => u.nombre.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 && actividad.codigo_usuario == u.codigo) ||
                                     actividad.codigo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
                                     ).ToList();
                                 }
@@ -121,13 +122,5 @@
 }
 else
 {
-    <div class="loader">
-        <p class="heading">Loading</p>
-        <div class="loading">
-            <div class="load"></div>
-            <div class="load"></div>
-            <div class="load"></div>
-            <div class="load"></div>
-        </div>
-    </div>
+    <Loading></Loading>
 }

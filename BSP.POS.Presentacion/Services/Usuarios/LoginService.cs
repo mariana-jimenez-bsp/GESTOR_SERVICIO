@@ -138,13 +138,13 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             return null;
         }
 
-        public async Task<bool> AumentarIntentosDeLogin(string esquema, string usuario)
+        public async Task<bool> AumentarIntentosDeLogin(string esquema, string correo)
         {
             string url = "Login/AumentaIntentosDeLogin";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            _http.DefaultRequestHeaders.Remove("X-Usuario");
-            _http.DefaultRequestHeaders.Add("X-Usuario", usuario);
+            _http.DefaultRequestHeaders.Remove("X-Correo");
+            _http.DefaultRequestHeaders.Add("X-Correo", correo);
 
             var content = new StringContent("");
 
@@ -155,13 +155,13 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
             return false;
         }
-        public async Task<int> ObtenerIntentosDeLogin(string esquema, string usuario)
+        public async Task<int> ObtenerIntentosDeLogin(string esquema, string correo)
         {
             string url = "Login/ObtengaLosIntentosDeLogin";
             _http.DefaultRequestHeaders.Remove("X-Esquema");
             _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-            _http.DefaultRequestHeaders.Remove("X-Usuario");
-            _http.DefaultRequestHeaders.Add("X-Usuario", usuario);
+            _http.DefaultRequestHeaders.Remove("X-Correo");
+            _http.DefaultRequestHeaders.Add("X-Correo", correo);
             var response = await _http.GetAsync(url);
             if (response.StatusCode == HttpStatusCode.OK)
             {

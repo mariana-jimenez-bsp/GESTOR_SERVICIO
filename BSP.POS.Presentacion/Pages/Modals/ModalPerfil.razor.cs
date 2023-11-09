@@ -169,8 +169,17 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 {
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
-                    ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
+                    if(rol == "Admin")
+                    {
+                        resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
+                        ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
+                    }
+                    else
+                    {
+                        resultadoPermisos = 1;
+                        ResultadoEsquemas = 1;
+                    }
+                    
                     string claveDesencriptada = perfil.claveDesencriptada;
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     resultaPerfil =  await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal, esquema);

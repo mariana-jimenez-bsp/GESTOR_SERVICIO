@@ -9,8 +9,7 @@
     <Authorized>
         @if (cargaInicial)
         {
-            @if (rol == "Admin")
-            {
+
                 <Layout></Layout>
                 @if(licencia != null)
                 {
@@ -51,32 +50,34 @@
                     </div>
                 }
                 <div class="d-flex mx-3 row blue-light-text mt-3">
-                    <div class="col-md-4 mx-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
-                        <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrAUsuarios">Usuarios</button>
-                    </div>
-                    <div class="col-md-4 mx-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
-                        <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrADepartamentos">Departamentos</button>
-                    </div>
+
+                    @if (permisos.Any(p => p.permiso == "Actividades"))
+                    {
+                        <div class="col-md-4 m-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
+                            <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrAActividades">Actividades</button>
+                        </div>
+                    }
+                    @if (permisos.Any(p => p.permiso == "Departamentos"))
+                    {
+                        <div class="col-md-4 m-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
+                            <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrADepartamentos">Departamentos</button>
+                        </div>
+                    }
+                    @if (permisos.Any(p => p.permiso == "Usuarios"))
+                    {
+                        <div class="col-md-4 m-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
+                            <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrAUsuarios">Usuarios</button>
+                        </div>
+                    }
+                    
                 </div>
                 
-            }
-            else
-            {
-                <RutaErronea mensaje="No tienes los permisos suficientes para entrar a esta página"></RutaErronea>
-            }
+
 
         }
         else
         {
-            <div class="loader">
-                <p class="heading">Loading</p>
-                <div class="loading">
-                    <div class="load"></div>
-                    <div class="load"></div>
-                    <div class="load"></div>
-                    <div class="load"></div>
-                </div>
-            </div>
+            <Loading></Loading>
         }
 
     </Authorized>

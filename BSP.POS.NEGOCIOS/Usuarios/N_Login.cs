@@ -25,7 +25,7 @@ namespace BSP.POS.NEGOCIOS.Usuarios
         {
             string usuarioJson;
             U_LoginToken login = new U_LoginToken();
- 
+            pLogin.usuario = objetoLogin.ObtenerUsuarioPorCorreo(pLogin.esquema, pLogin.correo);
             string claveActual = objetoLogin.ConsultarClaveUsuario(pLogin);
             string claveActualDescifrada = _cryptografia.DecryptString(claveActual, "BSP");
             string claveLoginDescifrada = _cryptografia.DecryptString(pLogin.contrasena, "BSP");
@@ -108,17 +108,17 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             return mensaje;
         }
 
-        public string AumentarIntentosDeLogin(string esquema, string usuario)
+        public string AumentarIntentosDeLogin(string esquema, string correo)
         {
             string mensaje = string.Empty;
-            mensaje = objetoLogin.AumentarIntentosDeLogin(esquema, usuario);
+            mensaje = objetoLogin.AumentarIntentosDeLogin(esquema, correo);
             return mensaje;
         }
 
-        public int ObtenerIntentosDeLogin(string esquema, string usuario)
+        public int ObtenerIntentosDeLogin(string esquema, string correo)
         {
             int intentos = 0;
-            intentos = objetoLogin.ObtenerIntentosDeLogin(esquema, usuario);
+            intentos = objetoLogin.ObtenerIntentosDeLogin(esquema, correo);
             return intentos;
         }
 

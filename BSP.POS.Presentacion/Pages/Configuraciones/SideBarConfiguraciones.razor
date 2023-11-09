@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager navigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <button class="btn btn-outline-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
     <i class="fa-solid fa-bars"></i>
 </button>
@@ -10,12 +11,24 @@
     </div>
     <div class="offcanvas-body">
         <div class="row">
-            <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAUsuarios">
-                Usuarios
-            </button>
-            <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrADepartamentos">
-                Departamentos
-            </button>
+            @if (permisos.Any(p => p.permiso == "Actividades"))
+            {
+                <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAActividades">
+                    Actividades
+                </button>
+            }
+            @if (permisos.Any(p => p.permiso == "Departamentos"))
+            {
+                <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrADepartamentos">
+                    Departamentos
+                </button>
+            }
+            @if(permisos.Any(p => p.permiso == "Usuarios")){
+                <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAUsuarios">
+                    Usuarios
+                </button>
+            }
+           
             <button class="btn btn-outline-secondary" type="button" @onclick="IrAlInicio">
                 Volver Al Inicio
             </button>
@@ -24,21 +37,3 @@
 </div>
 
 
-@code {
-    private void IrAlInicio()
-    {
-
-        navigationManager.NavigateTo($"Index");
-    }
-    private void IrAUsuarios()
-    {
-
-        navigationManager.NavigateTo($"Configuraciones/Usuarios");
-    }
-
-    private void IrADepartamentos()
-    {
-
-        navigationManager.NavigateTo($"Configuraciones/Departamentos");
-    }
-}
