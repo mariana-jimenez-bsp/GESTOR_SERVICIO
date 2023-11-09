@@ -27,8 +27,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public List<mCodigoTelefonoPais> listaCodigoTelefonoPais = new List<mCodigoTelefonoPais>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         public mDatosLicencia licencia = new mDatosLicencia();
-        public List<mPermisos> listaDePermisos { get; set; } = new List<mPermisos>();
-        public List<mSubPermisos> listaDeSubPermisos { get; set; } = new List<mSubPermisos>();
+       
         bool repetido = false;
         public string correoRepite = string.Empty;
         public string mensajeCorreoRepite = string.Empty;
@@ -39,7 +38,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private bool limiteDeUsuarios = false;
         private bool cargarInicial = false;
         private string mensajeCliente = string.Empty;
-        private List<string> permisosNuevos = new List<string>();
+        
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -60,12 +59,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 {
                     usuario.cod_cliente = codigoCliente;
                 }
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await PermisosService.ObtenerLaListaDePermisos(esquema);
-                listaDePermisos = PermisosService.ListaDePermisos;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await PermisosService.ObtenerLaListaDeSubPermisos(esquema);
-                listaDeSubPermisos = PermisosService.ListaDeSubPermisos;
                
                 usuario.paisTelefono = "CRI";
                
@@ -110,26 +103,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 limiteDeUsuarios = true;
             }
             cargarInicial = true;
-        }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            try
-            {
-                
-                DotNetObjectReference<AgregarUsuario> objRef = DotNetObjectReference.Create(this);
-                await JSRuntime.InvokeVoidAsync("ActivarSelectMultiplePermisos", "", objRef);
-
-
-            }
-            catch (Exception ex)
-            {
-
-                string error = ex.ToString();
-                Console.WriteLine(error);
-            }
-
-
         }
         public async Task<bool> VerificarValidaCodigoCliente()
         {
@@ -259,13 +232,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
 
         }
-
-        [JSInvokable]
-        public void CambioDePermisos(string[] permisosSeleccionados)
-        {
-            permisosNuevos = permisosSeleccionados.ToList();
-        }
-
         private async Task VerificarCorreoYUsuarioExistente()
         {
 
@@ -306,12 +272,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         {
            await AlertasService.SwalAvisoCancelado("Se han descartado los cambios");
         }
+        private SelectPermisos selectPermisosComponente;
         private async Task AgregarUsuarioNuevo()
         {
             try
             {
                 bool resultadoUsuario = false;
-                bool resultadoPermisos = false;
+                int resultadoPermisos = 0;
                 repetido = false;
                 await VerificarCorreoYUsuarioExistente();
                 if (!repetido)
@@ -327,16 +294,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                         {
                             usuarioCreado = UsuariosService.Perfil;
                         }
-                        if (permisosNuevos.Any())
-                        {
-                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                            resultadoPermisos = await PermisosService.ActualizarListaPermisosDeUsuario(permisosNuevos, usuarioCreado.codigo, usuarioCreado.esquema);
-                        }
-                        else
-                        {
-                            resultadoPermisos = true;
-                        }
-                        if(resultadoPermisos)
+                        resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos(usuarioCreado.codigo);
+                        
+                        if(resultadoPermisos == 1)
                         {
 
                           await AlertasService.SwalExitoHecho("Se ha agregado el usuario");

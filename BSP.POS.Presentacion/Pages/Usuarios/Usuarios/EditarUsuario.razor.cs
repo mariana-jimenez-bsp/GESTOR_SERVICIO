@@ -319,7 +319,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     ResultadoUsuario = await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
-                    ResultadoPermisos =   await selectPermisosComponente.ActualizarListaDePermisos();
+                    ResultadoPermisos =   await selectPermisosComponente.ActualizarListaDePermisos("");
                     if (ResultadoUsuario && ResultadoPermisos != 0)
                     {
                         if(usuarioActual.ToLower() == usuario.usuarioOrignal.ToLower())

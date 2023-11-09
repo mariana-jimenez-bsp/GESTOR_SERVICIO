@@ -64,6 +64,7 @@
         padding: 10px 20px;
     }
 .max-height-profile {
+    min-height: 200px;
     max-height: 500px;
 }
 .scrollbar-modal-profile::-webkit-scrollbar {

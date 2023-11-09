@@ -132,41 +132,9 @@
                     <div class="d-flex justify-content-center mt-3">
                         <label class="col-md-4  blue-dark-text label-text">Permisos:</label>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <select multiple id="select-multiple-permisos" class="border border-success">
-                                    @if (listaDePermisos.Any())
-                                    {
-                                        @foreach (var permiso in listaDePermisos)
-                                        {
-                                            <optgroup label="@permiso.permiso" class="group-title" data-group-id="@permiso.Id">
-                                                @if (listaDeSubPermisos.Any())
-                                                {
-                                                    @foreach (var subpermiso in listaDeSubPermisos)
-                                                    {
-                                                        @if (permiso.permiso == "Proyectos" && subpermiso.sub_permiso == "Terminar")
-                                                        {
-                                                            <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            @if (subpermiso.sub_permiso != "Terminar")
-                                                            {
-                                                                <option value="@($"{permiso.Id}-{subpermiso.Id}")" class="sub-options">@subpermiso.sub_permiso</option>
-                                                            }
-                                                        }
-
-                                                    }
-                                                }
-
-                                            </optgroup>
-                                        }
-
-                                    }
-
-                                    </select>
-                                </div>
-                            </div>
+                             <SelectPermisos @ref="selectPermisosComponente" codigo="@perfil.codigo" esquema="@esquema"></SelectPermisos>
                         </div>
+                    </div>
                     }
                     }
                 </div>
