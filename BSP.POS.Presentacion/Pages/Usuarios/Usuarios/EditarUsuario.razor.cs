@@ -192,14 +192,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 usuario.rol = e.Value.ToString();
             }
         }
-        private void CambioEsquema(ChangeEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(e.Value.ToString()))
-            {
-                usuario.esquema = e.Value.ToString();
-            }
-        }
-
         private void CambioNombre(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
@@ -258,7 +250,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower())
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                usuario.usuarioRepite = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
+                usuario.usuarioRepite = await UsuariosService.ValidarUsuarioExistente(esquema, usuario.usuario);
 
                 if (!string.IsNullOrEmpty(usuario.usuarioRepite))
                 {
@@ -279,7 +271,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             if (usuario.correoOriginal.ToLower() != usuario.correo.ToLower())
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                usuario.correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
+                usuario.correoRepite = await UsuariosService.ValidarCorreoExistente(esquema, usuario.correo);
                 if (!string.IsNullOrEmpty(usuario.correoRepite))
                 {
                     mensajeCorreoRepite = "El correo ya existe";
@@ -306,12 +298,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         
         private SelectPermisos selectPermisosComponente;
+        private SelectEsquemas selectEsquemasComponente;
         private async Task ActualizarUsuario()
         {
             try
             {
                 bool ResultadoUsuario = false;
                 int ResultadoPermisos = 0;
+                int ResultadoEsquemas = 0;
                 repetido = false;
                 await VerificarCorreoYUsuarioExistente();
                 if (!repetido)
@@ -319,12 +313,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     ResultadoUsuario = await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
-                    ResultadoPermisos =   await selectPermisosComponente.ActualizarListaDePermisos("");
-                    if (ResultadoUsuario && ResultadoPermisos != 0)
+                    ResultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
+                    ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
+                    if (ResultadoUsuario && ResultadoPermisos != 0 && ResultadoEsquemas != 0)
                     {
                         if(usuarioActual.ToLower() == usuario.usuarioOrignal.ToLower())
                         {
-                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada || ResultadoPermisos == 2)
+                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada || ResultadoPermisos == 2 || ResultadoEsquemas == 2)
                             {
                                 await AlertasService.SwalExitoLogin("Se ha actualizado el usuario");
                                 

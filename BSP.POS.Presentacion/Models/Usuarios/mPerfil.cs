@@ -25,8 +25,6 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         [Required(ErrorMessage = "El teléfono es requerido")]
         [StringLength(50, ErrorMessage = "Tamaño máximo de 50 caracteres")]
         public string telefono { get; set; } = string.Empty;
-        [Required(ErrorMessage = "El esquema es requerido")]
-        public string esquema { get; set; } = string.Empty;
         [StringLength(100, MinimumLength = 8, ErrorMessage = "El tamaño debe ser entre 8 a 100 caracteres")]
         [RegularExpression(@"^(?=.*\d)(?=.*[!@#$%^&*()_+\-=?.])(?=.*[A-Z]).+$", ErrorMessage = "La contraseña debe contener al menos un dígito, al menos un carácter de la lista !@#$%^&*()_+-=?. y al menos una letra mayúscula.")]
 

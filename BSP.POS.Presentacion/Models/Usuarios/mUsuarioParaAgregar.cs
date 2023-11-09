@@ -34,12 +34,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
         [Required(ErrorMessage = "El departamento es requerido")]
         public string codigo_departamento { get; set; } = string.Empty;
         public byte[] imagen { get; set; } = new byte[] { 0x00 };
-        [Required(ErrorMessage = "El esquema es requerido")]
-        [StringLength(10, ErrorMessage = "Tamaño máximo de 10 caracteres")]
-        public string esquema { get; set; } = string.Empty;
         public IFormFile? ImagenFile { get; set; }
-        public List<mPermisos> listaTodosLosPermisos = new List<mPermisos>();
-        public List<mPermisosAsociados> listaPermisosAsociados = new List<mPermisosAsociados>();
         public string claveOriginal { get; set; } = string.Empty;
         public string usuarioOrignal { get; set; } = string.Empty;
         public string correoOriginal { get; set; } = string.Empty;

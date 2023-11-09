@@ -23,7 +23,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_Perfil perf = new U_Perfil(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
+                    U_Perfil perf = new U_Perfil(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono);
                     perfil = perf;
                 }
                 if (perfil != null)
@@ -34,7 +34,7 @@ namespace BSP.POS.DATOS.Usuarios
 
         }
 
-        public string ActualizarPerfil(U_Perfil pPerfil)
+        public string ActualizarPerfil(U_Perfil pPerfil, string esquema)
         {
             POSDataSet.ActualizarPerfilDataTable bTabla = new POSDataSet.ActualizarPerfilDataTable();
             ActualizarPerfilTableAdapter sp = new ActualizarPerfilTableAdapter();
@@ -42,10 +42,10 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 if(string.IsNullOrEmpty(pPerfil.clave))
                 {
-                    U_Perfil perf= ObtenerUsuarioPorId(pPerfil.esquema, pPerfil.id);
+                    U_Perfil perf= ObtenerUsuarioPorId(esquema, pPerfil.id);
                     pPerfil.clave = perf.clave;
                 }
-                    var response = sp.GetData(pPerfil.id, pPerfil.codigo, pPerfil.usuario, pPerfil.correo, pPerfil.clave, pPerfil.nombre, pPerfil.rol, pPerfil.telefono, pPerfil.cod_cliente, pPerfil.esquema);
+                    var response = sp.GetData(pPerfil.id, pPerfil.codigo, pPerfil.usuario, pPerfil.correo, pPerfil.clave, pPerfil.nombre, pPerfil.rol, pPerfil.telefono, pPerfil.cod_cliente, esquema);
 
                 
                 return "Exito";
@@ -70,7 +70,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                 foreach (var item in response)
                 {
-                    U_Perfil perf = new U_Perfil(item.Id,item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.esquema);
+                    U_Perfil perf = new U_Perfil(item.Id,item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono);
                     perfil = perf;
                 }
                 
@@ -95,7 +95,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_Perfil usuario = new U_Perfil(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, "", item.nombre, item.rol, item.telefono, item.esquema);
+                    U_Perfil usuario = new U_Perfil(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, "", item.nombre, item.rol, item.telefono);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -343,7 +343,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.codigo_departamento, item.imagen, item.esquema);
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.codigo_departamento, item.imagen);
 
                     LstUsuarios.Add(usuario);
                 }
@@ -364,7 +364,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 var response = sp.GetData(pUsuario.cod_cliente, pUsuario.codigo_departamento, 
                     pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, 
-                    pUsuario.rol, pUsuario.telefono, pUsuario.imagen, pUsuario.esquema);
+                    pUsuario.rol, pUsuario.telefono, pUsuario.imagen, esquema);
 
 
                 return "Exito";
@@ -390,7 +390,7 @@ namespace BSP.POS.DATOS.Usuarios
             {
                 foreach (var item in response)
                 {
-                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.codigo_departamento, item.imagen, item.esquema);
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.codigo_departamento, item.imagen);
 
                     usuarioParEditar = usuario;
                 }
@@ -412,7 +412,7 @@ namespace BSP.POS.DATOS.Usuarios
 
                     if (string.IsNullOrEmpty(pUsuario.clave))
                     {
-                        U_Perfil perf = ObtenerUsuarioPorId(pUsuario.esquema, pUsuario.id);
+                        U_Perfil perf = ObtenerUsuarioPorId(esquema, pUsuario.id);
                         pUsuario.clave = perf.clave;
                     }
                     var response = sp.GetData(esquema, pUsuario.id, pUsuario.codigo, pUsuario.cod_cliente, pUsuario.codigo_departamento, pUsuario.usuario, pUsuario.correo, pUsuario.clave, pUsuario.nombre, pUsuario.rol, pUsuario.telefono, pUsuario.imagen);

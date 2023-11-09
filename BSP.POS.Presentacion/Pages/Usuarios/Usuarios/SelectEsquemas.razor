@@ -1,0 +1,22 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JSRuntime
+@inject IEsquemasInterface EsquemasService
+
+@if (cargaInicial)
+{
+
+    <div class="form-group">
+        <select multiple id="select-multiple-esquemas" class="border border-success">
+            @if (listaDeEsquemas.Any())
+            {
+                @foreach (var esquema in listaDeEsquemas)
+                {
+                    <option value="@($"{esquema.Id}")" class="sub-options">@esquema.esquema</option>
+                }
+
+            }
+        </select>
+    </div>
+
+}
+

@@ -11,7 +11,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         mPerfil Perfil { get; set; }
         Task ObtenerPerfil(string usuario, string esquema);
 
-        Task<bool> ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal);
+        Task<bool> ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal, string esquema);
 
         Task<List<mUsuariosDeCliente>> ObtenerListaDeUsuariosDeClienteAsociados(string esquema, string cliente);
         List<mUsuariosDeCliente> ListaDeUsuariosDeCliente { get; set; }

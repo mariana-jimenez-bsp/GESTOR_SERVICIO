@@ -67,9 +67,11 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         }
 
-        public async Task<bool> ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal)
+        public async Task<bool> ActualizarPefil(mPerfil perfil, string usuarioOriginal, string claveOriginal, string correoOriginal, string esquema)
         {
                 perfil.claveDesencriptada = null;
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 string url = "Usuarios/ActualizarPerfil";
                 string jsonData = JsonSerializer.Serialize(perfil);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");

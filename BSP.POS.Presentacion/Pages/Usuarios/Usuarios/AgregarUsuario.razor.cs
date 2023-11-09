@@ -170,13 +170,6 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 usuario.rol = e.Value.ToString();
             }
         }
-        private void CambioEsquema(ChangeEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(e.Value.ToString()))
-            {
-                usuario.esquema = e.Value.ToString();
-            }
-        }
 
         private void CambioNombre(ChangeEventArgs e)
         {
@@ -237,7 +230,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            usuarioRepite = await UsuariosService.ValidarUsuarioExistente(usuario.esquema, usuario.usuario);
+            usuarioRepite = await UsuariosService.ValidarUsuarioExistente(esquema, usuario.usuario);
 
             if (!string.IsNullOrEmpty(usuarioRepite))
             {
@@ -253,7 +246,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            correoRepite = await UsuariosService.ValidarCorreoExistente(usuario.esquema, usuario.correo);
+            correoRepite = await UsuariosService.ValidarCorreoExistente(esquema, usuario.correo);
             if (!string.IsNullOrEmpty(correoRepite))
             {
                 mensajeCorreoRepite = "El correo ya existe";
@@ -273,12 +266,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
            await AlertasService.SwalAvisoCancelado("Se han descartado los cambios");
         }
         private SelectPermisos selectPermisosComponente;
+        private SelectEsquemas selectEsquemasComponente;
         private async Task AgregarUsuarioNuevo()
         {
             try
             {
                 bool resultadoUsuario = false;
                 int resultadoPermisos = 0;
+                int ResultadoEsquemas = 0;
                 repetido = false;
                 await VerificarCorreoYUsuarioExistente();
                 if (!repetido)
@@ -295,8 +290,8 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                             usuarioCreado = UsuariosService.Perfil;
                         }
                         resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos(usuarioCreado.codigo);
-                        
-                        if(resultadoPermisos == 1)
+                        ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema(usuarioCreado.codigo);
+                        if (resultadoPermisos == 1 && ResultadoEsquemas == 1)
                         {
 
                           await AlertasService.SwalExitoHecho("Se ha agregado el usuario");

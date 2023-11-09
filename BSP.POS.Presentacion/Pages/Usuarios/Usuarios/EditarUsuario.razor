@@ -105,13 +105,13 @@
                             <ValidationMessage For="@(() => usuario.cod_cliente)" />
                         </div>
                         <div class="col-md-4 border border-success rounded-5 m-1 ">
-                            <div class="row d-flex justify-content-center mb-2 mt-2">
-                                <label class=" blue-dark-text label-text" for="c-esquema">Esquema:</label>
-                                <select @bind="usuario.esquema" class="border border-success rounded-pill px-2 text-input" id="c-esquema" @oninput="(e) => CambioEsquema(e)">
-                                    <option value="BSP">BSP</option>
-                                </select>
+                            <div class="row d-flex justify-content-center my-2 text-start">
+                                <label class=" blue-dark-text label-text text-center">Esquema:</label>
+                                <div class="container w-100 px-5">
+                                    <SelectEsquemas @ref="selectEsquemasComponente" codigo="@usuario.codigo"></SelectEsquemas>
+                                </div>
                             </div>
-                            <ValidationMessage For="@(() => usuario.esquema)" />
+                           
                         </div>
                         <div class="col-md-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">

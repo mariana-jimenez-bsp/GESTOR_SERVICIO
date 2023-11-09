@@ -21,9 +21,8 @@ namespace BSP.POS.UTILITARIOS.Usuarios
         public String telefono { get; set; }
         public String codigo_departamento { get; set; }
         public byte[] imagen { get; set; }
-        public String esquema { get; set; }
 
-        public U_UsuariosParaEditar(String pId, String pCodigo, String pCod_cliente, String pUsuario, String pCorreo, String pClave, String pNombre, String pRol, String pTelefono, string pCodigo_departamento, byte[] pImagen,  String pEsquema)
+        public U_UsuariosParaEditar(String pId, String pCodigo, String pCod_cliente, String pUsuario, String pCorreo, String pClave, String pNombre, String pRol, String pTelefono, string pCodigo_departamento, byte[] pImagen)
         {
             id = pId;
             codigo = pCodigo;
@@ -36,7 +35,6 @@ namespace BSP.POS.UTILITARIOS.Usuarios
             telefono = pTelefono;
             codigo_departamento = pCodigo_departamento;
             imagen = pImagen;
-            esquema = pEsquema;
         }
         public U_UsuariosParaEditar()
         {

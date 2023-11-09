@@ -14,60 +14,6 @@ namespace BSP.POS.NEGOCIOS.Permisos
     {
         D_Permisos objetoPermiso = new D_Permisos();
 
-        public string ListarPermisosAsociados(String pEsquema, String pId_Usuario)
-        {
-            try
-            {
-                List<U_PermisosAsociados> list = new List<U_PermisosAsociados>();
-
-                list = objetoPermiso.ListaPermisosAsociados(pEsquema, pId_Usuario);
-
-                string permisos = JsonConvert.SerializeObject(list);
-                return permisos;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
-        }
-
-        public string ListarPermisos(String pEsquema)
-        {
-            try
-            {
-                List<U_Permisos> list = new List<U_Permisos>();
-
-                list = objetoPermiso.ListaPermisos(pEsquema);
-
-                string permisos = JsonConvert.SerializeObject(list);
-                return permisos;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
-            }
-        }
-
-        public string ActualizarPermisosAsociados(List<U_PermisosAsociados> pPermisos, string pIdUsuario, string esquema)
-        {
-            try
-            {
-                string mensaje = string.Empty;
-                mensaje = objetoPermiso.EliminarPermisosAsociadosAntiguos(pIdUsuario, esquema);
-                mensaje = objetoPermiso.AgregarPermisosNuevosAsociados(pPermisos,pIdUsuario, esquema);
-                return mensaje;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ha ocurrido un error " + ex.Message, ex.InnerException.InnerException);
-            }
-            
-           
-        }
-
         public string ObtenerListaDePermisos(String pEsquema)
         {
             try

@@ -151,7 +151,8 @@ namespace BSP.POS.API.Controllers
         {
             try
             {
-                string mensaje = user.ActualizarPerfil(datos);
+                string esquema = Request.Headers["X-Esquema"];
+                string mensaje = user.ActualizarPerfil(datos, esquema);
                 if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
                     return BadRequest();

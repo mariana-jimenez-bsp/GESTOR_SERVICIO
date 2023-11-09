@@ -66,7 +66,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                     listaDeClientes = ClientesService.ListaClientes;
                 }
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                clienteAsociado = await ClientesService.ObtenerClienteAsociado(perfil.cod_cliente, perfil.esquema);
+                clienteAsociado = await ClientesService.ObtenerClienteAsociado(perfil.cod_cliente, esquema);
 
     
             }
@@ -122,13 +122,6 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 perfil.telefono = e.Value.ToString();
             }
         }
-        private void CambioEsquema(ChangeEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(e.Value.ToString()))
-            {
-                perfil.esquema = e.Value.ToString();
-            }
-        }
         private async Task VerificarCorreoYUsuarioExistente()
         {
 
@@ -137,7 +130,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 if (usuarioOriginal.ToLower() != perfil.usuario.ToLower())
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    usuarioRepite = await UsuariosService.ValidarUsuarioExistente(perfil.esquema, perfil.usuario);
+                    usuarioRepite = await UsuariosService.ValidarUsuarioExistente(esquema, perfil.usuario);
 
                     if (!string.IsNullOrEmpty(usuarioRepite))
                     {
@@ -150,7 +143,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
                 if (correoOriginal.ToLower() != perfil.correo.ToLower())
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    correoRepite = await UsuariosService.ValidarCorreoExistente(perfil.esquema, perfil.correo);
+                    correoRepite = await UsuariosService.ValidarCorreoExistente(esquema, perfil.correo);
                     if (!string.IsNullOrEmpty(correoRepite))
                     {
                         mensajeCorreoRepite = "El correo ya existe";
@@ -161,12 +154,14 @@ namespace BSP.POS.Presentacion.Pages.Modals
             
         }
         private SelectPermisos selectPermisosComponente;
+        private SelectEsquemas selectEsquemasComponente;
         private async Task ActualizarPerfil()
         {
             mensajeError = null;
             try
             {
                 int resultadoPermisos = 0;
+                int ResultadoEsquemas = 0;
                 bool resultaPerfil = false;
                 repetido = false;
                 await VerificarCorreoYUsuarioExistente();
@@ -175,12 +170,13 @@ namespace BSP.POS.Presentacion.Pages.Modals
 
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
+                    ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
                     string claveDesencriptada = perfil.claveDesencriptada;
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    resultaPerfil =  await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal);
-                    if (resultaPerfil && resultadoPermisos != 0)
+                    resultaPerfil =  await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal, esquema);
+                    if (resultaPerfil && resultadoPermisos != 0 && ResultadoEsquemas != 0)
                     {
-                        if (usuarioOriginal.ToLower() != perfil.usuario.ToLower() || correoOriginal.ToLower() != perfil.correo.ToLower() || claveOriginal != claveDesencriptada || resultadoPermisos == 2)
+                        if (usuarioOriginal.ToLower() != perfil.usuario.ToLower() || correoOriginal.ToLower() != perfil.correo.ToLower() || claveOriginal != claveDesencriptada || resultadoPermisos == 2 || ResultadoEsquemas == 2)
                         {
                             await CloseModal();
                             StateHasChanged();

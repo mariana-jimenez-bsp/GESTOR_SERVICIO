@@ -15,13 +15,13 @@ namespace BSP.POS.DATOS.Usuarios
 
         public U_LoginToken Login(U_Login pLogin, string token)
         {
-            POSDataSet.LoginUsuarioDataTable _tabla = new POSDataSet.LoginUsuarioDataTable();
-            LoginUsuarioTableAdapter _tablaUsuario = new LoginUsuarioTableAdapter();
+            POSDataSet.RealizarLoginDataTable _tabla = new POSDataSet.RealizarLoginDataTable();
+            RealizarLoginTableAdapter _tablaUsuario = new RealizarLoginTableAdapter();
 
             U_LoginToken login = null;
 
                 var j = _tablaUsuario.GetData(pLogin.usuario, pLogin.contrasena, pLogin.esquema, token).ToList();
-                foreach (POSDataSet.LoginUsuarioRow item in j)
+                foreach (POSDataSet.RealizarLoginRow item in j)
                 {
                     login = new U_LoginToken(item.token, item.esquema, pLogin.usuario);
                 }

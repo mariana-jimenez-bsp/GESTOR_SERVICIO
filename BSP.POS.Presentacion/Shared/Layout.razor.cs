@@ -99,6 +99,12 @@ namespace BSP.POS.Presentacion.Shared
                 estadoPerfilActualizado = false;
                 estadoPerfilDescartado = false;
             }
+            if (!activar)
+            {
+                if(navigationManager.Uri.IndexOf("/configuraciones/usuario/", StringComparison.OrdinalIgnoreCase) >= 0){
+                    navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
+                }
+            }
             activarModalPerfil = activar;
             StateHasChanged();
         }

@@ -54,10 +54,10 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
-        public string ActualizarPerfil(U_Perfil pPerfil)
+        public string ActualizarPerfil(U_Perfil pPerfil, string esquema)
         {
             string mensaje = string.Empty;
-            mensaje = objetoUsuario.ActualizarPerfil(pPerfil);
+            mensaje = objetoUsuario.ActualizarPerfil(pPerfil, esquema);
             return mensaje;
         }
 

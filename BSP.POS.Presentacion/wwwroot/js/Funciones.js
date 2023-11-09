@@ -228,5 +228,67 @@ function ActivarSelectMultiplePermisos(jsonData, objRef) {
         objRef.invokeMethodAsync('CambioDePermisos', selectedValues);
     });
 }
-    
+function DesactivarElementos() {
+    const inputElements = document.querySelectorAll('input');
+    const selectElements = document.querySelectorAll('select');
+
+    // Establece el atributo 'readonly' en los elementos de entrada
+    inputElements.forEach((input) => {
+        input.setAttribute('readonly', true);
+    });
+
+    // Establece el atributo 'disabled' en los elementos de selección
+    selectElements.forEach((select) => {
+        select.setAttribute('disabled', true);
+    });
+
+}
+function ActivarSelectMultipleEsquemas(jsonData, objRef) {
+
+
+    if (jsonData) {
+        var opcionesAActivar = JSON.parse(jsonData);
+
+        // Obtén una referencia al elemento select
+        var selectMultiple = document.getElementById("select-multiple-esquemas");
+
+
+            opcionesAActivar.forEach(function (valor) {
+                    var option = selectMultiple.querySelector('option[value="' + valor + '"]');
+                    if (option) {
+                        option.selected = true;
+                    }
+            });
+
+        // Verificar si todas las opciones están seleccionadas
+
+    }
+
+    $('#select-multiple-esquemas').multipleSelect({
+        formatSelectAll: function () {
+            return 'Seleccionar Todo'
+        },
+        formatAllSelected: function () {
+            return 'Todo Seleccionado'
+        },
+        styler: function (row) {
+            if (row.type === 'optgroup') {
+                return 'color: #4CAF50; font-weight: normal;'
+            }
+        },
+        placeholder: 'Seleccionar Esquemas',
+        filter: true,
+        selectAll: true,
+        width: '100%',
+        position: 'top',
+        maxHeight: 150,
+        filterPlaceholder: 'Buscar Esquema'
+    });
+
+
+    $('#select-multiple-esquemas').on('change', function () {
+        var selectedValues = $(this).val();
+        objRef.invokeMethodAsync('CambioDeEsquemas', selectedValues);
+    });
+}   
 
