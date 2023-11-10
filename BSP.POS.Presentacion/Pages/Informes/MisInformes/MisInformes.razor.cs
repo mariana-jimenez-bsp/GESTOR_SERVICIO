@@ -22,7 +22,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public List<mUsuariosDeClienteDeInforme> informesDeUsuarioFinalizados = new List<mUsuariosDeClienteDeInforme>();
         public List<mInformes> informesAsociados = new List<mInformes>();
         public mClienteAsociado clienteAsociado = new mClienteAsociado();
-        public mInformeAsociado informeAsociadoSeleccionado = new mInformeAsociado();
+        public mInforme informeAsociadoSeleccionado = new mInforme();
         public mUsuariosDeClienteDeInforme informeDeUsuarioAsociado = new mUsuariosDeClienteDeInforme();
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
@@ -62,10 +62,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                     {
                         informesDeUsuario = UsuariosService.ListaDeInformesDeUsuarioAsociados;
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        await InformesService.ObtenerListaDeInformesAsociados(datosUsuario.cod_cliente, esquema);
-                        if(InformesService.ListaInformesAsociados != null)
+                        //await InformesService.ObtenerListaDeInformesAsociados(datosUsuario.cod_cliente, esquema);
+                        if(/*InformesService.ListaInformesAsociados != null*/ true)
                         {
-                            informesAsociados = InformesService.ListaInformesAsociados;
+                            //informesAsociados = InformesService.ListaInformesAsociados;
                             informesDeUsuarioFinalizados = UsuariosService.ListaDeInformesDeUsuarioAsociados
                             .Where(usuario =>
                                 informesAsociados.Any(informe =>
@@ -105,7 +105,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                     informe.informeSeleccionado = "informe-hover";
                     informe.imagenSeleccionada = "imagen-hover";
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    informeAsociadoSeleccionado = await InformesService.ObtenerInformeAsociado(consecutivo, esquema);
+                    //informeAsociadoSeleccionado = await InformesService.ObtenerInformeAsociado(consecutivo, esquema);
                     if(informeAsociadoSeleccionado != null)
                     {
                         informeDeUsuarioAsociado = informe;

@@ -16,20 +16,49 @@ namespace BSP.POS.Presentacion.Services.Proyectos
             _http = http;
         }
 
-        public List<mProyectos> ListaProyectosIniciados { get; set; } = new List<mProyectos>();
+        public List<mProyectos> ListaProyectosActivos { get; set; } = new List<mProyectos>();
+        public List<mDatosProyectos> ListaDatosProyectosActivos { get; set; } = new List<mDatosProyectos>();
+        public List<mDatosProyectos> ListaDatosProyectosActivosDeCliente { get; set; } = new List<mDatosProyectos>();
         public List<mProyectos> ListaProyectosTerminados { get; set; } = new List<mProyectos>();
-        public async Task ObtenerListaDeProyectosIniciados(string esquema)
+        public async Task ObtenerListaDeProyectosActivos(string esquema)
         {
-                string url = "Proyectos/ObtengaLaListaDeProyectosIniciados/" + esquema;
+                string url = "Proyectos/ObtengaLaListaDeProyectosActivos/" + esquema;
                 var response = await _http.GetAsync(url);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
                     var listaProyectos = await response.Content.ReadFromJsonAsync<List<mProyectos>>();
                     if (listaProyectos is not null)
                     {
-                        ListaProyectosIniciados = listaProyectos;
+                        ListaProyectosActivos = listaProyectos;
                     }
                 }
+        }
+        public async Task ObtenerDatosDeProyectosActivos(string esquema)
+        {
+            string url = "Proyectos/ObtengaLosDatosDeProyectosActivos/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaProyectos = await response.Content.ReadFromJsonAsync<List<mDatosProyectos>>();
+                if (listaProyectos is not null)
+                {
+                    ListaDatosProyectosActivos = listaProyectos;
+                }
+            }
+        }
+
+        public async Task ObtenerDatosDeProyectosActivosDeCliente(string esquema, string cliente)
+        {
+            string url = "Proyectos/ObtengaLosDatosDeProyectosActivosDeCliente/" + esquema + "/" + cliente;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaProyectos = await response.Content.ReadFromJsonAsync<List<mDatosProyectos>>();
+                if (listaProyectos is not null)
+                {
+                    ListaDatosProyectosActivosDeCliente = listaProyectos;
+                }
+            }
         }
         public async Task ObtenerListaDeProyectosTerminados(string esquema)
         {

@@ -12,18 +12,17 @@ namespace BSP.POS.DATOS.Informes
 {
     public class D_Informes
     {
-        public List<U_ListaInformesAsociados> ListaInformesAsociados(String pEsquema, String pCliente)
+        public List<U_InformesDeProyecto> ListaInformesDeProyecto(String pEsquema, String pNumero)
         {
-            var LstInformes = new List<U_ListaInformesAsociados>();
+            var LstInformes = new List<U_InformesDeProyecto>();
 
-            ListarInformesAsociadosTableAdapter sp = new ListarInformesAsociadosTableAdapter();
-
-            var response = sp.GetData(pEsquema, pCliente).ToList();
+            ListarInformesDeProyectoTableAdapter sp = new ListarInformesDeProyectoTableAdapter();
+            var response = sp.GetData(pEsquema, pNumero).ToList();
             try
             {
                 foreach (var item in response)
                 {
-                    U_ListaInformesAsociados informe = new U_ListaInformesAsociados(item.consecutivo, item.fecha_actualizacion, item.fecha_consultoria, item.cliente, item.estado);
+                    U_InformesDeProyecto informe = new U_InformesDeProyecto(item.consecutivo, item.fecha_actualizacion, item.fecha_consultoria, item.numero_proyecto, item.estado);
 
                     LstInformes.Add(informe);
                 }
@@ -36,18 +35,18 @@ namespace BSP.POS.DATOS.Informes
             }
         }
 
-        public U_InformeAsociado ObtenerInformeAsociado(String pEsquema, String pConsecutivo)
+        public U_Informe ObtenerInforme(String pEsquema, String pConsecutivo)
         {
-            var informeAso = new U_InformeAsociado();
+            var informeAso = new U_Informe();
 
-            ObtenerInformeAsociadoTableAdapter sp = new ObtenerInformeAsociadoTableAdapter();
+            ObtenerInformeTableAdapter sp = new ObtenerInformeTableAdapter();
 
             var response = sp.GetData(pEsquema, pConsecutivo).ToList();
             try
             {
                 foreach (var item in response)
                 {
-                    U_InformeAsociado informe = new U_InformeAsociado(item.consecutivo, item.fecha_consultoria, item.hora_inicio, item.hora_final, item.modalidad_consultoria, item.cliente, item.estado);
+                    U_Informe informe = new U_Informe(item.consecutivo, item.fecha_consultoria, item.hora_inicio, item.hora_final, item.modalidad_consultoria, item.numero_proyecto, item.estado);
                     informeAso = informe;
                 }
                 return informeAso;
@@ -59,13 +58,13 @@ namespace BSP.POS.DATOS.Informes
             }
         }
 
-        public string ActualizarInformeAsociado(U_InformeAsociado pInforme, string esquema)
+        public string ActualizarInforme(U_Informe pInforme, string esquema)
         {
-            POSDataSet.ActualizarInformeAsociadoDataTable bTabla = new POSDataSet.ActualizarInformeAsociadoDataTable();
-            ActualizarInformeAsociadoTableAdapter sp = new ActualizarInformeAsociadoTableAdapter();
+            POSDataSet.ActualizarInformeDataTable bTabla = new POSDataSet.ActualizarInformeDataTable();
+            ActualizarInformeTableAdapter sp = new ActualizarInformeTableAdapter();
             try
             {
-                var response = sp.GetData(pInforme.consecutivo, pInforme.fecha_consultoria, pInforme.hora_inicio, pInforme.hora_final, pInforme.modalidad_consultoria, pInforme.cliente, pInforme.estado, esquema);
+                var response = sp.GetData(pInforme.consecutivo, pInforme.fecha_consultoria, pInforme.hora_inicio, pInforme.hora_final, pInforme.modalidad_consultoria, pInforme.numero_proyecto, pInforme.estado, esquema);
 
                 
                 return "Exito";
@@ -80,7 +79,7 @@ namespace BSP.POS.DATOS.Informes
 
         }
 
-        public string CambiarEstadoDeInforme(U_InformeAsociado pInforme, string esquema)
+        public string CambiarEstadoDeInforme(U_Informe pInforme, string esquema)
         {
             POSDataSet.CambiarEstadoDeInformeDataTable bTabla = new POSDataSet.CambiarEstadoDeInformeDataTable();
             CambiarEstadoDeInformeTableAdapter sp = new CambiarEstadoDeInformeTableAdapter();
@@ -205,13 +204,13 @@ namespace BSP.POS.DATOS.Informes
         }
         
 
-        public string AgregarInformeAsociado(string pCliente, string esquema)
+        public string AgregarInformeAsociado(string pNumero, string esquema)
         {
             POSDataSet.AgregarInformeAsociadoDataTable bTabla = new POSDataSet.AgregarInformeAsociadoDataTable();
             AgregarInformeAsociadoTableAdapter sp = new AgregarInformeAsociadoTableAdapter();
             try
             {
-                var response = sp.GetData(pCliente, esquema).ToList();
+                var response = sp.GetData(pNumero, esquema).ToList();
                 string consecutivo = string.Empty;
                 foreach (var item in response)
                 {

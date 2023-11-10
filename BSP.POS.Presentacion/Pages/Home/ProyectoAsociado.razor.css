@@ -1,7 +1,12 @@
 ﻿html, body {
     height: 100%;
 }
-
+.btn-escoger-proyecto{
+    background-color: #2FAD70;
+}
+.border-success {
+    border-color: #2FAD70;
+}
 .search-input {
     border: none;
     margin: 0;

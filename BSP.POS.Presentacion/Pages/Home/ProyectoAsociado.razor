@@ -1,0 +1,40 @@
+﻿@using BSP.POS.Presentacion.Models.Clientes;
+@inject IClientesInterface ClientesService
+
+<div class="d-flex justify-content-between align-items-center shadow-lg col-right">
+    <div class="d-flex justify-content-center align-items-center ms-5">
+        @if (proyectoEscogido.imagen != null && !proyectoEscogido.imagen.SequenceEqual(new byte[] { 0x00 }))
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(proyectoEscogido.imagen)" width="50" height="50" alt="Imagen" />
+        }
+        else
+        {
+            <img alt="" />
+        }
+
+        @if (proyectoEscogido.nombre_proyecto.Length > 0)
+        {
+
+            <span class="font-size-15">@proyectoEscogido.nombre_proyecto</span>
+        }
+
+    </div>
+    <div class="p-2 info-client text-center text-light">
+        @if (proyectoEscogido.nombre_proyecto.Length > 0)
+        {
+
+            <p class=" ps-2 m-2">Nombre del cliente: @proyectoEscogido.nombre_cliente</p>
+            <p class="">Responsable: @proyectoEscogido.contacto</p>
+            <p class="">Departamento: @proyectoEscogido.cargo</p>
+        }
+        else
+        {
+            <button type="button" class="border-success rounded-3 btn-escoger-proyecto text-light px-2 my-1" @onclick="() => ClickHandlerEscogerProyecto(true)">Escoger Proyecto</button>
+        }
+
+    </div>
+</div>
+@if (activarModalEscogerProyecto)
+{
+    <EscogerProyecto ActivarModal="activarModalEscogerProyecto" datosProyectos="@datosDeProyectos" EnviarProyecto="RecibirProyectoEscogido" OnClose="ClickHandlerEscogerProyecto"></EscogerProyecto>
+}

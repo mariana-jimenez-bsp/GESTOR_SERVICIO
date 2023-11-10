@@ -12,11 +12,11 @@ namespace BSP.POS.DATOS.Proyectos
     public class D_Proyectos
     {
 
-        public List<U_ListaProyectos> ListarProyectosIniciados(String pEsquema)
+        public List<U_ListaProyectos> ListarProyectosActivos(String pEsquema)
         {
             var LstProyectos = new List<U_ListaProyectos>();
 
-            ListarProyectosIniciadosTableAdapter sp = new ListarProyectosIniciadosTableAdapter();
+            ListarProyectosActivosTableAdapter sp = new ListarProyectosActivosTableAdapter();
 
             var response = sp.GetData(pEsquema).ToList();
             try
@@ -24,6 +24,54 @@ namespace BSP.POS.DATOS.Proyectos
                 foreach (var item in response)
                 {
                     U_ListaProyectos proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado);
+
+                    LstProyectos.Add(proyecto);
+                }
+                return LstProyectos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_DatosProyectos> ListarDatosProyectosActivos(String pEsquema)
+        {
+            var LstProyectos = new List<U_DatosProyectos>();
+
+            ListarDatosProyectosActivosTableAdapter sp = new ListarDatosProyectosActivosTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_DatosProyectos proyecto = new U_DatosProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.nombre_cliente, item.contacto, item.cargo, item.imagen);
+
+                    LstProyectos.Add(proyecto);
+                }
+                return LstProyectos;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_DatosProyectos> ListarDatosProyectosActivosDeCliente(String pEsquema, string pCliente)
+        {
+            var LstProyectos = new List<U_DatosProyectos>();
+
+            ListarDatosProyectosActivosDeClienteTableAdapter sp = new ListarDatosProyectosActivosDeClienteTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCliente).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_DatosProyectos proyecto = new U_DatosProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.nombre_cliente, item.contacto, item.cargo, item.imagen);
 
                     LstProyectos.Add(proyecto);
                 }

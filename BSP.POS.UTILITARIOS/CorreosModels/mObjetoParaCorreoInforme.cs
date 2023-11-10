@@ -13,7 +13,7 @@ namespace BSP.POS.UTILITARIOS.CorreosModels
 {
     public class mObjetoParaCorreoInforme
     {
-        public U_InformeAsociado informe { get; set; } = new U_InformeAsociado();
+        public U_Informe informe { get; set; } = new U_Informe();
         public string esquema { get; set; } = string.Empty;
         public U_ClienteAsociado ClienteAsociado { get; set; } = new U_ClienteAsociado();
         public List<U_DatosActividadesAsociadas> listaActividadesAsociadas { get; set; } = new List<U_DatosActividadesAsociadas>();

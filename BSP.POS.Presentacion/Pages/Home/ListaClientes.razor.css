@@ -46,12 +46,12 @@ a {
     cursor: pointer;
 }
 
-.eyelash-recent {
+.eyelash-selected {
     font-size: 14pt;
     background-color: #2255A1;
+    text-decoration: underline;
 }
-
-.eyelash-all {
+.eyelash-unselected {
     font-size: 14pt;
     background-color: #1C3259;
 }
@@ -227,11 +227,11 @@ a {
 }
 
 @media screen and (max-width: 768px) {
-    .eyelash-all {
+    .eyelash-selected {
         font-size: 7pt;
     }
 
-    .eyelash-recent {
+    .eyelash-unselected {
         font-size: 7pt;
     }
 
@@ -300,11 +300,11 @@ a {
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
 
-    .eyelash-all {
+    .eyelash-selected {
         font-size: 11pt;
     }
 
-    .eyelash-recent {
+    .eyelash-unselected {
         font-size: 11pt;
     }
 

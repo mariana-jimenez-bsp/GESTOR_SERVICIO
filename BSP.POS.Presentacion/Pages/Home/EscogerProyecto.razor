@@ -1,0 +1,42 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 class="text-add-project blue-dark-text mx-auto">Agregar Proyecto</h2>
+                <div class="text-end">
+                    <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+                </div>
+            </div>
+
+            
+            <div class="modal-body d-flex row g-2 justify-content-center">
+                <div class="font-14-book ms-3 pb-2 div-agregar-project">
+                    <span class="green-text">Seleccione el proyecto del cliente</span>
+                    <div>
+                        <select class="border-success rounded-3" @bind="@proyectoEscogido.numero" @oninput="CambioNumeroProyecto">
+                            <option value="">Seleccione el proyecto</option>
+                            @foreach (var proyecto in datosProyectos)
+                            {
+                               <option value="@proyecto.numero">@proyecto.numero - @proyecto.nombre_proyecto</option>
+                            }
+
+                        </select>
+                    </div>
+                    @if (!string.IsNullOrEmpty(mensajeError))
+                    {
+                        <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+                    }
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <div @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-project-cliente">Cancelar</div>
+                <button type="button" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4 btn-agregar-project" id="guardar-project-cliente" @onclick="EscogerProyectoNuevo">Escoger</button>
+            </div>
+
+
+    </div>
+</div>

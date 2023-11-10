@@ -7,7 +7,7 @@ namespace BSP.POS.Presentacion.Models.Informes
 {
     public class mObjetosParaCorreoAprobacion
     {
-        public mInformeAsociado informe { get; set; } = new mInformeAsociado();
+        public mInforme informe { get; set; } = new mInforme();
         public string esquema { get; set; } = string.Empty;
         public mClienteAsociado ClienteAsociado { get; set; } = new mClienteAsociado();
         public List<mActividadesAsociadas> listaActividadesAsociadas { get; set; } = new List<mActividadesAsociadas>();

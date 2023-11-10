@@ -18,12 +18,52 @@ namespace BSP.POS.API.Controllers
             _proyectos = new N_Proyectos();
         }
 
-        [HttpGet("ObtengaLaListaDeProyectosIniciados/{esquema}")]
-        public IActionResult ObtengaLaListaDeProyectosIniciados(string esquema)
+        [HttpGet("ObtengaLaListaDeProyectosActivos/{esquema}")]
+        public IActionResult ObtengaLaListaDeProyectosActivos(string esquema)
         {
             try
             {
-                string listaProyectosJson = _proyectos.ListarProyectosIniciados(esquema);
+                string listaProyectosJson = _proyectos.ListarProyectosActivos(esquema);
+                if (string.IsNullOrEmpty(listaProyectosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaProyectosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("ObtengaLosDatosDeProyectosActivos/{esquema}")]
+        public IActionResult ObtengaLosDatosDeProyectosActivos(string esquema)
+        {
+            try
+            {
+                string listaProyectosJson = _proyectos.ListarDatosProyectosActivos(esquema);
+                if (string.IsNullOrEmpty(listaProyectosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaProyectosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("ObtengaLosDatosDeProyectosActivosDeCliente/{esquema}/{cliente}")]
+        public IActionResult ObtengaLosDatosDeProyectosActivosDeCliente(string esquema, string cliente)
+        {
+            try
+            {
+                string listaProyectosJson = _proyectos.ListarDatosProyectosActivosDeCliente(esquema, cliente);
                 if (string.IsNullOrEmpty(listaProyectosJson))
                 {
                     return NotFound();

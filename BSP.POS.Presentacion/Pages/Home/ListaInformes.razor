@@ -7,7 +7,7 @@
 
 <div class="col-md-7 col-right">
     <div class="cliente-asociado">
-        <ClienteAsociado clienteAsociado="clienteAsociado"></ClienteAsociado>
+        <ProyectoAsociado datosDeProyectos="@proyectosDeCliente" EnviarProyecto="RecibirProyectoEscogido" @ref="@proyectoAsociadoComponente"></ProyectoAsociado>
     </div>
    
     <div class="background-reports pb-2 col-right">
@@ -17,13 +17,13 @@
                     
                     <img src="images/Home/Agregar.png" class="image-add"/>
                 </div>
-                @if (informesAsociados.Any())
+                @if (listaInformesDeProyecto.Any())
                 {
                     var listaDeInformes = filtroRecibido == "informes" ?
-                    informesAsociados.Where(cliente =>
-                    cliente.FechaActualizacionDateTime >= fechaInicioDateTime &&
-                    cliente.FechaActualizacionDateTime <= fechaFinalDateTime
-                    ).OrderByDescending(i => i.FechaActualizacionDateTime).ToList() : informesAsociados.OrderByDescending(i => i.FechaActualizacionDateTime).ToList();
+                    listaInformesDeProyecto.Where(informe =>
+                    informe.FechaActualizacionDateTime >= fechaInicioDateTime &&
+                    informe.FechaActualizacionDateTime <= fechaFinalDateTime
+                    ).OrderByDescending(i => i.FechaActualizacionDateTime).ToList() : listaInformesDeProyecto.OrderByDescending(i => i.FechaActualizacionDateTime).ToList();
                     if(!string.IsNullOrEmpty(textoRecibido) && filtroRecibido == "informes")
                     {
                         listaDeInformes = listaDeInformes.Where(informe =>

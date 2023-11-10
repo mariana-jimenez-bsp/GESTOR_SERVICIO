@@ -108,8 +108,8 @@ namespace BSP.POS.API.Controllers
             try
             {
                 //string url = "https://localhost:7121/api/Licencias/EnviaXML";
-                //string url = "https://cloud.bspcr.com:4443/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
-                string url = "https://192.168.2.21/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
+                string url = "https://cloud.bspcr.com:4443/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
+                //string url = "https://192.168.2.21/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
                 string jsonData = JsonSerializer.Serialize(licenciaLlave);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await http.PostAsync(url, content);

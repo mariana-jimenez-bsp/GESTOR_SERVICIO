@@ -17,20 +17,20 @@ namespace BSP.POS.Presentacion.Services.Informes
         {
             _http = htpp;
         }
-        public List<mInformes> ListaInformesAsociados { get; set; } = new List<mInformes>();
-        public mInformeAsociado InformeAsociado { get; set; } = new mInformeAsociado();
+        public List<mInformesDeProyecto> ListaInformesDeProyecto { get; set; } = new List<mInformesDeProyecto>();
+        public mInforme Informe { get; set; } = new mInforme();
         
 
-        public async Task ObtenerListaDeInformesAsociados(string cliente, string esquema)
+        public async Task ObtenerListaDeInformesDeProyecto(string cliente, string esquema)
         {
-            string url = "Informes/ObtengaLaListaDeInformesAsociados/" + cliente + "/" + esquema;
+            string url = "Informes/ObtengaLaListaDeInformesDeProyecto/" + cliente + "/" + esquema;
             var response = await _http.GetAsync(url);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var listaInformesAsociados = await response.Content.ReadFromJsonAsync<List<mInformes>>();
-                if (listaInformesAsociados is not null)
+                var listaInformes = await response.Content.ReadFromJsonAsync<List<mInformesDeProyecto>>();
+                if (listaInformes is not null)
                 {
-                    ListaInformesAsociados = listaInformesAsociados;
+                    ListaInformesDeProyecto = listaInformes;
                 }
             }
             else
@@ -40,23 +40,23 @@ namespace BSP.POS.Presentacion.Services.Informes
             
         }
 
-        public async Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo, string esquema)
+        public async Task<mInforme> ObtenerInforme(string consecutivo, string esquema)
         {
-            string url = "Informes/ObtengaElInformeAsociado/" + consecutivo + "/" + esquema;
+            string url = "Informes/ObtengaElInforme/" + consecutivo + "/" + esquema;
             var informeAsociadoJson = await _http.GetAsync(url);
             if (informeAsociadoJson.StatusCode == HttpStatusCode.OK)
             {
-                return await informeAsociadoJson.Content.ReadFromJsonAsync<mInformeAsociado?>();
+                return await informeAsociadoJson.Content.ReadFromJsonAsync<mInforme>();
             }
             return null;
         }
 
-        public async Task<bool> ActualizarInformeAsociado(mInformeAsociado informe, string esquema)
+        public async Task<bool> ActualizarInforme(mInforme informe, string esquema)
         {
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                string url = "Informes/ActualizaElInformeAsociado";
+                string url = "Informes/ActualizaElInforme";
                 string jsonData = JsonSerializer.Serialize(informe);
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -188,16 +188,17 @@ namespace BSP.POS.Presentacion.Services.Informes
             }
         }
 
-        public async Task<string> AgregarInformeAsociado(string cliente, string esquema)
+        public async Task<string> AgregarInformeAsociado(string numero, string esquema)
         {
             try
             {
-                _http.DefaultRequestHeaders.Remove("X-Esquema");
+                
                 string url = "Informes/AgregaInformeAsociado";
-                mClienteAsociado clienteAso = new mClienteAsociado();
-                clienteAso.CLIENTE = cliente;
+                _http.DefaultRequestHeaders.Remove("X-Esquema");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-                string jsonData = JsonSerializer.Serialize(clienteAso);
+                _http.DefaultRequestHeaders.Remove("X-Numero");
+                _http.DefaultRequestHeaders.Add("X-Numero", numero);
+                string jsonData = JsonSerializer.Serialize(numero);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                 var response = await _http.PostAsync(url, content);

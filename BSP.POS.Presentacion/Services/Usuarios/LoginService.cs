@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using BSP.POS.Presentacion.Models.Licencias;
 using clSeguridad;
+using static System.Net.WebRequestMethods;
 
 namespace BSP.POS.Presentacion.Services.Usuarios
 {
@@ -178,27 +179,47 @@ namespace BSP.POS.Presentacion.Services.Usuarios
 
         public async Task<mLicencia> EnviarXMLLicencia(mLicenciaByte licenciaLlave)
         {
-            string url = "Licencias/ConectaApiEnviaXML";
-            
+            string url = "https://cloud.bspcr.com:4443/Prueba_API_POS_Licencia/api/Licencias/EnviaXML";
             string jsonData = JsonSerializer.Serialize(licenciaLlave);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var response = await _http.PostAsync(url, content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                    
-                    var datosLicencia = await response.Content.ReadFromJsonAsync<mLicencia>();
-                    if (datosLicencia != null)
-                    {
-                        return datosLicencia;
-                    }
-                    return null;
-                
-              
+
+                var datosLicencia = await response.Content.ReadFromJsonAsync<mLicencia>();
+                if (datosLicencia != null)
+                {
+                    return datosLicencia;
+                }
+                return null;
+
+
             }
             else
             {
                 return null;
             }
+            //string url = "Licencias/ConectaApiEnviaXML";
+
+            //string jsonData = JsonSerializer.Serialize(licenciaLlave);
+            //var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            //var response = await _http.PostAsync(url, content);
+            //if (response.StatusCode == HttpStatusCode.OK)
+            //{
+
+            //        var datosLicencia = await response.Content.ReadFromJsonAsync<mLicencia>();
+            //        if (datosLicencia != null)
+            //        {
+            //            return datosLicencia;
+            //        }
+            //        return null;
+
+
+            //}
+            //else
+            //{
+            //    return null;
+            //}
         }
     }
 }

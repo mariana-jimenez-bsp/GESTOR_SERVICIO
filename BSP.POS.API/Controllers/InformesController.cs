@@ -72,12 +72,12 @@ namespace BSP.POS.API.Controllers
 
         }
         // GET: api/<InformesController>
-        [HttpGet("ObtengaLaListaDeInformesAsociados/{cliente}/{esquema}")]
-        public IActionResult ObtengaLaListaDeInformesAsociados(string cliente, string esquema)
+        [HttpGet("ObtengaLaListaDeInformesDeProyecto/{cliente}/{esquema}")]
+        public IActionResult ObtengaLaListaDeInformesDeProyecto(string cliente, string esquema)
         {
             try
             {
-                string listaInformesAsociadosJson = informes.ListarInformesAsociados(esquema, cliente);
+                string listaInformesAsociadosJson = informes.ListarInformesDeProyecto(esquema, cliente);
                 if (string.IsNullOrEmpty(listaInformesAsociadosJson))
                 {
                     return NotFound();
@@ -94,12 +94,12 @@ namespace BSP.POS.API.Controllers
            
         }
 
-        [HttpGet("ObtengaElInformeAsociado/{consecutivo}/{esquema}")]
-        public IActionResult ObtengaElInformeAsociado(string consecutivo, string esquema)
+        [HttpGet("ObtengaElInforme/{consecutivo}/{esquema}")]
+        public IActionResult ObtengaElInforme(string consecutivo, string esquema)
         {
             try
             {
-                var informeAsociadoJson = informes.ObtenerInformeAsociado(esquema, consecutivo);
+                var informeAsociadoJson = informes.ObtenerInforme(esquema, consecutivo);
                 if (string.IsNullOrEmpty(informeAsociadoJson))
                 {
                     return NotFound();
@@ -116,14 +116,14 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPut("ActualizaElInformeAsociado")]
-        public IActionResult ActualizaElInformeAsociado([FromBody] U_InformeAsociado datos)
+        [HttpPut("ActualizaElInforme")]
+        public IActionResult ActualizaElInforme([FromBody] U_Informe datos)
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
 
-                string mensaje = informes.ActualizarInformeAsociado(datos, esquema);
+                string mensaje = informes.ActualizarInforme(datos, esquema);
                 if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
                     return BadRequest();
@@ -140,7 +140,7 @@ namespace BSP.POS.API.Controllers
         }
 
         [HttpPut("CambiaEstadoDeInforme")]
-        public IActionResult CambiaEstadoDeInforme([FromBody] U_InformeAsociado datos)
+        public IActionResult CambiaEstadoDeInforme([FromBody] U_Informe datos)
         {
             try
             {
@@ -220,14 +220,15 @@ namespace BSP.POS.API.Controllers
 
         }
         [HttpPost("AgregaInformeAsociado")]
-        public IActionResult AgregaInformeAsociado([FromBody] U_ClienteAsociado cliente)
+        public IActionResult AgregaInformeAsociado()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
+                string numero = Request.Headers["X-Numero"];
 
 
-                string consecutivo = informes.AgregarInformeAsociado(cliente.CLIENTE, esquema);
+                string consecutivo = informes.AgregarInformeAsociado(numero, esquema);
                 if (string.IsNullOrEmpty(consecutivo))
                 {
                     return BadRequest();

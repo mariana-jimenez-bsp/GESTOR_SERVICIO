@@ -19,7 +19,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
     {
         [Parameter]
         public string Consecutivo { get; set; } = string.Empty;
-        public mInformeAsociado informe { get; set; } = new mInformeAsociado();
+        public mInforme informe { get; set; } = new mInforme();
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
         public List<mActividades> listaActividades = new List<mActividades>();
         public List<mActividades> listaActividadesDeUsuario = new List<mActividades>();
@@ -71,14 +71,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         perfilActual = UsuariosService.Perfil;
                     }
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    InformesService.InformeAsociado = await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
-                    if (InformesService.InformeAsociado != null)
+                    InformesService.Informe = await InformesService.ObtenerInforme(Consecutivo, esquema);
+                    if (InformesService.Informe != null)
                     {
-                        informe = InformesService.InformeAsociado;
+                        informe = InformesService.Informe;
                         if (VerificarUsuarioAutorizado())
                         {
                             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                            ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
+                            //ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
                             if (ClientesService.ClienteAsociado != null)
                             {
                                 ClienteAsociado = ClientesService.ClienteAsociado;
@@ -189,7 +189,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public bool VerificarUsuarioAutorizado()
         {
             
-            if(perfilActual.cod_cliente == informe.cliente || rol == "Admin")
+            if(/*perfilActual.cod_cliente == informe.cliente ||*/ rol == "Admin")
             {
                 return true;
             }
@@ -332,12 +332,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool resultadoActualizar = await InformesService.ActualizarInformeAsociado(informe, esquema);
+            bool resultadoActualizar = await InformesService.ActualizarInforme(informe, esquema);
             if (resultadoActualizar)
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await InformesService.ObtenerInformeAsociado(Consecutivo, esquema);
-                informe = InformesService.InformeAsociado;
+                await InformesService.ObtenerInforme(Consecutivo, esquema);
+                informe = InformesService.Informe;
                 informeActualizado = true;
             }
             else

@@ -5,9 +5,13 @@ namespace BSP.POS.Presentacion.Interfaces.Proyectos
 {
     public interface IProyectosInterface
     {
-        List<mProyectos> ListaProyectosIniciados { get; set; }
+        List<mProyectos> ListaProyectosActivos { get; set; }
+        List<mDatosProyectos> ListaDatosProyectosActivos { get; set; }
+        List<mDatosProyectos> ListaDatosProyectosActivosDeCliente { get; set; }
         List<mProyectos> ListaProyectosTerminados { get; set; }
-        Task ObtenerListaDeProyectosIniciados(string esquema);
+        Task ObtenerListaDeProyectosActivos(string esquema);
+        Task ObtenerDatosDeProyectosActivos(string esquema);
+        Task ObtenerDatosDeProyectosActivosDeCliente(string esquema, string cliente);
         Task ObtenerListaDeProyectosTerminados(string esquema);
 
         Task<bool> ActualizarListaDeProyectos(List<mProyectos> listaProyectos, string esquema);

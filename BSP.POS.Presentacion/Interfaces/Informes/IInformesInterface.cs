@@ -4,12 +4,12 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
 {
     public interface IInformesInterface
     {
-        List<mInformes> ListaInformesAsociados { get; set; }
-        Task ObtenerListaDeInformesAsociados(string cliente, string esquema);
+        List<mInformesDeProyecto> ListaInformesDeProyecto { get; set; }
+        Task ObtenerListaDeInformesDeProyecto(string cliente, string esquema);
 
-        mInformeAsociado InformeAsociado { get; set; }
-        Task<mInformeAsociado?> ObtenerInformeAsociado(string consecutivo, string esquema);
-        Task<bool> ActualizarInformeAsociado(mInformeAsociado informe, string esquema);
+        mInforme Informe { get; set; }
+        Task<mInforme> ObtenerInforme(string consecutivo, string esquema);
+        Task<bool> ActualizarInforme(mInforme informe, string esquema);
 
         Task<bool> CambiarEstadoDeInforme(mInformeEstado informe, string esquema);
 
@@ -19,7 +19,7 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
         Task<mTokenRecibidoInforme> ValidarTokenRecibidoDeInforme(string esquema, string token);
         Task<bool> ActivarRecibidoInforme(mTokenRecibidoInforme tokenRecibido, string esquema);
 
-        Task<string> AgregarInformeAsociado(string cliente, string esquema);
+        Task<string> AgregarInformeAsociado(string numero, string esquema);
         Task<string> ValidarExistenciaConsecutivoInforme(string esquema, string consecutivo);
     }
 }

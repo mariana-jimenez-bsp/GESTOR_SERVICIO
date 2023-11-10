@@ -13,13 +13,13 @@ namespace BSP.POS.NEGOCIOS.Informes
     public class N_Informes
     {
         D_Informes objInforme = new D_Informes();
-        public string ListarInformesAsociados(String pEsquema, String pCliente)
+        public string ListarInformesDeProyecto(String pEsquema, String pCliente)
         {
             try
             {
-                List<U_ListaInformesAsociados> list = new List<U_ListaInformesAsociados>();
+                List<U_InformesDeProyecto> list = new List<U_InformesDeProyecto>();
 
-                list = objInforme.ListaInformesAsociados(pEsquema, pCliente);
+                list = objInforme.ListaInformesDeProyecto(pEsquema, pCliente);
 
                 string informe = JsonConvert.SerializeObject(list);
                 return informe;
@@ -31,13 +31,13 @@ namespace BSP.POS.NEGOCIOS.Informes
             }
         }
 
-        public string ObtenerInformeAsociado(String pEsquema, String pInforme)
+        public string ObtenerInforme(String pEsquema, String pInforme)
         {
             try
             {
-                U_InformeAsociado informeAso = new U_InformeAsociado();
+                U_Informe informeAso = new U_Informe();
 
-                informeAso = objInforme.ObtenerInformeAsociado(pEsquema, pInforme);
+                informeAso = objInforme.ObtenerInforme(pEsquema, pInforme);
 
                 string informe = JsonConvert.SerializeObject(informeAso);
                 return informe;
@@ -49,13 +49,13 @@ namespace BSP.POS.NEGOCIOS.Informes
             }
         }
 
-        public string ActualizarInformeAsociado(U_InformeAsociado pInforme, string esquema)
+        public string ActualizarInforme(U_Informe pInforme, string esquema)
         {
             string mensaje = string.Empty;
-            mensaje = objInforme.ActualizarInformeAsociado(pInforme, esquema);
+            mensaje = objInforme.ActualizarInforme(pInforme, esquema);
             return mensaje;
         }
-        public string CambiarEstadoDeInforme(U_InformeAsociado pInforme, string esquema)
+        public string CambiarEstadoDeInforme(U_Informe pInforme, string esquema)
         {
             string mensaje = string.Empty;
             mensaje = objInforme.CambiarEstadoDeInforme(pInforme, esquema);
@@ -114,10 +114,10 @@ namespace BSP.POS.NEGOCIOS.Informes
             mensaje = objInforme.ActivarRecibidoInforme(pInforme, esquema);
             return mensaje;
         }
-        public string AgregarInformeAsociado(string pCliente, string esquema)
+        public string AgregarInformeAsociado(string numero, string esquema)
         {
             string consecutivo = string.Empty;
-            consecutivo = objInforme.AgregarInformeAsociado(pCliente, esquema);
+            consecutivo = objInforme.AgregarInformeAsociado(numero, esquema);
             return consecutivo;
         }
 

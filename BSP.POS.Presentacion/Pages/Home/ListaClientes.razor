@@ -2,6 +2,7 @@
 @inject IClientesInterface ClientesService
 @inject IInformesInterface InformesService
 @inject IUsuariosInterface UsuariosService
+@inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
 <AuthorizeView>
@@ -14,8 +15,8 @@
     <div class="row">
         <div class="col-md-12 header-col-left">
             <div class="d-flex ps-5">
-                <a  class='text-light eyelash eyelash-recent p-2 pe-3 ps-3 @GetTabLinkClass("recent")' @onclick='() => ChangeTab("recent")'>Clientes recientes</a>
-                <a  class=' text-light eyelash eyelash-all p-2 pe-3 ps-3 @GetTabLinkClass("all")' @onclick='() => ChangeTab("all")'>Todos los clientes</a>
+                <a  class='text-light eyelash @(activeTab == "recent" ? "eyelash-selected" : "eyelash-unselected") p-2 pe-3 ps-3 @GetTabLinkClass("recent")' @onclick='() => ChangeTab("recent")'>Clientes recientes</a>
+                <a  class=' text-light eyelash @(activeTab == "all" ? "eyelash-selected" : "eyelash-unselected") p-2 pe-3 ps-3 @GetTabLinkClass("all")' @onclick='() => ChangeTab("all")'>Todos los clientes</a>
             </div>
         </div>
     </div>
@@ -45,7 +46,7 @@
                             // Ejemplo: mostrar la lista de clientes en la vista
                         foreach (var cliente in listaClientesRecientes)
                             {
-                                    <div class="row g-1 client-item click-client" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
+                                    <div class="row g-1 client-item click-client" @onclick="() => EnviarProyectosDeCliente(cliente.CLIENTE)">
 
                                         <div class="col-md-2 ">
                                             @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
@@ -100,7 +101,7 @@
                         // Ejemplo: mostrar la lista de clientes en la vista
                         foreach (var cliente in listaClientes)
                         {
-                            <div class="row g-1 client-item click-client" data-cliente="@cliente.CLIENTE" @onclick="() => EnviarInformesAsociados(cliente.CLIENTE)">
+                            <div class="row g-1 client-item click-client" data-cliente="@cliente.CLIENTE" @onclick="() => EnviarProyectosDeCliente(cliente.CLIENTE)">
 
                                 <div class="col-md-2 ">
                                             @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
@@ -136,7 +137,7 @@
             </div>
         </div>
 
-        <ListaInformes informesAsociados="@InformesAsociados" clienteAsociado="@ClienteAsociado" textoRecibido="@textoRecibido" fechaInicioDateTime="@fechaInicioDateTime" fechaFinalDateTime="fechaFinalDateTime" filtroRecibido="@filtroRecibido" esquema="@esquema" RefrescarListaInformes="RefrescaListaInformes" @ref="listaInformesComponente"/>
+        <ListaInformes proyectosDeCliente="@proyectosDeCliente" clienteAsociado="@ClienteAsociado" textoRecibido="@textoRecibido" fechaInicioDateTime="@fechaInicioDateTime" fechaFinalDateTime="fechaFinalDateTime" filtroRecibido="@filtroRecibido" esquema="@esquema" EnviarListaDeInformes="RecibirListaInformes" @ref="listaInformesComponente"/>
     </div>
     <div class="div-vacio"></div>
 </div>
