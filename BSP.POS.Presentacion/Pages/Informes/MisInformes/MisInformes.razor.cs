@@ -18,12 +18,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public mPerfil datosUsuario = new mPerfil();
-        public List<mUsuariosDeClienteDeInforme> informesDeUsuario = new List<mUsuariosDeClienteDeInforme>();
-        public List<mUsuariosDeClienteDeInforme> informesDeUsuarioFinalizados = new List<mUsuariosDeClienteDeInforme>();
-        public List<mInformes> informesAsociados = new List<mInformes>();
+        public List<mUsuariosDeInforme> informesDeUsuario = new List<mUsuariosDeInforme>();
+        public List<mUsuariosDeInforme> informesDeUsuarioFinalizados = new List<mUsuariosDeInforme>();
+        public List<mInformesDeCliente> informesDeCliente = new List<mInformesDeCliente>();
         public mClienteAsociado clienteAsociado = new mClienteAsociado();
         public mInforme informeAsociadoSeleccionado = new mInforme();
-        public mUsuariosDeClienteDeInforme informeDeUsuarioAsociado = new mUsuariosDeClienteDeInforme();
+        public mUsuariosDeInforme informeDeUsuarioAsociado = new mUsuariosDeInforme();
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
@@ -58,22 +58,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await UsuariosService.ObtenerListaDeInformesDeUsuario(datosUsuario.codigo, esquema);
-                    if(UsuariosService.ListaDeInformesDeUsuarioAsociados != null)
+                    if(UsuariosService.ListaUsuariosDeInformeAsociados != null)
                     {
-                        informesDeUsuario = UsuariosService.ListaDeInformesDeUsuarioAsociados;
+                        informesDeUsuario = UsuariosService.ListaUsuariosDeInformeAsociados;
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        //await InformesService.ObtenerListaDeInformesAsociados(datosUsuario.cod_cliente, esquema);
-                        if(/*InformesService.ListaInformesAsociados != null*/ true)
+                        await InformesService.ObtenerListaDeInformesDeCliente(datosUsuario.cod_cliente, esquema);
+                        if (InformesService.ListaInformesDeCliente != null)
                         {
-                            //informesAsociados = InformesService.ListaInformesAsociados;
-                            informesDeUsuarioFinalizados = UsuariosService.ListaDeInformesDeUsuarioAsociados
+                            informesDeCliente = InformesService.ListaInformesDeCliente;
+                            informesDeUsuarioFinalizados = UsuariosService.ListaUsuariosDeInformeAsociados
                             .Where(usuario =>
-                                informesAsociados.Any(informe =>
+                                informesDeCliente.Any(informe =>
                                     usuario.consecutivo_informe == informe.consecutivo && informe.estado == "Finalizado"))
                             .ToList();
                             foreach (var informe in informesDeUsuarioFinalizados)
                             {
-                                informe.fecha_consultoria = informesAsociados.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
+                                informe.fecha_consultoria = informesDeCliente.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
                                 informe.FechaConsultoriaDateTime = DateTime.ParseExact(informe.fecha_consultoria, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                             }
                             if (informesDeUsuarioFinalizados.Any())
@@ -105,8 +105,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                     informe.informeSeleccionado = "informe-hover";
                     informe.imagenSeleccionada = "imagen-hover";
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    //informeAsociadoSeleccionado = await InformesService.ObtenerInformeAsociado(consecutivo, esquema);
-                    if(informeAsociadoSeleccionado != null)
+                    informeAsociadoSeleccionado = await InformesService.ObtenerInforme(consecutivo, esquema);
+                    if (informeAsociadoSeleccionado != null)
                     {
                         informeDeUsuarioAsociado = informe;
 

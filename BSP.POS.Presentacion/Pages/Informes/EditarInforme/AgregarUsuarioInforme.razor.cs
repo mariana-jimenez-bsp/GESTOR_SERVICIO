@@ -11,7 +11,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         [Parameter] public string Consecutivo { get; set; } = string.Empty;
         [Parameter]public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar { get; set; } = new List<mUsuariosDeCliente>();
-        public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
+        public mUsuariosDeInforme usuarioAAgregar = new mUsuariosDeInforme();
         public string esquema = string.Empty;
         private string mensajeError;
 
@@ -26,14 +26,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private async Task AgregarUsuarioDeClienteDeInforme()
         {
             mensajeError = null;
-            if (usuarioAAgregar.codigo_usuario_cliente != null)
+            if (usuarioAAgregar.codigo_usuario != null)
             {
                 usuarioAAgregar.consecutivo_informe = Consecutivo;
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 bool resultadoAgregar = await UsuariosService.AgregarUsuarioDeClienteDeInforme(usuarioAAgregar, esquema);
                 if (resultadoAgregar)
                 {
-                    usuarioAAgregar = new mUsuariosDeClienteDeInforme();
+                    usuarioAAgregar = new mUsuariosDeInforme();
                     await OnClose.InvokeAsync(false);
                 }
                 else
@@ -48,7 +48,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                usuarioAAgregar.codigo_usuario_cliente = e.Value.ToString();
+                usuarioAAgregar.codigo_usuario = e.Value.ToString();
 
             }
         }

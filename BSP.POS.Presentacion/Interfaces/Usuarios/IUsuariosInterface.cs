@@ -21,15 +21,15 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task<string> ValidarExistenciaDeCodigoUsuario(string esquema, string codigo);
         List<mDatosUsuariosDeClienteDeInforme> ListaDatosUsuariosDeClienteDeInforme { get; set; }
         Task ObtenerDatosListaUsuariosDeClienteDeInforme(string consecutivo, string esquema);
-        Task<bool> AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema);
-        Task<bool> EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema);
+        Task<bool> AgregarUsuarioDeClienteDeInforme(mUsuariosDeInforme usuario, string esquema);
+        Task<bool> EliminarUsuarioDeClienteDeInforme(string codigo, string esquema);
         List<mPerfil> ListaDeUsuarios { get; set; }
         Task ObtenerListaDeUsuarios(string esquema);
 
         mImagenUsuario ImagenDeUsuario { get; set; }
         Task ObtenerImagenDeUsuario(string usuario, string esquema);
 
-        List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; }
+        List<mUsuariosDeInforme> ListaUsuariosDeInformeAsociados { get; set; }
         Task ObtenerListaDeInformesDeUsuario(string codigo, string esquema);
 
         List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; }

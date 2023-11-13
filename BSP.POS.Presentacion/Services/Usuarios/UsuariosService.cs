@@ -25,7 +25,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public List<mPerfil> ListaDeUsuarios { get; set; } = new List<mPerfil>();
         
         public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
-        public List<mUsuariosDeClienteDeInforme> ListaDeInformesDeUsuarioAsociados { get; set; } = new List<mUsuariosDeClienteDeInforme>();
+        public List<mUsuariosDeInforme> ListaUsuariosDeInformeAsociados { get; set; } = new List<mUsuariosDeInforme>();
         public List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; } = new List<mUsuariosParaEditar>();
         public mUsuariosParaEditar UsuarioParaEditar { get; set; } = new mUsuariosParaEditar();
         
@@ -129,7 +129,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 }
             }
         }
-        public async Task<bool> AgregarUsuarioDeClienteDeInforme(mUsuariosDeClienteDeInforme usuario, string esquema)
+        public async Task<bool> AgregarUsuarioDeClienteDeInforme(mUsuariosDeInforme usuario, string esquema)
         {
             try
             {
@@ -152,15 +152,15 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             }
         }
 
-        public async Task<bool> EliminarUsuarioDeClienteDeInforme(string idUsuario, string esquema)
+        public async Task<bool> EliminarUsuarioDeClienteDeInforme(string codigo, string esquema)
         {
             try
             {
                 string url = "Usuarios/EliminaUsuarioDeClienteDeInforme";
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
-                _http.DefaultRequestHeaders.Remove("X-IdUsuario");
+                _http.DefaultRequestHeaders.Remove("X-Codigo");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
-                _http.DefaultRequestHeaders.Add("X-IdUsuario", idUsuario);
+                _http.DefaultRequestHeaders.Add("X-Codigo", codigo);
                
 
                 var response = await _http.DeleteAsync(url);
@@ -192,10 +192,10 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             var response = await _http.GetAsync(url);
             if(response.StatusCode == HttpStatusCode.OK)
             {
-                var listaDeInformesDeUsuarioAsociados = await response.Content.ReadFromJsonAsync<List<mUsuariosDeClienteDeInforme>>();
-                if (listaDeInformesDeUsuarioAsociados is not null)
+                var listaUsuariosDeInformeAsociados = await response.Content.ReadFromJsonAsync<List<mUsuariosDeInforme>>();
+                if (listaUsuariosDeInformeAsociados is not null)
                 {
-                    ListaDeInformesDeUsuarioAsociados = listaDeInformesDeUsuarioAsociados;
+                    ListaUsuariosDeInformeAsociados = listaUsuariosDeInformeAsociados;
                 }
             }
             

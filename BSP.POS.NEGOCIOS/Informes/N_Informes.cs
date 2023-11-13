@@ -13,13 +13,31 @@ namespace BSP.POS.NEGOCIOS.Informes
     public class N_Informes
     {
         D_Informes objInforme = new D_Informes();
-        public string ListarInformesDeProyecto(String pEsquema, String pCliente)
+        public string ListarInformesDeProyecto(String pEsquema, String pNumero)
         {
             try
             {
                 List<U_InformesDeProyecto> list = new List<U_InformesDeProyecto>();
 
-                list = objInforme.ListaInformesDeProyecto(pEsquema, pCliente);
+                list = objInforme.ListaInformesDeProyecto(pEsquema, pNumero);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ObtenerInformesDeCliente(String pEsquema, String pCliente)
+        {
+            try
+            {
+                List<U_InformesDeProyecto> list = new List<U_InformesDeProyecto>();
+
+                list = objInforme.ListaInformesDeCliente(pEsquema, pCliente);
 
                 string informe = JsonConvert.SerializeObject(list);
                 return informe;

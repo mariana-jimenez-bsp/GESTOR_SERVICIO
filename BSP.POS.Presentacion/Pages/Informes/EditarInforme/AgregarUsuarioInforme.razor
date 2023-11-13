@@ -23,7 +23,7 @@
                 <div class="font-14-book ms-3 pb-2 div-agregar-usuario">
                     <span class="green-text">Seleccione el usuario del cliente</span>
                     <div>
-                        <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario_cliente" @oninput="CambioCodigoDeUsuario">
+                        <select class="border-success rounded-3" @bind="@usuarioAAgregar.codigo_usuario" @oninput="CambioCodigoDeUsuario">
                             <option value="">Seleccione el usuario</option>
                             @foreach (var usuario in listaDeUsuariosParaAgregar)
                             {
@@ -32,7 +32,7 @@
 
                         </select>
                     </div>
-                    <ValidationMessage For="@(() => usuarioAAgregar.codigo_usuario_cliente)" />
+                    <ValidationMessage For="@(() => usuarioAAgregar.codigo_usuario)" />
                 </div>
                 
             </div>

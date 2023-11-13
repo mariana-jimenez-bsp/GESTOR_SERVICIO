@@ -35,18 +35,34 @@ namespace BSP.POS.Presentacion.Pages.Home
             {
                 Consecutivo = string.Empty;
                 Estado = string.Empty;
+                if (proyectosDeCliente.Count == 1)
+                {
+                    proyectoEscogido = proyectosDeCliente[0];
+                }
             }
 
+        }
+        public async Task ActualizarListaInformessActuales()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await InformesService.ObtenerListaDeInformesDeProyecto(proyectoEscogido.numero, esquema);
+            if (InformesService.ListaInformesDeProyecto != null)
+            {
+                listaInformesDeProyecto = InformesService.ListaInformesDeProyecto;
+                await EnviarListaDeInformes.InvokeAsync(listaInformesDeProyecto);
+                StateHasChanged();
+            }
         }
         private async Task RecibirProyectoEscogido(mDatosProyectos proyecto)
         {
             proyectoEscogido = proyecto;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await InformesService.ObtenerListaDeInformesDeProyecto(proyectoEscogido.codigo_cliente, esquema);
+            await InformesService.ObtenerListaDeInformesDeProyecto(proyectoEscogido.numero, esquema);
             if(InformesService.ListaInformesDeProyecto != null)
             {
                 listaInformesDeProyecto = InformesService.ListaInformesDeProyecto;
                 await EnviarListaDeInformes.InvokeAsync(listaInformesDeProyecto);
+                StateHasChanged();
             }
         }
 
@@ -78,7 +94,7 @@ namespace BSP.POS.Presentacion.Pages.Home
             EsClienteNull = false;
             StateHasChanged();
             await Task.Delay(100);
-            if (!string.IsNullOrEmpty(proyectoEscogido.numero))
+            if (!string.IsNullOrEmpty(clienteAsociado.CLIENTE) && !string.IsNullOrEmpty(proyectoEscogido.numero))
             {
                 if (!string.IsNullOrEmpty(esquema))
                 {

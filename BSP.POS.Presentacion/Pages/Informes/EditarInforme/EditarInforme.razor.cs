@@ -3,9 +3,8 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
+using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
-using BSP.POS.Presentacion.Pages.Clientes;
-using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -30,10 +29,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public List<mDatosUsuariosDeClienteDeInforme> listadeDatosUsuariosDeClienteDeInforme = new List<mDatosUsuariosDeClienteDeInforme>();
         public List<mUsuariosParaEditar> listaTodosLosUsuarios = new List<mUsuariosParaEditar>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
-        public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
+        public mUsuariosDeInforme usuarioAAgregar = new mUsuariosDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
         public mPerfil perfilActual = new mPerfil();
+        public mProyectos proyectoAsociado = new mProyectos();
         public int total_horas_cobradas = 0;
         public int total_horas_no_cobradas = 0;
         public string usuarioActual { get; set; } = string.Empty;
@@ -50,7 +50,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private bool usuarioAutorizado = true;
         private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".btn-agregar-usuario" };
         private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".btn-agregar-actividad" };
-
+        private bool tieneScrollBar = false;
         protected override async Task OnInitializedAsync()
         {
 
@@ -78,7 +78,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                         if (VerificarUsuarioAutorizado())
                         {
                             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                            //ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
+                            await ProyectosService.ObtenerProyecto(esquema, informe.numero_proyecto);
+                            if(ProyectosService.ProyectoAsociado != null)
+                            {
+                                proyectoAsociado = ProyectosService.ProyectoAsociado;
+                            }
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(proyectoAsociado.codigo_cliente, esquema);
                             if (ClientesService.ClienteAsociado != null)
                             {
                                 ClienteAsociado = ClientesService.ClienteAsociado;
@@ -124,6 +130,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             try
             {
                 await JS.InvokeVoidAsync("initTooltips");
+                DotNetObjectReference<EditarInforme > objRef = DotNetObjectReference.Create(this);
+                await JS.InvokeVoidAsync("AgregarScrollListener", "scroll-bar", objRef);
             }
             catch (Exception ex)
             {
@@ -393,7 +401,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 listadeDatosUsuariosDeClienteDeInforme = UsuariosService.ListaDatosUsuariosDeClienteDeInforme;
                 
             }
-            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeDatosUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
+            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeDatosUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario == usuario.codigo)).ToList();
         }
         
 
@@ -489,7 +497,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             StateHasChanged();
             await Task.Delay(100);
         }
-        
+        [JSInvokable]
+        public void ActualizarScrollBarEstado(bool estado)
+        {
+            tieneScrollBar = estado;
+        }
         private async Task SwalAccionPregunta(string mensajeAlerta, string accion, string identificador)
         {
             await Swal.FireAsync(new SweetAlertOptions
@@ -562,12 +574,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 
             }
         }
-        private async Task EliminarUsuarioDeClienteDeInforme(string idUsuario)
+        private async Task EliminarUsuarioDeClienteDeInforme(string codigo)
         {
-            if (!string.IsNullOrEmpty(idUsuario) && !string.IsNullOrEmpty(esquema))
+            if (!string.IsNullOrEmpty(codigo) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                bool resultadoEliminar = await UsuariosService.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
+                bool resultadoEliminar = await UsuariosService.EliminarUsuarioDeClienteDeInforme(codigo, esquema);
                 if (resultadoEliminar)
                 {
                     await RefrescarListaDeUsuariosDeInforme();
@@ -594,7 +606,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
                 else
                 {
-                    await AlertasService.SwalExito("Ocurrió un Error vuelta a intentarlo");
+                    await AlertasService.SwalError("Ocurrió un Error vuelta a intentarlo");
                 }
                 
             }

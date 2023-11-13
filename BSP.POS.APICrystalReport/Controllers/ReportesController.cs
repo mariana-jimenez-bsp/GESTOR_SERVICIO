@@ -20,7 +20,7 @@ namespace BSP.POS.APICrystalReport.Controllers
 {
     public class ReportesController : ApiController
     {
-        Prueba_Gestor_ServiciosEntities4 ModelDb = new Prueba_Gestor_ServiciosEntities4();
+        Prueba_Gestor_ServiciosEntities5 ModelDb = new Prueba_Gestor_ServiciosEntities5();
         [HttpGet]
         [Route("Api/GenerarReporte/{esquema}/{consecutivo}")]
         public HttpResponseMessage GenerarReporte(string esquema, string consecutivo)

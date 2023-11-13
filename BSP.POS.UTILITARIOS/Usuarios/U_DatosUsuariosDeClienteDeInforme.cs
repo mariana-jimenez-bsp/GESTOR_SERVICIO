@@ -10,7 +10,7 @@ namespace BSP.POS.UTILITARIOS.Usuarios
     {
         public string id { get; set; }
         public string consecutivo_informe { get; set; }
-        public string codigo_usuario_cliente { get; set; }
+        public string codigo_usuario { get; set; }
         public string recibido { get; set; }
         public string nombre_usuario { get; set; }
         public string departamento_usuario { get; set; }
@@ -18,11 +18,11 @@ namespace BSP.POS.UTILITARIOS.Usuarios
         public string correo_usuario { get; set; }
         public string token { get; set; } = string.Empty;
 
-        public U_DatosUsuariosDeClienteDeInforme(string pId, string pConsecutivo_informe, string pCodigo_usuario_cliente, string pRecibido, string pNombreUsuario, string pDepartamento, string pRol, string pCorreo)
+        public U_DatosUsuariosDeClienteDeInforme(string pId, string pConsecutivo_informe, string pCodigo_usuario, string pRecibido, string pNombreUsuario, string pDepartamento, string pRol, string pCorreo)
         {
             id = pId;
             consecutivo_informe = pConsecutivo_informe;
-            codigo_usuario_cliente = pCodigo_usuario_cliente;
+            codigo_usuario = pCodigo_usuario;
             recibido = pRecibido;
             nombre_usuario = pNombreUsuario;
             departamento_usuario = pDepartamento;

@@ -1,9 +1,12 @@
 ﻿.width-time{
     width: 10%;
 }
+.max-width-for-scroll{
+    max-width: 99%;
+}
 .observation {
     margin-left: 1%;
-   width: 96%;
+    width: 96%;
 }
 .input-date {
     border: none;

@@ -10,24 +10,40 @@ namespace BSP.POS.Presentacion.Pages.Home
         public List<mDatosProyectos> datosDeProyectos { get; set; } = new List<mDatosProyectos>();
         [Parameter] public EventCallback<mDatosProyectos> EnviarProyecto { get; set; }
         public mDatosProyectos proyectoEscogido { get; set; } = new mDatosProyectos();
-        protected override void OnParametersSet()
+        [Parameter] public mClienteAsociado ClienteActual { get; set; } = new mClienteAsociado();
+        protected async override void OnParametersSet()
         {
             if (datosDeProyectos != null)
             {
                if(datosDeProyectos.Count == 1)
                 {
-                    proyectoEscogido = datosDeProyectos[0]; 
+                    proyectoEscogido = datosDeProyectos[0];
                 }
 
             }
         }
 
         bool activarModalEscogerProyecto = false;
-        void ClickHandlerEscogerProyecto(bool activar)
+        async Task ClickHandlerEscogerProyecto(bool activar)
         {
-            
-            activarModalEscogerProyecto = activar;
-            StateHasChanged();
+            if (activar)
+            {
+                if (!string.IsNullOrEmpty(ClienteActual.CLIENTE))
+                {
+                    activarModalEscogerProyecto = activar;
+                    StateHasChanged();
+                }
+                else
+                {
+                    await AlertasService.SwalAdvertencia("Debe seleccionar un cliente");
+                }
+            }
+            else
+            {
+                activarModalEscogerProyecto = activar;
+                StateHasChanged();
+            }
+           
         }
 
         private async Task RecibirProyectoEscogido(mDatosProyectos proyecto)

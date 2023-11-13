@@ -74,10 +74,10 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private async Task RefrescarListaDeProyectos()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ProyectosService.ObtenerListaDeProyectosIniciados(esquema);
-            if (ProyectosService.ListaProyectosIniciados != null)
+            await ProyectosService.ObtenerListaDeProyectosActivos(esquema);
+            if (ProyectosService.ListaProyectosActivos != null)
             {
-                proyectos = ProyectosService.ListaProyectosIniciados;
+                proyectos = ProyectosService.ListaProyectosActivos;
 
             }
             foreach (var proyecto in proyectos)

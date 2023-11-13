@@ -38,6 +38,28 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [HttpGet("ObtengaElProyecto")]
+        public IActionResult ObtengaElProyecto()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string numero = Request.Headers["X-Numero"];
+                string proyectoJson = _proyectos.ObtenerProyecto(esquema, numero);
+                if (string.IsNullOrEmpty(proyectoJson))
+                {
+                    return NotFound();
+                }
+                return Ok(proyectoJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
         [HttpGet("ObtengaLosDatosDeProyectosActivos/{esquema}")]
         public IActionResult ObtengaLosDatosDeProyectosActivos(string esquema)
         {

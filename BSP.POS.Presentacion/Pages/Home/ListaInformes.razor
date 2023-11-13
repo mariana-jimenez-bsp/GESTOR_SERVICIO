@@ -7,16 +7,20 @@
 
 <div class="col-md-7 col-right">
     <div class="cliente-asociado">
-        <ProyectoAsociado datosDeProyectos="@proyectosDeCliente" EnviarProyecto="RecibirProyectoEscogido" @ref="@proyectoAsociadoComponente"></ProyectoAsociado>
+        <ProyectoAsociado datosDeProyectos="@proyectosDeCliente" EnviarProyecto="RecibirProyectoEscogido" @ref="@proyectoAsociadoComponente" ClienteActual="@clienteAsociado"></ProyectoAsociado>
     </div>
    
     <div class="background-reports pb-2 col-right">
         <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height col-right">
             <div class="row d-flex justify-content-between m-2 reports-list">
-                <div class="col-md-4 mb-4 d-flex justify-content-center align-items-center mouse-pointer add-report" @onclick="CrearInforme">
-                    
-                    <img src="images/Home/Agregar.png" class="image-add"/>
-                </div>
+                @if (!string.IsNullOrEmpty(clienteAsociado.CLIENTE) && !string.IsNullOrEmpty(proyectoEscogido.numero))
+                {
+                    <div class="col-md-4 mb-4 d-flex justify-content-center align-items-center mouse-pointer add-report" @onclick="CrearInforme">
+
+                        <img src="images/Home/Agregar.png" class="image-add" />
+                    </div>
+                }
+               
                 @if (listaInformesDeProyecto.Any())
                 {
                     var listaDeInformes = filtroRecibido == "informes" ?
@@ -77,7 +81,7 @@
      
     @if (EsClienteNull)
     {
-        <ModalAdvertencia mensaje="Debe seleccionar un cliente"></ModalAdvertencia>
+        <ModalAdvertencia mensaje="Debe seleccionar un cliente y luego un proyecto"></ModalAdvertencia>
     }
 </div>
 @if (elementos.Any())

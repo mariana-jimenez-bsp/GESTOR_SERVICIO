@@ -55,8 +55,8 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                     {
                         U_CodigoTelefonoPaisUsuarios codigoTelefono = new U_CodigoTelefonoPaisUsuarios();
                         U_UsuariosParaEditar usuarioActual = new U_UsuariosParaEditar();
-                        usuarioActual = _usuarios.ObtenerUsuarioParaEditar(objetosParaInforme.esquema, item.codigo_usuario_cliente);
-                        codigoTelefono = _codigoTelefonoPais.ObtenerDatosCodigoTelefonoPaisDeUsuariosPorUsuario(objetosParaInforme.esquema, item.codigo_usuario_cliente);
+                        usuarioActual = _usuarios.ObtenerUsuarioParaEditar(objetosParaInforme.esquema, item.codigo_usuario);
+                        codigoTelefono = _codigoTelefonoPais.ObtenerDatosCodigoTelefonoPaisDeUsuariosPorUsuario(objetosParaInforme.esquema, item.codigo_usuario);
                         //Nuestro telefono
                         string telefono = codigoTelefono.CodigoTelefono + usuarioActual.telefono;
                         string usuarios = "";
@@ -82,7 +82,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         {
                             usuarios += "Nombre: " + itemUsuario.nombre_usuario + " - Departamento: " + itemUsuario.departamento_usuario
                                 + " - Rol: " + itemUsuario.rol_usuario + " - Correo: " + itemUsuario.correo_usuario;
-                            if(itemUsuario.codigo_usuario_cliente != ultimoUsuario.codigo_usuario_cliente)
+                            if(itemUsuario.codigo_usuario != ultimoUsuario.codigo_usuario)
                             {
                                 usuarios += ", ";
                             }

@@ -5,6 +5,7 @@
 @inject IUsuariosInterface UsuariosService
 @inject IObservacionesInterface ObservacionesService
 @inject IDepartamentosInterface DepartamentosService
+@inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JS
 @inject NavigationManager navigationManager
@@ -29,32 +30,35 @@
                 <ObjectGraphDataAnnotationsValidator />
                     <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
-                        <div class="col-md-6 d-flex row text-start">
-                            <div>
-                                    <span class="blue-dark-text font-23-medium">Fecha: </span><input type="date" class="green-text font-19-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
+                        
+                            <div class="col-md-6 d-flex row text-start align-items-center">
+                                    <span class="col-md-4 blue-dark-text font-23-medium">Fecha: </span>
+                                    <input type="date" class="col-md-8 green-text font-19-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
                                 <ValidationMessage For="@(() => informe.fecha_consultoria)" />
                             </div>
-                       
-                            <div>
-                                <span class="blue-dark-text font-23-medium">Cliente: </span>
-                                <select value="@ClienteAsociado.NOMBRE" class="green-text w-50 border-0 font-19-bold">
-                                    <option value="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6 d-flex row text-start">
-                            <div>
-                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
-                                <span class="green-text">hs</span>
+                            <div  class="col-md-6 d-flex row text-start">
+                                    <span class="col-md-6 blue-dark-text font-23-medium">Hora de Inicio: </span>
+                                    <div class="col-md-6 d-flex align-items-center">
+                                        <input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
+                                        <span class="green-text">hs</span>
+                                    </div>
+                                   
                                 <ValidationMessage For="@(() => informe.HoraInicioTimeSpan)" />
                             </div>
-                      
-                            <div>
-                                <span class="blue-dark-text font-23-medium">Hora de Fin: </span><input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
+                            <div class="row d-flex align-items-center col-md-6 row text-start">
+                                <span class="col-md-4 blue-dark-text font-23-medium">Cliente: </span>
+                                <span class="col-md-8 green-text border-0 font-19-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
+
+                            </div>
+                            <div  class="col-md-6 d-flex row text-start">
+                                <span class="col-md-6 blue-dark-text font-23-medium">Hora de Fin: </span>
+                                <div class="col-md-6 d-flex align-items-center">
+                                <input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                 <span class="green-text">hs</span>
+                                </div>
                                 <ValidationMessage For="@(() => informe.HoraFinalTimeSpan)" />
                             </div>
-                        </div>
+                       
                    
                     <button @ref="informeButton" style="display: none"></button>
                     }
@@ -115,7 +119,7 @@
                                         }
 
                                     </div>
-                                <div class="col-md-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.id)'>
+                                <div class="col-md-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.codigo_usuario)'>
                                         <i class="ms-4 fa-solid fa-x text-danger"></i>
                                     </div>
                                 </div>
@@ -152,7 +156,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
-                        <span class="blue-dark-text font-23-medium">Informe #@informe.consecutivo</span>
+                        <span class="blue-dark-text font-23-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
                         <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-23-medium">
                             <option value="Virtual">Virtual</option>
                             <option value="Presencial">Presencial</option>
@@ -164,7 +168,7 @@
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                         <div class="ps-0 ms-0 ">
-                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
+                            <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book max-width-for-scroll">
                                 <div class="col-md-4 borde-gris-derecha py-2">
                                     <span>ACTIVIDAD</span>
                                 </div>
@@ -175,7 +179,7 @@
                                     <span>HS NO COBRADAS</span>
                                 </div>
                             </div>
-                            <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report ">
+                            <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report max-width-for-scroll">
                             <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas" OnInvalidSubmit="ActivarScrollBarDeErrores"  id="ActividadesForm">
                             <ObjectGraphDataAnnotationsValidator />
                                 @if (listaActividadesAsociadas != null)
@@ -227,7 +231,7 @@
                     
                             </div>
                         </div>
-                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
+                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas max-width-for-scroll">
 
                             <div class="col-md-4 borde-gris-derecha py-4">
                                 <span>Total de Horas</span>

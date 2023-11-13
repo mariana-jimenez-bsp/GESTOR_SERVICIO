@@ -32,6 +32,24 @@ namespace BSP.POS.NEGOCIOS.Proyectos
             }
         }
 
+        public string ObtenerProyecto(string pEsquema, string pNumero)
+        {
+            try
+            {
+                U_ListaProyectos proyecto = new U_ListaProyectos();
+
+                proyecto = objProyectos.ObtenerProyecto(pEsquema, pNumero);
+
+                string proyectoJson = JsonConvert.SerializeObject(proyecto);
+                return proyectoJson;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public string ListarDatosProyectosActivos(String pEsquema)
         {
             try

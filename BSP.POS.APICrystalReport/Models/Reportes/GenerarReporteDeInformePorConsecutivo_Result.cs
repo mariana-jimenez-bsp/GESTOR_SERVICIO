@@ -14,6 +14,7 @@ namespace BSP.POS.APICrystalReport.Models.Reportes
     public partial class GenerarReporteDeInformePorConsecutivo_Result
     {
         public string Consecutivo { get; set; }
+        public string Numero_Proyecto { get; set; }
         public string Fecha_Consultoria { get; set; }
         public string Hora_Inicio { get; set; }
         public string Hora_Fin { get; set; }

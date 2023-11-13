@@ -36,6 +36,27 @@ namespace BSP.POS.DATOS.Proyectos
             }
         }
 
+        public U_ListaProyectos ObtenerProyecto(string pEsquema, string pNumero)
+        {
+            ObtenerProyectoTableAdapter sp = new ObtenerProyectoTableAdapter();
+            U_ListaProyectos proyecto = new U_ListaProyectos();
+            var response = sp.GetData(pEsquema, pNumero).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado);
+                   
+                }
+                return proyecto;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public List<U_DatosProyectos> ListarDatosProyectosActivos(String pEsquema)
         {
             var LstProyectos = new List<U_DatosProyectos>();

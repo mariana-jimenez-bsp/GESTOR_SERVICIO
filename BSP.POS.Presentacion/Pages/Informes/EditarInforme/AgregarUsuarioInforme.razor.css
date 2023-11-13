@@ -12,7 +12,7 @@
 
 .modal-content {
     display: inline-block;
-    margin-top: 20%;
+    margin-top: 25%;
     max-width: 40%;
     padding: 20px;
     margin-bottom: 5%;
@@ -131,7 +131,7 @@
     }
 
     .modal-content {
-        margin-top: 3%;
+        margin-top: 12%;
     }
 
     .text-profile {

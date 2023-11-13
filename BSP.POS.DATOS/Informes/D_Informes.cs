@@ -35,6 +35,29 @@ namespace BSP.POS.DATOS.Informes
             }
         }
 
+        public List<U_InformesDeProyecto> ListaInformesDeCliente(String pEsquema, String pCliente)
+        {
+            var LstInformes = new List<U_InformesDeProyecto>();
+
+            ObtenerListaDeInformesDeClienteTableAdapter sp = new ObtenerListaDeInformesDeClienteTableAdapter();
+            var response = sp.GetData(pEsquema, pCliente).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_InformesDeProyecto informe = new U_InformesDeProyecto(item.consecutivo, item.fecha_actualizacion, item.fecha_consultoria, item.numero_proyecto, item.estado);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public U_Informe ObtenerInforme(String pEsquema, String pConsecutivo)
         {
             var informeAso = new U_Informe();
@@ -131,7 +154,7 @@ namespace BSP.POS.DATOS.Informes
 
                 foreach (var item in response)
                 {
-                    U_TokenRecibidoInforme tokenRecibido = new U_TokenRecibidoInforme(item.token_recibido, pEsquema, item.codigo_usuario_cliente, item.fecha_expiracion_TA.ToString());
+                    U_TokenRecibidoInforme tokenRecibido = new U_TokenRecibidoInforme(item.token_recibido, pEsquema, item.codigo_usuario, item.fecha_expiracion_TA.ToString());
                     TokenRecibido = tokenRecibido;
                 }
                 if (TokenRecibido != null)

@@ -20,6 +20,8 @@ namespace BSP.POS.Presentacion.Pages.Home
         public mPerfil PerfilActual = new mPerfil();
         private DateTime fechaInicioDateTime = DateTime.MinValue;
         private DateTime fechaFinalDateTime = DateTime.MinValue;
+        private ListaInformes listaInformesComponente;
+
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public string rol = string.Empty;
@@ -95,6 +97,7 @@ namespace BSP.POS.Presentacion.Pages.Home
 
         private async Task EnviarProyectosDeCliente(string cliente)
         {
+            RefrescarDatosInformes();
             clienteActual = cliente;
             proyectosDeCliente = new List<mDatosProyectos>();
             ClienteAsociado = new mClienteAsociado();
@@ -105,12 +108,17 @@ namespace BSP.POS.Presentacion.Pages.Home
             if (ProyectosService.ListaDatosProyectosActivosDeCliente != null)
             {
                 proyectosDeCliente = ProyectosService.ListaDatosProyectosActivosDeCliente;
+                if (proyectosDeCliente.Count == 1)
+                {
+                    await listaInformesComponente.ActualizarListaInformessActuales();
+                }
+                
             }
             if (ClientesService.ClienteAsociado != null)
             {
                 ClienteAsociado = ClientesService.ClienteAsociado;
             }
-            RefrescarDatosInformes();
+           
             ActualizarFiltroFechas();
         }
 
@@ -154,7 +162,6 @@ namespace BSP.POS.Presentacion.Pages.Home
             }
             StateHasChanged();
         }
-        private ListaInformes listaInformesComponente;
 
         private void RefrescarDatosInformes()
         {

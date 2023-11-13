@@ -227,7 +227,7 @@ namespace BSP.POS.API.Controllers
         }
         [Authorize]
         [HttpPost("AgregaUsuarioDeClienteDeInforme")]
-        public IActionResult AgregaUsuarioDeClienteDeInforme([FromBody] U_UsuariosDeClienteDeInforme datos)
+        public IActionResult AgregaUsuarioDeClienteDeInforme([FromBody] U_UsuariosDeInforme datos)
         {
             try
             {
@@ -254,10 +254,10 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-                string idUsuario = Request.Headers["X-IdUsuario"];
+                string codigo = Request.Headers["X-Codigo"];
 
 
-                string mensaje = user.EliminarUsuarioDeClienteDeInforme(idUsuario, esquema);
+                string mensaje = user.EliminarUsuarioDeClienteDeInforme(codigo, esquema);
                 if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
                     return BadRequest();

@@ -14,7 +14,7 @@ namespace BSP.POS.Presentacion.Models.Informes
         public string hora_final { get; set; } = string.Empty;
 
         public string modalidad_consultoria { get; set; } = string.Empty;
-        public string cliente { get; set; } = string.Empty;
+        public string numero_proyecto { get; set; } = string.Empty;
         public string estado { get; set; } = string.Empty;
     }
 }

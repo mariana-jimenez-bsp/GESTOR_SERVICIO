@@ -4,6 +4,7 @@
 @inject IUsuariosInterface UsuariosService
 @inject IObservacionesInterface ObservacionesService
 @inject IDepartamentosInterface DepartamentosService
+@inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
@@ -27,18 +28,18 @@
                         <div class="row p-2 header-col-left">
                         @if (!string.IsNullOrEmpty(informe.consecutivo))
                         {
+                            
                             <div class="col-md-6 d-flex row text-start">
                                 <div>
                                     <span class="blue-dark-text font-23-medium">Fecha: </span><span class="green-text font-19-bold border-0 w-50">@informe.fecha_consultoria</span>
                                    
                                 </div>
 
-                                <div>
-                                    <span class="blue-dark-text font-23-medium">Cliente: </span>
-                                    <select value="@ClienteAsociado.NOMBRE" class="green-text border-0 w-50 font-19-bold">
-                                        <option value="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</option>
-                                    </select>
-                                </div>
+                             <div class="row d-flex align-items-center">
+                                <span class="col-md-4 blue-dark-text font-23-medium">Cliente: </span>
+                                <span class="col-md-8 green-text border-0 font-19-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
+
+                             </div>
                             </div>
                             <div class="col-md-6 d-flex row text-start">
                                 <div>

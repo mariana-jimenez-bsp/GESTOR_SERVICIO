@@ -3,6 +3,7 @@ using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
+using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using CurrieTechnologies.Razor.SweetAlert2;
@@ -26,9 +27,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public List<mDatosUsuariosDeClienteDeInforme> listadeDatosUsuariosDeClienteDeInforme = new List<mDatosUsuariosDeClienteDeInforme>();
         public mPerfil perfilActual = new mPerfil();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
-        public mUsuariosDeClienteDeInforme usuarioAAgregar = new mUsuariosDeClienteDeInforme();
+        public mUsuariosDeInforme usuarioAAgregar = new mUsuariosDeInforme();
         public mActividadAsociadaParaAgregar actividadAAgregar = new mActividadAsociadaParaAgregar();
         public List<mObservaciones> listaDeObservaciones = new List<mObservaciones>();
+        public mProyectos proyectoAsociado = new mProyectos();
         public int total_horas_cobradas = 0;
         public int total_horas_no_cobradas = 0;
         private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones" };
@@ -65,7 +67,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                         if (VerificarUsuarioAutorizado())
                         {
                             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                            //ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(informe.cliente, esquema);
+                            await ProyectosService.ObtenerProyecto(esquema, informe.numero_proyecto);
+                            if (ProyectosService.ProyectoAsociado != null)
+                            {
+                                proyectoAsociado = ProyectosService.ProyectoAsociado;
+                            }
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(proyectoAsociado.codigo_cliente, esquema);
                             if (ClientesService.ClienteAsociado != null)
                             {
                                 ClienteAsociado = ClientesService.ClienteAsociado;
@@ -184,7 +192,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 listadeDatosUsuariosDeClienteDeInforme = UsuariosService.ListaDatosUsuariosDeClienteDeInforme;
 
             }
-            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeDatosUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario_cliente == usuario.codigo)).ToList();
+            listaDeUsuariosParaAgregar = listaDeUsuariosDeCliente.Where(usuario => !listadeDatosUsuariosDeClienteDeInforme.Any(usuarioDeInforme => usuarioDeInforme.codigo_usuario == usuario.codigo)).ToList();
         }
 
         bool activarModalObservaciones = false;

@@ -116,19 +116,19 @@ namespace BSP.POS.NEGOCIOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
-        public string AgregarUsuarioDeClienteDeInforme(U_UsuariosDeClienteDeInforme pUsuario, string esquema)
+        public string AgregarUsuarioDeClienteDeInforme(U_UsuariosDeInforme pUsuario, string esquema)
         {
             string mensaje = string.Empty;
             mensaje = objetoUsuario.AgregarUsuarioDeClienteDeInforme(pUsuario, esquema);
             return mensaje;
         }
 
-        public string EliminarUsuarioDeClienteDeInforme(string pIdUsuario, string esquema)
+        public string EliminarUsuarioDeClienteDeInforme(string pCodigo, string esquema)
         {
             try
             {
                 string mensaje = string.Empty;
-                mensaje = objetoUsuario.EliminarUsuarioDeClienteDeInforme(pIdUsuario, esquema);
+                mensaje = objetoUsuario.EliminarUsuarioDeClienteDeInforme(pCodigo, esquema);
                
                 return mensaje;
             }
@@ -178,7 +178,7 @@ namespace BSP.POS.NEGOCIOS.Usuarios
         {
             try
             {
-                List<U_UsuariosDeClienteDeInforme> list = new List<U_UsuariosDeClienteDeInforme>();
+                List<U_UsuariosDeInforme> list = new List<U_UsuariosDeInforme>();
 
                 list = objetoUsuario.ObtenerListaDeInformesDeUsuario(pEsquema, pCodigo);
 

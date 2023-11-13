@@ -72,12 +72,12 @@ namespace BSP.POS.API.Controllers
 
         }
         // GET: api/<InformesController>
-        [HttpGet("ObtengaLaListaDeInformesDeProyecto/{cliente}/{esquema}")]
-        public IActionResult ObtengaLaListaDeInformesDeProyecto(string cliente, string esquema)
+        [HttpGet("ObtengaLaListaDeInformesDeProyecto/{numero}/{esquema}")]
+        public IActionResult ObtengaLaListaDeInformesDeProyecto(string numero, string esquema)
         {
             try
             {
-                string listaInformesAsociadosJson = informes.ListarInformesDeProyecto(esquema, cliente);
+                string listaInformesAsociadosJson = informes.ListarInformesDeProyecto(esquema, numero);
                 if (string.IsNullOrEmpty(listaInformesAsociadosJson))
                 {
                     return NotFound();
@@ -92,6 +92,28 @@ namespace BSP.POS.API.Controllers
                 return StatusCode(500, ex.Message);
             }
            
+        }
+
+        [HttpGet("ObtengaLaListaDeInformesDeCliente/{cliente}/{esquema}")]
+        public IActionResult ObtengaLaListaDeInformesDeCliente(string cliente, string esquema)
+        {
+            try
+            {
+                string listaInformesAsociadosJson = informes.ObtenerInformesDeCliente(esquema, cliente);
+                if (string.IsNullOrEmpty(listaInformesAsociadosJson))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(listaInformesAsociadosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         [HttpGet("ObtengaElInforme/{consecutivo}/{esquema}")]
@@ -196,7 +218,7 @@ namespace BSP.POS.API.Controllers
                 foreach (var item in objetosParaInforme.listadeUsuariosDeClienteDeInforme)
                 {
 
-                    U_TokenRecibidoInforme tokenRecibidoRecuperado = informes.EnviarTokenDeRecibidoDeInforme(item.codigo_usuario_cliente, item.consecutivo_informe, objetosParaInforme.esquema);
+                    U_TokenRecibidoInforme tokenRecibidoRecuperado = informes.EnviarTokenDeRecibidoDeInforme(item.codigo_usuario, item.consecutivo_informe, objetosParaInforme.esquema);
                     if (tokenRecibidoRecuperado != null)
                     {
                         item.token = tokenRecibidoRecuperado.token_recibido;

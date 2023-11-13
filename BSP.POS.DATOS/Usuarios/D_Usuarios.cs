@@ -229,7 +229,7 @@ namespace BSP.POS.DATOS.Usuarios
                 foreach (var item in response)
                 {
                     U_DatosUsuariosDeClienteDeInforme informe = new U_DatosUsuariosDeClienteDeInforme(item.Id, 
-                        item.consecutivo_informe, item.codigo_usuario_cliente, item.recibido,
+                        item.consecutivo_informe, item.codigo_usuario, item.recibido,
                         item.nombre_usuario, item.departamento_usuario, item.rol_usuario, item.correo_usuario);
 
                     LstInformes.Add(informe);
@@ -242,13 +242,13 @@ namespace BSP.POS.DATOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
-        public string AgregarUsuarioDeClienteDeInforme(U_UsuariosDeClienteDeInforme pUsuario, string esquema)
+        public string AgregarUsuarioDeClienteDeInforme(U_UsuariosDeInforme pUsuario, string esquema)
         {
             POSDataSet.AgregarUsuarioDeClienteDeInformeDataTable bTabla = new POSDataSet.AgregarUsuarioDeClienteDeInformeDataTable();
             AgregarUsuarioDeClienteDeInformeTableAdapter sp = new AgregarUsuarioDeClienteDeInformeTableAdapter();
             try
             {
-                var response = sp.GetData(esquema, pUsuario.consecutivo_informe, pUsuario.codigo_usuario_cliente);
+                var response = sp.GetData(esquema, pUsuario.consecutivo_informe, pUsuario.codigo_usuario);
 
 
                 return "Exito";
@@ -262,13 +262,13 @@ namespace BSP.POS.DATOS.Usuarios
 
 
         }
-        public string EliminarUsuarioDeClienteDeInforme(string pIdUsuario, string esquema)
+        public string EliminarUsuarioDeClienteDeInforme(string pCodigo, string esquema)
         {
             POSDataSet.EliminarUsuarioDeClienteDeInformeDataTable bTabla = new POSDataSet.EliminarUsuarioDeClienteDeInformeDataTable();
             EliminarUsuarioDeClienteDeInformeTableAdapter sp = new EliminarUsuarioDeClienteDeInformeTableAdapter();
             try
             {
-                var response = sp.GetData(pIdUsuario, esquema);
+                var response = sp.GetData(pCodigo, esquema);
 
                 return "Exito";
             }
@@ -327,18 +327,18 @@ namespace BSP.POS.DATOS.Usuarios
 
         }
 
-        public List<U_UsuariosDeClienteDeInforme> ObtenerListaDeInformesDeUsuario(String pEsquema, String pCodigo)
+        public List<U_UsuariosDeInforme> ObtenerListaDeInformesDeUsuario(String pEsquema, String pCodigo)
         {
-            var LstInformes = new List<U_UsuariosDeClienteDeInforme>();
+            var LstInformes = new List<U_UsuariosDeInforme>();
 
-            ObtenerListaDeInformesDeUsuarioDeClienteTableAdapter sp = new ObtenerListaDeInformesDeUsuarioDeClienteTableAdapter();
+            ObtenerListaDeUsuariosDeInformeTableAdapter sp = new ObtenerListaDeUsuariosDeInformeTableAdapter();
 
             var response = sp.GetData(pEsquema, pCodigo).ToList();
             try
             {
                 foreach (var item in response)
                 {
-                    U_UsuariosDeClienteDeInforme informe = new U_UsuariosDeClienteDeInforme(item.Id, item.consecutivo_informe, item.codigo_usuario_cliente, item.recibido);
+                    U_UsuariosDeInforme informe = new U_UsuariosDeInforme(item.Id, item.consecutivo_informe, item.codigo_usuario, item.recibido);
 
                     LstInformes.Add(informe);
                 }

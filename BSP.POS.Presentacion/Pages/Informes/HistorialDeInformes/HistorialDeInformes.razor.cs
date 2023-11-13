@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
+using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Reportes;
@@ -9,7 +10,6 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
 
 namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
 {
@@ -18,12 +18,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public mPerfil datosUsuario = new mPerfil();
-        public List<mUsuariosDeClienteDeInforme> informesDeUsuario = new List<mUsuariosDeClienteDeInforme>();
-        public List<mUsuariosDeClienteDeInforme> informesDeUsuarioFinalizados = new List<mUsuariosDeClienteDeInforme>();
-        public List<mInformes> informesAsociados = new List<mInformes>();
+        public List<mUsuariosDeInforme> informesDeUsuario = new List<mUsuariosDeInforme>();
+        public List<mUsuariosDeInforme> informesDeUsuarioFinalizados = new List<mUsuariosDeInforme>();
+        public List<mInformesDeCliente> informesDeCliente = new List<mInformesDeCliente>();
         public mClienteAsociado clienteAsociado = new mClienteAsociado();
         public mInforme informeAsociadoSeleccionado = new mInforme();
-        public mUsuariosDeClienteDeInforme informeDeUsuarioAsociado = new mUsuariosDeClienteDeInforme();
+        public mUsuariosDeInforme informeDeUsuarioAsociado = new mUsuariosDeInforme();
         public List<mActividades> listaDeActividades = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
@@ -58,21 +58,21 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await UsuariosService.ObtenerListaDeInformesDeUsuario(datosUsuario.codigo, esquema);
-                    if (UsuariosService.ListaDeInformesDeUsuarioAsociados != null)
+                    if (UsuariosService.ListaUsuariosDeInformeAsociados != null)
                     {
-                        informesDeUsuario = UsuariosService.ListaDeInformesDeUsuarioAsociados;
+                        informesDeUsuario = UsuariosService.ListaUsuariosDeInformeAsociados;
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        //await InformesService.ObtenerListaDeInformesAsociados(datosUsuario.cod_cliente, esquema);
-                        if (/*InformesService.ListaInformesAsociados != null*/ true)
+                        await InformesService.ObtenerListaDeInformesDeCliente(datosUsuario.cod_cliente, esquema);
+                        if (InformesService.ListaInformesDeCliente != null)
                         {
-                            //informesAsociados = InformesService.ListaInformesAsociados;
-                            informesDeUsuarioFinalizados = UsuariosService.ListaDeInformesDeUsuarioAsociados
+                            informesDeCliente = InformesService.ListaInformesDeCliente;
+                            informesDeUsuarioFinalizados = UsuariosService.ListaUsuariosDeInformeAsociados
                             .Where(usuario =>
-                                informesAsociados.Any(informe => informe.estado == "Finalizado"))
+                                informesDeCliente.Any(informe => informe.estado == "Finalizado"))
                             .ToList();
                             foreach (var informe in informesDeUsuarioFinalizados)
                             {
-                                informe.fecha_consultoria = informesAsociados.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
+                                informe.fecha_consultoria = informesDeCliente.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
                                 informe.FechaConsultoriaDateTime = DateTime.ParseExact(informe.fecha_consultoria, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                             }
                             if (informesDeUsuarioFinalizados.Any())

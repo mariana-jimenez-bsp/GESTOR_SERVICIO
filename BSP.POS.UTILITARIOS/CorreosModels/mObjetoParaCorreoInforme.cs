@@ -21,5 +21,7 @@ namespace BSP.POS.UTILITARIOS.CorreosModels
         public int total_horas_cobradas { get; set; } = 0;
         public int total_horas_no_cobradas { get; set; } = 0;
         public List<U_DatosObservaciones> listaDeObservaciones { get; set; } = new List<U_DatosObservaciones>();
+        public string codigo_cliente { get; set; } = string.Empty;
+        public string numero_proyecto { get; set; } = string.Empty;
     }
 }

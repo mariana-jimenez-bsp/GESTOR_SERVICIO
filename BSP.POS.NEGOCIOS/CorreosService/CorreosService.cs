@@ -3,10 +3,12 @@ using BSP.POS.DATOS.Actividades;
 using BSP.POS.DATOS.Clientes;
 using BSP.POS.DATOS.Informes;
 using BSP.POS.DATOS.Observaciones;
+using BSP.POS.DATOS.Proyectos;
 using BSP.POS.DATOS.Usuarios;
 using BSP.POS.UTILITARIOS.Actividades;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
+using BSP.POS.UTILITARIOS.Proyectos;
 using BSP.POS.UTILITARIOS.Usuarios;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -32,6 +34,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
         D_Observaciones _observaciones = new D_Observaciones();
         D_Clientes _clientes = new D_Clientes();
         D_Actividades _actividades = new D_Actividades();
+        D_Proyectos _proyectos = new D_Proyectos();
         public CorreosService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
@@ -117,6 +120,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                     CuerpoHtml = CuerpoHtml.Replace("{{token}}", usuarioActual.token)
                            .Replace("{{esquema}}", objetosParaInforme.esquema)
                            .Replace("{{consecutivo}}", objetosParaInforme.informe.consecutivo)
+                           .Replace("{{Numero_Proyecto}}", objetosParaInforme.numero_proyecto)
                            .Replace("{{Fecha}}", objetosParaInforme.informe.fecha_consultoria)
                            .Replace("{{Hora_Inicio}}", objetosParaInforme.informe.hora_inicio.Substring(0, 5))
                            .Replace("{{Modalidad}}", objetosParaInforme.informe.modalidad_consultoria)
@@ -194,6 +198,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                     string CuerpoHtml = File.ReadAllText(PathHtml);
                     CuerpoHtml = CuerpoHtml
                            .Replace("{{consecutivo}}", objetosParaInforme.informe.consecutivo)
+                           .Replace("{{Numero_Proyecto}}", objetosParaInforme.numero_proyecto)
                            .Replace("{{Fecha}}", objetosParaInforme.informe.fecha_consultoria)
                            .Replace("{{Hora_Inicio}}", objetosParaInforme.informe.hora_inicio.Substring(0, 5))
                            .Replace("{{Modalidad}}", objetosParaInforme.informe.modalidad_consultoria)
@@ -234,7 +239,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
         public mObjetoParaCorreoInforme CrearObjetoDeCorreo(string esquema, string consecutivo)
         {
             mObjetoParaCorreoInforme objetoParaCorreo = new mObjetoParaCorreoInforme();
-            objetoParaCorreo.informe = _informes.ObtenerInformeAsociado(esquema, consecutivo);
+            objetoParaCorreo.informe = _informes.ObtenerInforme(esquema, consecutivo);
             objetoParaCorreo.listaActividadesAsociadas = _actividades.ListaDatosActividadesAsociadas(esquema, consecutivo);
             try
             {
@@ -247,7 +252,14 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 objetoParaCorreo.total_horas_no_cobradas = 0;
             }
             objetoParaCorreo.listadeUsuariosDeClienteDeInforme = _usuarios.ListaDatosUsuariosDeClienteDeInforme(esquema, consecutivo);
-            objetoParaCorreo.ClienteAsociado = _clientes.ClienteAsociado(esquema, objetoParaCorreo.informe.cliente);
+            U_ListaProyectos proyecto =  _proyectos.ObtenerProyecto(esquema, objetoParaCorreo.informe.numero_proyecto);
+            if(proyecto != null)
+            {
+                objetoParaCorreo.numero_proyecto = proyecto.numero;
+                objetoParaCorreo.codigo_cliente = proyecto.codigo_cliente;
+                objetoParaCorreo.ClienteAsociado = _clientes.ClienteAsociado(esquema, objetoParaCorreo.codigo_cliente);
+            }
+            
             objetoParaCorreo.esquema = esquema;
             objetoParaCorreo.listaDeObservaciones = _observaciones.ListarDatosObservacionesDeInforme(consecutivo, esquema);
             return objetoParaCorreo;

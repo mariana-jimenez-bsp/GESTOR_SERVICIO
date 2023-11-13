@@ -20,6 +20,7 @@ namespace BSP.POS.Presentacion.Services.Proyectos
         public List<mDatosProyectos> ListaDatosProyectosActivos { get; set; } = new List<mDatosProyectos>();
         public List<mDatosProyectos> ListaDatosProyectosActivosDeCliente { get; set; } = new List<mDatosProyectos>();
         public List<mProyectos> ListaProyectosTerminados { get; set; } = new List<mProyectos>();
+        public mProyectos ProyectoAsociado { get; set; } = new mProyectos();
         public async Task ObtenerListaDeProyectosActivos(string esquema)
         {
                 string url = "Proyectos/ObtengaLaListaDeProyectosActivos/" + esquema;
@@ -141,6 +142,24 @@ namespace BSP.POS.Presentacion.Services.Proyectos
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public async Task ObtenerProyecto(string esquema, string numero)
+        {
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Remove("X-Numero");
+            string url = "Proyectos/ObtengaElProyecto";
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Add("X-Numero", numero);
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var proyecto = await response.Content.ReadFromJsonAsync<mProyectos>();
+                if (proyecto is not null)
+                {
+                    ProyectoAsociado = proyecto;
+                }
             }
         }
     }
