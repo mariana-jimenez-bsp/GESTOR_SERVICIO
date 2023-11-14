@@ -31,6 +31,24 @@ namespace BSP.POS.NEGOCIOS.Informes
             }
         }
 
+        public string ListaInformes(String pEsquema)
+        {
+            try
+            {
+                List<U_InformesDeProyecto> list = new List<U_InformesDeProyecto>();
+
+                list = objInforme.ListaInformes(pEsquema);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public string ObtenerInformesDeCliente(String pEsquema, String pCliente)
         {
             try

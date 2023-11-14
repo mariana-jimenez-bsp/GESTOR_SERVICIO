@@ -100,12 +100,12 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpGet("ObtengaLaListaDeProyectosTerminados/{esquema}")]
-        public IActionResult ObtengaLaListaDeProyectosTerminados(string esquema)
+        [HttpGet("ObtengaLaListaDeProyectosTerminadosYCancelados/{esquema}")]
+        public IActionResult ObtengaLaListaDeProyectosTerminadosYCancelados(string esquema)
         {
             try
             {
-                string listaProyectosJson = _proyectos.ListarProyectosTerminados(esquema);
+                string listaProyectosJson = _proyectos.ListarProyectosTerminadosYCancelados(esquema);
                 if (string.IsNullOrEmpty(listaProyectosJson))
                 {
                     return NotFound();
@@ -140,14 +140,15 @@ namespace BSP.POS.API.Controllers
 
         }
 
-        [HttpPut("TerminaProyecto")]
-        public IActionResult TerminaProyecto()
+        [HttpPut("CambiaEstadoProyecto")]
+        public IActionResult CambiaEstadoProyecto()
         {
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
+                string estado = Request.Headers["X-Estado"];
                 string numero = Request.Headers["X-Numero"];
-                string mensaje = _proyectos.TerminarProyecto(numero, esquema);
+                string mensaje = _proyectos.CambiarEstadoProyecto(numero, estado, esquema);
                 if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
                     return BadRequest();

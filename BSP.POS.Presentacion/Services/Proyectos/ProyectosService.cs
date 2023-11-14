@@ -19,7 +19,7 @@ namespace BSP.POS.Presentacion.Services.Proyectos
         public List<mProyectos> ListaProyectosActivos { get; set; } = new List<mProyectos>();
         public List<mDatosProyectos> ListaDatosProyectosActivos { get; set; } = new List<mDatosProyectos>();
         public List<mDatosProyectos> ListaDatosProyectosActivosDeCliente { get; set; } = new List<mDatosProyectos>();
-        public List<mProyectos> ListaProyectosTerminados { get; set; } = new List<mProyectos>();
+        public List<mProyectos> ListaProyectosTerminadosYCancelados { get; set; } = new List<mProyectos>();
         public mProyectos ProyectoAsociado { get; set; } = new mProyectos();
         public async Task ObtenerListaDeProyectosActivos(string esquema)
         {
@@ -61,16 +61,16 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 }
             }
         }
-        public async Task ObtenerListaDeProyectosTerminados(string esquema)
+        public async Task ObtenerListaDeProyectosTerminadosYCancelados(string esquema)
         {
-            string url = "Proyectos/ObtengaLaListaDeProyectosTerminados/" + esquema;
+            string url = "Proyectos/ObtengaLaListaDeProyectosTerminadosYCancelados/" + esquema;
             var response = await _http.GetAsync(url);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var listaProyectos = await response.Content.ReadFromJsonAsync<List<mProyectos>>();
                 if (listaProyectos is not null)
                 {
-                    ListaProyectosTerminados = listaProyectos;
+                    ListaProyectosTerminadosYCancelados = listaProyectos;
                 }
             }
         }
@@ -121,14 +121,16 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 return false;
             }
         }
-        public async Task<bool> TerminarProyecto(string numero, string esquema)
+        public async Task<bool> CambiarEstadoProyecto(string numero, string estado, string esquema)
         {
             try
             {
                 _http.DefaultRequestHeaders.Remove("X-Esquema");
+                _http.DefaultRequestHeaders.Remove("X-Estado");
                 _http.DefaultRequestHeaders.Remove("X-Numero");
-                string url = "Proyectos/TerminaProyecto";
+                string url = "Proyectos/CambiaEstadoProyecto";
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+                _http.DefaultRequestHeaders.Add("X-Estado", estado);
                 _http.DefaultRequestHeaders.Add("X-Numero", numero);
                 var content = new StringContent(esquema, Encoding.UTF8, "application/json");
 

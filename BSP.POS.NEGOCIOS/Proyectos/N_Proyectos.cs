@@ -1,5 +1,4 @@
 ﻿using BSP.POS.DATOS.Proyectos;
-using BSP.POS.UTILITARIOS.Actividades;
 using BSP.POS.UTILITARIOS.Proyectos;
 using Newtonsoft.Json;
 using System;
@@ -85,13 +84,13 @@ namespace BSP.POS.NEGOCIOS.Proyectos
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
-        public string ListarProyectosTerminados(String pEsquema)
+        public string ListarProyectosTerminadosYCancelados(String pEsquema)
         {
             try
             {
                 List<U_ListaProyectos> list = new List<U_ListaProyectos>();
 
-                list = objProyectos.ListarProyectosTerminados(pEsquema);
+                list = objProyectos.ListarProyectosTerminadosYCancelados(pEsquema);
 
                 string proyectos = JsonConvert.SerializeObject(list);
                 return proyectos;
@@ -103,13 +102,13 @@ namespace BSP.POS.NEGOCIOS.Proyectos
             }
         }
 
-        public string TerminarProyecto(string pNumero, string pEsquema)
+        public string CambiarEstadoProyecto(string pNumero, string pEstado, string pEsquema)
         {
             try
             {
                 string mensaje;
 
-                mensaje = objProyectos.TerminarProyecto(pNumero, pEsquema);
+                mensaje = objProyectos.CambiarEstadoProyecto(pNumero, pEstado, pEsquema);
 
                 return mensaje;
             }

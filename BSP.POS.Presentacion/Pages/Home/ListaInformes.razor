@@ -3,6 +3,8 @@
 @inject IInformesInterface InformesService
 @inject IClientesInterface ClientesService
 @inject NavigationManager navigationManager
+@inject IProyectosInterface ProyectosService
+@inject IUsuariosInterface UsuariosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="col-md-7 col-right">
@@ -20,11 +22,11 @@
                         <img src="images/Home/Agregar.png" class="image-add" />
                     </div>
                 }
-               
-                @if (listaInformesDeProyecto.Any())
+              
+                @if ((listaTodosLosInformes.Any() && filtroRecibido == "informes") || listaInformesDeProyecto.Any())
                 {
                     var listaDeInformes = filtroRecibido == "informes" ?
-                    listaInformesDeProyecto.Where(informe =>
+                    listaTodosLosInformes.Where(informe =>
                     informe.FechaActualizacionDateTime >= fechaInicioDateTime &&
                     informe.FechaActualizacionDateTime <= fechaFinalDateTime
                     ).OrderByDescending(i => i.FechaActualizacionDateTime).ToList() : listaInformesDeProyecto.OrderByDescending(i => i.FechaActualizacionDateTime).ToList();

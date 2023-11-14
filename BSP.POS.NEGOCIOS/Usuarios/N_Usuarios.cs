@@ -192,6 +192,24 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             }
         }
 
+        public string ObtenerListaDeInformesDeUsuarioDeInformeDeCliente(String pEsquema, String pCliente)
+        {
+            try
+            {
+                List<U_UsuariosDeInforme> list = new List<U_UsuariosDeInforme>();
+
+                list = objetoUsuario.ObtenerListaDeInformesDeUsuarioDeCliente(pEsquema, pCliente);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public string ListarUsuariosParaEditar(String pEsquema)
         {
             try

@@ -5,8 +5,10 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
     public interface IInformesInterface
     {
         List<mInformesDeProyecto> ListaInformesDeProyecto { get; set; }
+        List<mInformesDeProyecto> ListaInformes { get; set; }
         List<mInformesDeCliente> ListaInformesDeCliente { get; set; }
         Task ObtenerListaDeInformesDeProyecto(string numero, string esquema);
+        Task ObtenerListaDeInformes(string esquema);
         Task ObtenerListaDeInformesDeCliente(string cliente, string esquema);
 
         mInforme Informe { get; set; }

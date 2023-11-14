@@ -57,16 +57,16 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
                 if (!string.IsNullOrEmpty(datosUsuario.codigo))
                 {
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerListaDeInformesDeUsuario(datosUsuario.codigo, esquema);
-                    if (UsuariosService.ListaUsuariosDeInformeAsociados != null)
+                    await UsuariosService.ObtenerListaDeInformesDeUsuarioDeCliente(datosUsuario.cod_cliente, esquema);
+                    if (UsuariosService.ListaUsuariosDeInformeDeCliente != null)
                     {
-                        informesDeUsuario = UsuariosService.ListaUsuariosDeInformeAsociados;
+                        informesDeUsuario = UsuariosService.ListaUsuariosDeInformeDeCliente;
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
                         await InformesService.ObtenerListaDeInformesDeCliente(datosUsuario.cod_cliente, esquema);
                         if (InformesService.ListaInformesDeCliente != null)
                         {
                             informesDeCliente = InformesService.ListaInformesDeCliente;
-                            informesDeUsuarioFinalizados = UsuariosService.ListaUsuariosDeInformeAsociados
+                            informesDeUsuarioFinalizados = UsuariosService.ListaUsuariosDeInformeDeCliente
                             .Where(usuario =>
                                 informesDeCliente.Any(informe => informe.estado == "Finalizado"))
                             .ToList();

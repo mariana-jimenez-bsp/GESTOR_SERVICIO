@@ -52,7 +52,7 @@
                                 <label class="pe-4 text-center w-100" >Centro de Costo</label>
                             </div>
                             <div class="col-md-1">
-                                <label class="pe-4 text-center w-100">Acción</label>
+                                <label class="pe-5 text-center w-100">Estado</label>
                             </div>
                         </div>
                         <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
@@ -129,8 +129,15 @@
                                             <ValidationMessage For="@(() => proyecto.centro_costo)" />
                                         </div>
                                         <div class="mb-0 col-md-1">
-
-                                            <button type="button" class="green-bg rounded-pill px-2 text-light" @onclick='() => SwalTerminarProyecto("¿Está seguro de Terminar el proyecto #" + proyecto.numero + "?", proyecto.numero)'>Terminar</button>
+                                            <div class="dropdown">
+                                                <button class="green-bg rounded-pill px-2 text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    @proyecto.estado
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item mouse-pointer" @onclick='() => SwalCambiarEstadoProyecto("¿Está seguro de Terminar el proyecto #" + proyecto.numero + "?", proyecto.numero, "Terminado")'>Terminar</a></li>
+                                                    <li><a class="dropdown-item mouse-pointer" @onclick='() => SwalCambiarEstadoProyecto("¿Está seguro de Cancelar el proyecto #" + proyecto.numero + "?", proyecto.numero, "Cancelado")'>Cancelar</a></li>
+                                                </ul>
+                                            </div>
 
                                         </div>
                                     </div>

@@ -75,14 +75,15 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     if (InformesService.Informe != null)
                     {
                         informe = InformesService.Informe;
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await ProyectosService.ObtenerProyecto(esquema, informe.numero_proyecto);
+                        if (ProyectosService.ProyectoAsociado != null)
+                        {
+                            proyectoAsociado = ProyectosService.ProyectoAsociado;
+                        }
                         if (VerificarUsuarioAutorizado())
                         {
-                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                            await ProyectosService.ObtenerProyecto(esquema, informe.numero_proyecto);
-                            if(ProyectosService.ProyectoAsociado != null)
-                            {
-                                proyectoAsociado = ProyectosService.ProyectoAsociado;
-                            }
+                            
                             await AuthenticationStateProvider.GetAuthenticationStateAsync();
                             ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(proyectoAsociado.codigo_cliente, esquema);
                             if (ClientesService.ClienteAsociado != null)
@@ -197,7 +198,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public bool VerificarUsuarioAutorizado()
         {
             
-            if(/*perfilActual.cod_cliente == informe.cliente ||*/ rol == "Admin")
+            if(perfilActual.cod_cliente == proyectoAsociado.codigo_cliente || rol == "Admin")
             {
                 return true;
             }

@@ -50,10 +50,10 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         private async Task RefrescarListaDeProyectos()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await ProyectosService.ObtenerListaDeProyectosTerminados(esquema);
-            if (ProyectosService.ListaProyectosTerminados != null)
+            await ProyectosService.ObtenerListaDeProyectosTerminadosYCancelados(esquema);
+            if (ProyectosService.ListaProyectosTerminadosYCancelados != null)
             {
-                proyectos = ProyectosService.ListaProyectosTerminados;
+                proyectos = ProyectosService.ListaProyectosTerminadosYCancelados;
 
             }
             foreach (var proyecto in proyectos)

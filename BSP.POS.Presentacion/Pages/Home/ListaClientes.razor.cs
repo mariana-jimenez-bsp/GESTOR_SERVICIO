@@ -18,6 +18,8 @@ namespace BSP.POS.Presentacion.Pages.Home
         public List<mClientes> ClientesRecientes = new List<mClientes>();
         public List<mInformesDeProyecto> listaInformesDeProyecto { get; set; } = new List<mInformesDeProyecto>();
         public mPerfil PerfilActual = new mPerfil();
+        private List<mInformesDeProyecto> listaTodosLosInformes { get; set; } = new List<mInformesDeProyecto>();
+        public List<mDatosProyectos> proyectos { get; set; } = new List<mDatosProyectos>();
         private DateTime fechaInicioDateTime = DateTime.MinValue;
         private DateTime fechaFinalDateTime = DateTime.MinValue;
         private ListaInformes listaInformesComponente;
@@ -43,6 +45,7 @@ namespace BSP.POS.Presentacion.Pages.Home
                     PerfilActual = UsuariosService.Perfil;
                 }
                 await RefrescarListaClientes();
+                await RefrescarTodosLosInformes();
                 ActualizarFiltroFechas();
                 cargaInicial = true;
                 StateHasChanged();
@@ -50,6 +53,28 @@ namespace BSP.POS.Presentacion.Pages.Home
            
 
 
+        }
+        private async Task RefrescarTodosLosInformes()
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerPerfil(usuarioActual, esquema);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await ProyectosService.ObtenerDatosDeProyectosActivosDeCliente(esquema, UsuariosService.Perfil.cod_cliente);
+            proyectos = ProyectosService.ListaDatosProyectosActivosDeCliente;
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await InformesService.ObtenerListaDeInformes(esquema);
+            if (InformesService.ListaInformes != null)
+            {
+                if (rol == "Admin")
+                {
+                    listaTodosLosInformes = InformesService.ListaInformes;
+                }
+                else
+                {
+                    listaTodosLosInformes = InformesService.ListaInformes.Where(i => proyectos.Any(p => p.numero == i.numero_proyecto)).ToList();
+                }
+            }
+            StateHasChanged();
         }
         private async Task RefrescarListaClientes()
         {
@@ -155,10 +180,10 @@ namespace BSP.POS.Presentacion.Pages.Home
                     fechaInicioDateTime = ClientesRecientes.OrderBy(i => i.RecordDateDateTime).Select(i => i.RecordDateDateTime).First();
                     fechaFinalDateTime = ClientesRecientes.OrderByDescending(i => i.RecordDateDateTime).Select(i => i.RecordDateDateTime).First();
                 }
-            }else if(filtroRecibido == "informes" && listaInformesDeProyecto.Any())
+            }else if(filtroRecibido == "informes" && listaTodosLosInformes.Any())
             {
-                fechaInicioDateTime = listaInformesDeProyecto.OrderBy(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
-                fechaFinalDateTime = listaInformesDeProyecto.OrderByDescending(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+                fechaInicioDateTime = listaTodosLosInformes.OrderBy(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
+                fechaFinalDateTime = listaTodosLosInformes.OrderByDescending(i => i.FechaActualizacionDateTime).Select(i => i.FechaActualizacionDateTime).First();
             }
             StateHasChanged();
         }

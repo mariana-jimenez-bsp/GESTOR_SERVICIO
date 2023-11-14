@@ -30,7 +30,9 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         Task ObtenerImagenDeUsuario(string usuario, string esquema);
 
         List<mUsuariosDeInforme> ListaUsuariosDeInformeAsociados { get; set; }
+        List<mUsuariosDeInforme> ListaUsuariosDeInformeDeCliente { get; set; }
         Task ObtenerListaDeInformesDeUsuario(string codigo, string esquema);
+        Task ObtenerListaDeInformesDeUsuarioDeCliente(string cliente, string esquema);
 
         List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; }
         Task ObtenerListaDeUsuariosParaEditar(string esquema);

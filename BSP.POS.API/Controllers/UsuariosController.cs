@@ -313,6 +313,27 @@ namespace BSP.POS.API.Controllers
         }
 
         [Authorize]
+        [HttpGet("ObtengaListaDeInformesDeUsuarioDeCliente/{cliente}/{esquema}")]
+        public IActionResult ObtengaListaDeInformesDeUsuarioDeCliente(string cliente, string esquema)
+        {
+            try
+            {
+                string listaInformesDeUsuarioDeClienteJson = user.ObtenerListaDeInformesDeUsuarioDeInformeDeCliente(esquema, cliente);
+                if (string.IsNullOrEmpty(listaInformesDeUsuarioDeClienteJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaInformesDeUsuarioDeClienteJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [Authorize]
         [HttpGet("ObtengaLaListaDeUsuariosParaEditar/{esquema}")]
         public IActionResult ObtengaLaListaDeUsuariosParaEditar(string esquema)
         {

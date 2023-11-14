@@ -18,6 +18,7 @@ namespace BSP.POS.Presentacion.Services.Informes
             _http = htpp;
         }
         public List<mInformesDeProyecto> ListaInformesDeProyecto { get; set; } = new List<mInformesDeProyecto>();
+        public List<mInformesDeProyecto> ListaInformes { get; set; } = new List<mInformesDeProyecto>();
         public List<mInformesDeCliente> ListaInformesDeCliente { get; set; } = new List<mInformesDeCliente>();
         public mInforme Informe { get; set; } = new mInforme();
         
@@ -40,9 +41,28 @@ namespace BSP.POS.Presentacion.Services.Informes
             }
             
         }
+
+        public async Task ObtenerListaDeInformes(string esquema)
+        {
+            string url = "Informes/ObtengaLaListaDeInformes/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaInformes = await response.Content.ReadFromJsonAsync<List<mInformesDeProyecto>>();
+                if (listaInformes is not null)
+                {
+                    ListaInformes = listaInformes;
+                }
+            }
+            else
+            {
+
+            }
+
+        }
         public async Task ObtenerListaDeInformesDeCliente(string cliente, string esquema)
         {
-            string url = "Informes/ObtengaLaListaDeInformesDeProyecto/" + cliente + "/" + esquema;
+            string url = "Informes/ObtengaLaListaDeInformesDeCliente/" + cliente + "/" + esquema;
             var response = await _http.GetAsync(url);
             if (response.StatusCode == HttpStatusCode.OK)
             {

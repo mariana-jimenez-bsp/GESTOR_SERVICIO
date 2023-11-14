@@ -248,15 +248,15 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         {
             navigationManager.NavigateTo($"proyecto/agregar");
         }
-        private async Task TerminarProyecto(string numero)
+        private async Task CambiarEstadoProyecto(string numero, string estado)
         {
             if (!string.IsNullOrEmpty(numero) && !string.IsNullOrEmpty(esquema))
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                bool resultadoTerminar = await ProyectosService.TerminarProyecto(numero, esquema);
+                bool resultadoTerminar = await ProyectosService.CambiarEstadoProyecto(numero, estado, esquema);
                 if (resultadoTerminar)
                 {
-                    await SwalAvisoProyectos("Se ha cambiado el estado del proyecto #" + numero + " a Terminado");
+                    await SwalAvisoProyectos("Se ha cambiado el estado del proyecto #" + numero + " a" + estado);
                 }
                 else
                 {
@@ -267,7 +267,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             }
             
         }
-        private async Task SwalTerminarProyecto(string mensajeAlerta, string numero)
+        private async Task SwalCambiarEstadoProyecto(string mensajeAlerta, string numero, string estado)
         {
             if (permisos.Any(p => p.permiso == "Proyectos" && !p.subpermisos.Contains("Terminar")))
             {
@@ -288,7 +288,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                     SweetAlertResult result = swalTask.Result;
                     if (result.IsConfirmed)
                     {
-                        await TerminarProyecto(numero);
+                        await CambiarEstadoProyecto(numero, estado);
                     }
                 });
             }

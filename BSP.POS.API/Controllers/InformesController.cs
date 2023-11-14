@@ -94,6 +94,28 @@ namespace BSP.POS.API.Controllers
            
         }
 
+        [HttpGet("ObtengaLaListaDeInformes/{esquema}")]
+        public IActionResult ObtengaLaListaDeInformes(string esquema)
+        {
+            try
+            {
+                string listaInformesAsociadosJson = informes.ListaInformes(esquema);
+                if (string.IsNullOrEmpty(listaInformesAsociadosJson))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(listaInformesAsociadosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
         [HttpGet("ObtengaLaListaDeInformesDeCliente/{cliente}/{esquema}")]
         public IActionResult ObtengaLaListaDeInformesDeCliente(string cliente, string esquema)
         {

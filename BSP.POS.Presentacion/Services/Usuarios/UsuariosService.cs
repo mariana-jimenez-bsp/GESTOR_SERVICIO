@@ -26,6 +26,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         
         public mImagenUsuario ImagenDeUsuario { get; set; } = new mImagenUsuario();
         public List<mUsuariosDeInforme> ListaUsuariosDeInformeAsociados { get; set; } = new List<mUsuariosDeInforme>();
+        public List<mUsuariosDeInforme> ListaUsuariosDeInformeDeCliente { get; set; } = new List<mUsuariosDeInforme>();
         public List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; } = new List<mUsuariosParaEditar>();
         public mUsuariosParaEditar UsuarioParaEditar { get; set; } = new mUsuariosParaEditar();
         
@@ -199,6 +200,21 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 }
             }
             
+        }
+
+        public async Task ObtenerListaDeInformesDeUsuarioDeCliente(string cliente, string esquema)
+        {
+            string url = "Usuarios/ObtengaListaDeInformesDeUsuarioDeCliente/" + cliente + "/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaUsuariosDeInformeAsociados = await response.Content.ReadFromJsonAsync<List<mUsuariosDeInforme>>();
+                if (listaUsuariosDeInformeAsociados is not null)
+                {
+                    ListaUsuariosDeInformeDeCliente = listaUsuariosDeInformeAsociados;
+                }
+            }
+
         }
 
         public async Task ObtenerListaDeUsuariosParaEditar(string esquema)

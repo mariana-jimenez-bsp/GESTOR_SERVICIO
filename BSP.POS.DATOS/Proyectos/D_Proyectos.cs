@@ -104,11 +104,11 @@ namespace BSP.POS.DATOS.Proyectos
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
-        public List<U_ListaProyectos> ListarProyectosTerminados(String pEsquema)
+        public List<U_ListaProyectos> ListarProyectosTerminadosYCancelados(String pEsquema)
         {
             var LstProyectos = new List<U_ListaProyectos>();
 
-            ListarProyectosTerminadosTableAdapter sp = new ListarProyectosTerminadosTableAdapter();
+            ListarProyectosTerminadosYCanceladosTableAdapter sp = new ListarProyectosTerminadosYCanceladosTableAdapter();
 
             var response = sp.GetData(pEsquema).ToList();
             try
@@ -150,14 +150,14 @@ namespace BSP.POS.DATOS.Proyectos
 
 
         }
-        public string TerminarProyecto(string numero, string esquema)
+        public string CambiarEstadoProyecto(string numero, string estado, string esquema)
         {
-            POSDataSet.TerminarProyectoDataTable bTabla = new POSDataSet.TerminarProyectoDataTable();
-            TerminarProyectoTableAdapter sp = new TerminarProyectoTableAdapter();
+            POSDataSet.CambiarEstadoProyectoDataTable bTabla = new POSDataSet.CambiarEstadoProyectoDataTable();
+            CambiarEstadoProyectoTableAdapter sp = new CambiarEstadoProyectoTableAdapter();
             try
             {
 
-                var response = sp.GetData(numero, true, esquema);
+                var response = sp.GetData(numero, estado, esquema);
 
                 return "Exito";
             }

@@ -24,6 +24,8 @@ namespace BSP.POS.Presentacion.Pages.Home
         public DateTime fechaInicioDateTime { get; set; } = DateTime.MinValue;
         [Parameter]
         public DateTime fechaFinalDateTime { get; set; } = DateTime.MinValue;
+        [Parameter]
+        public List<mInformesDeProyecto> listaTodosLosInformes { get; set; } = new List<mInformesDeProyecto>();
         private List<mInformesDeProyecto> listaInformesDeProyecto { get; set; } = new List<mInformesDeProyecto>();
         private mDatosProyectos proyectoEscogido { get; set; } = new mDatosProyectos();
         private string[] elementos = new string[]{ ".el-layout", ".cliente-asociado", ".consecutivo-informe", ".header-col-left" };
@@ -40,7 +42,7 @@ namespace BSP.POS.Presentacion.Pages.Home
                     proyectoEscogido = proyectosDeCliente[0];
                 }
             }
-
+            StateHasChanged();
         }
         public async Task ActualizarListaInformessActuales()
         {

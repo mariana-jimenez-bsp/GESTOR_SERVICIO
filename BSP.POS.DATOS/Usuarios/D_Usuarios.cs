@@ -350,6 +350,30 @@ namespace BSP.POS.DATOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public List<U_UsuariosDeInforme> ObtenerListaDeInformesDeUsuarioDeCliente(String pEsquema, String pCliente)
+        {
+            var LstInformes = new List<U_UsuariosDeInforme>();
+
+            ObtenerListaDeUsuariosDeInformeDeClienteTableAdapter sp = new ObtenerListaDeUsuariosDeInformeDeClienteTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCliente).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_UsuariosDeInforme informe = new U_UsuariosDeInforme(item.Id, item.consecutivo_informe, item.codigo_usuario, item.recibido);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public List<U_UsuariosParaEditar> ListarUsuariosParaEditar(String pEsquema)
         {
             var LstUsuarios = new List<U_UsuariosParaEditar>();
