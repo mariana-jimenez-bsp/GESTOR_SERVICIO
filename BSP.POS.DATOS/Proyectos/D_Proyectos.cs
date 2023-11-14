@@ -38,7 +38,7 @@ namespace BSP.POS.DATOS.Proyectos
 
         public U_ListaProyectos ObtenerProyecto(string pEsquema, string pNumero)
         {
-            ObtenerProyectoTableAdapter sp = new ObtenerProyectoTableAdapter();
+            ObtenerProyecto1TableAdapter sp = new ObtenerProyecto1TableAdapter();
             U_ListaProyectos proyecto = new U_ListaProyectos();
             var response = sp.GetData(pEsquema, pNumero).ToList();
             try

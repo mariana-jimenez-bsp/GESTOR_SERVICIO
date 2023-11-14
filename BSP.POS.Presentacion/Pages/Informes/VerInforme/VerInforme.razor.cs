@@ -1,4 +1,5 @@
-﻿using BSP.POS.Presentacion.Models.Actividades;
+﻿using BSP.POS.Presentacion.Interfaces.Reportes;
+using BSP.POS.Presentacion.Models.Actividades;
 using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
@@ -201,7 +202,9 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         private async Task<bool> EnviarCorreosAClientes()
         { 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, Consecutivo);
+            byte[] reporte = await ReportesService.GenerarReporteDeInforme(esquema, Consecutivo);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, Consecutivo, reporte);
             if (validar)
             {
                 return true;

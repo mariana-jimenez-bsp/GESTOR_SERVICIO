@@ -158,7 +158,7 @@ namespace BSP.POS.Presentacion.Services.Informes
                 return false;
             }
         }
-        public async Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo)
+        public async Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo, byte[] reporte)
         {
             try
             {
@@ -167,7 +167,7 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Remove("X-Consecutivo");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 _http.DefaultRequestHeaders.Add("X-Consecutivo", consecutivo);
-                string jsonData = JsonSerializer.Serialize(esquema);
+                string jsonData = JsonSerializer.Serialize(reporte);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync(url, content);
 

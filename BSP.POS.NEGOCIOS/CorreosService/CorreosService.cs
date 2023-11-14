@@ -68,22 +68,22 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             smtp.Disconnect(true);
 
         }
-        public async Task EnviarCorreosInformes(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, string urlApiCristal)
+        public async Task EnviarCorreosInformes(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, string urlApiCristal, byte[] reporte)
         {
             foreach (var item in objetosParaInforme.listadeUsuariosDeClienteDeInforme)
             {
                 if (item.recibido == "0")
                 {
-                    await EnviarCorreoRecibidoInforme(datos, objetosParaInforme, urlWeb, tipoInicio, urlApiCristal, item);
+                    await EnviarCorreoRecibidoInforme(datos, objetosParaInforme, urlWeb, tipoInicio, urlApiCristal, item, reporte);
                 }else if (item.recibido == "1")
                 {
-                    await EnviarCorreoReporteInforme(datos, objetosParaInforme, tipoInicio, urlApiCristal, item);
+                    await EnviarCorreoReporteInforme(datos, objetosParaInforme, tipoInicio, urlApiCristal, item, reporte);
                 }
             }
         }
-        public async Task EnviarCorreoRecibidoInforme(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, string urlApiCristal, U_DatosUsuariosDeClienteDeInforme usuarioActual)
+        public async Task EnviarCorreoRecibidoInforme(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, string urlApiCristal, U_DatosUsuariosDeClienteDeInforme usuarioActual, byte[] reporte)
         {
-            byte[] byteReporte = await GenerarReporteDeInforme(objetosParaInforme.esquema, objetosParaInforme.informe.consecutivo, urlApiCristal);
+          
                     var correo = new MimeMessage();
 
                 correo.From.Add(MailboxAddress.Parse(datos.correoUsuario));
@@ -139,7 +139,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 
                 var attachment = new MimePart
                 {
-                    Content = new MimeContent(new MemoryStream(byteReporte), ContentEncoding.Default),
+                    Content = new MimeContent(new MemoryStream(reporte), ContentEncoding.Default),
                     ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                     ContentTransferEncoding = ContentEncoding.Base64,
                     FileName = "ReporteInforme_" + objetosParaInforme.informe.consecutivo + ".pdf"
@@ -159,9 +159,9 @@ namespace BSP.POS.NEGOCIOS.CorreosService
            
         }
 
-        public async Task EnviarCorreoReporteInforme(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string tipoInicio, string urlApiCristal, U_DatosUsuariosDeClienteDeInforme usuarioActual)
+        public async Task EnviarCorreoReporteInforme(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string tipoInicio, string urlApiCristal, U_DatosUsuariosDeClienteDeInforme usuarioActual, byte[] reporte)
         {
-            byte[] byteReporte = await GenerarReporteDeInforme(objetosParaInforme.esquema, objetosParaInforme.informe.consecutivo, urlApiCristal);
+           
             
                     var correo = new MimeMessage();
 
@@ -216,7 +216,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
 
                     var attachment = new MimePart
                     {
-                        Content = new MimeContent(new MemoryStream(byteReporte), ContentEncoding.Default),
+                        Content = new MimeContent(new MemoryStream(reporte), ContentEncoding.Default),
                         ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                         ContentTransferEncoding = ContentEncoding.Base64,
                         FileName = "ReporteInforme_" + objetosParaInforme.informe.consecutivo + ".pdf"
@@ -265,35 +265,5 @@ namespace BSP.POS.NEGOCIOS.CorreosService
             return objetoParaCorreo;
         }
 
-        public async Task<byte[]> GenerarReporteDeInforme(string esquema, string consecutivo, string urlApiCristal)
-        {
-            try
-            {
-                HttpClientHandler clientHandler = new HttpClientHandler();
-                clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-                using (HttpClient client = new HttpClient(clientHandler))
-                {
-                    var response = await client.GetAsync(urlApiCristal + "Api/GenerarReporte/" + esquema + "/" + consecutivo);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var fileBytes = await response.Content.ReadAsByteArrayAsync();
-
-
-                        return fileBytes;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
     }
 }

@@ -122,7 +122,9 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         private async Task<bool> ReenviarCorreo()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
+            byte[] reporte = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo, reporte);
             if (validar)
             {
                 return true;

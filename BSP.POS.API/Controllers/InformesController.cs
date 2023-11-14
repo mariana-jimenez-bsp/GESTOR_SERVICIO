@@ -229,7 +229,7 @@ namespace BSP.POS.API.Controllers
 
         }
         [HttpPost("EnviarTokenDeRecibidoDeInforme")]
-        public async Task<ActionResult> EnviarTokenDeRecibidoDeInforme()
+        public async Task<ActionResult> EnviarTokenDeRecibidoDeInforme([FromBody] byte[] reporte)
         {
             try
             {
@@ -250,7 +250,7 @@ namespace BSP.POS.API.Controllers
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
 
-                await _correoService.EnviarCorreosInformes(datos, objetosParaInforme, _urlWeb, _tipoInicio, _urlApiCrystal);
+                await _correoService.EnviarCorreosInformes(datos, objetosParaInforme, _urlWeb, _tipoInicio, _urlApiCrystal, reporte);
                 //await _whatsappService.EnviarWhatsappReporteInforme(objetosParaInforme, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
                 return Ok();
             }

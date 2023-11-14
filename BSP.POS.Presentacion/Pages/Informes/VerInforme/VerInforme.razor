@@ -5,6 +5,7 @@
 @inject IObservacionesInterface ObservacionesService
 @inject IDepartamentosInterface DepartamentosService
 @inject IProyectosInterface ProyectosService
+@inject IReportesInterface ReportesService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IJSRuntime JS
@@ -139,7 +140,7 @@
             </div>
             <div class="col-md-6">
                 <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
-                    <span class="blue-dark-text font-23-medium">Informe #@informe.consecutivo</span>
+                    <span class="blue-dark-text font-23-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
                     <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-23-medium">
                         <option value="@informe.modalidad_consultoria">@informe.modalidad_consultoria</option>
                     </select>
