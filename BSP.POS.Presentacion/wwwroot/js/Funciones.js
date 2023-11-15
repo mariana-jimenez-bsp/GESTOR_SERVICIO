@@ -291,4 +291,19 @@ function ActivarSelectMultipleEsquemas(jsonData, objRef) {
         objRef.invokeMethodAsync('CambioDeEsquemas', selectedValues);
     });
 }   
+function DetectarBarraDesplazamiento(elementoId, objRef) {
+    var elemento = document.getElementById(elementoId);
+    if (!elemento) {
+        return;
+    }
+    function verificarBarraDesplazamiento() {
+        if (elemento.scrollHeight > elemento.clientHeight) {
+            objRef.invokeMethodAsync('ActualizarEstadoScrollBar', true);
+        } else {
+            objRef.invokeMethodAsync('ActualizarEstadoScrollBar', false);
+        }
+    }
 
+    elemento.addEventListener('scroll', verificarBarraDesplazamiento);
+    verificarBarraDesplazamiento(); // Llamar a la función una vez al cargar la página para verificar el estado inicial
+}

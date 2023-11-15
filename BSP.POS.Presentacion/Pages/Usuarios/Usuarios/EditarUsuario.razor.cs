@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Security.Claims;
+using BSP.POS.Presentacion.Models.Esquemas;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 {
@@ -36,7 +37,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public string mensajeUsuarioRepite = string.Empty;
         private bool cargarInicial = false;
         private string mensajeValidacion = string.Empty;
+        private string mensajeEsquema = string.Empty;
         List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
+       
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -72,6 +75,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                     usuario.IdCodigoTelefono = datosCodigoTelefonoPaisDeUsuario.IdCodigoTelefono;
                     usuario.paisTelefono = datosCodigoTelefonoPaisDeUsuario.Pais;
                 }
+               
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await CodigoTelefonoPaisService.ObtenerDatosCodigoTelefonoPais(esquema);
                 if (CodigoTelefonoPaisService.listaDatosCodigoTelefonoPais != null)
@@ -307,46 +311,55 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 int ResultadoPermisos = 0;
                 int ResultadoEsquemas = 0;
                 repetido = false;
-                await VerificarCorreoYUsuarioExistente();
-                if (!repetido)
+                mensajeEsquema = null;
+                if(selectEsquemasComponente.cantidadEsquemas >= 1)
                 {
-
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    ResultadoUsuario = await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
-                    ResultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
-                    ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
-                    if (ResultadoUsuario && ResultadoPermisos != 0 && ResultadoEsquemas != 0)
+                    await VerificarCorreoYUsuarioExistente();
+                    if (!repetido)
                     {
-                        if(usuarioActual.ToLower() == usuario.usuarioOrignal.ToLower())
+
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        ResultadoUsuario = await UsuariosService.ActualizarUsuario(usuario, esquema, usuarioActual);
+                        ResultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
+                        ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
+                        if (ResultadoUsuario && ResultadoPermisos != 0 && ResultadoEsquemas != 0)
                         {
-                            if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada || ResultadoPermisos == 2 || ResultadoEsquemas == 2)
+                            if (usuarioActual.ToLower() == usuario.usuarioOrignal.ToLower())
                             {
-                                await AlertasService.SwalExitoLogin("Se ha actualizado el usuario");
-                                
+                                if (usuario.usuarioOrignal.ToLower() != usuario.usuario.ToLower() || usuario.correoOriginal.ToLower() != usuario.correo.ToLower() || usuario.claveOriginal != usuario.claveDesencriptada || ResultadoPermisos == 2 || ResultadoEsquemas == 2)
+                                {
+                                    await AlertasService.SwalExitoLogin("Se ha actualizado el usuario");
+
+                                }
+                                else
+                                {
+                                    await AlertasService.SwalExitoHecho("Se ha actualizado el usuario");
+
+                                }
                             }
                             else
                             {
                                 await AlertasService.SwalExitoHecho("Se ha actualizado el usuario");
 
                             }
+
+
                         }
                         else
                         {
-                           await AlertasService.SwalExitoHecho("Se ha actualizado el usuario");
-
+                            await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
                         }
-                        
-                        
                     }
                     else
                     {
-                        await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
+                        await ActivarScrollBarErroresRepite();
                     }
                 }
                 else
                 {
-                    await ActivarScrollBarErroresRepite();
+                    mensajeEsquema = "Debe seleccionar al menos 1 esquema";
                 }
+                
             }
             catch (Exception)
             {

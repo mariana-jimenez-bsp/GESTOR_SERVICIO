@@ -4,6 +4,12 @@
 .max-width-for-scroll{
     max-width: 99%;
 }
+.max-width-for-scroll-footer {
+    max-width: 100%;
+}
+.max-width-for-scroll-body {
+    max-width: 98%;
+}
 .observation {
     margin-left: 1%;
     width: 96%;

@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Proyectos;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Home
 {
@@ -11,7 +12,24 @@ namespace BSP.POS.Presentacion.Pages.Home
         [Parameter] public EventCallback<mDatosProyectos> EnviarProyecto { get; set; }
         public mDatosProyectos proyectoEscogido { get; set; } = new mDatosProyectos();
         [Parameter] public mClienteAsociado ClienteActual { get; set; } = new mClienteAsociado();
-        protected async override void OnParametersSet()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+
+            // Inicializa los tooltips de Bootstrap
+            try
+            {
+                await JS.InvokeVoidAsync("initTooltips");
+            }
+            catch (Exception ex)
+            {
+
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
+
+
+        }
+        protected override void OnParametersSet()
         {
             if (datosDeProyectos != null)
             {

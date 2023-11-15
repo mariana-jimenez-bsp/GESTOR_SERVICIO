@@ -38,7 +38,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private bool limiteDeUsuarios = false;
         private bool cargarInicial = false;
         private string mensajeCliente = string.Empty;
-        
+        private string mensajeEsquema = string.Empty;
         protected override async Task OnInitializedAsync()
         {
             var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -275,43 +275,52 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 int resultadoPermisos = 0;
                 int ResultadoEsquemas = 0;
                 repetido = false;
-                await VerificarCorreoYUsuarioExistente();
-                if (!repetido)
+                mensajeEsquema = null;
+                if(selectEsquemasComponente.cantidadEsquemas >= 1)
                 {
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    resultadoUsuario = await UsuariosService.AgregarUsuario(usuario, esquema);
-                    if (resultadoUsuario)
+                    await VerificarCorreoYUsuarioExistente();
+                    if (!repetido)
                     {
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
-                        mPerfil usuarioCreado = new mPerfil();
-                        if (UsuariosService.Perfil != null)
+                        resultadoUsuario = await UsuariosService.AgregarUsuario(usuario, esquema);
+                        if (resultadoUsuario)
                         {
-                            usuarioCreado = UsuariosService.Perfil;
-                        }
-                        resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos(usuarioCreado.codigo);
-                        ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema(usuarioCreado.codigo);
-                        if (resultadoPermisos == 1 && ResultadoEsquemas == 1)
-                        {
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            await UsuariosService.ObtenerPerfil(usuario.usuario, esquema);
+                            mPerfil usuarioCreado = new mPerfil();
+                            if (UsuariosService.Perfil != null)
+                            {
+                                usuarioCreado = UsuariosService.Perfil;
+                            }
+                            resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos(usuarioCreado.codigo);
+                            ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema(usuarioCreado.codigo);
+                            if (resultadoPermisos == 1 && ResultadoEsquemas == 1)
+                            {
 
-                          await AlertasService.SwalExitoHecho("Se ha agregado el usuario");
-                            
+                                await AlertasService.SwalExitoHecho("Se ha agregado el usuario");
+
+                            }
+                            else
+                            {
+                                await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
+                            }
+
                         }
                         else
                         {
                             await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
                         }
-
                     }
                     else
                     {
-                        await AlertasService.SwalError("Ocurrío un Error vuelva a intentarlo");
+                        await ActivarScrollBarErroresRepite();
                     }
                 }
                 else
                 {
-                    await ActivarScrollBarErroresRepite();
+                    mensajeEsquema = "Debe seleccionar al menos 1 esquema";
                 }
+                
             }
             catch (Exception)
             {

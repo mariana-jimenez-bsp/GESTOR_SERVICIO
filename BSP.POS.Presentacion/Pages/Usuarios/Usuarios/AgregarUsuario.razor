@@ -115,7 +115,10 @@
                                         <SelectEsquemas @ref="selectEsquemasComponente" codigo=""></SelectEsquemas>
                                     </div>
                                 </div>
-                               
+                                @if (!string.IsNullOrEmpty(mensajeEsquema))
+                                {
+                                    <MensajeParaModales Message="@mensajeEsquema"></MensajeParaModales>
+                                }
                             </div>
                             <div class="col-md-4 border border-success rounded-5 m-1 ">
                                 <div class="row d-flex justify-content-center mb-2 mt-2">

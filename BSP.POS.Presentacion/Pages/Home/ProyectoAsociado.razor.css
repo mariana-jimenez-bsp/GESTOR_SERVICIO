@@ -7,6 +7,9 @@
 .border-success {
     border-color: #2FAD70;
 }
+.max-width-nombre-cliente{
+    max-width: 90%;
+}
 .search-input {
     border: none;
     margin: 0;

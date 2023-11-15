@@ -168,7 +168,7 @@
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                         <div class="ps-0 ms-0 ">
-                            <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book max-width-for-scroll">
+                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book @(tieneScrollBar ? "max-width-for-scroll" : "max-width-for-scroll-footer")">
                                 <div class="col-md-4 borde-gris-derecha py-2">
                                     <span>ACTIVIDAD</span>
                                 </div>
@@ -179,7 +179,7 @@
                                     <span>HS NO COBRADAS</span>
                                 </div>
                             </div>
-                            <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report max-width-for-scroll">
+                            <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report @(tieneScrollBar ? "max-width-for-scroll" : "max-width-for-scroll-body")" id="scroll-bar-id">
                             <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas" OnInvalidSubmit="ActivarScrollBarDeErrores"  id="ActividadesForm">
                             <ObjectGraphDataAnnotationsValidator />
                                 @if (listaActividadesAsociadas != null)
@@ -231,7 +231,7 @@
                     
                             </div>
                         </div>
-                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas max-width-for-scroll">
+                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas @(tieneScrollBar ? "max-width-for-scroll" : "max-width-for-scroll-footer")">
 
                             <div class="col-md-4 borde-gris-derecha py-4">
                                 <span>Total de Horas</span>

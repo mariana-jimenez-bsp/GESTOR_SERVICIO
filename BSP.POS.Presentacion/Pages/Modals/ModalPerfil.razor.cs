@@ -36,6 +36,7 @@ namespace BSP.POS.Presentacion.Pages.Modals
         public List<mClientes> listaDeClientes = new List<mClientes>();
         public string tipo { get; set; } = string.Empty;
         public string mensajeError;
+        private string mensajeEsquema = string.Empty;
         [Parameter] public EventCallback<bool> perfilActualizado { get; set; }
         [Parameter] public EventCallback<bool> perfilDescartado { get; set; }
         private bool cargaInicial = false;
@@ -158,56 +159,65 @@ namespace BSP.POS.Presentacion.Pages.Modals
         private async Task ActualizarPerfil()
         {
             mensajeError = null;
+            mensajeEsquema = null;
             try
             {
                 int resultadoPermisos = 0;
                 int ResultadoEsquemas = 0;
                 bool resultaPerfil = false;
                 repetido = false;
-                await VerificarCorreoYUsuarioExistente();
-                if (!repetido)
+                if(selectEsquemasComponente.cantidadEsquemas >= 1)
                 {
+                    await VerificarCorreoYUsuarioExistente();
+                    if (!repetido)
+                    {
 
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    if(rol == "Admin")
-                    {
-                        resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
-                        ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
-                    }
-                    else
-                    {
-                        resultadoPermisos = 1;
-                        ResultadoEsquemas = 1;
-                    }
-                    
-                    string claveDesencriptada = perfil.claveDesencriptada;
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    resultaPerfil =  await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal, esquema);
-                    if (resultaPerfil && resultadoPermisos != 0 && ResultadoEsquemas != 0)
-                    {
-                        if (usuarioOriginal.ToLower() != perfil.usuario.ToLower() || correoOriginal.ToLower() != perfil.correo.ToLower() || claveOriginal != claveDesencriptada || resultadoPermisos == 2 || ResultadoEsquemas == 2)
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        if (rol == "Admin")
                         {
-                            await CloseModal();
-                            StateHasChanged();
-                            await SwalExito("Se ha actualizado el perfil");
+                            resultadoPermisos = await selectPermisosComponente.ActualizarListaDePermisos("");
+                            ResultadoEsquemas = await selectEsquemasComponente.ActualizarListaDeEsquema("");
                         }
                         else
                         {
-                            await CloseModal();
-                            StateHasChanged();
-                            await perfilActualizado.InvokeAsync(true);
+                            resultadoPermisos = 1;
+                            ResultadoEsquemas = 1;
                         }
+
+                        string claveDesencriptada = perfil.claveDesencriptada;
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        resultaPerfil = await UsuariosService.ActualizarPefil(perfil, usuarioOriginal, claveOriginal, correoOriginal, esquema);
+                        if (resultaPerfil && resultadoPermisos != 0 && ResultadoEsquemas != 0)
+                        {
+                            if (usuarioOriginal.ToLower() != perfil.usuario.ToLower() || correoOriginal.ToLower() != perfil.correo.ToLower() || claveOriginal != claveDesencriptada || resultadoPermisos == 2 || ResultadoEsquemas == 2)
+                            {
+                                await CloseModal();
+                                StateHasChanged();
+                                await SwalExito("Se ha actualizado el perfil");
+                            }
+                            else
+                            {
+                                await CloseModal();
+                                StateHasChanged();
+                                await perfilActualizado.InvokeAsync(true);
+                            }
+                        }
+                        else
+                        {
+                            mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                        }
+
                     }
                     else
                     {
-                        mensajeError = "Ocurrío un Error vuelva a intentarlo";
+                        await ActivarScrollBarErroresRepite();
                     }
-
                 }
                 else
                 {
-                    await ActivarScrollBarErroresRepite();
+                    mensajeEsquema = "Debe seleccionar al menos 1 esquema";
                 }
+
             }
             catch (Exception)
             {

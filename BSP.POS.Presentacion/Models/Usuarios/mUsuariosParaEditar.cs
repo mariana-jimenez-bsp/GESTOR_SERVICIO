@@ -71,6 +71,7 @@ namespace BSP.POS.Presentacion.Models.Usuarios
                     yield return new ValidationResult("Un número de télefono de Costa Rica debe tener 8 dígitos", new[] { nameof(telefono) });
                 }
             }
+            
         }
     }
 

@@ -14,7 +14,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private List<string> esquemasCambiados = new List<string>();
         private bool eventoCambioEsquema = false;
         private bool cargaInicial = false;
-
+        public int cantidadEsquemas { get; set; } = 0;
         protected override async Task OnInitializedAsync()
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -25,6 +25,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await EsquemasService.ObtenerListaDeEsquemasDeUsuario(codigo);
                 listaDeEsquemasDeUsuario = EsquemasService.ListaEsquemasDeUsuario;
+                cantidadEsquemas = listaDeEsquemasDeUsuario.Count;
             }
             
             cargaInicial = true;
@@ -67,6 +68,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         public void CambioDeEsquemas(string[] esquemasSeleccionados)
         {
             esquemasCambiados = esquemasSeleccionados.ToList();
+            cantidadEsquemas = esquemasCambiados.Count;
             eventoCambioEsquema = true;
         }
 
