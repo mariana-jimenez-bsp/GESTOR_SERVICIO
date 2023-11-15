@@ -142,7 +142,10 @@
                                                     {
                                                         <div class="d-flex">
                                                             <input class="w-100 text-center text-secondary border-success rounded-pill me-2" type="text" @bind-value="@cliente.E_MAIL" @oninput="(e) => CambioCorreo(e, cliente.CLIENTE)">
-                                                            <i class="mt-2 fa-solid fa-caret-up fa-xl d-flex justify-content-end green-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
+                                                            <div data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)">
+                                                                <i class="mt-2 fa-solid fa-caret-up fa-xl d-flex justify-content-end green-text mouse-pointer" ></i>
+                                                            </div>
+                                                            
                                                         </div>
 
                                                     }
@@ -152,8 +155,10 @@
 
                              
                                                                 <label class="w-75 text-start text-secondary me-3 texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@cliente.E_MAIL">@cliente.E_MAIL</label>
+                                                            <div data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)">
+                                                                <i class="fa-solid fa-sort-down fa-xl d-flex justify-content-end blue-light-text mouse-pointer" ></i>
+                                                            </div>
                                                             
-                                                            <i class="fa-solid fa-sort-down fa-xl d-flex justify-content-end blue-light-text mouse-pointer" data-toggle="collapse" data-target="#contenidoDesplegable-@cont" aria-expanded="true" aria-controls="contenidoDesplegable-@cont" @onclick="() => ToggleCollapse(cliente.CLIENTE)"></i>
                                                         </div>
                                                     }
                                                     <ValidationMessage For="@(() => cliente.E_MAIL)" />

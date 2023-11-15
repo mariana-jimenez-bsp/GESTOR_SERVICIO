@@ -23,6 +23,8 @@
   <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\images\MisInformes\" />
+    <Folder Include="wwwroot\metadata\" />
+    <Folder Include="wwwroot\webfonts\" />
     <Folder Include="wwwroot\sample-data\" />
   </ItemGroup>
 

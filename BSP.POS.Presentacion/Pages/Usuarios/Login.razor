@@ -36,11 +36,17 @@
                             <input @bind-value="claveActual" placeholder="Contraseña..." type="@(mostrarClave ? "text" : "password")" class="form-control" @oninput="ValorClave" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)"/>
                             @if (mostrarClave)
                             {
-                                <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                                <div @onclick="() => CambiarEstadoMostrarClave(false)" class="d-flex align-items-center justify-content-center">
+                                     <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" ></i>
+                                </div>
+                               
                             }
                             else
                             {
-                                <i class="fa-solid fa-eye p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                                <div @onclick="() => CambiarEstadoMostrarClave(true)" class="d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-eye p-2 text-green mouse-pointer" ></i>
+                                </div>
+                               
                             }
 
 

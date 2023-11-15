@@ -15,8 +15,8 @@
                     <h2 class="text-profile blue-dark-text">Perfil <img class="mb-3" src="images/Perfil/Icono-de-usuario.png" /></h2>
 
                 </div>
-                <div class="text-end">
-                    <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+                <div class="text-end" @onclick="SalirConLaX">
+                    <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer"></i>
                 </div>
                 @if (!string.IsNullOrEmpty(mensajeError))
                 {
@@ -67,11 +67,17 @@
                             <input class="border-0 w-100 h-100 border-success rounded-pill px-2" type="@(mostrarClave ? "text" : "password")" id="contraseña" @bind-value="@perfil.claveDesencriptada" @oninput="CambioClave" />
                             @if (mostrarClave)
                             {
-                                <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                                <div class="div-fa-solid d-flex align-items-center" @onclick="() => CambiarEstadoMostrarClave(false)">
+                                    <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer"></i>
+                                </div>
+
                             }
                             else
                             {
-                                <i class="fa-solid fa-eye p-2 text-green mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                                <div class="div-fa-solid d-flex align-items-center" @onclick="() => CambiarEstadoMostrarClave(true)">
+                                    <i class="fa-solid fa-eye p-2 text-green mouse-pointer"></i>
+                                </div>
+
                             }
                         </div>
                     </div>

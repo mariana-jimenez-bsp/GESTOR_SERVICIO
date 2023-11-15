@@ -4,8 +4,8 @@
 
 <div id='modal' class='modal' style='display: @(ActivarModal ? "block" : "none")'>
     <div class="modal-content bg-light">
-        <div class="text-end pe-2">
-            <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+        <div class="text-end pe-2" @onclick="SalirConLaX">
+            <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer"></i>
         </div>
         <EditForm Model="@observacionAAgregar" OnValidSubmit="AgregarObservacionDeInforme">
         <div class="modal-header d-flex justify-content-center blue-good">

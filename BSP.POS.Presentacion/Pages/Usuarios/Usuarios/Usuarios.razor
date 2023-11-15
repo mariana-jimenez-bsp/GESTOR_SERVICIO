@@ -70,7 +70,10 @@
                                         <label class="w-100 text-center">@usuario.rol</label>
                                     </div>
                                     <div class="mb-0 col-md-1 mouse-pointer">
-                                        <i class="fa-solid fa-pen-to-square" @onclick="() => IrAEditarUsuario(usuario.codigo)"></i>
+                                        <div @onclick="() => IrAEditarUsuario(usuario.codigo)">
+                                            <i class="fa-solid fa-pen-to-square" ></i>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             }

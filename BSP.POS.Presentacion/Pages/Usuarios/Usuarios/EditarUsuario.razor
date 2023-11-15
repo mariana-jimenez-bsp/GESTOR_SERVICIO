@@ -67,11 +67,17 @@
                                     <input class=" w-100 h-100  px-2 " id="a-clave" type="@(mostrarClave ? "text" : "password")" @bind-value="@usuario.claveDesencriptada" @oninput="(e) => CambioClave(e)">
                                     @if (mostrarClave)
                                     {
-                                        <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                                        <div class="div-fa-solid d-flex align-items-center" @onclick="() => CambiarEstadoMostrarClave(false)">
+                                            <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" ></i>
+                                        </div>
+                                       
                                     }
                                     else
                                     {
-                                        <i class="fa-solid fa-eye p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                                        <div class="div-fa-solid d-flex align-items-center" @onclick="() => CambiarEstadoMostrarClave(true)">
+                                            <i class="fa-solid fa-eye p-2 green-text mouse-pointer" ></i>
+                                        </div>
+                                        
                                     }
                                 </div>
                             </div>

@@ -6,10 +6,13 @@ using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Actividades;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace BSP.POS.Presentacion.Pages.Proyectos
@@ -237,7 +240,13 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             textoRecibido = texto;
             return Task.CompletedTask;
         }
-
+        private async Task InvalidSubmit()
+        {
+            await ActivarScrollBarDeErrores();
+            EditContext proyectosEditContext = new EditContext(proyectos);
+            await ActivarScrollBarDeErrores();
+            var messages = proyectosEditContext.GetValidationMessages();
+        }
         private async Task ActivarScrollBarDeErrores()
         {
             StateHasChanged();
