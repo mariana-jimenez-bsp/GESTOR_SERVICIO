@@ -6,6 +6,7 @@ using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Actividades;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System;
@@ -185,7 +186,19 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 }
             }
         }
-        
+
+        private void CambioActivarEditar(bool activar, string proyectoId)
+        { 
+                foreach (var proyecto in proyectos)
+                {
+                    if (proyecto.Id == proyectoId)
+                    {
+                        proyecto.activar_editar = activar;
+                    }
+                }
+        }
+
+
         private async Task DescartarCambios()
         {
             await AlertasService.SwalAvisoCancelado("Se han Descartado los cambios");
@@ -354,6 +367,17 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             }
 
 
+        }
+        void ActivarVerInformes(bool activar, string numero)
+        {
+            numeroActual = numero;
+            ClickHandlerVerInformes(activar);
+        }
+        bool activarModalVerInformes = false;
+        void ClickHandlerVerInformes(bool activar)
+        {
+            activarModalVerInformes = activar;
+            StateHasChanged();
         }
     }
 }

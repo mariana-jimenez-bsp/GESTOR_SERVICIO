@@ -78,8 +78,20 @@
 
                                         </div>
                                         <div class="mb-0  col-md-2">
-
-                                            <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.nombre_proyecto" @oninput="(e) => CambioNombreProyecto(e, proyecto.Id)">
+                                            <div class="dropdown" style="display: @(proyecto.activar_editar ? "none" : "block")">
+                                                <button class="border-0 bg-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    @proyecto.nombre_proyecto
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item mouse-pointer" @onclick="() => CambioActivarEditar(true, proyecto.Id)">Editar</a></li>
+                                                    <li><a class="dropdown-item mouse-pointer" @onclick="() => ActivarVerInformes(true, proyecto.numero)">Ver Informes</a></li>
+                                                </ul>
+                                            </div>
+                                            @if (proyecto.activar_editar)
+                                            {
+                                                <input class="w-100 text-center border-input-gray rounded-pill me-2" type="text" @bind-value="@proyecto.nombre_proyecto" @oninput="(e) => CambioNombreProyecto(e, proyecto.Id)" @onblur="() => CambioActivarEditar(false, proyecto.Id)">
+                                               
+                                            }
                                             <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
                                         </div>
                                         <div class="mb-0 col-md-2">
@@ -166,7 +178,10 @@
                 </div>
             </EditForm>
         </div>
-        
+        @if (activarModalVerInformes)
+        {
+            <VerInformesDeProyecto ActivarModal="@activarModalVerInformes" OnClose="@ClickHandlerVerInformes" Numero_Proyecto="@numeroActual"></VerInformesDeProyecto>
+        }
     }
     else
 

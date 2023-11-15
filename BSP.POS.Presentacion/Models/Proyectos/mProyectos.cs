@@ -39,7 +39,7 @@ namespace BSP.POS.Presentacion.Models.Proyectos
             get => DateTime.Parse(fecha_final);
             set => fecha_final = value.ToString("yyyy-MM-dd");
         }
-        
+        public bool activar_editar { get; set; } = false;
         public string nombre_consultor { get; set; } = string.Empty;
         public string descripcion_centro_costo { get; set; } = string.Empty;
         public string nombre_cliente { get; set; } = string.Empty;

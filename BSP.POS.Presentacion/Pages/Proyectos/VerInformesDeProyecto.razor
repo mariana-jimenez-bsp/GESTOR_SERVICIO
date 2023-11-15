@@ -1,0 +1,76 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IInformesInterface InformesService
+@inject NavigationManager navigationManager
+
+<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content">
+ 
+
+            <div class="modal-header">
+                <h2 class="text-ver-informes blue-dark-text mx-auto">Ver Informes</h2>
+                <div class="text-end">
+                    <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer" @onclick="SalirConLaX"></i>
+                </div>
+            </div>
+
+
+        <div class="modal-body d-flex row g-2 justify-content-center">
+                <div class="row font-14-book mx-1 pb-2 div-ver-informes">
+                
+                <div class="col-md-3">
+                    <span>Consecutivo</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Número de Proyecto</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Fecha Actualización</span>
+                </div>
+                <div class="col-md-2">
+                    <span>Estado</span>
+                </div>
+                <div class="col-md-1">
+                    <span>Acción</span>
+                </div>
+                </div>
+                <div class="scrollbar-modal-ver-informes overflow-y-auto overflow-x-hidden max-height-ver-informes">
+                @if (InformesDeProyecto.Any())
+                {
+                    foreach (var informe in InformesDeProyecto)
+                    {
+                        <div class="row font-14-book mx-1 pb-2 div-ver-informes">
+                        <div class="col-md-3">
+                            <span>@informe.consecutivo</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span>@informe.numero_proyecto</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span>@informe.fecha_actualizacion</span>
+                        </div>
+                        <div class="col-md-2">
+                            <span>@informe.estado</span>
+                        </div>
+                        <div class="col-md-1 d-flex justify-content-center">
+                            @if(informe.estado == "Borrador")
+                            {
+                                <button type="button" class="green-bg border border-success rounded-pill text-light px-2" @onclick="() => IrAEditar(informe.consecutivo)">Editar</button>
+                            }else{
+                                <button type="button" class="green-bg border border-success rounded-pill text-light px-2" @onclick="() => VerInforme(informe.consecutivo)">Ver</button>
+                            }
+                        </div>
+                        </div>
+                    }
+                }
+                </div>
+               
+
+            </div>
+
+            <div class="modal-footer">
+                <button @onclick="() => Cerrar()" type="button" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="cerrar-informes">Cerrar</button> 
+            </div>
+
+     
+    </div>
+</div>
