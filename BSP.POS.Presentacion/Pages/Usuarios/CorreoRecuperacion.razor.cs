@@ -1,6 +1,9 @@
 ﻿using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Services.Usuarios;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BSP.POS.Presentacion.Pages.Usuarios
 {
@@ -65,32 +68,65 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             }
         }
 
-        private async Task EnviarCorreo()
+        private async Task<bool> EnviarCorreo()
+        {    
+            bool validar = await LoginService.EnviarCorreoRecuperarClave(tokenRecuperacion);
+            if (validar)
+            {
+
+                return true;
+            }
+            return false;
+        }
+        private async Task IrAtras()
         {
-            if(licenciaActiva && mismaMacAdress)
+            await JSRuntime.InvokeVoidAsync("history.back");
+        }
+        private async Task SwalEnviandoCorreo()
+        {
+            mensaje = string.Empty;
+            if (licenciaActiva && mismaMacAdress)
             {
                 string verificar = await LoginService.ValidarCorreoCambioClave(tokenRecuperacion.esquema, tokenRecuperacion.correo);
                 if (verificar != null)
                 {
-                    bool validar = await LoginService.EnviarCorreoRecuperarClave(tokenRecuperacion);
-                    if (validar)
+                    bool resultadoCorreo = false;
+                    await Swal.FireAsync(new SweetAlertOptions
                     {
-                        mensaje = string.Empty;
+                        Icon = SweetAlertIcon.Info,
+                        Title = "Enviando...",
+                        ShowCancelButton = false,
+                        ShowConfirmButton = false,
+                        AllowOutsideClick = false,
+                        AllowEscapeKey = false,
+                        DidOpen = new SweetAlertCallback(async () =>
+                        {
+                            resultadoCorreo = await EnviarCorreo();
+                            await Swal.CloseAsync();
+
+                        }),
+                        WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+                    });
+
+                    if (resultadoCorreo)
+                    {
                         CorreoEnviado = true;
                     }
-
                 }
                 else
                 {
                     mensaje = "El correo no existe";
                 }
+                
+
             }
             else
             {
                 await ValidarLicencia();
             }
-            
-           
+
+
         }
-        }
+    }
 }

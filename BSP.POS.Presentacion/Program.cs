@@ -43,8 +43,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var apiUrl = "https://localhost:7032/api/";
-//var apiUrl = "https://cloud.bspcr.com:4443/POS_Prueba_API_Gestor_Servicios/Api/";
-//var apiUrl = "https://192.168.2.21/POS_Prueba_API_Gestor_Servicios/Api/";
+//var apiUrl = "https://cloud.bspcr.com:4443/PRUEBA_GESTOR_SERVICIOS_API/Api/";
+//var apiUrl = "https://192.168.2.21/PRUEBA_GESTOR_SERVICIOS_API/Api/";
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 builder.Services.AddScoped<IClientesInterface, ClientesService>();

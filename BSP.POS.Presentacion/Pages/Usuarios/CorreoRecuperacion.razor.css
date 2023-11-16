@@ -5,7 +5,9 @@
 .blue-good {
     color: #053d9e;
 }
-
+.green-bg {
+    background-color: #2FAD70;
+}
 .fondo {
     background-image: url('images/Login/Fondo-Login.png');
     background-size: cover;

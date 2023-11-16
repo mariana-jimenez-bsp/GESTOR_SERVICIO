@@ -2,13 +2,18 @@
 @inject ILoginInterface LoginService
 @inject ILicenciasInterface LicenciasService
 @inject IAlertasInterface AlertasService
+@inject SweetAlertService Swal;
+@inject IJSRuntime JSRuntime
 @if (cargaInicial)
 {
     
         <div class="h-100 w-100 fondo">
+         <div class="d-flex w-100 justify-content-start text-light p-2">
+            <span class="ms-1 px-2 green-bg rounded-pill text-back mouse-pointer" @onclick="IrAtras"><i class="fa-solid fa-arrow-left-long"></i> Atras</span>
+         </div>
             @if (!CorreoEnviado)
             {
-                <EditForm Model="tokenRecuperacion" OnValidSubmit="EnviarCorreo">
+                <EditForm Model="tokenRecuperacion" OnValidSubmit="SwalEnviandoCorreo">
                     <DataAnnotationsValidator />
                     <h1 class="w-100 text-center text-light">Gestor de Servicios BSP</h1>
                     <div class="row w-100 h-25 text-light d-flex justify-content-center align-items-center">

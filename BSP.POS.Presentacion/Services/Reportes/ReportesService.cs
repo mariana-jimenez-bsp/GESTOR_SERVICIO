@@ -22,7 +22,7 @@ namespace BSP.POS.Presentacion.Services.Reportes
             //}
             //var reponseMessage = response.RequestMessage;
             //throw new Exception("Error al obtener el PDF");
-            var response = await _http.GetAsync("https://cloud.bspcr.com:4443/POS_Prueba_APICrystal_Gestor_servicios/Api/GenerarReporte/" + esquema + "/" + consecutivo);
+            var response = await _http.GetAsync("https://cloud.bspcr.com:4443/PRUEBA_GESTOR_SERVICIOS_API_CRYSTAL/Api/GenerarReporte/" + esquema + "/" + consecutivo);
             if (response.IsSuccessStatusCode)
             {
                 var fileBytes = await response.Content.ReadAsByteArrayAsync();
