@@ -138,6 +138,72 @@ namespace BSP.POS.API.Controllers
 
         }
 
+        [HttpGet("ObtengaLaListaDeInformesDeClienteFinalizados/{cliente}/{esquema}")]
+        public IActionResult ObtengaLaListaDeInformesDeClienteFinalizados(string cliente, string esquema)
+        {
+            try
+            {
+                string listaInformesAsociadosJson = informes.ObtenerInformesDeClienteFinalizados(esquema, cliente);
+                if (string.IsNullOrEmpty(listaInformesAsociadosJson))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(listaInformesAsociadosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("ObtengaLaListaDeInformesDeUsuarioFinalizados/{codigo}/{esquema}")]
+        public IActionResult ObtengaLaListaDeInformesDeUsuarioFinalizados(string codigo, string esquema)
+        {
+            try
+            {
+                string listaInformesAsociadosJson = informes.ObtenerInformesDeUsuarioFinalizados(esquema, codigo);
+                if (string.IsNullOrEmpty(listaInformesAsociadosJson))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(listaInformesAsociadosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("ObtengaLaListaDeInformesFinalizados/{esquema}")]
+        public IActionResult ObtengaLaListaDeInformesFinalizados(string esquema)
+        {
+            try
+            {
+                string listaInformesAsociadosJson = informes.ObtenerInformesFinalizados(esquema);
+                if (string.IsNullOrEmpty(listaInformesAsociadosJson))
+                {
+                    return NotFound();
+                }
+
+                // Si todo está bien, devuelve la lista como JSON
+                return Ok(listaInformesAsociadosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
         [HttpGet("ObtengaElInforme/{consecutivo}/{esquema}")]
         public IActionResult ObtengaElInforme(string consecutivo, string esquema)
         {

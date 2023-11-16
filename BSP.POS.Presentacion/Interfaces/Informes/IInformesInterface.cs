@@ -25,5 +25,9 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
 
         Task<string> AgregarInformeAsociado(string numero, string esquema);
         Task<string> ValidarExistenciaConsecutivoInforme(string esquema, string consecutivo);
+        List<mInformesFinalizados> ListaInformesFinalizados { get; set; }
+        Task ObtenerListaDeInformesDeClienteFinalizados(string cliente, string esquema);
+        Task ObtenerListaDeInformesDeUsuarioFinalizados(string codigo, string esquema);
+        Task ObtenerListaDeInformesFinalizados(string esquema);
     }
 }

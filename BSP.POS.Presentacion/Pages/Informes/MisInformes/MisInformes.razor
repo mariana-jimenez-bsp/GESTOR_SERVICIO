@@ -55,28 +55,30 @@
                             </div>
                         </div>
                         
-                        @if (informesDeUsuarioFinalizados.Any() && clienteAsociado != null)
+                        @if (listaDeInformesFinalizados.Any())
                         {
-                            var informesUsuario = informesDeUsuarioFinalizados.Where(informe =>
+                            var informesFinalizados = listaDeInformesFinalizados.Where(informe =>
                                 informe.FechaConsultoriaDateTime >= fechaInicioDateTime &&
                                 informe.FechaConsultoriaDateTime <= fechaFinalDateTime
                             ).OrderBy(i => i.FechaConsultoriaDateTime).ToList();
                             if (!string.IsNullOrEmpty(textoRecibido))
                             {
                                 // Filtrar la lista de clientes por el nombre que contenga el texto de búsqueda
-                                informesUsuario = informesUsuario.Where(informe =>
+                                informesFinalizados = informesFinalizados.Where(informe =>
                                 informe.fecha_consultoria.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                informe.consecutivo_informe.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
+                                informe.consecutivo.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                informe.nombre_cliente.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                informe.nombre_consultor.IndexOf(textoRecibido, StringComparison.OrdinalIgnoreCase) >= 0
                                 ).ToList();
                             }
                             <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
-                            @foreach (var informe in informesUsuario)
+                            @foreach (var informe in informesFinalizados)
                             {
-                                <div class="row font-19 mouse-pointer @informe.informeSeleccionado font-blue-light" @onclick="() => cambioSeleccion(informe.consecutivo_informe)">
+                                <div class="row font-19 mouse-pointer @informe.informeSeleccionado font-blue-light" @onclick="() => cambioSeleccion(informe.consecutivo)">
                                     <div class="col-md-3 text-light height-col d-flex align-items-center @informe.informeSeleccionado @informe.imagenSeleccionada">
-                                            @if (clienteAsociado.IMAGEN != null && !clienteAsociado.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
+                                            @if (informe.imagen_cliente != null && !informe.imagen_cliente.SequenceEqual(new byte[] { 0x00 }))
                                             {
-                                                <img src="data:image/png;base64,@Convert.ToBase64String(clienteAsociado.IMAGEN)" width="70" height="70" alt="Imagen" />
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(informe.imagen_cliente)" width="70" height="70" alt="Imagen" />
                                             }
                                             else
                                             {
@@ -84,16 +86,16 @@
                                             }
                                     </div>
                                     <div class="col-md-2 height-col d-flex align-items-center">
-                                        <span class="mouse-pointer color-change-consecutivo" @onclick="() => VerInforme(informe.consecutivo_informe)">#@informe.consecutivo_informe</span>
+                                        <span class="mouse-pointer color-change-consecutivo" @onclick="() => VerInforme(informe.consecutivo)">#@informe.consecutivo</span>
                                     </div>
                                     <div class="col-md-2 height-col d-flex align-items-center">
                                         <span>@informe.fecha_consultoria</span>
                                     </div>
                                     <div class="col-md-3 height-col d-flex align-items-center">
-                                        <span>@clienteAsociado.NOMBRE</span>
+                                        <span>@informe.nombre_cliente</span>
                                     </div>
                                     <div class="col-md-2 height-col d-flex align-items-center">
-                                       <span>@clienteAsociado.CONTACTO</span>
+                                       <span>@informe.nombre_consultor</span>
                                     </div>
                                 </div>
                             }

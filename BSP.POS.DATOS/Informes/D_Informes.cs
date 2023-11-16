@@ -80,7 +80,80 @@ namespace BSP.POS.DATOS.Informes
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+        public List<U_InformesFinalizados> ListaInformesDeClienteFinalizados(String pEsquema, String pCliente)
+        {
+            var LstInformes = new List<U_InformesFinalizados>();
 
+            ObtenerListaDeInformesDeClienteFinalizadosTableAdapter sp = new ObtenerListaDeInformesDeClienteFinalizadosTableAdapter();
+            var response = sp.GetData(pEsquema, pCliente).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_InformesFinalizados informe = new U_InformesFinalizados(item.consecutivo, item.fecha_actualizacion, 
+                        item.fecha_consultoria, item.numero_proyecto, item.estado, item.codigo_cliente, item.nombre_cliente, 
+                        item.imagen_cliente, item.codigo_consultor, item.nombre_consultor);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_InformesFinalizados> ListaInformesDeUsuarioFinalizados(String pEsquema, String pCodigo)
+        {
+            var LstInformes = new List<U_InformesFinalizados>();
+
+            ObtenerListaDeInformesDeUsuarioFinalizadosTableAdapter sp = new ObtenerListaDeInformesDeUsuarioFinalizadosTableAdapter();
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_InformesFinalizados informe = new U_InformesFinalizados(item.consecutivo, item.fecha_actualizacion,
+                        item.fecha_consultoria, item.numero_proyecto, item.estado, item.codigo_cliente, item.nombre_cliente,
+                        item.imagen_cliente, item.codigo_consultor, item.nombre_consultor);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_InformesFinalizados> ListaInformesFinalizados(String pEsquema)
+        {
+            var LstInformes = new List<U_InformesFinalizados>();
+
+            ObtenerListaDeInformesFinalizadosTableAdapter sp = new ObtenerListaDeInformesFinalizadosTableAdapter();
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_InformesFinalizados informe = new U_InformesFinalizados(item.consecutivo, item.fecha_actualizacion,
+                        item.fecha_consultoria, item.numero_proyecto, item.estado, item.codigo_cliente, item.nombre_cliente,
+                        item.imagen_cliente, item.codigo_consultor, item.nombre_consultor);
+
+                    LstInformes.Add(informe);
+                }
+                return LstInformes;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public U_Informe ObtenerInforme(String pEsquema, String pConsecutivo)
         {
             var informeAso = new U_Informe();

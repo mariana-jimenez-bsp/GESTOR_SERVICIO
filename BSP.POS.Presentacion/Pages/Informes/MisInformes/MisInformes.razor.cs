@@ -18,14 +18,12 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public mPerfil datosUsuario = new mPerfil();
-        public List<mUsuariosDeInforme> informesDeUsuario = new List<mUsuariosDeInforme>();
-        public List<mUsuariosDeInforme> informesDeUsuarioFinalizados = new List<mUsuariosDeInforme>();
-        public List<mInformesDeCliente> informesDeCliente = new List<mInformesDeCliente>();
-        public mClienteAsociado clienteAsociado = new mClienteAsociado();
-        public mInforme informeAsociadoSeleccionado = new mInforme();
-        public mUsuariosDeInforme informeDeUsuarioAsociado = new mUsuariosDeInforme();
+
+        public List<mInformesFinalizados> listaDeInformesFinalizados = new List<mInformesFinalizados>();
+        public mInformesFinalizados informeAsociadoSeleccionado = new mInformesFinalizados();
+       
         public List<mActividades> listaDeActividades = new List<mActividades>();
-        public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
+        
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         private DateTime fechaInicioDateTime = DateTime.MinValue;
         private DateTime fechaFinalDateTime = DateTime.MinValue;
@@ -56,61 +54,44 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 datosUsuario = UsuariosService.Perfil;
                 if (!string.IsNullOrEmpty(datosUsuario.codigo))
                 {
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await UsuariosService.ObtenerListaDeInformesDeUsuario(datosUsuario.codigo, esquema);
-                    if(UsuariosService.ListaUsuariosDeInformeAsociados != null)
+                    if(datosUsuario.rol == "Admin")
                     {
-                        informesDeUsuario = UsuariosService.ListaUsuariosDeInformeAsociados;
                         await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        await InformesService.ObtenerListaDeInformesDeCliente(datosUsuario.cod_cliente, esquema);
-                        if (InformesService.ListaInformesDeCliente != null)
-                        {
-                            informesDeCliente = InformesService.ListaInformesDeCliente;
-                            informesDeUsuarioFinalizados = UsuariosService.ListaUsuariosDeInformeAsociados
-                            .Where(usuario =>
-                                informesDeCliente.Any(informe =>
-                                    usuario.consecutivo_informe == informe.consecutivo && informe.estado == "Finalizado"))
-                            .ToList();
-                            foreach (var informe in informesDeUsuarioFinalizados)
-                            {
-                                informe.fecha_consultoria = informesDeCliente.Where(i => i.consecutivo == informe.consecutivo_informe).Select(c => c.fecha_consultoria).First();
-                                informe.FechaConsultoriaDateTime = DateTime.ParseExact(informe.fecha_consultoria, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                            }
-                            if (informesDeUsuarioFinalizados.Any())
+                        await InformesService.ObtenerListaDeInformesFinalizados(esquema);
+                    }
+                    else
+                    {
+                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                        await InformesService.ObtenerListaDeInformesDeUsuarioFinalizados(datosUsuario.codigo, esquema);
+                    }
+
+                    if(InformesService.ListaInformesFinalizados != null)
+                    {
+                        listaDeInformesFinalizados = InformesService.ListaInformesFinalizados;
+                       
+                            if (listaDeInformesFinalizados.Any())
                             {
                                 ObtenerFechaMasAltaInformes();
                                 ObtenerFechaMasBajaInformes();
                             }
-                        }
+                        
 
                     }
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    ClientesService.ClienteAsociado = await ClientesService.ObtenerClienteAsociado(datosUsuario.cod_cliente, esquema);
-                    if(ClientesService.ClienteAsociado != null)
-                    {
-                        clienteAsociado = ClientesService.ClienteAsociado;
-                        await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                        listaDeUsuariosDeCliente = await UsuariosService.ObtenerListaDeUsuariosDeClienteAsociados(esquema, clienteAsociado.CLIENTE);
-                    }
+                    
                 }
             }
 
         }
-        public async Task cambioSeleccion(string consecutivo)
+        public void cambioSeleccion(string consecutivo)
         {
-            foreach (var informe in informesDeUsuarioFinalizados)
+            foreach (var informe in listaDeInformesFinalizados)
             {
-                if(informe.consecutivo_informe == consecutivo)
+                if(informe.consecutivo == consecutivo)
                 {
                     informe.informeSeleccionado = "informe-hover";
                     informe.imagenSeleccionada = "imagen-hover";
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    informeAsociadoSeleccionado = await InformesService.ObtenerInforme(consecutivo, esquema);
-                    if (informeAsociadoSeleccionado != null)
-                    {
-                        informeDeUsuarioAsociado = informe;
-
-                    }
+                    
+                    informeAsociadoSeleccionado = informe;
                 }
                 else
                 {
@@ -205,14 +186,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
         private void ObtenerFechaMasBajaInformes()
         {
-            DateTime fechaTemporal = informesDeUsuarioFinalizados.OrderBy(i => i.FechaConsultoriaDateTime).Select(i => i.FechaConsultoriaDateTime).First();
+            DateTime fechaTemporal = listaDeInformesFinalizados.OrderBy(i => i.FechaConsultoriaDateTime).Select(i => i.FechaConsultoriaDateTime).First();
             fechaMin = fechaTemporal.ToString("yyyy-MM-dd");
             fechaInicioDateTime = fechaTemporal;
         }
 
         private void ObtenerFechaMasAltaInformes()
         {
-            DateTime fechaTemporal = informesDeUsuarioFinalizados.OrderByDescending(i => i.FechaConsultoriaDateTime).Select(i => i.FechaConsultoriaDateTime).First();
+            DateTime fechaTemporal = listaDeInformesFinalizados.OrderByDescending(i => i.FechaConsultoriaDateTime).Select(i => i.FechaConsultoriaDateTime).First();
             fechaMax = fechaTemporal.ToString("yyyy-MM-dd");
             fechaFinalDateTime = fechaTemporal;
         }

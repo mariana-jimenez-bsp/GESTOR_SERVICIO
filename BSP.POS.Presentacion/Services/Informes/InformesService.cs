@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
 using BSP.POS.Presentacion.Models.Clientes;
+using BSP.POS.Presentacion.Pages.Clientes;
 
 namespace BSP.POS.Presentacion.Services.Informes
 {
@@ -20,6 +21,7 @@ namespace BSP.POS.Presentacion.Services.Informes
         public List<mInformesDeProyecto> ListaInformesDeProyecto { get; set; } = new List<mInformesDeProyecto>();
         public List<mInformesDeProyecto> ListaInformes { get; set; } = new List<mInformesDeProyecto>();
         public List<mInformesDeCliente> ListaInformesDeCliente { get; set; } = new List<mInformesDeCliente>();
+        public List<mInformesFinalizados> ListaInformesFinalizados { get; set; } = new List<mInformesFinalizados>();
         public mInforme Informe { get; set; } = new mInforme();
         
 
@@ -271,6 +273,47 @@ namespace BSP.POS.Presentacion.Services.Informes
                 }
             }
             return null;
+        }
+
+        public async Task ObtenerListaDeInformesDeClienteFinalizados(string cliente, string esquema)
+        {
+            string url = "Informes/ObtengaLaListaDeInformesDeClienteFinalizados/" + cliente + "/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaInformes = await response.Content.ReadFromJsonAsync<List<mInformesFinalizados>>();
+                if (listaInformes is not null)
+                {
+                    ListaInformesFinalizados = listaInformes;
+                }
+            }
+            
+        }
+        public async Task ObtenerListaDeInformesDeUsuarioFinalizados(string codigo, string esquema)
+        {
+            string url = "Informes/ObtengaLaListaDeInformesDeUsuarioFinalizados/" + codigo + "/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaInformes = await response.Content.ReadFromJsonAsync<List<mInformesFinalizados>>();
+                if (listaInformes is not null)
+                {
+                    ListaInformesFinalizados = listaInformes;
+                }
+            }
+        }
+        public async Task ObtenerListaDeInformesFinalizados(string esquema)
+        {
+            string url = "Informes/ObtengaLaListaDeInformesFinalizados/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaInformes = await response.Content.ReadFromJsonAsync<List<mInformesFinalizados>>();
+                if (listaInformes is not null)
+                {
+                    ListaInformesFinalizados = listaInformes;
+                }
+            }
         }
     }
 }

@@ -67,6 +67,59 @@ namespace BSP.POS.NEGOCIOS.Informes
             }
         }
 
+        public string ObtenerInformesDeClienteFinalizados(String pEsquema, String pCliente)
+        {
+            try
+            {
+                List<U_InformesFinalizados> list = new List<U_InformesFinalizados>();
+
+                list = objInforme.ListaInformesDeClienteFinalizados(pEsquema, pCliente);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+        public string ObtenerInformesDeUsuarioFinalizados(String pEsquema, String pCodigo)
+        {
+            try
+            {
+                List<U_InformesFinalizados> list = new List<U_InformesFinalizados>();
+
+                list = objInforme.ListaInformesDeUsuarioFinalizados(pEsquema, pCodigo);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ObtenerInformesFinalizados(String pEsquema)
+        {
+            try
+            {
+                List<U_InformesFinalizados> list = new List<U_InformesFinalizados>();
+
+                list = objInforme.ListaInformesFinalizados(pEsquema);
+
+                string informe = JsonConvert.SerializeObject(list);
+                return informe;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public string ObtenerInforme(String pEsquema, String pInforme)
         {
             try
