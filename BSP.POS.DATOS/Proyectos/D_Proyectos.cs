@@ -23,7 +23,7 @@ namespace BSP.POS.DATOS.Proyectos
             {
                 foreach (var item in response)
                 {
-                    U_ListaProyectos proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado);
+                    U_ListaProyectos proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.codigo_consultor);
 
                     LstProyectos.Add(proyecto);
                 }
@@ -45,7 +45,7 @@ namespace BSP.POS.DATOS.Proyectos
             {
                 foreach (var item in response)
                 {
-                    proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado);
+                    proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.codigo_consultor);
                    
                 }
                 return proyecto;
@@ -68,7 +68,7 @@ namespace BSP.POS.DATOS.Proyectos
             {
                 foreach (var item in response)
                 {
-                    U_DatosProyectos proyecto = new U_DatosProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.nombre_cliente, item.contacto, item.cargo, item.imagen);
+                    U_DatosProyectos proyecto = new U_DatosProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.codigo_consultor, item.nombre_consultor, item.nombre_cliente, item.contacto, item.cargo, item.imagen);
 
                     LstProyectos.Add(proyecto);
                 }
@@ -92,7 +92,7 @@ namespace BSP.POS.DATOS.Proyectos
             {
                 foreach (var item in response)
                 {
-                    U_DatosProyectos proyecto = new U_DatosProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.nombre_cliente, item.contacto, item.cargo, item.imagen);
+                    U_DatosProyectos proyecto = new U_DatosProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.codigo_consultor, item.nombre_consultor, item.nombre_cliente, item.contacto, item.cargo, item.imagen);
 
                     LstProyectos.Add(proyecto);
                 }
@@ -115,7 +115,7 @@ namespace BSP.POS.DATOS.Proyectos
             {
                 foreach (var item in response)
                 {
-                    U_ListaProyectos proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado);
+                    U_ListaProyectos proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.codigo_consultor);
 
                     LstProyectos.Add(proyecto);
                 }
@@ -136,7 +136,7 @@ namespace BSP.POS.DATOS.Proyectos
             {
                 foreach (var proyecto in pProyectos)
                 {
-                    var response = sp.GetData(proyecto.Id,proyecto.numero, proyecto.codigo_cliente, proyecto.fecha_inicial, proyecto.fecha_final, proyecto.horas_totales, proyecto.centro_costo, proyecto.nombre_proyecto, esquema);
+                    var response = sp.GetData(proyecto.Id,proyecto.numero, proyecto.codigo_cliente, proyecto.fecha_inicial, proyecto.fecha_final, proyecto.horas_totales, proyecto.centro_costo, proyecto.nombre_proyecto, proyecto.codigo_consultor, esquema);
 
                 }
                 return "Exito";
@@ -177,7 +177,7 @@ namespace BSP.POS.DATOS.Proyectos
             AgregarProyectoTableAdapter sp = new AgregarProyectoTableAdapter();
             try
             {
-                    var response = sp.GetData(pProyecto.codigo_cliente, pProyecto.fecha_inicial, pProyecto.fecha_final, int.Parse(pProyecto.horas_totales), pProyecto.centro_costo, pProyecto.nombre_proyecto, esquema);
+                    var response = sp.GetData(pProyecto.codigo_cliente, pProyecto.fecha_inicial, pProyecto.fecha_final, int.Parse(pProyecto.horas_totales), pProyecto.centro_costo, pProyecto.nombre_proyecto, pProyecto.codigo_consultor, esquema);
 
                 
                 return "Exito";

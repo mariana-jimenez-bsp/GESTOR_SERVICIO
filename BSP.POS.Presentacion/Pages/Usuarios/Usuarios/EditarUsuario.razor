@@ -19,8 +19,8 @@
         <div class="el-layout">
             <Layout></Layout>
         </div>
-        
-        <EditForm Model="@usuario" OnValidSubmit="ActualizarUsuario" OnInvalidSubmit="ActivarScrollBarDeErrores">
+
+            <EditForm Model="@usuario" OnValidSubmit="ActualizarUsuario" OnInvalidSubmit="InvalidSubmit">
             <ObjectGraphDataAnnotationsValidator />
 
             <div class="div-vacio"></div>

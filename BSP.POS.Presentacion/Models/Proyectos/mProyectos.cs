@@ -24,6 +24,8 @@ namespace BSP.POS.Presentacion.Models.Proyectos
         [Required(ErrorMessage = "El campo del nombre de proyecto es requerido")]
         public string nombre_proyecto { get; set; } = string.Empty;
         public string estado { get; set; } = string.Empty;
+        [Required(ErrorMessage = "El campo del consultor es requerido")]
+        public string codigo_consultor { get; set; } = string.Empty;
         [Required(ErrorMessage = "El campo de Fecha Inicial es requerido")]
         [DataType(DataType.Date, ErrorMessage = "El campo tiene que ser una fecha válida")]
         public DateTime FechaInicialDateTime
@@ -40,6 +42,7 @@ namespace BSP.POS.Presentacion.Models.Proyectos
             set => fecha_final = value.ToString("yyyy-MM-dd");
         }
         public bool activar_editar { get; set; } = false;
+        public string nombre_responsable { get; set; } = string.Empty;
         public string nombre_consultor { get; set; } = string.Empty;
         public string descripcion_centro_costo { get; set; } = string.Empty;
         public string nombre_cliente { get; set; } = string.Empty;

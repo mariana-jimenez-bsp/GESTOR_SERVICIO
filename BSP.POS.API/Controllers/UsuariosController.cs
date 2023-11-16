@@ -353,7 +353,28 @@ namespace BSP.POS.API.Controllers
             }
 
         }
-        
+
+        [Authorize]
+        [HttpGet("ObtengaLaListaDeUsuariosConsultores/{esquema}")]
+        public IActionResult ObtengaLaListaDeUsuariosConsultores(string esquema)
+        {
+            try
+            {
+                string listaDeUsuariosJson = user.ListarUsuariosConsultores(esquema);
+                if (string.IsNullOrEmpty(listaDeUsuariosJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaDeUsuariosJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
         [Authorize]
         [HttpPost("AgregaUsuario")]
         public IActionResult AgregaUsuario([FromBody] U_UsuariosParaEditar datos)

@@ -7,6 +7,7 @@ using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System;
 using System.Globalization;
@@ -696,6 +697,14 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 tieneScrollBarAnterior = tieneScrollBar;
                 StateHasChanged();
             }
+        }
+
+        private async Task InvalidSubmit(EditContext modeloContext)
+        {
+            await ActivarScrollBarDeErrores();
+            var mensajesDeValidaciones = modeloContext.GetValidationMessages();
+            string mensaje = mensajesDeValidaciones.First();
+            await AlertasService.SwalError(mensaje);
         }
     }
 }

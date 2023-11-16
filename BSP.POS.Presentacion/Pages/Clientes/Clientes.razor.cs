@@ -264,8 +264,14 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             textoRecibido = texto;
             return Task.CompletedTask;
         }
-        
 
+        private async Task InvalidSubmit(EditContext modeloContext)
+        {
+            await ActivarScrollBarDeErrores();
+            var mensajesDeValidaciones = modeloContext.GetValidationMessages();
+            string mensaje = mensajesDeValidaciones.First();
+            await AlertasService.SwalError(mensaje);
+        }
         private async Task ActivarScrollBarDeErrores()
         {
             StateHasChanged();

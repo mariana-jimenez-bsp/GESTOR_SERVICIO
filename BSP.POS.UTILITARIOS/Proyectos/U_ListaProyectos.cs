@@ -18,8 +18,9 @@ namespace BSP.POS.UTILITARIOS.Proyectos
         public string centro_costo { get; set; }
         public string nombre_proyecto { get; set; }
         public string estado { get; set; }
+        public string codigo_consultor { get; set; }
 
-        public U_ListaProyectos(string pId, string pNumero, string pCodigo_cliente, string pFecha_Inicial, string pFecha_Final, string pHoras_totales, string pCentro_costo, string pNombre_proyecto, string pEstado)
+        public U_ListaProyectos(string pId, string pNumero, string pCodigo_cliente, string pFecha_Inicial, string pFecha_Final, string pHoras_totales, string pCentro_costo, string pNombre_proyecto, string pEstado, string pCodigoConsultor)
         {
             Id = pId;
             numero = pNumero;
@@ -30,6 +31,7 @@ namespace BSP.POS.UTILITARIOS.Proyectos
             centro_costo = pCentro_costo;
             nombre_proyecto = pNombre_proyecto;
             estado = pEstado;
+            codigo_consultor = pCodigoConsultor;
         }
 
         public U_ListaProyectos()

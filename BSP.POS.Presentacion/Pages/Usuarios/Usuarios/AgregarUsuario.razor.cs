@@ -319,6 +319,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 else
                 {
                     mensajeEsquema = "Debe seleccionar al menos 1 esquema";
+                    await AlertasService.SwalError(mensajeCorreoRepite);
                 }
                 
             }
@@ -353,7 +354,13 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
             }
 
         }
-
+        private async Task InvalidSubmit(EditContext modeloContext)
+        {
+            await ActivarScrollBarDeErrores();
+            var mensajesDeValidaciones = modeloContext.GetValidationMessages();
+            string mensaje = mensajesDeValidaciones.First();
+            await AlertasService.SwalError(mensaje);
+        }
         private async Task ActivarScrollBarErroresRepite()
         {
             if (!string.IsNullOrEmpty(mensajeCorreoRepite) || !string.IsNullOrEmpty(mensajeUsuarioRepite))
@@ -367,7 +374,14 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
                 // Si hay errores de validación, activa el scrollbar
                 await JSRuntime.InvokeVoidAsync("ActivarScrollViewValidacion", ".mensaje-repite");
-
+                if (!string.IsNullOrEmpty(mensajeCorreoRepite))
+                {
+                    await AlertasService.SwalError(mensajeCorreoRepite);
+                }
+                else if (!string.IsNullOrEmpty(mensajeUsuarioRepite))
+                {
+                    await AlertasService.SwalError(mensajeUsuarioRepite);
+                }
             }
         }
     }

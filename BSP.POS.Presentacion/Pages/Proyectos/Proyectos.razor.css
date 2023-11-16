@@ -1,4 +1,6 @@
-﻿
+﻿.dropdown-toggle{
+    max-width: 100%;
+}
 .footer-project {
     position: fixed;
     bottom: 0;

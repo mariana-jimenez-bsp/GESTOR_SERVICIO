@@ -26,7 +26,7 @@
             
                 <div class="row">
                 <div class="col-md-6">
-            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado">
+            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado" OnInvalidSubmit="InvalidSubmit">
                 <ObjectGraphDataAnnotationsValidator />
                     <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){

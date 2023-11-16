@@ -1,6 +1,7 @@
 ﻿
 
 @inject IProyectosInterface ProyectosService
+@inject IUsuariosInterface UsuariosService
 @inject IItemsClienteInterface ItemsClienteService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
@@ -30,23 +31,26 @@
                             <div class="col-md-1">
                                 <label class="text-center w-100" ># de Proyecto</label>
                             </div>
-                            <div class="col-md-2">
-                                <label class="pe-4 text-center w-100">Nombre de Proyecto</label>
+                            <div class="col-md-1">
+                                <label class="pe-4 text-center w-100">Nombre Proyecto</label>
                             </div>
                             <div class="col-md-2">
                                 <label class=" text-center w-100" >Nombre de la empresa</label>
                             </div>
                             <div class="col-md-1">
-                                <label class=" text-center w-100">Nombre del Consultor</label>
+                                <label class=" text-center w-100">Nombre del Responsable</label>
                             </div>
                             <div class="col-md-1">
-                                <label class="pe-1 text-center w-100" >Fecha Inicial</label>
+                                <label class="pe-2 text-center w-100">Consultor</label>
                             </div>
                             <div class="col-md-1">
-                                <label class="pe-3 text-center w-100" >Fecha Final</label>
+                                <label class="pe-3 text-center w-100" >Fecha Inicial</label>
                             </div>
                             <div class="col-md-1">
-                                <label class="pe-2 text-center w-100" >Horas Totales</label>
+                                <label class="pe-4 text-center w-100" >Fecha Final</label>
+                            </div>
+                            <div class="col-md-1">
+                                <label class="pe-4 text-center w-100" >Horas Totales</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="pe-4 text-center w-100" >Centro de Costo</label>
@@ -77,11 +81,14 @@
 
 
                                         </div>
-                                        <div class="mb-0  col-md-2">
+                                        <div class="mb-0  col-md-1">
                                             <div class="dropdown" style="display: @(proyecto.activar_editar ? "none" : "block")">
-                                                <button class="border-0 bg-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    @proyecto.nombre_proyecto
-                                                </button>
+                                                
+                                                    <button class="border-0 bg-light dropdown-toggle texto-puntos-suspensivos" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@proyecto.nombre_proyecto">@proyecto.nombre_proyecto</span>  
+                                                    </button>
+                                                
+                                                
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item mouse-pointer" @onclick="() => CambioActivarEditar(true, proyecto.Id)">Editar</a></li>
                                                     <li><a class="dropdown-item mouse-pointer" @onclick="() => ActivarVerInformes(true, proyecto.numero)">Ver Informes</a></li>
@@ -110,8 +117,22 @@
                                         </div>
                                         <div class="mb-0 col-md-1">
 
-                                            <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.nombre_consultor" readonly>
+                                            <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.nombre_responsable" readonly>
   
+                                        </div>
+                                        <div class="mb-0 col-md-1">
+                                            <select class="w-100 text-center border-input-gray rounded-pill" @bind="proyecto.codigo_consultor" @oninput="(e) => CambioConsultor(e, proyecto.Id)">
+                                                @if (listaUsuariosConsultores.Any())
+                                                {
+                                                    foreach (var usuario in listaUsuariosConsultores)
+                                                    {
+                                                        <option value="@usuario.codigo">@usuario.nombre</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <ValidationMessage For="@(() => proyecto.codigo_consultor)" />
+
+
                                         </div>
                                         <div class="mb-0 col-md-1">
 

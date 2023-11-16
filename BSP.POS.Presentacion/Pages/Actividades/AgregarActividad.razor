@@ -15,7 +15,7 @@
             <Layout></Layout>
         </div>
 
-        <EditForm Model="@activadNueva" OnValidSubmit="AgregarActividadNueva">
+        <EditForm Model="@activadNueva" OnValidSubmit="AgregarActividadNueva" OnInvalidSubmit="InvalidSubmit">
             <ObjectGraphDataAnnotationsValidator />
             
             <div class="div-vacio"></div>

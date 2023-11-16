@@ -74,5 +74,11 @@ namespace BSP.POS.Presentacion.Pages.Home
         {
             proyectoEscogido = new mDatosProyectos();
         }
+
+        private void IrAAgregarProyecto()
+        {
+
+            navigationManager.NavigateTo($"proyecto/agregar");
+        }
     }
 }

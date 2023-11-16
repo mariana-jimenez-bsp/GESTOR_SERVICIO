@@ -3,6 +3,7 @@ using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -97,6 +98,13 @@ namespace BSP.POS.Presentacion.Pages.Actividades
         private async Task DescartarCambios()
         {
             await AlertasService.SwalAvisoCancelado("Se han cancelado los cambios");
+        }
+        private async Task InvalidSubmit(EditContext modeloContext)
+        {
+           
+            var mensajesDeValidaciones = modeloContext.GetValidationMessages();
+            string mensaje = mensajesDeValidaciones.First();
+            await AlertasService.SwalError(mensaje);
         }
         private async Task AgregarActividadNueva()
         {

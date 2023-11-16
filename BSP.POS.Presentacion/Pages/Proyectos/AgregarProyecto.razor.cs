@@ -2,9 +2,11 @@
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
+using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Services.Clientes;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 
@@ -16,6 +18,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public mProyectos proyecto = new mProyectos();
         public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
         public List<mClientes> listaDeClientes = new List<mClientes>();
+        public List<mUsuariosParaEditar> listaUsuariosConsultores = new List<mUsuariosParaEditar>();
         List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
 
         private bool cargaInicial = false;
@@ -36,6 +39,12 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             if (ClientesService.ListaClientes != null)
             {
                 listaDeClientes = ClientesService.ListaClientes;
+            }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosConsultores(esquema);
+            if (UsuariosService.ListaDeUsuariosConsultores != null)
+            {
+                listaUsuariosConsultores = UsuariosService.ListaDeUsuariosConsultores;
             }
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ItemsClienteService.ObtenerListaDeCentrosDeCosto(esquema);
@@ -76,7 +85,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
 
         private void CambioCodigoCliente(ChangeEventArgs e)
         {
-            proyecto.nombre_consultor = string.Empty;
+            proyecto.nombre_responsable = string.Empty;
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
 
@@ -84,7 +93,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 string nombreConsultor = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
                 if (nombreConsultor != null)
                 {
-                    proyecto.nombre_consultor = nombreConsultor;
+                    proyecto.nombre_responsable = nombreConsultor;
                 }
             }
         }
@@ -104,6 +113,14 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             {
 
                 proyecto.nombre_proyecto = e.Value.ToString();
+            }
+        }
+        private void CambioConsultor(ChangeEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+
+                proyecto.codigo_consultor = e.Value.ToString();
             }
         }
         private async Task DescartarCambios()
@@ -132,7 +149,13 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             }
 
         }
-
+        private async Task InvalidSubmit(EditContext modeloContext)
+        {
+            await ActivarScrollBarDeErrores();
+            var mensajesDeValidaciones = modeloContext.GetValidationMessages();
+            string mensaje = mensajesDeValidaciones.First();
+            await AlertasService.SwalError(mensaje);
+        }
         private async Task ActivarScrollBarDeErrores()
         {
             StateHasChanged();

@@ -1,6 +1,7 @@
 ﻿@inject IClientesInterface ClientesService
 @inject IAlertasInterface AlertasService
 @inject IJSRuntime JS
+@inject NavigationManager navigationManager
 <div class="d-flex justify-content-between align-items-center shadow-lg col-right">
     <div class="d-flex justify-content-center align-items-center ms-5">
         @if (proyectoEscogido.imagen != null && !proyectoEscogido.imagen.SequenceEqual(new byte[] { 0x00 }))
@@ -23,16 +24,25 @@
         @if (proyectoEscogido.nombre_proyecto.Length > 0)
         {
 
-            <p class=" ps-2 m-2 texto-puntos-suspensivos max-width-nombre-cliente" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@proyectoEscogido.nombre_cliente">Nombre del cliente: @proyectoEscogido.nombre_cliente</p>
-            <p class="">Responsable: @proyectoEscogido.contacto</p>
-            <p class="">Departamento: @proyectoEscogido.cargo</p>
+            <p class="m-2">Número: @proyectoEscogido.numero</p>
+            <p class="">Consultor: @proyectoEscogido.nombre_consultor</p>
+            <p class="">Estado: @proyectoEscogido.estado</p>
         }
         else
         {
-            if (!string.IsNullOrEmpty(ClienteActual.CLIENTE))
+            if (!string.IsNullOrEmpty(ClienteActual.CLIENTE) && datosDeProyectos.Any())
             {
-                <p class=" ps-2 m-2 texto-puntos-suspensivos max-width-nombre-cliente" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteActual.NOMBRE">Nombre del cliente: @ClienteActual.NOMBRE</p>
+
                 <button type="button" class="border-success rounded-3 btn-escoger-proyecto text-light px-2 my-1" @onclick="() => ClickHandlerEscogerProyecto(true)">Escoger Proyecto</button>
+            }
+            else
+            {
+                if (!datosDeProyectos.Any() && !string.IsNullOrEmpty(ClienteActual.CLIENTE))
+                {
+                    <p class="">No hay proyectos asociados al cliente.</p>
+                    
+                    <button type="button" class="border-success rounded-3 btn-escoger-proyecto text-light px-2 my-1" @onclick="() => IrAAgregarProyecto()">Agregar Proyecto</button>
+                }
             }
         }
 

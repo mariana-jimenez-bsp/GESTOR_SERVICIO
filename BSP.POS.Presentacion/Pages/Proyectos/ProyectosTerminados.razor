@@ -6,6 +6,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IClientesInterface ClientesService
+@inject IUsuariosInterface UsuariosService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
 @attribute [Authorize]
@@ -34,8 +35,11 @@
                                 <div class="col-md-2">
                                     <label class=" text-start w-100">Nombre de la empresa</label>
                                 </div>
-                                <div class="col-md-2">
-                                    <label class=" text-start w-100">Nombre del Consultor</label>
+                                <div class="col-md-1">
+                                    <label class=" text-start w-100">Nombre del Responsable</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="pe-2 text-start w-100">Consultor</label>
                                 </div>
                                 <div class="col-md-1">
                                     <label class="pe-1 text-start w-100">Fecha Inicial</label>
@@ -47,10 +51,10 @@
                                     <label class="pe-2 text-start w-100">Horas Totales</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class="pe-4 text-start w-100">Centro de Costo</label>
+                                    <label class="pe-5 text-start w-100">Centro de Costo</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class="pe-4 text-start w-100">Estado</label>
+                                    <label class="pe-5 text-start w-100">Estado</label>
                                 </div>
                                 
                             </div>
@@ -86,8 +90,10 @@
 
 
                                             </div>
-                                            <div class="mb-0 col-md-2">
-
+                                            <div class="mb-0 col-md-1">
+                                                <span class="w-100 text-start">@proyecto.nombre_responsable</span>
+                                            </div>
+                                            <div class="mb-0 col-md-1">
                                                 <span class="w-100 text-start">@proyecto.nombre_consultor</span>
                                             </div>
                                             <div class="mb-0 col-md-1 text-center">

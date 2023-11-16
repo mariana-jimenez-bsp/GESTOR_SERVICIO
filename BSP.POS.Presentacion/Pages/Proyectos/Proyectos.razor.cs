@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
+using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Services.Actividades;
 using CurrieTechnologies.Razor.SweetAlert2;
@@ -23,6 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public List<mProyectos> proyectos = new List<mProyectos>();
         public List<mItemsCliente> listaCentrosDeCosto = new List<mItemsCliente>();
         public List<mClientes> listaDeClientes = new List<mClientes>();
+        public List<mUsuariosParaEditar> listaUsuariosConsultores = new List<mUsuariosParaEditar>();
         public bool cargaInicial = false;
         public string rol = string.Empty;
         public string numeroActual = string.Empty;
@@ -46,6 +48,12 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             {
                 listaDeClientes = ClientesService.ListaClientes;
             }
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosConsultores(esquema);
+            if (UsuariosService.ListaDeUsuariosConsultores != null)
+            {
+                listaUsuariosConsultores = UsuariosService.ListaDeUsuariosConsultores;
+            }
             await RefrescarListaDeProyectos();
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ItemsClienteService.ObtenerListaDeCentrosDeCosto(esquema);
@@ -61,6 +69,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         {
             try
             {
+                await JSRuntime.InvokeVoidAsync("initTooltips");
                 if (permisos.Any(p => p.permiso == "Proyectos" && p.subpermisos.Contains("Ver Lista") && !p.subpermisos.Contains("Editar")))
                 {
                     await JSRuntime.InvokeVoidAsync("DesactivarElementos");
@@ -86,10 +95,10 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             }
             foreach (var proyecto in proyectos)
             {
-                string nombreConsultor = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
-                if (nombreConsultor != null)
+                string nombreResponsable = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
+                if (nombreResponsable != null)
                 {
-                    proyecto.nombre_consultor = nombreConsultor;
+                    proyecto.nombre_responsable = nombreResponsable;
                 }
             }
         }
@@ -99,7 +108,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             {
                 if (proyecto.Id == proyectoId)
                 {
-                    proyecto.nombre_consultor = string.Empty;
+                    proyecto.nombre_responsable = string.Empty;
                 }
             }
             if (!string.IsNullOrEmpty(e.Value.ToString()))
@@ -109,10 +118,10 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                     if (proyecto.Id == proyectoId)
                     {
                         proyecto.codigo_cliente = e.Value.ToString();
-                        string nombreConsultor = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
-                        if(nombreConsultor != null)
+                        string nombreResponsable = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
+                        if(nombreResponsable != null)
                         {
-                            proyecto.nombre_consultor = nombreConsultor;
+                            proyecto.nombre_responsable = nombreResponsable;
                         }
                         
                     }
@@ -189,7 +198,19 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
                 }
             }
         }
-
+        private void CambioConsultor(ChangeEventArgs e, string proyectoId)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                foreach (var proyecto in proyectos)
+                {
+                    if (proyecto.Id == proyectoId)
+                    {
+                        proyecto.codigo_consultor = e.Value.ToString();
+                    }
+                }
+            }
+        }
         private void CambioActivarEditar(bool activar, string proyectoId)
         { 
                 foreach (var proyecto in proyectos)
@@ -240,12 +261,12 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             textoRecibido = texto;
             return Task.CompletedTask;
         }
-        private async Task InvalidSubmit()
+        private async Task InvalidSubmit(EditContext modeloContext)
         {
             await ActivarScrollBarDeErrores();
-            EditContext proyectosEditContext = new EditContext(proyectos);
-            await ActivarScrollBarDeErrores();
-            var messages = proyectosEditContext.GetValidationMessages();
+            var mensajesDeValidaciones = modeloContext.GetValidationMessages();
+            string mensaje = mensajesDeValidaciones.First();
+            await AlertasService.SwalError(mensaje);
         }
         private async Task ActivarScrollBarDeErrores()
         {

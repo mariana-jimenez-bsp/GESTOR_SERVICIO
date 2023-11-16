@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.ItemsCliente;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Proyectos;
+using BSP.POS.Presentacion.Models.Usuarios;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using System.Security.Claims;
@@ -16,6 +17,7 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
         public List<mClientes> listaDeClientes = new List<mClientes>();
         public bool cargaInicial = false;
         public string rol = string.Empty;
+        public List<mUsuariosParaEditar> listaUsuariosConsultores = new List<mUsuariosParaEditar>();
         List<mObjetoPermiso> permisos = new List<mObjetoPermiso>();
 
         protected override async Task OnInitializedAsync()
@@ -35,10 +37,16 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             {
                 listaDeClientes = ClientesService.ListaClientes;
             }
-            
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            await UsuariosService.ObtenerListaDeUsuariosConsultores(esquema);
+            if (UsuariosService.ListaDeUsuariosConsultores != null)
+            {
+                listaUsuariosConsultores = UsuariosService.ListaDeUsuariosConsultores;
+            }
 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ItemsClienteService.ObtenerListaDeCentrosDeCosto(esquema);
+            
             if (ItemsClienteService.listaCentrosDeCosto != null)
             {
                 listaCentrosDeCosto = ItemsClienteService.listaCentrosDeCosto;
@@ -58,7 +66,12 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             }
             foreach (var proyecto in proyectos)
             {
-                string nombreConsultor = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
+                string nombreResponsable = listaDeClientes.Where(c => c.CLIENTE == proyecto.codigo_cliente).Select(c => c.CONTACTO).First();
+                if (nombreResponsable != null)
+                {
+                    proyecto.nombre_responsable = nombreResponsable;
+                }
+                string nombreConsultor = listaUsuariosConsultores.Where(u => u.codigo == proyecto.codigo_consultor).Select(c => c.nombre).First();
                 if (nombreConsultor != null)
                 {
                     proyecto.nombre_consultor = nombreConsultor;

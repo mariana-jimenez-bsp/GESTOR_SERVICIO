@@ -28,6 +28,7 @@ namespace BSP.POS.Presentacion.Services.Usuarios
         public List<mUsuariosDeInforme> ListaUsuariosDeInformeAsociados { get; set; } = new List<mUsuariosDeInforme>();
         public List<mUsuariosDeInforme> ListaUsuariosDeInformeDeCliente { get; set; } = new List<mUsuariosDeInforme>();
         public List<mUsuariosParaEditar> ListaDeUsuariosParaEditar { get; set; } = new List<mUsuariosParaEditar>();
+        public List<mUsuariosParaEditar> ListaDeUsuariosConsultores { get; set; } = new List<mUsuariosParaEditar>();
         public mUsuariosParaEditar UsuarioParaEditar { get; set; } = new mUsuariosParaEditar();
         
         public UsuariosService(HttpClient htpp, ILocalStorageService localStorageService, NavigationManager navigationManager)
@@ -230,6 +231,19 @@ namespace BSP.POS.Presentacion.Services.Usuarios
                 }
             }
             
+        }
+        public async Task ObtenerListaDeUsuariosConsultores(string esquema)
+        {
+            string url = "Usuarios/ObtengaLaListaDeUsuariosConsultores/" + esquema;
+            var response = await _http.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var listaDeUsuarios = await response.Content.ReadFromJsonAsync<List<mUsuariosParaEditar>>();
+                if (listaDeUsuarios is not null)
+                {
+                    ListaDeUsuariosConsultores = listaDeUsuarios;
+                }
+            }
         }
         public async Task<string> ValidarCorreoExistente(string esquema, string correo)
         {

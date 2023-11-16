@@ -4,6 +4,7 @@ using BSP.POS.Presentacion.Pages.Actividades;
 using BSP.POS.Presentacion.Services.Departamentos;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System.Security.Claims;
@@ -113,7 +114,13 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
             return Task.CompletedTask;
         }
 
-
+        private async Task InvalidSubmit(EditContext modeloContext)
+        {
+            await ActivarScrollBarDeErrores();
+            var mensajesDeValidaciones = modeloContext.GetValidationMessages();
+            string mensaje = mensajesDeValidaciones.First();
+            await AlertasService.SwalError(mensaje);
+        }
         private async Task ActivarScrollBarDeErrores()
         {
             StateHasChanged();

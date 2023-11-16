@@ -397,7 +397,31 @@ namespace BSP.POS.DATOS.Usuarios
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
-        
+
+        public List<U_UsuariosParaEditar> ListarUsuariosConsultores(String pEsquema)
+        {
+            var LstUsuarios = new List<U_UsuariosParaEditar>();
+
+            ListarUsuariosConsultoresTableAdapter sp = new ListarUsuariosConsultoresTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_UsuariosParaEditar usuario = new U_UsuariosParaEditar(item.Id, item.codigo, item.cod_cliente, item.usuario, item.correo, item.clave, item.nombre, item.rol, item.telefono, item.codigo_departamento, item.imagen);
+
+                    LstUsuarios.Add(usuario);
+                }
+                return LstUsuarios;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
         public string AgregarUsuario(U_UsuariosParaEditar pUsuario, string esquema)
         {
             POSDataSet.AgregarUsuarioDataTable bTabla = new POSDataSet.AgregarUsuarioDataTable();
