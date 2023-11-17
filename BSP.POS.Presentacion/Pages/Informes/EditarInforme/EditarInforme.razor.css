@@ -144,7 +144,9 @@
 .label-transparent {
     color: transparent;
 }
-
+.bg-transparent{
+    background-color: transparent;
+}
 .width-input {
     width: 15%;
 }

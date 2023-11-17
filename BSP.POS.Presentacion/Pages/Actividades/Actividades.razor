@@ -96,16 +96,16 @@
                     </div>
                 </div>
                 <div class="footer-activity text-13-medium">
-                    <div @onclick="() => IrAAgregarActividad()" class="mouse-pointer rounded-pill border border-green green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                    <button type="button" @onclick="() => IrAAgregarActividad()" class="rounded-pill border border-green green-add-bg text-light button-footer mx-5" id="agregar-actividades">
                         Agregar
                         Actividad
-                    </div>
-                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-dark-blue blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
-                        Cancelar
-                    </div>
-                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos">
+                    </button>
+                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-actividades">
                         Guardar
                         cambios
+                    </button>
+                    <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-dark-blue blue-dark-bg text-light button-footer mx-5" id="descartar-actividades">
+                        Cancelar
                     </button>
                 </div>
             </EditForm>

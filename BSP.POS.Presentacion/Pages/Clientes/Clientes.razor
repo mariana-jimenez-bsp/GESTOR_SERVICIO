@@ -233,16 +233,16 @@
                      </div>
                 </div>
                 <div class="footer-client text-13-medium">
-                    <div @onclick="() => IrAAgregarCliente()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-proyectos">
+                    <button type="button" @onclick="() => IrAAgregarCliente()" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-clientes">
                         Agregar
                         Cliente
-                    </div>
-                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
-                        Cancelar
-                    </div>
-                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos">
+                    </button>
+                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-clientes">
                         Guardar
                         cambios
+                    </button>
+                    <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-clientes">
+                        Cancelar
                     </button>
                 </div>
             </EditForm>

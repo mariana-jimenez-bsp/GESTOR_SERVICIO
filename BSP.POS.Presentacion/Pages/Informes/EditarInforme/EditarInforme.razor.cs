@@ -23,7 +23,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public mClienteAsociado ClienteAsociado = new mClienteAsociado();
         public List<mActividades> listaActividades = new List<mActividades>();
         public List<mActividades> listaActividadesDeUsuario = new List<mActividades>();
-        public List<mActividadesAsociadas> listaActividadesAsociadas = new List<mActividadesAsociadas>();
+        
         public List<mActividades> listaActividadesParaAgregar = new List<mActividades>();
         public List<mUsuariosDeCliente> listaDeUsuariosDeCliente = new List<mUsuariosDeCliente>();
         public List<mUsuariosDeCliente> listaDeUsuariosParaAgregar = new List<mUsuariosDeCliente>();
@@ -40,7 +40,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         public string usuarioActual { get; set; } = string.Empty;
         public string esquema = string.Empty;
         public string rol = string.Empty;
-        private ElementReference actividadesButton;
+       
         private ElementReference informeButton;
 
         private bool cargaInicial = false;
@@ -169,36 +169,15 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
             
         }
-        
-        private async Task SubmitActividades()
-        {
-            await JS.InvokeVoidAsync("clickButton", actividadesButton);
-        }
+
+    
 
         private async Task SubmitInforme()
         {
             await JS.InvokeVoidAsync("clickButton", informeButton);
         }
 
-        private async Task TodosLosBotonesSubmit()
-        {
-            informeActualizado = false;
-            try
-            {
-                await SubmitInforme();
-                StateHasChanged();
-                await Task.Delay(100);
-                await SubmitActividades();
-               
-            }
-            catch (Exception)
-            {
-
-                await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
-            }
-            
-
-        }
+       
         public bool VerificarUsuarioAutorizado()
         {
             
@@ -240,7 +219,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                foreach (var actividad in listaActividadesAsociadas)
+                foreach (var actividad in informe.listaActividadesAsociadas)
                 {
                     if (actividad.Id == actividadId)
                     {
@@ -255,7 +234,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                foreach (var actividad in listaActividadesAsociadas)
+                foreach (var actividad in informe.listaActividadesAsociadas)
                 {
                     if (actividad.Id == actividadId)
                     {
@@ -270,7 +249,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
             {
-                foreach (var actividad in listaActividadesAsociadas)
+                foreach (var actividad in informe.listaActividadesAsociadas)
                 {
                     if (actividad.Id == actividadId)
                     {
@@ -308,42 +287,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
         }
 
-        private async Task ActualizarActividadesAsociadas()
-        {
-            StateHasChanged();
-            await Task.Delay(100);
-            informeGuardado = false;
-            if (informeActualizado)
-            {
-                bool resultadoActividad = false;
-                await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                resultadoActividad = await ActividadesService.ActualizarListaDeActividadesAsociadas(listaActividadesAsociadas, esquema);
-                if (resultadoActividad)
-                {
-                    await RefrescarListaDeActividadesAsociadas();
-
-                    if (!activarBotonFinalizar)
-                    {
-                        await AlertasService.SwalExito("Se han guardado los cambios");
-                    }
-                    await CambiarEstadoInformeGuardado(true);
-                }
-                else
-                {
-                    await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
-                }
-            }
-            else
-            {
-                await AlertasService.SwalError("Ocurrió un Error vuelva a intentarlo");
-            }
-            
-            
-        }
+       
 
         private async Task ActualizarInformeAsociado()
         {
-            
+            informeGuardado = false;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             bool resultadoActualizar = await InformesService.ActualizarInforme(informe, esquema);
             if (resultadoActualizar)
@@ -351,11 +299,22 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await InformesService.ObtenerInforme(Consecutivo, esquema);
                 informe = InformesService.Informe;
-                informeActualizado = true;
+                
+                if (!activarBotonFinalizar)
+                {
+                    await AlertasService.SwalExito("Se han guardado los cambios");
+                }
+                else
+                {
+                    await CambiarEstadoInformeGuardado(true);
+                }
             }
             else
             {
-                informeActualizado = false;
+                if (activarBotonFinalizar)
+                {
+                    await CambiarEstadoInformeGuardado(true);
+                }
             }
 
 
@@ -365,8 +324,8 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             try
             {
-                total_horas_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
-                total_horas_no_cobradas = listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
+                total_horas_cobradas = informe.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
+                total_horas_no_cobradas = informe.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_no_cobradas));
             }
             catch
             {
@@ -378,15 +337,15 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             await ActividadesService.ObtenerListaDeActividadesAsociadas(Consecutivo, esquema);
-            listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
+            informe.listaActividadesAsociadas = ActividadesService.ListaActividadesAsociadas;
             RefrescarTotalHoras();
             if(rol == "Admin")
             {
-                listaActividadesParaAgregar = listaActividades.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+                listaActividadesParaAgregar = listaActividades.Where(actividad => !informe.listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
             }
             else
             {
-                listaActividadesParaAgregar = listaActividadesDeUsuario.Where(actividad => !listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+                listaActividadesParaAgregar = listaActividadesDeUsuario.Where(actividad => !informe.listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
             }
             foreach (var actividad in listaActividadesParaAgregar)
             {
@@ -424,7 +383,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         async Task ClickHandlerFinalizarInforme(bool activar)
         {
                 activarBotonFinalizar = true;
-                await TodosLosBotonesSubmit();
+                await SubmitInforme();
         }
 
         private async Task ActivarAdvertenciaEnviar()
@@ -474,6 +433,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             if (informeGuardado && activarBotonFinalizar)
             {
                 await SwalAccionPregunta("¿Está seguro de finalizar el informe?", "Finalizar", Consecutivo);
+                activarBotonFinalizar = false;
             }
         }
 
@@ -701,6 +661,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
 
         private async Task InvalidSubmit(EditContext modeloContext)
         {
+            activarBotonFinalizar = false;
             await ActivarScrollBarDeErrores();
             var mensajesDeValidaciones = modeloContext.GetValidationMessages();
             string mensaje = mensajesDeValidaciones.First();

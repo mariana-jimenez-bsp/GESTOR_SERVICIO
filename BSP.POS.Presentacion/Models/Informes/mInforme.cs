@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BSP.POS.Presentacion.Models.Actividades;
+using System.ComponentModel.DataAnnotations;
 
 namespace BSP.POS.Presentacion.Models.Informes
 {
@@ -48,7 +49,8 @@ namespace BSP.POS.Presentacion.Models.Informes
         {
             get => TimeSpan.Parse(hora_final);
         }
-
+        [ValidateComplexType]
+        public List<mActividadesAsociadas> listaActividadesAsociadas { get; set; } = new List<mActividadesAsociadas>();
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (HoraInicioTimeSpan > HoraFinalTimeSpan)

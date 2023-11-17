@@ -1,4 +1,5 @@
 ﻿using BSP.POS.API.Models;
+using BSP.POS.NEGOCIOS.Actividades;
 using BSP.POS.NEGOCIOS.CorreosService;
 using BSP.POS.NEGOCIOS.Informes;
 using BSP.POS.NEGOCIOS.Usuarios;
@@ -24,6 +25,7 @@ namespace BSP.POS.API.Controllers
     {
         private N_Informes informes;
         private N_Usuarios user;
+        private N_Actividades _actividades;
         private readonly string _correoUsuario;
         private readonly string _claveUsuario;
         private readonly string _tokenWhatsapp;
@@ -37,7 +39,7 @@ namespace BSP.POS.API.Controllers
         {
             informes = new N_Informes();
             user = new N_Usuarios();
-            
+            _actividades = new N_Actividades();
 
             var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
@@ -232,9 +234,9 @@ namespace BSP.POS.API.Controllers
             try
             {
                 string esquema = Request.Headers["X-Esquema"];
-
+                string mensajeActividad = _actividades.ActualizarListaDeActividadesAsociadas(datos.listaActividadesAsociadas, esquema);
                 string mensaje = informes.ActualizarInforme(datos, esquema);
-                if (string.IsNullOrEmpty(mensaje) || mensaje == "Error")
+                if (string.IsNullOrEmpty(mensajeActividad) || string.IsNullOrEmpty(mensaje) || mensaje == "Error")
                 {
                     return BadRequest();
                 }

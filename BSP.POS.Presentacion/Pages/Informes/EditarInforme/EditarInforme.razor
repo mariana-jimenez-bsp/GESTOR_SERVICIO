@@ -21,13 +21,13 @@
                 <Layout></Layout>
         </div>
         
-
+         <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado" OnInvalidSubmit="InvalidSubmit">
+                <ObjectGraphDataAnnotationsValidator />
         <div class="container-fluid p-2 pe-5 ps-5 body-edit">
             
                 <div class="row">
                 <div class="col-md-6">
-            <EditForm Model="@informe" OnValidSubmit="ActualizarInformeAsociado" OnInvalidSubmit="InvalidSubmit">
-                <ObjectGraphDataAnnotationsValidator />
+          
                     <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
                         
@@ -64,7 +64,7 @@
                     }
                         
                     </div>
-            </EditForm>
+           
                 <button type="button" class="border-success rounded-3 btn-agregar-usuario text-light px-2 my-1" @onclick="() => ClickHandlerAgregarUsuario(true)">Agregar Usuario</button>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
@@ -180,12 +180,11 @@
                                 </div>
                             </div>
                             <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report @(tieneScrollBar ? "max-width-for-scroll" : "max-width-for-scroll-body")" id="scroll-bar-id">
-                            <EditForm Model="@listaActividadesAsociadas" OnValidSubmit="ActualizarActividadesAsociadas" OnInvalidSubmit="ActivarScrollBarDeErrores"  id="ActividadesForm">
-                            <ObjectGraphDataAnnotationsValidator />
-                                @if (listaActividadesAsociadas != null)
+                            
+                                @if (informe.listaActividadesAsociadas != null)
                                 {
 
-                                    @foreach (var actividad in listaActividadesAsociadas)
+                                    @foreach (var actividad in informe.listaActividadesAsociadas)
                                     {
                                         <div class="row px-2 text-center ms-0 font-14-book borde-gris-arriba">
                                             <div class="col-md-4 borde-gris-derecha py-2">
@@ -225,8 +224,8 @@
                                         </div>
                                     }
                                 }
-                                <button @ref="actividadesButton" style="display: none">Segundo Botón</button>
-                            </EditForm>
+                              
+
                             </div>
                     
                             </div>
@@ -254,10 +253,10 @@
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
                             <span>Descartar</span>
                         </div>
-                        <div @onclick="TodosLosBotonesSubmit" class="d-flex justify-content-center row text-center mouse-pointer">
-                        <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
-                            <span>Guardar Borrador</span>
-                        </div>
+                        <button type="submit" class="d-flex border-0 bg-transparent justify-content-center row text-center">
+                            <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
+                            <span class="green-text">Guardar Borrador</span>
+                        </button>
                             <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerFinalizarInforme(true)">
                         <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
                             <span>Aprobar</span>
@@ -270,7 +269,7 @@
                 </div>
             </div>
             </div>
-
+             </EditForm>
     <ModalObservaciones ActivarModal="@activarModalObservaciones" OnClose="ClickHandlerObservaciones" esquema="@esquema" consecutivo="@Consecutivo" usuarioActual="@usuarioActual" observacionAgregada="ObservacionNuevaAgregada" observacionCancelada="ObservacionNuevaCancelada"></ModalObservaciones>
     
     

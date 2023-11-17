@@ -61,16 +61,16 @@
                     </div>
                 </div>
                 <div class="footer-departamento text-13-medium">
-                    <div @onclick="() => IrAAgregarDepartamento()" class="mouse-pointer rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-departamento">
+                    <button type="button" @onclick="() => IrAAgregarDepartamento()" class="rounded-pill border border-success green-add-bg text-light button-footer mx-5" id="agregar-departamento">
                         Agregar
                         Departamento
-                    </div>
-                    <div @onclick="DescartarCambios" class="mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-departamentos">
-                        Cancelar
-                    </div>
+                    </button>
                     <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-departamentos">
                         Guardar
                         cambios
+                    </button>
+                    <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-departamentos">
+                        Cancelar
                     </button>
                 </div>
             </EditForm>
