@@ -182,5 +182,20 @@ namespace BSP.POS.Presentacion.Services.Clientes
             }
             return null;
         }
+
+        public async Task<bool> EliminarCliente(string esquema, string cliente)
+        {
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Remove("X-Cliente");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Add("X-Cliente", cliente);
+            string url = "Clientes/EliminaElCliente";
+            var response = await _http.DeleteAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -409,5 +409,49 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             activarModalVerInformes = activar;
             StateHasChanged();
         }
+
+        private async Task SwalEliminarProyecto(string mensajeAlerta, string numeroProyecto)
+        {
+            if (permisos.Any(p => p.permiso == "Proyectos" && !p.subpermisos.Contains("Eliminar")))
+            {
+                await AlertasService.SwalAdvertencia("No tienes permisos para eliminar proyectos");
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = mensajeAlerta,
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Eliminar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        bool resultadoEliminar = await EliminarProyecto(numeroProyecto);
+                        if (resultadoEliminar)
+                        {
+                            await AlertasService.SwalExito("Se ha eliminado el proyecto #" + numeroProyecto);
+                            await RefrescarListaDeProyectos();
+                            StateHasChanged();
+                        }
+                        else
+                        {
+                            await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                        }
+                    }
+                });
+            }
+            
+        }
+
+        private async Task<bool> EliminarProyecto(string numero)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool resultadoEliminar = await ProyectosService.EliminarProyecto(esquema, numero);
+            return resultadoEliminar;
+        }
     }
 }

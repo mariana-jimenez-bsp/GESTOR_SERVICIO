@@ -225,5 +225,22 @@ namespace BSP.POS.API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpDelete("EliminaElCliente")]
+        public IActionResult EliminaElCliente()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string cliente = Request.Headers["X-Cliente"];
+                clientes.EliminarCliente(esquema, cliente);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

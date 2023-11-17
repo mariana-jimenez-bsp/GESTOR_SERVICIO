@@ -109,5 +109,10 @@ namespace BSP.POS.NEGOCIOS.Actividades
             mensaje = objActividad.AgregarActividad(pActividad, esquema);
             return mensaje;
         }
+
+        public void EliminarActividad(string esquema, string codigo)
+        {
+            objActividad.EliminarActividad(esquema, codigo);
+        }
     }
 }

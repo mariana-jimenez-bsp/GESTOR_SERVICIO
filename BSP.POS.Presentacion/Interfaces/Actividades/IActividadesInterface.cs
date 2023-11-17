@@ -17,5 +17,6 @@ namespace BSP.POS.Presentacion.Interfaces.Actividades
         Task AgregarActividadDeInforme(mActividadAsociadaParaAgregar actividad, string esquema);
         Task<bool> EliminarActividadDeInforme(string idActividad, string esquema);
         Task<bool> AgregarActividad(mActividades actividad, string esquema);
+        Task<bool> EliminarActividad(string esquema, string codigo);
     }
 }

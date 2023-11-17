@@ -161,5 +161,10 @@ namespace BSP.POS.NEGOCIOS.Clientes
             string contribuyente = objCliente.ObtenerContribuyenteDeCliente(cliente, esquema);
             return contribuyente;
         }
+
+        public void EliminarCliente(string esquema, string cliente)
+        {
+            objCliente.EliminarCliente(esquema, cliente);
+        }
     }
 }

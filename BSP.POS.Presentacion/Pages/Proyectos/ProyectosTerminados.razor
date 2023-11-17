@@ -1,12 +1,13 @@
 ﻿@page "/proyectos/terminados"
 
-
+@inject IAlertasInterface AlertasService
 @inject IProyectosInterface ProyectosService
 @inject IItemsClienteInterface ItemsClienteService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
 @inject IClientesInterface ClientesService
 @inject IUsuariosInterface UsuariosService
+@inject SweetAlertService Swal;
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
 @attribute [Authorize]
@@ -29,8 +30,8 @@
                                 <div class="col-md-1">
                                     <label class="text-start w-100"># de Proyecto</label>
                                 </div>
-                                <div class="col-md-2">
-                                    <label class="pe-4 text-start w-100">Nombre de Proyecto</label>
+                                <div class="col-md-1">
+                                    <label class="pe-4 text-start w-100">Nombre Proyecto</label>
                                 </div>
                                 <div class="col-md-2">
                                     <label class=" text-start w-100">Nombre de la empresa</label>
@@ -51,7 +52,7 @@
                                     <label class="pe-2 text-start w-100">Horas Totales</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class="pe-5 text-start w-100">Centro de Costo</label>
+                                    <label class="pe-5 text-start w-100">Centro Costo</label>
                                 </div>
                                 <div class="col-md-1">
                                     <label class="pe-5 text-start w-100">Estado</label>
@@ -79,7 +80,7 @@
                                                 <span class="w-100 ">@proyecto.numero</span>
 
                                             </div>
-                                            <div class="mb-0  col-md-2">
+                                            <div class="mb-0  col-md-1">
                                                 <span class="w-100 text-start">@proyecto.nombre_proyecto</span>
 
                                             </div>
@@ -113,10 +114,12 @@
 
                                             </div>
                                             <div class="mb-0  col-md-1">
-                                                <span class="w-100 text-start">@proyecto.estado</span>
-
+                                                <span class="col-md-11 w-100 text-start">@proyecto.estado</span>
+                                                
                                             </div>
-
+                                            <div class="col-md-1 mouse-pointer" @onclick='() => SwalEliminarProyecto("¿Está seguro de eliminar el proyecto #" + proyecto.numero + "?", proyecto.numero)'>
+                                                <i class="mx-2 fa-solid fa-x text-danger"></i>
+                                            </div>
                                         </div>
                                     }
                                 }

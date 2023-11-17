@@ -510,6 +510,20 @@ namespace BSP.POS.DATOS.Usuarios
 
             return esquema;
         }
+
+        public void EliminarUsuario(string esquema, string codigo)
+        {
+            try
+            {
+                EliminarUsuarioTableAdapter sp = new EliminarUsuarioTableAdapter();
+                var response = sp.GetData(codigo, esquema).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }
 

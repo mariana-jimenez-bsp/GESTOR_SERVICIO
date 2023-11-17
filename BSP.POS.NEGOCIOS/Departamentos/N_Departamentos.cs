@@ -29,5 +29,9 @@ namespace BSP.POS.NEGOCIOS.Departamentos
         {
             _departamentos.AgregarDepartamento(departamento, esquema);
         }
+        public void EliminarDepartamento(string esquema, string codigo)
+        {
+            _departamentos.EliminarDepartamento(esquema, codigo);
+        }
     }
 }

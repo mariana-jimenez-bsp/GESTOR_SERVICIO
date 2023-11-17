@@ -181,5 +181,22 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpDelete("EliminaElProyecto")]
+        public IActionResult EliminaElProyecto()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string numero = Request.Headers["X-Numero"];
+                _proyectos.EliminarProyecto(esquema, numero);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

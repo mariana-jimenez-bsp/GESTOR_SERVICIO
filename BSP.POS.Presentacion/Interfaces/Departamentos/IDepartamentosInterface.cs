@@ -8,6 +8,6 @@ namespace BSP.POS.Presentacion.Interfaces.Departamentos
         Task ObtenerListaDeDepartamentos(string esquema);
         Task<bool> ActualizarListaDeDepartamentos(List<mDepartamentos> listaDepartamentosActualizar, string esquema);
         Task<bool> AgregarDepartamento(mDepartamentos departamento, string esquema);
-        
+        Task<bool> EliminarDepartamento(string esquema, string codigo);
     }
 }

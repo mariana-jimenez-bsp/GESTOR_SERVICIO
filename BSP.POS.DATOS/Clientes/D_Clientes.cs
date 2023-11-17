@@ -212,6 +212,20 @@ namespace BSP.POS.DATOS.Clientes
             }
             return contribuyente;
         }
+
+        public void EliminarCliente(string esquema, string cliente)
+        {
+            try
+            {
+                EliminarClienteTableAdapter sp = new EliminarClienteTableAdapter();
+                var response = sp.GetData(cliente, esquema).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }
 

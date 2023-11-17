@@ -138,24 +138,7 @@
                         <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA2)" />
                     </div>
                 </div>
-                <div class="col-md-4 border border-success rounded-5 m-1 ">
-                    <div class="row d-flex justify-content-center my-2">
-                        <label class="blue-dark-text label-text" for="c-distrito">Distrito:</label>
-                        <select class="border border-success rounded-pill px-2 text-input " type="text" id="c-distrito" @bind="clienteNuevo.DIVISION_GEOGRAFICA3" @oninput="CambioDistrito">
-                            <option value="">Seleccione el Distrito</option>
-                            @if (listaDistritos.Any())
-                            {
-                                foreach (var distrito in listaDistritos)
-                                {
-                                    <option value="@distrito.lugar">@distrito.descripcion</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    <div class="text-center">
-                        <ValidationMessage For="@(() => clienteNuevo.DIVISION_GEOGRAFICA3)" />
-                    </div>
-                </div>
+                
                 <div class="col-md-4 border border-success rounded-5 m-1 ">
                     <div class="row d-flex justify-content-center my-2">
                         <label class="  blue-dark-text label-text" for="c-distrito">Distrito:</label>

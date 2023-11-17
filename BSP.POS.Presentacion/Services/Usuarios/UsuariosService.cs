@@ -392,8 +392,20 @@ namespace BSP.POS.Presentacion.Services.Usuarios
             return null;
         }
 
-        
-
+        public async Task<bool> EliminarUsuario(string esquema, string codigo)
+        {
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Remove("X-Codigo");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Add("X-Codigo", codigo);
+            string url = "Usuarios/EliminaElUsuario";
+            var response = await _http.DeleteAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
+        }
     }
  }
 

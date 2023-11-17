@@ -286,5 +286,10 @@ namespace BSP.POS.NEGOCIOS.Usuarios
             string esquema = objetoUsuario.ValidarExistenciaEsquema(pEsquema);
             return esquema;
         }
+
+        public void EliminarUsuario(string esquema, string codigo)
+        {
+            objetoUsuario.EliminarUsuario(esquema, codigo);
+        }
     }
 }

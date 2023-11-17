@@ -5,6 +5,7 @@
 @inject NavigationManager navigationManager
 @inject ILicenciasInterface LicenciasService
 @inject IAlertasInterface AlertasService
+@inject SweetAlertService Swal;
 
 @if (cargaInicial)
 {
@@ -70,9 +71,24 @@
                                         <label class="w-100 text-center">@usuario.rol</label>
                                     </div>
                                     <div class="mb-0 col-md-1 mouse-pointer">
-                                        <div @onclick="() => IrAEditarUsuario(usuario.codigo)">
-                                            <i class="fa-solid fa-pen-to-square" ></i>
+                                        <div class="dropdown">
+                                            <button class="text-light green-bg border-success rounded-pill px-1 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Acción
+                                            </button>
+                                            <ul class="dropdown-menu text-center">
+                                                <li>
+                                                    <a class="dropdown-item mouse-pointer" @onclick="() => IrAEditarUsuario(usuario.codigo)">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item mouse-pointer" @onclick='() => SwalEliminarUsuario("¿Está seguro de eliminar el usuario con el código " + usuario.codigo + "?", usuario.codigo)'>
+                                                        <i class="mx-2 fa-solid fa-x text-danger"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
+                                        
                                         
                                     </div>
                                 </div>

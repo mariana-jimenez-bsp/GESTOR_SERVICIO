@@ -72,5 +72,22 @@ namespace BSP.POS.API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpDelete("EliminaElDepartamento")]
+        public IActionResult EliminaElDepartamento()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-Codigo"];
+                _departamentos.EliminarDepartamento(esquema, codigo);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

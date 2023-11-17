@@ -215,5 +215,19 @@ namespace BSP.POS.DATOS.Actividades
 
 
         }
+
+        public void EliminarActividad(string esquema, string codigo)
+        {
+            try
+            {
+                EliminarActividadTableAdapter sp = new EliminarActividadTableAdapter();
+                var response = sp.GetData(codigo, esquema).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

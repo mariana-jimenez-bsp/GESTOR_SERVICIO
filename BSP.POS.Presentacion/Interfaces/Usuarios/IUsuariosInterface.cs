@@ -44,6 +44,7 @@ namespace BSP.POS.Presentacion.Interfaces.Usuarios
         mUsuariosParaEditar UsuarioParaEditar { get; set; }
         Task ObtenerElUsuarioParaEditar(string esquema, string codigo);
         Task<bool> ActualizarUsuario(mUsuariosParaEditar usuario, string esquema, string usuarioActual);
-        Task<string> ValidarExistenciaEsquema(string esquema); 
+        Task<string> ValidarExistenciaEsquema(string esquema);
+        Task<bool> EliminarUsuario(string esquema, string codigo);
     }
 }

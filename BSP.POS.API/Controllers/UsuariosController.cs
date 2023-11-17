@@ -441,6 +441,23 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+        [Authorize]
+        [HttpDelete("EliminaElUsuario")]
+        public IActionResult EliminaElUsuario()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-Codigo"];
+                user.EliminarUsuario(esquema, codigo);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
 
     }
 }

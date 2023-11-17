@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Pages.Actividades;
 using BSP.POS.Presentacion.Services.Departamentos;
+using BSP.POS.Presentacion.Services.Proyectos;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -179,6 +180,56 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
             
 
 
+        }
+
+        private async Task SwalEliminarDepartamento(string mensajeAlerta, string codigoDepartamento)
+        {
+            if (permisos.Any(p => p.permiso == "Departamentos" && !p.subpermisos.Contains("Eliminar")))
+            {
+                await AlertasService.SwalAdvertencia("No tienes permisos para eliminar departamentos");
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = mensajeAlerta,
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Eliminar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        bool resultadoEliminar = await EliminarDepartamento(codigoDepartamento);
+                        if (resultadoEliminar)
+                        {
+                            await AlertasService.SwalExito("Se ha eliminado el departamento #" + codigoDepartamento);
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            await DepartamentosService.ObtenerListaDeDepartamentos(esquema);
+                            if (DepartamentosService.listaDepartamentos != null)
+                            {
+                                departamentos = DepartamentosService.listaDepartamentos;
+
+                            }
+                            StateHasChanged();
+                        }
+                        else
+                        {
+                            await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                        }
+                    }
+                });
+            }
+
+        }
+
+        private async Task<bool> EliminarDepartamento(string codigo)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool resultadoEliminar = await DepartamentosService.EliminarDepartamento(esquema, codigo);
+            return resultadoEliminar;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BSP.POS.Presentacion.Models.Actividades;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Services.Proyectos;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -253,6 +254,50 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                 }
             }
 
+        }
+
+        private async Task SwalEliminarActividad(string mensajeAlerta, string codigoActividad)
+        {
+            if (permisos.Any(p => p.permiso == "Actividades" && !p.subpermisos.Contains("Eliminar")))
+            {
+                await AlertasService.SwalAdvertencia("No tienes permisos para eliminar actividades");
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = mensajeAlerta,
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Eliminar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        bool resultadoEliminar = await EliminarActividad(codigoActividad);
+                        if (resultadoEliminar)
+                        {
+                            await AlertasService.SwalExito("Se ha eliminado la actividad #" + codigoActividad);
+                            await RefrescarListaActividades();
+                            StateHasChanged();
+                        }
+                        else
+                        {
+                            await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                        }
+                    }
+                });
+            }
+
+        }
+
+        private async Task<bool> EliminarActividad(string codigo)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool resultadoEliminar = await ActividadesService.EliminarActividad(esquema, codigo);
+            return resultadoEliminar;
         }
     }
 }

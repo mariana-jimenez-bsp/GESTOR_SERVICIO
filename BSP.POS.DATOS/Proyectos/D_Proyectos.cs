@@ -46,7 +46,7 @@ namespace BSP.POS.DATOS.Proyectos
                 foreach (var item in response)
                 {
                     proyecto = new U_ListaProyectos(item.Id, item.numero, item.codigo_cliente, item.fecha_inicial, item.fecha_final, item.horas_totales, item.centro_costo, item.nombre_proyecto, item.estado, item.codigo_consultor);
-                   
+
                 }
                 return proyecto;
             }
@@ -136,7 +136,7 @@ namespace BSP.POS.DATOS.Proyectos
             {
                 foreach (var proyecto in pProyectos)
                 {
-                    var response = sp.GetData(proyecto.Id,proyecto.numero, proyecto.codigo_cliente, proyecto.fecha_inicial, proyecto.fecha_final, proyecto.horas_totales, proyecto.centro_costo, proyecto.nombre_proyecto, proyecto.codigo_consultor, esquema);
+                    var response = sp.GetData(proyecto.Id, proyecto.numero, proyecto.codigo_cliente, proyecto.fecha_inicial, proyecto.fecha_final, proyecto.horas_totales, proyecto.centro_costo, proyecto.nombre_proyecto, proyecto.codigo_consultor, esquema);
 
                 }
                 return "Exito";
@@ -177,9 +177,9 @@ namespace BSP.POS.DATOS.Proyectos
             AgregarProyectoTableAdapter sp = new AgregarProyectoTableAdapter();
             try
             {
-                    var response = sp.GetData(pProyecto.codigo_cliente, pProyecto.fecha_inicial, pProyecto.fecha_final, int.Parse(pProyecto.horas_totales), pProyecto.centro_costo, pProyecto.nombre_proyecto, pProyecto.codigo_consultor, esquema);
+                var response = sp.GetData(pProyecto.codigo_cliente, pProyecto.fecha_inicial, pProyecto.fecha_final, int.Parse(pProyecto.horas_totales), pProyecto.centro_costo, pProyecto.nombre_proyecto, pProyecto.codigo_consultor, esquema);
 
-                
+
                 return "Exito";
             }
             catch (Exception)
@@ -190,6 +190,20 @@ namespace BSP.POS.DATOS.Proyectos
 
 
 
+        } 
+
+        public void EliminarProyecto(string esquema, string numero)
+        {
+            try
+            {
+                EliminarProyectoTableAdapter sp = new EliminarProyectoTableAdapter();
+                var response = sp.GetData(numero, esquema).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
         }
     }
 }

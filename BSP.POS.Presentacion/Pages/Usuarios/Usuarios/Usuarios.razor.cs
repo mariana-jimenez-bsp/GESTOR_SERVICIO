@@ -2,6 +2,8 @@
 using BSP.POS.Presentacion.Models.Licencias;
 using BSP.POS.Presentacion.Models.Permisos;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Services.Proyectos;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
@@ -81,6 +83,50 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         private void IrAEditarUsuario(string codigo)
         {
             navigationManager.NavigateTo($"configuraciones/usuario/editar/{codigo}");
+        }
+
+        private async Task SwalEliminarUsuario(string mensajeAlerta, string codigoUsuario)
+        {
+            if (permisos.Any(p => p.permiso == "Usuarios" && !p.subpermisos.Contains("Eliminar")))
+            {
+                await AlertasService.SwalAdvertencia("No tienes permisos para eliminar usuarios");
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = mensajeAlerta,
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Eliminar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        bool resultadoEliminar = await EliminarUsuario(codigoUsuario);
+                        if (resultadoEliminar)
+                        {
+                            await AlertasService.SwalExito("Se ha eliminado el usuario con el código " + codigoUsuario);
+                            await RefrescarListaDeUsuarios();
+                            StateHasChanged();
+                        }
+                        else
+                        {
+                            await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                        }
+                    }
+                });
+            }
+
+        }
+
+        private async Task<bool> EliminarUsuario(string codigo)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool resultadoEliminar = await UsuariosService.EliminarUsuario(esquema, codigo);
+            return resultadoEliminar;
         }
     }
 }

@@ -83,9 +83,14 @@
                                             <ValidationMessage For="@(() => actividad.CI_referencia)" />
                                         </div>
 
-                                        <div class="col-md-2">
-                                            <input class="w-50 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
-                                            <ValidationMessage For="@(() => actividad.horas)" />
+                                        <div class="row col-md-2 d-flex align-items-center">
+                                            <div class="col-md-10">
+                                                <input class="w-50 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
+                                                <ValidationMessage For="@(() => actividad.horas)" />
+                                            </div>
+                                            <div class="col-md-1 mouse-pointer" @onclick='() => SwalEliminarActividad("¿Está seguro de eliminar la actividad #" + actividad.codigo + "?", actividad.codigo)'>
+                                                <i class="mx-2 fa-solid fa-x text-danger"></i>
+                                            </div>
                                         </div>
 
                                     </div>

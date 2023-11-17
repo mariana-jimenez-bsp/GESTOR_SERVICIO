@@ -182,5 +182,22 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpDelete("EliminaLaActividad")]
+        public IActionResult EliminaLaActividad()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-Codigo"];
+                actividades.EliminarActividad(esquema, codigo);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

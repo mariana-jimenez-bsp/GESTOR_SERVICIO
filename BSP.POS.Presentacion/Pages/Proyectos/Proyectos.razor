@@ -38,7 +38,7 @@
                                 <label class=" text-center w-100" >Nombre de la empresa</label>
                             </div>
                             <div class="col-md-1">
-                                <label class=" text-center w-100">Nombre del Responsable</label>
+                                <label class=" text-center w-100">Responsable</label>
                             </div>
                             <div class="col-md-1">
                                 <label class="pe-2 text-center w-100">Consultor</label>
@@ -52,12 +52,13 @@
                             <div class="col-md-1">
                                 <label class="pe-4 text-center w-100" >Horas Totales</label>
                             </div>
-                            <div class="col-md-2">
-                                <label class="pe-4 text-center w-100" >Centro de Costo</label>
+                            <div class="col-md-1">
+                                <label class="pe-4 text-center w-100" >Centro Costo</label>
                             </div>
                             <div class="col-md-1">
                                 <label class="pe-5 text-center w-100">Estado</label>
                             </div>
+                           
                         </div>
                         <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
                             @if (proyectos != null)
@@ -149,8 +150,8 @@
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.horas_totales" @oninput="(e) => CambioHorasTotales(e, proyecto.Id)">
                                             <ValidationMessage For="@(() => proyecto.horas_totales)" />
                                         </div>
-                                        <div class="mb-0  col-md-2">
-                                            <select class="w-100 text-center border-input-gray rounded-pill me-2" @bind="proyecto.centro_costo" @oninput="(e) => CambioCentroCosto(e, proyecto.Id)">
+                                        <div class="mb-0  col-md-1">
+                                            <select class="w-100 text-center border-input-gray rounded-pill me-2 texto-puntos-suspensivos" @bind="proyecto.centro_costo" @oninput="(e) => CambioCentroCosto(e, proyecto.Id)" >
                                                 @if (listaCentrosDeCosto.Any())
                                                 {
                                                     foreach (var centro in listaCentrosDeCosto)
@@ -162,16 +163,21 @@
                                             <ValidationMessage For="@(() => proyecto.centro_costo)" />
                                         </div>
                                         <div class="mb-0 col-md-1">
-                                            <div class="dropdown">
-                                                <button class="green-bg rounded-pill px-2 text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    @proyecto.estado
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item mouse-pointer" @onclick='() => SwalCambiarEstadoProyecto("¿Está seguro de Terminar el proyecto #" + proyecto.numero + "?", proyecto.numero, "Terminado")'>Terminar</a></li>
-                                                    <li><a class="dropdown-item mouse-pointer" @onclick='() => SwalCambiarEstadoProyecto("¿Está seguro de Cancelar el proyecto #" + proyecto.numero + "?", proyecto.numero, "Cancelado")'>Cancelar</a></li>
-                                                </ul>
-                                            </div>
-
+                                          
+                                                <div class="dropdown">
+                                                    <button class="green-bg rounded-pill px-2 text-light dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        @proyecto.estado
+                                                    </button>
+                                                    <ul class="dropdown-menu w-100">
+                                                        <li><a class="dropdown-item mouse-pointer" @onclick='() => SwalCambiarEstadoProyecto("¿Está seguro de Terminar el proyecto #" + proyecto.numero + "?", proyecto.numero, "Terminado")'>Terminar</a></li>
+                                                        <li><a class="dropdown-item mouse-pointer" @onclick='() => SwalCambiarEstadoProyecto("¿Está seguro de Cancelar el proyecto #" + proyecto.numero + "?", proyecto.numero, "Cancelado")'>Cancelar</a></li>
+                                                    </ul>
+                                                </div>
+                                            
+                                            
+                                        </div>
+                                        <div class="col-md-1 mouse-pointer" @onclick='() => SwalEliminarProyecto("¿Está seguro de eliminar el proyecto #" + proyecto.numero + "?", proyecto.numero)'>
+                                            <i class="mx-2 fa-solid fa-x text-danger"></i>
                                         </div>
                                     </div>
                                 }

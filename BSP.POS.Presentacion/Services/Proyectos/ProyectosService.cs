@@ -164,5 +164,19 @@ namespace BSP.POS.Presentacion.Services.Proyectos
                 }
             }
         }
+        public async Task<bool> EliminarProyecto(string esquema, string numero)
+        {
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Remove("X-Numero");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Add("X-Numero", numero);
+            string url = "Proyectos/EliminaElProyecto";
+            var response = await _http.DeleteAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

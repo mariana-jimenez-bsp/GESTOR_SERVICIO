@@ -63,5 +63,19 @@ namespace BSP.POS.Presentacion.Services.Departamentos
             }
             return false;
         }
+        public async Task<bool> EliminarDepartamento(string esquema, string codigo)
+        {
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Remove("X-Codigo");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Add("X-Codigo", codigo);
+            string url = "Departamentos/EliminaElDepartamento";
+            var response = await _http.DeleteAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -48,9 +48,14 @@
                                         <div class="col-md-6">
                                             <input class="w-75 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@departamento.codigo" readonly>
                                         </div>
-                                        <div class="col-md-6">
-                                            <input class="w-100 text-center blue-dark-text border-primary rounded-pill" type="text" @bind-value="@departamento.Departamento" @oninput="(e) => CambioDepartamentoNombre(e, departamento.Id)">
-                                            <ValidationMessage For="@(() => departamento.Departamento)" />
+                                        <div class="row col-md-6 d-flex align-items-center">
+                                            <div class="col-md-11">
+                                                <input class="w-100 text-center blue-dark-text border-primary rounded-pill" type="text" @bind-value="@departamento.Departamento" @oninput="(e) => CambioDepartamentoNombre(e, departamento.Id)">
+                                                <ValidationMessage For="@(() => departamento.Departamento)" />
+                                            </div>
+                                            <div class="mouse-pointer col-md-1" @onclick='() => SwalEliminarDepartamento("¿Está seguro de eliminar el departamento #" + departamento.codigo + "?", departamento.codigo)'>
+                                                <i class="mx-2 fa-solid fa-x text-danger"></i>
+                                            </div>
                                         </div>
 
                                     </div>

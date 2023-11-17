@@ -132,5 +132,10 @@ namespace BSP.POS.NEGOCIOS.Proyectos
             mensaje = objProyectos.AgregarProyecto(pProyecto, esquema);
             return mensaje;
         }
+
+        public void EliminarProyecto(string esquema, string numero)
+        {
+            objProyectos.EliminarProyecto(esquema, numero);
+        }
     }
 }

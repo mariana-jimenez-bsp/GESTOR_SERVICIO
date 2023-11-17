@@ -58,5 +58,19 @@ namespace BSP.POS.DATOS.Departamentos
                 throw;
             }
         }
+
+        public void EliminarDepartamento(string esquema, string codigo)
+        {
+            try
+            {
+                EliminarDepartamentoTableAdapter sp = new EliminarDepartamentoTableAdapter();
+                var response = sp.GetData(codigo, esquema).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
     }
 }

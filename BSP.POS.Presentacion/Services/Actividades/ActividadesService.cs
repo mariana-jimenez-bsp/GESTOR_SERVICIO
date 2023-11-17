@@ -183,5 +183,20 @@ namespace BSP.POS.Presentacion.Services.Actividades
                 return false;
             }
         }
+
+        public async Task<bool> EliminarActividad(string esquema, string codigo)
+        {
+            _http.DefaultRequestHeaders.Remove("X-Esquema");
+            _http.DefaultRequestHeaders.Remove("X-Codigo");
+            _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
+            _http.DefaultRequestHeaders.Add("X-Codigo", codigo);
+            string url = "Actividades/EliminaLaActividad";
+            var response = await _http.DeleteAsync(url);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

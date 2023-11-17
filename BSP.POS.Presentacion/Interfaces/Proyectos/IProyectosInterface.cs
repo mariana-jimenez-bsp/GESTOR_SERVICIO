@@ -19,5 +19,6 @@ namespace BSP.POS.Presentacion.Interfaces.Proyectos
         Task<bool> CambiarEstadoProyecto(string numero, string estado, string esquema);
         Task<bool> AgregarProyecto(mProyectos proyecto, string esquema);
         Task ObtenerProyecto(string esquema, string numero);
+        Task<bool> EliminarProyecto(string esquema, string numero);
     }
 }

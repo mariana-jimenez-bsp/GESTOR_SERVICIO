@@ -346,5 +346,49 @@ namespace BSP.POS.Presentacion.Pages.Clientes
            
 
         }
+
+        private async Task SwalEliminarCliente(string mensajeAlerta, string cliente)
+        {
+            if (permisos.Any(p => p.permiso == "Clientes" && !p.subpermisos.Contains("Eliminar")))
+            {
+                await AlertasService.SwalAdvertencia("No tienes permisos para eliminar clientes");
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = mensajeAlerta,
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Eliminar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        bool resultadoEliminar = await EliminarCliente(cliente);
+                        if (resultadoEliminar)
+                        {
+                            await AlertasService.SwalExito("Se ha eliminado el cliente con el código " + cliente);
+                            await RefrescarListaClientes();
+                            StateHasChanged();
+                        }
+                        else
+                        {
+                            await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                        }
+                    }
+                });
+            }
+
+        }
+
+        private async Task<bool> EliminarCliente(string cliente)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool resultadoEliminar = await ClientesService.EliminarCliente(esquema, cliente);
+            return resultadoEliminar;
+        }
     }
 }
