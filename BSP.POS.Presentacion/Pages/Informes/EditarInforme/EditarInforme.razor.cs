@@ -51,9 +51,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         private bool usuarioAutorizado = true;
         private string[] elementos1 = new string[] { ".el-layout", ".header-col-left", ".div-observaciones", ".btn-agregar-usuario" };
         private string[] elementos2 = new string[] { ".el-layout", ".header-col-right", ".footer-horas", ".footer-col-right" , ".btn-agregar-actividad" };
-        private bool tieneScrollBar = false;
-        private bool tieneScrollBarPrimero = true;
-        private bool tieneScrollBarAnterior = false;
+       
         protected override async Task OnInitializedAsync()
         {
 
@@ -133,9 +131,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             // Inicializa los tooltips de Bootstrap
             try
             {
-                await JS.InvokeVoidAsync("initTooltips");
-                DotNetObjectReference<EditarInforme> objRef = DotNetObjectReference.Create(this);
-                await JS.InvokeVoidAsync("DetectarBarraDesplazamiento", "scroll-bar-id", objRef);
+                await JS.InvokeVoidAsync("initTooltips"); 
             }
             catch (Exception ex)
             {
@@ -462,11 +458,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             StateHasChanged();
             await Task.Delay(100);
         }
-        [JSInvokable]
-        public void ActualizarScrollBarEstado(bool estado)
-        {
-            tieneScrollBar = estado;
-        }
+        
         private async Task SwalAccionPregunta(string mensajeAlerta, string accion, string identificador)
         {
             await Swal.FireAsync(new SweetAlertOptions
@@ -637,26 +629,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             }
             activarModalAgregarActividad = activar;
             StateHasChanged();
-        }
-        [JSInvokable]
-        public async Task ActualizarEstadoScrollBar(bool estado)
-        {
-            tieneScrollBar = estado;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            CambioEstadoVista();
-        }
-        private void CambioEstadoVista()
-        {
-            if (tieneScrollBarPrimero)
-            {
-                tieneScrollBarPrimero = false;
-                StateHasChanged();
-            }
-            if(tieneScrollBarAnterior != tieneScrollBar)
-            {
-                tieneScrollBarAnterior = tieneScrollBar;
-                StateHasChanged();
-            }
         }
 
         private async Task InvalidSubmit(EditContext modeloContext)

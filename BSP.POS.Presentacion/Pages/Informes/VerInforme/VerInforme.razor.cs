@@ -41,9 +41,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public string esquema = string.Empty;
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
-        private bool tieneScrollBar = false;
-        private bool tieneScrollBarPrimero = true;
-        private bool tieneScrollBarAnterior = false;
+        
         private bool usuarioAutorizado = true;
         protected override async Task OnInitializedAsync()
         {
@@ -379,25 +377,5 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             
         }
 
-        [JSInvokable]
-        public async Task ActualizarEstadoScrollBar(bool estado)
-        {
-            tieneScrollBar = estado;
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            CambioEstadoVista();
-        }
-        private void CambioEstadoVista()
-        {
-            if (tieneScrollBarPrimero)
-            {
-                tieneScrollBarPrimero = false;
-                StateHasChanged();
-            }
-            if (tieneScrollBarAnterior != tieneScrollBar)
-            {
-                tieneScrollBarAnterior = tieneScrollBar;
-                StateHasChanged();
-            }
-        }
     }
 }
