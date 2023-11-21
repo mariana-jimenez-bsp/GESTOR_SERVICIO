@@ -64,7 +64,7 @@ function ScriptMaxHeight(contenido, elemento1,elemento2, elemento3) {
     const headersContentHeight = document.querySelector(elemento3).offsetHeight;
     const windowHeight = window.innerHeight;
     const availableHeight = windowHeight - headerHeight - footerHeight - headersContentHeight - 50;
-    content.style.maxHeight = availableHeight + 'px';
+    content.style.maxHeight = availableHeight + 'px'; 
 }
 function ScriptMaxHeightExtra(contenido, elementosJson) {
     const elementos = JSON.parse(elementosJson);
@@ -291,19 +291,3 @@ function ActivarSelectMultipleEsquemas(jsonData, objRef) {
         objRef.invokeMethodAsync('CambioDeEsquemas', selectedValues);
     });
 }   
-function DetectarBarraDesplazamiento(elementoId, objRef) {
-    var elemento = document.getElementById(elementoId);
-    if (!elemento) {
-        return;
-    }
-    function verificarBarraDesplazamiento() {
-        if (elemento.scrollHeight > elemento.clientHeight) {
-            objRef.invokeMethodAsync('ActualizarEstadoScrollBar', true);
-        } else {
-            objRef.invokeMethodAsync('ActualizarEstadoScrollBar', false);
-        }
-    }
-
-    elemento.addEventListener('scroll', verificarBarraDesplazamiento);
-    verificarBarraDesplazamiento(); // Llamar a la función una vez al cargar la página para verificar el estado inicial
-}

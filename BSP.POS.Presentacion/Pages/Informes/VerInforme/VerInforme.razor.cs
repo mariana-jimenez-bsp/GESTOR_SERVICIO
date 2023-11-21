@@ -122,8 +122,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
             try
             {
                 await JS.InvokeVoidAsync("initTooltips");
-                DotNetObjectReference<VerInforme> objRef = DotNetObjectReference.Create(this);
-                await JS.InvokeVoidAsync("DetectarBarraDesplazamiento", "scroll-bar-id", objRef);
             }
             catch (Exception ex)
             {

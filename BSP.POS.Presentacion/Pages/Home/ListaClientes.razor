@@ -4,6 +4,7 @@
 @inject IUsuariosInterface UsuariosService
 @inject IProyectosInterface ProyectosService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JSRuntime
 @attribute [Authorize]
 <AuthorizeView>
     <Authorized>
@@ -145,7 +146,13 @@
     </Authorized>
 </AuthorizeView>
 
-
-    <ScriptMaxHeight Contenido=".scrollbar-max-height-client" Elemento1=".el-layout" Elemento2=".div-vacio" Elemento3=".header-col-left"></ScriptMaxHeight>
+@if (activeTab == "recent")
+{
+    <ScriptMaxHeight Contenido="#recent" Elemento1=".el-layout" Elemento2=".div-vacio" Elemento3=".header-col-left"></ScriptMaxHeight>
+}
+@if (activeTab == "all")
+{
+    <ScriptMaxHeight Contenido="#all" Elemento1=".el-layout" Elemento2=".div-vacio" Elemento3=".header-col-left"></ScriptMaxHeight>
+}
 
 

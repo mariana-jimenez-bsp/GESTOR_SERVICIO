@@ -5,6 +5,7 @@ using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Clientes;
 using BSP.POS.Presentacion.Services.Clientes;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -113,6 +114,7 @@ namespace BSP.POS.Presentacion.Pages.Home
         {
             activeTab = tabId;
             ActualizarFiltroFechas();
+          
         }
 
         private string GetTabLinkClass(string tabId)
