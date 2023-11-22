@@ -38,10 +38,16 @@
                     {
                         foreach (var correo in listaCorreosExtras)
                         {
-                            <div>
+                            <div class="d-flex row">
+                            <div class="col-md-10">
                                 <span>@correo</span>
                             </div>
-                            
+                            <div class="col-md-2">
+                                <div class="ms-2 mouse-pointer" @onclick="() => EliminarCorreoExtra(correo)">
+                                    <i class="fa-solid fa-x text-danger"></i>
+                                </div>
+                            </div>
+                          </div>
                         }
                     }
                     </div>

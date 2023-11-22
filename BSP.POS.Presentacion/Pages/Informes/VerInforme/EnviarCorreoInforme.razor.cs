@@ -39,7 +39,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 correoExtraActual = new mAgregarCorreo();
             }
            
-        }        
+        }  
+        private void EliminarCorreoExtra(string correo)
+        {
+            listaCorreosExtras.Remove(correo);
+        }
         private async Task EnviarCorreo()
         {
             await OnClose.InvokeAsync(false);
