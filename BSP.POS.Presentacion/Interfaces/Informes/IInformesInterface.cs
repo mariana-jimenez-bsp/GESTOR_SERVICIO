@@ -1,4 +1,5 @@
 ﻿using BSP.POS.Presentacion.Models.Informes;
+using BSP.POS.Presentacion.Models.Reportes;
 
 namespace BSP.POS.Presentacion.Interfaces.Informes
 {
@@ -19,7 +20,7 @@ namespace BSP.POS.Presentacion.Interfaces.Informes
 
         Task<bool> EliminarInforme(string consecutivo, string esquema);
 
-        Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo, byte[] reporte);
+        Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo, mObjetoReporte objetoReporte);
         Task<mTokenRecibidoInforme> ValidarTokenRecibidoDeInforme(string esquema, string token);
         Task<bool> ActivarRecibidoInforme(mTokenRecibidoInforme tokenRecibido, string esquema);
 

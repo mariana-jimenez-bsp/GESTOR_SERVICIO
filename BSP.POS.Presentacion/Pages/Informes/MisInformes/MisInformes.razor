@@ -108,7 +108,7 @@
             <div class="col-md-3">
                 <div class="col-right-bg d-flex justify-content-start align-items-center row">
                     <div class="ps-5 col-md-4 col-right-bg ">
-                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="SwalEnviandoCorreo">
+                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="() => ClickHandleEnviarCorreo(true)">
                             <span class="me-4 span-report">REENVIAR A CLIENTE</span>
                         </div>
                         <div class="generar-cotizacion imagen-div">
@@ -132,6 +132,10 @@
         <div class="footer-vacio"></div>
     </div>
 </div>
+        @if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
+        {
+            <EnviarCorreoInforme ActivarModal="@activarModalEnviarCorreo" enviarListaCorreosExtras="RecibirListaCorreosExtras" OnClose="ClickHandleEnviarCorreo"></EnviarCorreoInforme>
+        }
         <ScriptMaxHeight Contenido=".scrollbar-max-height" Elemento1=".el-layout" Elemento2=".footer-vacio" Elemento3=".header-informes"></ScriptMaxHeight>
     </Authorized>
 </AuthorizeView>

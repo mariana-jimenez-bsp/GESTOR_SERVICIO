@@ -1,6 +1,7 @@
 ﻿
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
+using BSP.POS.UTILITARIOS.Reportes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
     public interface ICorreosInterface
     {
         void EnviarCorreoRecuperarClave(U_Correo datos, string token, string esquema, string urlWeb, string tipoInicio);
-        Task EnviarCorreosInformes(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, string urlApiCristal, byte[] reporte);
+        void EnviarCorreosInformes(U_Correo datos, mObjetoParaCorreoInforme objetosParaInforme, string urlWeb, string tipoInicio, U_ObjetoReporte objetoReporte);
         mObjetoParaCorreoInforme CrearObjetoDeCorreo(string esquema, string consecutivo);
 
     }

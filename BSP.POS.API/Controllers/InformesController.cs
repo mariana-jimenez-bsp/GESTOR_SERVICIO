@@ -8,6 +8,7 @@ using BSP.POS.UTILITARIOS.Clientes;
 using BSP.POS.UTILITARIOS.Correos;
 using BSP.POS.UTILITARIOS.CorreosModels;
 using BSP.POS.UTILITARIOS.Informes;
+using BSP.POS.UTILITARIOS.Reportes;
 using BSP.POS.UTILITARIOS.Usuarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -297,7 +298,7 @@ namespace BSP.POS.API.Controllers
 
         }
         [HttpPost("EnviarTokenDeRecibidoDeInforme")]
-        public async Task<ActionResult> EnviarTokenDeRecibidoDeInforme([FromBody] byte[] reporte)
+        public ActionResult EnviarTokenDeRecibidoDeInforme([FromBody] U_ObjetoReporte objetoReporte)
         {
             try
             {
@@ -318,7 +319,7 @@ namespace BSP.POS.API.Controllers
                 datos.correoUsuario = _correoUsuario;
                 datos.claveUsuario = _claveUsuario;
 
-                await _correoService.EnviarCorreosInformes(datos, objetosParaInforme, _urlWeb, _tipoInicio, _urlApiCrystal, reporte);
+                _correoService.EnviarCorreosInformes(datos, objetosParaInforme, _urlWeb, _tipoInicio, objetoReporte);
                 //await _whatsappService.EnviarWhatsappReporteInforme(objetosParaInforme, _tokenWhatsapp, _idTelefonoWhatsapp, _tipoInicio);
                 return Ok();
             }

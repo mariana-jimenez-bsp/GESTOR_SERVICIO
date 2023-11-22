@@ -2,6 +2,7 @@
 using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
+using BSP.POS.Presentacion.Models.Reportes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Home;
 using BSP.POS.Presentacion.Pages.Proyectos;
@@ -23,7 +24,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         public mInformesFinalizados informeAsociadoSeleccionado = new mInformesFinalizados();
        
         public List<mActividades> listaDeActividades = new List<mActividades>();
-        
+        public List<string> listaCorreosExtras { get; set; } = new List<string>();
         public List<mDepartamentos> listaDepartamentos = new List<mDepartamentos>();
         private DateTime fechaInicioDateTime = DateTime.MinValue;
         private DateTime fechaFinalDateTime = DateTime.MinValue;
@@ -104,8 +105,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             byte[] reporte = await ReportesService.GenerarReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo);
+            mObjetoReporte objetoReporte = new mObjetoReporte();
+            objetoReporte.reporte = reporte;
+            objetoReporte.listaCorreosExtras = listaCorreosExtras;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo, reporte);
+            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, informeAsociadoSeleccionado.consecutivo, objetoReporte);
             if (validar)
             {
                 return true;
@@ -197,46 +201,53 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             fechaMax = fechaTemporal.ToString("yyyy-MM-dd");
             fechaFinalDateTime = fechaTemporal;
         }
-        private async Task SwalEnviandoCorreo()
+        bool activarModalEnviarCorreo = false;
+        async Task ClickHandleEnviarCorreo(bool activar)
         {
-           
             if (!string.IsNullOrEmpty(informeAsociadoSeleccionado.consecutivo))
             {
-                
-                    bool resultadoCorreo = false;
-                    await Swal.FireAsync(new SweetAlertOptions
-                    {
-                        Icon = SweetAlertIcon.Info,
-                        Title = "Enviando...",
-                        ShowCancelButton = false,
-                        ShowConfirmButton = false,
-                        AllowOutsideClick = false,
-                        AllowEscapeKey = false,
-                        DidOpen = new SweetAlertCallback(async () =>
-                        {
-                            resultadoCorreo = await ReenviarCorreo();
-                            await Swal.CloseAsync();
-
-                        }),
-                        WillClose = new SweetAlertCallback(Swal.CloseAsync)
-
-                    });
-
-                    if (resultadoCorreo)
-                    {
-                        await AlertasService.SwalExito("El correo ha sido enviado");
-                    }
-                    else
-                    {
-                        await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
-                    }
-
+                activarModalEnviarCorreo = activar;
             }
             else
             {
                 await AlertasService.SwalAdvertencia("Debe seleccionar un Informe");
             }
-                
+               
+        }
+        private async Task RecibirListaCorreosExtras(List<string> lista)
+        {
+            listaCorreosExtras = lista;
+            await SwalEnviandoCorreo();
+        }
+        private async Task SwalEnviandoCorreo()
+        {
+            bool resultadoCorreo = false;
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Icon = SweetAlertIcon.Info,
+                Title = "Enviando...",
+                ShowCancelButton = false,
+                ShowConfirmButton = false,
+                AllowOutsideClick = false,
+                AllowEscapeKey = false,
+                DidOpen = new SweetAlertCallback(async () =>
+                {
+                    resultadoCorreo = await ReenviarCorreo();
+                    await Swal.CloseAsync();
+
+                }),
+                WillClose = new SweetAlertCallback(Swal.CloseAsync)
+
+            });
+
+            if (resultadoCorreo)
+            {
+                await AlertasService.SwalExito("El correo ha sido enviado");
+            }
+            else
+            {
+                await AlertasService.SwalError("Ocurrió un error. Vuelva a intentarlo.");
+            }                
 
         }
 

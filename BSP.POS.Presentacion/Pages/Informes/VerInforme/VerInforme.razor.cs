@@ -5,6 +5,7 @@ using BSP.POS.Presentacion.Models.Departamentos;
 using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Proyectos;
+using BSP.POS.Presentacion.Models.Reportes;
 using BSP.POS.Presentacion.Models.Usuarios;
 using BSP.POS.Presentacion.Pages.Usuarios.Usuarios;
 using CurrieTechnologies.Razor.SweetAlert2;
@@ -41,7 +42,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         public string esquema = string.Empty;
         private bool cargaInicial = false;
         private string mensajeConsecutivo;
-        
+        public List<string> listaCorreosExtras { get; set; } = new List<string>();
         private bool usuarioAutorizado = true;
         protected override async Task OnInitializedAsync()
         {
@@ -204,8 +205,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         { 
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             byte[] reporte = await ReportesService.GenerarReporteDeInforme(esquema, Consecutivo);
+            mObjetoReporte objetoReporte = new mObjetoReporte();
+            objetoReporte.reporte = reporte;
+            objetoReporte.listaCorreosExtras = listaCorreosExtras;
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, Consecutivo, reporte);
+            bool validar = await InformesService.EnviarCorreoDeReporteDeInforme(esquema, Consecutivo, objetoReporte);
             if (validar)
             {
                 return true;
@@ -340,7 +344,16 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 }
             });
         }
-
+        bool activarModalEnviarCorreo = false;
+        void ClickHandleEnviarCorreo(bool activar)
+        {
+            activarModalEnviarCorreo = activar;
+        }
+        private async Task RecibirListaCorreosExtras(List<string> lista)
+        {
+            listaCorreosExtras = lista;
+            await SwalEnviandoCorreo();
+        }
         private async Task SwalEnviandoCorreo()
         {
            

@@ -1,0 +1,59 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IInformesInterface InformesService
+@inject IReportesInterface ReportesService
+@inject IJSRuntime JS
+
+<div id="modal" class="modal" style='display: @(ActivarModal ? "block" : "none")'>
+    <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-add-email blue-dark-text mx-auto">Enviar Correos</h2>
+                <div class="text-end" @onclick="SalirConLaX">
+                    <i class="fa-regular fa-circle-xmark fa-lg mouse-pointer"></i>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(mensajeError))
+            {
+                <MensajeParaModales Message="@mensajeError"></MensajeParaModales>
+            }
+            <div class="modal-body d-flex row g-2 justify-content-center">
+                <EditForm Model="@correoExtraActual" OnValidSubmit="AgregarCorreoExtra">
+                <DataAnnotationsValidator/>
+                <div class="font-14-book pb-2 div-agregar-email">
+                    
+                    <span class="green-text">Agregar correos extras a enviar si se requiere</span>
+                    <div>
+                        <input type="text" class="border-success rounded-3" @bind-value="@correoExtraActual.correo" @oninput="CambioCorreoExtra"/>
+                    </div>
+                    <ValidationMessage For="@(() => correoExtraActual.correo)" />
+                </div>
+                <div>
+                    <button type="submit" class="button-footer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4">Agregar</button>
+                </div>
+                <div class="font-14-book ms-3 pb-2 div-agregar-email">
+
+                    <span class="green-text">Lista Correos Extras</span>
+                    <div class="scrollbar-modal-email overflow-y-auto overflow-x-hidden max-height-email">
+                    @if (listaCorreosExtras.Any())
+                    {
+                        foreach (var correo in listaCorreosExtras)
+                        {
+                            <div>
+                                <span>@correo</span>
+                            </div>
+                            
+                        }
+                    }
+                    </div>
+                </div>
+            </EditForm>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-email-informe">Cancelar</button>
+                <button type="button" @onclick="EnviarCorreo" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4 btn-agregar-email" id="enviar-email-informe">Enviar</button>
+            </div>
+
+        
+    </div>
+</div>

@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text;
 using BSP.POS.Presentacion.Models.Clientes;
 using BSP.POS.Presentacion.Pages.Clientes;
+using BSP.POS.Presentacion.Models.Reportes;
 
 namespace BSP.POS.Presentacion.Services.Informes
 {
@@ -160,7 +161,7 @@ namespace BSP.POS.Presentacion.Services.Informes
                 return false;
             }
         }
-        public async Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo, byte[] reporte)
+        public async Task<bool> EnviarCorreoDeReporteDeInforme(string esquema, string consecutivo, mObjetoReporte objetoReporte)
         {
             try
             {
@@ -169,7 +170,7 @@ namespace BSP.POS.Presentacion.Services.Informes
                 _http.DefaultRequestHeaders.Remove("X-Consecutivo");
                 _http.DefaultRequestHeaders.Add("X-Esquema", esquema);
                 _http.DefaultRequestHeaders.Add("X-Consecutivo", consecutivo);
-                string jsonData = JsonSerializer.Serialize(reporte);
+                string jsonData = JsonSerializer.Serialize(objetoReporte);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync(url, content);
 
