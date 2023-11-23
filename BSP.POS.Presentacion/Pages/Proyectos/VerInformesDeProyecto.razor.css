@@ -77,29 +77,6 @@
     max-height: 300px;
     min-height: 300px;
 }
-.blue-light-bg {
-    background-color: #2255A1;
-}
-
-.blue-dark-bg {
-    background-color: #1C3259;
-}
-
-.blue-light-text {
-    color: #2255A1;
-}
-
-.blue-dark-text {
-    color: #1C3259;
-}
-
-.green-bg {
-    background-color: #2FAD70;
-}
-
-.text-green {
-    color: #2FAD70;
-}
 
 .text-ver-informes {
     font-size: 25pt;
@@ -116,10 +93,6 @@
 .button-text {
     font-family: 'Circular Std Medium', sans-serif;
     font-size: 12pt;
-}
-
-.border-success {
-    border-color: #2FAD70;
 }
 
 .btn-ver-informes {

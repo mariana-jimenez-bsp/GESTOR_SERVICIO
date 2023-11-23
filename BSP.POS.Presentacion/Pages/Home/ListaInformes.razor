@@ -43,8 +43,8 @@
                     {
                         <div class="item-report-width col-md-4 d-flex row mb-4" @onclick="() => EnviarConsecutivo(informe.consecutivo, informe.estado)">
                             <div class="item-report click-report-up">
-                                <span class="t-blue-dark">Informe de Servicios</span>
-                                <span class="t-blue-dark">#@informe.consecutivo</span>
+                                <span class="blue-dark-text">Informe de Servicios</span>
+                                <span class="blue-dark-text">#@informe.consecutivo</span>
                                 <hr>
                                 <span class="update-report-text text-secondary">Actualizado el @informe.fecha_actualizacion</span>
 
@@ -53,7 +53,7 @@
 
                             @if (@informe.estado == "Finalizado")
                             {
-                                <div class="bg-status-green borrador text-end text-light click-report-down">
+                                <div class="green-bg borrador text-end text-light click-report-down">
                                     <span>@informe.estado</span>
                                 </div>
                             }

@@ -37,14 +37,14 @@
                             @if (mostrarClave)
                             {
                                 <div @onclick="() => CambiarEstadoMostrarClave(false)" class="d-flex align-items-center justify-content-center">
-                                     <i class="fa-solid fa-eye-slash p-2 text-green mouse-pointer" ></i>
+                                     <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" ></i>
                                 </div>
                                
                             }
                             else
                             {
                                 <div @onclick="() => CambiarEstadoMostrarClave(true)" class="d-flex align-items-center justify-content-center">
-                                    <i class="fa-solid fa-eye p-2 text-green mouse-pointer" ></i>
+                                    <i class="fa-solid fa-eye p-2 green-text mouse-pointer" ></i>
                                 </div>
                                
                             }
@@ -71,8 +71,8 @@
                                 <span>@mensajeIntentos</span>
                             </div>
                         }
-                        <button type="submit" class="btn bg-green btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
-                        <button @onclick="ActivarInputFileLLave" type="button" class="btn bg-blue-light btn-block">Ingresar Llave</button>
+                        <button type="submit" class="btn green-bg btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
+                        <button @onclick="ActivarInputFileLLave" type="button" class="btn blue-light-bg btn-block">Ingresar Llave</button>
                     </EditForm>
                     <EditForm Model="licenciaLlave" OnValidSubmit="EnviarLLave" enctype="multipart/form-data">
                         <DataAnnotationsValidator />

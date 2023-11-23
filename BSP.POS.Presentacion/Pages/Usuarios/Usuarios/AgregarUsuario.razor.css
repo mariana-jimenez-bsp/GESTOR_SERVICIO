@@ -49,41 +49,6 @@
 .width-content {
     max-width: 99%;
 }
-.blue-light-bg {
-    background-color: #2255A1;
-}
-
-.blue-dark-bg {
-    background-color: #1C3259;
-}
-
-.blue-light-text {
-    color: #2255A1;
-}
-
-.blue-dark-text {
-    color: #1C3259;
-}
-
-.green-bg {
-    background-color: #2FAD70;
-}
-
-.green-add-bg {
-    background-color: #0A8637;
-}
-
-.green-text {
-    color: #2FAD70;
-}
-
-.border-success {
-    border-color: #2FAD70;
-}
-
-.border-primary {
-    border-color: #1C3259;
-}
 
 .scrollbar-modal-projects::-webkit-scrollbar {
     width: 12px;

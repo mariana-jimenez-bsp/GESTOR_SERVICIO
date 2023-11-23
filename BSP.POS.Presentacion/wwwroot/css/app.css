@@ -195,3 +195,33 @@ button.btn:disabled {
     border-color: #4CAF50; /* Cambia el color del borde a tu elección */
     accent-color: #29702b;
 }
+.blue-light-text {
+    color: #2255A1;
+}
+
+.blue-dark-text {
+    color: #1C3259;
+}
+.blue-light-bg {
+    background-color: #2255A1;
+}
+
+.blue-dark-bg {
+    background-color: #1C3259;
+}
+.green-bg {
+    background-color: #2FAD70;
+}
+.green-dark-bg {
+    background-color: #0A8637;
+}
+.green-text{
+    color: #2FAD70;
+}
+.border-success {
+    border-color: #2FAD70;
+}
+
+.border-primary {
+    border-color: #1C3259;
+}

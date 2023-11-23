@@ -14,9 +14,6 @@
     border-radius: 10px;
     max-width:100px;
 }
-.green-bg {
-    background-color: #2FAD70;
-}
 .title-gestor {
     font-family: 'Circular Std Bold', sans-serif;
     font-size: 30pt;
@@ -76,12 +73,6 @@
 a {
     text-decoration: none; /* Quita la línea subrayada */
     color: inherit; /* Hereda el color del texto */
-}
-.blue-light-text {
-    color: #2255A1;
-}
-.blue-dark-text {
-    color: #1C3259;
 }
 .sections {
     margin-top: 0;

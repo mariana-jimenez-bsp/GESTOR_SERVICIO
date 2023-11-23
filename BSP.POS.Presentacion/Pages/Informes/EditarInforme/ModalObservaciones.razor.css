@@ -7,25 +7,6 @@
     max-height: 70px;
 }
 
-.blue-good {
-    color: #1C3259;
-}
-.blue-dark-bg {
-    background-color: #1C3259;
-}
-.mouse-pointer {
-    transition: background-color 0.3s;
-    cursor: pointer;
-}
-.green-good {
-    color: #198754;
-}
-.green-bg {
-    background-color: #198754;
-}
-.blue-good-bg {
-    background-color: #053d9e;
-}
 .button-add {
     padding: 10px 20px;
 }

@@ -119,27 +119,7 @@
         border: 2px solid #2FAD70; /* Cambiar el color del borde cuando está seleccionado */
         background-color: #2FAD70; /* Color de fondo del checkbox */
     }
-.blue-light-bg {
-    background-color: #2255A1;
-}
 
-.blue-dark-bg {
-    background-color: #1C3259;
-}
-
-.blue-light-text {
-    color: #2255A1;
-}
-
-.blue-dark-text {
-    color: #1C3259;
-}
-.green-bg {
-    background-color: #2FAD70;
-}
-.text-green {
-    color: #2FAD70;
-}
 .text-profile {
     font-size: 25pt;
 }

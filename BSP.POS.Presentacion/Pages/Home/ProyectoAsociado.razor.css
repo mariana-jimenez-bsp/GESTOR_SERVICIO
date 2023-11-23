@@ -255,31 +255,6 @@ a {
     width: 40%;
     height: 40%;
 }
-
-.t-blue-dark {
-    color: #1C3259;
-}
-
-.bg-status-yellow {
-    background-color: #D0CD05;
-}
-
-.bg-status-green {
-    background-color: #2FAD70;
-}
-
-.t-gray {
-    color: #D5D5D5;
-}
-
-.footer-right-cod {
-    font-size: 24pt;
-}
-
-.circle-font {
-    font-size: 11pt;
-}
-
 @media screen and (max-width: 768px) {
     .eyelash-all {
         font-size: 7pt;

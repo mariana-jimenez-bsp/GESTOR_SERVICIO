@@ -46,7 +46,7 @@
                             </button>
                              <BuscarInforme Texto="RecibirTexto"></BuscarInforme>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center font-blue-light">
+                            <div class="d-flex justify-content-center align-items-center blue-light-text">
                                 <span class="mx-2">Filtro:</span>
                                 <span>Desde</span>
                                 <input class="mx-2 input-date text-light text-center" type="date" @bind="@fechaInicioDateTime" @oninput="CambioFechaInicio"/>
@@ -74,7 +74,7 @@
                             <div class="overflow-y-auto overflow-x-hidden scrollbar-report scrollbar-max-height">
                             @foreach (var informe in informesFinalizados)
                             {
-                                <div class="row font-19 mouse-pointer @informe.informeSeleccionado font-blue-light" @onclick="() => cambioSeleccion(informe.consecutivo)">
+                                <div class="row font-19 mouse-pointer @informe.informeSeleccionado blue-light-text" @onclick="() => cambioSeleccion(informe.consecutivo)">
                                     <div class="col-md-3 text-light height-col d-flex align-items-center @informe.informeSeleccionado @informe.imagenSeleccionada">
                                             @if (informe.imagen_cliente != null && !informe.imagen_cliente.SequenceEqual(new byte[] { 0x00 }))
                                             {

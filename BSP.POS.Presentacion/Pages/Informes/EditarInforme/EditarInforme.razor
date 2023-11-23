@@ -137,10 +137,10 @@
                                 {
                                     @foreach (var observacion in listaDeObservaciones)
                                     {
-                                        <div class="col-md-2 border-green @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")" >
+                                        <div class="col-md-2 border-success @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")" >
                                             <span class="break-line">@observacion.nombre_usuario</span>
                                         </div>
-                                        <div class="col-md-10 border-green text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")" >
+                                        <div class="col-md-10 border-success text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")" >
                                             <span class="break-line">@observacion.observacion</span>
                                         </div>
                                     }

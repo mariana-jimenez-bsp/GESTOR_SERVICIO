@@ -26,12 +26,6 @@
 .break-line {
     word-wrap: break-word;
 }
-.border-green {
-    border: 1px solid #2FAD70;
-}
-.border-dark-blue {
-    border: 1px solid #1C3259;
-}
 .border-inicio-izquierda {
     border-top-left-radius: 20px;
 }
@@ -51,28 +45,6 @@
     border-right: 1px solid #A9A9A9;
 }
 
-.blue-light-bg {
-    background-color: #2255A1;
-}
-
-.blue-dark-bg {
-    background-color: #1C3259;
-}
-
-.blue-light-text {
-    color: #2255A1;
-}
-.blue-dark-text {
-    color: #1C3259;
-}
-
-.green-text {
-    color: #2FAD70;
-}
-.mouse-pointer {
-    transition: background-color 0.3s;
-    cursor: pointer;
-}
 .btn-agregar-usuario {
     background-color: #2FAD70;
 }

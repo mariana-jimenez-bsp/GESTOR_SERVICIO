@@ -211,11 +211,6 @@ a {
 }
 
 
-.mouse-pointer {
-    transition: background-color 0.3s;
-    cursor: pointer;
-}
-
 .client-item {
     color: #2255A1;
     font-size: 11pt;
@@ -245,22 +240,6 @@ a {
 .image-add {
     width: 40%;
     height: 40%;
-}
-
-.t-blue-dark {
-    color: #1C3259;
-}
-
-.bg-status-yellow {
-    background-color: #D0CD05;
-}
-
-.bg-status-green {
-    background-color: #2FAD70;
-}
-
-.t-gray {
-    color: #D5D5D5;
 }
 
 .footer-right-cod {
