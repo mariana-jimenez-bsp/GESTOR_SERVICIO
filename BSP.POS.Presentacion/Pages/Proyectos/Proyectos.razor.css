@@ -42,22 +42,6 @@
     max-height: 620px;
     min-height: 620px;
 }
-.text-41-book {
-    font-size: 41pt;
-}
-
-.text-16-book {
-    font-size: 12pt;
-}
-
-.text-16-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 11pt;
-}
-.text-13-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 11pt;
-}
 .border-input-gray {
     border-color: #D5D5D5;
 }
@@ -75,22 +59,6 @@
     .max-height-projects {
         max-height: 450px;
     }
-
-    .text-41-book {
-        font-size: 20pt;
-    }
-
-    .text-16-book {
-        font-size: 8pt;
-    }
-
-    .text-16-medium {
-        font-size: 8pt;
-    }
-
-    .text-13-medium {
-        font-size: 7pt;
-    }
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
@@ -103,21 +71,7 @@
         min-height: 280px;
         max-width: 99%;
     }
-    .text-41-book {
-        font-size: 20pt;
-    }
-
-    .text-16-book {
-        font-size: 10pt;
-    }
-
-    .text-16-medium {
-        font-size: 10pt;
-    }
-
-    .text-13-medium {
-        font-size: 10pt;
-    }
+   
     .footer-project .button-footer {
         padding: 10px 10px;
         height: 40px;

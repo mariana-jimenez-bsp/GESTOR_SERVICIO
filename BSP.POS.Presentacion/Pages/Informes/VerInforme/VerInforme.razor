@@ -32,24 +32,24 @@
                             
                             <div class="col-md-6 d-flex row text-start">
                                 <div>
-                                    <span class="blue-dark-text font-23-medium">Fecha: </span><span class="green-text font-19-bold border-0 w-50">@informe.fecha_consultoria</span>
+                                    <span class="blue-dark-text font-12-medium">Fecha: </span><span class="green-text font-10-bold border-0 w-50">@informe.fecha_consultoria</span>
                                    
                                 </div>
 
                              <div class="row d-flex align-items-center">
-                                <span class="col-md-4 blue-dark-text font-23-medium">Cliente: </span>
-                                <span class="col-md-8 green-text border-0 font-19-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
+                                <span class="col-md-4 blue-dark-text font-12-medium">Cliente: </span>
+                                <span class="col-md-8 green-text border-0 font-10-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
 
                              </div>
                             </div>
                             <div class="col-md-6 d-flex row text-start">
                                 <div>
-                                    <span class="blue-dark-text font-23-medium">Hora de Inicio: </span><span class="green-text width-time border-0 font-19-bold">@informe.hora_inicio.Substring(0, 5) hs</span>
+                                    <span class="blue-dark-text font-12-medium">Hora de Inicio: </span><span class="green-text width-time border-0 font-10-bold">@informe.hora_inicio.Substring(0, 5) hs</span>
  
                                 </div>
 
                                 <div>
-                                <span class="blue-dark-text font-23-medium">Hora de Fin: </span><span class="green-text width-time border-0 font-19-bold">@informe.hora_final.Substring(0, 5) hs</span>
+                                <span class="blue-dark-text font-12-medium">Hora de Fin: </span><span class="green-text width-time border-0 font-10-bold">@informe.hora_final.Substring(0, 5) hs</span>
                                   
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                     </div>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
-                        <div class="row text-center p-2 blue-light-text font-20-book mx-1">
+                        <div class="row text-center p-2 blue-light-text font-12-book mx-1">
                             <div class="col-md-3">
                                 <span class="ms-3">NOMBRE</span>
                             </div>
@@ -80,7 +80,7 @@
 
                                 foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                                 {
-                                    <div class="row p-2 text-center font-14-book borde-gris-arriba mx-1">
+                                    <div class="row p-2 text-center font-10-book borde-gris-arriba mx-1">
                                      <div class="col-md-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
@@ -116,7 +116,7 @@
                     </div>
                 </div>
                         <div class="d-flex row justify-content-center align-items-center text-center div-observaciones">
-                            <span class="green-text font-19-bold">Observaciones</span>
+                            <span class="green-text font-10-bold">Observaciones</span>
                             <div class="observation row max-height-observation overflow-y-auto overflow-x-hidden scrollbar-report mb-1">
                                 @if (listaDeObservaciones.Any())
                                 {
@@ -140,8 +140,8 @@
             </div>
             <div class="col-md-6">
                 <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
-                    <span class="blue-dark-text font-23-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
-                    <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-23-medium">
+                    <span class="blue-dark-text font-12-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
+                    <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-12-medium">
                         <option value="@informe.modalidad_consultoria">@informe.modalidad_consultoria</option>
                     </select>
                 </div>
@@ -151,7 +151,7 @@
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                             <div class="ps-0 ms-0 ">
-                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
+                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-12-book">
                                     <div class="col-md-4 py-2">
                                         <span>ACTIVIDAD</span>
                                     </div>
@@ -169,7 +169,7 @@
 
                                             @foreach (var actividad in listaActividadesAsociadas)
                                             {
-                                                <div class="row px-2 text-center ms-0 font-14-book borde-gris-arriba">
+                                                <div class="row px-2 text-center ms-0 font-10-book borde-gris-arriba">
                                                     <div class="col-md-4 borde-gris-derecha py-2">
                                                         <select @bind="@actividad.codigo_actividad" class="border-0 bg-transparent text-light">
                                                             @foreach (var laActividad in listaActividades)
@@ -201,7 +201,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
+                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-10-book footer-horas">
                             <div class="col-md-4 py-4">
                                 <span>Total de Horas</span>
                             </div>

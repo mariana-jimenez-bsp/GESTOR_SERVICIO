@@ -129,28 +129,6 @@
     background-color: #D5D5D5;
     margin-bottom: 3%;
 }
-
-.font-14-book {
-    font-size: 10pt;
-}
-
-.font-20-book {
-    font-size: 12pt;
-}
-
-.font-19-bold {
-    font-family: 'Circular Std Bold', sans-serif;
-    font-size: 10pt;
-}
-
-.font-23-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 12pt;
-}
-
-
-
-
 .table-right {
     height: 384px;
     max-height: 384px;
@@ -158,11 +136,6 @@
 
 .circle-max-width {
     max-width: 90px;
-}
-
-.font-11-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 11pt;
 }
 
 @media screen and (max-width: 768px) {
@@ -194,25 +167,7 @@
         max-width: 90px;
     }
 
-    .font-11-medium {
-        font-size: 6pt;
-    }
-
-    .font-14-book {
-        font-size: 7pt;
-    }
-
-    .font-20-book {
-        font-size: 10pt;
-    }
-
-    .font-19-bold {
-        font-size: 10pt;
-    }
-
-    .font-23-medium {
-        font-size: 11pt;
-    }
+    
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
@@ -241,26 +196,6 @@
 
     .circle-max-width {
         max-width: 90px;
-    }
-
-    .font-11-medium {
-        font-size: 9pt;
-    }
-
-    .font-14-book {
-        font-size: 10pt;
-    }
-
-    .font-20-book {
-        font-size: 12pt;
-    }
-
-    .font-19-bold {
-        font-size: 10pt;
-    }
-
-    .font-23-medium {
-        font-size: 12pt;
     }
 
     .max-height-observation {

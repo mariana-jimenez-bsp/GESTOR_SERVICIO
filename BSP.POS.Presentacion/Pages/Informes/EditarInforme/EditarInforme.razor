@@ -32,28 +32,28 @@
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
                         
                             <div class="col-md-6 d-flex row text-start align-items-center">
-                                    <span class="col-md-4 blue-dark-text font-23-medium">Fecha: </span>
-                                    <input type="date" class="col-md-8 green-text font-19-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
+                                    <span class="col-md-4 blue-dark-text font-12-medium">Fecha: </span>
+                                    <input type="date" class="col-md-8 green-text font-10-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
                                 <ValidationMessage For="@(() => informe.fecha_consultoria)" />
                             </div>
                             <div  class="col-md-6 d-flex row text-start">
-                                    <span class="col-md-6 blue-dark-text font-23-medium">Hora de Inicio: </span>
+                                    <span class="col-md-6 blue-dark-text font-12-medium">Hora de Inicio: </span>
                                     <div class="col-md-6 d-flex align-items-center">
-                                        <input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
+                                        <input type="time" class="green-text border-0 font-10-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
                                         <span class="green-text">hs</span>
                                     </div>
                                    
                                 <ValidationMessage For="@(() => informe.HoraInicioTimeSpan)" />
                             </div>
                             <div class="row d-flex align-items-center col-md-6 row text-start">
-                                <span class="col-md-4 blue-dark-text font-23-medium">Cliente: </span>
-                                <span class="col-md-8 green-text border-0 font-19-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
+                                <span class="col-md-4 blue-dark-text font-12-medium">Cliente: </span>
+                                <span class="col-md-8 green-text border-0 font-10-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
 
                             </div>
                             <div  class="col-md-6 d-flex row text-start">
-                                <span class="col-md-6 blue-dark-text font-23-medium">Hora de Fin: </span>
+                                <span class="col-md-6 blue-dark-text font-12-medium">Hora de Fin: </span>
                                 <div class="col-md-6 d-flex align-items-center">
-                                <input type="time" class="green-text border-0 font-19-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
+                                <input type="time" class="green-text border-0 font-10-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                 <span class="green-text">hs</span>
                                 </div>
                                 <ValidationMessage For="@(() => informe.HoraFinalTimeSpan)" />
@@ -68,7 +68,7 @@
                 <button type="button" class="border-success rounded-3 btn-agregar-usuario text-light px-2 my-1" @onclick="() => ClickHandlerAgregarUsuario(true)">Agregar Usuario</button>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
-                        <div class="row text-center p-2 blue-light-text font-20-book header-usuarios-informe mx-1">
+                        <div class="row text-center p-2 blue-light-text font-12-book header-usuarios-informe mx-1">
                             <div class="col-md-3">
                                 <span class="ms-3">NOMBRE</span>
                             </div>
@@ -91,7 +91,7 @@
 
                         foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                             {
-                                <div class="row p-2 text-center font-14-book borde-gris-arriba mx-1">
+                                <div class="row p-2 text-center font-10-book borde-gris-arriba mx-1">
                                     <div class="col-md-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
@@ -131,7 +131,7 @@
              </div>
             </div>
                     <div class="d-flex row justify-content-center align-items-center text-center div-observaciones">
-                        <span class="green-text font-19-bold">Observaciones</span>
+                        <span class="green-text font-10-bold">Observaciones</span>
                         <div class=" observation row max-height-observation overflow-y-auto overflow-x-hidden scrollbar-report mb-1">
                                 @if (listaDeObservaciones.Any())
                                 {
@@ -156,8 +156,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
-                        <span class="blue-dark-text font-23-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
-                        <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-23-medium">
+                        <span class="blue-dark-text font-12-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
+                        <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-12-medium">
                             <option value="Virtual">Virtual</option>
                             <option value="Presencial">Presencial</option>
                         </select>
@@ -186,7 +186,7 @@
 
                                     @foreach (var actividad in informe.listaActividadesAsociadas)
                                     {
-                                        <div class="row px-2 text-center ms-0 font-14-book borde-gris-arriba">
+                                        <div class="row px-2 text-center ms-0 font-10-book borde-gris-arriba">
                                             <div class="col-md-4 borde-gris-derecha py-2">
                                                 <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" 
                                                     class="border-0 bg-transparent text-light" id="select-actividad-@actividad.codigo_actividad" 
@@ -230,7 +230,7 @@
                     
                             </div>
                         </div>
-                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-14-book footer-horas">
+                        <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-10-book footer-horas">
 
                             <div class="col-md-4 py-4">
                                 <span>Total de Horas</span>

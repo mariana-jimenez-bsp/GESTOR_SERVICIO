@@ -206,11 +206,6 @@ a {
     max-height: 200px;
 }
 
-.font-size-15 {
-    font-size: 15pt;
-}
-
-
 .client-item {
     color: #2255A1;
     font-size: 11pt;
@@ -300,10 +295,6 @@ a {
         height: 111px;
     }
 
-    .font-size-15 {
-        font-size: 8pt;
-    }
-
     .client-item {
         font-size: 6pt;
     }
@@ -377,10 +368,6 @@ a {
 
     .footer-right {
         height: 90px;
-    }
-
-    .font-size-15 {
-        font-size: 12pt;
     }
 
     .client-item {

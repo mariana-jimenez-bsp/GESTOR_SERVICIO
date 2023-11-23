@@ -50,26 +50,6 @@
     border: 3px solid white;
 }
 
-
-.text-41-book {
-    font-size: 15pt;
-}
-
-.text-16-book {
-    font-size: 16pt;
-}
-
-.text-16-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 16pt;
-}
-
-.text-13-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 13pt;
-}
-
-
 .border-input-gray {
     border-color: #D5D5D5;
 }
@@ -84,43 +64,12 @@
         width: 100%;
     }
 
-    .text-41-book {
-        font-size: 20pt;
-    }
-
-    .text-16-book {
-        font-size: 8pt;
-    }
-
-    .text-16-medium {
-        font-size: 8pt;
-    }
-
-    .text-13-medium {
-        font-size: 6pt;
-    }
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
     .footer-agregar-actividad {
         height: 60px;
         max-width: 100%;
-    }
-
-    .text-41-book {
-        font-size: 15pt;
-    }
-
-    .text-16-book {
-        font-size: 10pt;
-    }
-
-    .text-16-medium {
-        font-size: 10pt;
-    }
-
-    .text-13-medium {
-        font-size: 10pt;
     }
 
     .border-input-gray {

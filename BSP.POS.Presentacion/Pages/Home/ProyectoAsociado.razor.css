@@ -215,10 +215,6 @@ a {
     max-height: 200px;
 }
 
-.font-size-15 {
-    font-size: 15pt;
-}
-
 
 .mouse-pointer {
     transition: background-color 0.3s;
@@ -301,9 +297,6 @@ a {
         height: 111px;
     }
 
-    .font-size-15 {
-        font-size: 8pt;
-    }
 
     .client-item {
         font-size: 6pt;
@@ -377,10 +370,7 @@ a {
         height: 90px;
     }
 
-    .font-size-15 {
-        font-size: 12pt;
-    }
-
+ 
     .client-item {
         font-size: 9pt;
     }

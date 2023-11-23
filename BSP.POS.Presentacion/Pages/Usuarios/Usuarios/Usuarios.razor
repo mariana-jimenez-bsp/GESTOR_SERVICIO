@@ -39,7 +39,7 @@
                             <label class="pe-3 text-center w-100">Acción</label>
                         </div>
                     </div>
-                    <div class="max-height-projects overflow-y-auto overflow-x-hidden scrollbar-modal-projects">
+                    <div class="max-height-users overflow-y-auto overflow-x-hidden scrollbar-modal-users">
                         @if (usuarios.Any())
                         {
                             var listaDeUsuarios = usuarios.OrderBy(u => u.codigo).ToList();
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-project text-13-medium">
+            <div class="footer-users text-13-medium">
                 <div @onclick="() => IrAAgregarUsuario()" class="mouse-pointer rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="agregar-usuarios">
                     Agregar
                     Usuario
@@ -112,7 +112,7 @@
     {
         <RutaErronea mensaje="No tienes los permisos suficientes para entrar a esta página"></RutaErronea>
     }
-    <ScriptMaxHeight Contenido=".max-height-projects" Elemento1=".el-layout" Elemento2=".footer-project" Elemento3=".card-header"></ScriptMaxHeight>
+    <ScriptMaxHeight Contenido=".max-height-users" Elemento1=".el-layout" Elemento2=".footer-users" Elemento3=".card-header"></ScriptMaxHeight>
 }
 else
 {

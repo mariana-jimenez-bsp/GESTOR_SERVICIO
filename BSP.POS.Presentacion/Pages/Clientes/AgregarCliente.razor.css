@@ -58,24 +58,6 @@
     border: 3px solid white;
 }
 
-.text-41-book {
-    font-size: 15pt;
-}
-
-.text-16-book {
-    font-size: 16pt;
-}
-
-.text-16-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 16pt;
-}
-
-.text-13-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 13pt;
-}
-
 .border-input-gray {
     border-color: #D5D5D5;
 }
@@ -107,22 +89,6 @@
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
-
-    .text-41-book {
-        font-size: 15pt;
-    }
-
-    .text-16-book {
-        font-size: 10pt;
-    }
-
-    .text-16-medium {
-        font-size: 10pt;
-    }
-
-    .text-13-medium {
-        font-size: 10pt;
-    }
 
     .border-input-gray {
         border-color: #D5D5D5;

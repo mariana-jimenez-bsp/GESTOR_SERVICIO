@@ -50,18 +50,18 @@
     max-width: 99%;
 }
 
-.scrollbar-modal-projects::-webkit-scrollbar {
+.scrollbar-modal-user::-webkit-scrollbar {
     width: 12px;
 }
 
 /* Color del área de seguimiento */
-.scrollbar-modal-projects::-webkit-scrollbar-track {
+.scrollbar-modal-user::-webkit-scrollbar-track {
     background-color: #198754;
     border: 5px solid white;
 }
 
 /* Color y forma del botón de desplazamiento */
-.scrollbar-modal-projects::-webkit-scrollbar-thumb {
+.scrollbar-modal-user::-webkit-scrollbar-thumb {
     background-color: #198754;
     border-radius: 20px;
     border: 3px solid white;
@@ -111,24 +111,6 @@
     width: 70px;
 }
 
-.text-41-book {
-    font-size: 15pt;
-}
-
-.text-16-book {
-    font-size: 16pt;
-}
-
-.text-16-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 16pt;
-}
-
-.text-13-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 13pt;
-}
-
 
 .border-input-gray {
     border-color: #D5D5D5;
@@ -144,21 +126,7 @@
         width: 100%;
     }
 
-    .text-41-book {
-        font-size: 20pt;
-    }
-
-    .text-16-book {
-        font-size: 8pt;
-    }
-
-    .text-16-medium {
-        font-size: 8pt;
-    }
-
-    .text-13-medium {
-        font-size: 6pt;
-    }
+    
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
@@ -166,21 +134,7 @@
         height: 60px;
         max-width: 100%;
     }
-    .text-41-book {
-        font-size: 15pt;
-    }
-
-    .text-16-book {
-        font-size: 10pt;
-    }
-
-    .text-16-medium {
-        font-size: 10pt;
-    }
-
-    .text-13-medium {
-        font-size: 10pt;
-    }
+    
 
     .border-input-gray {
         border-color: #D5D5D5;

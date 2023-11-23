@@ -1,5 +1,5 @@
 ﻿
-.footer-project {
+.footer-users {
     position: fixed;
     bottom: 0;
     display: flex;
@@ -10,7 +10,7 @@
     align-items: center;
 }
 
-    .footer-project .button-footer {
+    .footer-users .button-footer {
         padding: 10px 20px;
         height: 40px;
         display: flex;
@@ -20,44 +20,26 @@
     max-width: 99%;
 }
 
-.scrollbar-modal-projects::-webkit-scrollbar {
+.scrollbar-modal-users::-webkit-scrollbar {
     width: 12px;
 }
 
 /* Color del área de seguimiento */
-.scrollbar-modal-projects::-webkit-scrollbar-track {
+.scrollbar-modal-users::-webkit-scrollbar-track {
     background-color: #2FAD70;
     border: 5px solid white;
 }
 
 /* Color y forma del botón de desplazamiento */
-.scrollbar-modal-projects::-webkit-scrollbar-thumb {
+.scrollbar-modal-users::-webkit-scrollbar-thumb {
     background-color: #2FAD70;
     border-radius: 20px;
     border: 3px solid white;
 }
 
-.max-height-projects {
+.max-height-users {
     max-height: 620px;
     min-height: 620px;
-}
-
-.text-41-book {
-    font-size: 41pt;
-}
-
-.text-16-book {
-    font-size: 12pt;
-}
-
-.text-16-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 11pt;
-}
-
-.text-13-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 11pt;
 }
 
 .border-input-gray {
@@ -72,67 +54,35 @@
 }
 
 @media screen and (max-width: 768px) {
-    .footer-project {
+    .footer-users {
         height: 70px;
         width: 100%;
     }
 
-    .max-height-projects {
+    .max-height-users {
         max-height: 150px;
         width: auto;
         max-width: 760px;
     }
 
-    .max-height-projects {
+    .max-height-users {
         max-height: 450px;
-    }
-
-    .text-41-book {
-        font-size: 20pt;
-    }
-
-    .text-16-book {
-        font-size: 8pt;
-    }
-
-    .text-16-medium {
-        font-size: 8pt;
-    }
-
-    .text-13-medium {
-        font-size: 7pt;
-    }
+    }  
 }
 
 @media screen and (max-height: 768px) and (min-width: 768px) {
-    .footer-project {
+    .footer-users {
         height: 60px;
         max-width: 100%;
     }
 
-    .max-height-projects {
+    .max-height-users {
         max-height: 290px;
         min-height: 290px;
         max-width: 99%;
     }
 
-    .text-41-book {
-        font-size: 20pt;
-    }
-
-    .text-16-book {
-        font-size: 12pt;
-    }
-
-    .text-16-medium {
-        font-size: 13pt;
-    }
-
-    .text-13-medium {
-        font-size: 10pt;
-    }
-
-    .footer-project .button-footer {
+    .footer-users .button-footer {
         padding: 10px 10px;
         height: 40px;
     }
