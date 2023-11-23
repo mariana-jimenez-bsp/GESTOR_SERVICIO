@@ -30,25 +30,25 @@
                     <div class="ms-2 mt-1 border-transparent">
 
                         <div class="card-header row blue-light-text fw-bold text-15-book" id="headings-clients">
-                                <div class="col-md-1">
+                                <div class="col-md-1 col-sm-1 col-xs-1">
                                     <label class="text-start w-100 ">Código</label>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
                                     <label class=" text-center w-100 ">Nombre</label>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
                                     <label class=" text-center w-100 ">Razón Social</label>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1 col-sm-1 col-xs-1">
                                     <label class="text-start w-100">Cédula</label>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1 col-sm-1 col-xs-1">
                                     <label class="text-start w-100">Télefono 1</label>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1 col-sm-1 col-xs-1">
                                     <label class="text-start w-100">Télefono 2</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-sm-2 col-xs-2">
                                     <label class="label-padding-right text-center w-100">Correo</label>
                                 </div>
                         </div>
@@ -71,7 +71,7 @@
                                     int cont = index;
                                     <div class="my-3">
                                             <div class="card-header row text-15-book" id="heading-@cont">
-                                                <div class="mb-0 col-md-1">
+                                                <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" value="@cliente.CLIENTE" readonly>
@@ -82,7 +82,7 @@
                                                     }
 
                                                 </div>
-                                                <div class="mb-0 col-md-3">
+                                                <div class="mb-0 col-md-3 col-sm-3 col-xs-3">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.NOMBRE" @oninput="(e) => CambioNombre(e, cliente.CLIENTE)">
@@ -93,7 +93,7 @@
                                                     }
                                                     <ValidationMessage For="@(() => cliente.NOMBRE)" />
                                                 </div>
-                                                <div class="mb-0 col-md-3">
+                                                <div class="mb-0 col-md-3 col-sm-3 col-xs-3">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.ALIAS" @oninput="(e) => CambioAlias(e, cliente.CLIENTE)">
@@ -104,7 +104,7 @@
                                                     }
                                                     <ValidationMessage For="@(() => cliente.ALIAS)" />
                                                 </div>
-                                                <div class="mb-0 col-md-1">
+                                                <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.CONTRIBUYENTE" @oninput="(e) => CambioContribuyente(e, cliente.CLIENTE)">
@@ -115,7 +115,7 @@
                                                     }
                                                     <ValidationMessage For="@(() => cliente.CONTRIBUYENTE)" />
                                                 </div>
-                                                <div class="mb-0 col-md-1">
+                                                <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO1" @oninput="(e) => CambioTelefono1(e, cliente.CLIENTE)">
@@ -126,7 +126,7 @@
                                                     }
                                                     <ValidationMessage For="@(() => cliente.TELEFONO1)" />
                                                 </div>
-                                                <div class="mb-0 col-md-1">
+                                                <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <input class="w-100 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@cliente.TELEFONO2" @oninput="(e) => CambioTelefono2(e, cliente.CLIENTE)">
@@ -137,7 +137,7 @@
                                                     }
                                                     <ValidationMessage For="@(() => cliente.TELEFONO2)" />
                                                 </div>
-                                                <div class="mb-0 col-md-2">
+                                                <div class="mb-0 col-md-2 col-sm-2 col-xs-2">
                                                     @if (cliente.IsOpen)
                                                     {
                                                         <div class="d-flex align-items-center">
@@ -178,22 +178,22 @@
                                                         @if (cliente.listaDeUsuarios.Any())
                                                         {
                                                             <div class="row p-2 blue-dark-bg text-light border border-primary rounded-top-4 text-9-bold">
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-2 col-sm-2 col-xs-2">
                                                                     <span>Código</span>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-2 col-sm-2 col-xs-2">
                                                                     <span>Usuario</span>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-2 col-sm-2 col-xs-2">
                                                                     <span>Departamento</span>
                                                                 </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-3 col-sm-3 col-xs-3">
                                                                     <span>Correo</span>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-2 col-sm-2 col-xs-2">
                                                                     <span>Teléfono</span>
                                                                 </div>
-                                                                <div class="col-md-1">
+                                                                <div class="col-md-1 col-sm-1 col-xs-1">
                                                                     <span>Acción</span>
                                                                 </div>
                                                             </div>
@@ -201,22 +201,22 @@
                                                             foreach (var usuario in cliente.listaDeUsuarios)
                                                             {
                                                                 <div class="row text-15-book p-2 blue-dark-text border-bottom border-start border-end border-success @(esElUltimoUsuario(cliente, usuario) ? "rounded-bottom-4" : "")">
-                                                                    <div class="col-md-2">
+                                                                    <div class="col-md-2 col-sm-2 col-xs-2">
                                                                         <span>@usuario.codigo</span>
                                                                     </div>
-                                                                    <div class="col-md-2">
+                                                                    <div class="col-md-2 col-sm-2 col-xs-2">
                                                                         <span>@usuario.usuario</span>
                                                                     </div>
-                                                                    <div class="col-md-2">
+                                                                    <div class="col-md-2 col-sm-2 col-xs-2">
                                                                         <span>@usuario.nombre_departamento</span>
                                                                     </div>
-                                                                    <div class="col-md-3">
-                                                                        <span>@usuario.correo</span>
+                                                                    <div class="col-md-3 col-sm-3 col-xs-3 texto-puntos-suspensivos">
+                                                                        <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@usuario.correo">@usuario.correo</span>
                                                                     </div>
-                                                                    <div class="col-md-2">
+                                                                    <div class="col-md-2 col-sm-2 col-xs-2">
                                                                         <span>@usuario.telefono</span>
                                                                     </div>
-                                                                    <div class="col-md-1">
+                                                                    <div class="col-md-1 col-sm-1 col-xs-1">
                                                                         <i class="fa-solid fa-pen-to-square ms-2 mouse-pointer" @onclick="() => IrAEditarUsuario(usuario.codigo, cliente.CLIENTE)"></i>
                                                                     </div>
                                                                 </div>

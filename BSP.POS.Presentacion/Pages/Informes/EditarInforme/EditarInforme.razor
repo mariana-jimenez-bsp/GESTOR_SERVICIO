@@ -26,33 +26,33 @@
         <div class="container-fluid p-2 pe-5 ps-5 body-edit">
             
                 <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-6 col-xs-6">
           
                     <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
                         
-                            <div class="col-md-6 d-flex row text-start align-items-center">
-                                    <span class="col-md-4 blue-dark-text font-12-medium">Fecha: </span>
-                                    <input type="date" class="col-md-8 green-text font-10-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
+                            <div class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start align-items-center">
+                                    <span class="col-md-4 col-sm-4 col-xs-4 blue-dark-text font-12-medium">Fecha: </span>
+                                    <input type="date" class="col-md-8 col-sm-8 col-xs-8 green-text font-10-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
                                 <ValidationMessage For="@(() => informe.fecha_consultoria)" />
                             </div>
-                            <div  class="col-md-6 d-flex row text-start">
-                                    <span class="col-md-6 blue-dark-text font-12-medium">Hora de Inicio: </span>
-                                    <div class="col-md-6 d-flex align-items-center">
+                            <div  class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start">
+                                    <span class="col-md-6 col-sm-6 col-xs-6 blue-dark-text font-12-medium">Hora de Inicio: </span>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 d-flex align-items-center">
                                         <input type="time" class="green-text border-0 font-10-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
                                         <span class="green-text">hs</span>
                                     </div>
                                    
                                 <ValidationMessage For="@(() => informe.HoraInicioTimeSpan)" />
                             </div>
-                            <div class="row d-flex align-items-center col-md-6 row text-start">
-                                <span class="col-md-4 blue-dark-text font-12-medium">Cliente: </span>
-                                <span class="col-md-8 green-text border-0 font-10-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
+                            <div class="row d-flex align-items-center col-md-6 col-sm-6 col-xs-6 row text-start">
+                                <span class="col-md-4 col-sm-4 col-xs-4 blue-dark-text font-12-medium">Cliente: </span>
+                                <span class="col-md-8 col-sm-8 col-xs-8 green-text border-0 font-10-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
 
                             </div>
-                            <div  class="col-md-6 d-flex row text-start">
-                                <span class="col-md-6 blue-dark-text font-12-medium">Hora de Fin: </span>
-                                <div class="col-md-6 d-flex align-items-center">
+                            <div  class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start">
+                                <span class="col-md-6 col-sm-6 col-xs-6 blue-dark-text font-12-medium">Hora de Fin: </span>
+                                <div class="col-md-6 col-sm-6 col-xs-6 d-flex align-items-center">
                                 <input type="time" class="green-text border-0 font-10-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
                                 <span class="green-text">hs</span>
                                 </div>
@@ -69,19 +69,19 @@
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
                         <div class="row text-center p-2 blue-light-text font-12-book header-usuarios-informe mx-1">
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
                                 <span class="ms-3">NOMBRE</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
                                 <span>DEP.</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
                                 <span class="me-3">CORREO</span>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <span class="me-2">RECIBIDO</span>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 
                             </div>
                         </div>
@@ -92,18 +92,18 @@
                         foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                             {
                                 <div class="row p-2 text-center font-10-book borde-gris-arriba mx-1">
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
                                         <span>@usuario.departamento_usuario</span>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
                                         <div class="texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@usuario.correo_usuario">
                                             <span >@usuario.correo_usuario</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-1 pt-0 mt-0">
+                                    <div class="col-md-1 col-sm-1 col-xs-1 pt-0 mt-0">
                                         
                                         @if (usuario.recibido == "1")
                                         {
@@ -119,7 +119,7 @@
                                         }
 
                                     </div>
-                                <div class="col-md-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.codigo_usuario)'>
+                                <div class="col-md-1 col-sm-1 col-xs-1 mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el usuario " + usuario.nombre_usuario + "?", "Usuario", usuario.codigo_usuario)'>
                                         <i class="ms-4 fa-solid fa-x text-danger"></i>
                                     </div>
                                 </div>
@@ -137,10 +137,10 @@
                                 {
                                     @foreach (var observacion in listaDeObservaciones)
                                     {
-                                        <div class="col-md-2 border-success @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")" >
+                                        <div class="col-md-2 col-sm-2 col-xs-2 border-green @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")" >
                                             <span class="break-line">@observacion.nombre_usuario</span>
                                         </div>
-                                        <div class="col-md-10 border-success text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")" >
+                                        <div class="col-md-10 col-sm-10 col-xs-10 border-green text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")" >
                                             <span class="break-line">@observacion.observacion</span>
                                         </div>
                                     }
@@ -154,7 +154,7 @@
 
 
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
                         <span class="blue-dark-text font-12-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
                         <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-12-medium">
@@ -169,13 +169,13 @@
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                         <div class="ps-0 ms-0 ">
                                 <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
-                                <div class="col-md-4 py-2">
+                                <div class="col-md-4 col-sm-4 col-xs-4 py-2">
                                     <span>ACTIVIDAD</span>
                                 </div>
-                                <div class="col-md-3 py-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 py-2">
                                     <span>HS COBRADAS</span>
                                 </div>
-                                <div class="col-md-4 py-2">
+                                <div class="col-md-4 col-sm-4 col-xs-4 py-2">
                                     <span>HS NO COBRADAS</span>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                     @foreach (var actividad in informe.listaActividadesAsociadas)
                                     {
                                         <div class="row px-2 text-center ms-0 font-10-book borde-gris-arriba">
-                                            <div class="col-md-4 borde-gris-derecha py-2">
+                                            <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
                                                 <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" 
                                                     class="border-0 bg-transparent text-light" id="select-actividad-@actividad.codigo_actividad" 
                                                                 @ondblclick="() => HacerSelectEditable(actividad.codigo_actividad)" data-toggle="tooltip" data-placement="top" title="@(rol == "Admin" || listaActividadesDeUsuario.Any(a => a.codigo == actividad.codigo_actividad) ? "Haga Doble click para editar" : "No se puede editar ya que está actividad no es suya")">
@@ -208,17 +208,17 @@
                                                 </select>
                                                 <ValidationMessage For="@(() => actividad.codigo_actividad)" />
                                             </div>
-                                            <div class="col-md-3 borde-gris-derecha py-2">
+                                            <div class="col-md-3 col-sm-3 col-xs-3 borde-gris-derecha py-2">
                                                 <input type="text" @bind-value="actividad.horas_cobradas" @oninput="(e) => CambioHorasCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_cobradas)" />
                                             </div>
-                                            <div class="col-md-4 py-2">
+                                            <div class="col-md-4 col-sm-4 col-xs-4 py-2">
                                                 <input type="text" @bind-value="actividad.horas_no_cobradas" @oninput="(e) => CambioHorasNoCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
                                             </div>
-                                            <div class="col-md-1 mouse-pointer py-2" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
+                                            <div class="col-md-1 col-sm-1 col-xs-1 mouse-pointer py-2" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
                                                 <i class="fa-solid fa-x text-danger"></i>
                                             </div>
                                         </div>
@@ -232,14 +232,14 @@
                         </div>
                         <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-10-book footer-horas">
 
-                            <div class="col-md-4 py-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-3 py-4">
+                            <div class="col-md-3 col-sm-3 col-xs-3 py-4">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>
-                            <div class="col-md-4 py-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
                                 <span>@total_horas_no_cobradas</span>
                                 <span>horas</span>
                             </div>

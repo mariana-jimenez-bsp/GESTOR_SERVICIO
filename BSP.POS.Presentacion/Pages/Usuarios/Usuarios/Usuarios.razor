@@ -6,6 +6,7 @@
 @inject ILicenciasInterface LicenciasService
 @inject IAlertasInterface AlertasService
 @inject SweetAlertService Swal;
+@inject IJSRuntime JSRuntime
 
 @if (cargaInicial)
 {
@@ -20,22 +21,22 @@
                 <div class="container mt-1 border-transparent">
 
                     <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
-                        <div class="col-md-2">
+                        <div class="col-md-2 col-sm-2 col-xs-2">
                             <label class=" text-center w-100">Código</label>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 col-sm-2 col-xs-2">
                             <label class=" text-center w-100">Usuario</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
                             <label class="pe-1 text-center w-100">Correo</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
                             <label class="pe-3 text-center w-100">Nombre</label>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-1 col-sm-1 col-xs-1">
                             <label class="pe-5 text-center w-100">Rol</label>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-1 col-sm-1 col-xs-1">
                             <label class="pe-3 text-center w-100">Acción</label>
                         </div>
                     </div>
@@ -55,27 +56,27 @@
                             @foreach (var usuario in listaDeUsuarios)
                             {
                                 <div class="card-header row blue-dark-text mb-3 mt-3 text-16-book">
-                                    <div class="mb-0 col-md-2">
+                                    <div class="mb-0 col-md-2 col-sm-2 col-xs-2">
                                         <label class="w-100 text-center">@usuario.codigo</label>
                                     </div>
-                                    <div class="mb-0 col-md-2">
+                                    <div class="mb-0 col-md-2 col-sm-2 col-xs-2">
                                         <label class="w-100 text-start">@usuario.usuario</label>
                                     </div>
-                                    <div class="mb-0 col-md-3">
-                                        <label class="w-100 text-start">@usuario.correo</label>
+                                    <div class="mb-0 col-md-3 col-sm-3 col-xs-3">
+                                        <label class="w-100 text-start texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@usuario.correo">@usuario.correo</label>
                                     </div>
-                                    <div class="mb-0 col-md-3">
+                                    <div class="mb-0 col-md-3 col-sm-3 col-xs-3">
                                         <label class="w-100 text-start">@usuario.nombre</label>
                                     </div>
-                                    <div class="mb-0 col-md-1">
+                                    <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
                                         <label class="w-100 text-center">@usuario.rol</label>
                                     </div>
-                                    <div class="mb-0 col-md-1 mouse-pointer">
-                                        <div class="dropdown">
+                                    <div class="mb-0 col-md-1 col-sm-1 col-xs-1 mouse-pointer">
+                                        <div class="dropdown font-10 w-100">
                                             <button class="text-light green-bg border-success rounded-pill px-1 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Acción
+                                                <span class="hide-on-small">Acción</span>
                                             </button>
-                                            <ul class="dropdown-menu text-center">
+                                            <ul class="dropdown-menu text-center dropdown-menu-lg-end">
                                                 <li>
                                                     <a class="dropdown-item mouse-pointer" @onclick="() => IrAEditarUsuario(usuario.codigo)">
                                                         <i class="fa-solid fa-pen-to-square"></i>

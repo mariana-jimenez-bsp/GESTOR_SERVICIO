@@ -30,7 +30,7 @@
         <div class="row contenedor-cols">
 
 
-            <div class="col-md-9">
+            <div class="col-md-9 col-sm-9 col-xs-9">
                 <div class="d-flex">
 
                     <div class="vertical-text text-light">
@@ -74,7 +74,7 @@
                             @foreach (var informe in informesFinalizados)
                             {
                                 <div class="row font-10 mouse-pointer @informe.informeSeleccionado blue-light-text" @onclick="() => cambioSeleccion(informe.consecutivo)">
-                                    <div class="col-md-3 text-light height-col d-flex align-items-center @informe.informeSeleccionado @informe.imagenSeleccionada">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 text-light height-col d-flex align-items-center @informe.informeSeleccionado @informe.imagenSeleccionada">
                                             @if (informe.imagen_cliente != null && !informe.imagen_cliente.SequenceEqual(new byte[] { 0x00 }))
                                             {
                                                 <img src="data:image/png;base64,@Convert.ToBase64String(informe.imagen_cliente)" width="70" height="70" alt="Imagen" />
@@ -84,16 +84,16 @@
                                                 <img alt="" />
                                             }
                                     </div>
-                                    <div class="col-md-2 height-col d-flex align-items-center">
+                                    <div class="col-md-2 col-sm-2 col-xs-2 height-col d-flex align-items-center">
                                         <span class="mouse-pointer color-change-consecutivo" @onclick="() => VerInforme(informe.consecutivo)">#@informe.consecutivo</span>
                                     </div>
-                                    <div class="col-md-2 height-col d-flex align-items-center">
+                                    <div class="col-md-2 col-sm-2 col-xs-2 height-col d-flex align-items-center">
                                         <span>@informe.fecha_consultoria</span>
                                     </div>
-                                    <div class="col-md-3 height-col d-flex align-items-center">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 height-col d-flex align-items-center">
                                         <span>@informe.nombre_cliente</span>
                                     </div>
-                                    <div class="col-md-2 height-col d-flex align-items-center">
+                                    <div class="col-md-2 col-sm-2 col-xs-2 height-col d-flex align-items-center">
                                         <span>@informe.nombre_consultor</span>
                                     </div>
                                 </div>
@@ -104,9 +104,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-3 col-xs-3">
                 <div class="ps-5 col-right-bg d-flex justify-content-start align-items-center row">
-                    <div class="col-md-4 col-right-bg ">
+                    <div class="col-md-4 col-sm-4 col-xs-4 col-right-bg ">
                         <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="() => ClickHandleEnviarCorreo(true)">
                             <span class="me-4 span-report">REENVIAR A CLIENTE</span>
                         </div>

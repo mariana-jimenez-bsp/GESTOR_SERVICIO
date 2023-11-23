@@ -26,19 +26,19 @@
                     <div class="container mt-1 border-transparent">
 
                         <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
                                 <label class=" text-center w-75 ">Código</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
                                 <label class=" text-center w-75 ">Usuario</label>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
                                 <label class="pe-2 text-center w-100">Nombre</label>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
                                 <label class="pe-3 text-center w-100 ">CI-Referencia</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
                                 <label class="pe-3 text-start w-50">Horas</label>
                             </div>
                         </div>
@@ -59,10 +59,10 @@
                                 @foreach (var actividad in listaDeActividades)
                                 {
                                     <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 col-sm-2 col-xs-2">
                                             <input class="w-75 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.codigo" readonly>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 col-sm-2 col-xs-2">
                                             <select class="w-100 text-center blue-dark-text border-dark-blue rounded-pill" @bind="@actividad.codigo_usuario" @oninput="(e) => CambioCodigoUsuario(e, actividad.Id)" disabled="@(rol == "Admin" ? false : true)">
                                                 @if(listaUsuarios.Any()){
                                                     foreach (var usuario in listaUsuarios)
@@ -73,22 +73,22 @@
                                             </select>
                                             <ValidationMessage For="@(() => actividad.codigo_usuario)" />
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-3 col-xs-3">
                                             <input class="w-100 text-center blue-dark-text border-dark-blue rounded-pill" type="text" @bind-value="@actividad.Actividad" @oninput="(e) => CambioActividadNombre(e, actividad.Id)">
                                             <ValidationMessage For="@(() => actividad.Actividad)" />
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-3 col-xs-3">
                                             <input class="w-100 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.CI_referencia" @oninput="(e) => CambioCIReferencia(e, actividad.Id)">
                                             <ValidationMessage For="@(() => actividad.CI_referencia)" />
                                         </div>
 
-                                        <div class="row col-md-2 d-flex align-items-center">
-                                            <div class="col-md-10">
+                                        <div class="row col-md-2 col-sm-2 col-xs-2 d-flex align-items-center">
+                                            <div class="col-md-10 col-sm-10 col-xs-10">
                                                 <input class="w-50 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
                                                 <ValidationMessage For="@(() => actividad.horas)" />
                                             </div>
-                                            <div class="col-md-1 mouse-pointer" @onclick='() => SwalEliminarActividad("¿Está seguro de eliminar la actividad #" + actividad.codigo + "?", actividad.codigo)'>
+                                            <div class="col-md-1 col-sm-1 col-xs-1 mouse-pointer" @onclick='() => SwalEliminarActividad("¿Está seguro de eliminar la actividad #" + actividad.codigo + "?", actividad.codigo)'>
                                                 <i class="mx-2 fa-solid fa-x text-danger"></i>
                                             </div>
                                         </div>

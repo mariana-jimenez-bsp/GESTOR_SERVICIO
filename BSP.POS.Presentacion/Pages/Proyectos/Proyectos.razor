@@ -27,35 +27,35 @@
                 <div class=" d-flex row g-2 text-center ">
                     <div class="container mt-1 border-transparent">
 
-                        <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
-                            <div class="col-md-1">
+                        <div class="card-header row blue-dark-text text-13-medium" id="headings-proyects">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="text-center w-100" ># de Proyecto</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="pe-4 text-center w-100">Nombre Proyecto</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
                                 <label class=" text-center w-100" >Nombre de la empresa</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class=" text-center w-100">Responsable</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="pe-2 text-center w-100">Consultor</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="pe-3 text-center w-100" >Fecha Inicial</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="pe-4 text-center w-100" >Fecha Final</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="pe-4 text-center w-100" >Horas Totales</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="pe-4 text-center w-100" >Centro Costo</label>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
                                 <label class="pe-5 text-center w-100">Estado</label>
                             </div>
                            
@@ -76,13 +76,13 @@
                                 @foreach (var proyecto in listaDeProyectos)
                                 {
                                     <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
-                                        <div class="mb-0 col-md-1">
+                                        <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.numero" readonly>
 
 
                                         </div>
-                                        <div class="mb-0  col-md-1">
+                                        <div class="mb-0  col-md-1 col-sm-1 col-xs-1">
                                             <div class="dropdown" style="display: @(proyecto.activar_editar ? "none" : "block")">
                                                 
                                                     <button class="border-0 bg-light dropdown-toggle texto-puntos-suspensivos" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -102,7 +102,7 @@
                                             }
                                             <ValidationMessage For="@(() => proyecto.nombre_proyecto)" />
                                         </div>
-                                        <div class="mb-0 col-md-2">
+                                        <div class="mb-0 col-md-2 col-sm-2 col-xs-2">
                                             <select class="w-100 text-center border-input-gray rounded-pill" @bind="proyecto.codigo_cliente" @oninput="(e) => CambioCodigoCliente(e, proyecto.Id)">
                                                 @if (listaDeClientes.Any())
                                                 {
@@ -116,12 +116,12 @@
 
 
                                         </div>
-                                        <div class="mb-0 col-md-1">
+                                        <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.nombre_responsable" readonly>
   
                                         </div>
-                                        <div class="mb-0 col-md-1">
+                                        <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
                                             <select class="w-100 text-center border-input-gray rounded-pill" @bind="proyecto.codigo_consultor" @oninput="(e) => CambioConsultor(e, proyecto.Id)">
                                                 @if (listaUsuariosConsultores.Any())
                                                 {
@@ -135,22 +135,22 @@
 
 
                                         </div>
-                                        <div class="mb-0 col-md-1">
+                                        <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="date" @bind-value="@proyecto.FechaInicialDateTime" @oninput="(e) => CambioFechaInicial(e, proyecto.Id)">
                                             <ValidationMessage For="@(() => proyecto.FechaInicialDateTime)" />
                                         </div>
-                                        <div class="mb-0  col-md-1">
+                                        <div class="mb-0  col-md-1 col-sm-1 col-xs-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="date" @bind-value="@proyecto.FechaFinalDateTime" @oninput="(e) => CambioFechaFinal(e, proyecto.Id)">
                                             <ValidationMessage For="@(() => proyecto.FechaFinalDateTime)" />
                                         </div>
-                                        <div class="mb-0  col-md-1">
+                                        <div class="mb-0  col-md-1 col-sm-1 col-xs-1">
 
                                             <input class="w-100 text-center border-input-gray rounded-pill" type="text" @bind-value="@proyecto.horas_totales" @oninput="(e) => CambioHorasTotales(e, proyecto.Id)">
                                             <ValidationMessage For="@(() => proyecto.horas_totales)" />
                                         </div>
-                                        <div class="mb-0  col-md-1">
+                                        <div class="mb-0  col-md-1 col-sm-1 col-xs-1">
                                             <select class="w-100 text-center border-input-gray rounded-pill me-2 texto-puntos-suspensivos" @bind="proyecto.centro_costo" @oninput="(e) => CambioCentroCosto(e, proyecto.Id)" >
                                                 @if (listaCentrosDeCosto.Any())
                                                 {
@@ -162,11 +162,11 @@
                                             </select>
                                             <ValidationMessage For="@(() => proyecto.centro_costo)" />
                                         </div>
-                                        <div class="mb-0 col-md-1">
+                                        <div class="mb-0 col-md-1 col-sm-1 col-xs-1">
                                           
                                                 <div class="dropdown">
-                                                    <button class="green-bg rounded-pill px-2 text-light dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        @proyecto.estado
+                                                    <button class="green-bg rounded-pill px-2 text-light dropdown-toggle w-100 texto-puntos-suspensivos" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@proyecto.estado">@proyecto.estado</span>
                                                     </button>
                                                     <ul class="dropdown-menu w-100">
                                                         <li><a class="dropdown-item mouse-pointer" @onclick='() => SwalCambiarEstadoProyecto("¿Está seguro de Terminar el proyecto #" + proyecto.numero + "?", proyecto.numero, "Terminado")'>Terminar</a></li>
@@ -176,7 +176,7 @@
                                             
                                             
                                         </div>
-                                        <div class="col-md-1 mouse-pointer" @onclick='() => SwalEliminarProyecto("¿Está seguro de eliminar el proyecto #" + proyecto.numero + "?", proyecto.numero)'>
+                                        <div class="col-md-1 col-sm-1 col-xs-1 mouse-pointer" @onclick='() => SwalEliminarProyecto("¿Está seguro de eliminar el proyecto #" + proyecto.numero + "?", proyecto.numero)'>
                                             <i class="mx-2 fa-solid fa-x text-danger"></i>
                                         </div>
                                     </div>

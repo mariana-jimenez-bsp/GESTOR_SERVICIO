@@ -26,14 +26,14 @@
             <div class="div-vacio"></div>
             <div class=" d-flex row g-2 text-center width-content">
                 <div class="d-flex row mx-2 mt-4 container max-height-users overflow-y-auto overflow-x-hidden scrollbar-modal-user">
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center my-2">
                                 <label class="blue-dark-text label-text" for="c-nombreUsuario">Nombre:</label>
                                 <input class="border border-success rounded-pill px-2 text-input" type="text" id="c-nombreUsuario" @bind-value="@usuario.nombre" @oninput="(e) => CambioNombre(e)">
                             </div>
                             <ValidationMessage For="@(() => usuario.nombre)" />
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text" for="c-usuario">Usuario:</label>
                                 <input class="border border-success rounded-pill px-2 text-input " id="c-usuario" type="text" @bind-value="@usuario.usuario" @oninput="(e) => CambioUsuario(e)">
@@ -46,7 +46,7 @@
                                 </div>
                             }
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text" for="c-correo">Correo:</label>
                                 <input class="border border-success rounded-pill px-2 text-input " id="c-correo" type="email" @bind-value="@usuario.correo" @oninput="(e) => CambioCorreo(e)">
@@ -60,7 +60,7 @@
 
                             }
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text" for="c-clave">Clave:</label>
                                 <div class="width-pass d-flex align-items-center text-input">
@@ -85,7 +85,7 @@
                             <ValidationMessage For="@(() => usuario.claveDesencriptada)" />
                         </div>
                         
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text" for="c-nombreCliente">Nombre Cliente:</label>
                                 @if (string.IsNullOrEmpty(codigoCliente))
@@ -99,7 +99,7 @@
                                 }
                                 else
                                 {
-                                    <select class="col-md-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e)" disabled>
+                                    <select class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-pill px-2 text-input " id="c-nombreCliente" @bind="@usuario.cod_cliente" @oninput="(e) => CambioCliente(e)" disabled>
                                         @foreach (var cliente in listaClientes)
                                         {
                                             <option value="@cliente.CLIENTE">@cliente.NOMBRE</option>
@@ -110,7 +110,7 @@
                             </div>
                             <ValidationMessage For="@(() => usuario.cod_cliente)" />
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center my-2 text-start">
                                 <label class=" blue-dark-text label-text text-center">Esquema:</label>
                                 <div class="container w-100 px-5">
@@ -123,7 +123,7 @@
                             }
                            
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text" for="c-rol">Rol:</label>
                                 <select @bind="usuario.rol" class="border border-success rounded-pill px-2 text-input" id="c-rol" @oninput="(e) => CambioRol(e)">
@@ -133,7 +133,7 @@
                             </div>
                             <ValidationMessage For="@(() => usuario.rol)" />
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text" for="c-paisTelefono">Código Teléfono:</label>
                                 <select class=" px-2 border border-success rounded-pill text-input" @bind="@usuario.paisTelefono" id="c-paisTelefono" @oninput="CambioPaisTelefono">
@@ -148,14 +148,14 @@
                             </div>
                             <ValidationMessage For="@(() => usuario.paisTelefono)" />
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class="  blue-dark-text label-text" for="c-telefono">Teléfono:</label>
                                 <input class=" border border-success rounded-pill px-2 text-input" type="text" id="c-telefono" @bind-value="@usuario.telefono" @oninput="(e) => CambioTelefono(e)">
                             </div>
                             <ValidationMessage For="@(() => usuario.telefono)" />
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class=" blue-dark-text label-text" for="c-departamento">Departamento:</label>
                            
@@ -171,7 +171,7 @@
                             </div>
                             <ValidationMessage For="@(() => usuario.codigo_departamento)" />
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center mb-2 mt-2">
                                 <label class="  blue-dark-text label-text text-center">Imagen:</label>
                                 <div class=" px-2 d-flex justify-content-center width-col-special">
@@ -191,7 +191,7 @@
                             </div>
                             <ValidationMessage For="@(() => usuario.ImagenFile)" />
                         </div>
-                        <div class="col-md-4 border border-success rounded-5 m-1 ">
+                        <div class="col-md-4 col-sm-4 col-xs-4 border border-success rounded-5 m-1 ">
                             <div class="row d-flex justify-content-center my-2 text-start">
                                 <label class=" blue-dark-text label-text text-center">Permisos:</label>
                                 <div class="container w-100 px-5">

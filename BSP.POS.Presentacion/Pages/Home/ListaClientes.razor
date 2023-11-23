@@ -14,7 +14,7 @@
 
 <div class="container-fluid ps-5 pe-5">
     <div class="row">
-        <div class="col-md-12 header-col-left">
+        <div class="col-md-12 col-sm-12 col-xs-12 header-col-left">
             <div class="d-flex ps-5">
                 <a  class='text-light eyelash @(activeTab == "recent" ? "eyelash-selected" : "eyelash-unselected") p-2 pe-3 ps-3 @GetTabLinkClass("recent")' @onclick='() => ChangeTab("recent")'>Clientes recientes</a>
                 <a  class=' text-light eyelash @(activeTab == "all" ? "eyelash-selected" : "eyelash-unselected") p-2 pe-3 ps-3 @GetTabLinkClass("all")' @onclick='() => ChangeTab("all")'>Todos los clientes</a>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="row ps-5">
-        <div class="col-md-5 col-left">
+        <div class="col-md-5 col-sm-5 col-xs-5 col-left">
             <div class="my-3">
                 <div id='recent' class='overflow-y-auto overflow-x-hidden scrollbar-client scrollbar-max-height-client' style='display: @(activeTab == "recent" ? "block" : "none")'>
                     @if (ClientesRecientes.Any() && cargaInicial)
@@ -49,7 +49,7 @@
                             {
                                     <div class="row g-1 client-item click-client" @onclick="() => EnviarProyectosDeCliente(cliente.CLIENTE)">
 
-                                        <div class="col-md-2 ">
+                                        <div class="col-md-2 col-sm-2 col-xs-2 ">
                                             @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
                                             {
                                                 <img class="img-client" src="data:image/png;base64,@Convert.ToBase64String(cliente.IMAGEN)" width="50" alt="Imagen" />
@@ -57,13 +57,13 @@
                                                 <img class="img-client" width="50" alt="" />
                                             }
                                         </div>
-                                    <div class="col-md-5 pe-2">
+                                    <div class="col-md-5 col-sm-5 col-xs-5 pe-2">
                                         <p>Código: @cliente.CLIENTE</p>
                                         <p>Nombre del cliente: @cliente.NOMBRE</p>
                                         <p>Responsable: @cliente.CONTACTO</p>
                                         <p>Departamento: @cliente.CARGO</p>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5 col-sm-5 col-xs-5">
                                         <p><img src="images/Home/Refrescar.png" class="pb-1"/> Ultima Actualizacion: @cliente.RecordDate</p>
                                     </div>
                                     
@@ -104,7 +104,7 @@
                         {
                             <div class="row g-1 client-item click-client" data-cliente="@cliente.CLIENTE" @onclick="() => EnviarProyectosDeCliente(cliente.CLIENTE)">
 
-                                <div class="col-md-2 ">
+                                <div class="col-md-2 col-sm-2 col-xs-2 ">
                                             @if (cliente.IMAGEN != null && !cliente.IMAGEN.SequenceEqual(new byte[] { 0x00 }))
                                         {
                                             <img class="img-client" src="data:image/png;base64,@Convert.ToBase64String(cliente.IMAGEN)" width="50" alt="Imagen" />
@@ -114,13 +114,13 @@
                                             <img alt="" />
                                         }
                                 </div>
-                                <div class="col-md-5 pe-2">
+                                <div class="col-md-5 col-sm-5 col-xs-5 pe-2">
                                     <p>Código: @cliente.CLIENTE</p>
                                     <p>Nombre del cliente: @cliente.NOMBRE</p>
                                     <p>Responsable: @cliente.CONTACTO</p>
                                     <p>Departamento: @cliente.CARGO</p>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-5 col-sm-5 col-xs-5">
                                     <p><img src="images/Home/Refrescar.png" class="pb-1"/> Ultima Actualizacion: @cliente.RecordDate</p>
                                 </div>
                                 

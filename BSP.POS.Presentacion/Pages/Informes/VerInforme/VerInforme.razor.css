@@ -21,7 +21,9 @@
 .break-line {
     word-wrap: break-word;
 }
-
+.border-green {
+    border: 1px solid #2FAD70;
+}
 .border-inicio-izquierda {
     border-top-left-radius: 20px;
 }

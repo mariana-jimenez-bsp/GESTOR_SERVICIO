@@ -6,6 +6,7 @@ using BSP.POS.Presentacion.Services.Proyectos;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -45,7 +46,23 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
 
         }
 
-        
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+
+            // Inicializa los tooltips de Bootstrap
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("initTooltips");
+            }
+            catch (Exception ex)
+            {
+
+                string error = ex.ToString();
+                Console.WriteLine(error);
+            }
+
+
+        }
 
 
         [Parameter]

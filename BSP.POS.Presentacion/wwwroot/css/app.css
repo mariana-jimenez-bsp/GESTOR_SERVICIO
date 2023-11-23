@@ -366,3 +366,8 @@ button.btn:disabled {
     }
 }
 
+@media (max-width: 1080px) {
+    .hide-on-small {
+        display: none;
+    }
+}

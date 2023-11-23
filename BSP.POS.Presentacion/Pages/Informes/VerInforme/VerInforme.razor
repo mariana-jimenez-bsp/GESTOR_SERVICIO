@@ -25,24 +25,24 @@
         
         
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="row p-2 header-col-left">
                         @if (!string.IsNullOrEmpty(informe.consecutivo))
                         {
                             
-                            <div class="col-md-6 d-flex row text-start">
+                            <div class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start">
                                 <div>
                                     <span class="blue-dark-text font-12-medium">Fecha: </span><span class="green-text font-10-bold border-0 w-50">@informe.fecha_consultoria</span>
                                    
                                 </div>
 
                              <div class="row d-flex align-items-center">
-                                <span class="col-md-4 blue-dark-text font-12-medium">Cliente: </span>
-                                <span class="col-md-8 green-text border-0 font-10-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
+                                <span class="col-md-4 col-sm-4 col-xs-4 blue-dark-text font-12-medium">Cliente: </span>
+                                <span class="col-md-8 col-sm-8 col-xs-8 green-text border-0 font-10-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
 
                              </div>
                             </div>
-                            <div class="col-md-6 d-flex row text-start">
+                            <div class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start">
                                 <div>
                                     <span class="blue-dark-text font-12-medium">Hora de Inicio: </span><span class="green-text width-time border-0 font-10-bold">@informe.hora_inicio.Substring(0, 5) hs</span>
  
@@ -61,16 +61,16 @@
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
                         <div class="row text-center p-2 blue-light-text font-12-book mx-1">
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
                                 <span class="ms-3">NOMBRE</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
                                 <span>DEP.</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
                                 <span>CORREO</span>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-sm-1 col-xs-1 col-sm-1 col-xs-1">
                                 <span>RECIBIDO</span>
                             </div>
                         </div>
@@ -81,18 +81,18 @@
                                 foreach (var usuario in listadeDatosUsuariosDeClienteDeInforme)
                                 {
                                     <div class="row p-2 text-center font-10-book borde-gris-arriba mx-1">
-                                     <div class="col-md-3">
+                                     <div class="col-md-3 col-sm-3 col-xs-3">
                                         <span>@usuario.nombre_usuario</span>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
                                         <span>@usuario.departamento_usuario</span>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
                                        <div class="texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@usuario.correo_usuario">
                                             <span >@usuario.correo_usuario</span>
                                         </div>
                                     </div>
-                                        <div class="col-md-1 pt-0 mt-0">
+                                        <div class="col-md-1 col-sm-1 col-xs-1 pt-0 mt-0">
 
                                                     @if (usuario.recibido == "1")
                                                     {
@@ -122,10 +122,10 @@
                                 {
                                     @foreach (var observacion in listaDeObservaciones)
                                     {
-                                        <div class="col-md-2 border-success @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")">
+                                        <div class="col-md-2 col-sm-2 col-xs-2 border-green @(EsLaPrimeraObservacion(observacion) ? "border-inicio-izquierda" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-izquierda" : "")">
                                             <span class="break-line">@observacion.nombre_usuario</span>
                                         </div>
-                                            <div class="col-md-10 border-success text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")">
+                                            <div class="col-md-10 col-sm-10 col-xs-10 border-green text-start @(EsLaPrimeraObservacion(observacion) ? "border-inicio-derecha" : "") @(EsLaUltmaObservacion(observacion) ? "border-final-derecha" : "")">
                                             <span class="break-line">@observacion.observacion</span>
                                         </div>
                                     }
@@ -138,7 +138,7 @@
 
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="p-2 d-flex justify-content-between align-items-center header-col-right">
                     <span class="blue-dark-text font-12-medium">Proyecto #@proyectoAsociado.numero - Informe #@informe.consecutivo</span>
                     <select @bind="informe.modalidad_consultoria" class="green-text border-0 font-12-medium">
@@ -152,13 +152,13 @@
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                             <div class="ps-0 ms-0 ">
                                 <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-12-book">
-                                    <div class="col-md-4 py-2">
+                                    <div class="col-md-4 col-sm-4 col-xs-4 py-2">
                                         <span>ACTIVIDAD</span>
                                     </div>
-                                    <div class="col-md-4 py-2">
+                                    <div class="col-md-4 col-sm-4 col-xs-4 py-2">
                                         <span>HS COBRADAS</span>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
                                         <span>HS NO COBRADAS</span>
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@
                                             @foreach (var actividad in listaActividadesAsociadas)
                                             {
                                                 <div class="row px-2 text-center ms-0 font-10-book borde-gris-arriba">
-                                                    <div class="col-md-4 borde-gris-derecha py-2">
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
                                                         <select @bind="@actividad.codigo_actividad" class="border-0 bg-transparent text-light">
                                                             @foreach (var laActividad in listaActividades)
                                                             {
@@ -184,11 +184,11 @@
                                                         </select>
                                                        
                                                     </div>
-                                                    <div class="col-md-4 borde-gris-derecha py-2">
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
                                                         <span class="border-0 bg-transparent width-input text-light">@actividad.horas_cobradas horas</span>
                                                       
                                                     </div>
-                                                    <div class="col-md-4 py-2">
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 py-2">
                                                         <span class="border-0 bg-transparent width-input text-light">@actividad.horas_no_cobradas horas</span>
                                                         
                                                     </div>
@@ -202,14 +202,14 @@
                             </div>
                         </div>
                         <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-10-book footer-horas">
-                            <div class="col-md-4 py-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-4 py-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>
-                            <div class="col-md-4 py-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
                                 <span>@total_horas_no_cobradas</span>
                                 <span>horas</span>
                             </div>

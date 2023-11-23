@@ -23,10 +23,10 @@
                     <div class="container mt-1 border-transparent">
 
                         <div class="card-header row blue-dark-text text-16-medium" id="headings-proyects">
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
                                 <label class=" text-center w-75 ">Código de Departamento</label>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
                                 <label class="pe-2 text-center w-100">Nombre</label>
                             </div>
                         </div>
@@ -45,15 +45,15 @@
                                 @foreach (var departamento in listaDepartamentos)
                                 {
                                     <div class="card-header row text-secondary mb-3 mt-3 text-16-book">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
                                             <input class="w-75 text-center text-secondary border-success rounded-pill" type="text" @bind-value="@departamento.codigo" readonly>
                                         </div>
-                                        <div class="row col-md-6 d-flex align-items-center">
-                                            <div class="col-md-11">
+                                        <div class="row col-md-6 col-sm-6 col-xs-6 d-flex align-items-center">
+                                            <div class="col-md-11 col-sm-11 col-xs-11">
                                                 <input class="w-100 text-center blue-dark-text border-primary rounded-pill" type="text" @bind-value="@departamento.Departamento" @oninput="(e) => CambioDepartamentoNombre(e, departamento.Id)">
                                                 <ValidationMessage For="@(() => departamento.Departamento)" />
                                             </div>
-                                            <div class="mouse-pointer col-md-1" @onclick='() => SwalEliminarDepartamento("¿Está seguro de eliminar el departamento #" + departamento.codigo + "?", departamento.codigo)'>
+                                            <div class="mouse-pointer col-md-1 col-sm-1 col-xs-1" @onclick='() => SwalEliminarDepartamento("¿Está seguro de eliminar el departamento #" + departamento.codigo + "?", departamento.codigo)'>
                                                 <i class="mx-2 fa-solid fa-x text-danger"></i>
                                             </div>
                                         </div>
