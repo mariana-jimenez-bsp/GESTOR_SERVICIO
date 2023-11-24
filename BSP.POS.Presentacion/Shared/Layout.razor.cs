@@ -108,32 +108,6 @@ namespace BSP.POS.Presentacion.Shared
             activarModalPerfil = activar;
             StateHasChanged();
         }
-
-        private void IrAlInicio()
-        {
-            navigationManager.NavigateTo($"Index");
-        }
-        private void IrAMisInformes()
-        {
-            navigationManager.NavigateTo($"Informes/MisInformes");
-        }
-
-        private void IrAProyectos()
-        {
-            navigationManager.NavigateTo($"proyectos");
-        }
-
-        private void IrAClientes()
-        {
-            navigationManager.NavigateTo($"clientes");
-        }
-
-        private void IrAConfiguraciones()
-        {
-
-            navigationManager.NavigateTo($"Configuraciones");
-        }
-
         private async Task IrAtras()
         {
             await JSRuntime.InvokeVoidAsync("history.back");

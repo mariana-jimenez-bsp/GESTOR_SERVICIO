@@ -83,8 +83,11 @@
                         <button @ref="LlaveButton" type="submit" style="display: none"></button>
                     </EditForm>
                         <p class="mt-4 text-light forgot-pass">¿Olvidó su contraseña?</p>
-                        <a class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")" @onclick="CorreoRecuperacion">Resetear contraseña</a>
-                  
+                        @if(licenciaActiva && mismaMacAdress){
+                            <a class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")" href="CorreoRecuperacion">Resetear contraseña</a>
+                        }else{
+                            <a @onclick="MensajeBloqueoRecuperacion" class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")">Resetear contraseña</a>
+                        }
                     
                 </div>
             </div>

@@ -13,10 +13,10 @@
         </div>
         if(estado == "Borrador"){
         <div class="d-flex ms-auto justify-content-center circle-font">
-            <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick="IrAEditar">
+            <a class="d-flex row text-center mouse-pointer justify-content-center" href="Informe/Editar/@consecutivo">
                 <img src="images/Home/Editar.png" class="mb-2 circle-click-max-width"/>
-                <a >Editar</a>
-            </div>
+                <span >Editar</span>
+            </a>
             <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick='() => SwalAdvertencia("¿Está seguro de finalizar el informe?", "Finalizar", consecutivo)'>
                  <img src="images/Home/Finalizar.png" class="mb-2 circle-click-max-width"/>
                 <a href="">Finalizar</a>
@@ -26,10 +26,10 @@
         else
         {
             <div class="d-flex ms-auto justify-content-center circle-font">
-                <div class="d-flex row text-center mouse-pointer justify-content-center" @onclick="VerInforme">
+                <a class="d-flex row text-center mouse-pointer justify-content-center" href="Informe/VerInforme/@consecutivo">
                     <img src="images/Home/Editar.png" class="mb-2 circle-click-max-width" />
-                    <a>Ver</a>
-                </div>
+                    <span>Ver</span>
+                </a>
             </div>
         }
     }

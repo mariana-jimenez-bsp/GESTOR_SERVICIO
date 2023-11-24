@@ -21,18 +21,8 @@ namespace BSP.POS.Presentacion.Pages.Home
             esquema = user.Claims.Where(c => c.Type == "esquema").Select(c => c.Value).First();
         }
 
-        private void IrAEditar()
-        {
-
-            navigationManager.NavigateTo($"Informe/Editar/{consecutivo}");
-        }
-
-        private void VerInforme()
-        {
-
-            navigationManager.NavigateTo($"Informe/VerInforme/{consecutivo}");
-        }
-
+       
+       
        
         private async Task FinalizarInforme(string consecutivo)
         {

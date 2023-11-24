@@ -285,28 +285,55 @@ namespace BSP.POS.Presentacion.Pages.Clientes
             }
         }
 
-        private async Task IrAAgregarUsuario(string cliente)
+        private async Task MensajeLimiteUsuarios()
         {
-            if (licencia.CantidadUsuarios <= usuarios.Count)
-            {
                 await AlertasService.SwalAdvertencia("Límite de Cantidad de Usuarios Alcanzado");
+        }
+        private async Task<bool> EliminarUsuario(string codigo)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool resultadoEliminar = await UsuariosService.EliminarUsuario(esquema, codigo);
+            return resultadoEliminar;
+        }
+
+        private async Task SwalEliminarUsuario(string mensajeAlerta, string codigoUsuario, string clienteCod)
+        {
+            if (permisos.Any(p => p.permiso == "Usuarios" && !p.subpermisos.Contains("Eliminar")))
+            {
+                await AlertasService.SwalAdvertencia("No tienes permisos para eliminar usuarios");
             }
             else
             {
-                navigationManager.NavigateTo($"configuraciones/usuario/agregar/{cliente}");
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = mensajeAlerta,
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Eliminar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        bool resultadoEliminar = await EliminarUsuario(codigoUsuario);
+                        if (resultadoEliminar)
+                        {
+                            await AlertasService.SwalExito("Se ha eliminado el usuario con el código " + codigoUsuario);
+                            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                            await ObtenerUsuariosDeCliente(clienteCod);
+                            StateHasChanged();
+                        }
+                        else
+                        {
+                            await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                        }
+                    }
+                });
             }
 
         }
 
-        private void IrAEditarUsuario(string codigo, string cliente)
-        {
-            navigationManager.NavigateTo($"configuraciones/usuario/editar/{codigo}/{cliente}");
-        }
-
-        private void IrAAgregarCliente()
-        {
-            navigationManager.NavigateTo($"cliente/agregar");
-        }
         private async Task SwalActualizandoClientes()
         {
             bool resultadoActualizar = false;

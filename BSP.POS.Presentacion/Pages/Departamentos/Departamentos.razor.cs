@@ -135,11 +135,6 @@ namespace BSP.POS.Presentacion.Pages.Departamentos
             }
         }
 
-        private void IrAAgregarDepartamento()
-        {
-            navigationManager.NavigateTo($"configuraciones/departamento/agregar");
-        }
-
         private async Task SwalActualizandoDepartamentos()
         {
 

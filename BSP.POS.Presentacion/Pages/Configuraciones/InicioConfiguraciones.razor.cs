@@ -42,21 +42,5 @@ namespace BSP.POS.Presentacion.Pages.Configuraciones
             
             cargaInicial = true;
         }
-
-        private void IrAUsuarios()
-        {
-
-            navigationManager.NavigateTo($"Configuraciones/Usuarios");
-        }
-        private void IrADepartamentos()
-        {
-
-            navigationManager.NavigateTo($"Configuraciones/Departamentos");
-        }
-        private void IrAActividades()
-        {
-
-            navigationManager.NavigateTo($"Configuraciones/Actividades");
-        }
     }
 }

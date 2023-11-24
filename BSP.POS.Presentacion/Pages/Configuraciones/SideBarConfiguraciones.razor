@@ -13,25 +13,25 @@
         <div class="row">
             @if (permisos.Any(p => p.permiso == "Actividades"))
             {
-                <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAActividades">
+                <a class="btn btn-outline-secondary mb-2" href="Configuraciones/Actividades" title="Ir a la lista de Actividades">
                     Actividades
-                </button>
+                </a>
             }
             @if (permisos.Any(p => p.permiso == "Departamentos"))
             {
-                <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrADepartamentos">
+                <a class="btn btn-outline-secondary mb-2" href="Configuraciones/Departamentos" title="Ir a la lista de Departamentos">
                     Departamentos
-                </button>
+                </a>
             }
             @if(permisos.Any(p => p.permiso == "Usuarios")){
-                <button class="btn btn-outline-secondary mb-2" type="button" @onclick="IrAUsuarios">
+                <a class="btn btn-outline-secondary mb-2" href="Configuraciones/Usuarios" title="Ir a la lista de Usuarios">
                     Usuarios
-                </button>
+                </a>
             }
            
-            <button class="btn btn-outline-secondary" type="button" @onclick="IrAlInicio">
+            <a class="btn btn-outline-secondary" href="Index" title="Volver al Home">
                 Volver Al Inicio
-            </button>
+            </a>
         </div>
     </div>
 </div>

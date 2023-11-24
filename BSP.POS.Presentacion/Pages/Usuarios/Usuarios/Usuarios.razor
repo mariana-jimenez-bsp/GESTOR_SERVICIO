@@ -78,12 +78,12 @@
                                             </button>
                                             <ul class="dropdown-menu text-center dropdown-menu-lg-end">
                                                 <li>
-                                                    <a class="dropdown-item mouse-pointer" @onclick="() => IrAEditarUsuario(usuario.codigo)">
+                                                    <a class="dropdown-item mouse-pointer" href="configuraciones/usuario/editar/@usuario.codigo"  title="Ir a editar el usuario @usuario.usuario">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item mouse-pointer" @onclick='() => SwalEliminarUsuario("¿Está seguro de eliminar el usuario con el código " + usuario.codigo + "?", usuario.codigo)'>
+                                                    <a class="dropdown-item mouse-pointer" @onclick='() => SwalEliminarUsuario("¿Está seguro de eliminar el usuario con el código " + usuario.codigo + "?", usuario.codigo)' title="Eliminar el Usuario @usuario.usuario">
                                                         <i class="mx-2 fa-solid fa-x text-danger"></i>
                                                     </a>
                                                 </li>
@@ -100,10 +100,21 @@
                 </div>
             </div>
             <div class="footer-users text-13-medium">
-                <div @onclick="() => IrAAgregarUsuario()" class="mouse-pointer rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="agregar-usuarios">
-                    Agregar
-                    Usuario
-                </div>
+                @if (licencia.CantidadUsuarios <= usuarios.Count)
+                {
+                    <a @onclick="MensajeLimiteUsuarios" class="mouse-pointer rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="agregar-usuarios" title="Ir a agregar usuario">
+                        Agregar
+                        Usuario
+                    </a>
+                }
+                else
+                {
+                    <a href="configuraciones/usuario/agregar" class="mouse-pointer rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="agregar-usuarios" title="Ir a agregar usuario">
+                        Agregar
+                        Usuario
+                    </a>
+                }
+                
             </div>
 
         </div>

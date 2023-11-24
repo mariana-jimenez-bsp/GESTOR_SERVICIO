@@ -211,11 +211,6 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             }
         }
 
-        private void IrAAgregarActividad()
-        {
-            navigationManager.NavigateTo($"configuraciones/actividad/agregar");
-        }
-
         private async Task SwalActualizandoActividades()
         {
 

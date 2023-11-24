@@ -173,8 +173,14 @@
                                                 <!-- Agrega aquí el contenido que deseas mostrar cuando se haga clic en el botón -->
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <div class="content w-75 pb-3">
-                                                        <span class="mouse-pointer" @onclick="() => IrAAgregarUsuario(cliente.CLIENTE)"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</span>
                                                         
+                                                        @if (licencia.CantidadUsuarios <= usuarios.Count){
+                                                            <a class="mouse-pointer" @onclick="() => MensajeLimiteUsuarios()"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="mouse-pointer" href="configuraciones/usuario/agregar/@cliente.CLIENTE"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</a>
+                                                        }
                                                         @if (cliente.listaDeUsuarios.Any())
                                                         {
                                                             <div class="row p-2 blue-dark-bg text-light border border-primary rounded-top-4 text-9-bold">
@@ -217,7 +223,23 @@
                                                                         <span>@usuario.telefono</span>
                                                                     </div>
                                                                     <div class="col-md-1 col-sm-1 col-xs-1">
-                                                                        <i class="fa-solid fa-pen-to-square ms-2 mouse-pointer" @onclick="() => IrAEditarUsuario(usuario.codigo, cliente.CLIENTE)"></i>
+                                                                        <div class="dropdown font-10 w-100">
+                                                                            <button class="text-light green-bg border-success rounded-pill px-1 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <span class="hide-on-small">Acción</span>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu text-center dropdown-menu-lg-end">
+                                                                                <li>
+                                                                                    <a class="dropdown-item mouse-pointer" href="configuraciones/usuario/editar/@usuario.codigo/@cliente.CLIENTE" title="Ir a editar el usuario @usuario.usuario">
+                                                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a class="dropdown-item mouse-pointer" @onclick='() => SwalEliminarUsuario("¿Está seguro de eliminar el usuario con el código " + usuario.codigo + "?", usuario.codigo, cliente.CLIENTE)' title="Eliminar el Usuario @usuario.usuario">
+                                                                                        <i class="mx-2 fa-solid fa-x text-danger"></i>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             }
@@ -237,10 +259,10 @@
                      </div>
                 </div>
                 <div class="footer-client text-13-medium">
-                    <button type="button" @onclick="() => IrAAgregarCliente()" class="rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="agregar-clientes">
+                    <a href="cliente/agregar" class="rounded-pill border border-success green-dark-bg text-light button-footer mx-5 mouse-pointer" id="agregar-clientes" title="Ir a agregar Cliente">
                         Agregar
                         Cliente
-                    </button>
+                    </a>
                     <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-clientes">
                         Guardar
                         cambios

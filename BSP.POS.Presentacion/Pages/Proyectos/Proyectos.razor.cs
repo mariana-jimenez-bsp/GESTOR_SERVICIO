@@ -281,16 +281,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             }
         }
 
-        private void IrAProyectosTerminados()
-        {
-
-            navigationManager.NavigateTo($"proyectos/terminados");
-        }
-
-        private void IrAAgregarProyecto()
-        {
-            navigationManager.NavigateTo($"proyecto/agregar");
-        }
         private async Task CambiarEstadoProyecto(string numero, string estado)
         {
             if (!string.IsNullOrEmpty(numero) && !string.IsNullOrEmpty(esquema))

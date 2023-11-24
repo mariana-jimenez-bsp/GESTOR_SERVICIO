@@ -54,19 +54,19 @@
                     @if (permisos.Any(p => p.permiso == "Actividades"))
                     {
                         <div class="col-md-4 m-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
-                            <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrAActividades">Actividades</button>
+                            <a class="btn button-usuarios text-light border-success rounded-pill mouse-pointer" href="Configuraciones/Actividades" title="Ir a la lista de Actividades">Actividades</a>
                         </div>
                     }
                     @if (permisos.Any(p => p.permiso == "Departamentos"))
                     {
                         <div class="col-md-4 m-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
-                            <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrADepartamentos">Departamentos</button>
+                            <a class="btn button-usuarios text-light border-success rounded-pill mouse-pointer" href="Configuraciones/Departamentos" title="Ir a la lista de Departamentos">Departamentos</a>
                         </div>
                     }
                     @if (permisos.Any(p => p.permiso == "Usuarios"))
                     {
                         <div class="col-md-4 m-1 border border-success rounded-pill d-flex justify-content-center align-items-center users-div">
-                            <button type="button" class="button-usuarios text-light border-success rounded-pill" @onclick="IrAUsuarios">Usuarios</button>
+                            <a class="btn button-usuarios text-light border-success rounded-pill mouse-pointer" href="Configuraciones/Usuarios" title="Ir a la lista de Usuarios">Usuarios</a>
                         </div>
                     }
                     

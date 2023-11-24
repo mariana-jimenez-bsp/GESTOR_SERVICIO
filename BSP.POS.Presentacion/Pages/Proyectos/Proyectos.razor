@@ -187,19 +187,19 @@
                     </div>
                 </div>
                 <div class="footer-project text-13-medium">
-                    <button type="button" @onclick="IrAProyectosTerminados" class="rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="proyectos-terminados">
+                    <a class="rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="proyectos-terminados" href="Proyectos/Terminados" title="Ir a Proyectos Terminados">
                         Proyectos
                         Terminados
-                    </button>
-                    <button type="button" @onclick="() => IrAAgregarProyecto()" class="rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="agregar-proyectos">
+                    </a>
+                    <a class="rounded-pill border border-success green-dark-bg text-light button-footer mx-5" id="agregar-proyectos" href="Proyecto/Agregar" title="Ir a Agregar Proyecto">
                         Agregar
                         Proyecto
-                    </button>
-                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos">
+                    </a>
+                    <button type="submit" class="rounded-pill border border-input-gray bg-light button-footer green-text mx-5" id="guardar-proyectos" title="Guardar Cambios">
                         Guardar
                         cambios
                     </button>
-                    <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos">
+                    <button type="button" @onclick="DescartarCambios" class="rounded-pill border border-primary blue-dark-bg text-light button-footer mx-5" id="descartar-proyectos" title="Cancelar Cambios">
                         Cancelar
                     </button>
 

@@ -250,17 +250,9 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
             }
         }
 
-        private async Task CorreoRecuperacion()
+        private async Task MensajeBloqueoRecuperacion()
         {
-            if(licenciaActiva && mismaMacAdress)
-            {
-                navigationManager.NavigateTo($"CorreoRecuperacion");
-            }
-            else
-            {
-                await ValidarLicencia();
-            }
-            
+            await ValidarLicencia();
         }
 
         private bool mostrarClave = false;

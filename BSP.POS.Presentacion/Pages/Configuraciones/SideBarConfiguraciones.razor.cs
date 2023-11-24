@@ -17,26 +17,5 @@ namespace BSP.POS.Presentacion.Pages.Configuraciones
                 permisos = JsonConvert.DeserializeObject<List<mObjetoPermiso>>(PermisosClaim.Value);
             }
         }
-        private void IrAlInicio()
-        {
-
-            navigationManager.NavigateTo($"Index");
-        }
-        private void IrAUsuarios()
-        {
-
-            navigationManager.NavigateTo($"Configuraciones/Usuarios");
-        }
-
-        private void IrADepartamentos()
-        {
-
-            navigationManager.NavigateTo($"Configuraciones/Departamentos");
-        }
-        private void IrAActividades()
-        {
-
-            navigationManager.NavigateTo($"Configuraciones/Actividades");
-        }
     }
 }

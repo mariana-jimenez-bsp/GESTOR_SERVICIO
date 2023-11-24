@@ -84,23 +84,12 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
         }
         
         
-        private async Task IrAAgregarUsuario()
+        private async Task MensajeLimiteUsuarios()
         {
-            if(licencia.CantidadUsuarios <= usuarios.Count)
-            {
-                await AlertasService.SwalAdvertencia("Límite de Cantidad de Usuarios Alcanzado");
-            }
-            else
-            {
-                navigationManager.NavigateTo($"configuraciones/usuario/agregar");
-            }
-            
+            await AlertasService.SwalAdvertencia("Límite de Cantidad de Usuarios Alcanzado");  
         }
 
-        private void IrAEditarUsuario(string codigo)
-        {
-            navigationManager.NavigateTo($"configuraciones/usuario/editar/{codigo}");
-        }
+       
 
         private async Task SwalEliminarUsuario(string mensajeAlerta, string codigoUsuario)
         {

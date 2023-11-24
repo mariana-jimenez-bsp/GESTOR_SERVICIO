@@ -7,10 +7,10 @@
         <div>
         @if (!(navigationManager.Uri.IndexOf("/index", StringComparison.OrdinalIgnoreCase) >= 0))
         {
-            <span class="ms-1 px-2 green-bg rounded-pill text-back mouse-pointer" @onclick="IrAtras"><i class="fa-solid fa-arrow-left-long"></i> Atras</span>
+            <a class="ms-1 px-2 green-bg rounded-pill text-back mouse-pointer" @onclick="IrAtras" title="Ir a la página anterior"><i class="fa-solid fa-arrow-left-long"></i> Atras</a>
         }
            
-            <span class="p-2 ps-5 fw-bold title-gestor mouse-pointer" @onclick="IrAlInicio">Gestor de Servicios</span>
+            <a class="p-2 ps-5 fw-bold title-gestor mouse-pointer" href="Index" title="Ir a al Home">Gestor de Servicios</a>
          </div>
         <div class="fw-bold p-2 pe-5"><img class="width-img-gestor" src="images/Home/BSP-Gestor-de-Servicio.png"></div>
     </header>
@@ -83,9 +83,9 @@
         }
 
             <div class="ms-auto header-menu pe-5">
-                <a @onclick="IrAConfiguraciones" class="me-2 mouse-pointer">Configuracion <img src="images/Home/configuraciones.png" class="ps-2 pb-1"></a>
+            <a  href="Configuraciones" class="me-2 mouse-pointer">Configuracion <img src="images/Home/configuraciones.png" class="ps-2 pb-1" title="Ir a Configuraciones"></a>
                 <a class="vertical-line p-2 border-primary"></a>
-                <a @onclick="IrAMisInformes" class="me-2 mouse-pointer">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1"></a>
+                <a  href="Informes/MisInformes" class="me-2 mouse-pointer">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1" title="Ir a Mis Informes"></a>
                 <a class="vertical-line p-2 border-primary"></a>
             <div class="btn-group dropup-center dropup dropdown-logout">
                 <button type="button" class="dropdown-toggle border-0 dropdown-logout blue-light-text" data-bs-toggle="dropdown" aria-expanded="false">
@@ -216,12 +216,12 @@
                 @if (permisos.Any(p => p.permiso == "Clientes"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
-                    <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                    <a class="me-2 mouse-pointer" href="Clientes" title="Ir a lista de Clientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                 }
                 @if (permisos.Any(p => p.permiso == "Proyectos"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
-                    <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+                    <a class="me-2 mouse-pointer" href="Proyectos" title="Ir a lista de Proyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
                 }
      
             }
@@ -243,12 +243,12 @@ else
                 @if (permisos.Any(p => p.permiso == "Clientes"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
-                    <a class="me-2 mouse-pointer" @onclick="IrAClientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
+                    <a class="me-2 mouse-pointer" href="Clientes" title="Ir a lista de Clientes">Clientes <img src="images/Home/Clientes.png" class="ps-1 pb-1"></a>
                 }
                 @if (permisos.Any(p => p.permiso == "Proyectos"))
                 {
                     <a class="vertical-line p-2 border-light"></a>
-                    <a class="me-2 mouse-pointer" @onclick="IrAProyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
+                    <a class="me-2 mouse-pointer" href="Proyectos" title="Ir a lista de Proyectos">Proyectos <img src="images/Home/Proyectos.png" class="ps-1 pb-1"></a>
                 }
             }
 
