@@ -71,8 +71,8 @@
                                 <span>@mensajeIntentos</span>
                             </div>
                         }
-                        <button type="submit" class="btn green-bg btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
-                        <button @onclick="ActivarInputFileLLave" type="button" class="btn blue-light-bg btn-block">Ingresar Llave</button>
+                        <button type="submit" class="green-bg btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
+                        <button @onclick="ActivarInputFileLLave" type="button" class="blue-light-bg btn-block">Ingresar Llave</button>
                     </EditForm>
                     <EditForm Model="licenciaLlave" OnValidSubmit="EnviarLLave" enctype="multipart/form-data">
                         <DataAnnotationsValidator />
