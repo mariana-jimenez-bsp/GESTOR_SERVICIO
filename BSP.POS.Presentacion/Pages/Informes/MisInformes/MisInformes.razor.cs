@@ -224,8 +224,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             bool resultadoCorreo = false;
             await Swal.FireAsync(new SweetAlertOptions
             {
-                Icon = SweetAlertIcon.Info,
-                Title = "Enviando...",
+                Title = " <span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span>\r\n  <span role=\"status\">Enviando...</span>",
                 ShowCancelButton = false,
                 ShowConfirmButton = false,
                 AllowOutsideClick = false,
@@ -260,8 +259,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
                 bool resultadoDescargar = false;
                 await Swal.FireAsync(new SweetAlertOptions
                 {
-                    Icon = SweetAlertIcon.Info,
-                    Title = "Descargando...",
+                    Title = " <span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span>\r\n  <span role=\"status\">Descargando...</span>",
                     ShowCancelButton = false,
                     ShowConfirmButton = false,
                     AllowOutsideClick = false,

@@ -228,8 +228,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             {
                 await Swal.FireAsync(new SweetAlertOptions
                 {
-                    Icon = SweetAlertIcon.Info,
-                    Title = "Actualizando...",
+                    Title = " <span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span>\r\n  <span role=\"status\">Actualizando...</span>",
                     ShowCancelButton = false,
                     ShowConfirmButton = false,
                     AllowOutsideClick = false,

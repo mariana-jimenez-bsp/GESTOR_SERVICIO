@@ -141,10 +141,6 @@
 .circle-max-width{
     max-width: 90px;
 }
-.font-11-medium {
-    font-family: 'Circular Std Medium', sans-serif;
-    font-size: 11pt;
-}
 @media screen and (max-width: 768px) {
 
 

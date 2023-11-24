@@ -319,7 +319,7 @@ namespace BSP.POS.Presentacion.Pages.Usuarios.Usuarios
                 else
                 {
                     mensajeEsquema = "Debe seleccionar al menos 1 esquema";
-                    await AlertasService.SwalError(mensajeCorreoRepite);
+                    await AlertasService.SwalError(mensajeEsquema);
                 }
                 
             }

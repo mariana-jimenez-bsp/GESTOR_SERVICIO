@@ -360,8 +360,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 bool resultadoCorreo = false;
                 await Swal.FireAsync(new SweetAlertOptions
                 {
-                    Icon = SweetAlertIcon.Info,
-                    Title = "Enviando...",
+                    Title = " <span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span>\r\n  <span role=\"status\">Enviando...</span>",
                     ShowCancelButton = false,
                     ShowConfirmButton = false,
                     AllowOutsideClick = false,
