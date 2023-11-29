@@ -156,12 +156,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
             return Task.CompletedTask;
         }
 
-        private void IrAMisInformes()
-        {
-
-            navigationManager.NavigateTo($"Informes/MisInformes");
-        }
-
         private void CambioFechaInicio(ChangeEventArgs e)
         {
             fechaInicio = e.Value.ToString();
@@ -296,10 +290,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.HistorialDeInformes
 
         }
 
-        private void VerInforme(string consecutivo)
-        {
-
-            navigationManager.NavigateTo($"Informe/VerInforme/{consecutivo}");
-        }
+       
     }
 }

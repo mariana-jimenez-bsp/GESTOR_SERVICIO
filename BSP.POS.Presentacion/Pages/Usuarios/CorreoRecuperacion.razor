@@ -43,7 +43,7 @@
                             </div>
                             <ValidationMessage For="@(() => tokenRecuperacion.esquema)" />
                         </div>
-                        <button type="submit" class="btn btn-success btn-block col-md-6 ms-4" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Restablecer</button>
+                        <button type="submit" class="btn btn-success btn-block col-md-6 ms-4" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)" title="Enviar correo recuperar Contraseña">Enviar</button>
 
                     </div>
                 </EditForm>

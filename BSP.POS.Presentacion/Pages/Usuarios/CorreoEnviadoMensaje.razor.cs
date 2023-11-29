@@ -6,17 +6,10 @@ namespace BSP.POS.Presentacion.Pages.Usuarios
     public partial class CorreoEnviadoMensaje: ComponentBase
     {
 
-       
-        private void IrAlInicio()
-        {
+       private void IrACorreoRecuperacion()
+       {
+            navigationManager.NavigateTo("CorreoRecuperacion", forceLoad: true);
+       }
 
-            navigationManager.NavigateTo($"", forceLoad: true);
-        }
-
-        private void IrAEnviarCorreo()
-        {
-
-            navigationManager.NavigateTo($"CorreoRecuperacion", forceLoad: true);
-        }
     }
 }

@@ -128,11 +128,6 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
             return Task.CompletedTask;
         }
 
-        private void IrAHistorial()
-        {
-
-            navigationManager.NavigateTo($"Informes/HistorialDeInformes");
-        }
 
         private byte[] pdfContent;
 
@@ -292,10 +287,5 @@ namespace BSP.POS.Presentacion.Pages.Informes.MisInformes
 
         }
 
-        private void VerInforme(string consecutivo)
-        {
-
-            navigationManager.NavigateTo($"Informe/VerInforme/{consecutivo}");
-        }
     }
 }

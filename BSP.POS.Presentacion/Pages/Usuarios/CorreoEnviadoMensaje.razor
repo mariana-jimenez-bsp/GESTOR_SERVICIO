@@ -17,8 +17,8 @@
                                 <p>El correo se ha enviado, si no la ha recibido puede volver intentar enviar otro correo o volver a la página de inicio de sesión</p>
                             </div>
                             <div class="success-button-container">
-                                <button type="button" class="success-button-main" @onclick="IrAEnviarCorreo">Enviar otro correo</button>
-                                <button type="button" class="success-button-secondary" @onclick="IrAlInicio">Volver al Inicio de sesión</button>
+                                <a class="success-button-main mouse-pointer" href="CorreoRecuperacion" @onclick="IrACorreoRecuperacion" title="Enviar otro correo de recuperación">Enviar otro correo</a>
+                                <a class="success-button-secondary mouse-pointer" href="Login" title="Volver al a la página de inicio de sesión">Volver al Inicio de sesión</a>
                             </div>
                         </div>
                     </div>

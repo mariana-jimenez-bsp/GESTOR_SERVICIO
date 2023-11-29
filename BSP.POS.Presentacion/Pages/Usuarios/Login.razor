@@ -71,8 +71,8 @@
                                 <span>@mensajeIntentos</span>
                             </div>
                         }
-                        <button type="submit" class="green-bg btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)">Ingresar</button>
-                        <button @onclick="ActivarInputFileLLave" type="button" class="blue-light-bg btn-block">Ingresar Llave</button>
+                        <button type="submit" class="green-bg btn-block" disabled="@(!licenciaActiva || !mismaMacAdress ? true : false)" title="Inicio de sesión">Ingresar</button>
+                        <button @onclick="ActivarInputFileLLave" type="button" class="blue-light-bg btn-block" title="Ingresar la llave de Licencia">Ingresar Llave</button>
                     </EditForm>
                     <EditForm Model="licenciaLlave" OnValidSubmit="EnviarLLave" enctype="multipart/form-data">
                         <DataAnnotationsValidator />
@@ -84,9 +84,9 @@
                     </EditForm>
                         <p class="mt-4 text-light forgot-pass">¿Olvidó su contraseña?</p>
                         @if(licenciaActiva && mismaMacAdress){
-                            <a class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")" href="CorreoRecuperacion">Resetear contraseña</a>
+                            <a class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")" href="CorreoRecuperacion" title="Resetear la contraseña">Resetear contraseña</a>
                         }else{
-                            <a @onclick="MensajeBloqueoRecuperacion" class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")">Resetear contraseña</a>
+                            <a @onclick="MensajeBloqueoRecuperacion" class="reset-pass @(!licenciaActiva || !mismaMacAdress ? "cursor-not-allowed" : "mouse-pointer")" title="Resetear la contraseña">Resetear contraseña</a>
                         }
                     
                 </div>

@@ -24,11 +24,16 @@
                                     <input placeholder="Contraseña..." type="@(mostrarClave ? "text" : "password")" class="form-control border-0 w-100 h-100 text-success" @oninput="ValorClave" @bind-value="claveActual" />
                                     @if (mostrarClave)
                                     {
-                                        <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(false)"></i>
+                                        <div @onclick="() => CambiarEstadoMostrarClave(false)">
+                                            <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" ></i>
+                                        </div>
                                     }
                                     else
                                     {
-                                        <i class="fa-solid fa-eye p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarClave(true)"></i>
+                                        <div @onclick="() => CambiarEstadoMostrarClave(true)">
+                                            <i class="fa-solid fa-eye p-2 green-text mouse-pointer" ></i>
+                                        </div>
+                                       
                                     }
                                 </div>
                                 
@@ -46,17 +51,23 @@
                                     <input placeholder="Contraseña..." type="@(mostrarConfirmarClave ? "text" : "password")" class="form-control border-0 w-100 h-100 text-success" @oninput="ValorClaveConfirmacion" @bind-value="confirmarClaveActual" />
                                     @if (mostrarConfirmarClave)
                                     {
-                                        <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarConfirmarClave(false)"></i>
+                                        <div @onclick="() => CambiarEstadoMostrarConfirmarClave(false)">
+                                            <i class="fa-solid fa-eye-slash p-2 green-text mouse-pointer"></i>
+                                        </div>
+                                        
                                     }
                                     else
                                     {
-                                        <i class="fa-solid fa-eye p-2 green-text mouse-pointer" @onclick="() => CambiarEstadoMostrarConfirmarClave(true)"></i>
+                                        <div @onclick="() => CambiarEstadoMostrarConfirmarClave(true)">
+                                            <i class="fa-solid fa-eye p-2 green-text mouse-pointer"></i>
+                                        </div>
+                                        
                                     }
                                 </div>
                             </div>
                             <ValidationMessage For="@(() => usuario.confirmarClave)" />
                         </div>
-                        <button type="submit" class="btn btn-success btn-block w-50 mt-3">Restablecer</button>
+                        <button type="submit" class="btn btn-success btn-block w-50 mt-3" title="Restablecer clave">Restablecer</button>
                     </div>
                 </EditForm>
             </div>
@@ -76,13 +87,5 @@
 }
 else
 {
-    <div class="loader">
-        <p class="heading">Loading</p>
-        <div class="loading">
-            <div class="load"></div>
-            <div class="load"></div>
-            <div class="load"></div>
-            <div class="load"></div>
-        </div>
-    </div>
+    <Loading></Loading>
 }

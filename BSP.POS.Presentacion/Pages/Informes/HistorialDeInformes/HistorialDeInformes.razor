@@ -85,7 +85,7 @@
                                             }
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-2 height-col d-flex align-items-center">
-                                        <span class="mouse-pointer color-change-consecutivo" @onclick="() => VerInforme(informe.consecutivo)">#@informe.consecutivo</span>
+                                        <span class="mouse-pointer color-change-consecutivo" href="Informe/VerInforme/@informe.consecutivo" title="Ir a ver informe">#@informe.consecutivo</span>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-2 height-col d-flex align-items-center">
                                         <span>@informe.fecha_consultoria</span>
@@ -107,21 +107,21 @@
             <div class="col-md-3 col-sm-3 col-xs-3">
                 <div class="ps-5 col-right-bg d-flex justify-content-start align-items-center row">
                     <div class="col-md-4 col-sm-4 col-xs-4 col-right-bg ">
-                        <div class="reenviar-cliente imagen-div mouse-pointer" @onclick="() => ClickHandleEnviarCorreo(true)">
+                        <a class="reenviar-cliente imagen-div mouse-pointer" @onclick="() => ClickHandleEnviarCorreo(true)" title="Reenviar correos a cliente">
                             <span class="me-4 span-report">REENVIAR A CLIENTE</span>
-                        </div>
-                        <div class="generar-cotizacion imagen-div">
-                            <span class="me-4 span-report">GERNERAR COTIZACIÓN</span>
-                        </div>
-                        <div class="generar-reporte imagen-div mouse-pointer" @onclick="SwalDescargandoReporte">
+                        </a>
+                        <a class="generar-cotizacion imagen-div" title="Generar una cotización">
+                            <span class="me-4 span-report">GENERAR COTIZACIÓN</span>
+                        </a>
+                        <a class="generar-reporte imagen-div mouse-pointer" @onclick="SwalDescargandoReporte" title="Generar reporte de informe">
                             <span class="me-4 span-report ">GENERAR REPORTE</span>
-                        </div>
-                        <div class="facturar imagen-div">
+                        </a>
+                        <a class="facturar imagen-div" title="Facturar">
                             <span class="me-4 span-report">FACTURAR</span>
-                        </div>
-                        <div class="historial-informes imagen-div mouse-pointer" @onclick="IrAMisInformes">
+                        </a>
+                        <a class="historial-informes imagen-div mouse-pointer" href="Informes/MisInformes" title="Ir a mis informes">
                             <span class="me-4 span-report">MIS INFORMES</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
 

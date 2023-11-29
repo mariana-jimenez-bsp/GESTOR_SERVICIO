@@ -83,9 +83,9 @@
         }
 
             <div class="ms-auto header-menu pe-5">
-            <a  href="Configuraciones" class="me-2 mouse-pointer">Configuracion <img src="images/Home/configuraciones.png" class="ps-2 pb-1" title="Ir a Configuraciones"></a>
+            <a  href="Configuraciones" class="me-2 mouse-pointer" title="Ir a Configuraciones">Configuracion <img src="images/Home/configuraciones.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
-                <a  href="Informes/MisInformes" class="me-2 mouse-pointer">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1" title="Ir a Mis Informes"></a>
+                <a  href="Informes/MisInformes" class="me-2 mouse-pointer" title="Ir a Mis Informes">Mis Informes <img src="images/Home/informes.png" class="ps-2 pb-1"></a>
                 <a class="vertical-line p-2 border-primary"></a>
             <div class="btn-group dropup-center dropup dropdown-logout">
                 <button type="button" class="dropdown-toggle border-0 dropdown-logout blue-light-text" data-bs-toggle="dropdown" aria-expanded="false">
@@ -210,7 +210,7 @@
     <nav class="d-flex justify-content-end sections text-light pe-5 h-50">
         <div class="sections p-3 div-sections">
 
-            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)" title="Editar Perfil">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
             @if (permisos != null)
             {
                 @if (permisos.Any(p => p.permiso == "Clientes"))
@@ -237,7 +237,7 @@ else
     <nav class="d-flex justify-content-end sections text-light pe-5">
         <div class="sections p-3 div-sections">
 
-            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
+            <a class="me-2 mouse-pointer" @onclick="() => ClickHandlerPefil(true)" title="Editar Perfil">Perfil <img src="images/Home/Perfil.png" class="ps-1 pb-1"></a>
             @if (permisos != null)
             {
                 @if (permisos.Any(p => p.permiso == "Clientes"))

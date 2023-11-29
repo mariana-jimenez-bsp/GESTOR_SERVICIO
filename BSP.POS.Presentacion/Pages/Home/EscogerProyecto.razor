@@ -33,8 +33,8 @@
             </div>
 
             <div class="modal-footer">
-                <div @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-project-cliente">Cancelar</div>
-                <button type="button" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4 btn-agregar-project" id="guardar-project-cliente" @onclick="EscogerProyectoNuevo">Escoger</button>
+                <button type="button" @onclick="() => DescartarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-project-cliente" title="Cancelar">Cancelar</button>
+                <button type="button" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4 btn-agregar-project" id="guardar-project-cliente" @onclick="EscogerProyectoNuevo" title="Escoger Proyecto">Escoger</button>
             </div>
 
 

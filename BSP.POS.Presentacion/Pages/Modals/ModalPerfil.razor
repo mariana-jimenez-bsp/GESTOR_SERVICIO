@@ -152,8 +152,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <div @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-perfil">Descartar cambios</div>
-                    <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4" id="guardar-perfil">Guardar cambios</button>
+                    <button type="button" @onclick="() => DescartarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-perfil" title="Cancelar Cambios">Cancelar</button>
+                    <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4" id="guardar-perfil" title="Actualizar el Perfil">Guardar cambios</button>
                 </div>
                
             </EditForm>

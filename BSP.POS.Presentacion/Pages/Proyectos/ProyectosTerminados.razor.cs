@@ -99,11 +99,6 @@ namespace BSP.POS.Presentacion.Pages.Proyectos
             return Task.CompletedTask;
         }
 
-        private void IrAProyectosIniciados()
-        {
-
-            navigationManager.NavigateTo($"proyectos");
-        }
 
         private async Task SwalEliminarProyecto(string mensajeAlerta, string numeroProyecto)
         {

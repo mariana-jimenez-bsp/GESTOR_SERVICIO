@@ -33,15 +33,15 @@
             if (!string.IsNullOrEmpty(ClienteActual.CLIENTE) && datosDeProyectos.Any())
             {
 
-                <button type="button" class="border-success rounded-3 btn-escoger-proyecto text-light px-2 my-1" @onclick="() => ClickHandlerEscogerProyecto(true)">Escoger Proyecto</button>
+                <button type="button" class="border-success rounded-3 btn-escoger-proyecto text-light px-2 my-1" @onclick="() => ClickHandlerEscogerProyecto(true)" title="Escoger proyecto de cliente">Escoger Proyecto</button>
             }
             else
             {
                 if (!datosDeProyectos.Any() && !string.IsNullOrEmpty(ClienteActual.CLIENTE))
                 {
                     <p class="">No hay proyectos asociados al cliente.</p>
-                    
-                    <button type="button" class="border-success rounded-3 btn-escoger-proyecto text-light px-2 my-1" @onclick="() => IrAAgregarProyecto()">Agregar Proyecto</button>
+
+                    <a class="border-success rounded-3 btn-escoger-proyecto text-light px-2 my-1 mouse-pointer" href="proyecto/agregar" title="Ir a agregar proyecto">Agregar Proyecto</a>
                 }
             }
         }

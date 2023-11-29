@@ -32,8 +32,8 @@
 
         </div>
         <div class="modal-footer">
-            <button @onclick="() => CancelarCambios()" class="rounded-pill border border-primary blue-dark-bg text-light" id="descartar-clientes">Cancelar</button>
-            <button type="submit" class="border-success rounded-pill button-add green-bg text-light">Agregar</button>
+            <button type="button" @onclick="() => CancelarCambios()" class="rounded-pill border border-primary blue-dark-bg text-light" id="descartar-clientes" title="Cancelar Cambios">Cancelar</button>
+            <button type="submit" class="border-success rounded-pill button-add green-bg text-light" title="Agregar Observación">Agregar</button>
         </div>
         </EditForm>
     </div>

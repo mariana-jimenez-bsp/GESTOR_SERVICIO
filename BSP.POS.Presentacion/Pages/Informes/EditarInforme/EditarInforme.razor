@@ -65,7 +65,7 @@
                         
                     </div>
            
-                <button type="button" class="border-success rounded-3 btn-agregar-usuario text-light px-2 my-1" @onclick="() => ClickHandlerAgregarUsuario(true)">Agregar Usuario</button>
+                <button type="button" class="border-success rounded-3 btn-agregar-usuario text-light px-2 my-1" @onclick="() => ClickHandlerAgregarUsuario(true)" title="Agregar usuario de informe">Agregar Usuario</button>
                 <div class="table-gray-left rounded-start-5">
                     <div class="row content">
                         <div class="row text-center p-2 blue-light-text font-12-book header-usuarios-informe mx-1">
@@ -146,9 +146,9 @@
                                     }
                                 }
                         </div>
-                        <div class=" observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer p-2" @onclick="() => ClickHandlerObservaciones(true)">
+                        <a class=" observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer p-2" @onclick="() => ClickHandlerObservaciones(true)" title="Agregar observación de informe">
                               <span>+ Observaciones</span>
-                        </div>
+                        </a>
                     </div>
                     
 
@@ -162,7 +162,7 @@
                             <option value="Presencial">Presencial</option>
                         </select>
                     </div>
-                <button type="button" class="border-light rounded-3 blue-light-bg text-light px-2 btn-agregar-actividad" @onclick="() => ClickHandlerAgregarActividad(true)">Agregar Actividad</button>
+                <button type="button" class="border-light rounded-3 blue-light-bg text-light px-2 btn-agregar-actividad" @onclick="() => ClickHandlerAgregarActividad(true)" title="Agregar actividad de informe">Agregar Actividad</button>
                 <div class="content text-light">
                     
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
@@ -249,22 +249,22 @@
                 </div>
 
                     <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
-                    <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)'>
+                    <a class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)' title="Descartar el informe">
                         <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
-                            <span>Descartar</span>
-                        </div>
-                        <button type="submit" class="d-flex border-0 bg-transparent justify-content-center row text-center">
+                            <span class="green-text">Descartar</span>
+                        </a>
+                        <button type="submit" class="d-flex border-0 bg-transparent justify-content-center row text-center" title="Guadar el borrador">
                             <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
                             <span class="green-text">Guardar Borrador</span>
                         </button>
-                            <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerFinalizarInforme(true)">
+                            <a class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandlerFinalizarInforme(true)" title="Finalizar el informe">
                         <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
-                            <span>Aprobar</span>
-                        </div>
-                        <div class="d-flex justify-content-center row text-center mouse-pointer" @onclick="ActivarAdvertenciaEnviar">
+                            <span class="green-text">Aprobar</span>
+                        </a>
+                        <a class="d-flex justify-content-center row text-center mouse-pointer" @onclick="ActivarAdvertenciaEnviar" title="Enviar correos a usuarios de clientes">
                         <img src="images/EditarInforme/Enviar-a-cliente.png" class="circle-max-width"/>
-                            <span>Enviar al cliente</span>
-                        </div>
+                            <span class="green-text">Enviar al cliente</span>
+                        </a>
                     </div>
                 </div>
             </div>

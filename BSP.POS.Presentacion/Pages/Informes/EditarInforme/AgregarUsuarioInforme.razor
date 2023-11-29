@@ -38,8 +38,8 @@
             </div>
 
             <div class="modal-footer">
-                <div @onclick="() => DescartarCambios()" class="button-footer mouse-pointer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-usuario-informe">Cancelar</div>
-                <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4 btn-agregar-usuario" id="guardar-usuario-informe">Agregar</button>
+                <button type="button" @onclick="() => DescartarCambios()" class="button-footer rounded-pill border border-primary blue-dark-bg text-light button-text mx-4" id="descartar-usuario-informe" title="Cancelar Cambios">Cancelar</button>
+                <button type="submit" class="button-footer rounded-pill border border-success green-bg text-light button-text mx-4 btn-agregar-usuario" id="guardar-usuario-informe" title="Agregar Usuarios de informe">Agregar</button>
             </div>
 
         </EditForm>
