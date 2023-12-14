@@ -94,7 +94,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 {
-                    U_ListaActividadesAsociadas actividad = new U_ListaActividadesAsociadas(item.Id, item.consecutivo_informe, item.codigo_actividad, item.horas_cobradas, item.horas_no_cobradas);
+                    U_ListaActividadesAsociadas actividad = new U_ListaActividadesAsociadas(item.Id, item.consecutivo_informe, item.codigo_actividad, item.horas_cobradas, item.horas_no_cobradas, item.nombre_actividad);
 
                     LstActividades.Add(actividad);
                 }
@@ -139,7 +139,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var actividad in pActividades)
                 {
-                    var response = sp.GetData(actividad.Id, actividad.consecutivo_informe, actividad.codigo_actividad, int.Parse(actividad.horas_cobradas), int.Parse(actividad.horas_no_cobradas), esquema);
+                    var response = sp.GetData(actividad.Id, actividad.consecutivo_informe, actividad.codigo_actividad, int.Parse(actividad.horas_cobradas), int.Parse(actividad.horas_no_cobradas), actividad.nombre_actividad, esquema);
 
                 }
                 return "Exito";
@@ -160,7 +160,7 @@ namespace BSP.POS.DATOS.Actividades
             AgregarActividadDeInformeTableAdapter sp = new AgregarActividadDeInformeTableAdapter();
             try
             {
-                var response = sp.GetData(esquema, pActividad.consecutivo_informe, pActividad.codigo_actividad, int.Parse(pActividad.horas_cobradas));
+                var response = sp.GetData(esquema, pActividad.consecutivo_informe, pActividad.codigo_actividad, int.Parse(pActividad.horas_cobradas), pActividad.nombre_actividad);
 
 
                 return "Exito";

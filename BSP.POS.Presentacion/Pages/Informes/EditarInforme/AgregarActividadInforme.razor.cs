@@ -43,9 +43,10 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             mensajeError = null;
             try
             {
-                    string horas = listaActividadesParaAgregar.Where(actividad => actividad.codigo == actividadAAgregar.codigo_actividad).First().horas;
+                    var actividadAgregar = listaActividadesParaAgregar.Where(actividad => actividad.codigo == actividadAAgregar.codigo_actividad).First();
                     actividadAAgregar.consecutivo_informe = Consecutivo;
-                    actividadAAgregar.horas_cobradas = horas;
+                    actividadAAgregar.horas_cobradas = actividadAgregar.horas;
+                    actividadAAgregar.nombre_actividad = actividadAgregar.Actividad;
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
                     await ActividadesService.AgregarActividadDeInforme(actividadAAgregar, esquema);
                     actividadAAgregar = new mActividadAsociadaParaAgregar();

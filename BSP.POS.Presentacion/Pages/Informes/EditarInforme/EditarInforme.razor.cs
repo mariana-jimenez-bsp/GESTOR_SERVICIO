@@ -250,6 +250,7 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                     if (actividad.Id == actividadId)
                     {
                         actividad.codigo_actividad = e.Value.ToString();
+                        actividad.nombre_actividad = listaActividades.Where(a => a.codigo == actividad.codigo_actividad).Select(a => a.Actividad).First();
                     }
                 }
             }
@@ -445,14 +446,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
         [JSInvokable]
         public async Task ActualizarTextoEditable(string texto, string codigoActividad)
         {
-            foreach (var actividad in listaActividades)
+            foreach (var actividad in informe.listaActividadesAsociadas)
             {
-                if(actividad.codigo == codigoActividad && !string.IsNullOrEmpty(texto))
+                if(actividad.codigo_actividad == codigoActividad && !string.IsNullOrEmpty(texto))
                 {
-                    actividad.Actividad = texto;
-                    await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ActividadesService.ActualizarListaDeActividades(listaActividades, esquema);
-                    await RefrescarListaActividades();
+                    actividad.nombre_actividad = texto;
                 }
             }
             StateHasChanged();

@@ -200,9 +200,16 @@
                                                     
                                                         @foreach (var laActividad in listaActividadesFiltrada)
                                                         {
-                                                            <option value="@laActividad.codigo" class="blue-light-bg">
+                                                            if(laActividad.codigo == actividad.codigo_actividad){
+                                                                <option value="@laActividad.codigo" class="blue-light-bg">
+                                                                @actividad.nombre_actividad
+                                                                </option>
+                                                            }else{
+                                                                <option value="@laActividad.codigo" class="blue-light-bg">
                                                                 @laActividad.Actividad
-                                                            </option>
+                                                                </option>
+                                                            }
+                                                            
                                                         }
                                                     }
                                                 </select>
