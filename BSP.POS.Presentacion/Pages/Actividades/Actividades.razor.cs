@@ -69,7 +69,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
             if (rol == "Admin")
             {
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                await ActividadesService.ObtenerListaDeActividades(esquema);
+                await ActividadesService.ObtenerListaDeActividadesActivas(esquema);
                 if (ActividadesService.ListaActividades != null)
                 {
                     actividades = ActividadesService.ListaActividades;
@@ -84,13 +84,19 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                 {
                     perfilActual = UsuariosService.Perfil;
                     await AuthenticationStateProvider.GetAuthenticationStateAsync();
-                    await ActividadesService.ObtenerListaDeActividadesPorUsuario(esquema, perfilActual.codigo);
+                    await ActividadesService.ObtenerListaDeActividadesActivasPorUsuario(esquema, perfilActual.codigo);
                     if (ActividadesService.ListaActividades != null)
                     {
                         actividades = ActividadesService.ListaActividadesDeUsuario;
 
                     }
                 }
+            }
+            foreach (var actividad in actividades)
+            {
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                actividad.ActividadAsociadaInforme = await ActividadesService.ValidarActividadAsociadaInforme(esquema, actividad.codigo);
+
             }
         }
 
@@ -263,7 +269,7 @@ namespace BSP.POS.Presentacion.Pages.Actividades
                     Title = mensajeAlerta,
                     Icon = SweetAlertIcon.Question,
                     ShowCancelButton = true,
-                    ConfirmButtonText = "Eliminar",
+                    ConfirmButtonText = "Aceptar",
                     CancelButtonText = "Cancelar"
                 }).ContinueWith(async swalTask =>
                 {
@@ -287,11 +293,55 @@ namespace BSP.POS.Presentacion.Pages.Actividades
 
         }
 
+        private async Task SwalInactivarActividad(string mensajeAlerta, string codigoActividad)
+        {
+            if (permisos.Any(p => p.permiso == "Actividades" && !p.subpermisos.Contains("Eliminar")))
+            {
+                await AlertasService.SwalAdvertencia("No tienes permisos para inactivar o eliminar actividades");
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = mensajeAlerta,
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Aceptar",
+                    CancelButtonText = "Cancelar"
+                }).ContinueWith(async swalTask =>
+                {
+                    SweetAlertResult result = swalTask.Result;
+                    if (result.IsConfirmed)
+                    {
+                        bool resultadoInactivar = await InactivarActividad(codigoActividad);
+                        if (resultadoInactivar)
+                        {
+                            await AlertasService.SwalExito("Se ha Inactivado la actividad #" + codigoActividad);
+                            await RefrescarListaActividades();
+                            StateHasChanged();
+                        }
+                        else
+                        {
+                            await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                        }
+                    }
+                });
+            }
+
+        }
+
         private async Task<bool> EliminarActividad(string codigo)
         {
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             bool resultadoEliminar = await ActividadesService.EliminarActividad(esquema, codigo);
             return resultadoEliminar;
+        }
+
+        private async Task<bool> InactivarActividad(string codigo)
+        {
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            bool resultadoInactivar = await ActividadesService.CambiarEstadoActividad(esquema, codigo, "Inactivo");
+            return resultadoInactivar;
         }
     }
 }

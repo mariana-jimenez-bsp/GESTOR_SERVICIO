@@ -58,6 +58,26 @@ namespace BSP.POS.API.Controllers
             }
 
         }
+
+        [HttpGet("ObtengaLaListaDeActividadesActivas/{esquema}")]
+        public IActionResult ObtengaLaListaDeActividadesActivas(string esquema)
+        {
+            try
+            {
+                string listaActividadesJson = actividades.ListarActividadesActivas(esquema);
+                if (string.IsNullOrEmpty(listaActividadesJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaActividadesJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
         [HttpGet("ObtengaLaListaDeActividadesPorUsuario")]
         public IActionResult ObtengaLaListaDeActividadesPorUsuario()
         {
@@ -66,6 +86,28 @@ namespace BSP.POS.API.Controllers
                 string esquema = Request.Headers["X-Esquema"];
                 string codigo = Request.Headers["X-CodigoUsuario"];
                 string listaActividadesJson = actividades.ListarActividadesPorUsuario(esquema, codigo);
+                if (string.IsNullOrEmpty(listaActividadesJson))
+                {
+                    return NotFound();
+                }
+                return Ok(listaActividadesJson);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("ObtengaLaListaDeActividadesActivasPorUsuario")]
+        public IActionResult ObtengaLaListaDeActividadesActivasPorUsuario()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-CodigoUsuario"];
+                string listaActividadesJson = actividades.ListarActividadesActivasPorUsuario(esquema, codigo);
                 if (string.IsNullOrEmpty(listaActividadesJson))
                 {
                     return NotFound();
@@ -192,6 +234,41 @@ namespace BSP.POS.API.Controllers
                 string codigo = Request.Headers["X-Codigo"];
                 actividades.EliminarActividad(esquema, codigo);
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("CambiaEstadoActividad")]
+        public IActionResult CambiaEstadoActividad()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-Codigo"];
+                string estado = Request.Headers["X-Estado"];
+                actividades.CambiarEstadoActividad(esquema, codigo, estado);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("ValidaActividadAsociadaInforme")]
+        public IActionResult ValidaActividadAsociadaInforme()
+        {
+            try
+            {
+                string esquema = Request.Headers["X-Esquema"];
+                string codigo = Request.Headers["X-Codigo"];
+                string resultado = actividades.ValidarActivadAsociadaInforme(esquema, codigo);
+                return Ok(resultado);
             }
             catch (Exception ex)
             {

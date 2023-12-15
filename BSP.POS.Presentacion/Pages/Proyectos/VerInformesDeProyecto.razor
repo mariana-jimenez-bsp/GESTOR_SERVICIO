@@ -55,7 +55,7 @@
                             @if(informe.estado == "Borrador")
                             {
                                 <button type="button" class="green-bg border border-success rounded-pill text-light px-2" @onclick="() => IrAEditar(informe.consecutivo)">Editar</button>
-                            }else{
+                            }else if(informe.estado == "Finalizado" || informe.estado == "Inactivo"){
                                 <button type="button" class="green-bg border border-success rounded-pill text-light px-2" @onclick="() => VerInforme(informe.consecutivo)">Ver</button>
                             }
                         </div>

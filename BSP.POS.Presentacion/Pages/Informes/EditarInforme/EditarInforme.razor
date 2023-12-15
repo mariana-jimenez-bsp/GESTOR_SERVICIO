@@ -193,7 +193,7 @@
                                                                 @ondblclick="() => HacerSelectEditable(actividad.codigo_actividad)" data-toggle="tooltip" data-placement="top" title="@(rol == "Admin" || listaActividadesDeUsuario.Any(a => a.codigo == actividad.codigo_actividad) ? "Haga Doble click para editar" : "No se puede editar ya que está actividad no es suya")">
                                                     
                                                     @if(listaActividades.Any()){
-                                                        var listaActividadesFiltrada = listaActividades;
+                                                        var listaActividadesFiltrada = listaActividades.Where(a => a.estado != "Inactivo" || a.codigo == actividad.codigo_actividad).ToList();
                                                         if(rol != "Admin"){
                                                              listaActividadesFiltrada = listaActividades.Where(a => a.codigo == actividad.codigo_actividad || a.codigo_usuario == perfilActual.codigo).ToList();
                                                         }
@@ -296,7 +296,7 @@
 <AgregarActividadInforme ActivarModal="@activarModalAgregarActividad" OnClose="ClickHandlerAgregarActividad" Consecutivo="@Consecutivo" listaActividadesParaAgregar="@listaActividadesParaAgregar" listaTodosLosUsuarios="@listaTodosLosUsuarios"></AgregarActividadInforme>
 }
 <DesactivarEnterSubmit IdForm="ActividadesForm"></DesactivarEnterSubmit>
-            }else if(informe.estado == "Finalizado"){
+            }else if(informe.estado == "Finalizado" || informe.estado == "Inactivo"){
                 navigationManager.NavigateTo($"Informe/VerInforme/" + informe.consecutivo);
             }
 

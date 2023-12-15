@@ -48,6 +48,24 @@ namespace BSP.POS.NEGOCIOS.Actividades
                 throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
             }
         }
+
+        public string ListarActividadesActivas(String pEsquema)
+        {
+            try
+            {
+                List<U_ListaActividades> list = new List<U_ListaActividades>();
+
+                list = objActividad.ListaActividadesActivas(pEsquema);
+
+                string actividades = JsonConvert.SerializeObject(list);
+                return actividades;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
         public string ListarActividadesPorUsuario(String pEsquema, string pCodigo)
         {
             try
@@ -55,6 +73,24 @@ namespace BSP.POS.NEGOCIOS.Actividades
                 List<U_ListaActividades> list = new List<U_ListaActividades>();
 
                 list = objActividad.ListaActividadesPorUsuario(pEsquema, pCodigo);
+
+                string actividades = JsonConvert.SerializeObject(list);
+                return actividades;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ListarActividadesActivasPorUsuario(String pEsquema, string pCodigo)
+        {
+            try
+            {
+                List<U_ListaActividades> list = new List<U_ListaActividades>();
+
+                list = objActividad.ListaActividadesActivasPorUsuario(pEsquema, pCodigo);
 
                 string actividades = JsonConvert.SerializeObject(list);
                 return actividades;
@@ -113,6 +149,15 @@ namespace BSP.POS.NEGOCIOS.Actividades
         public void EliminarActividad(string esquema, string codigo)
         {
             objActividad.EliminarActividad(esquema, codigo);
+        }
+        public void CambiarEstadoActividad(string esquema, string codigo, string estado)
+        {
+            objActividad.CambiarEstadoActividad(esquema, codigo, estado);
+        }
+        public string ValidarActivadAsociadaInforme(string esquema, string codigo)
+        {
+            string resultado = objActividad.ValidarActividadAsociadaInforme(esquema, codigo);
+            return resultado;
         }
     }
 }

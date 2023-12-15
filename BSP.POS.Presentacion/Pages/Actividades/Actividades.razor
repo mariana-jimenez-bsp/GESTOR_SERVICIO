@@ -88,9 +88,19 @@
                                                 <input class="w-50 text-center text-secondary border-green rounded-pill" type="text" @bind-value="@actividad.horas" @oninput="(e) => CambioHoras(e, actividad.Id)">
                                                 <ValidationMessage For="@(() => actividad.horas)" />
                                             </div>
-                                            <div class="col-md-1 col-sm-1 col-xs-1 mouse-pointer" @onclick='() => SwalEliminarActividad("¿Está seguro de eliminar la actividad #" + actividad.codigo + "?", actividad.codigo)'>
-                                                <i class="mx-2 fa-solid fa-x text-danger"></i>
-                                            </div>
+                                            @if (actividad.ActividadAsociadaInforme)
+                                            {
+                                                <a class="col-md-1 col-sm-1 col-xs-1 mouse-pointer" @onclick='() => SwalInactivarActividad("¿Está seguro de Inactivar la actividad #" + actividad.codigo + "?", actividad.codigo)' title="Inactivar Actividad">
+                                                    <i class="mx-2 fa-solid fa-ban text-danger"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="col-md-1 col-sm-1 col-xs-1 mouse-pointer" @onclick='() => SwalEliminarActividad("¿Está seguro de eliminar la actividad #" + actividad.codigo + "?", actividad.codigo)' title="Eliminar Actividad">
+                                                    <i class="mx-2 fa-solid fa-x text-danger"></i>
+                                                </a>
+                                            }
+                                            
                                         </div>
 
                                     </div>

@@ -23,7 +23,30 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 { 
-                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate);
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate, item.estado);
+
+                    LstActividades.Add(actividad);
+                }
+                return LstActividades;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+        public List<U_ListaActividades> ListaActividadesActivas(String pEsquema)
+        {
+            var LstActividades = new List<U_ListaActividades>();
+
+            ListarActividadesActivasTableAdapter sp = new ListarActividadesActivasTableAdapter();
+
+            var response = sp.GetData(pEsquema).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate, item.estado);
 
                     LstActividades.Add(actividad);
                 }
@@ -47,7 +70,31 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 {
-                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate);
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate, item.estado);
+
+                    LstActividades.Add(actividad);
+                }
+                return LstActividades;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public List<U_ListaActividades> ListaActividadesActivasPorUsuario(String pEsquema, string pCodigo)
+        {
+            var LstActividades = new List<U_ListaActividades>();
+
+            ListarActividadesActivasPorUsuarioTableAdapter sp = new ListarActividadesActivasPorUsuarioTableAdapter();
+
+            var response = sp.GetData(pEsquema, pCodigo).ToList();
+            try
+            {
+                foreach (var item in response)
+                {
+                    U_ListaActividades actividad = new U_ListaActividades(item.Id, item.codigo, item.codigo_usuario, item.Actividad, item.CI_referencia, item.horas, item.RecordDate, item.estado);
 
                     LstActividades.Add(actividad);
                 }
@@ -222,6 +269,40 @@ namespace BSP.POS.DATOS.Actividades
             {
                 EliminarActividadTableAdapter sp = new EliminarActividadTableAdapter();
                 var response = sp.GetData(codigo, esquema).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public void CambiarEstadoActividad(string esquema, string codigo, string estado)
+        {
+            try
+            {
+                CambiarEstadoDeActividadTableAdapter sp = new CambiarEstadoDeActividadTableAdapter();
+                var response = sp.GetData(codigo, estado, esquema).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ha ocurrido un error ", ex.InnerException.InnerException);
+            }
+        }
+
+        public string ValidarActividadAsociadaInforme(string esquema, string codigo)
+        {
+            try
+            {
+                ValidarActividadAsociadaInformeTableAdapter sp = new ValidarActividadAsociadaInformeTableAdapter();
+                var response = sp.GetData(esquema, codigo).ToList();
+                string resultado = "";
+                foreach (var item in response)
+                {
+                    resultado = (item.resultado ? "1" : "0");
+                }
+                return resultado;
             }
             catch (Exception ex)
             {

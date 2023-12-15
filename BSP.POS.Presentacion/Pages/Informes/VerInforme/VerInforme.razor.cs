@@ -280,8 +280,27 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
         {
             await AlertasService.SwalAdvertencia("El informe fue finalizado y no se puede editar");
         }
-        private async Task SwalAdvertenciaInforme(string mensajeAlerta, string accion, string identificador)
+        private async Task SwalAdvertenciaInforme()
         {
+            string mensajeAlerta = "";
+            string accion = "";
+            if (listadeDatosUsuariosDeClienteDeInforme.Any(i => i.recibido == "1"))
+            {
+                accion = "Inactivar";
+            }
+            else
+            {
+                accion = "Eliminar";
+            }
+           
+            if (accion == "Eliminar")
+            {
+                mensajeAlerta = "¿Está seguro de eliminar el informe actual?";
+            }
+            else
+            {
+                mensajeAlerta = "¿Está seguro de Inactivar el informe?";
+            }
             await Swal.FireAsync(new SweetAlertOptions
             {
                 Title = "Advertencia!",
@@ -295,9 +314,13 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                 SweetAlertResult result = swalTask.Result;
                 if (result.IsConfirmed)
                 {
-                    if (accion == "Informe")
+                    if (accion == "Eliminar")
                     {
-                        await EliminarInforme(identificador);
+                        await EliminarInforme(Consecutivo);
+                    }
+                    else
+                    {
+                        await InactivarInforme(Consecutivo);
                     }
                 }
                 
@@ -320,6 +343,28 @@ namespace BSP.POS.Presentacion.Pages.Informes.VerInforme
                     await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
                 }
                 
+            }
+        }
+
+        private async Task InactivarInforme(string consecutivo)
+        {
+
+            if (!string.IsNullOrEmpty(consecutivo) && !string.IsNullOrEmpty(esquema))
+            {
+                mInformeEstado informeEstado = new mInformeEstado();
+                informeEstado.consecutivo = consecutivo;
+                informeEstado.estado = "Inactivo";
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                bool resultadoInactivo = await InformesService.CambiarEstadoDeInforme(informeEstado, esquema);
+                if (resultadoInactivo)
+                {
+                    await SwalAvisoInforme("Se ha Inactivado el informe", "Informe");
+                }
+                else
+                {
+                    await AlertasService.SwalError("Ocurrió un error vuelva a intentarlo");
+                }
+
             }
         }
 

@@ -15,9 +15,10 @@ namespace BSP.POS.UTILITARIOS.Actividades
         public string CI_referencia { get; set; }
         public string horas { get; set; }
         public string fecha_actualizacion { get; set; }
+        public string estado { get; set; }
 
 
-        public U_ListaActividades(string pId, string pCodigo, string pCodigoUsuario, string pActividad, string pCI_referencia, string pHoras, string pFechaActualizacion)
+        public U_ListaActividades(string pId, string pCodigo, string pCodigoUsuario, string pActividad, string pCI_referencia, string pHoras, string pFechaActualizacion, string pEstado)
         {
             Id = pId;
             codigo = pCodigo;
@@ -26,6 +27,7 @@ namespace BSP.POS.UTILITARIOS.Actividades
             CI_referencia = pCI_referencia;
             horas = pHoras;
             fecha_actualizacion = pFechaActualizacion;
+            estado = pEstado;
         }
         public U_ListaActividades() { }
     }

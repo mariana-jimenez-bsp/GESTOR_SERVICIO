@@ -51,15 +51,21 @@
                                 
                             </div>
 
-                            @if (@informe.estado == "Finalizado")
+                            @if (informe.estado == "Finalizado")
                             {
                                 <div class="green-bg borrador text-end text-light click-report-down">
                                     <span>@informe.estado</span>
                                 </div>
                             }
-                            else
+                            else if(informe.estado == "Borrador")
                             {
                                 <div class="bg-status-yellow borrador text-end text-light click-report-down">
+                                    <span>@informe.estado</span>
+                                </div>
+                            }
+                            else if (informe.estado == "Inactivo")
+                            {
+                                <div class="bg-danger borrador text-end text-light click-report-down">
                                     <span>@informe.estado</span>
                                 </div>
                             }

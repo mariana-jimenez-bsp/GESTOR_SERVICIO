@@ -9,8 +9,10 @@ namespace BSP.POS.Presentacion.Interfaces.Actividades
 
         List<mActividades> ListaActividades { get; set; }
         Task ObtenerListaDeActividades(string esquema);
+        Task ObtenerListaDeActividadesActivas(string esquema);
         List<mActividades> ListaActividadesDeUsuario { get; set; }
         Task ObtenerListaDeActividadesPorUsuario(string esquema, string codigo);
+        Task ObtenerListaDeActividadesActivasPorUsuario(string esquema, string codigo);
 
         Task<bool> ActualizarListaDeActividades(List<mActividades> listaActividades, string esquema);
         Task<bool> ActualizarListaDeActividadesAsociadas(List<mActividadesAsociadas> listaActividades, string esquema);
@@ -18,5 +20,7 @@ namespace BSP.POS.Presentacion.Interfaces.Actividades
         Task<bool> EliminarActividadDeInforme(string idActividad, string esquema);
         Task<bool> AgregarActividad(mActividades actividad, string esquema);
         Task<bool> EliminarActividad(string esquema, string codigo);
+        Task<bool> CambiarEstadoActividad(string esquema, string codigo, string estado);
+        Task<bool> ValidarActividadAsociadaInforme(string esquema, string codigo);
     }
 }

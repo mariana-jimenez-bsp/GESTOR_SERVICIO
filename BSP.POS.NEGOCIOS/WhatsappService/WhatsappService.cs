@@ -63,7 +63,7 @@ namespace BSP.POS.NEGOCIOS.WhatsappService
                         string actividades = "";
                         string observaciones = "";
                         U_DatosUsuariosDeClienteDeInforme ultimoUsuario = new U_DatosUsuariosDeClienteDeInforme();
-                        U_DatosActividadesAsociadas ultimaActividad = new U_DatosActividadesAsociadas();
+                        U_ListaActividadesAsociadas ultimaActividad = new U_ListaActividadesAsociadas();
                         U_DatosObservaciones ultimaObservacion = new U_DatosObservaciones();
                         if (objetosParaInforme.listadeUsuariosDeClienteDeInforme.Any())
                         {

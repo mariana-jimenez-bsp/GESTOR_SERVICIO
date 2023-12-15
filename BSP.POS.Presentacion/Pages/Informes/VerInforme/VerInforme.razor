@@ -15,7 +15,7 @@
 @if(cargaInicial){
 @if(string.IsNullOrEmpty(mensajeConsecutivo)){
 @if(usuarioAutorizado){
-@if (informe.estado == "Finalizado")
+@if (informe.estado == "Finalizado" || informe.estado == "Inactivo")
 {   <div class="el-layout">
     <Layout></Layout>
     </div>
@@ -131,9 +131,12 @@
                                     }
                                 }
                             </div>
-                            <a class=" observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer p-2" @onclick="() => ClickHandlerObservaciones(true)" title="Agregar una observación al informe">
+                            @if(informe.estado == "Finalizado"){
+                              <a class=" observation border border-success rounded-5 green-text d-flex align-items-center justify-content-center mouse-pointer p-2" @onclick="() => ClickHandlerObservaciones(true)" title="Agregar una observación al informe">
                                 <span>+ Observaciones</span>
-                            </a>
+                              </a>
+                            }
+                            
                         </div>
 
 
@@ -171,17 +174,7 @@
                                             {
                                                 <div class="row px-2 text-center ms-0 font-10-book borde-gris-arriba">
                                                     <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
-                                                        <select @bind="@actividad.codigo_actividad" class="border-0 bg-transparent text-light">
-                                                            @foreach (var laActividad in listaActividades)
-                                                            {
-                                                            @if (laActividad.codigo == actividad.codigo_actividad)
-                                                            {
-                                                                <option value="@laActividad.codigo" class="blue-light-bg">
-                                                                    @laActividad.Actividad
-                                                                </option>
-                                                             }
-                                                            }
-                                                        </select>
+                                                        <span class="border-0 bg-transparent width-input text-light">@actividad.nombre_actividad</span>
                                                        
                                                     </div>
                                                     <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
@@ -217,26 +210,28 @@
                     </div>
 
                 </div>
+                @if(informe.estado == "Finalizado"){
+                        <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
+                            <a class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAdvertenciaInforme()' title="Descartar el Informe">
+                                <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
+                                <span class="green-text">@(listadeDatosUsuariosDeClienteDeInforme.Any(i => i.recibido == "1") ? "Inactivar" : "Descartar")</span>
+                            </a>
+                            <a class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya no se puede editar" @onclick="ActivarAdvertenciaGuardar">
+                                <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
+                                <span class="green-text">Guardar Borrador</span>
+                            </a>
+                            <a class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya fue Finalizado" @onclick="ActivarAdvertenciaFinalizar">
+                                <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
+                                <span class="green-text">Aprobar</span>
+                            </a>
+                            <a class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandleEnviarCorreo(true)" title="Enviar a los usuarios del cliente">
+                                <img src="images/EditarInforme/Enviar-a-cliente.png" class="circle-max-width" />
+                                <span class="green-text">Enviar al cliente</span>
+                            </a>
 
-                <div class="p-2 green-text d-flex justify-content-center m-3 font-11-medium footer-col-right">
-                    <a class="d-flex justify-content-center row text-center mouse-pointer" @onclick='() => SwalAdvertenciaInforme("¿Está seguro de eliminar el informe actual?", "Informe", Consecutivo)' title="Descartar el Informe">
-                        <img src="images/EditarInforme/Descartar.png" class="circle-max-width" />
-                        <span class="green-text">Descartar</span>
-                    </a>
-                    <a class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya no se puede editar" @onclick="ActivarAdvertenciaGuardar">
-                        <img src="images/EditarInforme/Guardar-Borrador.png" class="circle-max-width" />
-                        <span class="green-text">Guardar Borrador</span>
-                    </a>
-                    <a class="d-flex justify-content-center row text-center mouse-pointer" data-toggle="tooltip" data-placement="top" title="El informe ya fue Finalizado" @onclick="ActivarAdvertenciaFinalizar">
-                        <img src="images/EditarInforme/Aprobar.png" class="circle-max-width" />
-                        <span class="green-text">Aprobar</span>
-                    </a>
-                    <a class="d-flex justify-content-center row text-center mouse-pointer" @onclick="() => ClickHandleEnviarCorreo(true)" title="Enviar a los usuarios del cliente">
-                        <img src="images/EditarInforme/Enviar-a-cliente.png" class="circle-max-width" />
-                        <span class="green-text">Enviar al cliente</span>
-                    </a>
-                    
-                </div>
+                        </div>
+                }
+                
             </div>
         </div>
 
@@ -260,7 +255,7 @@
                 navigationManager.NavigateTo($"Informe/Editar/" + informe.consecutivo);
             }
 
-        }
+}
         else
         {
             <RutaErronea mensaje="Este informe no pertenece a su cliente asociado"></RutaErronea>

@@ -338,11 +338,11 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
             RefrescarTotalHoras();
             if(rol == "Admin")
             {
-                listaActividadesParaAgregar = listaActividades.Where(actividad => !informe.listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+                listaActividadesParaAgregar = listaActividades.Where(actividad => !informe.listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo) && actividad.estado == "Activo").ToList();
             }
             else
             {
-                listaActividadesParaAgregar = listaActividadesDeUsuario.Where(actividad => !informe.listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo)).ToList();
+                listaActividadesParaAgregar = listaActividadesDeUsuario.Where(actividad => !informe.listaActividadesAsociadas.Any(actividadAsociada => actividadAsociada.codigo_actividad == actividad.codigo && actividad.estado == "Activo")).ToList();
             }
             foreach (var actividad in listaActividadesParaAgregar)
             {

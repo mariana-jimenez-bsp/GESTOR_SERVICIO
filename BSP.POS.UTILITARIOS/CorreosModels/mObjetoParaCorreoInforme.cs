@@ -16,7 +16,7 @@ namespace BSP.POS.UTILITARIOS.CorreosModels
         public U_Informe informe { get; set; } = new U_Informe();
         public string esquema { get; set; } = string.Empty;
         public U_ClienteAsociado ClienteAsociado { get; set; } = new U_ClienteAsociado();
-        public List<U_DatosActividadesAsociadas> listaActividadesAsociadas { get; set; } = new List<U_DatosActividadesAsociadas>();
+        public List<U_ListaActividadesAsociadas> listaActividadesAsociadas { get; set; } = new List<U_ListaActividadesAsociadas>();
         public List<U_DatosUsuariosDeClienteDeInforme> listadeUsuariosDeClienteDeInforme { get; set; } = new List<U_DatosUsuariosDeClienteDeInforme>();
         public int total_horas_cobradas { get; set; } = 0;
         public int total_horas_no_cobradas { get; set; } = 0;

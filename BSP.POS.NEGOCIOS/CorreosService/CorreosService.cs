@@ -325,7 +325,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
         {
             mObjetoParaCorreoInforme objetoParaCorreo = new mObjetoParaCorreoInforme();
             objetoParaCorreo.informe = _informes.ObtenerInforme(esquema, consecutivo);
-            objetoParaCorreo.listaActividadesAsociadas = _actividades.ListaDatosActividadesAsociadas(esquema, consecutivo);
+            objetoParaCorreo.listaActividadesAsociadas = _actividades.ListaActividadesAsociadas(esquema, consecutivo);
             try
             {
                 objetoParaCorreo.total_horas_cobradas = objetoParaCorreo.listaActividadesAsociadas.Sum(act => int.Parse(act.horas_cobradas));
