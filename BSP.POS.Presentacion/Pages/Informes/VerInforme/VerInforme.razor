@@ -155,14 +155,17 @@
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                             <div class="ps-0 ms-0 ">
                                 <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-12-book">
-                                    <div class="col-md-4 col-sm-4 col-xs-4 py-2">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 py-2">
                                         <span>ACTIVIDAD</span>
                                     </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-4 py-2">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 py-2">
                                         <span>HS COBRADAS</span>
                                     </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
                                         <span>HS NO COBRADAS</span>
+                                    </div>
+                                     <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <span>FECHA</span>
                                     </div>
                                 </div>
                                             <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report" id="scroll-bar-id">
@@ -173,19 +176,22 @@
                                             @foreach (var actividad in listaActividadesAsociadas)
                                             {
                                                 <div class="row px-2 text-center ms-0 font-10-book borde-gris-arriba">
-                                                    <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
+                                                    <div class="col-md-3 col-sm-3 col-xs-3 borde-gris-derecha py-2">
                                                         <span class="border-0 bg-transparent width-input text-light">@actividad.nombre_actividad</span>
                                                        
                                                     </div>
-                                                    <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
+                                                    <div class="col-md-3 col-sm-3 col-xs-3 borde-gris-derecha py-2">
                                                         <span class="border-0 bg-transparent width-input text-light">@actividad.horas_cobradas horas</span>
                                                       
                                                     </div>
-                                                    <div class="col-md-4 col-sm-4 col-xs-4 py-2">
+                                                    <div class="col-md-3 col-sm-3 col-xs-3 borde-gris-derecha py-2">
                                                         <span class="border-0 bg-transparent width-input text-light">@actividad.horas_no_cobradas horas</span>
                                                         
                                                     </div>
-                                                  
+                                                    <div class="col-md-3 col-sm-3 col-xs-3 py-2">
+                                                        <span class="border-0 bg-transparent width-input text-light">@actividad.fecha</span>
+                                                        
+                                                    </div>
                                                 </div>
                                             }
                                         }
@@ -195,14 +201,14 @@
                             </div>
                         </div>
                         <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-10-book footer-horas">
-                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
+                            <div class="col-md-3 col-sm-3 col-xs-3 py-4">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
+                            <div class="col-md-3 col-sm-3 col-xs-3 py-4">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
+                            <div class="col-md-3 col-sm-3 col-xs-3 py-4">
                                 <span>@total_horas_no_cobradas</span>
                                 <span>horas</span>
                             </div>

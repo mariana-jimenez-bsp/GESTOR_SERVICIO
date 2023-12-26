@@ -15,5 +15,7 @@ namespace BSP.POS.Presentacion.Models.Actividades
         
         public string horas_no_cobradas { get; set; } = string.Empty;
         public string nombre_actividad { get; set; } = string.Empty;
+        public string fecha { get; set; } = string.Empty;
+
     }
 }

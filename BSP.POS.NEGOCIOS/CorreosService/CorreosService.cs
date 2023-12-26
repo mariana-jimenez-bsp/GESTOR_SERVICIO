@@ -108,7 +108,7 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                 }
                 foreach (var itemActividad in objetosParaInforme.listaActividadesAsociadas)
                 {
-                    actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n </tr> \r\n";
+                    actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n <td>" + itemActividad.fecha + "</td>\r\n </tr> \r\n";
                 }
                 foreach (var itemObservacion in objetosParaInforme.listaDeObservaciones)
                 {
@@ -185,10 +185,10 @@ namespace BSP.POS.NEGOCIOS.CorreosService
                                 + "</td>\r\n <td>" + itemUsuario.rol_usuario + "</td>\r\n <td>" + itemUsuario.correo_usuario
                                 + "</td>\r\n </tr> \r\n";
                     }
-                    foreach (var itemActividad in objetosParaInforme.listaActividadesAsociadas)
-                    {
-                        actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n </tr> \r\n";
-                    }
+                   foreach (var itemActividad in objetosParaInforme.listaActividadesAsociadas)
+                   {
+                        actividades += "<tr>\r\n <td>" + itemActividad.nombre_actividad + "</td>\r\n <td>" + itemActividad.horas_cobradas + "</td>\r\n <td>" + itemActividad.horas_no_cobradas + "</td>\r\n <td>" + itemActividad.fecha + "</td>\r\n </tr> \r\n";
+                   }
                     foreach (var itemObservacion in objetosParaInforme.listaDeObservaciones)
                     {
                         observaciones += "<tr>\r\n <td>" + itemObservacion.nombre_usuario + "</td>\r\n <td>" + itemObservacion.observacion + "</td>\r\n </tr> \r\n";

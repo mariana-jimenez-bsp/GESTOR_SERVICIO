@@ -31,12 +31,12 @@
                     <div class="row p-2 header-col-left">
                     @if(!string.IsNullOrEmpty(informe.consecutivo)){
                         
-                            <div class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start align-items-center">
+                            <div class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start align-items-center report-date">
                                     <span class="col-md-4 col-sm-4 col-xs-4 blue-dark-text font-12-medium">Fecha: </span>
                                     <input type="date" class="col-md-8 col-sm-8 col-xs-8 green-text font-10-bold border-0" @bind-value="@informe.FechaConsultoriaDateTime" @oninput="CambioFechaConsultoria">
                                 <ValidationMessage For="@(() => informe.fecha_consultoria)" />
                             </div>
-                            <div  class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start">
+                            <div  class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start report-time">
                                     <span class="col-md-6 col-sm-6 col-xs-6 blue-dark-text font-12-medium">Hora de Inicio: </span>
                                     <div class="col-md-6 col-sm-6 col-xs-6 d-flex align-items-center">
                                         <input type="time" class="green-text border-0 font-10-bold" @bind-value="@informe.HoraInicioTime" @oninput="CambioHoraInicio">
@@ -50,7 +50,7 @@
                                 <span class="col-md-8 col-sm-8 col-xs-8 green-text border-0 font-10-bold texto-puntos-suspensivos" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@ClienteAsociado.NOMBRE">@ClienteAsociado.NOMBRE</span>                            
 
                             </div>
-                            <div  class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start">
+                            <div  class="col-md-6 col-sm-6 col-xs-6 d-flex row text-start report-time">
                                 <span class="col-md-6 col-sm-6 col-xs-6 blue-dark-text font-12-medium">Hora de Fin: </span>
                                 <div class="col-md-6 col-sm-6 col-xs-6 d-flex align-items-center">
                                 <input type="time" class="green-text border-0 font-10-bold" @bind-value="@informe.HoraFinalTime" @oninput="CambioHoraFinal">
@@ -168,15 +168,18 @@
                     <div class="row blue-light-bg pe-0 ps-0 ms-0 content-behind rounded-bottom-5">
                         <div class="table-right blue-dark-bg content-behind content-behind-bottom">
                         <div class="ps-0 ms-0 ">
-                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-20-book">
-                                <div class="col-md-4 col-sm-4 col-xs-4 py-2">
+                                <div class="row text-center px-2 pt-4 blue-dark-bg ms-0 content-behind font-12-book">
+                                <div class="col-md-3 col-sm-3 col-xs-3 py-2">
                                     <span>ACTIVIDAD</span>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-3 py-2">
+                                <div class="col-md-2 col-sm-2 col-xs-2 py-2">
                                     <span>HS COBRADAS</span>
                                 </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 py-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 py-2">
                                     <span>HS NO COBRADAS</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3 py-2">
+                                    <span>FECHA</span>
                                 </div>
                             </div>
                             <div class="overflow-y-auto overflow-x-hidden max-height-col-activity scrollbar-report" id="scroll-bar-id">
@@ -187,7 +190,7 @@
                                     @foreach (var actividad in informe.listaActividadesAsociadas)
                                     {
                                         <div class="row px-2 text-center ms-0 font-10-book borde-gris-arriba">
-                                            <div class="col-md-4 col-sm-4 col-xs-4 borde-gris-derecha py-2">
+                                            <div class="col-md-3 col-sm-3 col-xs-3 borde-gris-derecha py-2">
                                                 <select @bind="@actividad.codigo_actividad" @oninput="(e) => CambioActividad(e, actividad.Id)" 
                                                     class="border-0 bg-transparent text-light" id="select-actividad-@actividad.codigo_actividad" 
                                                                 @ondblclick="() => HacerSelectEditable(actividad.codigo_actividad)" data-toggle="tooltip" data-placement="top" title="@(rol == "Admin" || listaActividadesDeUsuario.Any(a => a.codigo == actividad.codigo_actividad) ? "Haga Doble click para editar" : "No se puede editar ya que está actividad no es suya")">
@@ -215,15 +218,19 @@
                                                 </select>
                                                 <ValidationMessage For="@(() => actividad.codigo_actividad)" />
                                             </div>
-                                            <div class="col-md-3 col-sm-3 col-xs-3 borde-gris-derecha py-2">
+                                            <div class="col-md-2 col-sm-2 col-xs-2 borde-gris-derecha py-2">
                                                 <input type="text" @bind-value="actividad.horas_cobradas" @oninput="(e) => CambioHorasCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_cobradas)" />
                                             </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-4 py-2">
+                                            <div class="col-md-3 col-sm-3 col-xs-3 borde-gris-derecha py-2">
                                                 <input type="text" @bind-value="actividad.horas_no_cobradas" @oninput="(e) => CambioHorasNoCobradas(e, actividad.Id)" class="border-0 bg-transparent width-input text-light">
                                                 <span>horas</span>
                                                 <ValidationMessage For="@(() => actividad.horas_no_cobradas)" />
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3 py-2">
+                                                <input type="date" @bind-value="actividad.FechaDateTime" @oninput="(e) => CambioFechaActividad(e, actividad.Id)" class="border-0 bg-transparent text-light">
+                                                <ValidationMessage For="@(() => actividad.FechaDateTime)" />
                                             </div>
                                             <div class="col-md-1 col-sm-1 col-xs-1 mouse-pointer py-2" @onclick='() => SwalAccionPregunta("¿Está seguro de eliminar la Actividad " + actividad.nombre_actividad + "?", "Actividad", actividad.Id)'>
                                                 <i class="fa-solid fa-x text-danger"></i>
@@ -239,14 +246,14 @@
                         </div>
                         <div class="row px-4 ms-0 text-center blue-light-bg rounded-bottom-5 font-10-book footer-horas">
 
-                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
+                            <div class="col-md-3 col-sm-3 col-xs-3 py-4">
                                 <span>Total de Horas</span>
                             </div>
-                            <div class="col-md-3 col-sm-3 col-xs-3 py-4">
+                            <div class="col-md-2 col-sm-2 col-xs-2 py-4">
                                 <span>@total_horas_cobradas</span>
                                 <span>horas</span>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 py-4">
+                            <div class="col-md-3 col-sm-3 col-xs-3 py-4">
                                 <span>@total_horas_no_cobradas</span>
                                 <span>horas</span>
                             </div>

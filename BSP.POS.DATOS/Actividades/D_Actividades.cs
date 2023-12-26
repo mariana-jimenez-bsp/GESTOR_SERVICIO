@@ -141,7 +141,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var item in response)
                 {
-                    U_ListaActividadesAsociadas actividad = new U_ListaActividadesAsociadas(item.Id, item.consecutivo_informe, item.codigo_actividad, item.horas_cobradas, item.horas_no_cobradas, item.nombre_actividad);
+                    U_ListaActividadesAsociadas actividad = new U_ListaActividadesAsociadas(item.Id, item.consecutivo_informe, item.codigo_actividad, item.horas_cobradas, item.horas_no_cobradas, item.nombre_actividad, item.fecha);
 
                     LstActividades.Add(actividad);
                 }
@@ -186,7 +186,7 @@ namespace BSP.POS.DATOS.Actividades
             {
                 foreach (var actividad in pActividades)
                 {
-                    var response = sp.GetData(actividad.Id, actividad.consecutivo_informe, actividad.codigo_actividad, int.Parse(actividad.horas_cobradas), int.Parse(actividad.horas_no_cobradas), actividad.nombre_actividad, esquema);
+                    var response = sp.GetData(actividad.Id, actividad.consecutivo_informe, actividad.codigo_actividad, int.Parse(actividad.horas_cobradas), int.Parse(actividad.horas_no_cobradas), actividad.nombre_actividad, actividad.fecha, esquema);
 
                 }
                 return "Exito";

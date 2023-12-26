@@ -5,6 +5,8 @@ using BSP.POS.Presentacion.Models.Informes;
 using BSP.POS.Presentacion.Models.Observaciones;
 using BSP.POS.Presentacion.Models.Proyectos;
 using BSP.POS.Presentacion.Models.Usuarios;
+using BSP.POS.Presentacion.Pages.Actividades;
+using BSP.POS.Presentacion.Pages.Proyectos;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -255,7 +257,20 @@ namespace BSP.POS.Presentacion.Pages.Informes.EditarInforme
                 }
             }
         }
+        private void CambioFechaActividad(ChangeEventArgs e, string actividadId)
+        {
+            if (!string.IsNullOrEmpty(e.Value.ToString()))
+            {
 
+                foreach (var actividad in informe.listaActividadesAsociadas)
+                {
+                    if (actividad.Id == actividadId)
+                    {
+                        actividad.fecha = e.Value.ToString();
+                    }
+                }
+            }
+        }
         private void CambioFechaConsultoria(ChangeEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Value.ToString()))
